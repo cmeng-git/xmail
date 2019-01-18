@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="changelog_style.xsl"?>
+<!--
+     The master change log is kept in res/xml/changelog_master.xml.
+     Locale specific versions are kept in res/xml-<locale qualifier>/changelog.xml.
+
+     Don't edit the changelog_<name>_branch.xml files in the gh-pages branch.
+     They are automatically updated with "ant bump-version".
+-->
+<changelog>
+    <release version="4.8.0 (10/22/2018)" versioncode="18800">
+        <change>Built target for Android 9.0 (Pie) or API-28</change>
+        <change>Improve run-time permission request and prompt user for Battery Optimization setting</change>
+        <change>Support old HTML attributes so emails' html contents are displayed as intended</change>
+        <change>Fix bug in moving or copying messages (IMAP)</change>
+        <change>Bug fixes and other enhancements</change>
+    </release>
+
+    <release version="4.7.1 (05/20/2018)" versioncode="18710">
+        <change>Fixed bug with some soft keyboards when auto-completing recipients</change>
+        <change>Fixed crash when decrypting messages</change>
+        <change>Updated translations</change>
+    </release>
+
+    <release version="4.7.0 (02/28/2018)" versioncode="18700" >
+        <change>Add support for user runtime resource access permissions request on android-M and later</change>
+        <change>Improvements on encryption UI</change>
+        <change>Enhace autocrypt basic feature support</change>
+        <change>Add ability to forward message as attachment</change>
+        <change>Improve rendering of RTL text</change>
+        <change>Import/Export maintain account ordering</change>
+        <change>Improvements to HTML sanitisation mechanism</change>
+        <change>IMAP message sync improvements</change>
+        <change>Add SMTP hostname privacy option</change>
+        <change>Add ability to show email address during composition</change>
+        <change>Fix bug that lead to some messages showing as empty content</change>
+        <change>Fix pending commands with exception failures</change>
+        <change>Bug fixes and other enhancements</change>
+    </release>
+
+    <release version="4.6.0 (12/04/2017)" versioncode="18600" >
+        <change>Add OAuth2 authentication support for Gmail and outlook mail accounts setup. Eliminate the need to enable *Allow less secure apps* in Google Security Settings.</change>
+        <change>Enhance new mail account setup process and improve its UI</change>
+        <change>Bug fixes and other enhancements</change>
+    </release>
+
+    <release version="4.5.0 (12/01/2017)" versioncode="18500" >
+        <change>Add new widget: Message List</change>
+        <change>Improve and add new OpenPGP flow, adhering to Autocrypt specifications</change>
+        <change>Improve Stealth Mode UI and implementation</change>
+        <change>Settings export uses Storage Access Framework</change>
+        <change>Better support for multi-window</change>
+        <change>Recipient search now includes nicknames</change>
+        <change>Fix bug that could cause OpenPGP signature verification to fail when it should not</change>
+        <change>Fix bug that could lead to attachments not being displayed</change>
+        <change>Fix bug where HTML messages were not displayed correctly</change>
+        <change>Fix crash when encountering invalid email addresses</change>
+        <change>Fix display errors of plain text messages</change>
+        <change>Add new languages support and updated translations</change>
+        <change>Bug fixes and other enhancements</change>
+    </release>
+
+    <release version="4.4.0 (09/04/2017)" versioncode="18400" >
+        <change>Revert support SwipeToLeft and SwipeToRight for Next and Previous message view (interfere with pinch operation)</change>
+        <change>Fix bug where the message body was not displayed when no crypto provider was configured</change>
+        <change>Fix bug with status display of signed messages</change>
+        <change>Use "encrypted.asc" as filename for PGP/MIME emails</change>
+        <change>Improve device power management and add support for device dozes</change>
+        <change>Fix bug where automatic synchronization would not restart after the device exited doze mode</change>
+        <change>Fix bug with notification actions sometimes not working</change>
+        <change>Fix crash when message list contains messages for which we could not extract a preview</change>
+        <change>Fix crash when opening attached messages</change>
+        <change>Fix crash when starting the app from the unread widget</change>
+        <change>Add support for List-Post header and sub-folders (WebDAV)</change>
+        <change>Fix bug where not all data was removed for deleted messages</change>
+        <change>Implement correct hideTimeZone option</change>
+        <change>Enhance handler for contact picture loading and display in message view</change>
+        <change>Import library jsoup for better html web support</change>
+        <change>Add support for bundled notifications on Android 7+ and Android Wear</change>
+        <change>Add server settings for more providers</change>
+        <change>Update Chinese translations</change>
+        <change>Use Timber log library for debug log captured</change>
+        <change>Bug fixes and other enhancements</change>
+    </release>
+
+    <release version="4.3.1 (02/18/2017)" versioncode="18310">
+        <change>Support SwipeToLeft and SwipeToRight for Next and Previous message view</change>
+        <change>Fix Stealth acknowledgement send failure</change>
+        <change>Move PGP Provider configuration to Global setting; define signature key per email account</change>
+        <change>Bug fixes and other enhancements</change>
+    </release>
+
+    <release version="4.3.0 (01/27/2017)" versioncode="18300">
+        <change>Fixed bug with pinch to zoom gesture</change>
+        <change>Fixed bug when saving mail as draft</change>
+        <change>Fixed global theme Light and Dark settings problem</change>
+        <change>Fixed display bug when replying to messages using dark theme</change>
+        <change>Fixed button to expand CC/BCC recipients in dark theme</change>
+        <change>Do not hide Cc and Bcc if 'Always show Cc/Bcc' is enabled</change>
+        <change>Fixed bug where BCC header line was accidentally included in sent messages</change>
+        <change>Added setting for disabling 'mark all as read' confirmation dialog</change>
+        <change>Update full text search index when removing messages</change>
+        <change>Fixed problem with getting the list of IMAP folders</change>
+        <change>Always show subject in message header when split mode is active</change>
+        <change>Do not save drafts when message could be sent encrypted</change>
+        <change>Allow sending signed-only PGP/INLINE messages</change>
+        <change>Hide crypto status indicator in contact dropdown when no crypto provider is configured</change>
+        <change>Add new authentication support for 'SASL-IR' and 'AUTH_XOAUTH2'</change>
+        <change>Add parse support for internet body part multipart/digest</change>
+        <change>Support new header FlowedMessage</change>
+        <change>Dropped support for APG as an OpenPGP provider. The drop-in replacement is OpenKeychain</change>
+        <change>Replace external library pullDownToRefresh with android swipeToRefresh</change>
+        <change>Bug fixes and other enhancements</change>
+    </release>
+
+    <release version="4.2.2 (12/03/2016)" versioncode="18220" >
+        <change>More user interface tweaks for encryption-related functionality</change>
+        <change>Account Settings: Message signing without encryption is now an expert feature that is disabled by default</change>
+        <change>Added mail compose option: Enable PGP Sign-Only</change>
+        <change>Show user mail sending dialog while send mail is in progress</change>
+        <change>Added support for directional pad to move to next/previous message</change>
+        <change>Worked around a bug when viewing attachments</change>
+        <change>Ensure actionBar titles text follow selected language for all preference settings</change>
+        <change>Fixed notification grouping on Android Wear and Android 7.0</change>
+        <change>Fixed notification actions on Android 7.0</change>
+    </release>
+    <release version="4.2.1 (10/25/2016)" versioncode="18210" >
+        <change>User interface tweaks for encryption-related functionality</change>
+        <change>Fixed crash caused by new message notifications</change>
+        <change>Fixed bug with downloading attachments</change>
+        <change>Fixed structure of emails created with XryptoMail</change>
+        <change>Fixed bug where message list was displayed twice</change>
+        <change>Updated translations</change>
+    </release>
+	
+    <release version="4.2.0 (10/08/2016)" versioncode="18200" >
+        <change>Fixed crash when selecting folder to move message</change>
+        <change>Fixed bug where wrong message format was used when replying</change>
+        <change>Fixed position of context menus on Android 7.0</change>
+        <change>Fixed icon for encryption status of a message</change>
+        <change>Hide crypto status when no crypto provider is configured</change>
+        <change>Hide invalid email addresses of a system contact</change>
+        <change>Added support for linkifying URLs with new TLDs</change>
+        <change>Added server settings for more providers</change>
+        <change>Fixed dark theme</change>
+    </release>
+
+    <release version="4.1.9.a (09/16/2016)" versioncode="18091" >
+        <change>Add encryption status indicator for mail view fragment</change>
+        <change>Reduce splash screen display timer to 1.2 Sec</change>
+        <change>Bugs fixes and source cleanup</change>
+    </release>
+
+    <release version="4.1.9 (08/29/2016)" versioncode="18090" >
+        <change>Fixed replying to and forwarding of encrypted messages</change>
+        <change>Ask for confirmation on "mark all as read"</change>
+        <change>Removed attachment indicator for encrypted messages</change>
+        <change>Don't add additional line break to the end of a message when sending</change>
+        <change>Removed broken support for sending messages as 8-bit via SMTP</change>
+        <change>Bug fixes</change>
+    </release>
+
+    <release version="4.1.8 (08/12/2016)" versioncode="18080" >
+        <change>Improve handling in new account setup</change>
+        <change>Suggest server name based on server type</change>
+        <change>Enhance attachment handling during mail creation</change>
+        <change>Improve preference settings UI handling</change>
+        <change>Add messageList missing option item</change>
+        <change>Bugs fixes and resources cleanup</change>
+    </release>
+
+    <release version="4.1.7 (07/31/2016)" versioncode="18070" >
+        <change>Display security warning when OpenPGP is not configured for encrypted mail</change>
+        <change>Implemented full UI display for Chinese Simplified/Traditional</change>
+        <change>Add application change log information</change>
+        <change>Bugs fixes</change>
+    </release>
+
+    <release version="4.1.6 (07/26/2016)" versioncode="18060" >
+        <change>Splash screen run once only on first startup</change>
+        <change>Allow XryptoMail launch independent of XryptoChat</change>
+        <change>Show warning message when Encryption Engine is not installed when open encrypted mail</change>
+        <change>Use user defined download path for new firmware download and update</change>
+        <change>Bugs fixes</change>
+    </release>
+
+    <release version="4.1.5 (07/22/2016)" versioncode="18050" >
+        <change>Expunge deleted stealth messages on local and server folders (Trash)</change>
+        <change>Improved PGP/MIME experience</change>
+        <change>New option: only notify for messages from contacts</change>
+        <change>Added auto-configuration support for more providers</change>
+        <change>Lots of internal improvements</change>
+        <change>Enable changelog info display</change>
+    </release>
+
+    <release version="4.1.4 (07/08/2016)" versioncode="18040" >
+        <change>Improve Stealth message UI handling</change>
+        <change>Enhance stealth deletion on timeout or exceed min-read time (10Sec) on Back press</change>
+        <change>Improve stealth acknowledge message content</change>
+        <change>Always return to message list after stealth deletion</change>
+        <change>Force theme change on account-list after global settings edit</change>
+        <change>Enable Xrypto Mode option to allow sending Xrypto and Stealth mail</change>
+        <change>Xrypto or Stealth mail sending must have OpenGPG Private Mode selected</change>
+        <change>Fix active RecipientSelectView list crashes on screen rotation</change>
+        <change>Fix auto online update check crashes with unexpected NullPointerException</change>
+    </release>
+
+    <release version="4.1.3 (06/13/2016)" versioncode="18030" >
+        <change>Add crypto/stealth background color in MessageList</change>
+        <change>Add crypto/stealth background color in MessageView</change>
+        <change>Implement Stealth on OpenPGP Encryption</change>
+        <change>Bugs fixes</change>
+    </release>
+
+    <release version="4.1.2 (06/05/2016)" versioncode="18020" >
+        <change>Update to OpenPgp-api Version 11.0</change>
+        <change>Improve crypto mode selection animation</change>
+        <change>Hide PGPHeader view for normal email message</change>
+        <change>Bugs fixes</change>
+    </release>
+
+    <release version="4.1.1 (06/02/2016)" versioncode="18010" >
+        <change>Enable OpenPGP option menu for user to install OpenKeyChain</change>
+        <change>Cleanup UI display messages</change>
+        <change>Bugs fixes</change>
+    </release>
+
+    <release version="4.1.0 (05/31/2016)" versioncode="18000" >
+        <change>XryptoMail migration to latest open K9 source new features</change>
+        <change>use SpongyCastle version 1.50</change>
+        <change>Add OpenPGP Implementation</change>
+        <change>Add UI theme change</change>
+        <change>Add multiple locales support</change>
+        <change>Online update for both release/debug versions</change>
+    </release>
+</changelog>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/theme_background"
+    android:divider="?android:attr/dividerHorizontal"
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:showDividers="middle">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="250dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/xmail_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/ic_icon" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/AboutDialogTextColor"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:padding="5sp"
+                        android:text="@string/app_name"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/AboutDialog_Version"
+                        style="@style/AboutDialogTextColor"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@string/AboutDialog_Version"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                style="@style/AboutDialogTextColor"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="5dp"
+                android:paddingTop="5dp"
+                android:text="@string/AboutDialog_Copyright"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/xmail_help"
+                style="@style/AboutDialogTextColor"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/AboutDialog_help" />
+
+            <WebView
+                android:id="@+id/AboutDialog_Info"
+                style="@style/AboutDialogTextColor"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/history_log"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fitsSystemWindows="true"
+            android:text="@string/show_history_log" />
+
+        <Button
+            android:id="@+id/submit_logs"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fitsSystemWindows="true"
+            android:text="@string/send_logs" />
+
+        <Button
+            android:id="@+id/check_new_version"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fitsSystemWindows="true"
+            android:text="@string/check_new_version" />
+
+        <Button
+            android:id="@+id/ok_button"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fitsSystemWindows="true"
+            android:text="@string/okay_action" />
+
+    </LinearLayout>
+</LinearLayout>

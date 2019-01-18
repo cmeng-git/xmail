@@ -1,0 +1,22 @@
+Building with Eclipse
+
+You'll need Eclipse with the Android Development Tools plugin installed. Follow the full directions found here: http://developer.android.com/sdk/eclipse-adt.html#installing. Make sure your Android SDK and ADT plugin are both up to date.
+
+Building XryptoMail can take up to 1 GB of memory. You have to allow Eclipse to use this amount of memory or you will get out-of-memory errors when the Android compilers are run. In order to do this, edit your eclipse.ini file and make sure the following arguments are present: -vmargs -Xms128m -Xmx1024m
+
+You can also pass these parameters to Eclipse on the command line. Now...
+Inside your working copy, make sure you have a directory named 'gen'
+From Eclipse, File > Import
+Under General, select 'Existing Projects into Workspace' and click Next
+Next to 'Select root directory', Browse to your XryptoMail working copy
+Click Finish
+In the Package Explorer, right click 'k9mail' and click 'Properties'
+Select 'Java Compiler'
+Check 'Enable project specific settings'
+Set the 'Compiler compliance level' to 1.6
+Click OK
+
+You should now be able to build the project. If it had been built previously, make sure you clean it first. If you get errors about missing translation information for some locales, go to Project -> Properties -> Android Lint Settings and change the severity of MissingTranslations to Warning.
+
+
+For more details, pls visit https://github.com/k9mail/k-9/wiki/BuildingK9

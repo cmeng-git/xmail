@@ -1,0 +1,169 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+// if (rootProject.testCoverage) {
+//     apply plugin: 'jacoco'
+// }
+
+repositories {
+    google()
+    jcenter()
+}
+
+//noinspection GroovyAssignabilityCheck
+configurations.all {
+    resolutionStrategy {
+        force "com.android.support:support-annotations:${rootProject.supportLibraryVersion}"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: '*.jar')
+    implementation "com.android.support:support-v4:${rootProject.supportLibraryVersion}"
+    // splitActionBarWhenNarrow not supported with appcompat-v7
+    // implementation "com.android.support:appcompat-v7:${rootProject.supportLibraryVersion}"
+    implementation "com.android.support:support-annotations:${rootProject.supportLibraryVersion}"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation "com.android.support:design:${rootProject.supportLibraryVersion}"
+
+    implementation project(':plugins:openpgp-api-lib:openpgp-api')
+    // implementation 'org.sufficientlysecure:openpgp-api:11.0'
+
+    implementation 'commons-io:commons-io:2.4'
+    implementation 'com.beetstra.jutf7:jutf7:1.0.0'
+    implementation 'com.github.amlcurran.showcaseview:library:5.4.1'
+    // source not compatible with v4.x.x
+    implementation 'com.github.bumptech.glide:glide:3.8.0'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+
+    // cmeng - Do not follow as instructed, otherwise butterknife annotationProcessor is not performed
+    // 'annotationProcessor' dependencies won't be recognized as kapt annotation processors.
+    // Please change the configuration name to 'kapt' for these artifacts: 'com.jakewharton:butterknife-compiler:8.8.1'
+    // and apply the kapt plugin: "apply plugin: 'kotlin-kapt'".
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    implementation 'com.jakewharton.timber:timber:4.6.1'
+    implementation 'com.karumi:dexter:4.2.0'
+
+    // ImapConnection.open().enableCompressionIfRequested() does not work with jzlib version 1.1.3
+    implementation 'com.jcraft:jzlib:1.0.7'
+
+    implementation 'com.squareup.moshi:moshi:1.4.0'
+    implementation 'com.squareup.okio:okio:1.13.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.splitwise:tokenautocomplete:2.0.8'
+
+    implementation 'de.cketti.library.changelog:ckchangelog:1.2.2'
+    implementation 'de.cketti.safecontentresolver:safe-content-resolver-v14:0.9.0'
+    implementation 'dnsjava:dnsjava:2.1.8'
+
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.4.1'
+    implementation 'net.jcip:jcip-annotations:1.0'
+
+    implementation 'org.apache.james:apache-mime4j-core:0.8.1'
+    implementation 'org.apache.james:apache-mime4j-dom:0.8.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.11"
+    implementation 'org.jsoup:jsoup:1.11.2'
+
+//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+//    testImplementation "com.google.truth:truth:${truthVersion}"
+//    testImplementation "junit:junit:${junitVersion}"
+//    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
+//    testImplementation "org.jdom:jdom2:2.0.6"
+//    testImplementation "org.robolectric:robolectric:3.7.1"
+}
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        applicationId "org.atalk.xryptomail"
+        testApplicationId "org.atalk.xryptomail.tests"
+
+        versionCode 18800
+        versionName '4.8.0'
+
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.compileSdkVersion
+
+        generatedDensities = ['mdpi', 'hdpi', 'xhdpi']
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "DEVELOPER_MODE", "false"
+        }
+
+        debug {
+            debuggable true
+            buildConfigField "boolean", "DEVELOPER_MODE", "true"
+        }
+    }
+
+    File cfgFile = project.rootProject.file("settings.signing")
+    if (cfgFile != null && cfgFile.exists()) {
+        println "### Found settings.signing to prepare signingConfig for release signing"
+        signingConfigs {
+            release {
+                Properties config = new Properties()
+                config.load(new FileInputStream(cfgFile))
+
+                storeFile file(config.getProperty('keystore'))
+                File propsFile = file(config.getProperty('secure_properties'))
+                if (propsFile.exists()) {
+                    Properties props = new Properties()
+                    props.load(new FileInputStream(propsFile))
+                    storePassword props.getProperty('key.store.password')
+                    keyAlias props.getProperty('key.store.alias')
+                    keyPassword props.getProperty('key.alias.password')
+                }
+            }
+        }
+        buildTypes.release.signingConfig signingConfigs.release
+    }
+
+    // for using Apache HTTP Client
+    useLibrary 'org.apache.http.legacy'
+
+    sourceSets {
+        // Move the tests to tests/java, tests/res, etc...
+        androidTest.setRoot('tests')
+
+        // Move the build types to build-types/<type>
+        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
+        // This moves them out of the default location under src/<type>/... which would
+        // conflict with src/ being used by the main source set.
+        // Adding new build types or product flavors should be accompanied by a similar customization.
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
+
+    // Do not abort build if lint finds errors
+    lintOptions {
+        abortOnError false
+        disable "ResourceType"
+        lintConfig file("$rootProject.projectDir/config/lint/lint.xml")
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/README'
+        exclude 'LICENSE.txt'
+    }
+}
+
+task run(type: Exec, dependsOn: 'installDebug') {
+    // windows: adb + environment setup
+    commandLine 'cmd', '/c', 'adb', 'shell', 'am', 'start', '-n', 'org.atalk.xryptomail/.activity.Splash', '-D'
+}

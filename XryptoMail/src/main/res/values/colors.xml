@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#2196F3</color>
+    <color name="primary_dark">#1976D2</color>
+    <color name="primary_light">#BBDEFB</color>
+    <color name="accent">#2986E2</color>
+    <color name="theme_background">#2E5368</color>
+
+    <color name="color_primary">#09354d</color>
+    <color name="color_primary_dark">#021625</color>
+    <color name="color_accent">#2DA4F2</color>
+
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#BDBDBD</color>
+    <color name="message_view_header_background">#45bcbcbc</color>
+
+    <color name="message_list_item_footer_background">#eeeeee</color>
+    <color name="message_list_widget_header_background">#737373</color>
+    <color name="message_list_widget_header_text">#e4e4e4</color>
+    <color name="message_list_widget_divider">#e5e5e5</color>
+    <color name="message_list_widget_text_read">#444444</color>
+    <color name="message_list_widget_text_unread">#000000</color>
+
+    <color name="light_black">#444444</color>
+
+    <color name="crypto_normal">#1800A7FF</color>
+    <color name="crypto_encrypt">#2BFF002F</color>
+    <color name="crypto_stealth">#27B200FF</color>
+
+    <color name="crypto_textcolor">#27B200FF</color>
+
+    <color name="openpgp_red">#CC0000</color>
+    <color name="openpgp_orange">#FF8800</color>
+    <color name="openpgp_green">#669900</color>
+    <color name="openpgp_blue">#336699</color>
+    <color name="openpgp_grey">#bbb</color>
+    <color name="openpgp_black">#000</color>
+    <color name="openpgp_sidebar">#D8D8D8</color>
+
+    <color name="permission_granted">#2DF2A4</color>
+    <color name="permission_denied">#F22D24</color>
+    <color name="permission_unknown">#F2AD24</color>
+
+    <color name="light_blue">#e4f9ff</color>
+    <color name="white">#ffffff</color>
+    <color name="grey">#989898</color>
+    <color name="orange500">#ffff9800</color>
+    <color name="orangeA400">#ff9100</color>
+    <color name="orangeA700">#ff6d00</color>
+</resources>

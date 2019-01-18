@@ -1,0 +1,879 @@
+XryptoMail Release Notes:
+=============================
+Version:		4.8.0
+Upload Date:	10/22/2018
+- Built target for Android 9.0 (Pie) or API-28
+- Improve runtime permission request and prompt user for Battery Optimization setting
+- Must request for READ_CONTACTS and WRITE_CONTACTS for api-28
+- Fix StrictMode policy violation: android.os.strictmode.UntaggedSocketViolation: Untagged socket detected;
+  use TrafficStats.setThreadSocketTag() to track all network usage
+- Allow some outdated HTML attributes so emails from popular internet services are displayed as intended
+- Fixed bug when moving or copying message (IMAP)
+- Source update based on k-9-5.6-MAINT_20181020
+
+=============================
+
+Version:		4.7.1
+Upload Date:	05/20/2018
+- Source update based on K9-5-503
+- Fixed bug with some soft keyboards when auto-completing recipients
+- Fixed crash when decrypting messages
+- Updated translations
+
+Java.lang.Throwable: Untagged socket detected; use TrafficStats.setThreadSocketTag() to track all network usage
+private static final int THREAD_ID = 10000;
+TrafficStats.setThreadStatsTag(THREAD_ID);
+You have to call this in the thread that is doing the communications, but that is not always completely clear to me. If anyone can add further detail on this, that will be great
+https://stackoverflow.com/questions/47723973/strictmode-java-lang-throwable-untagged-socket-detected
+
+=============================
+Version:		4.7.0
+Upload Date:	02/28/2018
+- Source update based on K9-5-501
+- Add support for user runtime resource access permissions request on android-M and later
+- Import/Export maintain account ordering
+- Improvements to HTML sanitisation mechanism
+- IMAP message sync improvements
+- Further improvements to encryption UI
+- Add support for autocrypt mutual mode
+- Forward-as-attachment feature
+- Adding option for limiting push connections to 5
+- Alter identity prioritisation
+- Improve rendering of RTL text
+- AddSMTP hostname privacy option
+- Add ability to show email address during composition
+- Removed IMAP namespace prefix from folder names
+- Fix Mailsploit bug
+- Fix bug when adding recipients during composition
+- Fix bug relating to encrypted attached emails
+- Fix bug that caused 'Quiet Time' to behave erratically
+- Fix bug that lead to some messages showing as empty content
+- Remove pending commands with exception failures
+- Must get realtime state for MailService#hasNoConnectivity() and #isSyncBlocked()
+- Bug fixes and other enhancements
+
+=============================
+Version:		4.6.0
+Upload Date:	12/04/2017
+Improvements:
+- Add OAuth2 authentication support for gmail and outlook mail accounts setup. Eliminate the need to enable *Allow less secure apps* in Google Security Settings.
+- Enhance new mail account setup process and improve its UI
+
+=============================
+Version:		4.5.0
+Upload Date:	12/01/2017
+Improvements:
+- Combined 4.4.1 & 4.4.2 and official release as 4.5.0
+
+=============================
+Version:		4.4.2
+Upload Date:	12/01/2017
+Improvements:
+- Improve Stealth Mode UI and implementation using pgpBuilder instead
+- Purge all unused old crypto library source code
+- Remove all spongycastle crypto libraries - not required
+- Remove multiDexEnabled support
+
+=============================
+Version:		4.4.1
+Upload Date:	11/27/2017
+Improvements:
+- Add new widget: Message List
+- Settings export uses Storage Access Framework
+- Better support for multi-window
+- Recipient search now includes nicknames
+- Improve and add new OpenPGP flow, adhering to Autocrypt specifications
+- Fixed bug that could cause OpenPGP signature verification to fail when it should not
+- Fixed bug that could lead to attachments not being displayed
+- Fixed bug where HTML messages were not displayed correctly
+- Fixed crash when encountering invalid email addresses
+- Fixed display errors of plain text messages
+- Add new languages support and updated translations
+- Upgrade to OpenPGP-API version 12
+- Add mail new capabilities: CONDSTORE and UIDPLUS
+- Temporary commented out in HtmlConverter.java
+  text = ASCII_PATTERN_FOR_HR.matcher(text).replaceAll("<hr>");
+  fix display blanck for message with '|' bar
+
+- Ported source to K9-master_20171116
+- Upgrade 'org.apache.james:apache-mime4j-core:0.8.1' from 0.7.2
+- Upgrade 'org.apache.james:apache-mime4j-dom:0.8.1' from 0.7.2
+- Migrate to ubuntu Android Studio build environment
+- Upgrade build environment: android studio 3.0 (2.3), build:gradle 3.0.0 (2.3.3), gradle-wrapper 4.1 (3.3) and buildToolsVersion 26.0.3 (25.0.3)
+- Update build.gradle files to confirm to gradle 4.1
+- set multiDexEnabled true
+- Note: Stealth message not working - need to port to new structure
+- Internal release only for svn tracking
+
+=============================
+Version:		4.4.0
+Upload Date:	09/04/2017
+Improvements:
+- Port source to K9-5.284 + K9-5.300 and use Timer log
+- Revert support SwipeToLeft and SwipeToRight for Next and Previous message view (interfere with pinch operation)
+- Fixed bug where the message body was not displayed when no crypto provider was configured
+- Fixed bug with status display of signed messages
+- Use "encrypted.asc" as filename for PGP/MIME emails
+- Improve device power management and add support for device dozes
+- Fixed bug where automatic synchronization would not restart after the device exited doze mode
+- Fixed bug with notification actions sometimes not working
+- Fixed crash when message list contains messages for which we could not extract a preview
+- Fixed crash when opening attached messages
+- Fixed crash when starting the app from the unread widget
+- Added support for List-Post header and sub-folders (WebDAV)
+- Fixed bug where not all data was removed for deleted messages
+- Implement correct hideTimeZone option
+- Enhance handler for contact picture loading and display in message view
+- Import library jsoup for better html web support
+- Added support for bundled notifications on Android 7+ and Android Wear
+- Added server settings for more providers
+- Updated Chinese translations
+- Use Timber log library for debug log captured
+
+=============================
+Version:		4.3.1
+Upload Date:	02/18/2017
+Improvements:
+- Support SwipeToLeft and SwipeToRight for Next and Previous message view
+- Fix Stealth acknowledgement sending failure - need body.setEncoding(MimeUtil.ENC_QUOTED_PRINTABLE)
+- Move PGP Provider configuration to Global setting; define signature key per email account
+- Fix Splash activity causing Account not resumable
+- Add new library com.squareup.moshi:moshi
+
+=============================
+Version:		4.3.0
+Upload Date:	01/27/2017
+Improvements:
+- Fixed bug with pinch to zoom gesture
+- Fixed bug when saving mail as draft
+- Fixed global theme setting problem
+- Fixed display bug when replying to messages using dark theme
+- Fixed button to expand CC/BCC recipients in dark theme
+- Do not hide Cc and Bcc if 'Always show Cc/Bcc' is enabled
+- Fixed bug where BCC header line was accidentally included in sent messages
+- Added setting for disabling 'mark all as read' confirmation dialog
+- Update full text search index when removing messages
+- Fixed problem with getting the list of IMAP folders
+- Always show subject in message header when split mode is active
+- Do not save drafts when message could be sent encrypted
+- Allow sending signed-only PGP/INLINE messages
+- Hide crypto status indicator in contact dropdown when no crypto provider is configured
+- Add new authentication support for 'SASL-IR' and 'AUTH_XOAUTH2'
+- Add parse support for internet body part multipart/digest
+- Support new header FlowedMessage HEADER_FORMAT_FLOWED
+- Dropped support for APG as an OpenPGP provider. The drop-in replacement is OpenKeychain
+- Replace external library pullDownToRefresh with android swipeToRefresh
+- Remove XryptoMailPullToRefreshListView class
+- Update database to version 56
+- ImapConnection.open().enableCompressionIfRequested() will not work with deprecated ZOutputStream
+  for com.jcraft:jzlib:1.1.3. Must use 1.0.7. Change to use 1.0.7
+
+=============================
+Version:		4.2.2
+Upload Date:	12/03/2016
+Improvements:
+- More user interface tweaks for encryption-related functionality
+- Account Settings: Message signing without encryption is now an expert feature that is disabled by default
+- Added mail compose option: Enable PGP Sign-Only
+- Show mail sending dialog while send mail is in progress (4.2.1 implementation was prematurely ended)
+- Added support for directional pad to move to next/previous message
+- Worked around a bug when viewing attachments
+- Ensure actionBar titles follow selected language for all preference settings (Accounts#onResume())
+- Fixed XryptoMail or StealthMail sending without cryptoMode being enabled to give error message
+- Fixed notification grouping on Android Wear and Android 7.0
+- Fixed notification actions on Android 7.0
+
+=============================
+Version:		4.2.1
+Upload Date:	10/25/2016
+Improvements:
+- User interface tweaks for encryption-related functionality
+- Fixed crash caused by new message notifications
+- Fixed bug with downloading attachments
+- Fixed structure of emails created with Xryptomail Mail
+- Fixed bug where message list was displayed twice
+- Updated translations
+- Add send mail progress for user feedback
+- Update com.splitwise.tokenautocomplete to version 2.0.8
+
+Version:		4.2.0
+Upload Date:	10/08/2016
+Improvements:
+- Fixed crash when selecting folder to move message
+- Fixed bug where wrong message format was used when replying
+- Fixed position of context menus on Android 7.0
+- Fixed icon for encryption status of a message
+- Hide crypto status when no crypto provider is configured
+- Hide invalid email addresses of a system contact
+- Added support for linkifying URLs with new TLDs
+- Added server settings for more providers
+
+=============================
+Version:		4.1.9.a
+Upload Date:	09/16/2016
+Improvements:
+- Add encryption status indicator for mail view fragment
+- Reduce splash screen display timer to 1.2 Sec
+- update with K9 svn dated 09/16
+
+=============================
+Version:		4.1.9
+Upload Date:	08/29/2016
+Improvements:
+- Update to K9 v5.111 source
+- Use buildToolsVersion = '24.0.2' and supportLibraryVersion = '24.2.0'
+- Fixed NullPointerException at at .mail.store.imap.ImapFolderPusher$PushRunnable.reacquireWakeLockAndCleanUp(mConnection)
+- Fixed replying to and forwarding of encrypted messages
+- Ask for confirmation on "mark all as read"
+- Added support for esPass MIME type (application/vnd.espass-espass+zip)
+- Removed attachment indicator for encrypted messages
+- Don't add additional line break to the end of a message when sending
+- Removed broken support for sending messages as 8-bit via SMTP
+- Lots of internal changes and minor bug fixes
+
+=============================
+Version:		4.1.8
+Upload Date:	08/12/2016
+Improvements:
+- Import new K9 update on 8/10/2006
+- Use Parcelable (MessageReference) in parameters passing for mail reply/forware
+- Enhance attachment handling (html/inline) with user options in mail reply
+- Suggest server name based on server type
+- Improve account setup handling (Server Name Suggestions)
+- XryptoMode checkBox not updated properly in Account Setting
+- Restructure MemorizingMessagingListener support
+- Resource cleanup
+
+=============================
+Version:		4.1.7.b
+Upload Date:	07/31/2016
+Improvements:
+- Fix exception error when saving global preference settings
+
+=============================
+Version:		4.1.7.a
+Upload Date:	07/31/2016
+Improvements:
+- Add missing messageList "Select All" option
+- Improve preference settings UI handling
+- Remove debug option from release version
+
+=============================
+Version:	4.1.7
+Upload Date:	07/30/2016
+Improvements:
+- Clean up and implemented full UI display for Chinese Traditional
+- Clean up and implemented full UI display for Chinese Simplified
+- Update to use ckchangelog 1.2.2
+- Remove duplicated send icon in message compose view
+
+=============================
+Version:		4.1.6.a
+Upload Date:	07/26/2016
+Improvements:
+- Fixed case DISABLE in MessageCryptoPresenter (normal mail also return cryptoResultAnnotation == null)
+- Display security warning when OpenPGP is not configured for encrypted mail
+
+=============================
+Version:	4.1.6
+Upload Date:	07/25/2016
+Improvements:
+- Splash screen run once only on first startup
+- Provide compiled option to allow xryptoMail to run independent of xryptoChat
+- Fixed MessageCompose.recipientPresenter null exception under race condition
+- Fixed GetActivationStatus function error (_chkGroupMemberAndEmail not clear)
+- Change to use default download path for apk download and update
+- Remove redundant XryptoMail.mActivatedAccount update in OnlineUpdate
+- Display encryption engine not installed warning message when open encrypted mail
+- Fixed crash when when opening stealth mail without encryption engine
+- Update to use changelog 1.2.2
+
+=============================
+Version:	4.1.5
+Upload Date:	07/22/2016
+Improvements:
+- Expunge deleted stealth messages from local and server folder (Trash)
+- Pull in K9 latest released source
+- Improved PGP/MIME experience
+- New option: only notify for messages from contacts
+- Added auto-configuration support for more providers
+- Lots of internal improvements
+- Remove stealth timer db update routine (assume all installed app has db updated)
+- Enable changelog info display
+
+=============================
+Version:	4.1.4.c
+Upload Date:	07/08/2016
+Improvements:
+- Fix auto online update check crashes with unexpected NullPointerException on XryptoMail.mVersion
+- Use TextUtils.isEmpty() for string null check
+- Change STEALTH_READ_MIN_TIME = 10 (seconds) before delete
+
+=============================
+Version:	4.1.4.b
+Upload Date:	06/22/2016
+Improvements:
+- Must init stealth counter prior to OpenPGP message being cancelled
+- Fix active RecipientSelectView list crashes on screen rotation
+
+=============================
+Version:	4.1.4
+Upload Date:	06/15/2016
+Improvements:
+- Improve Stealth message UI / handling
+  * upgrade db to support stealth delete on timeout or exceed min-read time on back press
+  * improve stealth acknowledge message content
+  * always return to message list after stealth deletion
+- Force theme change on account-list after global settings edit
+- Enable Xrypto Mode option to allow sending xrypto & stealth mail
+- Xrypto or Stealth mail sending must have OpenGPG Private Mode selected
+
+=============================
+Version:	4.1.3
+Upload Date:	06/13/2016
+Improvements:
+- Add crypto/stealth color coding in message list
+- Add crypto/stealth color coding in message view
+- Implement Stealth on OpenPGP Encryption
+- fixed stealth acknowledge mail MimeUtil.ENC_QUOTED_PRINTABLE decoding problem
+
+=============================
+Version:	4.1.2
+Upload Date:	06/05/2016
+Improvements:
+- Update to confirm to openpgp-api version 11.0
+- Enhanced crypto mode selection animation
+- Hide PGPHeader view for normal email message
+
+=============================
+Version:	4.1.1
+Upload Date:	06/02/2016
+Improvements:
+- Cleanup software update display messages
+- Enable openpgp option menu for user to install OpenKeyChain
+
+=============================
+Version:	4.1.0
+Upload Date:	05/31/2016
+Improvements:
+- Change project & application names to XryptoMail
+
+=============================
+Version:	4.0.1.c
+Upload Date:	05/28/2016
+Improvements:
+- Change messageList context options
+- Update version check for 4th alpha minor revision
+- update openpgp-api to version 11.0 (main src needs further changes)
+
+=============================
+Version:	4.0.1
+Upload Date:	05/23/2016
+Improvements:
+- Migrate to Android Studio development environment (more helps)
+- Migrate to use gradle environment (multiple module linkage)
+- Remove XryptoMail libraries (libs) and use gradle dependency:compile instead
+  * update to use spongycastle version 1.50.0.0
+
+- Import K9 new routines, dependencies, file structures & features (complete structure change)
+- Add alternative UI languages support
+- Support full search functions
+- Support openpgp function
+- Add support for theme change
+- Add support for online update for debug version
+- DownloadWithoutConfirm.execute must be called from main thread (OnlineUpdateService)
+
+=============================
+Version:	4.0.0
+Upload Date:	05/10/2016
+Improvements:
+- Migrate ADT to AndMore development environment (both .project and .classpath file replacing:
+  'com.android.ide.eclipse.adt' with 'org.eclipse.andmore'
+- Import K9 new routines, file structures & features (complete structure change)
+- Update XryptoMail libraries (libs) to latest and additional
+- Add migration for XryptoMail database from version 43 to 55 (K9 latest)
+- Add UI alternative languages support
+- Add search functions
+- update default account database settings
+
+=============================
+Version:	3.3.1
+Upload Date:	04/15/2016
+Improvements:
+ - Add android.permission.MANAGE_DOCUMENTS permission (new Storage Access Framework introduced with Android 4.4 KitKat)
+ - use Intent.ACTION_OPEN_DOCUMENT to choose file via the system's file browser (KITKAT-fixed uri access right).
+ - recompile with android support library 23.2.1 (fixed uri access right)
+ - rearrange folders/files to confirm to K9 structure
+ - fixed inputStream not closed exception
+
+=============================
+Version:	3.3.0
+Upload Date:	03/24/2016
+Improvements:
+ - change package installation directory to xryptomail
+
+=============================
+Version:	3.2.3
+Upload Date:	05/18/2015
+Improvements:
+    1) fix: double acknowledgement sent on delete and timeout for stealth mail
+    2) fix: remove user delete confirmation for stealth message
+    3) fix: undelete Stealth message on boundary index cases
+    4) fix: allow 2 seconds fast next/previous scroll past stealth message without deleting
+    5) fix: out of bound exception error for next and previous message.
+    6) fix: Change Account array to K9 format
+
+
+=============================
+Version:	3.2.2
+Upload Date:	05/14/2015
+Improvements:
+    1) fix: mail body decryption error - missing base64 decryption in body extraction
+    2) fix: add back new account creation - default email auto filled
+    3) fix: add back new mail crypto-contact select button
+    4) Use common ActionBarSherlock_4.2 as CryptoMessenger (verified)
+
+=============================
+Version:	3.2.1
+Upload Date:	12/16/2014
+Improvements:
+    1) fix: Add in ExtSdCard support for Asus
+    
+=============================
+Version:	3.2.0
+Upload Date:	06/17/2014
+Improvements:
+    1) fix: Android 4.4 application specific folder write access restriction
+       for Online update, outbound/inbound temp file storage
+    2) Fix: Add detection of "/storage" && !"emulated" for Android 4.4 (SAMSUNG & LG)
+    3) fix: Move cryptolib under sub-directory (for better reuse with cryptoMsg)
+    4) fix: Change NotificationBuilder to NotificationCompat.Builder for future Android compatibility &
+       Remove NotificationBuilder.java NotificationBuilderApi1.java NotificationBuilderApill.java
+    5) fix: Add backStack to go back to Accounts view when accessed from notification icons
+    6) fix: Add mail accounts refresh action icon in ActionBar in Accounts view
+    7) fix: Set default Download directory to /storage/emulated/0/Download instead of root
+    8) Fix: VM Android version 4.4 returns imei a non-zero length string "00000000000000"
+    9) Fix: Cleanup getMacAddr routine
+   10) Fix: Fixed right swipe item selection when message list is in date sorted mode
+   11) Fix: Fixed partial mail top content hidden problem
+   12) Fix: Stealth action buttons stay disabled when move to other mail type
+   13) Fix: Send stealth message read acknowledge on next/previous scrolling
+   14) Fix: Add bottom menu options for account, messageList and messageView windows
+   15) Fix: Add new features support as per new optionMenu
+   16) Fix: Ported new Mime routines from latest K9 code
+   17) Fix: Remove repeated account on post accounts rearrangement
+   18) Fix: Open resources i.e. vCardInfo and roster.db database left unclosed
+   19) Fix: Improve account setup UI (fully automate mail setup if provider given)
+   20) Fix: Clean up MessageList and MessageView context menu
+   21) Fix: Allow Access Code Password change in Crypto Messenger only (Android 4.4 restriction)
+   22) Clean up AndroidManifest.xml file
+   23) Add database upgrade routines for future use
+   24) Fix: Exit application when CMPK.DAT not exist (SDCard removed)
+   25) Fix: Null pointer exception when CMPK.DAT not exist on first launch
+
+Version:	3.1.17
+Upload Date:	03/26/2014
+Improvements:
+	1) fix: Open correct selected mail (position) in arraylist for Non-Date sorting
+
+
+Version:	3.1.16
+Upload Date:	12/9/2013 6:43:23 PM
+Improvements:
+	1) fix: while erasing sd card and xryptomail has not been launched, xryptomail will pop up stop dialog\
+	2) fix: when xryptomail pop config output server dialog, sometimes xryptomail uses default port number even if a specific port is defined
+	3)support new version of cmpk.dat
+   
+
+Version:	3.1.14
+Upload Date:	8/30/2013 6:20:30 PM
+Improvements:
+	1) only icrypto folder exists on external SD, this app will be launched normally.
+
+
+Version:	2.4.5
+Upload Date:	6/8/2013 5:23:16 PM
+Improvements:
+	1) Change message title layout in land mode
+
+Version:	3.1.11
+Upload Date:	7/17/2013 1:57:29 PM
+Improvements:
+	1) Add WIFI-STATE permission
+
+
+Version:	3.1.10
+Upload Date:	6/13/2013 5:36:07 PM
+Improvements:
+	1) Change about dialog
+	
+
+Version:	3.1.9
+Upload Date:	6/13/2013 1:45:49 PM
+Improvements:
+	1) Change icon
+	2) Disable auto-update
+	3) Change about dialog to show all copyright information
+	
+
+Version:	3.1.8
+Upload Date:	6/5/2013 11:44:24 PM
+Improvements:
+	1) fix import setting crash error.
+
+
+Version:	3.1.7
+Upload Date:	6/5/2013 11:44:24 PM
+Improvements:
+	1) when sending cryptomail, the subject should show "<Cryptomail>" instead of "<XryptoMail>"
+	
+
+Version:	3.1.6
+Upload Date:	6/5/2013 3:59:55 PM
+Improvements:
+	1) when no crypto friend db file exists, cryptomailplus will crash due to an null pointer exception
+	2) change some UI elements, e.g. icon.
+
+
+Version:	3.1.4
+Upload Date:	6/4/2013 3:05:34 PM
+Improvements:
+	1) download update silently.
+	
+
+Version:	3.1.3
+Upload Date:	6/3/2013 3:13:20 PM
+Improvements:
+	1) when an activity is being destroyed, first destroy access code dialog if it is showing to eliminate crash
+	2) when decryption error, invoke decryptionFailed only once.
+
+
+Version:	3.1.1
+Upload Date:	5/29/2013 7:08:56 PM
+Improvements:
+	1) Show progress dialog when decrypting attachment files.
+	2) fix a bug that Account list activity foreground->background->wait for more than 1 minute->foregound, no verify access code dialog pops up.
+
+Version:	3.1.0
+Upload Date:	5/28/2013 6:24:53 PM
+Improvements:
+	1)if user does not switch activity for more than 1 minute, will ask user to enter access code.
+	2)fix a bug when user forward a encrypted or stealth message to normal mail, attachment file will not be opened again.
+
+
+Version:	3.0.17
+Upload Date:	5/27/2013 1:34:48 PM
+Improvements:
+	1)fix some bugs
+	
+
+Version:	3.0.13
+Upload Date:	5/17/2013 6:25:19 PM
+Improvements:
+	1)add a title bar refresh button
+	2)change style of splash screen
+
+Version:	3.0.11
+Upload Date:	5/10/2013 6:48:42 PM
+Improvements:
+	1)add pull-down refresh feature.
+
+
+Version:	3.0.10
+Upload Date:	5/9/2013 6:58:44 PM
+Improvements:
+	1)stable version.
+
+
+Version:	3.0.3
+Upload Date:	5/6/2013 8:32:26 PM
+Improvements:
+	1)remove encryption algorithm shipped with k-9 
+	2)fix attachment view/save errors
+	3)other errors
+
+
+Version:	3.0.2
+Upload Date:	4/29/2013 5:58:31 PM
+Improvements:
+	1)Change color of data bar in message list
+
+
+Version:	3.0.1
+Upload Date:	4/29/2013 5:28:38 PM
+Improvements:
+	1)Fix bugs in encryption/decryption algorithm
+	2)Change color of data bar in message list
+	3)Change email account icon in account list
+	4)Change display order in crypto contacts dialog
+	5)show user friendly name instead of crypto ID in crypto contacts dialog
+	
+
+Version:	3.0.0
+Upload Date:	4/16/2013 4:04:42 PM
+Improvements:
+	1)Use different encryption/decryption algorithm to protect data.
+
+
+Version:	2.3.9
+Release Date:	4/3/2013 6:38:55 PM
+Improvements:
+	1)When open cryptomail from notification(while cryptoMail has not been launched yet), "unknown user" occurs.
+
+
+Version:	2.3.8
+Release Date: 4/1/2013 7:43:59 PM
+Improvements:
+	1)move gloval variables from class GlobalVar to class CryptoMail
+	
+	
+Version:	2.3.6
+Release Date: 3/28/2013 5:47:53 PM
+Improvements:
+	1)Define a common function in utility.java to query message type(normal, crypted, stealth)
+	
+
+Version:	2.3.5
+Release Date: 3/27/2013 6:45:27 PM
+Improvements:
+	1)Change alertdialog and about dialog UI
+	
+
+Version:	2.3.4
+Release Date: 3/26/2013 7:21:53 PM
+Improvements:
+	1)save access code into cmpk.dat
+	
+
+Version:	2.3.3
+Release Date: 3/25/2013 6:09:54 PM
+Improvements:
+	1)Change format of title bar
+	2)If update found and user did not install new update, next time, app will add a new notification icon says new update found.	
+	
+
+Version:	2.3.2
+Release Date:	3/22/2013 9:43:20 AM
+Improvements:
+	1)crypto server changed to icryptoapps.com
+	2)fix a bug:while viewing stealght message, once user rotate screen, the countdown value reset to 30 seconds
+	3)once user press send menu item, pop up a dialog rather than a submen.
+
+
+Version:	2.3.1
+Release Date:	3/19/2013 6:54:35 PM
+Improvements:
+	1)when user create a new account, if cryptomail can recognize the domain name(e.g. gmail.com), cryptomail will auto fill account setting.
+	2)Fix an bug, when blackberry forward an cryptomail, cryptomail can not decrypte the mail correctly.
+	3)display option menu when user opening messageview activity.
+
+
+Version:	2.3.0
+Release Date:	3/13/2013 7:02:51 PM
+Improvements:
+	1)Add actionbar sherlock support
+	
+
+Version:	2.2.1
+Release Date:	3/8/2013 7:57:32 PM
+Improvements:
+	1)when user open trash folder, hide stealth message.
+	
+
+Version:	2.2.0
+Release Date:	3/8/2013 4:29:02 PM
+Improvements:
+	1)add extra bytes when encrypting file so that one can know whether the encrypted file belong to an encrypted or a stealth email.
+	2)if we sync trash bin, stealgh email will be skipped.	
+
+
+Version:	2.1.1
+Release Date:	3/7/2013 8:11:35 PM
+Improvements:
+	1)Read configuration data once user launch cryptomail
+	2)on MessageList UI, when user long press a stealth message and select "Open" from pop up menu, the stealth message will be erased in 30 seconds
+	3)When stealth message is removed to trash bin, and user open trash bin, crypto mail will filter out stealth message locally.
+
+
+Version:	2.1.0
+Release Date:	3/7/2013 2:25:10 PM
+Improvements:
+	1)supports both iCrypto and xxx folder.
+	
+
+Version:	2.0.6
+Release Date: 3/6/2013 8:34:15 PM
+Improvements:
+	1)fix a bug: when forwarding normal mail with attachment files to crypto mail, the recipient will see number as attachment file name.
+    2)now, user can not execute all commands for stealth message
+
+
+Version:	2.0.5
+Release Date:	3/6/2013 1:39:25 PM
+Improvements:
+	1)fix a bug: when forwarding normal mail with attachment files to crypto mail, the recipient will see number as attachment file name.
+
+
+Version:	2.0.4
+Release Date:	3/5/2013 7:07:26 PM
+Improvements:
+	1)fix a bug: when attachment file(included in an encrypted mail) is big, user select to download or view it, then, press back, back, and reopen
+	the same encrypted mail, the encrypted mail will not be opened again.
+	2)show "<Encryptomail>" rather than "<Encrypted Email>" on title bar
+	3)show "<Stealthmail>" rather than "<Stealth Email>" on title bar
+
+
+Version:	2.0.0
+Release Date:	3/5/2013 10:07:15 AM
+Improvements:
+	1)when encrypting attachment file, split file into small pieces and encrypte each piece.
+	2)when showing splash screen, add a "Powered by xxx" message
+
+
+Version:	1.4.2
+Release Date: 2/27/2013 3:48:31 PM
+Improvements:
+	1)change copyright information
+	2)add a description under "Access code" preference item.
+
+Version:	1.4.1
+Release Date: 2/26/2013 9:38:55 PM
+Improvements:
+	1)change copyright information
+	2)Make both button the same dimension in about dialog
+	
+
+Version:	1.4.0
+Release Date: 2/26/2013 9:11:09 PM
+Improvements:
+	1)When user opens about dialog, third party license information will be hidden defaultly.
+	
+	
+Version:	1.3.3
+Release Date: 2/22/2013 2:31:43 PM
+Improvements:
+	1)Supports SD format of "exfat" & "fat32"
+	2)When trying to get absolute path of a file according to its URI, sometimes path is invalid by adding an extra "/mnt/"
+	3)Update online update method
+	
+
+Version:	1.3.2
+Release Date: 2/8/2013 6:04:19 PM
+Improvements:
+	1)Save private key to SD card so that user still can read encrypted email when network is disconnected.
+	2)once user pop up sd card, cryptomail stop working and exit.
+
+
+Version:	1.2.2
+Release Date: 1/25/2013 3:16:02 PM
+Improvements:
+	1)When checking validation of CMPK.dat, skip check sum verification because crypto account activation status will be stored to CMPK.dat.
+
+
+Version:	1.2.1
+Release Date: 1/23/2013 6:47:39 PM
+Improvements:
+	1)When user launch cryptomail for the first time, accounts list UI show "CryptoMail", actually, it should show "CryptoMail - Accounts List"
+
+
+Version:	1.2.0
+Release Date:	1/23/2013 3:41:58 PM
+Improvements:
+	1)when cryptomail is running, check whether crypto account has been activated, if not, exit the program
+
+
+Version:	1.1.2
+Release Date:	1/22/2013 4:19:47 PM
+Improvements:
+	1)change style of title in account list and folder list.
+	2)online update service can now periodically wake up and try to update new version from server.
+	3)in MessagingController, use setAction() & setData() to give different intent object different character.
+
+
+Version:	1.1.1
+Release Date:	1/21/2013 6:56:50 PM
+Improvements:
+	1)show text when user want to online update.
+	2)when making notification, pendingintent will use different requestcode to identify different notification object.
+	
+
+Version:	1.1.0
+Release Date:	1/17/2013 6:54:40 PM
+Improvements:
+	1)When enter cryptoMail by tapping on notification area, ask user to enter valid password if user set access code check.
+	2)If can not send out encryption/stealth email, save it to draft folder instead of discarding it.
+
+
+Version:	1.0.11
+Release Date:	1/15/2013 7:11:29 PM
+Improvements:
+	1)When open online update UI, text view is hidden, if should be shown.
+		
+
+Version:	1.0.10
+Release Date:	1/15/2013 6:32:15 PM
+Improvements:
+	1)Stealth mail will be erased from sent folder
+	2)when send mail unsuccessful, user will not see exception information from notification area
+	3)when user first use cryptomail, no need to verify access code.
+
+
+Version:	1.0.9
+Release Date:	1/14/2013 7:02:28 PM
+Improvements:
+	1)Use a background service to retrieve new version from server.
+	2)When user open cryptomail from notification area(new incoming mail found), when user press back key in message list UI, cryptomail crash.
+
+
+Version:	1.0.8
+Release Date:	1/10/2013 4:01:05 PM
+Improvements:
+	1)Upon showing splash screen and after showing verify access code window, hide online update window.
+
+
+Version:	1.0.7
+Release Date:	1/9/2013 6:00:43 PM
+Improvements:
+	1)Set default access code to "1234" rather than leave it blank, and default do not verify access code.
+	2)Upon starting up, display account list even if there is only one account.
+	3)Upon showing splash screen, hide online update window.
+
+
+Version:	1.0.6
+Release Date:	1/4/2013 7:53:02 PM
+Improvements:
+	1)Change android:targetSdkVersion from 14(Android 4.0) to 10(Android 2.3.3), with value of 14, App can not light up menu button on motorola xt885.
+	
+
+Version:	1.0.5
+Release Date:	1/4/2013 6:21:52 PM
+Improvements:
+	1)Change app id from com.fsck.k9 to xryptomail
+	2)While booting up app, check whether crypto account has been activated, if not, exit cryptomail.
+
+
+Version:	1.0.3
+Release Date:	1/3/2013 4:15:15 PM
+Improvements:
+	1)resolve such issue:	When user is viewing a stealth mesage, back key is pressed, the stealth message will be erased but ACK email does not send out.
+	2)When user change setting of access code, user must enter correct original access code before making any changes.
+
+
+Version:	1.0.2
+Release Date:	12/31/2012 3:46:48 PM
+Improvements:
+	1)User can not select UI language, so far, only english is supported.
+
+
+Version:	1.0.1
+Release Date:	12/28/2012 6:36:30 PM
+Improvements:
+	1)Message list use bold font to indicate sender of unread email.
+	2)Message list show sender as the first row.
+	3)Use different color to show encrypted email subject(in red color) and stealth email subject(in purple color) in message list.
+
+
+Version:	1.0.0
+Release Date:	12/21/2012 5:30:10 PM
+Improvements:
+	Initial version, this version can encrypt/decrypt email if necessary.

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/add_from_contacts"
+        android:alphabeticShortcut="a"
+        android:icon="?attr/iconActionAddCcBcc"
+        android:title="@string/add_from_contacts"
+        android:showAsAction="always" />
+    <item
+        android:id="@+id/add_attachment"
+        android:alphabeticShortcut="n"
+        android:title="@string/add_attachment_action"
+        android:icon="?attr/iconActionAddAttachment"
+        android:showAsAction="always" />
+
+    <item
+        android:id="@+id/send"
+        android:alphabeticShortcut="s"
+        android:title="@string/send_action"
+        android:icon="?attr/iconActionSend"
+        android:showAsAction="always" >
+        <menu>
+            <item
+                android:id="@+id/Send_OpenPGP_Email"
+                android:icon="@drawable/ic_action_mail_crypto"
+                android:textColor="@color/crypto_textcolor"
+                android:textStyle="bold"
+                android:title="@string/Send_OpenPGP_Mode" />
+            <item
+                android:id="@+id/Send_Stealth_Email"
+                android:icon="@drawable/ic_action_mail_stealth"
+                android:textColor="@color/crypto_textcolor"
+                android:textStyle="bold"
+                android:title="@string/Send_Stealth_Email" />
+        </menu>
+    </item>
+    
+    <item
+        android:id="@+id/save"
+        android:alphabeticShortcut="d"
+        android:title="@string/save_draft_action"
+        android:icon="?attr/iconActionSave" />
+    <item
+        android:id="@+id/discard"
+        android:alphabeticShortcut="q"
+        android:title="@string/discard_action"
+        android:icon="?attr/iconActionCancel" />
+    <item
+        android:id="@+id/read_receipt"
+        android:alphabeticShortcut="r"
+        android:title="@string/read_receipt"
+        android:icon="?attr/iconActionRequestReadReceipt" />
+    <item
+        android:id="@+id/openpgp_encrypt_enable"
+        android:alphabeticShortcut="c"
+        android:title="@string/enable_encryption"
+        android:showAsAction="never"
+        />
+    <item
+        android:id="@+id/openpgp_encrypt_disable"
+        android:alphabeticShortcut="c"
+        android:title="@string/disable_encryption"
+        android:showAsAction="never"
+        />
+    <item
+        android:id="@+id/openpgp_sign_only"
+        android:alphabeticShortcut="g"
+        android:title="@string/enable_sign_only"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/openpgp_sign_only_disable"
+        android:alphabeticShortcut="g"
+        android:title="@string/disable_sign_only"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/openpgp_inline_enable"
+        android:alphabeticShortcut="i"
+        android:title="@string/enable_inline_pgp"
+        android:showAsAction="never" />
+	
+    <item
+        android:id="@+id/openpgp_inline_disable"
+        android:alphabeticShortcut="i"
+        android:title="@string/disable_inline_pgp"
+        android:showAsAction="never" />
+</menu>

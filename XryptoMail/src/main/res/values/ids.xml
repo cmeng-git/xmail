@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item type="id" name="dialog_confirm_mark_all_as_read"/>
+    <item type="id" name="dialog_confirm_delete"/>
+    <item type="id" name="dialog_confirm_spam"/>
+    <item type="id" name="dialog_attachment_progress"/>
+    <item type="id" name="dialog_account_setup_error"/>
+    <item type="id" name="decrypte_attachment_progress"/>
+
+    <!-- https://stackoverflow.com/questions/41303347/couldnt-resolve-resource-id-visible-when-using-textinputlayout -->
+    <item name="visible" type="id"/>
+    <item name="masked" type="id"/>
+</resources>

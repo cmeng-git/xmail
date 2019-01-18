@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.atalk.xryptomail.view.ViewSwitcher
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <FrameLayout
+        android:id="@+id/message_list_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <FrameLayout
+        android:id="@+id/message_view_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+</org.atalk.xryptomail.view.ViewSwitcher>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/countDownView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|center_vertical"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/stealth_warning_message"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="?attr/messageViewStealthCounterTextColor"
+        android:visibility="gone" />
+
+</LinearLayout>

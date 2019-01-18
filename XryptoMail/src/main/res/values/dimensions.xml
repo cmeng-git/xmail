@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="button_minWidth">80sp</dimen>
+    <dimen name="widget_padding">8dp</dimen>
+    <dimen name="account_setup_settings_title_margin_top">32dp</dimen>
+    <dimen name="account_setup_settings_title_size">32sp</dimen>
+
+    <dimen name="account_setup_margin_below_title_basics">18dp</dimen>
+    <dimen name="account_setup_margin_below_title_incoming_and_outgoing">18dp</dimen>
+
+    <dimen name="account_setup_margin_between_items">12dp</dimen>
+    <dimen name="account_setup_margin_between_items_incoming_and_outgoing">8dp</dimen>
+
+    <dimen name="account_setup_settings_margin_start">32dp</dimen>
+    <dimen name="account_setup_settings_field_margin_end">24dp</dimen>
+
+    <dimen name="input_label_vertical_spacing">8dp</dimen>
+    <dimen name="input_label_horizontal_spacing">4dp</dimen>
+ 
+    <dimen name="colorpicker_onedp">1dp</dimen>
+
+    <dimen name="label_padding">4dp</dimen>
+    <dimen name="screen_padding">20dp</dimen>
+    <dimen name="screen_padding_small">10dp</dimen>
+    <dimen name="screen_padding_land">40dp</dimen>
+    <!-- Dexter -->
+    <dimen name="title_font_size">30sp</dimen>
+    <dimen name="icon_size">50dp</dimen>
+    <dimen name="header_margin">10dp</dimen>
+    <dimen name="permission_button_margin_vertical">4dp</dimen>
+    <dimen name="permission_feedback_margin_vertical">@dimen/permission_button_margin_vertical</dimen>
+    <dimen name="button_width">120dp</dimen>
+    <dimen name="button_height">44dp</dimen>
+    <dimen name="button_text_size">13sp</dimen>
+    <dimen name="feedback_width">140dp</dimen>
+    <dimen name="feedback_height">@dimen/button_height</dimen>
+    <dimen name="feedback_margin_left">10dp</dimen>
+    <dimen name="all_permission_button_margin_right">10dp</dimen>
+
+</resources>

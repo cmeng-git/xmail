@@ -1,0 +1,1353 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- === App-specific strings ============================================================= -->
+    <!-- This should make it easier for forks to change the branding -->
+
+    <!-- Used in AndroidManifest.xml -->
+    <string name="shortcuts_title">XryptoMail帳戶</string>
+    <string name="unread_widget_label">XryptoMail未讀</string>
+
+    <!--Used in the about dialog-->
+    <string name="app_authors">谷歌以及幫著遛XryptoMail的小朋友們。</string>
+    <string name="app_copyright_fmt">版權所有 2008-<xliff:g>%s</xliff:g>XryptoMail。部分版權所有2006-<xliff:g>%s</xliff:g>的Android開源項目。</string>
+    <string name="app_license">依據Apache版本2.0協議授權</string>
+
+    <!-- Welcome message -->
+    <!--Welcome to XryptoMail setup. XryptoMail is an mail client for Android originally based on XryptoMail client.-->
+    <string name="welcome_message_title">歡迎使用XryptoMail</string>
+    <string name="version_apps">版本：%s</string>
+
+    <string name="accounts_welcome"><![CDATA[
+<p>
+XryptoMail是Android版電子郵件客戶端加密功能。
+</p><p>
+它的增強功能包括：
+</p>
+<ul>
+  <li>加密/解密電子郵件</li>
+  <li>使用IMAP IDLE的推送郵件</li>
+  <li>性能更佳</li>
+  <li>郵件改編</li>
+  <li>電子郵件簽署</li>
+  <li>密件至自身</li>
+  <li>訂閱文件夾</li>
+  <li>所有的文件夾同步</li>
+  <li>返回地址的配置</li>
+  <li>鍵盤快捷鍵</li>
+  <li>更好的IMAP支持</li>
+  <li>保存附件到記憶卡</li>
+  <li>清空垃圾箱</li>
+  <li>郵件分揀</li>
+  <li>…和更多</li>
+</ul>
+<p>
+請注意，XryptoMail不支持大多數免費的Hotmail帳戶，像許多郵件客戶端，有談論到Microsoft Exchange時，一些怪癖。
+</p>
+    ]]></string>
+    <!-- Default signature -->
+    <string name="default_signature">--\n使用XryptoMail發送自我的Andr​​oid設備。</string>
+
+    <!-- General strings that include the app name -->
+    <string name="account_delete_dlg_instructions_fmt">帳戶「<xliff:g id="account">%s</xliff:g>」將從XryptoMail中刪除。</string>
+    <string name="account_recreate_dlg_instructions_fmt">帳戶「<xliff:g id="account">%s</xliff:g>」的所有相關數據將從XryptoMail中刪除，僅保留帳戶設置。</string>
+    <string name="account_clear_dlg_instructions_fmt">帳戶「<xliff:g id="account">%s</xliff:g>」的所有郵件將從XryptoMail中刪除，僅保留帳戶設置。</string>
+
+    <!-- === App Store-specific strings ======================================================= -->
+    <string name="import_dialog_error_message">沒有找到合適的應用程序來處理導入操作。請從GOOGLE PLAY商店下載安裝檔案管理應用程序。</string>
+    <string name="open_market">打開 Google Play Store</string>
+
+    <!-- === General strings (Xcryptop Mail Custom UI) ========================================= -->
+    <string name="online_update_title">更新</string>
+	<string name="checking_update">檢查更新…</string>
+	<string name="update_found">找到一個新的更新</string>
+
+	<string name="stealth_ack_fmt1">這是回執給您發送訊息至&lt;<xliff:g id="recipient">%s</xliff:g>&gt;在<xliff:g id="send_date">%s</xliff:g>。</string>
+    <string name="stealth_ack_fmt2">此回執確認該發送訊息已讀, 並且收件人的設備和郵件伺服器上的訊息已被清空於<xliff:g id="read_date">%s</xliff:g>。</string>
+    <string name="stealth_deleted_message">已閱讀Stealth訊息已被刪除。</string>
+    <string name="stealth_warning_message">Stealth訊息將在超時被摧毀。</string>
+    <string name="stealth_timer_message">該訊息將在%d秒後被銷毀。</string>
+
+    <string name="AboutDialog_title">關於</string>
+    <string name="AboutDialog_Version">版本 %s</string>
+    <string name="AboutDialog_Copyright">版權所有：2011~2016年，atalk.org\n保留所有權利</string>
+    <string name="AboutDialog_help"><a herf="http://atalk.sytes.net/xmail">在線協助</a></string>
+    <string name="About_action">關於</string>
+    <string name="About_help">协助</string>
+	<string name="PoweredBy">技術支持：atalk.org</string>
+
+    <string name="show_history_log">歷史記錄</string>
+    <string name="check_new_version">檢查更新</string>
+    <string name="fetch_version_error">無法查詢從伺服器軟件的訊息。</string>
+    <string name="new_version_found">找到新的軟件版本%s\n繼續更新？</string>
+    <string name="no_new_version_found">當前的軟件版本%s已經是最新的。</string>
+    <string name="download_apk_error">無法從伺服器下載軟件。</string>
+
+    <string name="Send_Mode">發送為</string>
+    <string name="Send_Normal_Email">普通郵件</string>
+    <string name="Send_Stealth_Email">Stealth郵件</string>
+    <string name="Send_OpenPGP_Mode">OpenPGP模式</string>
+
+    <string name="account_settings_stealth_mode">Stealth模式</string>
+    <string name="account_settings_stealth_mode_summary">啟用Stealth(自動刪除)電子郵件發送</string>
+    <string name="mark_all_as_read_dlg_instructions_fmt">標記所有訊息在「<xliff:g id="folder">%s</xliff:g>」 為已讀？（包括未在XryptoMail顯示文件夾中的郵件）</string>
+
+    <!-- Logs -->
+    <string name="send_logs">發送調試日誌</string>
+    <string name="send_logs_question">XryptoMail剛剛恢復後嚴重的應用程序崩潰。是否要發送調試日誌？</string>
+    <string name="send_log_subject">XryptoMail調試日誌</string>
+    <string name="send_log_title">發送XryptoMail調試日誌</string>
+
+    <!-- === General strings ================================================================== -->
+    <string name="app_authors_fmt">作者: <xliff:g id="app_authors">%s</xliff:g></string>
+    <string name="app_revision_fmt">更新日誌: <xliff:g id="app_revision_url">%s</xliff:g></string>
+    <string name="app_libraries">我們目前使用第三方的函數庫: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+    <string name="app_emoji_icons">表情符號圖示: <xliff:g id="app_emoji_icons_link">%s</xliff:g></string>
+
+    <string name="about_title_fmt">關於<xliff:g id="app_name">%s</xliff:g></string>
+    <string name="accounts_title">帳戶</string>
+    <string name="folders_title">文件夹</string>
+    <string name="advanced">進级</string>
+
+    <string name="compose_title_compose">新郵件</string>
+    <string name="compose_title_reply">回覆</string>
+    <string name="compose_title_reply_all">全部回覆</string>
+    <string name="compose_title_forward">轉發</string>
+    <string name="compose_title_forward_as_attachment">作為附件轉發</string>
+    <string name="choose_account_title">選擇帳戶</string>
+    <string name="choose_folder_title">選擇文件夹</string>
+
+    <string name="status_loading_account_folder">正在接收<xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
+    <string name="status_loading_account_folder_headers">正在接收郵件標題<xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
+    <string name="status_sending_account">正在發送<xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
+    <string name="status_processing_account">正在處理<xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
+
+    <string name="status_next_poll">下次接收時間 @ <xliff:g id="nexttime">%s</xliff:g></string>
+    <string name="status_no_network">同步已停用 - 無網絡</string>
+    <string name="status_no_background">已停用同步功能 - 無本底活動</string>
+    <string name="status_poll_and_push_disabled">輪詢和推送已停用</string>
+    <string name="status_syncing_blocked">同步已禁用</string>
+    <string name="status_syncing_off">同步已停用</string>
+
+    <!-- Actions will be used as buttons and in menu items -->
+    <string name="actionbar_selected">已選擇<xliff:g id="selection_count">%d</xliff:g>個</string>
+    <string name="next_action">下一步</string>
+    <string name="previous_action">上一步</string>
+
+    <!--  Used to confirm acceptance of dialog boxes, warnings, errors, etc. -->
+    <string name="okay_action">確認</string>
+    <string name="cancel_action">取消</string>
+    <string name="send_action">發送</string>
+    <string name="send_again_action">重新發送</string>
+    <string name="empty_subject">主題為空，再次點擊繼續發送</string>
+    <string name="select_action">選擇</string>
+    <string name="deselect_action">撤消</string>
+    <string name="reply_action">回覆</string>
+    <string name="reply_all_action">回覆全部</string>
+    <string name="delete_action">刪除</string>
+    <string name="archive_action">歸檔</string>
+    <string name="spam_action">標記為垃圾</string>
+    <string name="forward_action">轉寄</string>
+    <string name="forward_as_attachment_action">作為附件轉發</string>
+    <string name="move_action">遷移</string>
+    <string name="single_message_options_action">訊息選項…</string>
+    <string name="refile_action">重新歸檔…</string>
+    <string name="done_action">完成</string>
+    <string name="discard_action">忽略</string>
+    <string name="save_draft_action">存儲為草稿</string>
+    <string name="check_mail_action">檢查新郵件</string>
+    <string name="send_messages_action">發送訊息</string>
+    <string name="refresh_folders_action">刷新文件夾列表</string>
+    <string name="filter_folders_action">搜索文件夹</string>
+    <string name="add_account_action">添加帐户</string>
+    <string name="compose_action">新郵件</string>
+    <string name="search_action">搜索</string>
+    <string name="search_results">搜索結果</string>
+    <string name="preferences_action">設置</string>
+    <string name="account_settings_action">帳戶設置</string>
+    <string name="folder_settings_action">文件夹設置</string>
+    <string name="global_settings_action">全域設置</string>
+    <string name="remove_account_action">移除帳戶</string>
+    <string name="clear_pending_action">取消等待中操作項目（慎用）</string>
+    <string name="export_db_action">導出數據庫</string>
+
+    <string name="mark_as_read_action">標記為已讀</string>
+    <string name="send_alternate_action">分享</string>
+    <string name="send_alternate_chooser_title">選擇發件人</string>
+
+    <string name="flag_action">添加星標</string>
+    <string name="unflag_action">移除星標</string>
+    <string name="copy_action">複製</string>
+    <string name="select_text_action">選擇文本</string>
+
+    <string name="show_headers_action">顯示郵件標題</string>
+    <string name="hide_headers_action">隱藏郵件標題</string>
+    <plurals name="copy_address_to_clipboard">
+      <item quantity="other">地址已複製到剪貼板</item>
+    </plurals>
+    <string name="message_view_theme_action_dark">切換為深色主題</string>
+    <string name="message_view_theme_action_light">切換為明亮主題</string>
+
+    <string name="mark_as_unread_action">標記為未讀</string>
+    <string name="read_receipt">已讀回執</string>
+    <string name="read_receipt_enabled">要求已讀回執</string>
+    <string name="read_receipt_disabled">取消已讀回執</string>
+    <string name="add_attachment_action">添加附件</string>
+    <string name="empty_trash_action">清空垃圾箱</string>
+    <string name="expunge_action">刪除</string>
+    <string name="clear_local_folder_action">清空本地郵件</string>
+    <string name="about_action">關於</string>
+
+    <string name="prefs_title">設置</string>
+    <string name="accounts_context_menu_title">帳戶選項</string>
+
+    <!-- Shown in place of the subject when a message has no subject. Showing this in parentheses is customary. -->
+    <string name="general_no_subject">（無主題）</string>
+    <string name="general_no_sender">無發件人</string>
+    <string name="status_loading">正在接收</string>
+    <string name="status_loading_more">正在加載郵件…</string>
+    <string name="status_network_error">網路連接錯誤</string>
+    <string name="status_invalid_id_error">郵件未找到</string>
+    <string name="status_loading_error">郵件加載錯誤</string>
+    <string name="status_loading_more_failed">重試加載更多郵件</string>
+    <string name="load_more_messages_fmt">再加載<xliff:g id="messages_to_load">%d</xliff:g>封郵件</string>
+
+    <string name="account_size_changed">帳戶「<xliff:g id="account">%s</xliff:g>」已從<xliff:g id="oldSize">%s</xliff:g>縮小到<xliff:g id="newSize">%s</xliff:g></string>
+    <string name="compacting_account">正在壓縮帳戶「<xliff:g id="account">%s</xliff:g>」</string>
+    <string name="clearing_account">正在清理帳戶「<xliff:g id="account">%s</xliff:g>」</string>
+    <string name="recreating_account">正在重建帳戶「<xliff:g id="account">%s</xliff:g>」</string>
+
+    <string name="notification_new_title">您有新郵件</string>
+    <plurals name="notification_new_messages_title">
+        <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g>條新訊息</item>
+    </plurals>
+    <string name="notification_new_one_account_fmt">您有<xliff:g id="unread_message_count">%d</xliff:g>封未讀郵件（<xliff:g id="account">%s</xliff:g>）</string>
+    <string name="notification_additional_messages">+ 來自<xliff:g id="account">%2$s</xliff:g>已超過<xliff:g id="additional_messages">%1$d</xliff:g>則訊息</string>
+
+    <string name="notification_action_reply">回覆</string>
+    <string name="notification_action_mark_as_read">標記為已讀</string>
+    <string name="notification_action_mark_all_as_read">所有訊息標記為已讀</string>
+    <string name="notification_action_delete">刪除</string>
+    <string name="notification_action_delete_all">所有刪除</string>
+    <string name="notification_action_archive">存檔</string>
+    <string name="notification_action_archive_all">所有存檔</string>
+    <string name="notification_action_spam">垃圾郵件</string>
+    <string name="notification_certificate_error_title"><xliff:g id="account">%s</xliff:g>認證錯誤</string>
+    <string name="notification_certificate_error_text">請檢查您的伺服器設置</string>
+
+    <string name="notification_authentication_error_title">驗證失敗</string>
+    <string name="notification_authentication_error_text">驗證失敗 <xliff:g id="account">%s</xliff:g>。更新您的伺服器設置。</string>
+
+    <string name="notification_bg_sync_ticker">正在檢查郵件：<xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+    <string name="notification_bg_sync_title">正在檢查郵件</string>
+    <string name="notification_bg_send_ticker">正在發送郵件：<xliff:g id="account">%s</xliff:g></string>
+    <string name="notification_bg_send_title">正在發送郵件</string>
+    <string name="notification_bg_title_separator">：</string>
+    <string name="special_mailbox_name_inbox">收件箱</string>
+    <string name="special_mailbox_name_outbox">發件箱</string>
+
+    <!-- The following mailbox names will be used if the user has not specified one from the server -->
+    <string name="special_mailbox_name_drafts">草稿箱</string>
+    <string name="special_mailbox_name_trash">垃圾箱</string>
+    <string name="special_mailbox_name_sent">寄件備份</string>
+    <string name="special_mailbox_name_archive">歸檔</string>
+    <string name="special_mailbox_name_spam">垃圾郵件</string>
+
+    <!-- Mailbox names displayed to user -->
+    <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g>（草稿箱）</string>
+    <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g>（垃圾箱）</string>
+    <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g>（已發送）</string>
+    <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g>（歸檔）</string>
+    <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g>（垃圾郵件）</string>
+
+    <string name="send_failure_subject">一些郵件沒有成功發送</string>
+
+    <string name="debug_version_fmt">版本：<xliff:g id="version">%s</xliff:g></string>
+    <string name="debug_enable_debug_logging_title">啟用除錯日誌</string>
+    <string name="debug_enable_debug_logging_summary">記錄額外的除錯訊息</string>
+    <string name="debug_enable_sensitive_logging_title">記錄敏感訊息</string>
+    <string name="debug_enable_sensitive_logging_summary">可能會在日誌中顯示密碼。</string>
+
+    <string name="message_list_load_more_messages_action">載入更多郵件</string>
+    <string name="message_to_fmt">收件人：<xliff:g id="counterParty">%s</xliff:g></string>
+
+    <string name="message_compose_subject_hint">主題</string>
+    <string name="message_compose_content_hint">郵件內容</string>
+    <string name="message_compose_signature_hint">簽署</string>
+    <string name="message_compose_quote_header_separator">--------原本郵件--------</string>
+    <string name="message_compose_quote_header_subject">主題：</string>
+    <string name="message_compose_quote_header_send_date">發送時間:</string>
+    <string name="message_compose_quote_header_from">發件人：</string>
+    <string name="message_compose_quote_header_to">收件人：</string>
+    <string name="message_compose_quote_header_cc">抄送：</string>
+    <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g>寫到:</string>
+    <string name="message_compose_reply_header_fmt_with_date">在 <xliff:g id="sent_date">%1$s</xliff:g>, <xliff:g id="sender">%2$s</xliff:g> 填寫：</string>
+    <string name="message_compose_error_no_recipients">您必須添加至少一個收件人。</string>
+    <string name="compose_error_incomplete_recipient">收件人字段包含不完整輸入！</string>
+    <string name="error_contact_address_not_found">没有找到该聯繫人的郵件地址。</string>
+    <string name="message_compose_attachments_skipped_toast">由於一些附件還沒有被下載，因此無法轉寄這些附件。</string>
+    <string name="message_compose_attachments_forward_toast">郵件無法轉發，因為某些附件尚未下載。</string>
+    <string name="message_compose_show_quoted_text_action">引用訊息</string>
+    <string name="message_compose_description_delete_quoted_text">删除引用文本</string>
+    <string name="message_compose_description_edit_quoted_text">編輯引用文本</string>
+
+    <string name="message_view_from_format">發件人：<xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+    <string name="message_to_label">收件人：</string>
+    <string name="message_view_cc_label">抄送：</string>
+    <string name="message_view_attachment_view_action">打開</string>
+    <string name="message_view_attachment_download_action">存儲</string>
+    <string name="message_view_status_attachment_not_saved">無法將附件存儲到記憶卡。</string>
+    <string name="message_view_show_pictures_action">顯示圖片</string>
+    <string name="message_view_status_no_space">由於沒有足夠的空間，附件無法保存。</string>
+    <string name="message_view_show_more_attachments_action">更多…</string>
+    <string name="message_view_no_viewer">無法打開<xliff:g id="mimetype">%s</xliff:g>。找不到可以閱讀該文件的程序。</string>
+    <string name="message_view_download_remainder">下載完整郵件</string>
+    <string name="message_view_toast_unable_to_display_message">無法顯示訊息</string>
+
+    <!-- NOTE: The following message refers to strings with id 'account_setup_incoming_save_all_headers_label' and 'account_setup_incoming_title' -->
+    <string name="message_no_additional_headers_available">全部郵件的標題都已經下載，沒有其他的郵件標題可以顯示。</string>
+    <string name="message_additional_headers_retrieval_failed">從資料庫或郵件伺服器存取其他的郵件標題失敗。</string>
+
+    <string name="search_from_format">從<xliff:g id="sender">%s</xliff:g></string>
+    <string name="debug_delete_local_body">調試/清除郵件正文</string>
+
+    <string name="message_discarded_toast">郵件已忽略</string>
+    <string name="message_saved_toast">郵件已存儲為草稿</string>
+
+    <string name="global_settings_flag_label">顯示標誌</string>
+    <string name="global_settings_flag_summary">顯示標記過的郵件</string>
+    <string name="global_settings_checkbox_label">複選框</string>
+    <string name="global_settings_checkbox_summary">總是顯示多選框</string>
+    <string name="global_settings_preview_lines_label">預覽行數</string>
+    <string name="global_settings_show_correspondent_names_label">顯示收件人姓名</string>
+    <string name="global_settings_show_correspondent_names_summary">如果可能則使用收件人姓名代替收件地址</string>
+
+    <string name="global_settings_sender_above_subject_label">聯繫人在主題上方</string>
+    <string name="global_settings_sender_above_subject_summary">在主題上方顯示聯繫人姓名，而不是下方</string>
+
+    <string name="global_settings_show_contact_name_label">顯示聯絡人姓名</string>
+    <string name="global_settings_show_contact_name_summary">如果可能則使用聯繫人姓名代替收件地址</string>
+    <string name="global_settings_registered_name_color_label">使用顏色標記特定聯絡人</string>
+    <string name="global_settings_registered_name_color_default">不使用顏色標記特定聯絡人列表</string>
+    <string name="global_settings_registered_name_color_changed">使用顏色標記聯絡人列表</string>
+    <string name="global_settings_folderlist_wrap_folder_names_label">完整顯示資料夾名稱</string>
+    <string name="global_settings_folderlist_wrap_folder_names_summary">使用多行顯示長文件夾名</string>
+
+    <string name="global_settings_messageview_fixedwidth_label">定寬字體</string>
+	<string name="global_settings_messageview_fixedwidth_summary">使用定寬字體顯示純文字郵件</string>
+	<string name="global_settings_messageview_autofit_width_label">訊息自適應</string>
+	<string name="global_settings_messageview_autofit_width_summary">調整訊息內容以應螢幕大小</string>
+	<string name="global_settings_messageview_return_to_list_label">刪除後自動返回到列表</string>
+	<string name="global_settings_messageview_return_to_list_summary">郵件刪除後自動返回到郵件列表</string>
+    <string name="global_settings_messageview_show_next_label">刪除並顯示下一郵件</string>
+    <string name="global_settings_messageview_show_next_summary">刪除郵件後自動顯示下一郵件</string>
+
+    <string name="global_settings_confirm_actions_title">確認操作</string>
+    <string name="global_settings_confirm_actions_summary">進行選擇操作時總是顯示一個對話框進行確認</string>
+    <string name="global_settings_confirm_action_delete">刪除（僅檢視郵件時）</string>
+    <string name="global_settings_confirm_action_delete_starred">移除星標 (僅檢視郵件時)</string>
+    <string name="global_settings_confirm_action_spam">標記為垃圾</string>
+    <string name="global_settings_confirm_menu_discard">丟棄訊息</string>
+    <string name="global_settings_confirm_menu_mark_all_read">將所有消息標記為已讀</string>
+    <string name="global_settings_confirm_action_delete_notif">刪除(來自通知欄)</string>
+    <string name="global_settings_privacy_hide_useragent">從標題中移除User-Agent</string>
+    <string name="global_settings_privacy_hide_useragent_detail">從郵件標題中移除XryptoMail的User-Agent</string>
+    <string name="global_settings_privacy_hide_timezone">在郵件標題使用UTC時區</string>
+    <string name="global_settings_privacy_hide_timezone_detail">在郵件標題和回复標題中使用UTC而不是本地時區</string>
+    <string name="global_settings_privacy_hide_hostname_when_connecting">隱藏主機名</string>
+    <string name="global_settings_privacy_hide_hostname_when_connecting_detail">當連接到SMTP服務器時，標識為\'localhost \'</string>
+    <string name="global_settings_notification_hide_subject_title">在通知時隱藏主題</string>
+    <string name="global_settings_notification_hide_subject_never">絕不</string>
+    <string name="global_settings_notification_hide_subject_when_locked">當手持設備鎖定時</string>
+    <string name="global_settings_notification_hide_subject_always">總是</string>
+
+    <string name="global_settings_notification_quick_delete_title">顯示「刪除」鈕</string>
+    <string name="global_settings_notification_quick_delete_never">絕不</string>
+    <string name="global_settings_notification_quick_delete_when_single_msg">針對單一訊息通知</string>
+    <string name="global_settings_notification_quick_delete_always">總是</string>
+    <string name="global_settings_notification_quick_delete_description">在通知欄顯示訊息快速刪除按鈕</string>
+
+    <string name="global_settings_lock_screen_notification_visibility_title">鎖屏通知</string>
+    <string name="global_settings_lock_screen_notification_visibility_nothing">無鎖屏通知</string>
+    <string name="global_settings_lock_screen_notification_visibility_app_name">應用程序名稱</string>
+    <string name="global_settings_lock_screen_notification_visibility_message_count">未讀訊息計數</string>
+    <string name="global_settings_lock_screen_notification_visibility_senders">訊息計數及發件人</string>
+    <string name="global_settings_lock_screen_notification_visibility_everything">與屏幕解鎖時相同</string>
+
+    <string name="quiet_time">靜音設置</string>
+    <string name="quiet_time_description">取消夜間響鈴，振動及閃光</string>
+    <string name="quiet_time_notification">停用通知</string>
+    <string name="quiet_time_notification_description">完全取消靜音的時間內通知</string>
+    <string name="quiet_time_starts">啟動靜音</string>
+    <string name="quiet_time_ends">結束靜音</string>
+
+    <string name="account_setup_basics_title">設置新帳戶</string>
+    <string name="account_setup_basics_email_hint">電子郵件地址</string>
+    <string name="account_setup_basics_password_hint">密碼</string>
+    <string name="account_setup_basics_password_no_password_needed_hint">請點擊下一步</string>
+    <string name="account_setup_basics_show_password">顯示密碼</string>
+    <string name="account_setup_basics_manual_setup_action">手動設置</string>
+
+    <string name="account_setup_check_settings_title"/>
+    <string name="account_setup_check_settings_retr_info_msg">正在獲取帳戶訊息…</string>
+    <string name="account_setup_check_settings_check_incoming_msg">正在檢查收件伺服器設置…</string>
+    <string name="account_setup_check_settings_check_outgoing_msg">正在檢查發件伺服器設置…</string>
+    <string name="account_setup_check_settings_authenticate">正在驗證用戶…</string>
+    <string name="account_setup_check_settings_fetch">正在獲取賬戶設置…</string>
+    <string name="account_setup_check_settings_canceling_msg">正在取消…</string>
+
+    <string name="account_setup_names_title">快要完成了！</string>
+    <string name="account_setup_names_account_name_label">為這個帳戶選擇一個名稱（可选项）：</string>
+    <string name="account_setup_names_user_name_label">輸入您的名字（將顯示在發出的郵件中）：</string>
+
+    <string name="account_setup_account_type_title">帳戶類型</string>
+    <string name="account_setup_account_type_instructions">這個帳戶是什麼類型的？</string>
+    <string name="account_setup_account_type_pop_action">POP3</string>
+    <string name="account_setup_account_type_imap_action">IMAP</string>
+    <string name="account_setup_account_type_webdav_action">WebDAV (Exchange)</string>
+
+    <string name="account_setup_auth_type_normal_password">普通密碼</string>
+    <string name="account_setup_auth_type_insecure_password">非安全傳輸的密碼</string>
+    <string name="account_setup_auth_type_encrypted_password">加密的密碼</string>
+    <string name="account_setup_auth_type_xoauth2">OAuth 2.0符記</string>
+    <string name="account_setup_auth_type_tls_client_certificate">客戶端證書</string>
+
+    <string name="account_setup_incoming_title">收件伺服器設置</string>
+    <string name="account_setup_incoming_username_label">用户名稱</string>
+    <string name="account_setup_incoming_password_label">密碼</string>
+    <string name="account_setup_incoming_client_certificate_label">客戶端證書</string>
+    <string name="account_setup_incoming_pop_server_label">POP3伺服器</string>
+    <string name="account_setup_incoming_imap_server_label">IMAP伺服器</string>
+    <string name="account_setup_incoming_webdav_server_label">WebDAV (Exchange)伺服器</string>
+    <string name="account_setup_incoming_port_label">端口號</string>
+    <string name="account_setup_incoming_security_label">加密方法</string>
+    <string name="account_setup_incoming_auth_type_label">身份驗證方法</string>
+    <string name="account_setup_incoming_security_none_label">無</string>
+
+    <string name="account_setup_incoming_delete_policy_label">當我刪除一條讯息</string>
+    <string name="account_setup_incoming_delete_policy_never_label">不要從伺服器上刪除</string>
+    <string name="account_setup_incoming_delete_policy_delete_label">立刻從伺服器上刪除</string>
+    <string name="account_setup_incoming_delete_policy_markread_label">在伺服器上將郵件標記為已讀</string>
+
+    <string name="account_setup_incoming_compression_label">在使用指定網路類型時使用壓縮以便節約流量：</string>
+    <string name="account_setup_incoming_mobile_label">手機移動網絡</string>
+    <string name="account_setup_incoming_wifi_label">Wi-Fi</string>
+    <string name="account_setup_incoming_other_label">其他</string>
+
+    <string name="local_storage_provider_external_label">外部存儲(記憶卡)</string>
+    <string name="local_storage_provider_internal_label">正常内部存储</string>
+    <string name="local_storage_provider_samsunggalaxy_label">%1$s額外內部存儲</string>
+    <string name="local_storage_provider_label">存儲位置</string>
+
+    <string name="account_setup_expunge_policy_label">抹除刪除的郵件</string>
+    <string name="account_setup_expunge_policy_immediately">立刻</string>
+    <string name="account_setup_expunge_policy_on_poll">接收郵件時</string>
+    <string name="account_setup_expunge_policy_manual">僅手動接收</string>
+
+    <string name="account_setup_incoming_autodetect_namespace_label">自動檢測IMAP命名空間</string>
+    <string name="account_setup_incoming_imap_path_prefix_label">IMAP路徑前綴</string>
+
+    <string name="drafts_folder_label">草稿箱名稱</string>
+    <string name="sent_folder_label">發件箱名稱</string>
+    <string name="trash_folder_label">垃圾箱名稱</string>
+    <string name="archive_folder_label">歸檔文件夹名稱</string>
+    <string name="spam_folder_label">垃圾郵件夹名稱</string>
+
+    <string name="account_setup_incoming_subscribed_folders_only_label">只顯示訂閱的文件夹</string>
+    <string name="account_setup_auto_expand_folder">自動展開文件夹</string>
+
+    <string name="account_setup_incoming_webdav_path_prefix_label">WebDAV (Exchange)路徑</string>
+    <string name="account_setup_incoming_webdav_path_prefix_helper_text">可選</string>
+
+    <string name="account_setup_incoming_webdav_auth_path_label">身份驗證路徑</string>
+    <string name="account_setup_incoming_webdav_auth_path_helper_text">可選</string>
+    <string name="account_setup_incoming_webdav_mailbox_path_label">郵箱路徑</string>
+    <string name="account_setup_incoming_webdav_mailbox_path_helper_text">可選</string>
+
+    <string name="account_setup_outgoing_title">發件伺服器設置</string>
+    <string name="account_setup_outgoing_smtp_server_label">SMTP伺服器</string>
+    <string name="account_setup_outgoing_port_label">端口</string>
+    <string name="account_setup_outgoing_security_label">加密方法</string>
+    <string name="account_setup_outgoing_require_login_label">要求登錄。</string>
+    <string name="account_setup_outgoing_username_label">用戶名</string>
+    <string name="account_setup_outgoing_password_label">密碼</string>
+    <string name="account_setup_outgoing_authentication_label">身份驗證方法</string>
+    <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\"與無效\"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
+    <string name="account_setup_bad_uri">無效的設置：<xliff:g id="err_mess">%s</xliff:g></string>
+    <string name="account_setup_options_title">帳戶選項</string>
+
+    <string name="compact_action">壓縮</string>
+    <string name="clear_action">清除郵件（慎用）</string>
+    <string name="recreate_action">重建資料（慎用）</string>
+    <string name="account_setup_autoconfiguration">嘗試檢測設置…</string>
+    <string name="account_setup_options_mail_check_frequency_label">文件夹檢查頻率</string>
+
+    <!-- Frequency also used in account_settings_* -->
+    <string name="account_setup_options_mail_check_frequency_never">暫停</string>
+    <string name="account_setup_options_mail_check_frequency_1min">每分鐘一次</string>
+    <string name="account_setup_options_mail_check_frequency_5min">五分鐘一次</string>
+    <string name="account_setup_options_mail_check_frequency_10min">十分鐘一次</string>
+    <string name="account_setup_options_mail_check_frequency_15min">十五分鐘一次</string>
+    <string name="account_setup_options_mail_check_frequency_30min">三十分鐘一次</string>
+    <string name="account_setup_options_mail_check_frequency_1hour">每小時一次</string>
+    <string name="account_setup_options_mail_check_frequency_2hour">两小時一次</string>
+    <string name="account_setup_options_mail_check_frequency_3hour">三小時一次</string>
+    <string name="account_setup_options_mail_check_frequency_6hour">六小時一次</string>
+    <string name="account_setup_options_mail_check_frequency_12hour">十二小時一次</string>
+    <string name="account_setup_options_mail_check_frequency_24hour">廿四小時一次</string>
+
+    <string name="push_poll_on_connect_label">被推送時檢查郵件</string>
+    <string name="account_setup_options_enable_push_label">在這個帳戶上啟用推送郵件</string>
+    <string name="account_setup_options_enable_push_summary">如果您的郵件伺服器支援此功能，那麼新郵件將會立刻顯示在手機上。這個選項可能大幅的提升性能，也可能嚴重的影響性能。</string>
+    <string name="idle_refresh_period_label">間隔刷新連接</string>
+    <string name="idle_refresh_period_1min">每分鐘一次</string>
+    <string name="idle_refresh_period_2min">两分鐘一次</string>
+    <string name="idle_refresh_period_3min">三分鐘一次</string>
+    <string name="idle_refresh_period_6min">六分鐘一次</string>
+    <string name="idle_refresh_period_12min">十二分鐘一次</string>
+    <string name="idle_refresh_period_24min">二十四分鐘一次</string>
+    <string name="idle_refresh_period_36min">三十六分鐘一次</string>
+    <string name="idle_refresh_period_48min">四十八分鐘一次</string>
+    <string name="idle_refresh_period_60min">六十分鐘一次</string>
+
+    <string name="account_setup_options_notify_label">有新郵件時通知我</string>
+    <string name="account_setup_options_notify_sync_label">檢查新郵件時通知我</string>
+
+    <!-- Number of displayed messages, also used in account_settings_* -->
+    <string name="account_setup_options_mail_display_count_label">郵件顯示數量</string>
+    <string name="account_setup_options_mail_display_count_10">10封</string>
+    <string name="account_setup_options_mail_display_count_25">25封</string>
+    <string name="account_setup_options_mail_display_count_50">50封</string>
+    <string name="account_setup_options_mail_display_count_100">100封</string>
+    <string name="account_setup_options_mail_display_count_250">250封</string>
+    <string name="account_setup_options_mail_display_count_500">500封</string>
+    <string name="account_setup_options_mail_display_count_1000">1000封</string>
+    <string name="account_setup_options_mail_display_count_2500">2500封</string>
+    <string name="account_setup_options_mail_display_count_5000">5000封</string>
+    <string name="account_setup_options_mail_display_count_10000">10000封</string>
+    <string name="account_setup_options_mail_display_count_all">所有郵件</string>
+
+    <string name="move_copy_cannot_copy_unsynced_message">沒有與伺服器同步的郵件無法進行拷貝或移動</string>
+    <string name="account_setup_failed_dlg_title">無法完成設置</string>
+    <string name="account_setup_failed_auth_message">用戶名或密碼不正確</string>
+    <!-- Username or password incorrect\n(ERR01 Account does not exist) -->
+    <string name="account_setup_failed_dlg_auth_message_fmt">用戶名或密碼不正確。\n(<xliff:g id="error">%s</xliff:g>)</string>
+
+    <!-- Cannot safely connect to server\n(Invalid certificate) -->
+    <string name="account_setup_failed_dlg_certificate_message_fmt">伺服務提供的SSL證書無效。有時，這是由於不正確的伺服器配置導致的；有時這也可能是由於某人正在試圖攻擊您或您的郵件服務器。如果您不能確認原因，單擊拒絕，並聯繫您的郵件伺服器管理人員。\n\n(<xliff:g id="error">%s</xliff:g>)</string>
+
+    <!-- Cannot connect to server\n(Connection timed out) -->
+    <string name="account_setup_failed_dlg_server_message_fmt">無法連接到伺服器。\n(<xliff:g id="error">%s</xliff:g>)</string>
+    <string name="account_setup_failed_server_message">無法連接到服務器</string>
+    <string name="account_setup_failed_dlg_edit_details_action">編輯詳細訊息</string>
+    <string name="account_setup_failed_dlg_continue_action">繼續</string>
+
+    <string name="account_settings_push_advanced_title">進级</string>
+    <string name="account_settings_title_fmt">郵戶設置</string>
+    <string name="account_settings_default_label">默認郵戶</string>
+    <string name="account_settings_default_summary">默認使用這個帳戶發送郵件</string>
+    <string name="account_settings_notify_label">新郵件通知</string>
+
+    <string name="account_settings_folder_notify_new_mail_mode_label">提醒文件夾</string>
+    <string name="account_settings_folder_notify_new_mail_mode_all">全部</string>
+    <string name="account_settings_folder_notify_new_mail_mode_first_class">僅上層文件夾</string>
+    <string name="account_settings_folder_notify_new_mail_mode_first_and_second_class">上層和下層文件夾</string>
+    <string name="account_settings_folder_notify_new_mail_mode_not_second_class">除了下層以外的所有文件夹</string>
+    <string name="account_settings_folder_notify_new_mail_mode_none">無</string>
+
+    <string name="account_settings_notify_sync_label">同步通知</string>
+    <string name="account_settings_email_label">您的電子郵件地址</string>
+    <string name="account_settings_notify_summary">新郵件到達時在通知欄中顯示通知</string>
+    <string name="account_settings_notify_sync_summary">檢查新郵件時在通知欄中顯示通知</string>
+    <string name="account_settings_notify_self_label">包括正在發送的郵件</string>
+    <string name="account_settings_notify_self_summary">發送郵件時顯示通知</string>
+    <string name="account_notify_contacts_mail_only_label">限於聯繫人</string>
+    <string name="account_notify_contacts_mail_only_summary">通知顯示只限於聯繫人</string>
+    <string name="account_settings_notification_opens_unread_label">點擊通知後打開未讀郵件</string>
+    <string name="account_settings_notification_opens_unread_summary">點擊通知後搜索未讀郵件</string>
+    <string name="account_settings_mark_message_as_read_on_view_label">郵件打開時標記為已讀</string>
+    <string name="account_settings_mark_message_as_read_on_view_summary">當郵件打開時標記為已讀</string>
+    <string name="account_settings_show_pictures_label">顯示圖片</string>
+    <string name="account_settings_show_pictures_never">否</string>
+    <string name="account_settings_show_pictures_only_from_contacts">來自您的聯絡人的郵件</string>
+    <string name="account_settings_show_pictures_always">全部郵件</string>
+    <string name="account_settings_composition">發送郵件</string>
+
+    <string name="account_settings_default_quoted_text_shown_label">回覆時引用原文</string>
+    <string name="account_settings_default_quoted_text_shown_summary">回复時，原文將出現在您的回復中</string>
+
+    <string name="account_settings_reply_after_quote_label">在引用的內容後進行回覆</string>
+    <string name="account_settings_reply_after_quote_summary">回覆郵件時，原文會顯示在您的郵件的上方。</string>
+
+    <string name="account_settings_strip_signature_label">去除引用文件簽署</string>
+    <string name="account_settings_strip_signature_summary">當回覆文件時，將會去除引用內容文件的簽署</string>
+
+    <string name="account_settings_message_format_label">郵件格式</string>
+    <string name="account_settings_message_format_text">純文本(圖片和排版將被刪除）</string>
+    <string name="account_settings_message_format_html">HTML(圖片和排版將被保留）)</string>
+    <string name="account_settings_message_format_auto">自動 （純文本，除非是在回复HTML郵件）</string>
+
+    <string name="account_settings_always_show_cc_bcc_label">總是顯示抄送/密件抄送</string>
+    <string name="account_settings_always_show_cc_bcc_summary">總顯示抄送/密件抄送輸入字段</string>
+
+    <string name="account_settings_message_read_receipt_label">已讀回執</string>
+    <string name="account_settings_message_read_receipt_summary">總是要求已讀回執執</string>
+    <string name="account_settings_quote_style_label">回覆時引用格式</string>
+    <string name="account_settings_quote_style_prefix">引用前綴(類似Gmail, Pine)</string>
+    <string name="account_settings_quote_style_header">引用前綴段落(類似Outlook, Yahoo, Hotmail)</string>
+
+    <string name="account_settings_general_title">常規設置</string>
+    <string name="account_settings_reading_mail">閱讀郵件</string>
+    <string name="account_settings_sync">接收郵件</string>
+    <string name="account_settings_folders">文件夹</string>
+    <string name="account_settings_quote_prefix_label">引用文本前綴</string>
+    <string name="account_settings_crypto">加密</string>
+    <string name="account_settings_crypto_app">OpenPGP應用進程伺服器</string>
+    <string name="account_settings_crypto_key">我的密碼鑰匙</string>
+    <string name="account_settings_no_openpgp_provider_configured">未設置OpenPGP應用進程</string>
+    <string name="account_settings_mail_check_frequency_label">文件夾輪詢頻率</string>
+    <string name="account_settings_storage_title">存儲</string>
+
+    <string name="account_settings_color_label">帳戶顏色</string>
+    <string name="account_settings_color_summary">選擇帳戶在文件夹和帳戶列表中顯示時所使用的顏色</string>
+    <string name="account_settings_led_color_label">通知LED燈顏色</string>
+    <string name="account_settings_led_color_summary">選擇手機提醒該帳戶訊息時LED燈閃爍的顏色</string>
+
+    <string name="account_settings_mail_display_count_label">本地文件夹大小</string>
+    <string name="account_settings_autodownload_message_size_label">收取郵件的最大尺寸為</string>
+    <string name="account_settings_autodownload_message_size_1">1Kb</string>
+    <string name="account_settings_autodownload_message_size_2">2Kb</string>
+    <string name="account_settings_autodownload_message_size_4">4Kb</string>
+    <string name="account_settings_autodownload_message_size_8">8Kb</string>
+    <string name="account_settings_autodownload_message_size_16">16Kb</string>
+    <string name="account_settings_autodownload_message_size_32">32Kb</string>
+    <string name="account_settings_autodownload_message_size_64">64Kb</string>
+    <string name="account_settings_autodownload_message_size_128">128Kb</string>
+    <string name="account_settings_autodownload_message_size_256">256Kb</string>
+    <string name="account_settings_autodownload_message_size_512">512Kb</string>
+    <string name="account_settings_autodownload_message_size_1024">1Mb</string>
+    <string name="account_settings_autodownload_message_size_2048">2Mb</string>
+    <string name="account_settings_autodownload_message_size_5120">5Mb</string>
+    <string name="account_settings_autodownload_message_size_10240">10Mb</string>
+    <string name="account_settings_autodownload_message_size_any">任意（無限制）</string>
+
+    <string name="account_settings_message_age_label">同步該時段內的郵件</string>
+    <string name="account_settings_message_age_any">任意時段（無限制）</string>
+    <string name="account_settings_message_age_0">今天</string>
+    <string name="account_settings_message_age_1">两天內</string>
+    <string name="account_settings_message_age_2">三天內</string>
+    <string name="account_settings_message_age_7">一週內</string>
+    <string name="account_settings_message_age_14">两週內</string>
+    <string name="account_settings_message_age_21">三週內</string>
+    <string name="account_settings_message_age_1_month">一個月內</string>
+    <string name="account_settings_message_age_2_months">两個月內</string>
+    <string name="account_settings_message_age_3_months">三個月內</string>
+    <string name="account_settings_message_age_6_months">六個月內</string>
+    <string name="account_settings_message_age_1_year">一年內</string>
+
+    <string name="account_settings_folder_display_mode_label">顯示的文件夹</string>
+    <string name="account_settings_folder_display_mode_all">全部</string>
+    <string name="account_settings_folder_display_mode_first_class">僅上層文件夹</string>
+    <string name="account_settings_folder_display_mode_first_and_second_class">上層與下層文件夹</string>
+    <string name="account_settings_folder_display_mode_not_second_class">不包括下層文件夹</string>
+
+    <string name="account_settings_folder_sync_mode_label">檢查文件夹</string>
+    <string name="account_settings_folder_sync_mode_all">全部</string>
+    <string name="account_settings_folder_sync_mode_first_class">僅上層文件夹</string>
+    <string name="account_settings_folder_sync_mode_first_and_second_class">上層與下層文件夹</string>
+    <string name="account_settings_folder_sync_mode_not_second_class">不包括下層文件夹</string>
+    <string name="account_settings_folder_sync_mode_none">無</string>
+
+    <string name="account_settings_folder_push_mode_label">推送文件夹</string>
+    <string name="account_settings_folder_push_mode_all">全部</string>
+    <string name="account_settings_folder_push_mode_first_class">僅上層文件夹</string>
+    <string name="account_settings_folder_push_mode_first_and_second_class">上層與下層文件夹</string>
+    <string name="account_settings_folder_push_mode_not_second_class">除了下層文件夹</string>
+    <string name="account_settings_folder_push_mode_none">無</string>
+
+    <string name="account_settings_folder_target_mode_label">可以移動/拷貝到的文件夹</string>
+    <string name="account_settings_folder_target_mode_all">全部</string>
+    <string name="account_settings_folder_target_mode_first_class">僅上層文件夹</string>
+    <string name="account_settings_folder_target_mode_first_and_second_class">上層與下層文件夹</string>
+    <string name="account_settings_folder_target_mode_not_second_class">除了下層文件夹</string>
+
+    <string name="account_settings_sync_remote_deletetions_label">同步伺服器上的刪除</string>
+    <string name="account_settings_sync_remote_deletetions_summary">刪除在伺服器上被刪除的郵件的本地拷貝</string>
+
+    <string name="folder_settings_title">文件夹設置</string>
+    <string name="folder_settings_in_top_group_label">顯示在置頂的組中</string>
+    <string name="folder_settings_in_top_group_summary">顯示在置頂的組之後</string>
+
+    <string name="folder_settings_folder_display_mode_label">文件夹顯示级別</string>
+    <string name="folder_settings_folder_display_mode_normal">無</string>
+    <string name="folder_settings_folder_display_mode_first_class">上層</string>
+    <string name="folder_settings_folder_display_mode_second_class">下層</string>
+
+    <string name="folder_settings_folder_sync_mode_label">文件夹同步级別</string>
+    <string name="folder_settings_folder_sync_mode_normal">無</string>
+    <string name="folder_settings_folder_sync_mode_first_class">上層</string>
+    <string name="folder_settings_folder_sync_mode_second_class">下層</string>
+    <string name="folder_settings_folder_sync_mode_inherited">使用與顯示相同的级別</string>
+
+    <string name="folder_settings_folder_push_mode_label">文件夹推送级別</string>
+    <string name="folder_settings_folder_push_mode_normal">無</string>
+    <string name="folder_settings_folder_push_mode_first_class">上層</string>
+    <string name="folder_settings_folder_push_mode_second_class">下層</string>
+    <string name="folder_settings_folder_push_mode_inherited">使用與同步相同的级別</string>
+
+    <string name="folder_settings_folder_notify_mode_label">文件夾通知類</string>
+    <string name="folder_settings_folder_notify_mode_normal">沒有</string>
+    <string name="folder_settings_folder_notify_mode_first_class">上層</string>
+    <string name="folder_settings_folder_notify_mode_second_class">下層</string>
+    <string name="folder_settings_folder_notify_mode_inherited">同推類</string>
+
+    <string name="account_settings_incoming_label">收件伺服器</string>
+    <string name="account_settings_incoming_summary">配置收件伺服器</string>
+    <string name="account_settings_outgoing_label">發件伺服器</string>
+    <string name="account_settings_outgoing_summary">配置發件（SMTP）伺服器</string>
+    <string name="account_settings_description_label">帳戶名稱</string>
+    <string name="account_settings_name_label">您的名字</string>
+    <string name="notifications_title">通知</string>
+    <string name="account_settings_vibrate_enable">震動</string>
+    <string name="account_settings_vibrate_summary">有新郵件時震動</string>
+    <string name="account_settings_vibrate_pattern_label">震動模式</string>
+    <string name="account_settings_vibrate_pattern_default">默認</string>
+    <string name="account_settings_vibrate_pattern_1">模式一</string>
+    <string name="account_settings_vibrate_pattern_2">模式二</string>
+    <string name="account_settings_vibrate_pattern_3">模式三</string>
+    <string name="account_settings_vibrate_pattern_4">模式四</string>
+    <string name="account_settings_vibrate_pattern_5">模式五</string>
+    <string name="account_settings_vibrate_times">重複震動</string>
+    <string name="account_settings_ringtone">新郵件鈴聲</string>
+    <string name="account_settings_led_label">閃爍LED燈</string>
+    <string name="account_settings_led_summary">有新郵件時閃爍LED燈</string>
+
+    <string name="account_settings_composition_title">撰寫新郵件選項</string>
+    <string name="account_settings_composition_label">撰寫新郵件默認值</string>
+    <string name="account_settings_composition_summary">設置默認的發件人、密件抄送以及簽署</string>
+
+    <string name="account_settings_identities_label">管理身份標識</string>
+    <string name="account_settings_identities_summary">設置一個可選的發件地址和簽署</string>
+
+    <string name="manage_identities_title">管理身份標識</string>
+    <string name="manage_identities_context_menu_title">管理身份標識</string>
+
+    <string name="edit_identity_title">編輯身份標識</string>
+    <string name="new_identity_action">新身份標識</string>
+    <string name="account_settings_always_bcc_label">密件抄送所有郵件</string>
+
+    <string name="manage_identities_edit_action">編輯</string>
+    <string name="manage_identities_move_up_action">上移</string>
+    <string name="manage_identities_move_down_action">下移</string>
+    <string name="manage_identities_move_top_action">置頂/設為默認</string>
+    <string name="manage_identities_remove_action">刪除</string>
+
+    <string name="edit_identity_description_label">身份標識描述訊息</string>
+    <string name="edit_identity_description_hint">（可选）</string>
+    <string name="edit_identity_name_label">您的姓名</string>
+    <string name="edit_identity_name_hint">（可选）</string>
+    <string name="edit_identity_email_label">電子郵件地址</string>
+    <string name="edit_identity_email_hint">（必填）</string>
+    <string name="edit_identity_reply_to_label">回覆地址</string>
+    <string name="edit_identity_reply_to_hint">（可选）</string>
+    <string name="edit_identity_signature_label">簽署</string>
+    <string name="edit_identity_signature_hint">（可选）</string>
+
+    <string name="account_settings_signature_use_label">使用簽署</string>
+    <string name="account_settings_signature_label">簽署</string>
+
+    <string name="default_identity_description">初始身份標識</string>
+    <string name="choose_identity_title">選擇身份標識</string>
+    <string name="send_as">發送為</string>
+
+    <string name="no_removable_identity">您必須保留一個身份標識</string>
+    <string name="identity_has_no_email">身份標識中必須包含電子郵件地址</string>
+
+    <string name="sort_earliest_first">優先顯示最早的郵件</string>
+    <string name="sort_latest_first">優先顯示最近的郵件</string>
+    <string name="sort_subject_alpha">按主題升序</string>
+    <string name="sort_subject_re_alpha">按主題降序</string>
+    <string name="sort_sender_alpha">按發件人升序</string>
+    <string name="sort_sender_re_alpha">按發件人反序</string>
+    <string name="sort_flagged_first">優先顯示帶有星標的郵件</string>
+    <string name="sort_flagged_last">優先顯示沒有星標的郵件</string>
+    <string name="sort_unread_first">優先顯示未讀郵件</string>
+    <string name="sort_unread_last">優先顯示已讀郵件</string>
+    <string name="sort_attach_first">優先顯示帶有附件的郵件</string>
+    <string name="sort_unattached_first">優先顯示沒有附件的郵件</string>
+
+    <string name="sort_by">排序方式</string>
+    <string name="sort_by_date">日期</string>
+    <string name="sort_by_arrival">收到時間</string>
+    <string name="sort_by_subject">主題</string>
+    <string name="sort_by_sender">發件人</string>
+    <string name="sort_by_flag">星標</string>
+    <string name="sort_by_unread">已讀/未讀</string>
+    <string name="sort_by_attach">附件</string>
+
+    <string name="account_delete_dlg_title">刪除帳戶</string>
+    <string name="account_recreate_dlg_title">重建帳戶</string>
+    <string name="account_clear_dlg_title">清除帳戶</string>
+
+    <string name="provider_note_auonejp">請先至au one郵箱設置頁面設置允許使用IMAP或POP3。</string>
+    <string name="provider_note_naver">請先至Naver郵箱設置頁面設置允許使用IMAP或POP3。</string>
+    <string name="provider_note_hanmail">請先至Hanmail(Daum)郵箱設置頁面設置允許使用IMAP或POP3。</string>
+
+    <string name="account_setup_failed_dlg_invalid_certificate_title">無法標識的授權認證</string>
+    <string name="account_setup_failed_dlg_invalid_certificate_accept">接收密鑰</string>
+    <string name="account_setup_failed_dlg_invalid_certificate_reject">拒絕密鑰</string>
+
+    <string name="message_view_help_key">
+	Del (或 D) - 删除\n
+	A - 回复所有人\n
+	F - 轉發\n
+	M - 移動\n
+	V - 歸檔\n
+	Y - 複製\n
+	Z - 標記為已讀/未讀\n
+	G - 加星標\n
+	O - 排序類别\n
+	I - 排序顺序\n
+	Q - 返回文件夹\n
+	S - 選擇/取消選擇\n
+	J 或 P - 上一條訊息\n
+	K 或 N - 下一條訊息</string>
+
+    <string name="message_list_help_key">
+	Del (或 D) - 删除\n
+	R - 回复\n
+	A - 回复所有人\n
+	C - 編寫新訊息\n
+	F - 轉發\n
+	M - 移動\n
+	Y - 複製\n
+	G - 加星標\n
+	O - 排序類别\n
+	I - 排序顺序\n
+	Q - 返回文件夹\n
+	S - 選擇/取消選擇</string>
+
+    <string name="folder_list_help_key">
+	1 - 僅顯示一级文件夹\n
+	2 - 顯示一级和2级文件夹\n
+	3 - 顯示除二级以外的所有文件夹\n
+	4 - 顯示所有文件夹\n
+	Q - 返回帳戶\n
+	S - 编辑帳戶設置</string>
+
+    <string name="folder_list_filter_hint">文件夹名稱包含</string>
+    <string name="folder_list_display_mode_label">文件夹</string>
+    <string name="folder_list_display_mode_all">顯示全部文件夹</string>
+    <string name="folder_list_display_mode_first_class">只顯示上層文件夹</string>
+    <string name="folder_list_display_mode_first_and_second_class">顯示上層和下層文件夹</string>
+    <string name="folder_list_display_mode_not_second_class">僅不顯示下層文件夾</string>
+
+    <string name="account_settings_signature__location_label">簽署位置</string>
+    <string name="account_settings_signature__location_before_quoted_text">在引用的文本之前</string>
+    <string name="account_settings_signature__location_after_quoted_text">在引用的文本之後</string>
+    <string name="setting_theme_global">套用主題</string>
+    <string name="setting_theme_dark">灰暗</string>
+    <string name="setting_theme_light">明亮</string>
+    <string name="display_preferences">界面顯示</string>
+    <string name="global_preferences">全域</string>
+    <string name="debug_preferences">除錯記錄</string>
+    <string name="privacy_preferences">隱私設置</string>
+    <string name="network_preferences">網路設置</string>
+    <string name="interaction_preferences">交互</string>
+    <string name="accountlist_preferences">帳戶列表</string>
+    <string name="messagelist_preferences">郵件列表</string>
+    <string name="messageview_preferences">郵件</string>
+    <string name="folderlist_preferences">文件夹列表</string>
+    <string name="settings_theme_label">界面主題</string>
+    <string name="settings_message_theme_label">訊息檢視主題</string>
+    <string name="settings_compose_theme_label">新郵件主題</string>
+    <string name="settings_language_label">語系</string>
+
+    <string name="settings_message_theme_selection_label">固定訊息主題</string>
+    <string name="settings_message_theme_selection_summary_off">讀取訊息內容時顯示訊息檢視主題</string>
+    <string name="settings_message_theme_selection_summary_on">使用固定訊息檢視主題</string>
+    <string name="setting_language_system">系統默認值</string>
+
+    <string name="background_ops_label">後台同步</string>
+    <string name="background_ops_never">從不</string>
+    <string name="background_ops_always">總是</string>
+    <string name="background_ops_auto_sync_only">當「自動同步」被勾選</string>
+    <string name="batch_select_all">選擇全部</string>
+    <string name="account_setup_push_limit_label">推送時檢查文件夹上限數量</string>
+    <string name="account_setup_push_limit_5">五個文件夹</string>
+    <string name="account_setup_push_limit_10">十個文件夹</string>
+    <string name="account_setup_push_limit_25">二十五個文件夹</string>
+    <string name="account_setup_push_limit_50">五十個文件夹</string>
+    <string name="account_setup_push_limit_100">一百個文件夹</string>
+    <string name="account_setup_push_limit_250">二百五十個文件夹</string>
+    <string name="account_setup_push_limit_500">五百個文件夹</string>
+    <string name="account_setup_push_limit_1000">一千個文件夹</string>
+
+    <string name="animations_title">動畫</string>
+    <string name="animations_summary">使用絢麗的視覺特效</string>
+    <string name="gestures_title">手勢</string>
+    <string name="gestures_summary">接收手勢控制</string>
+
+    <string name="volume_navigation_title">音量鍵導航</string>
+    <string name="volume_navigation_summary">使用音量控制，通過項目翻轉</string>
+    <string name="volume_navigation_message">訊息视图</string>
+    <string name="volume_navigation_list">不同的列表視圖</string>
+
+    <string name="start_integrated_inbox_title">從全域收件夹啟動</string>
+    <string name="start_integrated_inbox_summary">啟動後, 顯示（如果啟用）統一的收件箱</string>
+
+    <string name="measure_accounts_title">顯示帳戶佔用的空間</string>
+    <string name="measure_accounts_summary">關閉該功能以便加快顯示速度</string>
+
+    <string name="count_search_title">計算搜索結果的數量</string>
+    <string name="count_search_summary">關閉該功能以便加快顯示速度</string>
+
+    <string name="hide_special_accounts_title">隱藏特殊帳戶</string>
+    <string name="hide_special_accounts_summary">隱藏統一的收件箱以及所有郵件帳戶</string>
+
+    <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+    <string name="flagged_modifier">-星標</string>
+    <string name="unread_modifier">-未讀</string>
+
+    <string name="search_all_messages_title">所有郵件</string>
+    <string name="search_all_messages_detail">可搜索文件夹中的所有郵件</string>
+
+    <string name="integrated_inbox_title">全域收件夹</string>
+    <string name="integrated_inbox_detail">將所有郵件集中到全域收件箱</string>
+
+    <string name="tap_hint">點擊圓圈或星標為未讀或星標的訊息</string>
+
+    <string name="folder_settings_include_in_integrated_inbox_label">全域</string>
+    <string name="folder_settings_include_in_integrated_inbox_summary">所有郵件都顯示在全域收件箱中</string>
+
+    <string name="account_settings_searchable_label">搜索的文件夹</string>
+    <string name="account_settings_searchable_all">全部</string>
+    <string name="account_settings_searchable_displayable">可顯示的文件夹</string>
+    <string name="account_settings_searchable_none">無不</string>
+
+    <string name="font_size_settings_title">字體大小</string>
+    <string name="font_size_settings_description">配置字體大小</string>
+
+    <string name="font_size_account_list">帳戶列表</string>
+    <string name="font_size_account_name">帳戶名稱</string>
+    <string name="font_size_account_description">帳戶描述</string>
+
+    <string name="font_size_folder_list">文件夹列表</string>
+    <string name="font_size_folder_name">文件夹名稱</string>
+    <string name="font_size_folder_status">文件夹狀態</string>
+
+    <string name="font_size_message_list">管理列表</string>
+    <string name="font_size_message_list_subject">主題</string>
+    <string name="font_size_message_list_sender">發件人</string>
+    <string name="font_size_message_list_date">日期</string>
+    <string name="font_size_message_list_preview">預覽</string>
+
+    <string name="font_size_message_view">郵件</string>
+    <string name="font_size_message_view_sender">發件人</string>
+    <string name="font_size_message_view_to">收件人</string>
+    <string name="font_size_message_view_cc">抄送</string>
+    <string name="font_size_message_view_bcc">件抄送</string>
+    <string name="font_size_message_view_additional_headers">額外的郵件訊息</string>
+    <string name="font_size_message_view_subject">主題</string>
+    <string name="font_size_message_view_date">日期</string>
+    <string name="font_size_message_view_content">郵件內容</string>
+    <string name="font_size_message_compose">撰寫郵件</string>
+    <string name="font_size_message_compose_input">文本輸入框</string>
+
+    <string name="font_size_default">默認</string>
+    <string name="font_size_tiniest">最小</string>
+    <string name="font_size_tiny">更小</string>
+    <string name="font_size_smaller">小</string>
+    <string name="font_size_small">較小</string>
+    <string name="font_size_medium">中等</string>
+    <string name="font_size_large">大</string>
+    <string name="font_size_larger">最大</string>
+    <string name="miscellaneous_preferences">雜項設置</string>
+
+    <!-- APG related -->
+    <string name="error_activity_not_found">沒有找到可以用於此操作的程序。</string>
+    <string name="send_failed_reason">發送失敗：%s</string>
+
+    <string name="save_or_discard_draft_message_dlg_title">保存郵件草稿？</string>
+    <string name="save_or_discard_draft_message_instructions_fmt">保存還是忽略這封郵件？</string>
+
+    <string name="confirm_discard_draft_message_title">捨棄該郵件？</string>
+    <string name="confirm_discard_draft_message">確認捨棄該郵件？</string>
+    <string name="select_text_now">選擇需要拷貝的文本。</string>
+    <string name="dialog_confirm_delete_message">您確認要刪除這封郵件？</string>
+    <string name="dialog_confirm_delete_title">刪除確認</string>
+
+    <plurals name="dialog_confirm_delete_messages">
+	    <item quantity="other">您確認要刪除<xliff:g id="message_count">%1$d</xliff:g>則讯息嗎?</item>
+    </plurals>
+    <string name="dialog_confirm_delete_confirm_button">刪除</string>
+    <string name="dialog_confirm_delete_cancel_button">不要刪除</string>
+
+    <string name="dialog_confirm_mark_all_as_read_title">確認標記為已讀</string>
+    <string name="dialog_confirm_mark_all_as_read_message">確認標記所有讯息為已讀？</string>
+
+    <string name="dialog_confirm_mark_all_as_read_confirm_button">確認</string>
+    <string name="dialog_confirm_mark_all_as_read_cancel_button">否</string>
+
+    <string name="dialog_confirm_spam_title">移至垃圾箱時確認</string>
+    <plurals name="dialog_confirm_spam_message">
+        <item quantity="other">您確認要將選取的<xliff:g id="message_count">%1$d</xliff:g>封郵件移至垃圾箱嗎？</item>
+    </plurals>
+    <string name="dialog_confirm_spam_confirm_button">是</string>
+    <string name="dialog_confirm_spam_cancel_button">否</string>
+    <string name="dialog_attachment_progress_title">正在下載附件</string>
+    <string name="debug_logging_enabled">啟用將除錯日誌寫入系統日誌</string>
+    <string name="messagelist_sent_to_me_sigil">»</string>
+    <string name="messagelist_sent_cc_me_sigil">›</string>
+
+    <string name="import_export_action">設置導入和導出</string>
+    <string name="settings_export_account">導出帳戶設置</string>
+    <string name="settings_export_all">導出設置與所有帳號</string>
+    <string name="settings_import_dialog_title">導入</string>
+    <string name="settings_export_dialog_title">導出</string>
+    <string name="settings_import">導入設置</string>
+    <string name="settings_import_selection">導入選擇</string>
+    <string name="settings_import_global_settings">全域設置</string>
+    <string name="settings_exporting">正在導出設置…</string>
+    <string name="settings_importing">正在導入設置…</string>
+    <string name="settings_import_scanning_file">正在掃描文件…</string>
+    <string name="settings_export_success">設置已導出到 <xliff:g id="filename">%s</xliff:g></string>
+    <string name="settings_export_success_generic">設置成功導出</string>
+    <string name="settings_import_global_settings_success">全域設置自<xliff:g id="filename">%s</xliff:g>導入</string>
+    <string name="settings_import_success">帐户<xliff:g id="accounts">%s</xliff:g>已自<xliff:g id="filename">%s</xliff:g>導入</string>
+    <string name="settings_import_account_imported_as">導入 <xliff:g id="original_account_name">%s</xliff:g>為<xliff:g id="account_name_after_import">%s</xliff:g></string>
+    <plurals name="settings_import_accounts">
+	    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g>帳戶</item>
+    </plurals>
+    <string name="settings_export_failure">導出設置失敗</string>
+    <string name="settings_import_failure">自<xliff:g id="filename">%s</xliff:g>導入設置失敗</string>
+    <string name="settings_export_success_header">導出成功</string>
+    <string name="settings_export_failed_header">導出失敗</string>
+    <string name="settings_import_success_header">導入成功</string>
+    <string name="settings_import_failed_header">導入失敗</string>
+    <string name="settings_import_activate_account_header">激活帳戶</string>
+    <string name="settings_import_activate_account_intro">使用帳戶「<xliff:g id="account">%s</xliff:g>」，您需要提供 <xliff:g id="server_passwords">%s</xliff:g></string>
+    <plurals name="settings_import_server_passwords">
+	    <item quantity="other">伺服器密碼</item>
+    </plurals>
+    <string name="settings_import_incoming_server">接收郵件伺服器 (<xliff:g id="hostname">%s</xliff:g>):</string>
+    <string name="settings_import_outgoing_server">發送郵件伺服器 (<xliff:g id="hostname">%s</xliff:g>):</string>
+    <plurals name="settings_import_setting_passwords">
+        <item quantity="other">正在設置密碼…</item>
+    </plurals>
+    <string name="settings_import_use_incoming_server_password">使用接收郵件伺服器密碼</string>
+    <string name="activate_account_action">激活</string>
+    <string name="account_unavailable">帳戶「<xliff:g id="account">%s</xliff:g>」目前無法使用; 請檢查存儲空間</string>
+    <string name="settings_attachment_default_path">另存附件…</string>
+    <string name="attachment_save_title">保存附件</string>
+    <string name="attachment_save_desc">没有找到文件管理器。该附件应保存到哪里？</string>
+    <string name="manage_accounts_move_up_action">向上移動</string>
+    <string name="manage_accounts_move_down_action">向下移動</string>
+    <string name="manage_accounts_moving_message">移動帳戶…</string>
+    <string name="unread_widget_select_account">顯示未讀數量…</string>
+    <string name="unread_widget_account_title">帳戶</string>
+    <string name="unread_widget_account_summary">應該顯示未讀計數的帳戶</string>
+    <string name="unread_widget_unified_inbox_account_summary">統一收件箱</string>
+    <string name="unread_widget_all_messages_account_summary">全都信息</string>
+    <string name="unread_widget_folder_enabled_title">文件夾數量</string>
+    <string name="unread_widget_folder_enabled_summary">顯示只有一個文件夾的未讀計數</string>
+    <string name="unread_widget_folder_title">文件夾</string>
+    <string name="unread_widget_folder_summary">應該顯示未讀計數的文件夾</string>
+    <string name="unread_widget_action_done">完成</string>
+    <string name="unread_widget_title"><xliff:g id="account_name">%1$s</xliff:g> - <xliff:g id="folder_name">%2$s</xliff:g></string>
+    <string name="unread_widget_account_not_selected">沒有選擇帳戶</string>
+    <string name="unread_widget_folder_not_selected">沒有選擇文件夾</string>
+
+    <string name="import_dialog_error_title">没有找到文件管理器</string>
+    <string name="close">關閉</string>
+    <string name="webview_empty_message">沒有文本</string>
+
+    <string name="webview_contextmenu_link_view_action">瀏覽</string>
+    <string name="webview_contextmenu_link_share_action">分享鏈接</string>
+    <string name="webview_contextmenu_link_copy_action">複製鏈結到剪貼簿</string>
+    <string name="webview_contextmenu_link_clipboard_label">鏈結</string>
+
+    <string name="webview_contextmenu_image_title">圖片</string>
+    <string name="webview_contextmenu_image_view_action">瀏覽圖片</string>
+    <string name="webview_contextmenu_image_save_action">保存圖片</string>
+    <string name="webview_contextmenu_image_download_action">下載圖片</string>
+    <string name="webview_contextmenu_image_copy_action">複製圖片鏈結到剪貼簿</string>
+    <string name="webview_contextmenu_image_clipboard_label">圖片鏈結</string>
+
+    <string name="webview_contextmenu_phone_call_action">撥打電話</string>
+    <string name="webview_contextmenu_phone_save_action">保存號碼到通訊錄</string>
+    <string name="webview_contextmenu_phone_copy_action">複製電話號碼到剪貼簿</string>
+    <string name="webview_contextmenu_phone_clipboard_label">電話號碼</string>
+
+    <string name="webview_contextmenu_email_send_action">發送郵件</string>
+    <string name="webview_contextmenu_email_save_action">保存到通讯录</string>
+    <string name="webview_contextmenu_email_copy_action">複製郵件地址到剪貼簿</string>
+    <string name="webview_contextmenu_email_clipboard_label">郵件地址</string>
+
+    <string name="image_saved_as">將圖片另存為「<xliff:g id="filename">%s</xliff:g>」</string>
+    <string name="image_saving_failed">存儲圖片失敗</string>
+
+    <string name="account_settings_remote_search_num_results_entries_all">全部</string>
+    <string name="account_settings_remote_search_num_label">伺服器搜索結果項目上限</string>
+    <string name="account_settings_remote_search_num_summary">找到 %s 個符合項目後，搜索將自動停止。</string>
+    <string name="remote_search_sending_query">向伺服器發送查詢</string>
+    <plurals name="remote_search_downloading">
+        <item quantity="other">收到%d個符合項目</item>
+    </plurals>
+    <plurals name="remote_search_downloading_limited">
+        <item quantity="other">獲取%1$d/%2$d结果</item>
+    </plurals>
+    <string name="remote_search_downloading_limited">已接收%1$d個項目，共%2$d個符合項目</string>
+    <string name="remote_search_error">遠端搜索失敗</string>
+
+    <string name="account_settings_search">搜索</string>
+    <string name="account_settings_remote_search_enabled">啟用伺服器搜索</string>
+    <string name="account_settings_remote_search_enabled_summary">除了搜索手持設備外，同時搜索伺服器上的訊息</string>
+    <string name="action_remote_search">搜索伺服器上的訊息</string>
+    <string name="pull_to_refresh_remote_search_from_local_search_pull">往下滑動可搜索伺服器…</string>
+    <string name="pull_to_refresh_remote_search_from_local_search_release">放開後開始搜索伺服器…</string>
+    <string name="remote_search_unavailable_no_network">沒有網路連線，無法進行遠端搜索。</string>
+
+    <string name="global_settings_background_as_unread_indicator_label">已讀郵件變暗顯示</string>
+    <string name="global_settings_background_as_unread_indicator_summary">灰色背景表示訊息已读</string>
+
+    <string name="global_settings_threaded_view_label">按話題顯示</string>
+    <string name="global_settings_threaded_view_summary">按照话题对信息进行组合</string>
+
+    <string name="upgrade_databases_title">更新資料庫</string>
+    <string name="upgrade_databases_unspecified">正在更新資料庫…</string>
+    <string name="upgrade_database_format">正在更新帳户「<xliff:g id="account">%s</xliff:g>」的資料庫</string>
+    <string name="message_list_loading">加载中…</string>
+
+    <string name="global_settings_splitview_mode_label">分屏顯示</string>
+    <string name="global_settings_splitview_always">總是</string>
+    <string name="global_settings_splitview_never">否</string>
+    <string name="global_settings_splitview_when_in_landscape">當手持設備處於橫向顯示時</string>
+    <string name="message_view_empty">請從左方選擇訊息</string>
+
+    <string name="global_settings_show_contact_picture_label">顯示聯繫人圖片</string>
+    <string name="global_settings_show_contact_picture_summary">在訊息列表上顯示聯繫人圖片</string>
+
+    <string name="last_refresh_time_format">上次刷新<xliff:g id="formatted_time">%s</xliff:g></string>
+    <string name="last_refresh_time_format_with_push">上次刷新时间<xliff:g id="time_with_preposition">%s</xliff:g>(主動推送)</string>
+    <string name="preposition_for_date">於<xliff:g id="date">%s</xliff:g></string>
+    <string name="mark_all_as_read">全部標記為已讀</string>
+
+    <string name="global_settings_colorize_missing_contact_pictures_label">以彩色顯示聯繫人圖片</string>
+    <string name="global_settings_colorize_missing_contact_pictures_summary">以彩色顯示無聯繫人圖片</string>
+
+    <string name="global_settings_messageview_visible_refile_actions_title">可見訊息的操作</string>
+    <string name="global_settings_messageview_visible_refile_actions_summary">在訊息查看菜单显示选定的操作</string>
+
+    <string name="loading_attachment">附件加载中…</string>
+    <string name="fetching_attachment_dialog_title_send">訊息正在發送</string>
+    <string name="fetching_attachment_dialog_title_save">正在保存草稿</string>
+    <string name="fetching_attachment_dialog_message">正在擷取附件…</string>
+    <string name="auth_external_error">無法認證。伺服器未公告SASL擴展能力。這可能是由於客戶端證書有問題（已過期，或者未知的認證機構），或者是由於其它的配置問題。</string>
+
+    <!--=== Client certificates specific ==================================================================-->
+    <string name="account_setup_basics_client_certificate">使用客戶端證書</string>
+    <string name="account_setup_basics_oauth2_token">使用OAuth 2.0符記</string>
+    <string name="client_certificate_spinner_empty">沒有客戶端證書</string>
+    <string name="client_certificate_spinner_delete">刪除客戶證書選擇</string>
+    <string name="client_certificate_retrieval_failure">無法檢索別名「<xliff:g id="alias">%s</xliff:g>」的客戶端證書</string>
+    <string name="client_certificate_advanced_options">進級選項</string>
+    <string name="client_certificate_expired">"用客戶端證書「<xliff:g id="certificate_alias">%1$s</xliff:g>」已過期，或者尚未生效。(<xliff:g id="exception_message">%2$s</xliff:g>)</string>
+
+    <!--Note: This references message_view_download_remainder-->
+    <string name="add_from_contacts">從通訊錄添加</string>
+    <string name="crypto_settings_cancel">取消</string>
+    <string name="crypto_settings_ok">繼續</string>
+    <string name="recipient_cc">抄送</string>
+    <string name="recipient_bcc">密件抄送</string>
+    <string name="recipient_to">收件人</string>
+    <string name="recipient_from">發件人</string>
+    <string name="unknown_recipient"><![CDATA[<未知收件人>]]></string>
+    <string name="address_type_home">家用</string>
+    <string name="address_type_work">辦工</string>
+    <string name="address_type_other">其他</string>
+    <string name="address_type_mobile">移動</string>
+    <string name="compose_error_no_draft_folder">此帳戶沒有配置草稿文件夾！</string>
+    <string name="compose_error_no_key_configured">沒有為此帳戶配置密鑰！ 檢查您的設置。</string>
+    <string name="crypto_mode_disabled">無加密。</string>
+    <string name="crypto_mode_opportunistic">加密如可。</string>
+    <string name="crypto_mode_private">始終加密</string>
+    <string name="error_crypto_provider_incompatible">加密提供程序使用不兼容的版本。 請檢查您的設置！</string>
+    <string name="error_crypto_provider_connect">無法連接到加密伺服，請檢查您的設置，然後單擊加密圖標重試！</string>
+    <string name="error_crypto_provider_ui_required">加密提供拒絕訪問，請單擊加密圖標重試！</string>
+    <string name="error_crypto_inline_attach">PGP/INLINE 模式不支持附件！</string>
+    <string name="enable_inline_pgp">啟用PGP/INLINE</string>
+    <string name="disable_inline_pgp">關閉PGP/INLINE</string>
+    <string name="enable_sign_only">啟用僅签署 PGP</string>
+    <string name="disable_sign_only">禁用僅签署 PGP</string>
+    <string name="openpgp_inline_title">PGP/INLINE模式</string>
+    <string name="openpgp_inline_text">電子郵件在PGP/INLINE格式發送。\n應僅用於兼容性：</string>
+    <string name="openpgp_inline_plus_compat">有些客戶只支持此格式</string>
+    <string name="openpgp_inline_minus_transit">簽署會在運輸過程中被破</string>
+    <string name="openpgp_inline_minus_attach">附件不支持</string>
+    <string name="openpgp_inline_ok">了解！</string>
+    <string name="openpgp_inline_disable">關閉</string>
+    <string name="openpgp_inline_keep_enabled">保持啟用</string>
+    <string name="openpgp_sign_only_ok">了解！</string>
+    <string name="openpgp_sign_only_disable">關閉</string>
+    <string name="openpgp_sign_only_keep_enabled">保持啟用</string>
+    <string name="openpgp_dialog_sign_only_title">PGP 僅簽署模式</string>
+    <string name="openpgp_dialog_sign_only_text">在此模式下，您的PGP密鑰將用於創建未加密電子郵件的加密簽署。</string>
+    <string name="openpgp_dialog_sign_only_plus_verified">不加密電子郵件，但驗證它是從您的密鑰發送的。</string>
+    <string name="openpgp_dialog_sign_only_minus_break">簽署署可能會在發送到郵寄名單時失效。</string>
+    <string name="openpgp_dialog_sign_only_minus_attach">簽署可能在某些客戶端中顯示為\'signature.asc\'附件。</string>
+    <string name="openpgp_dialog_sign_only_neutral_encsigned">加密郵件始終包含簽署。</string>
+
+    <string name="crypto_msg_title_plaintext">純文本</string>
+    <string name="crypto_msg_unencrypted_sign_error">端到端簽名包含錯誤</string>
+    <string name="crypto_msg_incomplete_signed">必須將訊息完全下載到流程簽名</string>
+    <string name="crypto_msg_unsupported_signed">包含不受支持的端到端簽名</string>
+    <string name="crypto_msg_unsupported_encrypted">已加密訊息，但格式不受支持。</string>
+    <string name="crypto_msg_cancelled">加密訊息，但解密已取消。</string>
+
+    <string name="crypto_msg_title_unencrypted_signed_e2e">端到端的簽名純文本</string>
+    <string name="crypto_msg_unencrypted_sign_verified">來自已驗證的簽名者</string>
+
+    <string name="crypto_msg_title_unencrypted_signed">簽署純文本</string>
+    <string name="crypto_msg_unencrypted_sign_mismatch">但端到端密鑰與發件人不匹配</string>
+    <string name="crypto_msg_unencrypted_sign_expired">但端到端密鑰已過期</string>
+    <string name="crypto_msg_unencrypted_sign_revoked">但端到端密鑰被撤銷</string>
+    <string name="crypto_msg_unencrypted_sign_insecure">但端到端密鑰不被認為是安全的</string>
+    <string name="crypto_msg_unencrypted_sign_unknown">來自未知的端到端密鑰</string>
+
+    <string name="crypto_msg_title_encrypted_unknown">加密</string>
+    <string name="crypto_msg_encrypted_error">但有一個解密錯誤</string>
+    <string name="crypto_msg_encrypted_incomplete">必須完全下載解密訊息</string>
+    <string name="crypto_msg_encrypted_no_provider">但沒有配置加密應用程序</string>
+    <string name="crypto_msg_encrypted_unsupported">但格式不受支持</string>
+    <string name="crypto_msg_encrypted_cancelled">但解密被取消</string>
+
+    <string name="crypto_msg_title_encrypted_unsigned">加密</string>
+    <string name="crypto_msg_encrypted_unsigned">但不是端到端</string>
+
+    <string name="crypto_msg_title_encrypted_signed_e2e">端到端加密</string>
+    <string name="crypto_msg_encrypted_sign_verified">來自驗證的發件人</string>
+
+    <string name="crypto_msg_title_encrypted_signed">加密</string>
+    <string name="crypto_msg_encrypted_sign_unknown">來自未知的端到端密鑰</string>
+    <string name="crypto_msg_encrypted_sign_mismatch">但端到端密鑰與發件人不匹配</string>
+    <string name="crypto_msg_encrypted_sign_expired">但端到端密鑰已過期</string>
+    <string name="crypto_msg_encrypted_sign_revoked">但端到端密鑰被撤銷</string>
+    <string name="crypto_msg_encrypted_sign_insecure">但端到端密鑰不被認為是安全的</string>
+    <string name="crypto_msg_encrypted_sign_error">但端到端數據有錯誤</string>
+    <string name="crypto_msg_encrypted_insecure">但加密不被認為是安全的</string>
+
+    <string name="crypto_info_ok">確認</string>
+    <string name="crypto_info_view_signer">查看簽名者</string>
+    <string name="crypto_info_view_sender">查看發件人</string>
+
+    <string name="crypto_info_view_security_warning">細節</string>
+    <string name="locked_attach_unlock">開鎖</string>
+    <string name="locked_attach_unencrypted">這部分沒有加密，並可能是不安全的。</string>
+    <string name="locked_attach_title">未受保護的附件</string>
+    <string name="message_progress_text">載入中…</string>
+    <string name="messageview_decrypt_cancelled">解密被取消。</string>
+    <string name="messageview_decrypt_retry">重試</string>
+    <string name="messageview_decrypt_incomplete">加密的郵件必須下載用於解密。</string>
+    <string name="messageview_crypto_error_title">錯誤解密電子郵件</string>
+
+    <string name="recipient_error_non_ascii">特殊字符目前不支持！</string>
+    <string name="recipient_error_parse_failed">錯誤解析地址！</string>
+    <string name="account_settings_crypto_support_sign_only">未加密郵件簽署</string>
+    <string name="account_settings_crypto_support_sign_only_on">未加密的簽署將被顯示</string>
+    <string name="account_settings_crypto_support_sign_only_off">未加密的簽署將被忽略</string>
+    <string name="error_sign_only_no_encryption">僅在簽署模式下無法使用加密功能！</string>
+    <string name="unsigned_text_divider_label">未簽署文本</string>
+    <string name="apg_deprecated_title">APG 棄用警告</string>
+    <string name="apg_deprecated_1">APG 已不再維護！</string>
+    <string name="apg_deprecated_2">因此，已從 XryptoMail 郵件中刪除了對 APG 的支持。</string>
+    <string name="apg_deprecated_bullet_1">發展在2014年初停止</string>
+    <string name="apg_deprecated_bullet_2">包含未解決的安全性問題</string>
+    <string name="apg_learn_more">您可以<a href="https://k9mail.github.io/2017/01/13/Why-APG-is-no-longer-supported.html">點擊此處</a>了解詳情。</string>
+    <string name="apg_deprecated_ok">理解！</string>
+    <string name="no_crypto_provider_see_global">未配置OpenPGP應用程序，請參閱全局設置！</string>
+    <string name="crypto_no_provider_title">此電子郵件已加密</string>
+    <string name="crypto_no_provider_message">此電子郵件已使用OpenPGP進行加密。\n要閱讀此郵件，您需要安裝和配置兼容的OpenPGP應用程序</string>
+    <string name="crypto_no_provider_button">選擇OpenPGP應用程序</string>
+
+    <string name="mail_list_widget_text">XryptoMail訊息列表</string>
+    <string name="mail_list_widget_loading">載入訊息...</string>
+    <string name="fetching_folders_failed">獲取文件夾列表失敗</string>
+    <string name="messageview_crypto_warning_details">顯示詳細資料</string>
+    <string name="error_recipient_crypto_retrieve">從OpenPGP提供程序中檢索收件人狀態時出錯！</string>
+
+    <string name="openpgp_enabled_error_title">無法加密</string>
+    <string name="openpgp_enabled_error_msg">某些選定的收件人不支持此功能！</string>
+    <string name="enable_encryption">啟用加密</string>
+    <string name="disable_encryption">禁用加密</string>
+    <string name="openpgp_description_text1">加密訊息确保他们可以被接收者读取，而没有其他人。</string>
+    <string name="openpgp_description_text3">只有在所有收件人都支持的情況下，加密才會顯示出來，而且他們之前必須向您發送電子郵件。</string>
+    <string name="openpgp_description_text2">通過點擊這個圖標來切換加密。</string>
+    <string name="openpgp_enabled_error_gotit">了解</string>
+    <string name="openpgp_enabled_error_back">退出</string>
+    <string name="openpgp_enabled_error_disable">禁用加密</string>
+    <string name="openpgp_encryption">OpenPGP 加密</string>
+	
+	<string name="account_settings_crypto_prefer_encrypt">自鎖互相模式</string>
+	<string name="dialog_autocrypt_mutual_title">自鎖互相模式</string>
+    <string name="dialog_autocrypt_mutual_description_1">訊息通常會通過選擇進行加密，或者在回復加密的訊息時進行加密。</string>
+    <string name="dialog_autocrypt_mutual_description_2">如果發件人和收件人都啟用相互模式，則默認情況下會啟用加密。</string>
+
+    <string name="incoming_settings">傳入設置</string>
+    <string name="account_names">帳戶名稱</string>
+    <string name="outgoing_settings">傳出設置</string>
+    <string name="account_description_helper_text">可選的</string>
+    <string name="add_email">添加電子郵件</string>
+    <string name="manual_setup">手動安裝</string>
+
+    <string name="xoauth2_auth_cancelled_by_user">驗證已取消</string>
+    <string name="xoauth2_unable_to_contact_auth_server">無法聯繫身份驗證服務器</string>
+    <string name="xoauth2_error_contacting_auth_server">聯繫認證服務器時出錯</string>
+    <string name="xoauth2_account_doesnt_exist">帳戶不存在</string>
+    <string name="xoauth2_incorrect_auth_info_provided">提供認證訊息不正確</string>
+    <string name="xoauth2_no_account">沒有提供帳戶</string>
+    <string name="linked_webview_title_gmail">Gmail授權</string>
+    <string name="linked_webview_title_outlook">Outlook授權</string>
+    <string name="OAuth2_not_supported">此電子郵件不支持OAuth 2.0</string>
+
+    <!-- Android Permissions -->
+    <string name="app_name2">Dexter</string>
+    <string name="ask_for_contacts_permission_button">聯繫人</string>
+    <string name="ask_for_storage_permission_button">存儲</string>
+    <string name="ask_for_remote_control_permission_button">遙控</string>
+    <string name="ask_for_read_mail_permission_button">閱讀訊息</string>
+    <string name="ask_for_delete_mail_permission_button">刪除訊息</string>
+    <string name="ask_for_all_permissions_button">請求全部</string>
+    <string name="app_info_permissions_button">App Info</string>
+    <string name="permission_hint">為了應用程序的最大性能，您需要授予XryptoMail訪問以下服務的權限。 如果拒絕訪問任何服務，XryptoMail可能會出現意外問題！</string>
+
+    <string name="permission_granted_feedback">授予權限</string>
+    <string name="permission_denied_feedback">拒絕許可</string>
+    <string name="permission_permanently_denied_feedback">永久拒絕</string>
+    <string name="permission_unknown_feedback">未知</string>
+
+    <string name="contacts_permission_denied_dialog_title">聯繫人權限</string>
+    <string name="contacts_permission_denied_feedback">需要聯繫人權限才能更新和檢索聯繫人狀態</string>
+
+    <string name="storage_permission_denied_dialog_title">存儲權限</string>
+    <string name="storage_permission_denied_dialog_feedback">在授予權限請求之前，保存在外部存儲器中的內容將會失敗</string>
+
+    <string name="remote_control_permission_denied_dialog_title">遠程控制權限</string>
+    <string name="remote_control_permission_denied_dialog_feedback">在授予權限請求之前，不會允許控制XryptoMail的設置</string>
+    <string name="remote_control_label">XryptoMail遠端控制</string>
+    <string name="remote_control_desc">在遠端透過此程序可控制XryptoMail的運行或變更設置。</string>
+    <string name="read_mail_permission_denied_dialog_title">閱讀郵件權限</string>
+    <string name="read_mail_permission_denied_dialog_feedback">閱讀郵件消息將不被允許，直到您授予權限請求</string>
+    <string name="read_messages_label">顯示郵件</string>
+    <string name="read_messages_desc">允許該程序讀取郵件。</string>
+    <string name="delete_mail_permission_denied_dialog_title">刪除郵件權限</string>
+    <string name="delete_mail_permission_denied_dialog_feedback">在您授予權限請求之前，不會允許刪除郵件訊息</string>
+    <string name="delete_messages_label">刪除郵件</string>
+    <string name="delete_messages_desc">允許該程序刪除郵件。</string>
+
+    <string name="all_permission_denied_dialog_title">所有權限請求</string>
+    <string name="all_permissions_denied_feedback">XryptoMail可能無法正常工作，或者可能會出現意外問題，因為某些資源訪問被拒絕！\n如果您選擇了“不再詢問”選項，則需要轉到android設置 - > APP INFO以使XryptoMail啟用 資源訪問權限</string>
+
+    <string name="permission_rationale_title">XryptoMail需要權限</string>
+    <string name="permission_rationale_message">您將看到XryptoMail所需的每項服務; 請允許XryptoMail訪問提供完整功能支持的服務</string>
+    <string name="permission_rationale_settings_button_text">設置</string>
+</resources>

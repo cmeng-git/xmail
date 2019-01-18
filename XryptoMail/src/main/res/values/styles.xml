@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.XryptoMailDialog" parent="@android:style/Theme.Holo.Light">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@drawable/popup_background</item>
+        <item name="android:windowTitleStyle">?android:attr/textAppearanceLargeInverse</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowContentOverlay">@drawable/panel_separator</item>
+    </style>
+
+    <!--
+      Fix a bug with AutoCompleteTextView
+      See https://code.google.com/p/android/issues/detail?id=5237
+    -->
+    <style name="Widget.XryptoMail.AutoCompleteTextView" parent="@android:style/Widget.AutoCompleteTextView">
+        <item name="android:textColor">@android:color/primary_text_light</item>
+    </style>
+    
+    <style name="AboutDialogTextColor" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#808080</item>
+    </style>
+    
+    <style name="TextAppearance.StatusBar.EventContent.Emphasized" parent="@android:style/TextAppearance.StatusBar.EventContent">
+        <item name="android:textColor">#cccccc</item>
+    </style>
+
+    <style name="UnreadWidgetContainer">
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="UnreadWidgetTextView">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">4.0</item>
+    </style>
+
+    <style name="ComposeTextLabel" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#aaa</item>
+    </style>
+    <style name="ComposeEditText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColorHint">#aaa</item>
+    </style>
+    <style name="ComposeEditTextLarge" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColorHint">#aaa</item>
+    </style>
+
+    <style name="ShowcaseTheme" parent="ShowcaseView.Light">
+        <item name="sv_backgroundColor">#99444444</item>
+    </style>
+
+    <style name="PositiveBulletPoint">
+        <item name="android:src">@drawable/bullet_point_positive</item>
+        <item name="android:tint">?attr/tintColorBulletPointPositive</item>
+    </style>
+
+    <style name="NeutralBulletPoint">
+        <item name="android:src">@drawable/bullet_point_neutral</item>
+        <item name="android:tint">?attr/tintColorBulletPointNeutral</item>
+    </style>
+
+    <style name="NegativeBulletPoint">
+        <item name="android:src">@drawable/bullet_point_negative</item>
+        <item name="android:tint">?attr/tintColorBulletPointNegative</item>
+    </style>
+
+    <style name="InputLabel" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:paddingBottom">@dimen/input_label_vertical_spacing</item>
+        <item name="android:paddingLeft">@dimen/input_label_horizontal_spacing</item>
+        <item name="android:paddingRight">@dimen/input_label_horizontal_spacing</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="AccountSetupTitle">
+        <item name="android:textSize">@dimen/account_setup_settings_title_size</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="XSmallFont" parent="@android:style/TextAppearance.Small">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="SmallFont" parent="@android:style/TextAppearance.Small">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="MediumFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="LargeFont" parent="@android:style/TextAppearance.Large">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="PermissionButton">
+        <item name="android:background">@color/color_accent</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:layout_marginTop">@dimen/permission_button_margin_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/permission_button_margin_vertical</item>
+    </style>
+
+    <style name="PermissionFeedback">
+        <item name="android:textColor">@color/permission_unknown</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">@dimen/feedback_margin_left</item>
+        <item name="android:layout_marginTop">@dimen/permission_feedback_margin_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/permission_feedback_margin_vertical</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#333</item>
+        <item name="android:background">@drawable/btn_bg</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">0dip</item>
+        <item name="android:layout_marginBottom">5dip</item>
+        <item name="android:layout_marginTop">5dip</item>
+        <item name="android:padding">8dip</item>
+    </style>
+
+    <style name="ButtonTop" parent="@style/Button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+</resources>
+
