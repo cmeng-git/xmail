@@ -440,24 +440,10 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
                         + " " + message
                 )
                 .setCancelable(true)
-                .setPositiveButton(
-                        getString(R.string.account_setup_failed_dlg_invalid_certificate_accept),
-                        new DialogInterface.OnClickListener()
-                        {
-                            public void onClick(DialogInterface dialog, int which)
-                            {
-                                presenter.onCertificateAccepted(certificate);
-                            }
-                        })
-                .setNegativeButton(
-                        getString(R.string.account_setup_failed_dlg_invalid_certificate_reject),
-                        new DialogInterface.OnClickListener()
-                        {
-                            public void onClick(DialogInterface dialog, int which)
-                            {
-                                presenter.onCertificateRefused();
-                            }
-                        })
+                .setPositiveButton(getString(R.string.account_setup_failed_dlg_invalid_certificate_accept),
+                        (dialog, which) -> presenter.onCertificateAccepted(certificate))
+                .setNegativeButton(getString(R.string.account_setup_failed_dlg_invalid_certificate_reject),
+                        (dialog, which) -> presenter.onCertificateRefused())
                 .show();
     }
 
@@ -671,14 +657,8 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
         }
     };
 
-    private OnClientCertificateChangedListener clientCertificateChangedListenerInIncoming = new OnClientCertificateChangedListener()
-    {
-        @Override
-        public void onClientCertificateChanged(String alias)
-        {
-            onInputChangedInIncoming();
-        }
-    };
+    private OnClientCertificateChangedListener clientCertificateChangedListenerInIncoming
+            = alias -> onInputChangedInIncoming();
 
     @Override
     public void setAuthTypeInIncoming(AuthType authType)
@@ -847,19 +827,14 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
         subscribedFoldersOnly = incomingView.findViewById(R.id.subscribed_folders_only);
 
         nextButton.setOnClickListener(this);
-        imapAutoDetectNamespaceView.setOnCheckedChangeListener(new OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
-                if (isChecked && imapPathPrefixView.hasFocus()) {
-                    imapPathPrefixView.focusSearch(View.FOCUS_UP).requestFocus();
-                }
-                else if (!isChecked) {
-                    imapPathPrefixView.requestFocus();
-                }
-                imapPathPrefixLayout.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+        imapAutoDetectNamespaceView.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked && imapPathPrefixView.hasFocus()) {
+                imapPathPrefixView.focusSearch(View.FOCUS_UP).requestFocus();
             }
+            else if (!isChecked) {
+                imapPathPrefixView.requestFocus();
+            }
+            imapPathPrefixLayout.setVisibility(isChecked ? View.GONE : View.VISIBLE);
         });
 
         authTypeAdapter = AuthTypeAdapter.get(this);
@@ -1172,14 +1147,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     };
 
     private OnClientCertificateChangedListener clientCertificateChangedListenerInOutgoing
-            = new OnClientCertificateChangedListener()
-    {
-        @Override
-        public void onClientCertificateChanged(String alias)
-        {
-            onInputChangedInOutgoing();
-        }
-    };
+            = alias -> onInputChangedInOutgoing();
 
     private AuthType getSelectedAuthType()
     {
@@ -1417,16 +1385,8 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
 
         authDialog.setTitle(R.string.linked_webview_title_gmail);
         authDialog.setCancelable(true);
-        authDialog.setOnDismissListener(new OnDismissListener()
-        {
-            @Override
-            public void onDismiss(DialogInterface dialog)
-            {
-                presenter.onWebViewDismiss();
-            }
-        });
+        authDialog.setOnDismissListener(dialog -> presenter.onWebViewDismiss());
         authDialog.show();
-
         web.loadUrl(url);
     }
 
@@ -1447,14 +1407,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
 
         authDialog.setTitle(R.string.linked_webview_title_outlook);
         authDialog.setCancelable(true);
-        authDialog.setOnDismissListener(new OnDismissListener()
-        {
-            @Override
-            public void onDismiss(DialogInterface dialog)
-            {
-                presenter.onWebViewDismiss();
-            }
-        });
+        authDialog.setOnDismissListener(dialog -> presenter.onWebViewDismiss());
         authDialog.show();
 
         web.loadUrl(url);

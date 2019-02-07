@@ -602,7 +602,7 @@ public class Prefs extends XMPreferenceActivity
         editor.commit();
 
         if (needsRefresh) {
-            MailService.actionReset(this, null);
+            MailService.actionReset(this);
         }
     }
 
@@ -637,14 +637,7 @@ public class Prefs extends XMPreferenceActivity
         switch (id) {
             case DIALOG_APG_DEPRECATION_WARNING: {
                 dialog = new ApgDeprecationWarningDialog(this);
-                dialog.setOnCancelListener(new OnCancelListener()
-                {
-                    @Override
-                    public void onCancel(DialogInterface dialog)
-                    {
-                        mOpenPgpProvider.show();
-                    }
-                });
+                dialog.setOnCancelListener(dialog1 -> mOpenPgpProvider.show());
                 break;
             }
 

@@ -87,14 +87,9 @@ public class MessageTopView extends LinearLayout
 
     private void setShowPicturesButtonListener()
     {
-        showPicturesButton.setOnClickListener(new OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                showPicturesInAllContainerViews();
-                showPicturesButtonClicked = true;
-            }
+        showPicturesButton.setOnClickListener(v -> {
+            showPicturesInAllContainerViews();
+            showPicturesButtonClicked = true;
         });
     }
 
@@ -126,14 +121,8 @@ public class MessageTopView extends LinearLayout
         containerView.addView(view);
 
         boolean hideUnsignedTextDivider = !XryptoMail.getOpenPgpSupportSignOnly();
-        view.displayMessageViewContainer(messageViewInfo, new OnRenderingFinishedListener()
-        {
-            @Override
-            public void onLoadFinished()
-            {
-                displayViewOnLoadFinished(true);
-            }
-        }, loadPictures, hideUnsignedTextDivider, attachmentCallback);
+        view.displayMessageViewContainer(messageViewInfo, () -> displayViewOnLoadFinished(true),
+                loadPictures, hideUnsignedTextDivider, attachmentCallback);
 
         if (view.hasHiddenExternalImages() && !showPicturesButtonClicked) {
             showShowPicturesButton();
@@ -169,14 +158,8 @@ public class MessageTopView extends LinearLayout
         resetAndPrepareMessageView(messageViewInfo);
         View view = mInflater.inflate(R.layout.message_content_crypto_cancelled, containerView, false);
         setCryptoProviderIcon(providerIcon, view);
-        view.findViewById(R.id.crypto_cancelled_retry).setOnClickListener(new OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                messageCryptoPresenter.onClickRetryCryptoOperation();
-            }
-        });
+        view.findViewById(R.id.crypto_cancelled_retry).setOnClickListener(view1
+                -> messageCryptoPresenter.onClickRetryCryptoOperation());
 
         containerView.addView(view);
         displayViewOnLoadFinished(false);
@@ -187,14 +170,8 @@ public class MessageTopView extends LinearLayout
         resetAndPrepareMessageView(messageViewInfo);
         View view = mInflater.inflate(R.layout.message_content_crypto_no_provider, containerView, false);
 
-        view.findViewById(R.id.crypto_settings).setOnClickListener(new OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                messageCryptoPresenter.onClickConfigureProvider();
-            }
-        });
+        view.findViewById(R.id.crypto_settings).setOnClickListener(view1
+                -> messageCryptoPresenter.onClickConfigureProvider());
 
         containerView.addView(view);
         displayViewOnLoadFinished(false);

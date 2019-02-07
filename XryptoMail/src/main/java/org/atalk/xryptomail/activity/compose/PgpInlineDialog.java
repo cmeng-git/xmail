@@ -40,31 +40,18 @@ public class PgpInlineDialog extends HighlightDialogFragment {
         builder.setView(view);
 
         if (getArguments().getInt(ARG_FIRST_TIME) != 0) {
-            builder.setPositiveButton(R.string.openpgp_inline_ok, new OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            builder.setPositiveButton(R.string.openpgp_inline_ok, (dialog, which) -> dialog.dismiss());
         } else {
-            builder.setPositiveButton(R.string.openpgp_inline_disable, new OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Activity activity = getActivity();
-                    if (activity == null) {
-                        return;
-                    }
+            builder.setPositiveButton(R.string.openpgp_inline_disable, (dialog, which) -> {
+                Activity activity1 = getActivity();
+                if (activity1 == null) {
+                    return;
+                }
 
-                    ((OnOpenPgpInlineChangeListener) activity).onOpenPgpInlineChange(false);
-                    dialog.dismiss();
-                }
+                ((OnOpenPgpInlineChangeListener) activity1).onOpenPgpInlineChange(false);
+                dialog.dismiss();
             });
-            builder.setNegativeButton(R.string.openpgp_inline_keep_enabled, new OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            builder.setNegativeButton(R.string.openpgp_inline_keep_enabled, (dialog, which) -> dialog.dismiss());
         }
 
         return builder.create();

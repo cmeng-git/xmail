@@ -6,6 +6,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.*;
 import android.widget.Toast;
@@ -307,6 +308,11 @@ public class XryptoMail extends Application
      */
     public static final int MAX_SEND_ATTEMPTS = 5;
 
+    /*
+     * strictmode-java-lang-throwable-untagged-socket-detected
+     */
+    public static final int THREAD_ID = 10000;
+
     /**
      * Max time (in millis) the wake lock will be held for when background sync is happening
      */
@@ -377,10 +383,10 @@ public class XryptoMail extends Application
         if (!enabled && pm.getComponentEnabledSetting(new ComponentName(context, MailService.class)) ==
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
             /*
-             * If no accounts now exist but the service is still enabled we're about to disable it
+             * If no account now exist but the service is still enabled we're about to disable it
              * so we'll reschedule to kill off any existing alarms.
              */
-            MailService.actionReset(context, wakeLockId);
+            MailService.actionReset(context);
         }
         Class<?>[] classes = {MessageCompose.class, BootReceiver.class, MailService.class};
 
@@ -401,10 +407,10 @@ public class XryptoMail extends Application
         if (enabled && pm.getComponentEnabledSetting(new ComponentName(context, MailService.class)) ==
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
             /*
-             * And now if accounts do exist then we've just enabled the service and we want to
+             * And now if account do exist then we've just enabled the service and we want to
              * schedule alarms for the new accounts.
              */
-            MailService.actionReset(context, wakeLockId);
+            MailService.actionReset(context);
         }
     }
 
@@ -424,20 +430,14 @@ public class XryptoMail extends Application
         final BlockingQueue<Handler> queue = new SynchronousQueue<Handler>();
 
         // starting a new thread to handle unmount events
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                Looper.prepare();
-                try {
-                    queue.put(new Handler());
-                } catch (InterruptedException e) {
-                    Timber.e(e);
-                }
-                Looper.loop();
+        new Thread(() -> {
+            Looper.prepare();
+            try {
+                queue.put(new Handler());
+            } catch (InterruptedException e) {
+                Timber.e(e);
             }
-
+            Looper.loop();
         }, "Unmount-thread").start();
 
         try {
@@ -592,10 +592,10 @@ public class XryptoMail extends Application
          */
         BinaryTempFileBody.setTempDirectory(getCacheDir());
         LocalKeyStore.setKeyStoreLocation(getDir("KeyStore", MODE_PRIVATE).toString());
-        /*
-         * Enable background sync of messages
-         */
 
+        /*
+         * Enable background sync of messages - kill by android???
+         */
         setServicesEnabled(this);
         registerReceivers();
 
@@ -615,7 +615,7 @@ public class XryptoMail extends Application
                 intent.putExtra(XryptoMail.Intents.EmailReceived.EXTRA_SUBJECT, message.getSubject());
                 intent.putExtra(XryptoMail.Intents.EmailReceived.EXTRA_FROM_SELF, account.isAnIdentity(message.getFrom()));
                 XryptoMail.this.sendBroadcast(intent);
-                Timber.d("Broadcasted: action=%s account=%s folder=%s message uid=%s",
+                Timber.d("Broadcast: action=%s account=%s folder=%s message uid=%s",
                         action, account.getDescription(), folder, message.getUid());
             }
 
@@ -1658,14 +1658,7 @@ public class XryptoMail extends Application
      */
     public static void showToastMessage(final String message)
     {
-        new Handler(Looper.getMainLooper()).post(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                Toast.makeText(instance, message, Toast.LENGTH_LONG).show();
-            }
-        });
+        new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(instance, message, Toast.LENGTH_LONG).show());
     }
 
     public static void showToastMessage(int id)
@@ -1680,14 +1673,6 @@ public class XryptoMail extends Application
 
 //    public static void showToastMessageOnUI(final int id, final Object... arg)
 //    {
-//        instance.runOnUiThread(new Runnable()
-//        {
-//            @Override
-//            public void run()
-//            {
-//                showToastMessage(getAppResources().getString(id, arg));
-//            }
-//        });
+//        instance.runOnUiThread((Runnable) () -> showToastMessage(getAppResources().getString(id, arg)));
 //    }
-
 }

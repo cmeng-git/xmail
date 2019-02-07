@@ -5,22 +5,25 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.support.annotation.RequiresApi;
 
-public class DozeChecker {
+public class DozeChecker
+{
     private final PowerManager powerManager;
     private final String packageName;
 
-
-    public DozeChecker(Context context) {
+    public DozeChecker(Context context)
+    {
         powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         packageName = context.getPackageName();
     }
 
-    public boolean isDeviceIdleModeSupported() {
+    public boolean isDeviceIdleModeSupported()
+    {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public boolean isAppWhitelisted() {
+    public boolean isAppWhitelisted()
+    {
         return powerManager.isIgnoringBatteryOptimizations(packageName);
     }
 }

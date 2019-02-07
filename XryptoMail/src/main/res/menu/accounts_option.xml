@@ -55,5 +55,8 @@
 				android:title="@string/settings_import" /> 
 		</menu>
 	</item>
-
+    <item
+        android:id="@+id/exit"
+        android:icon="?attr/iconActionAbout"
+        android:title="@string/Exit" />
 </menu>

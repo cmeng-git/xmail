@@ -1372,14 +1372,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
         public void onUnmount(String providerId)
         {
             if (mAccount != null && providerId.equals(mAccount.getLocalStorageProviderId())) {
-                runOnUiThread(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        onAccountUnavailable();
-                    }
-                });
+                runOnUiThread(() -> onAccountUnavailable());
             }
         }
 
@@ -1646,18 +1639,12 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
         else {
             XryptoMail.setXMMessageViewThemeSetting(XryptoMail.Theme.DARK);
         }
-
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                Context appContext = getApplicationContext();
-                Preferences prefs = Preferences.getPreferences(appContext);
-                StorageEditor editor = prefs.getStorage().edit();
-                XryptoMail.save(editor);
-                editor.commit();
-            }
+        new Thread(() -> {
+            Context appContext = getApplicationContext();
+            Preferences prefs = Preferences.getPreferences(appContext);
+            StorageEditor editor = prefs.getStorage().edit();
+            XryptoMail.save(editor);
+            editor.commit();
         }).start();
         recreate();
     }

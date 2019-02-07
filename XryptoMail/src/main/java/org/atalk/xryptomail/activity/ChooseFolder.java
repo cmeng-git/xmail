@@ -363,7 +363,6 @@ public class ChooseFolder extends XMListActivity
                     else if (!account.getOutboxFolderName().equals(name)) {
                         folderList.add(name);
                     }
-
                     if (mSelectFolder != null) {
                         /*
                          * Never select EXTRA_CUR_FOLDER (mFolder) if EXTRA_SEL_FOLDER
@@ -382,26 +381,20 @@ public class ChooseFolder extends XMListActivity
                     position++;
                 }
             } finally {
-                runOnUiThread(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        // Now we're in the UI-thread, we can safely change the contents of the adapter.
-                        mAdapter.clear();
-                        for (String folderName : folderList) {
-                            mAdapter.add(folderName);
-                        }
-
-                        mAdapter.notifyDataSetChanged();
-
-                        /*
-                         * Only enable the text filter after the list has been
-                         * populated to avoid possible race conditions because our
-                         * FolderListFilter isn't really thread-safe.
-                         */
-                        getListView().setTextFilterEnabled(true);
+                runOnUiThread(() -> {
+                    // Now we're in the UI-thread, we can safely change the contents of the adapter.
+                    mAdapter.clear();
+                    for (String folderName : folderList) {
+                        mAdapter.add(folderName);
                     }
+                    mAdapter.notifyDataSetChanged();
+
+                    /*
+                     * Only enable the text filter after the list has been
+                     * populated to avoid possible race conditions because our
+                     * FolderListFilter isn't really thread-safe.
+                     */
+                    getListView().setTextFilterEnabled(true);
                 });
             }
 

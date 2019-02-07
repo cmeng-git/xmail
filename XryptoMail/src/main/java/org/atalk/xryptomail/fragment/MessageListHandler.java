@@ -53,13 +53,10 @@ public class MessageListHandler extends Handler {
     }
 
     public void updateFooter(final String message) {
-        post(new Runnable() {
-            @Override
-            public void run() {
-                MessageListFragment fragment = mFragment.get();
-                if (fragment != null) {
-                    fragment.updateFooter(message);
-                }
+        post(() -> {
+            MessageListFragment fragment = mFragment.get();
+            if (fragment != null) {
+                fragment.updateFooter(message);
             }
         });
     }

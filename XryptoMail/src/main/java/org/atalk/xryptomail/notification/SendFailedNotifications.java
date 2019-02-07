@@ -32,7 +32,7 @@ class SendFailedNotifications {
         PendingIntent folderListPendingIntent = actionBuilder.createViewFolderListPendingIntent(
                 account, notificationId);
 
-        NotificationCompat.Builder builder = controller.createNotificationBuilder()
+        NotificationCompat.Builder builder = controller.createNotificationBuilder(NotificationHelper.ERROR_GROUP)
                 .setSmallIcon(getSendFailedNotificationIcon())
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)

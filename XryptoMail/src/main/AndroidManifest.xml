@@ -22,6 +22,7 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -76,11 +77,27 @@
                 android:name="android.support.UI_OPTIONS"
                 android:value="splitActionBarWhenNarrow" />
             <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".permissions.PermissionsActivity"
+            android:configChanges="locale"
+            android:label="@string/app_name">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activity.Splash"
+            android:label="@string/app_name"
+            android:launchMode="standard" />
+
         <activity
             android:name=".activity.About"
             android:label="@string/about_action"
@@ -92,10 +109,6 @@
             android:label="@string/prefs_title"
             android:taskAffinity="${applicationId}.activity.setup.Prefs" />
 
-        <activity
-            android:name=".permissions.PermissionsActivity"
-            android:configChanges="locale"
-            android:label="@string/app_name" />
         <activity
             android:name=".activity.setup.WelcomeMessage"
             android:configChanges="locale"
@@ -113,34 +126,6 @@
             android:name=".activity.setup.AccountSetupActivity"
             android:configChanges="locale"
             android:theme="@style/Theme.XMail.Material.Light" />
-        <!--activity
-             android:name=".activity.setup.AccountSetupBasics"
-             android:configChanges="locale"
-             android:label="@string/account_setup_basics_title" />
-         <activity
-             android:name=".activity.setup.AccountSetupAccountType"
-             android:configChanges="locale"
-             android:label="@string/account_setup_account_type_title" />
-         <activity
-             android:name=".activity.setup.AccountSetupIncoming"
-             android:configChanges="locale"
-             android:label="@string/account_setup_incoming_title" />
-         <activity
-             android:name=".activity.setup.AccountSetupComposition"
-             android:configChanges="locale"
-             android:label="@string/account_settings_composition_title" />
-         <activity
-             android:name=".activity.setup.AccountSetupOutgoing"
-             android:configChanges="locale"
-             android:label="@string/account_setup_outgoing_title" />
-         <activity
-             android:name=".activity.setup.AccountSetupOptions"
-             android:configChanges="locale"
-             android:label="@string/account_setup_options_title" />
-         <activity
-             android:name=".activity.setup.AccountSetupNames"
-             android:configChanges="locale"
-             android:label="@string/account_setup_names_title" / -->
         <activity
             android:name=".activity.ChooseAccount"
             android:configChanges="locale"
@@ -228,6 +213,7 @@
             <meta-data
                 android:name="android.support.UI_OPTIONS"
                 android:value="splitActionBarWhenNarrow" />
+
             <intent-filter>
                 <!-- This action is only to allow an entry point for launcher shortcuts -->
                 <action android:name="android.intent.action.MAIN" />
@@ -312,10 +298,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".activity.Splash"
-            android:label="@string/app_name"
-            android:launchMode="standard" />
         <activity
             android:name=".activity.OnlineUpdate"
             android:label="@string/online_update_title"
@@ -413,6 +395,7 @@
 
         <service
             android:name=".service.MailService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
             android:enabled="true" />
 
         <service
@@ -420,9 +403,11 @@
             android:enabled="true" />
         <service
             android:name=".service.PushService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
             android:enabled="true" />
         <service
             android:name=".service.PollService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
             android:enabled="true" />
         <service
             android:name=".service.RemoteControlService"
@@ -431,6 +416,7 @@
 
         <service
             android:name=".service.SleepService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
             android:enabled="true" />
         <service
             android:name=".service.OnlineUpdateService"

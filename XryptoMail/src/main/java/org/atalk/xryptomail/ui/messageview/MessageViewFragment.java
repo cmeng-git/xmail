@@ -198,23 +198,11 @@ public class MessageViewFragment extends Fragment implements ConfirmationDialogF
         mMessageView.setAttachmentCallback(this);
         mMessageView.setMessageCryptoPresenter(messageCryptoPresenter);
 
-        mMessageView.setOnToggleFlagClickListener(new OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                onToggleFlagged();
-            }
-        });
+        mMessageView.setOnToggleFlagClickListener(v -> onToggleFlagged());
 
-        mMessageView.setOnDownloadButtonClickListener(new OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                mMessageView.disableDownloadButton();
-                messageLoaderHelper.downloadCompleteMessage();
-            }
+        mMessageView.setOnDownloadButtonClickListener(v -> {
+            mMessageView.disableDownloadButton();
+            messageLoaderHelper.downloadCompleteMessage();
         });
 
         mFragmentListener.messageHeaderViewAvailable(mMessageView.getMessageHeaderView());
@@ -818,14 +806,9 @@ public class MessageViewFragment extends Fragment implements ConfirmationDialogF
 
     public void hideAttachmentLoadingDialogOnMainThread()
     {
-        handler.post(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                removeDialog(R.id.dialog_attachment_progress);
-                // mMessageView.enableAttachmentButtons();
-            }
+        handler.post(() -> {
+            removeDialog(R.id.dialog_attachment_progress);
+            // mMessageView.enableAttachmentButtons();
         });
     }
 
@@ -972,28 +955,16 @@ public class MessageViewFragment extends Fragment implements ConfirmationDialogF
         public void onDownloadErrorMessageNotFound()
         {
             mMessageView.enableDownloadButton();
-            getActivity().runOnUiThread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    Toast.makeText(getActivity(), R.string.status_invalid_id_error, Toast.LENGTH_LONG).show();
-                }
-            });
+            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),
+                    R.string.status_invalid_id_error, Toast.LENGTH_LONG).show());
         }
 
         @Override
         public void onDownloadErrorNetworkError()
         {
             mMessageView.enableDownloadButton();
-            getActivity().runOnUiThread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    Toast.makeText(getActivity(), R.string.status_network_error, Toast.LENGTH_LONG).show();
-                }
-            });
+            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),
+                    R.string.status_network_error, Toast.LENGTH_LONG).show());
         }
 
         @Override

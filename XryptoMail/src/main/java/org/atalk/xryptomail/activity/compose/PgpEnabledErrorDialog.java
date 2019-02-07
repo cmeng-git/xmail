@@ -1,11 +1,7 @@
 package org.atalk.xryptomail.activity.compose;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
+import android.app.*;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.view.LayoutInflater;
@@ -14,10 +10,12 @@ import android.view.View;
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.view.HighlightDialogFragment;
 
-public class PgpEnabledErrorDialog extends HighlightDialogFragment {
+public class PgpEnabledErrorDialog extends HighlightDialogFragment
+{
     private static final String ARG_IS_GOTIT = "is_gotit";
 
-    public static PgpEnabledErrorDialog newInstance(boolean isGotItDialog, @IdRes int showcaseView) {
+    public static PgpEnabledErrorDialog newInstance(boolean isGotItDialog, @IdRes int showcaseView)
+    {
         PgpEnabledErrorDialog dialog = new PgpEnabledErrorDialog();
 
         Bundle args = new Bundle();
@@ -29,7 +27,8 @@ public class PgpEnabledErrorDialog extends HighlightDialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
         Activity activity = getActivity();
 
         boolean isGotItDialog = getArguments().getBoolean(ARG_IS_GOTIT);
@@ -41,29 +40,22 @@ public class PgpEnabledErrorDialog extends HighlightDialogFragment {
         builder.setView(view);
 
         builder.setNegativeButton(isGotItDialog ? R.string.openpgp_enabled_error_gotit :
-                R.string.openpgp_enabled_error_back, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+                R.string.openpgp_enabled_error_back, (dialog, which) -> dialog.dismiss());
+        builder.setPositiveButton(R.string.openpgp_enabled_error_disable, (dialog, which) -> {
+            Activity activity1 = getActivity();
+            if (activity1 == null) {
+                return;
             }
-        });
-        builder.setPositiveButton(R.string.openpgp_enabled_error_disable, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Activity activity = getActivity();
-                if (activity == null) {
-                    return;
-                }
 
-                ((OnOpenPgpDisableListener) activity).onOpenPgpClickDisable();
-                dialog.dismiss();
-            }
+            ((OnOpenPgpDisableListener) activity1).onOpenPgpClickDisable();
+            dialog.dismiss();
         });
 
         return builder.create();
     }
 
-    public interface OnOpenPgpDisableListener {
+    public interface OnOpenPgpDisableListener
+    {
         void onOpenPgpClickDisable();
     }
 }

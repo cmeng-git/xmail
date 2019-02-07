@@ -11,17 +11,20 @@ import org.atalk.xryptomail.mail.Folder;
 
 import static org.atalk.xryptomail.notification.NotificationController.NOTIFICATION_LED_BLINK_FAST;
 
-class SyncNotifications {
+class SyncNotifications
+{
     private static final boolean NOTIFICATION_LED_WHILE_SYNCING = false;
     private final NotificationController controller;
     private final NotificationActionCreator actionBuilder;
 
-    public SyncNotifications(NotificationController controller, NotificationActionCreator actionBuilder) {
+    public SyncNotifications(NotificationController controller, NotificationActionCreator actionBuilder)
+    {
         this.controller = controller;
         this.actionBuilder = actionBuilder;
     }
 
-    public void showSendingNotification(Account account) {
+    public void showSendingNotification(Account account)
+    {
         Context context = controller.getContext();
         String accountName = controller.getAccountName(account);
         String title = context.getString(R.string.notification_bg_send_title);
@@ -32,7 +35,7 @@ class SyncNotifications {
         PendingIntent showMessageListPendingIntent = actionBuilder.createViewFolderPendingIntent(
                 account, outboxFolderName, notificationId);
 
-        NotificationCompat.Builder builder = controller.createNotificationBuilder()
+        NotificationCompat.Builder builder = controller.createNotificationBuilder(NotificationHelper.SERVICE_GROUP)
                 .setSmallIcon(R.drawable.ic_notify_check_mail)
                 .setWhen(System.currentTimeMillis())
                 .setOngoing(true)
@@ -50,12 +53,14 @@ class SyncNotifications {
         getNotificationManager().notify(notificationId, builder.build());
     }
 
-    public void clearSendingNotification(Account account) {
+    public void clearSendingNotification(Account account)
+    {
         int notificationId = NotificationIds.getFetchingMailNotificationId(account);
         getNotificationManager().cancel(notificationId);
     }
 
-    public void showFetchingMailNotification(Account account, Folder folder) {
+    public void showFetchingMailNotification(Account account, Folder folder)
+    {
         String accountName = account.getDescription();
         String folderName = folder.getName();
 
@@ -69,7 +74,7 @@ class SyncNotifications {
         PendingIntent showMessageListPendingIntent = actionBuilder.createViewFolderPendingIntent(
                 account, folderName, notificationId);
 
-        NotificationCompat.Builder builder = controller.createNotificationBuilder()
+        NotificationCompat.Builder builder = controller.createNotificationBuilder(NotificationHelper.SERVICE_GROUP)
                 .setSmallIcon(R.drawable.ic_notify_check_mail)
                 .setWhen(System.currentTimeMillis())
                 .setOngoing(true)
@@ -88,12 +93,14 @@ class SyncNotifications {
         getNotificationManager().notify(notificationId, builder.build());
     }
 
-    public void clearFetchingMailNotification(Account account) {
+    public void clearFetchingMailNotification(Account account)
+    {
         int notificationId = NotificationIds.getFetchingMailNotificationId(account);
         getNotificationManager().cancel(notificationId);
     }
 
-    private NotificationManagerCompat getNotificationManager() {
+    private NotificationManagerCompat getNotificationManager()
+    {
         return controller.getNotificationManager();
     }
 }

@@ -10,8 +10,8 @@ import org.atalk.xryptomail.mail.Message;
 import org.atalk.xryptomail.mail.MessagingException;
 import org.atalk.xryptomail.mail.PushReceiver;
 import org.atalk.xryptomail.mail.XryptoMailLib;
-import org.atalk.xryptomail.mail.power.TracingPowerManager;
-import org.atalk.xryptomail.mail.power.TracingPowerManager.TracingWakeLock;
+import org.atalk.xryptomail.power.TracingPowerManager;
+import org.atalk.xryptomail.power.TracingPowerManager.TracingWakeLock;
 import org.atalk.xryptomail.mail.store.RemoteStore;
 
 import java.io.IOException;
@@ -186,7 +186,7 @@ class ImapFolderPusher extends ImapFolder
                     }
                     mPushReceiver.authenticationFailed();
                     stop = true;
-                } catch (Exception e) {  // include IOException when the stream is closed while acesss
+                } catch (Exception e) {  // include IOException when the stream is closed while access
                     reacquireWakeLockAndCleanUp();
                     if (stop) {
                         Timber.i("Got exception while idling, but stop is set for %s", getLogId());
@@ -295,7 +295,7 @@ class ImapFolderPusher extends ImapFolder
             try {
                 responses = conn.readStatusResponse(tag, Commands.IDLE, this);
             } catch (IOException e) {
-                Timber.w(e, "IO Exception on response read!");
+                Timber.w("IO Exception on response read! %s", e.getMessage());
                 conn.close();
             } finally {
                 idleStopper.stopAcceptingDoneContinuation();

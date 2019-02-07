@@ -1,5 +1,19 @@
 XryptoMail Release Notes:
 =============================
+Version:		4.9.0
+Upload Date:	02/07/2019
+- Implement android Notification Channel for android-O requirements
+- Launch android runtime permissions request prior to app main startup
+- Request no battery optimization / whitelist on XryptoMail to allow mail receive during device in doze-standby
+- Remove CoreService and use JobIntentService instead for background service startup to avoid Android 8.0:
+  java.lang.IllegalStateException: Not allowed to start service Intent
+- Extend JobIntentService for: MaileService, PollService, PushService, RemoteContolService and SleepService
+- Fix strictmode-java-lang-throwable-untagged-socket-detected with TrafficStats.setThreadStatsTag(THREAD_ID)
+- Fix logic error in MailService#isSyncBlocked()
+- MailService - "invalid last mail check time" must also check for the db value is not too old.
+- Fix android-O double alerts by .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY) in BaseNotification
+
+=============================
 Version:		4.8.0
 Upload Date:	10/22/2018
 - Built target for Android 9.0 (Pie) or API-28

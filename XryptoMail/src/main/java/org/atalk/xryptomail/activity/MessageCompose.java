@@ -1174,48 +1174,27 @@ public class MessageCompose extends XMActivity implements OnClickListener,
                 return new AlertDialog.Builder(this)
                         .setTitle(R.string.save_or_discard_draft_message_dlg_title)
                         .setMessage(R.string.save_or_discard_draft_message_instructions_fmt)
-                        .setPositiveButton(R.string.save_draft_action, new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton)
-                            {
-                                dismissDialog(DIALOG_SAVE_OR_DISCARD_DRAFT_MESSAGE);
-                                checkToSaveDraftAndSave();
-                            }
+                        .setPositiveButton(R.string.save_draft_action, (dialog, whichButton) -> {
+                            dismissDialog(DIALOG_SAVE_OR_DISCARD_DRAFT_MESSAGE);
+                            checkToSaveDraftAndSave();
                         })
-                        .setNegativeButton(R.string.discard_action, new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton)
-                            {
-                                dismissDialog(DIALOG_SAVE_OR_DISCARD_DRAFT_MESSAGE);
-                                onDiscard();
-                            }
+                        .setNegativeButton(R.string.discard_action, (dialog, whichButton) -> {
+                            dismissDialog(DIALOG_SAVE_OR_DISCARD_DRAFT_MESSAGE);
+                            onDiscard();
                         })
                         .create();
             case DIALOG_CONFIRM_DISCARD_ON_BACK:
                 return new AlertDialog.Builder(this)
                         .setTitle(R.string.confirm_discard_draft_message_title)
                         .setMessage(R.string.confirm_discard_draft_message)
-                        .setPositiveButton(R.string.cancel_action, new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton)
-                            {
-                                dismissDialog(DIALOG_CONFIRM_DISCARD_ON_BACK);
-                            }
-                        })
-                        .setNegativeButton(R.string.discard_action, new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton)
-                            {
-                                dismissDialog(DIALOG_CONFIRM_DISCARD_ON_BACK);
-                                Toast.makeText(MessageCompose.this,
-                                        getString(R.string.message_discarded_toast),
-                                        Toast.LENGTH_LONG).show();
-                                onDiscard();
-                            }
+                        .setPositiveButton(R.string.cancel_action, (dialog, whichButton) ->
+                                dismissDialog(DIALOG_CONFIRM_DISCARD_ON_BACK))
+                        .setNegativeButton(R.string.discard_action, (dialog, whichButton) -> {
+                            dismissDialog(DIALOG_CONFIRM_DISCARD_ON_BACK);
+                            Toast.makeText(MessageCompose.this,
+                                    getString(R.string.message_discarded_toast),
+                                    Toast.LENGTH_LONG).show();
+                            onDiscard();
                         })
                         .create();
             case DIALOG_CHOOSE_IDENTITY:
@@ -1226,14 +1205,9 @@ public class MessageCompose extends XMActivity implements OnClickListener,
                 Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(R.string.send_as);
                 final IdentityAdapter adapter = new IdentityAdapter(context);
-                builder.setAdapter(adapter, new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        IdentityContainer container = (IdentityContainer) adapter.getItem(which);
-                        onAccountChosen(container.account, container.identity);
-                    }
+                builder.setAdapter(adapter, (dialog, which) -> {
+                    IdentityContainer container = (IdentityContainer) adapter.getItem(which);
+                    onAccountChosen(container.account, container.identity);
                 });
 
                 return builder.create();
@@ -1242,19 +1216,9 @@ public class MessageCompose extends XMActivity implements OnClickListener,
                         .setTitle(R.string.dialog_confirm_delete_title)
                         .setMessage(R.string.dialog_confirm_delete_message)
                         .setPositiveButton(R.string.dialog_confirm_delete_confirm_button,
-                                new DialogInterface.OnClickListener()
-                                {
-                                    public void onClick(DialogInterface dialog, int which)
-                                    {
-                                        onDiscard();
-                                    }
-                                })
+                                (dialog, which) -> onDiscard())
                         .setNegativeButton(R.string.dialog_confirm_delete_cancel_button,
-                                new DialogInterface.OnClickListener()
-                                {
-                                    public void onClick(DialogInterface dialog, int which)
-                                    {
-                                    }
+                                (dialog, which) -> {
                                 })
                         .create();
             }
@@ -1668,20 +1632,15 @@ public class MessageCompose extends XMActivity implements OnClickListener,
                 true);
 
         progressDialog.setCancelable(true);
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                try {
-                    new SendMessageTask(getApplicationContext(), mAccount, mContacts, message,
-                            (mDraftId != INVALID_DRAFT_ID) ? mDraftId : null, relatedMessageReference).execute();
-                    Thread.sleep(3000);
-                } catch (Exception ignored) {
-                }
-                progressDialog.dismiss();
-                finish();
+        new Thread(() -> {
+            try {
+                new SendMessageTask(getApplicationContext(), mAccount, mContacts, message,
+                        (mDraftId != INVALID_DRAFT_ID) ? mDraftId : null, relatedMessageReference).execute();
+                Thread.sleep(3000);
+            } catch (Exception ignored) {
             }
+            progressDialog.dismiss();
+            finish();
         }).start();
     }
 
@@ -1759,79 +1718,69 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
     }
 
-    private MessageLoaderCallbacks messageLoaderCallbacks = new MessageLoaderCallbacks()
+    private MessageLoaderCallbacks messageLoaderCallbacks;
+
     {
-        @Override
-        public void onMessageDataLoadFinished(LocalMessage message)
+        messageLoaderCallbacks = new MessageLoaderCallbacks()
         {
-            // nothing to do here, we don't care about message headers
-        }
-
-        @Override
-        public void onMessageDataLoadFailed()
-        {
-            internalMessageHandler.sendEmptyMessage(MSG_PROGRESS_OFF);
-            Toast.makeText(MessageCompose.this, R.string.status_invalid_id_error, Toast.LENGTH_LONG).show();
-        }
-
-        @Override
-        public void onMessageViewInfoLoadFinished(MessageViewInfo messageViewInfo)
-        {
-            internalMessageHandler.sendEmptyMessage(MSG_PROGRESS_OFF);
-            loadLocalMessageForDisplay(messageViewInfo, mAction);
-        }
-
-        @Override
-        public void onMessageViewInfoLoadFailed(MessageViewInfo messageViewInfo)
-        {
-            internalMessageHandler.sendEmptyMessage(MSG_PROGRESS_OFF);
-            Toast.makeText(MessageCompose.this, R.string.status_invalid_id_error, Toast.LENGTH_LONG).show();
-        }
-
-        @Override
-        public void setLoadingProgress(int current, int max)
-        {
-            // nvm - we don't have a progress bar
-        }
-
-        @Override
-        public void startIntentSenderForMessageLoaderHelper(IntentSender si, int requestCode, Intent fillIntent,
-                int flagsMask, int flagValues, int extraFlags)
-        {
-            try {
-                requestCode |= REQUEST_MASK_LOADER_HELPER;
-                startIntentSenderForResult(si, requestCode, fillIntent, flagsMask, flagValues, extraFlags);
-            } catch (SendIntentException e) {
-                Timber.e(e, "Irrecoverable error calling PendingIntent!");
+            @Override
+            public void onMessageDataLoadFinished(LocalMessage message)
+            {
+                // nothing to do here, we don't care about message headers
             }
-        }
 
-        @Override
-        public void onDownloadErrorMessageNotFound()
-        {
-            runOnUiThread(new Runnable()
+            @Override
+            public void onMessageDataLoadFailed()
             {
-                @Override
-                public void run()
-                {
-                    Toast.makeText(MessageCompose.this, R.string.status_invalid_id_error, Toast.LENGTH_LONG).show();
-                }
-            });
-        }
+                internalMessageHandler.sendEmptyMessage(MSG_PROGRESS_OFF);
+                Toast.makeText(MessageCompose.this, R.string.status_invalid_id_error, Toast.LENGTH_LONG).show();
+            }
 
-        @Override
-        public void onDownloadErrorNetworkError()
-        {
-            runOnUiThread(new Runnable()
+            @Override
+            public void onMessageViewInfoLoadFinished(MessageViewInfo messageViewInfo)
             {
-                @Override
-                public void run()
-                {
-                    Toast.makeText(MessageCompose.this, R.string.status_network_error, Toast.LENGTH_LONG).show();
+                internalMessageHandler.sendEmptyMessage(MSG_PROGRESS_OFF);
+                loadLocalMessageForDisplay(messageViewInfo, mAction);
+            }
+
+            @Override
+            public void onMessageViewInfoLoadFailed(MessageViewInfo messageViewInfo)
+            {
+                internalMessageHandler.sendEmptyMessage(MSG_PROGRESS_OFF);
+                Toast.makeText(MessageCompose.this, R.string.status_invalid_id_error, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void setLoadingProgress(int current, int max)
+            {
+                // nvm - we don't have a progress bar
+            }
+
+            @Override
+            public void startIntentSenderForMessageLoaderHelper(IntentSender si, int requestCode, Intent fillIntent,
+                    int flagsMask, int flagValues, int extraFlags)
+            {
+                try {
+                    requestCode |= REQUEST_MASK_LOADER_HELPER;
+                    startIntentSenderForResult(si, requestCode, fillIntent, flagsMask, flagValues, extraFlags);
+                } catch (SendIntentException e) {
+                    Timber.e(e, "Irrecoverable error calling PendingIntent!");
                 }
-            });
-        }
-    };
+            }
+
+            @Override
+            public void onDownloadErrorMessageNotFound()
+            {
+                runOnUiThread(() -> Toast.makeText(MessageCompose.this, R.string.status_invalid_id_error, Toast.LENGTH_LONG).show());
+            }
+
+            @Override
+            public void onDownloadErrorNetworkError()
+            {
+                runOnUiThread(() -> Toast.makeText(MessageCompose.this, R.string.status_network_error, Toast.LENGTH_LONG).show());
+            }
+        };
+    }
 
     private void initializeActionBar()
     {
@@ -1925,14 +1874,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
             attachmentViews.put(attachment.uri, view);
 
             View deleteButton = view.findViewById(R.id.attachment_delete);
-            deleteButton.setOnClickListener(new OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    attachmentPresenter.onClickRemoveAttachment(attachment.uri);
-                }
-            });
+            deleteButton.setOnClickListener(view1 -> attachmentPresenter.onClickRemoveAttachment(attachment.uri));
 
             updateAttachmentView(attachment);
             attachmentsView.addView(view);

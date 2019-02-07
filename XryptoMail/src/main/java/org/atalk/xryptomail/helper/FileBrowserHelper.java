@@ -144,19 +144,13 @@ public class FileBrowserHelper {
             input.setText(startPath.toString());
         alert.setView(input);
 
-        alert.setPositiveButton(c.getString(R.string.okay_action), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String path = input.getText().toString();
-                callback.onPathEntered(path);
-            }
+        alert.setPositiveButton(c.getString(R.string.okay_action), (dialog, whichButton) -> {
+            String path = input.getText().toString();
+            callback.onPathEntered(path);
         });
 
         alert.setNegativeButton(c.getString(R.string.cancel_action),
-        new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                callback.onCancel();
-            }
-        });
+                (dialog, whichButton) -> callback.onCancel());
         alert.show();
     }
 }

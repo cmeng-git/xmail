@@ -1,23 +1,36 @@
 package org.atalk.xryptomail.activity.setup;
 
-import android.app.*;
-import android.content.*;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.*;
-import android.widget.*;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.TextView;
 
-import org.atalk.xryptomail.*;
+import org.atalk.xryptomail.Preferences;
+import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.preferences.StorageEditor;
 import org.atalk.xryptomail.ui.dialog.ApgDeprecationWarningDialog;
-import org.openintents.openpgp.util.*;
+import org.openintents.openpgp.util.OpenPgpApi;
+import org.openintents.openpgp.util.OpenPgpAppPreference;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class OpenPgpAppSelectDialog extends Activity {
+public class OpenPgpAppSelectDialog extends Activity
+{
     private static final String OPENKEYCHAIN_PACKAGE = "org.sufficientlysecure.keychain";
     private static final String APG_PROVIDER_PLACEHOLDER = "apg-placeholder";
     private static final String PACKAGE_NAME_APG = "org.thialfihar.android.apg";
@@ -37,7 +50,8 @@ public class OpenPgpAppSelectDialog extends Activity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         setTheme(XryptoMail.getXMTheme() == XryptoMail.Theme.LIGHT
@@ -49,21 +63,25 @@ public class OpenPgpAppSelectDialog extends Activity {
         }
     }
 
-    private void showOpenPgpSelectDialogFragment() {
+    private void showOpenPgpSelectDialogFragment()
+    {
         OpenPgpAppSelectFragment fragment = new OpenPgpAppSelectFragment();
         fragment.show(getFragmentManager(), FRAG_OPENPGP_SELECT);
     }
 
-    private void showApgDeprecationDialogFragment() {
+    private void showApgDeprecationDialogFragment()
+    {
         ApgDeprecationDialogFragment fragment = new ApgDeprecationDialogFragment();
         fragment.show(getFragmentManager(), FRAG_APG_DEPRECATE);
     }
 
-    public static class OpenPgpAppSelectFragment extends DialogFragment {
+    public static class OpenPgpAppSelectFragment extends DialogFragment
+    {
         private ArrayList<OpenPgpProviderEntry> openPgpProviderList = new ArrayList<>();
         private String selectedPackage;
 
-        private void populateAppList() {
+        private void populateAppList()
+        {
             openPgpProviderList.clear();
             Context context = getActivity();
 
@@ -117,14 +135,16 @@ public class OpenPgpAppSelectDialog extends Activity {
         }
 
         @Override
-        public void onCreate(Bundle savedInstanceState) {
+        public void onCreate(Bundle savedInstanceState)
+        {
             super.onCreate(savedInstanceState);
             selectedPackage = XryptoMail.getOpenPgpProvider();
         }
 
         @NonNull
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
+        public Dialog onCreateDialog(Bundle savedInstanceState)
+        {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.account_settings_crypto_app);
 
@@ -133,8 +153,10 @@ public class OpenPgpAppSelectDialog extends Activity {
 
             // Init ArrayAdapter with OpenPGP Providers
             ListAdapter adapter = new ArrayAdapter<OpenPgpProviderEntry>(getActivity(),
-                    android.R.layout.select_dialog_singlechoice, android.R.id.text1, openPgpProviderList) {
-                public View getView(int position, View convertView, ViewGroup parent) {
+                    android.R.layout.select_dialog_singlechoice, android.R.id.text1, openPgpProviderList)
+            {
+                public View getView(int position, View convertView, ViewGroup parent)
+                {
                     // User super class to create the View
                     View v = super.getView(position, convertView, parent);
                     TextView tv = v.findViewById(android.R.id.text1);
@@ -150,34 +172,30 @@ public class OpenPgpAppSelectDialog extends Activity {
                 }
             };
 
-            builder.setSingleChoiceItems(adapter, getIndexOfProviderList(selectedPackage),
-                    new DialogInterface.OnClickListener() {
+            builder.setSingleChoiceItems(adapter, getIndexOfProviderList(selectedPackage), (dialog, which) -> {
+                OpenPgpProviderEntry entry = openPgpProviderList.get(which);
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            OpenPgpProviderEntry entry = openPgpProviderList.get(which);
-
-                            if (entry.intent != null) {
-                                /*
-                                 * Intents are called as activity
-                                 *
-                                 * Current approach is to assume the user installed the app.
-                                 * If he does not, the selected package is not valid.
-                                 *
-                                 * However  applications should always consider this could happen,
-                                 * as the user might remove the currently used OpenPGP app.
-                                 */
-                                getActivity().startActivity(entry.intent);
-                                return;
-                            }
-                            selectedPackage = entry.packageName;
-                            dialog.dismiss();
-                        }
-                    });
+                if (entry.intent != null) {
+                    /*
+                     * Intents are called as activity
+                     *
+                     * Current approach is to assume the user installed the app.
+                     * If he does not, the selected package is not valid.
+                     *
+                     * However  applications should always consider this could happen,
+                     * as the user might remove the currently used OpenPGP app.
+                     */
+                    getActivity().startActivity(entry.intent);
+                    return;
+                }
+                selectedPackage = entry.packageName;
+                dialog.dismiss();
+            });
             return builder.create();
         }
 
-        private int getIndexOfProviderList(String packageName) {
+        private int getIndexOfProviderList(String packageName)
+        {
             for (OpenPgpProviderEntry app : openPgpProviderList) {
                 if (app.packageName.equals(packageName)) {
                     return openPgpProviderList.indexOf(app);
@@ -188,26 +206,31 @@ public class OpenPgpAppSelectDialog extends Activity {
         }
 
         @Override
-        public void onDismiss(DialogInterface dialog) {
+        public void onDismiss(DialogInterface dialog)
+        {
             super.onDismiss(dialog);
             ((OpenPgpAppSelectDialog) getActivity()).onSelectProvider(selectedPackage);
         }
     }
 
-    public static class ApgDeprecationDialogFragment extends DialogFragment {
+    public static class ApgDeprecationDialogFragment extends DialogFragment
+    {
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
+        public Dialog onCreateDialog(Bundle savedInstanceState)
+        {
             return new ApgDeprecationWarningDialog(getActivity());
         }
 
         @Override
-        public void onDismiss(DialogInterface dialog) {
+        public void onDismiss(DialogInterface dialog)
+        {
             super.onDismiss(dialog);
             ((OpenPgpAppSelectDialog) getActivity()).onDismissApgDialog();
         }
     }
 
-    public void onSelectProvider(String selectedPackage) {
+    public void onSelectProvider(String selectedPackage)
+    {
         if (APG_PROVIDER_PLACEHOLDER.equals(selectedPackage)) {
             showApgDeprecationDialogFragment();
             return;
@@ -216,7 +239,8 @@ public class OpenPgpAppSelectDialog extends Activity {
         finish();
     }
 
-    private void persistOpenPgpProviderSetting(String selectedPackage) {
+    private void persistOpenPgpProviderSetting(String selectedPackage)
+    {
         XryptoMail.setOpenPgpProvider(selectedPackage);
 
         StorageEditor editor = Preferences.getPreferences(this).getStorage().edit();
@@ -224,29 +248,34 @@ public class OpenPgpAppSelectDialog extends Activity {
         editor.commit();
     }
 
-    public void onDismissApgDialog() {
+    public void onDismissApgDialog()
+    {
         showOpenPgpSelectDialogFragment();
     }
 
-    private static class OpenPgpProviderEntry {
+    private static class OpenPgpProviderEntry
+    {
         private String packageName;
         private String simpleName;
         private Drawable icon;
         private Intent intent;
 
-        OpenPgpProviderEntry(String packageName, String simpleName, Drawable icon) {
+        OpenPgpProviderEntry(String packageName, String simpleName, Drawable icon)
+        {
             this.packageName = packageName;
             this.simpleName = simpleName;
             this.icon = icon;
         }
 
-        OpenPgpProviderEntry(String packageName, String simpleName, Drawable icon, Intent intent) {
+        OpenPgpProviderEntry(String packageName, String simpleName, Drawable icon, Intent intent)
+        {
             this(packageName, simpleName, icon);
             this.intent = intent;
         }
 
         @Override
-        public String toString() {
+        public String toString()
+        {
             return simpleName;
         }
     }

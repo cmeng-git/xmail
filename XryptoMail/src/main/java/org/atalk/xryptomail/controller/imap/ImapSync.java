@@ -592,14 +592,7 @@ class ImapSync
                             }
 
                             // Store the updated message locally
-                            final LocalMessage localMessage = localFolder.storeSmallMessage(message, new Runnable()
-                            {
-                                @Override
-                                public void run()
-                                {
-                                    progress.incrementAndGet();
-                                }
-                            });
+                            final LocalMessage localMessage = localFolder.storeSmallMessage(message, () -> progress.incrementAndGet());
 
                             // Increment the number of "new messages" if the newly downloaded message is
                             // not marked as read.

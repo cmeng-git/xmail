@@ -8,10 +8,8 @@ import android.os.PowerManager;
 
 import timber.log.Timber;
 
-
 public abstract class DeviceIdleManager {
     private static DeviceIdleManager instance;
-
 
     public static synchronized DeviceIdleManager getInstance(Context context) {
         if (instance == null) {
@@ -50,7 +48,6 @@ public abstract class DeviceIdleManager {
         private final DeviceIdleReceiver deviceIdleReceiver;
         private final IntentFilter intentFilter;
         private boolean registered;
-
 
         static RealDeviceIdleManager newInstance(Context context) {
             Context appContext = context.getApplicationContext();

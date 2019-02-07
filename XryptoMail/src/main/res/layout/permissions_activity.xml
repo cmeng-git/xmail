@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/screen_padding"
+    android:padding="@dimen/screen_padding"
     android:background="@color/color_primary"
     android:orientation="vertical">
 
@@ -17,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_margin="10dp"
             android:background="@drawable/alpha_blue_01"
+            android:padding="10dp"
             android:text="@string/permission_hint" />
 
         <Button
@@ -121,14 +121,12 @@
             android:layout_toEndOf="@id/remote_control_permission_button"
             android:layout_toRightOf="@id/remote_control_permission_button"
             android:text="@string/permission_unknown_feedback" />
-
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/button_Container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:layout_alignParentBottom="true">
 
         <Button

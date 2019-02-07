@@ -10,11 +10,9 @@ import android.support.annotation.RequiresApi;
 import org.atalk.xryptomail.service.MailService;
 import timber.log.Timber;
 
-
 @RequiresApi(api = Build.VERSION_CODES.M)
 class DeviceIdleReceiver extends BroadcastReceiver {
     private final PowerManager powerManager;
-
 
     DeviceIdleReceiver(PowerManager powerManager) {
         this.powerManager = powerManager;
@@ -24,9 +22,8 @@ class DeviceIdleReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         boolean deviceInIdleMode = powerManager.isDeviceIdleMode();
         Timber.v("Device idle mode changed. Idle: %b", deviceInIdleMode);
-
         if (!deviceInIdleMode) {
-            MailService.actionReset(context, null);
+            MailService.actionReset(context);
         }
     }
 }

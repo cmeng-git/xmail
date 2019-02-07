@@ -49,11 +49,12 @@ abstract class BaseNotifications {
     }
 
     protected NotificationCompat.Builder createAndInitializeNotificationBuilder(Account account) {
-        return controller.createNotificationBuilder()
+        return controller.createNotificationBuilder(NotificationHelper.EMAIL_GROUP)
                 .setSmallIcon(getNewMailNotificationIcon())
                 .setColor(account.getChipColor())
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
+                .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY) // fix double alert in android-O
                 .setCategory(NotificationCompat.CATEGORY_EMAIL);
     }
 

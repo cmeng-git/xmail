@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.os.PowerManager;
 
 import org.atalk.xryptomail.XryptoMail;
-import org.atalk.xryptomail.mail.power.TracingPowerManager;
-import org.atalk.xryptomail.mail.power.TracingPowerManager.TracingWakeLock;
+import org.atalk.xryptomail.power.TracingPowerManager;
+import org.atalk.xryptomail.power.TracingPowerManager.TracingWakeLock;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -20,7 +20,7 @@ public class CoreReceiver extends BroadcastReceiver
     public static final String WAKE_LOCK_RELEASE = "org.atalk.xryptomail.service.CoreReceiver.wakeLockRelease";
     public static final String WAKE_LOCK_ID = "org.atalk.xryptomail.service.CoreReceiver.wakeLockId";
 
-    private static ConcurrentHashMap<Integer, TracingWakeLock> wakeLocks = new ConcurrentHashMap<Integer, TracingWakeLock>();
+    private static ConcurrentHashMap<Integer, TracingWakeLock> wakeLocks = new ConcurrentHashMap<>();
     private static AtomicInteger wakeLockSeq = new AtomicInteger(0);
 
     private static Integer getWakeLock(Context context)

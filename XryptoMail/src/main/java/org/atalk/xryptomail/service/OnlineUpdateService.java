@@ -20,6 +20,7 @@ import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.activity.OnlineUpdate;
 import org.atalk.xryptomail.helper.DownloadFile;
 import org.atalk.xryptomail.helper.MySqlConn;
+import org.atalk.xryptomail.notification.NotificationHelper;
 import org.atalk.xryptomail.preferences.Storage;
 import org.atalk.xryptomail.preferences.StorageEditor;
 
@@ -111,7 +112,8 @@ public class OnlineUpdateService extends IntentService
         NotificationManager notifMgr = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
         notifMgr.cancel(ONLINEUPDATESERVICE, mNotifID);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplication(), null)
+        NotificationCompat.Builder mBuilder
+                = new NotificationCompat.Builder(getApplication(), NotificationHelper.SERVICE_GROUP)
                 .setSmallIcon(R.drawable.ic_icon)
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
@@ -144,7 +146,7 @@ public class OnlineUpdateService extends IntentService
                 XryptoMail.mVersionOnServer = contentValues.getAsString("Version");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Timber.e("Online update check failed: %s", e.getMessage());
         }
 
         notifMgr.cancel(notiID);
@@ -154,14 +156,9 @@ public class OnlineUpdateService extends IntentService
             // Event thread - Must execute in UiThread to download file
             if (mUpdateWithoutConfirm) {
                 Handler mainHandler = new Handler(this.getApplicationContext().getMainLooper());
-                Runnable myRunnable = new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        DownloadWithoutConfirm downloadFile = new DownloadWithoutConfirm();
-                        downloadFile.execute(XryptoMail.mNewApkPathOnServer);
-                    }
+                Runnable myRunnable = () -> {
+                    DownloadWithoutConfirm downloadFile = new DownloadWithoutConfirm();
+                    downloadFile.execute(XryptoMail.mNewApkPathOnServer);
                 };
                 mainHandler.post(myRunnable);
             }
@@ -198,7 +195,7 @@ public class OnlineUpdateService extends IntentService
      * @param installedVersion current installed apk version
      * @param compareVersion apk version on server
      * @return 0 = same, -1 means installedVersion < compareVersion,
-     * 		   1 = installedVersion > compareVersion, 2 = unknown
+     * 1 = installedVersion > compareVersion, 2 = unknown
      */
     public static int versionCompare(String installedVersion, String compareVersion)
     {

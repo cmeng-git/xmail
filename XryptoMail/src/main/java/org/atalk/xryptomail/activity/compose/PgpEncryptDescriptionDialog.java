@@ -35,12 +35,7 @@ public class PgpEncryptDescriptionDialog extends HighlightDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setView(view);
 
-        builder.setPositiveButton(R.string.openpgp_sign_only_ok, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        builder.setPositiveButton(R.string.openpgp_sign_only_ok, (dialog, which) -> dialog.dismiss());
 
         return builder.create();
     }

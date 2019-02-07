@@ -43,20 +43,10 @@ public class ClientCertificateSpinner extends LinearLayout {
         inflater.inflate(R.layout.client_certificate_spinner, this, true);
 
         mSelection = findViewById(R.id.client_certificate_spinner_button);
-        mSelection.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chooseCertificate();
-            }
-        });
+        mSelection.setOnClickListener(v -> chooseCertificate());
 
         mDeleteButton = findViewById(R.id.client_certificate_spinner_delete);
-        mDeleteButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDelete();
-            }
-        });
+        mDeleteButton.setOnClickListener(v -> onDelete());
     }
 
     public void setAlias(String alias) {
@@ -67,13 +57,10 @@ public class ClientCertificateSpinner extends LinearLayout {
 
         mAlias = alias;
         // Note: KeyChainAliasCallback is a different thread than the UI
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                updateView();
-                if (mListener != null) {
-                    mListener.onClientCertificateChanged(mAlias);
-                }
+        mActivity.runOnUiThread(() -> {
+            updateView();
+            if (mListener != null) {
+                mListener.onClientCertificateChanged(mAlias);
             }
         });
     }

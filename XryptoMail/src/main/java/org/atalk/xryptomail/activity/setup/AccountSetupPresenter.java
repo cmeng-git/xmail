@@ -660,28 +660,18 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
                     replayChecking();
                 }
                 else {
-                    handler.post(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            view.goBack();
-                            view.showErrorDialog(R.string.account_setup_failed_auth_message);
-                        }
+                    handler.post(() -> {
+                        view.goBack();
+                        view.showErrorDialog(R.string.account_setup_failed_auth_message);
                     });
                 }
             } catch (CertificateValidationException cve) {
                 handleCertificateValidationException(cve);
             } catch (final Exception e) {
                 Timber.e(e, "Error while testing settings");
-                handler.post(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        view.goBack();
-                        view.showErrorDialog(R.string.account_setup_failed_server_message);
-                    }
+                handler.post(() -> {
+                    view.goBack();
+                    view.showErrorDialog(R.string.account_setup_failed_server_message);
                 });
             }
             return false;
@@ -1048,14 +1038,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
             }
         }
         final String finalExMessage = exMessage;
-        handler.post(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                view.showAcceptKeyDialog(msgResId, finalExMessage, chainInfo.toString(), chain[0]);
-            }
-        });
+        handler.post(() -> view.showAcceptKeyDialog(msgResId, finalExMessage, chainInfo.toString(), chain[0]));
     }
 
     private void handleCertificateValidationException(CertificateValidationException cve)
@@ -1402,7 +1385,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
             Timber.e(e, "Could not get remote store");
         }
         if (isPushCapable && account.getFolderPushMode() != FolderMode.NONE) {
-            MailService.actionRestartPushers(view.getContext(), null);
+            MailService.actionRestartPushers(view.getContext());
         }
         account.save(preferences);
     }
@@ -1905,27 +1888,13 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     @Override
     public void handleGmailRedirectUrl(final String url)
     {
-        handler.post(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                view.openGmailUrl(url);
-            }
-        });
+        handler.post(() -> view.openGmailUrl(url));
     }
 
     @Override
     public void handleOutlookRedirectUrl(final String url)
     {
-        handler.post(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                view.openOutlookUrl(url);
-            }
-        });
+        handler.post(() -> view.openOutlookUrl(url));
     }
 
     @Override

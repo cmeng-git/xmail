@@ -16,16 +16,18 @@
  */
 package org.atalk.xryptomail.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
-import org.atalk.xryptomail.BuildConfig;
-import org.atalk.xryptomail.R;
-import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.service.OnlineUpdateService;
 
 import java.io.File;
@@ -33,7 +35,7 @@ import java.io.File;
 /**
  * Splash screen activity
  */
-public class Splash extends XMActivity
+public class Splash extends Activity
 {
     private final static int ONLINE_UPDATE = 10;
 
@@ -42,29 +44,30 @@ public class Splash extends XMActivity
     private static boolean mFirstRun = true;
     private Intent nextIntent = null;
 
+    // Show the splash screen if first launch and wait for it to complete before continue
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // Request indeterminate progress for splash screen
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        setProgressBarIndeterminateVisibility(true);
         setContentView(R.layout.splash);
 
-        nextIntent = getIntent().getParcelableExtra(XryptoMail.NEXT_INTENT);
-        // run a thread with delay SPLASH_SCREEN_SHOW_TIME before returning to defined home screen
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                // Start update service for debug version only
-                if (BuildConfig.DEBUG) {
-                    startService(new Intent(getApplicationContext(), OnlineUpdateService.class));
-                }
-                // no further action - exit splash screen
-                finish();
-            }
-        }, SPLASH_SCREEN_SHOW_TIME); // wait time in milliseconds until the run() method will be called
+        // Starts fade in animation
+        ImageView myImageView = findViewById(R.id.loadingImage);
+        Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        myImageView.startAnimation(myFadeInAnimation);
         mFirstRun = false;
+
+        // run a thread with delay SPLASH_SCREEN_SHOW_TIME before returning to defined home screen
+        new Handler().postDelayed(() -> {
+            // Start update service for debug version only
+            if (BuildConfig.DEBUG) {
+                startService(new Intent(getApplicationContext(), OnlineUpdateService.class));
+            }
+            // must exit splash screen
+            finish();
+        }, SPLASH_SCREEN_SHOW_TIME);
     }
 
     @Override

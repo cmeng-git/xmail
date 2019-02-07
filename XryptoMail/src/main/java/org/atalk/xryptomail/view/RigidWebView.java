@@ -50,11 +50,7 @@ public class RigidWebView extends WebView {
     private final Clock mClock = Clock.INSTANCE;
 
     private final Throttle mThrottle = new Throttle(getClass().getName(),
-            new Runnable() {
-                @Override public void run() {
-                    performSizeChangeDelayed();
-                }
-            }, Utility.getMainThreadHandler(),
+            () -> performSizeChangeDelayed(), Utility.getMainThreadHandler(),
             MIN_RESIZE_INTERVAL, MAX_RESIZE_INTERVAL);
 
     private int mRealWidth;

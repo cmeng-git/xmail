@@ -1179,15 +1179,10 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
         @Override
         public void remoteSearchFailed(String folder, final String err)
         {
-            mHandler.post(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    Activity activity = getActivity();
-                    if (activity != null) {
-                        Toast.makeText(activity, R.string.remote_search_error, Toast.LENGTH_LONG).show();
-                    }
+            mHandler.post(() -> {
+                Activity activity = getActivity();
+                if (activity != null) {
+                    Toast.makeText(activity, R.string.remote_search_error, Toast.LENGTH_LONG).show();
                 }
             });
         }

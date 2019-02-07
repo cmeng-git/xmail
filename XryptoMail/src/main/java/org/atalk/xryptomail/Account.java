@@ -127,6 +127,9 @@ public class Account implements BaseAccount, AccountConfig
     public static final boolean XRYPTO_MODE = true;
     public static final int DEFAULT_REMOTE_SEARCH_NUM_RESULTS = 25;
 
+    // Default mail polling interval = 30 minutes
+    private static final int DEFAULT_POLL_INTERVAL = 30;
+
     public static final String ACCOUNT_DESCRIPTION_KEY = "description";
     public static final String STORE_URI_KEY = "storeUri";
     public static final String TRANSPORT_URI_KEY = "transportUri";
@@ -424,7 +427,6 @@ public class Account implements BaseAccount, AccountConfig
      */
     private synchronized void loadAccount(Preferences preferences)
     {
-
         Storage storage = preferences.getStorage();
 
         mStoreUri = Base64.decode(storage.getString(mAccountUuid + ".storeUri", null));
@@ -432,7 +434,7 @@ public class Account implements BaseAccount, AccountConfig
         mTransportUri = Base64.decode(storage.getString(mAccountUuid + ".transportUri", null));
         mDescription = storage.getString(mAccountUuid + ".description", null);
         mAlwaysBcc = storage.getString(mAccountUuid + ".alwaysBcc", mAlwaysBcc);
-        mAutomaticCheckIntervalMinutes = storage.getInt(mAccountUuid + ".automaticCheckIntervalMinutes", -1);
+        mAutomaticCheckIntervalMinutes = storage.getInt(mAccountUuid + ".automaticCheckIntervalMinutes", DEFAULT_POLL_INTERVAL);
         mIdleRefreshMinutes = storage.getInt(mAccountUuid + ".idleRefreshMinutes", 24);
         mPushPollOnConnect = storage.getBoolean(mAccountUuid + ".pushPollOnConnect", true);
         mDisplayCount = storage.getInt(mAccountUuid + ".displayCount", XryptoMail.DEFAULT_VISIBLE_LIMIT);
@@ -440,7 +442,7 @@ public class Account implements BaseAccount, AccountConfig
             mDisplayCount = XryptoMail.DEFAULT_VISIBLE_LIMIT;
         }
         mLatestOldMessageSeenTime = storage.getLong(mAccountUuid + ".latestOldMessageSeenTime", 0);
-        mNotifyNewMail = storage.getBoolean(mAccountUuid + ".notifyNewMail", false);
+        mNotifyNewMail = storage.getBoolean(mAccountUuid + ".notifyNewMail", true);
         mFolderNotifyNewMailMode = getEnumStringPref(storage, mAccountUuid + ".folderNotifyNewMailMode", FolderMode.ALL);
         mNotifySelfNewMail = storage.getBoolean(mAccountUuid + ".notifySelfNewMail", true);
         mNotifyContactsMailOnly = storage.getBoolean(mAccountUuid + ".notifyContactsMailOnly", false);

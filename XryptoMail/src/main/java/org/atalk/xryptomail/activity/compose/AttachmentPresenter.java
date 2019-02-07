@@ -303,12 +303,7 @@ public class AttachmentPresenter {
             };
 
     private void postPerformStalledAction() {
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                performStalledAction();
-            }
-        });
+        new Handler().post(() -> performStalledAction());
     }
 
     private void performStalledAction() {

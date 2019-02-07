@@ -5,7 +5,7 @@ import timber.log.Timber;
 
 import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.mail.*;
-import org.atalk.xryptomail.mail.power.TracingPowerManager.TracingWakeLock;
+import org.atalk.xryptomail.power.TracingPowerManager.TracingWakeLock;
 import org.atalk.xryptomail.mailstore.*;
 import org.atalk.xryptomail.service.SleepService;
 

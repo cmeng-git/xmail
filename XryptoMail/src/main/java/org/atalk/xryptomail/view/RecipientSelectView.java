@@ -315,12 +315,7 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient> implem
 
     public void postShowAlternatesPopup(final List<Recipient> data) {
         // We delay this call so the soft keyboard is gone by the time the popup is layouted
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                showAlternatesPopup(data);
-            }
-        });
+        new Handler().post(() -> showAlternatesPopup(data));
     }
 
     public void showAlternatesPopup(List<Recipient> data) {

@@ -3,11 +3,9 @@ package org.atalk.xryptomail.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 
-import org.atalk.xryptomail.R;
-
-public class ConfirmationDialog {
+public class ConfirmationDialog
+{
 
     /**
      * Creates a customized confirmation dialog ({@link AlertDialog}).
@@ -22,10 +20,11 @@ public class ConfirmationDialog {
      * @return A confirmation dialog with the supplied arguments
      */
     public static Dialog create(final Activity activity, final int dialogId, final int title,
-                                final String message, final int confirmButton, final int cancelButton,
-                                final Runnable action) {
+            final String message, final int confirmButton, final int cancelButton,
+            final Runnable action)
+    {
         return create(activity, dialogId, title, message, confirmButton, cancelButton, action, null);
-}
+    }
 
     /**
      * Creates a customized confirmation dialog ({@link AlertDialog}).
@@ -42,29 +41,22 @@ public class ConfirmationDialog {
      */
 
     public static Dialog create(final Activity activity, final int dialogId, final int title,
-                                final String message, final int confirmButton, final int cancelButton,
-                                final Runnable action, final Runnable negativeAction) {
-   	
+            final String message, final int confirmButton, final int cancelButton,
+            final Runnable action, final Runnable negativeAction)
+    {
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         builder.setTitle(title);
         builder.setMessage(message);
-        builder.setPositiveButton(confirmButton,
-        new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                activity.dismissDialog(dialogId);
-                action.run();
-            }
+        builder.setPositiveButton(confirmButton, (dialog, which) -> {
+            activity.dismissDialog(dialogId);
+            action.run();
         });
-        builder.setNegativeButton(cancelButton,
-        new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                activity.dismissDialog(dialogId);
-                if (negativeAction != null) {
-                    negativeAction.run();
-                }
+        builder.setNegativeButton(cancelButton, (dialog, which) -> {
+            activity.dismissDialog(dialogId);
+            if (negativeAction != null) {
+                negativeAction.run();
             }
         });
         return builder.create();
@@ -81,13 +73,14 @@ public class ConfirmationDialog {
      * @param cancelButton The resource id of the text to display in the cancel button
      * @param action The action to perform if the user presses the confirm button
      * @return A confirmation dialog with the supplied arguments
-     * @see #create(Activity,int,int,String,int,int,Runnable, Runnable)
+     * @see #create(Activity, int, int, String, int, int, Runnable, Runnable)
      */
     public static Dialog create(final Activity activity, final int dialogId, final int title,
-                                final int message, final int confirmButton, final int cancelButton,
-                                final Runnable action) {
+            final int message, final int confirmButton, final int cancelButton,
+            final Runnable action)
+    {
 
         return create(activity, dialogId, title, activity.getString(message), confirmButton,
-                      cancelButton, action, null);
+                cancelButton, action, null);
     }
 }

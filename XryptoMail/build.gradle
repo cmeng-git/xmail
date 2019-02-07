@@ -83,13 +83,12 @@ android {
         applicationId "org.atalk.xryptomail"
         testApplicationId "org.atalk.xryptomail.tests"
 
-        versionCode 18800
-        versionName '4.8.0'
+        versionCode 18900
+        versionName '4.9.0'
 
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.compileSdkVersion
 
-        generatedDensities = ['mdpi', 'hdpi', 'xhdpi']
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -160,6 +159,11 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/README'
         exclude 'LICENSE.txt'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 

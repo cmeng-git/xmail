@@ -243,6 +243,7 @@ class ImapConnection
         else {
             socket = new Socket();
         }
+        TrafficStats.setThreadStatsTag(XryptoMail.THREAD_ID);
         socket.connect(socketAddress, socketConnectTimeout);
         return socket;
     }

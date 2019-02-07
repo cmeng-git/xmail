@@ -75,14 +75,12 @@ public class EditIdentity extends XMActivity
         mSignatureUse = (CheckBox)findViewById(R.id.signature_use);
         mSignatureView = (EditText)findViewById(R.id.signature);
         mSignatureUse.setChecked(mIdentity.getSignatureUse());
-        mSignatureUse.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mSignatureLayout.setVisibility(View.VISIBLE);
-                    mSignatureView.setText(mIdentity.getSignature());
-                } else {
-                    mSignatureLayout.setVisibility(View.GONE);
-                }
+        mSignatureUse.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                mSignatureLayout.setVisibility(View.VISIBLE);
+                mSignatureView.setText(mIdentity.getSignature());
+            } else {
+                mSignatureLayout.setVisibility(View.GONE);
             }
         });
 

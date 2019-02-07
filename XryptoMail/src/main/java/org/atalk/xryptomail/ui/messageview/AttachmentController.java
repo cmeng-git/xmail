@@ -65,31 +65,18 @@ public class AttachmentController
 
 	private void downloadAndViewAttachment(LocalPart localPart)
 	{
-		downloadAttachment(localPart, new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				viewLocalAttachment();
-			}
-		});
+		downloadAttachment(localPart, () -> viewLocalAttachment());
 	}
 
 	private void downloadAndSaveAttachmentTo(LocalPart localPart, final File directory)
 	{
-		downloadAttachment(localPart, new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				messageViewFragment.refreshAttachmentThumbnail(attachment);
-				saveLocalAttachmentTo(directory);
-			}
-		});
+		downloadAttachment(localPart, () -> {
+            messageViewFragment.refreshAttachmentThumbnail(attachment);
+            saveLocalAttachmentTo(directory);
+        });
 	}
 
-	private void downloadAttachment(LocalPart localPart,
-			final Runnable attachmentDownloadedCallback)
+	private void downloadAttachment(LocalPart localPart, final Runnable attachmentDownloadedCallback)
 	{
 		String accountUuid = localPart.getAccountUuid();
 		Account account = Preferences.getPreferences(context).getAccount(accountUuid);

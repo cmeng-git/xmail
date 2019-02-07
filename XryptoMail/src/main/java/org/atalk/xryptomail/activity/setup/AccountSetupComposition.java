@@ -71,17 +71,15 @@ public class AccountSetupComposition extends XMActivity
         mAccountSignatureUse = (CheckBox)findViewById(R.id.account_signature_use);
         boolean useSignature = mAccount.getSignatureUse();
         mAccountSignatureUse.setChecked(useSignature);
-        mAccountSignatureUse.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mAccountSignatureLayout.setVisibility(View.VISIBLE);
-                    mAccountSignature.setText(mAccount.getSignature());
-                    boolean isSignatureBeforeQuotedText = mAccount.isSignatureBeforeQuotedText();
-                    mAccountSignatureBeforeLocation.setChecked(isSignatureBeforeQuotedText);
-                    mAccountSignatureAfterLocation.setChecked(!isSignatureBeforeQuotedText);
-                } else {
-                    mAccountSignatureLayout.setVisibility(View.GONE);
-                }
+        mAccountSignatureUse.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                mAccountSignatureLayout.setVisibility(View.VISIBLE);
+                mAccountSignature.setText(mAccount.getSignature());
+                boolean isSignatureBeforeQuotedText = mAccount.isSignatureBeforeQuotedText();
+                mAccountSignatureBeforeLocation.setChecked(isSignatureBeforeQuotedText);
+                mAccountSignatureAfterLocation.setChecked(!isSignatureBeforeQuotedText);
+            } else {
+                mAccountSignatureLayout.setVisibility(View.GONE);
             }
         });
 

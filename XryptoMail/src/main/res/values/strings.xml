@@ -81,6 +81,7 @@ some quirks when talking to Microsoft Exchange.
     <string name="About_action">About</string>
     <string name="About_help">Help</string>
     <string name="PoweredBy">Powered By atalk.org</string>
+    <string name="Exit">Exit</string>
 
     <string name="show_history_log">History Logs</string>
     <string name="check_new_version">Check Update</string>
@@ -1418,15 +1419,14 @@ some quirks when talking to Microsoft Exchange.
     <!-- Android Battery Usage Optimization -->
     <string name="battery_optimizations">Battery Optimization</string>
     <string name="battery_optimizations_dialog">Your device has battery usage optimization on XryptoMail; this may lead to delayed notifications or message lost.\n\nIt is recommended that you disable this optimization for XryptoMail.</string>
+    <string name="battery_optimization_on">XryptoMail will be put to sleep when device goes into doze-standby. Manual restart XrytoMail to receive new messages.</string>
     <string name="device_does_not_support_battery_op">Your device does not support opting out of battery optimization</string>
     <string name="disable">Disable</string>
     <string name="next">Next</string>
 
     <!-- Android Notification Channels -->
-    <string name="noti_channel_MESSAGE_GROUP">Chat Message Notification</string>
-    <string name="noti_channel_FILE_GROUP">File Transfer Notification</string>
-    <string name="noti_channel_CALL_GROUP">Call Notification</string>
-    <string name="noti_channel_MISSED_CALL">Miss Call Notification</string>
-    <string name="noti_channel_DEFAULT_GROUP">General Notification</string>
+    <string name="noti_channel_EMAIL_GROUP">Email Notification</string>
+    <string name="noti_channel_ERROR_GROUP">Error Notification</string>
+    <string name="noti_channel_SERVICE_GROUP">Service Notification</string>
 
 </resources>

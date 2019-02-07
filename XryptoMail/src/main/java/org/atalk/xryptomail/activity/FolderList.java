@@ -4,64 +4,32 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.PowerManager;
+import android.os.*;
 import android.text.TextUtils.TruncateAt;
 import android.text.format.DateUtils;
-import android.view.ContextMenu;
+import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.SearchView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import org.atalk.xryptomail.Account;
+import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.Account.FolderMode;
-import org.atalk.xryptomail.AccountStats;
-import org.atalk.xryptomail.BaseAccount;
-import org.atalk.xryptomail.FontSizes;
-import org.atalk.xryptomail.Preferences;
-import org.atalk.xryptomail.R;
-import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.activity.compose.MessageActions;
-import org.atalk.xryptomail.activity.setup.AccountSettings;
-import org.atalk.xryptomail.activity.setup.FolderSettings;
-import org.atalk.xryptomail.activity.setup.Prefs;
-import org.atalk.xryptomail.controller.MessagingController;
-import org.atalk.xryptomail.controller.MessagingListener;
-import org.atalk.xryptomail.controller.SimpleMessagingListener;
+import org.atalk.xryptomail.activity.setup.*;
+import org.atalk.xryptomail.controller.*;
 import org.atalk.xryptomail.helper.SizeFormatter;
 import org.atalk.xryptomail.mail.Folder;
 import org.atalk.xryptomail.mail.Message;
-import org.atalk.xryptomail.mail.power.TracingPowerManager;
-import org.atalk.xryptomail.mail.power.TracingPowerManager.TracingWakeLock;
+import org.atalk.xryptomail.power.TracingPowerManager;
+import org.atalk.xryptomail.power.TracingPowerManager.TracingWakeLock;
 import org.atalk.xryptomail.mailstore.LocalFolder;
 import org.atalk.xryptomail.search.LocalSearch;
 import org.atalk.xryptomail.search.SearchSpecification.Attribute;
 import org.atalk.xryptomail.search.SearchSpecification.SearchField;
 import org.atalk.xryptomail.service.MailService;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import de.cketti.library.changelog.ChangeLog;
 import timber.log.Timber;
@@ -104,84 +72,64 @@ public class FolderList extends XMListActivity
     {
         public void refreshTitle()
         {
-            runOnUiThread(new Runnable()
-            {
-                public void run()
-                {
-                    mActionBarTitle.setText(getString(R.string.folders_title));
+            runOnUiThread(() -> {
+                mActionBarTitle.setText(getString(R.string.folders_title));
 
-                    if (mUnreadMessageCount == 0) {
-                        mActionBarUnread.setVisibility(View.GONE);
-                    }
-                    else {
-                        mActionBarUnread.setText(String.format("%d", mUnreadMessageCount));
-                        mActionBarUnread.setVisibility(View.VISIBLE);
-                    }
+                if (mUnreadMessageCount == 0) {
+                    mActionBarUnread.setVisibility(View.GONE);
+                }
+                else {
+                    mActionBarUnread.setText(String.format("%d", mUnreadMessageCount));
+                    mActionBarUnread.setVisibility(View.VISIBLE);
+                }
 
-                    String operation = mAdapter.mListener.getOperation(FolderList.this);
-                    if (operation.length() < 1) {
-                        mActionBarSubTitle.setText(mAccount.getEmail());
-                    }
-                    else {
-                        mActionBarSubTitle.setText(operation);
-                    }
+                String operation = mAdapter.mListener.getOperation(FolderList.this);
+                if (operation.length() < 1) {
+                    mActionBarSubTitle.setText(mAccount.getEmail());
+                }
+                else {
+                    mActionBarSubTitle.setText(operation);
                 }
             });
         }
 
         public void newFolders(final List<FolderInfoHolder> newFolders)
         {
-            runOnUiThread(new Runnable()
-            {
-                public void run()
-                {
-                    mAdapter.mFolders.clear();
-                    mAdapter.mFolders.addAll(newFolders);
-                    mAdapter.mFilteredFolders = mAdapter.mFolders;
-                    mHandler.dataChanged();
-                }
+            runOnUiThread(() -> {
+                mAdapter.mFolders.clear();
+                mAdapter.mFolders.addAll(newFolders);
+                mAdapter.mFilteredFolders = mAdapter.mFolders;
+                mHandler.dataChanged();
             });
         }
 
         public void workingAccount(final int res)
         {
-            runOnUiThread(new Runnable()
-            {
-                public void run()
-                {
-                    String toastText = getString(res, mAccount.getDescription());
-                    Toast toast = Toast.makeText(getApplication(), toastText, Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+            runOnUiThread(() -> {
+                String toastText = getString(res, mAccount.getDescription());
+                Toast toast = Toast.makeText(getApplication(), toastText, Toast.LENGTH_SHORT);
+                toast.show();
             });
         }
 
         public void accountSizeChanged(final long oldSize, final long newSize)
         {
-            runOnUiThread(new Runnable()
-            {
-                public void run()
-                {
-                    String toastText = getString(R.string.account_size_changed, mAccount.getDescription(),
-                            SizeFormatter.formatSize(getApplication(), oldSize),
-                            SizeFormatter.formatSize(getApplication(), newSize));
+            runOnUiThread(() -> {
+                String toastText = getString(R.string.account_size_changed, mAccount.getDescription(),
+                        SizeFormatter.formatSize(getApplication(), oldSize),
+                        SizeFormatter.formatSize(getApplication(), newSize));
 
-                    Toast toast = Toast.makeText(getApplication(), toastText, Toast.LENGTH_LONG);
-                    toast.show();
-                }
+                Toast toast = Toast.makeText(getApplication(), toastText, Toast.LENGTH_LONG);
+                toast.show();
             });
         }
 
         public void folderLoading(final String folder, final boolean loading)
         {
-            runOnUiThread(new Runnable()
-            {
-                public void run()
-                {
-                    FolderInfoHolder folderHolder = mAdapter.getFolder(folder);
-                    if (folderHolder != null) {
-                        folderHolder.loading = loading;
-                    }
+            runOnUiThread(() -> {
+                FolderInfoHolder folderHolder = mAdapter.getFolder(folder);
+                if (folderHolder != null) {
+                    folderHolder.loading = loading;
                 }
             });
         }
@@ -193,29 +141,19 @@ public class FolderList extends XMListActivity
             if (mRefreshMenuItem == null) {
                 return;
             }
-            runOnUiThread(new Runnable()
-            {
-                public void run()
-                {
-                    if (progress) {
-                        mRefreshMenuItem.setActionView(mActionBarProgressView);
-                    }
-                    else {
-                        mRefreshMenuItem.setActionView(null);
-                    }
+            runOnUiThread(() -> {
+                if (progress) {
+                    mRefreshMenuItem.setActionView(mActionBarProgressView);
+                }
+                else {
+                    mRefreshMenuItem.setActionView(null);
                 }
             });
         }
 
         public void dataChanged()
         {
-            runOnUiThread(new Runnable()
-            {
-                public void run()
-                {
-                    mAdapter.notifyDataSetChanged();
-                }
-            });
+            runOnUiThread(() -> mAdapter.notifyDataSetChanged());
         }
     }
 
@@ -291,13 +229,8 @@ public class FolderList extends XMListActivity
         mListView.setLongClickable(true);
         mListView.setFastScrollEnabled(true);
         mListView.setScrollingCacheEnabled(false);
-        mListView.setOnItemClickListener(new OnItemClickListener()
-        {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                onOpenFolder(((FolderInfoHolder) mAdapter.getItem(position)).name);
-            }
-        });
+        mListView.setOnItemClickListener((parent, view, position, id)
+                -> onOpenFolder(((FolderInfoHolder) mAdapter.getItem(position)).name));
         registerForContextMenu(mListView);
 
         mListView.setSaveEnabled(true);
@@ -478,7 +411,7 @@ public class FolderList extends XMListActivity
         mAccount.setFolderDisplayMode(newMode);
         mAccount.save(Preferences.getPreferences(this));
         if (mAccount.getFolderPushMode() != FolderMode.NONE) {
-            MailService.actionRestartPushers(this, null);
+            MailService.actionRestartPushers(this);
         }
         mAdapter.getFilter().filter(null);
         onRefresh(false);
@@ -1110,13 +1043,9 @@ public class FolderList extends XMListActivity
                 holder.flaggedMessageCountWrapper.setVisibility(View.GONE);
             }
 
-            holder.activeIcons.setOnClickListener(new OnClickListener()
-            {
-                public void onClick(View v)
-                {
-                    Toast toast = Toast.makeText(getApplication(), getString(R.string.tap_hint), Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+            holder.activeIcons.setOnClickListener(v -> {
+                Toast toast = Toast.makeText(getApplication(), getString(R.string.tap_hint), Toast.LENGTH_SHORT);
+                toast.show();
             });
             holder.chip.setBackgroundColor(mAccount.getChipColor());
 
@@ -1136,10 +1065,8 @@ public class FolderList extends XMListActivity
 
         private OnClickListener createFlaggedSearch(Account account, FolderInfoHolder folder)
         {
-            String searchTitle = getString(R.string.search_title,
-                    getString(R.string.message_list_title, account.getDescription(),
-                            folder.displayName),
-                    getString(R.string.flagged_modifier));
+            String searchTitle = getString(R.string.search_title, getString(R.string.message_list_title,
+                    account.getDescription(), folder.displayName), getString(R.string.flagged_modifier));
             LocalSearch search = new LocalSearch(searchTitle);
             search.and(SearchField.FLAGGED, "1", Attribute.EQUALS);
             search.addAllowedFolder(folder.name);
@@ -1149,10 +1076,8 @@ public class FolderList extends XMListActivity
 
         private OnClickListener createUnreadSearch(Account account, FolderInfoHolder folder)
         {
-            String searchTitle = getString(R.string.search_title,
-                    getString(R.string.message_list_title, account.getDescription(),
-                            folder.displayName),
-                    getString(R.string.unread_modifier));
+            String searchTitle = getString(R.string.search_title, getString(R.string.message_list_title,
+                    account.getDescription(), folder.displayName), getString(R.string.unread_modifier));
             LocalSearch search = new LocalSearch(searchTitle);
             search.and(SearchField.READ, "1", Attribute.NOT_EQUALS);
             search.addAllowedFolder(folder.name);

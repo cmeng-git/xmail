@@ -177,7 +177,7 @@ public class FolderSettings extends XMPreferenceActivity
 
         if (oldPushClass != newPushClass
                 || (newPushClass != FolderClass.NO_CLASS && oldDisplayClass != newDisplayClass)) {
-            MailService.actionRestartPushers(getApplication(), null);
+            MailService.actionRestartPushers(getApplication());
         }
     }
 

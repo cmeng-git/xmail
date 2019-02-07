@@ -1,4 +1,4 @@
-package org.atalk.xryptomail.mail.power;
+package org.atalk.xryptomail.power;
 
 import android.content.Context;
 import android.os.PowerManager;

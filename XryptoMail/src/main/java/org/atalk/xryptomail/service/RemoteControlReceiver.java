@@ -19,7 +19,7 @@ public class RemoteControlReceiver extends CoreReceiver {
         Timber.i("RemoteControlReceiver.onReceive %s", intent);
 
         if (XryptoMailRemoteControl.CryptoMail_SET.equals(intent.getAction())) {
-            RemoteControlService.set(context, intent, tmpWakeLockId);
+            RemoteControlService.set(context, intent);
             tmpWakeLockId = null;
         } else if (XryptoMailRemoteControl.CryptoMail_REQUEST_ACCOUNTS.equals(intent.getAction())) {
             try {

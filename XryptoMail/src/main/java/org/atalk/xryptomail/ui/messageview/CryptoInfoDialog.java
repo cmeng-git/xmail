@@ -59,36 +59,25 @@ public class CryptoInfoDialog extends DialogFragment {
         setMessageForDisplayStatus(displayStatus);
 
         b.setView(dialogView);
-        b.setPositiveButton(R.string.crypto_info_ok, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dismiss();
-            }
-        });
+        b.setPositiveButton(R.string.crypto_info_ok, (dialogInterface, i) -> dismiss());
         boolean hasSecurityWarning = getArguments().getBoolean(ARG_HAS_SECURITY_WARNING);
         if (hasSecurityWarning) {
-            b.setNeutralButton(R.string.crypto_info_view_security_warning, new OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Fragment frag = getTargetFragment();
-                    if (! (frag instanceof OnClickShowCryptoKeyListener)) {
-                        throw new AssertionError("Displaying activity must implement OnClickShowCryptoKeyListener!");
-                    }
-                    ((OnClickShowCryptoKeyListener) frag).onClickShowSecurityWarning();
+            b.setNeutralButton(R.string.crypto_info_view_security_warning, (dialogInterface, i) -> {
+                Fragment frag = getTargetFragment();
+                if (! (frag instanceof OnClickShowCryptoKeyListener)) {
+                    throw new AssertionError("Displaying activity must implement OnClickShowCryptoKeyListener!");
                 }
+                ((OnClickShowCryptoKeyListener) frag).onClickShowSecurityWarning();
             });
         } else if (displayStatus.hasAssociatedKey()) {
             int buttonLabel = displayStatus.isUnencryptedSigned() ?
                     R.string.crypto_info_view_signer : R.string.crypto_info_view_sender;
-            b.setNeutralButton(buttonLabel, new OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Fragment frag = getTargetFragment();
-                    if (! (frag instanceof OnClickShowCryptoKeyListener)) {
-                        throw new AssertionError("Displaying activity must implement OnClickShowCryptoKeyListener!");
-                    }
-                    ((OnClickShowCryptoKeyListener) frag).onClickShowCryptoKey();
+            b.setNeutralButton(buttonLabel, (dialogInterface, i) -> {
+                Fragment frag = getTargetFragment();
+                if (! (frag instanceof OnClickShowCryptoKeyListener)) {
+                    throw new AssertionError("Displaying activity must implement OnClickShowCryptoKeyListener!");
                 }
+                ((OnClickShowCryptoKeyListener) frag).onClickShowCryptoKey();
             });
         }
         return b.create();

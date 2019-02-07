@@ -116,33 +116,28 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
         switch (type) {
             case HitTestResult.SRC_ANCHOR_TYPE: {
                 final String url = result.getExtra();
-                OnMenuItemClickListener listener = new OnMenuItemClickListener()
-                {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item)
-                    {
-                        switch (item.getItemId()) {
-                            case MENU_ITEM_LINK_VIEW: {
-                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                startActivityIfAvailable(mContext, intent);
-                                break;
-                            }
-                            case MENU_ITEM_LINK_SHARE: {
-                                Intent intent = new Intent(Intent.ACTION_SEND);
-                                intent.setType("text/plain");
-                                intent.putExtra(Intent.EXTRA_TEXT, url);
-                                startActivityIfAvailable(mContext, intent);
-                                break;
-                            }
-                            case MENU_ITEM_LINK_COPY: {
-                                String label = mContext.getString(
-                                        R.string.webview_contextmenu_link_clipboard_label);
-                                mClipboardManager.setText(label, url);
-                                break;
-                            }
+                OnMenuItemClickListener listener = item -> {
+                    switch (item.getItemId()) {
+                        case MENU_ITEM_LINK_VIEW: {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            startActivityIfAvailable(mContext, intent);
+                            break;
                         }
-                        return true;
+                        case MENU_ITEM_LINK_SHARE: {
+                            Intent intent = new Intent(Intent.ACTION_SEND);
+                            intent.setType("text/plain");
+                            intent.putExtra(Intent.EXTRA_TEXT, url);
+                            startActivityIfAvailable(mContext, intent);
+                            break;
+                        }
+                        case MENU_ITEM_LINK_COPY: {
+                            String label = mContext.getString(
+                                    R.string.webview_contextmenu_link_clipboard_label);
+                            mClipboardManager.setText(label, url);
+                            break;
+                        }
                     }
+                    return true;
                 };
 
                 menu.setHeaderTitle(url);
@@ -169,41 +164,36 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
                 final AttachmentViewInfo attachmentViewInfo = getAttachmentViewInfoIfCidUri(uri);
                 final boolean inlineImage = attachmentViewInfo != null;
 
-                OnMenuItemClickListener listener = new OnMenuItemClickListener()
-                {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item)
-                    {
-                        switch (item.getItemId()) {
-                            case MENU_ITEM_IMAGE_VIEW: {
-                                if (inlineImage) {
-                                    attachmentCallback.onViewAttachment(attachmentViewInfo);
-                                }
-                                else {
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                    startActivityIfAvailable(getContext(), intent);
-                                }
-                                break;
+                OnMenuItemClickListener listener = item -> {
+                    switch (item.getItemId()) {
+                        case MENU_ITEM_IMAGE_VIEW: {
+                            if (inlineImage) {
+                                attachmentCallback.onViewAttachment(attachmentViewInfo);
                             }
-                            case MENU_ITEM_IMAGE_SAVE: {
-                                if (inlineImage) {
-                                    attachmentCallback.onSaveAttachment(attachmentViewInfo);
-                                }
-                                else {
-                                    //TODO: Use download manager
-                                    new DownloadImageTask(mContext).execute(uri.toString());
-                                }
-                                break;
+                            else {
+                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                startActivityIfAvailable(getContext(), intent);
                             }
-                            case MENU_ITEM_IMAGE_COPY: {
-                                String label = mContext.getString(
-                                        R.string.webview_contextmenu_image_clipboard_label);
-                                mClipboardManager.setText(label, uri.toString());
-                                break;
-                            }
+                            break;
                         }
-                        return true;
+                        case MENU_ITEM_IMAGE_SAVE: {
+                            if (inlineImage) {
+                                attachmentCallback.onSaveAttachment(attachmentViewInfo);
+                            }
+                            else {
+                                //TODO: Use download manager
+                                new DownloadImageTask(mContext).execute(uri.toString());
+                            }
+                            break;
+                        }
+                        case MENU_ITEM_IMAGE_COPY: {
+                            String label = mContext.getString(
+                                    R.string.webview_contextmenu_image_clipboard_label);
+                            mClipboardManager.setText(label, uri.toString());
+                            break;
+                        }
                     }
+                    return true;
                 };
 
                 menu.setHeaderTitle(inlineImage ?
@@ -228,32 +218,27 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
             }
             case HitTestResult.PHONE_TYPE: {
                 final String phoneNumber = result.getExtra();
-                OnMenuItemClickListener listener = new OnMenuItemClickListener()
-                {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item)
-                    {
-                        switch (item.getItemId()) {
-                            case MENU_ITEM_PHONE_CALL: {
-                                Uri uri = Uri.parse(WebView.SCHEME_TEL + phoneNumber);
-                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                startActivityIfAvailable(mContext, intent);
-                                break;
-                            }
-                            case MENU_ITEM_PHONE_SAVE: {
-                                Contacts contacts = Contacts.getInstance(mContext);
-                                contacts.addPhoneContact(phoneNumber);
-                                break;
-                            }
-                            case MENU_ITEM_PHONE_COPY: {
-                                String label = mContext.getString(
-                                        R.string.webview_contextmenu_phone_clipboard_label);
-                                mClipboardManager.setText(label, phoneNumber);
-                                break;
-                            }
+                OnMenuItemClickListener listener = item -> {
+                    switch (item.getItemId()) {
+                        case MENU_ITEM_PHONE_CALL: {
+                            Uri uri = Uri.parse(WebView.SCHEME_TEL + phoneNumber);
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivityIfAvailable(mContext, intent);
+                            break;
                         }
-                        return true;
+                        case MENU_ITEM_PHONE_SAVE: {
+                            Contacts contacts = Contacts.getInstance(mContext);
+                            contacts.addPhoneContact(phoneNumber);
+                            break;
+                        }
+                        case MENU_ITEM_PHONE_COPY: {
+                            String label = mContext.getString(
+                                    R.string.webview_contextmenu_phone_clipboard_label);
+                            mClipboardManager.setText(label, phoneNumber);
+                            break;
+                        }
                     }
+                    return true;
                 };
 
                 menu.setHeaderTitle(phoneNumber);
@@ -273,32 +258,27 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
             }
             case WebView.HitTestResult.EMAIL_TYPE: {
                 final String email = result.getExtra();
-                OnMenuItemClickListener listener = new OnMenuItemClickListener()
-                {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item)
-                    {
-                        switch (item.getItemId()) {
-                            case MENU_ITEM_EMAIL_SEND: {
-                                Uri uri = Uri.parse(WebView.SCHEME_MAILTO + email);
-                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                startActivityIfAvailable(mContext, intent);
-                                break;
-                            }
-                            case MENU_ITEM_EMAIL_SAVE: {
-                                Contacts contacts = Contacts.getInstance(mContext);
-                                contacts.createContact(new Address(email));
-                                break;
-                            }
-                            case MENU_ITEM_EMAIL_COPY: {
-                                String label = mContext.getString(
-                                        R.string.webview_contextmenu_email_clipboard_label);
-                                mClipboardManager.setText(label, email);
-                                break;
-                            }
+                OnMenuItemClickListener listener = item -> {
+                    switch (item.getItemId()) {
+                        case MENU_ITEM_EMAIL_SEND: {
+                            Uri uri = Uri.parse(WebView.SCHEME_MAILTO + email);
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivityIfAvailable(mContext, intent);
+                            break;
                         }
-                        return true;
+                        case MENU_ITEM_EMAIL_SAVE: {
+                            Contacts contacts = Contacts.getInstance(mContext);
+                            contacts.createContact(new Address(email));
+                            break;
+                        }
+                        case MENU_ITEM_EMAIL_COPY: {
+                            String label = mContext.getString(
+                                    R.string.webview_contextmenu_email_clipboard_label);
+                            mClipboardManager.setText(label, email);
+                            break;
+                        }
                     }
+                    return true;
                 };
 
                 menu.setHeaderTitle(email);
@@ -397,14 +377,7 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
             textToDisplay = HtmlConverter.wrapStatusMessage(getContext().getString(R.string.webview_empty_message));
         }
 
-        OnPageFinishedListener onPageFinishedListener = new OnPageFinishedListener()
-        {
-            @Override
-            public void onPageFinished()
-            {
-                onRenderingFinishedListener.onLoadFinished();
-            }
-        };
+        OnPageFinishedListener onPageFinishedListener = () -> onRenderingFinishedListener.onLoadFinished();
 
         displayHtmlContentWithInlineAttachments(
                 textToDisplay, messageViewInfo.attachmentResolver, onPageFinishedListener);

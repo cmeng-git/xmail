@@ -1,9 +1,11 @@
 package org.atalk.xryptomail.mail.transport.smtp;
 
+import android.net.TrafficStats;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import org.apache.commons.io.IOUtils;
+import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.mail.Address;
 import org.atalk.xryptomail.mail.AuthType;
 import org.atalk.xryptomail.mail.Authentication;
@@ -119,6 +121,7 @@ public class SmtpTransport extends Transport
             for (int i = 0; i < addresses.length; i++) {
                 try {
                     SocketAddress socketAddress = new InetSocketAddress(addresses[i], mPort);
+                    TrafficStats.setThreadStatsTag(XryptoMail.THREAD_ID);
                     if (mConnectionSecurity == ConnectionSecurity.SSL_TLS_REQUIRED) {
                         mSocket = mTrustedSocketFactory.createSocket(null, mHost, mPort, mClientCertificateAlias);
                         mSocket.connect(socketAddress, SOCKET_CONNECT_TIMEOUT);

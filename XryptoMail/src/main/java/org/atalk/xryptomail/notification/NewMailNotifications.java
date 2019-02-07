@@ -57,7 +57,6 @@ class NewMailNotifications {
                 int notificationId = result.getNotificationId();
                 cancelNotification(notificationId);
             }
-
             createStackedNotification(account, result.getNotificationHolder());
             createSummaryNotification(account, notificationData, false);
         }
@@ -69,18 +68,14 @@ class NewMailNotifications {
             if (notificationData == null) {
                 return;
             }
-
             RemoveNotificationResult result = notificationData.removeNotificationForMessage(messageReference);
             if (result.isUnknownNotification()) {
                 return;
             }
-
             cancelNotification(result.getNotificationId());
-
             if (result.shouldCreateNotification()) {
                 createStackedNotification(account, result.getNotificationHolder());
             }
-
             updateSummaryNotification(account, notificationData);
         }
     }
@@ -90,15 +85,12 @@ class NewMailNotifications {
         synchronized (lock) {
             notificationData = removeNotificationData(account);
         }
-
         if (notificationData == null) {
             return;
         }
-
         for (int notificationId : notificationData.getActiveNotificationIds()) {
             cancelNotification(notificationId);
         }
-
         int notificationId = NotificationIds.getNewMailSummaryNotificationId(account);
         cancelNotification(notificationId);
     }
@@ -108,11 +100,9 @@ class NewMailNotifications {
         if (notificationData != null) {
             return notificationData;
         }
-
         int accountNumber = account.getAccountNumber();
         NotificationData newNotificationHolder = createNotificationData(account, unreadMessageCount);
         notifications.put(accountNumber, newNotificationHolder);
-
         return newNotificationHolder;
     }
 
@@ -149,7 +139,6 @@ class NewMailNotifications {
     private void createSummaryNotification(Account account, NotificationData notificationData, boolean silent) {
         Notification notification = deviceNotifications.buildSummaryNotification(account, notificationData, silent);
         int notificationId = NotificationIds.getNewMailSummaryNotificationId(account);
-
         getNotificationManager().notify(notificationId, notification);
     }
 
@@ -157,10 +146,8 @@ class NewMailNotifications {
         if (isPrivacyModeEnabled()) {
             return;
         }
-
         Notification notification = wearNotifications.buildStackedNotification(account, holder);
         int notificationId = holder.notificationId;
-
         getNotificationManager().notify(notificationId, notification);
     }
 

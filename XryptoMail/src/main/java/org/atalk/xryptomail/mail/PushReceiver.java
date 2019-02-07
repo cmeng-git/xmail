@@ -2,7 +2,7 @@ package org.atalk.xryptomail.mail;
 
 import android.content.Context;
 
-import org.atalk.xryptomail.mail.power.TracingPowerManager.TracingWakeLock;
+import org.atalk.xryptomail.power.TracingPowerManager.TracingWakeLock;
 
 import java.util.List;
 

@@ -8,6 +8,15 @@
      They are automatically updated with "ant bump-version".
 -->
 <changelog>
+    <release version="4.9.0 (02/07/2019)" versioncode="18900">
+        <change>Launch android runtime permissions request prior to app main startup</change>
+        <change>Request battery whitelist for XryptoMail to allow mail receive during doze-standby mode</change>
+        <change>Implement android Notification Channel to meet android-O requirements</change>
+        <change>Fix app aborted on android-O device due to IllegalStateException in background Services startup</change>
+        <change>Fix strictMode throwable untagged socket exception on socket connection</change>
+        <change>Bug fixes and other enhancements</change>
+    </release>
+
     <release version="4.8.0 (10/22/2018)" versioncode="18800">
         <change>Built target for Android 9.0 (Pie) or API-28</change>
         <change>Improve run-time permission request and prompt user for Battery Optimization setting</change>

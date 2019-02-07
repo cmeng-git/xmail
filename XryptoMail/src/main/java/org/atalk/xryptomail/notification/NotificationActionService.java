@@ -2,14 +2,14 @@ package org.atalk.xryptomail.notification;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 
-import org.atalk.xryptomail.Account;
-import org.atalk.xryptomail.Preferences;
-import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.activity.MessageReference;
 import org.atalk.xryptomail.controller.MessagingController;
 import org.atalk.xryptomail.mail.Flag;
-import org.atalk.xryptomail.service.CoreService;
+import org.atalk.xryptomail.service.PollService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import timber.log.Timber;
 import static org.atalk.xryptomail.activity.MessageReferenceHelper.toMessageReferenceList;
 import static org.atalk.xryptomail.activity.MessageReferenceHelper.toMessageReferenceStringList;
 
-public class NotificationActionService extends CoreService
+public class NotificationActionService extends JobIntentService
 {
     private static final String ACTION_MARK_AS_READ = "ACTION_MARK_AS_READ";
     private static final String ACTION_DELETE = "ACTION_DELETE";
@@ -120,25 +120,32 @@ public class NotificationActionService extends CoreService
         return messageReferenceStrings;
     }
 
-    @Override
-    public int startService(Intent intent, int startId)
-    {
-        Timber.i("NotificationActionService started with startId = %d", startId);
+    /**
+     * Unique job ID for this service.
+     */
+    static final int JOB_ID = 1500;
 
-        // cmeng - exception "unmarshalling unknown type code" occurs ???
+    public static void enqueueWork(Context context, Intent work)
+    {
+        enqueueWork(context, PollService.class, JOB_ID, work);
+    }
+
+    @Override
+    protected void onHandleWork(@NonNull Intent intent)
+    {
+        Timber.i("NotificationActionService started");
         Account account = null;
         if (intent.hasExtra(EXTRA_ACCOUNT_UUID)) {
             String accountUuid = intent.getStringExtra(EXTRA_ACCOUNT_UUID);
             Preferences preferences = Preferences.getPreferences(this);
             account = preferences.getAccount(accountUuid);
         }
-
         if (account == null) {
             Timber.w("Could not find account for notification action.");
-            return START_NOT_STICKY;
+            return;
         }
-        MessagingController controller = MessagingController.getInstance(getApplication());
 
+        MessagingController controller = MessagingController.getInstance(getApplication());
         String action = intent.getAction();
         if (ACTION_MARK_AS_READ.equals(action)) {
             markMessagesAsRead(intent, account, controller);
@@ -156,13 +163,11 @@ public class NotificationActionService extends CoreService
             Timber.i("Notification dismissed");
         }
         cancelNotifications(intent, account, controller);
-        return START_NOT_STICKY;
     }
 
     private void markMessagesAsRead(Intent intent, Account account, MessagingController controller)
     {
         Timber.i("NotificationActionService marking messages as read");
-
         List<String> messageReferenceStrings = intent.getStringArrayListExtra(EXTRA_MESSAGE_REFERENCES);
         List<MessageReference> messageReferences = toMessageReferenceList(messageReferenceStrings);
         for (MessageReference messageReference : messageReferences) {
@@ -175,7 +180,6 @@ public class NotificationActionService extends CoreService
     private void deleteMessages(Intent intent, MessagingController controller)
     {
         Timber.i("NotificationActionService deleting messages");
-
         List<String> messageReferenceStrings = intent.getStringArrayListExtra(EXTRA_MESSAGE_REFERENCES);
         List<MessageReference> messageReferences = toMessageReferenceList(messageReferenceStrings);
         controller.deleteMessages(messageReferences, null);
@@ -184,7 +188,6 @@ public class NotificationActionService extends CoreService
     private void archiveMessages(Intent intent, Account account, MessagingController controller)
     {
         Timber.i("NotificationActionService archiving messages");
-
         String archiveFolderName = account.getArchiveFolderName();
         if (archiveFolderName == null ||
                 (archiveFolderName.equals(account.getSpamFolderName()) && XryptoMail.confirmSpam()) ||
@@ -206,7 +209,6 @@ public class NotificationActionService extends CoreService
     private void markMessageAsSpam(Intent intent, Account account, MessagingController controller)
     {
         Timber.i("NotificationActionService moving messages to spam");
-
         String messageReferenceString = intent.getStringExtra(EXTRA_MESSAGE_REFERENCE);
         MessageReference messageReference = MessageReference.parse(messageReferenceString);
         if (messageReference == null) {

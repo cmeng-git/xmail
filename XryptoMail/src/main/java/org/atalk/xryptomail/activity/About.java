@@ -263,13 +263,7 @@ public class About extends Activity implements OnClickListener
                 new AlertDialog.Builder(this)
                         .setMessage(getString(R.string.fetch_version_error))
                         .setPositiveButton(R.string.okay_action,
-                                new DialogInterface.OnClickListener()
-                                {
-                                    public void onClick(DialogInterface d, int c)
-                                    {
-                                        d.dismiss();
-                                    }
-                                }).show();
+                                (d, c) -> d.dismiss()).show();
                 break;
 
             case NO_NEW_VERSION:
@@ -277,26 +271,14 @@ public class About extends Activity implements OnClickListener
                 new AlertDialog.Builder(this)
                         .setMessage(msgstr)
                         .setPositiveButton(R.string.okay_action,
-                                new DialogInterface.OnClickListener()
-                                {
-                                    public void onClick(DialogInterface d, int c)
-                                    {
-                                        d.dismiss();
-                                    }
-                                }).show();
+                                (d, c) -> d.dismiss()).show();
                 break;
 
             case DOWNLOAD_ERROR:
                 new AlertDialog.Builder(this)
                         .setMessage(getString(R.string.download_apk_error))
                         .setPositiveButton(R.string.okay_action,
-                                new DialogInterface.OnClickListener()
-                                {
-                                    public void onClick(DialogInterface d, int c)
-                                    {
-                                        d.dismiss();
-                                    }
-                                }).show();
+                                (d, c) -> d.dismiss()).show();
                 break;
         }
         return super.onCreateDialog(id);

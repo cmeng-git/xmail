@@ -17,17 +17,18 @@
 package org.atalk.xryptomail.permissions;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
+import android.os.*;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -41,17 +42,23 @@ import com.karumi.dexter.listener.multi.*;
 import com.karumi.dexter.listener.single.*;
 
 import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.activity.Accounts;
+import org.atalk.xryptomail.activity.Splash;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.*;
+import timber.log.Timber;
 
 /**
  * Sample activity showing the permission request process with Dexter.
  */
 public class PermissionsActivity extends Activity
 {
+    private static final int REQUEST_BATTERY_OP = 100;
+
     @BindView(R.id.contacts_permission_feedback)
     TextView contactsPermissionFeedbackView;
     @BindView(R.id.storage_permission_feedback)
@@ -83,18 +90,64 @@ public class PermissionsActivity extends Activity
     private final static String permission_READ_MESSAGES = "org.atalk.xryptomail.permission.READ_MESSAGES";
     private final static String permission_REMOTE_CONTROL = "org.atalk.xryptomail.permission.REMOTE_CONTROL";
 
+    // Flag indicates this the xMail first launch
+    private static boolean permissionFirstRequest = true;
+
     AlertDialog.Builder alertDialog;
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.permissions_activity);
-        ButterKnife.bind(this);
-        createPermissionListeners();
-        if (!getPackagePermissionsStatus())
-            finish();
-        permissionsStatusUpdate();
+
+        // Always request permission on first apk launch for android.M
+        if (permissionFirstRequest && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
+            // see if we should show the splash screen and wait for it to complete before continue
+            if (Splash.isFirstRun()) {
+                Intent intent = new Intent(this, Splash.class);
+                startActivity(intent);
+            }
+
+            setContentView(R.layout.permissions_activity);
+            Timber.i("Launching user permission request for XryptoMail.");
+            permissionFirstRequest = false;
+
+            // Request user to add XryptoMail to BatteryOptimization whitelist
+            // Otherwise XryptoMail will be put to sleep on system doze-standby
+            boolean showBatteryOptimizationDialog = openBatteryOptimizationDialogIfNeeded();
+
+            ButterKnife.bind(this);
+            createPermissionListeners();
+            boolean permissionRequest = getPackagePermissionsStatus();
+            permissionsStatusUpdate();
+
+            if ((!permissionRequest) && !showBatteryOptimizationDialog) {
+                startLauncher();
+            }
+        }
+        else
+            startLauncher();
+    }
+
+    private void startLauncher()
+    {
+        Intent i = new Intent(this, Accounts.class);
+        startActivity(i);
+        finish();
+    }
+
+    @OnClick(R.id.button_done)
+    public void onDoneButtonClicked()
+    {
+        startLauncher();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        startLauncher();
     }
 
     public void onAllPermissionsCheck()
@@ -162,7 +215,7 @@ public class PermissionsActivity extends Activity
     }
 
     @OnClick(R.id.delete_mail_permission_button)
-    public void onPhonePermissionButtonClicked()
+    public void onDeleteMailPermissionButtonClicked()
     {
         Dexter.withActivity(this)
                 .withPermission(permission_DELETE_MESSAGES)
@@ -172,7 +225,7 @@ public class PermissionsActivity extends Activity
     }
 
     @OnClick(R.id.read_mail_permission_button)
-    public void onAudioPermissionButtonClicked()
+    public void onReadMailPermissionButtonClicked()
     {
         Dexter.withActivity(this)
                 .withPermission(permission_READ_MESSAGES)
@@ -201,44 +254,21 @@ public class PermissionsActivity extends Activity
         startActivity(myAppSettings);
     }
 
-    @OnClick(R.id.button_done)
-    public void onDoneButtonClicked()
-    {
-        finish();
-    }
-
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void showPermissionRationale(final PermissionToken token)
     {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.permission_rationale_title)
                 .setMessage(R.string.permission_rationale_message)
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        dialog.dismiss();
-                        token.cancelPermissionRequest();
-                    }
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+                    dialog.dismiss();
+                    token.cancelPermissionRequest();
                 })
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        dialog.dismiss();
-                        token.continuePermissionRequest();
-                    }
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    dialog.dismiss();
+                    token.continuePermissionRequest();
                 })
-                .setOnDismissListener(new DialogInterface.OnDismissListener()
-                {
-                    @Override
-                    public void onDismiss(DialogInterface dialog)
-                    {
-                        token.cancelPermissionRequest();
-                    }
-                })
+                .setOnDismissListener(dialog -> token.cancelPermissionRequest())
                 .show();
     }
 
@@ -246,7 +276,6 @@ public class PermissionsActivity extends Activity
      * Retrieve the package current default permissions status on create;
      * only if both the arrays are empty. Non-empty -> orientation change
      */
-    @TargetApi(23)
     private boolean getPackagePermissionsStatus()
     {
         if (grantedPermissionResponses.isEmpty() && deniedPermissionResponses.isEmpty()) {
@@ -294,19 +323,7 @@ public class PermissionsActivity extends Activity
          * All permission must be granted to XryptoMail - otherwise will not work in almost cases;
          * Bug user and request for it anyway, otherwise XryptoMail will not work properly.
          */
-        if (deniedPermissionResponses.size() != 0) {
-            alertDialog = new AlertDialog.Builder(this)
-                    .setTitle(R.string.service_gui_WARNING)
-                    .setMessage(getString(R.string.all_permissions_denied_feedback))
-                    .setPositiveButton(R.string.okay_action,
-                            new DialogInterface.OnClickListener()
-                            {
-                                public void onClick(DialogInterface d, int c)
-                                {
-                                    d.dismiss();
-                                }
-                            });
-            alertDialog.show();
+        if (grantedPermissionResponses.size() < 5) {
             return true;
         }
         // Do not disturb user, if he has chosen partially granted the permissions.
@@ -322,7 +339,6 @@ public class PermissionsActivity extends Activity
         for (PermissionGrantedResponse response : grantedPermissionResponses) {
             showPermissionGranted(response.getPermissionName());
         }
-
         for (PermissionDeniedResponse response : deniedPermissionResponses) {
             showPermissionDenied(response.getPermissionName(), response.isPermanentlyDenied());
         }
@@ -469,5 +485,65 @@ public class PermissionsActivity extends Activity
                 feedbackView = null;
         }
         return feedbackView;
+    }
+
+    /* **********************************************
+     * Android Battery Usage Optimization Request
+     ************************************************/
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean openBatteryOptimizationDialogIfNeeded()
+    {
+        // Will always request for battery optimization disable for XryptoMail if not so on XryptoMail new launch
+        if (isOptimizingBattery()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.battery_optimizations);
+            builder.setMessage(R.string.battery_optimizations_dialog);
+
+            builder.setPositiveButton(R.string.next, (dialog, which) -> {
+                dialog.dismiss();
+                Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                Uri uri = Uri.parse("package:" + getPackageName());
+                intent.setData(uri);
+                try {
+                    startActivityForResult(intent, REQUEST_BATTERY_OP);
+                } catch (ActivityNotFoundException e) {
+                    XryptoMail.showToastMessage(R.string.device_does_not_support_battery_op);
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    protected boolean isOptimizingBattery()
+    {
+        final PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+        return (pm != null) && !pm.isIgnoringBatteryOptimizations(getPackageName());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // RESULT_OK is returned if disable optimization is alloed
+        if (requestCode == REQUEST_BATTERY_OP) {
+            if (resultCode != RESULT_OK) {
+                XryptoMail.showToastMessage(R.string.battery_optimization_on);
+            }
+        }
+    }
+
+    private String getBatteryOptimizationPreferenceKey()
+    {
+        @SuppressLint("HardwareIds")
+        String device = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        return "pref_key_show_battery_optimization_" + (device == null ? "" : device);
     }
 }

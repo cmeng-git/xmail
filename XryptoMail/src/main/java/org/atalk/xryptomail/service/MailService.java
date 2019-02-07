@@ -1,27 +1,26 @@
 package org.atalk.xryptomail.service;
 
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.Intent;
-import android.os.IBinder;
+import android.content.*;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 
-import org.atalk.xryptomail.Account;
+import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.Account.FolderMode;
-import org.atalk.xryptomail.Preferences;
-import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.controller.MessagingController;
 import org.atalk.xryptomail.helper.Utility;
 import org.atalk.xryptomail.mail.Pusher;
 import org.atalk.xryptomail.preferences.Storage;
 import org.atalk.xryptomail.preferences.StorageEditor;
 
-import java.util.Collection;
+import java.util.*;
 
 import timber.log.Timber;
 
-public class MailService extends CoreService
+public class MailService extends JobIntentService
 {
+    public static final String MAIL_SERVICE_SIGNATURE = ".intent.action.MAIL_SERVICE_";
+
     private static final String ACTION_CHECK_MAIL = "org.atalk.xryptomail.intent.action.MAIL_SERVICE_WAKEUP";
     private static final String ACTION_RESET = "org.atalk.xryptomail.intent.action.MAIL_SERVICE_RESET";
     private static final String ACTION_RESCHEDULE_POLL = "org.atalk.xryptomail.intent.action.MAIL_SERVICE_RESCHEDULE_POLL";
@@ -36,66 +35,64 @@ public class MailService extends CoreService
     private static boolean pollingRequested = false;
     private static boolean syncNoBackground = false;
 
-    public static void actionReset(Context context, Integer wakeLockId)
+    public static void actionReset(Context context)
     {
         Intent i = new Intent();
-        i.setClass(context, MailService.class);
         i.setAction(MailService.ACTION_RESET);
-        addWakeLockId(context, i, wakeLockId, true);
-        context.startService(i);
+        enqueueWork(context, i);
     }
 
-    public static void actionRestartPushers(Context context, Integer wakeLockId)
+    public static void actionRestartPushers(Context context)
     {
         Intent i = new Intent();
-        i.setClass(context, MailService.class);
         i.setAction(MailService.ACTION_RESTART_PUSHERS);
-        addWakeLockId(context, i, wakeLockId, true);
-        context.startService(i);
+        enqueueWork(context, i);
     }
 
-    public static void actionReschedulePoll(Context context, Integer wakeLockId)
+    public static void actionReschedulePoll(Context context)
     {
         Intent i = new Intent();
-        i.setClass(context, MailService.class);
         i.setAction(MailService.ACTION_RESCHEDULE_POLL);
-        addWakeLockId(context, i, wakeLockId, true);
-        context.startService(i);
+        enqueueWork(context, i);
     }
 
-    public static void actionCancel(Context context, Integer wakeLockId)
+    public static void actionCancel(Context context)
     {
         Intent i = new Intent();
-        i.setClass(context, MailService.class);
         i.setAction(MailService.ACTION_CANCEL);
-        // CK:Q: why should we not create a wake lock if one is not already existing like for example in actionReschedulePoll?
-        addWakeLockId(context, i, wakeLockId, false);
-        context.startService(i);
+        enqueueWork(context, i);
     }
 
-    public static void connectivityChange(Context context, Integer wakeLockId)
+    public static void connectivityChange(Context context)
     {
         Intent i = new Intent();
-        i.setClass(context, MailService.class);
         i.setAction(MailService.CONNECTIVITY_CHANGE);
-        // CK:Q: why should we not create a wake lock if one is not already existing like for example in actionReschedulePoll?
-        addWakeLockId(context, i, wakeLockId, false);
-        context.startService(i);
+        enqueueWork(context, i);
     }
 
-    @Override
-    public void onCreate()
+    public static void startMailServiceOn(Context context, String action)
     {
-        super.onCreate();
-        Timber.v("***** MailService *****: onCreate");
+        Intent i = new Intent();
+        i.setAction(action);
+        enqueueWork(context, i);
+    }
+
+    /**
+     * Unique job ID for this service.
+     */
+    static final int JOB_ID = 1000;
+
+    public static void enqueueWork(Context context, Intent work)
+    {
+        enqueueWork(context, MailService.class, JOB_ID, work);
     }
 
     @Override
-    public int startService(Intent intent, int startId)
+    protected void onHandleWork(@NonNull Intent intent)
     {
         long startTime = SystemClock.elapsedRealtime();
         boolean oldIsSyncDisabled = isSyncDisabled();
-        boolean doBackground = true;
+        boolean doBackground;
 
         boolean hasConnectivity = Utility.hasConnectivity(getApplication());
         boolean autoSync = ContentResolver.getMasterSyncAutomatically();
@@ -110,54 +107,62 @@ public class MailService extends CoreService
             case WHEN_CHECKED_AUTO_SYNC:
                 doBackground = autoSync;
                 break;
+            default:
+                doBackground = true;
         }
 
         syncNoBackground = !doBackground;
-        Timber.i("MailService.onStart(%s, %d), hasConnectivity = %s, doBackground = %s",
-                intent, startId, hasConnectivity, doBackground);
+        Timber.i("***** MailService Handle Work = %s, hasConnectivity = %s, doBackground = %s",
+                intent, hasConnectivity, doBackground);
 
         // MessagingController.getInstance(getApplication()).addListener(mListener);
-        if (ACTION_CHECK_MAIL.equals(intent.getAction())) {
-            Timber.i("***** MailService *****: checking mail");
-            if (hasConnectivity && doBackground) {
-                PollService.startService(this);
-            }
-            reschedulePollInBackground(hasConnectivity, doBackground, startId, false);
+        switch (Objects.requireNonNull(intent.getAction())) {
+            case ACTION_CHECK_MAIL:
+                if (hasConnectivity && doBackground) {
+                    Timber.i("***** MailService *****: polling mail");
+                    PollService.startService(this);
+                }
+                reschedulePollInBackground(hasConnectivity, doBackground, false);
+                break;
+            case ACTION_CANCEL:
+                Timber.v("***** MailService *****: cancel");
+                cancel();
+                break;
+            case ACTION_RESET:
+                Timber.v("***** MailService *****: reschedule");
+                rescheduleAllInBackground(hasConnectivity, doBackground);
+                break;
+            case ACTION_RESTART_PUSHERS:
+                Timber.v("***** MailService *****: restarting pushers");
+                reschedulePushersInBackground(hasConnectivity, doBackground);
+                break;
+            case ACTION_RESCHEDULE_POLL:
+                Timber.v("***** MailService *****: rescheduling poll");
+                reschedulePollInBackground(hasConnectivity, doBackground, true);
+                break;
+            case ACTION_REFRESH_PUSHERS:
+                refreshPushersInBackground(hasConnectivity, doBackground);
+                break;
+            case CONNECTIVITY_CHANGE:
+                rescheduleAllInBackground(hasConnectivity, doBackground);
+                Timber.i("Got connectivity action with hasConnectivity = %s, doBackground = %s",
+                        hasConnectivity, doBackground);
+                break;
+            case CANCEL_CONNECTIVITY_NOTICE:
+                /* do nothing */
+                break;
         }
-        else if (ACTION_CANCEL.equals(intent.getAction())) {
-            Timber.v("***** MailService *****: cancel");
-            cancel();
-        }
-        else if (ACTION_RESET.equals(intent.getAction())) {
-            Timber.v("***** MailService *****: reschedule");
-            rescheduleAllInBackground(hasConnectivity, doBackground, startId);
-        }
-        else if (ACTION_RESTART_PUSHERS.equals(intent.getAction())) {
-            Timber.v("***** MailService *****: restarting pushers");
-            reschedulePushersInBackground(hasConnectivity, doBackground, startId);
-        }
-        else if (ACTION_RESCHEDULE_POLL.equals(intent.getAction())) {
-            Timber.v("***** MailService *****: rescheduling poll");
-            reschedulePollInBackground(hasConnectivity, doBackground, startId, true);
-        }
-        else if (ACTION_REFRESH_PUSHERS.equals(intent.getAction())) {
-            refreshPushersInBackground(hasConnectivity, doBackground, startId);
-        }
-        else if (CONNECTIVITY_CHANGE.equals(intent.getAction())) {
-            rescheduleAllInBackground(hasConnectivity, doBackground, startId);
-            Timber.i("Got connectivity action with hasConnectivity = %s, doBackground = %s",
-                    hasConnectivity, doBackground);
-        }
-        else if (CANCEL_CONNECTIVITY_NOTICE.equals(intent.getAction())) {
-            /* do nothing */
-        }
-
         if (isSyncDisabled() != oldIsSyncDisabled) {
             MessagingController.getInstance(getApplication()).systemStatusChanged();
         }
-
         Timber.i("MailService.onStart took %d ms", SystemClock.elapsedRealtime() - startTime);
-        return START_NOT_STICKY;
+    }
+
+    @Override
+    public void onCreate()
+    {
+        super.onCreate();
+        Timber.v("***** MailService *****: onCreate");
     }
 
     @Override
@@ -165,7 +170,6 @@ public class MailService extends CoreService
     {
         Timber.v("***** MailService *****: onDestroy()");
         super.onDestroy();
-        // MessagingController.getInstance(getApplication()).removeListener(mListener);
     }
 
     private void cancel()
@@ -181,7 +185,7 @@ public class MailService extends CoreService
     public static void saveLastCheckEnd(Context context)
     {
         long lastCheckEnd = System.currentTimeMillis();
-        Timber.i("Saving lastCheckEnd = %tc", lastCheckEnd);
+        Timber.i("Saving lastCheckEnd = %tc", new Date(lastCheckEnd));
 
         Preferences prefs = Preferences.getPreferences(context);
         Storage storage = prefs.getStorage();
@@ -190,53 +194,28 @@ public class MailService extends CoreService
         editor.commit();
     }
 
-    private void rescheduleAllInBackground(final boolean hasConnectivity, final boolean doBackground, Integer startId)
+    private void rescheduleAllInBackground(final boolean hasConnectivity, final boolean doBackground)
     {
-        execute(getApplication(), new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                reschedulePoll(hasConnectivity, doBackground, true);
-                reschedulePushers(hasConnectivity, doBackground);
-            }
-        }, XryptoMail.MAIL_SERVICE_WAKE_LOCK_TIMEOUT, startId);
+        reschedulePoll(hasConnectivity, doBackground, true);
+        reschedulePushers(hasConnectivity, doBackground);
     }
 
-    private void reschedulePollInBackground(final boolean hasConnectivity, final boolean doBackground, Integer startId,
+    private void reschedulePollInBackground(final boolean hasConnectivity, final boolean doBackground,
             final boolean considerLastCheckEnd)
     {
-        execute(getApplication(), new Runnable()
-        {
-            public void run()
-            {
-                reschedulePoll(hasConnectivity, doBackground, considerLastCheckEnd);
-            }
-        }, XryptoMail.MAIL_SERVICE_WAKE_LOCK_TIMEOUT, startId);
+        reschedulePoll(hasConnectivity, doBackground, considerLastCheckEnd);
     }
 
-    private void reschedulePushersInBackground(final boolean hasConnectivity, final boolean doBackground, Integer startId)
+    private void reschedulePushersInBackground(final boolean hasConnectivity, final boolean doBackground)
     {
-        execute(getApplication(), new Runnable()
-        {
-            public void run()
-            {
-                reschedulePushers(hasConnectivity, doBackground);
-            }
-        }, XryptoMail.MAIL_SERVICE_WAKE_LOCK_TIMEOUT, startId);
+        reschedulePushers(hasConnectivity, doBackground);
     }
 
-    private void refreshPushersInBackground(boolean hasConnectivity, boolean doBackground, Integer startId)
+    private void refreshPushersInBackground(boolean hasConnectivity, boolean doBackground)
     {
         if (hasConnectivity && doBackground) {
-            execute(getApplication(), new Runnable()
-            {
-                public void run()
-                {
-                    refreshPushers();
-                    schedulePushers();
-                }
-            }, XryptoMail.MAIL_SERVICE_WAKE_LOCK_TIMEOUT, startId);
+            refreshPushers();
+            schedulePushers();
         }
     }
 
@@ -254,12 +233,7 @@ public class MailService extends CoreService
         int previousInterval = storage.getInt(PREVIOUS_INTERVAL, -1);
         long lastCheckEnd = storage.getLong(LAST_CHECK_END, -1);
 
-        long now = System.currentTimeMillis();
-        if (lastCheckEnd > now) {
-            Timber.i("The database has last mail check time in future (%tc). Reset it to present: %tc", lastCheckEnd, now);
-            lastCheckEnd = now;
-        }
-
+        // find the shortest autotmatic mail check interval amongst all accounts
         int shortestInterval = -1;
         for (Account account : prefs.getAvailableAccounts()) {
             if (account.getAutomaticCheckIntervalMinutes() != -1
@@ -269,6 +243,15 @@ public class MailService extends CoreService
                 shortestInterval = account.getAutomaticCheckIntervalMinutes();
             }
         }
+
+        // Invalidate the lastCheckEnd if the value is older than (shortestInterval + 1)
+        long now = System.currentTimeMillis();
+        if ((lastCheckEnd > now) || (now - lastCheckEnd) > (shortestInterval + 1) * 60 * 60 * 1000) {
+            Timber.w("Database has invalid last mail check time (%tc). Reset it to present: %tc",
+                    new Date(lastCheckEnd), new Date());
+            lastCheckEnd = now;
+        }
+
         StorageEditor editor = storage.edit();
         editor.putInt(PREVIOUS_INTERVAL, shortestInterval);
         editor.commit();
@@ -286,12 +269,13 @@ public class MailService extends CoreService
             long nextTime = base + delay;
 
             Timber.i("previousInterval = %d, shortestInterval = %d, lastCheckEnd = %tc, considerLastCheckEnd = %b",
-                    previousInterval, shortestInterval, lastCheckEnd, considerLastCheckEnd);
+                    previousInterval, shortestInterval, new Date(lastCheckEnd), considerLastCheckEnd);
 
             nextCheck = nextTime;
             pollingRequested = true;
             try {
-                Timber.i("Next check for package %s scheduled for %tc", getApplication().getPackageName(), nextTime);
+                Timber.i("Next check for package %s scheduled for %tc", getApplication().getPackageName(),
+                        new Date(nextTime));
             } catch (Exception e) {
                 // I once got a NullPointerException deep in new Date();
                 Timber.e(e, "Exception while logging");
@@ -321,7 +305,7 @@ public class MailService extends CoreService
     public static boolean isSyncBlocked()
     {
         // syncBlocked = !(doBackground && hasConnectivity);
-        return syncNoBackground || hasNoConnectivity();
+        return syncNoBackground || !hasNoConnectivity();
     }
 
     public static boolean isPollAndPushDisabled()
@@ -416,13 +400,6 @@ public class MailService extends CoreService
             i.setAction(ACTION_REFRESH_PUSHERS);
             BootReceiver.scheduleIntent(MailService.this, nextTime, i);
         }
-    }
-
-    @Override
-    public IBinder onBind(Intent intent)
-    {
-        // Unused
-        return null;
     }
 
     public static long getNextPollTime()

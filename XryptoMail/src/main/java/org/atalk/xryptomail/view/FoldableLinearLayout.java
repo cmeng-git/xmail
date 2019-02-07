@@ -186,12 +186,9 @@ public class FoldableLinearLayout extends LinearLayout {
         // retrieve and cache the system's short animation time
         mShortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
         LinearLayout foldableControl = (LinearLayout) mFoldableLayout.findViewById(R.id.foldableControl);
-        foldableControl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mIsFolded = !mIsFolded;
-                updateFoldedState(mIsFolded, true);
-            }
+        foldableControl.setOnClickListener(view -> {
+            mIsFolded = !mIsFolded;
+            updateFoldedState(mIsFolded, true);
         });
     }
 

@@ -113,18 +113,8 @@ public class NotificationDeleteConfirmation extends Activity {
                 R.string.dialog_confirm_delete_title, "",
                 R.string.dialog_confirm_delete_confirm_button,
                 R.string.dialog_confirm_delete_cancel_button,
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        deleteAndFinish();
-                    }
-                },
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        finish();
-                    }
-                });
+                this::deleteAndFinish,
+                this::finish);
     }
 
     private void deleteAndFinish() {

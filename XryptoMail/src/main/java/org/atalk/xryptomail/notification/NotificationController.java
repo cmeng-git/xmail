@@ -155,7 +155,7 @@ public class NotificationController {
         return notificationManager;
     }
 
-    NotificationCompat.Builder createNotificationBuilder() {
-        return new NotificationCompat.Builder(context);
+    NotificationCompat.Builder createNotificationBuilder(String channelId) {
+        return new NotificationCompat.Builder(context, channelId);
     }
 }

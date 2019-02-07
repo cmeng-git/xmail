@@ -51,22 +51,20 @@ public class StorageEditor {
     private void commitChanges() {
         long startTime = SystemClock.elapsedRealtime();
         Timber.i("Committing preference changes");
-        Runnable committer = new Runnable() {
-            public void run() {
-                for (String removeKey : removals) {
-                    storage.remove(removeKey);
-                }
-                Map<String, String> insertables = new HashMap<String, String>();
-                for (Entry<String, String> entry : changes.entrySet()) {
-                    String key = entry.getKey();
-                    String newValue = entry.getValue();
-                    String oldValue = snapshot.get(key);
-                    if (removals.contains(key) || !newValue.equals(oldValue)) {
-                        insertables.put(key, newValue);
-                    }
-                }
-                storage.put(insertables);
+        Runnable committer = () -> {
+            for (String removeKey : removals) {
+                storage.remove(removeKey);
             }
+            Map<String, String> insertables = new HashMap<String, String>();
+            for (Entry<String, String> entry : changes.entrySet()) {
+                String key = entry.getKey();
+                String newValue = entry.getValue();
+                String oldValue = snapshot.get(key);
+                if (removals.contains(key) || !newValue.equals(oldValue)) {
+                    insertables.put(key, newValue);
+                }
+            }
+            storage.put(insertables);
         };
         storage.doInTransaction(committer);
         long endTime = SystemClock.elapsedRealtime();

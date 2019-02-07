@@ -1252,20 +1252,14 @@ public class MessageProvider extends ContentProvider
             final WeakReference<MonitoredCursor> weakReference = new WeakReference<>(wrapped);
 
             /* make sure the cursor is closed after 30 seconds */
-            mScheduledPool.schedule(new Runnable()
-            {
-
-                @Override
-                public void run()
-                {
-                    MonitoredCursor monitored = weakReference.get();
-                    if (monitored != null && !monitored.isClosed()) {
-                        Timber.w("Forcibly closing remotely exposed cursor");
-                        try {
-                            monitored.close();
-                        } catch (Exception e) {
-                            Timber.w(e, "Exception while forcibly closing cursor");
-                        }
+            mScheduledPool.schedule(() -> {
+                MonitoredCursor monitored = weakReference.get();
+                if (monitored != null && !monitored.isClosed()) {
+                    Timber.w("Forcibly closing remotely exposed cursor");
+                    try {
+                        monitored.close();
+                    } catch (Exception e) {
+                        Timber.w(e, "Exception while forcibly closing cursor");
                     }
                 }
             }, 30, TimeUnit.SECONDS);

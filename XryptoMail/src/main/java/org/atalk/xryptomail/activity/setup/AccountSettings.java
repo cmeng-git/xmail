@@ -1,53 +1,25 @@
 package org.atalk.xryptomail.activity.setup;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Vibrator;
-import android.preference.CheckBoxPreference;
-import android.preference.EditTextPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceChangeListener;
+import android.content.*;
+import android.os.*;
+import android.preference.*;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceScreen;
-import android.preference.RingtonePreference;
 import android.widget.Toast;
 
-import org.atalk.xryptomail.Account;
-import org.atalk.xryptomail.Account.DeletePolicy;
-import org.atalk.xryptomail.Account.Expunge;
-import org.atalk.xryptomail.Account.FolderMode;
-import org.atalk.xryptomail.Account.MessageFormat;
-import org.atalk.xryptomail.Account.QuoteStyle;
-import org.atalk.xryptomail.Account.Searchable;
-import org.atalk.xryptomail.Account.ShowPictures;
-import org.atalk.xryptomail.NotificationSetting;
-import org.atalk.xryptomail.Preferences;
-import org.atalk.xryptomail.R;
-import org.atalk.xryptomail.XryptoMail;
-import org.atalk.xryptomail.activity.ChooseFolder;
-import org.atalk.xryptomail.activity.ChooseIdentity;
-import org.atalk.xryptomail.activity.ColorPickerDialog;
-import org.atalk.xryptomail.activity.ManageIdentities;
-import org.atalk.xryptomail.activity.XMPreferenceActivity;
+import org.atalk.xryptomail.*;
+import org.atalk.xryptomail.Account.*;
+import org.atalk.xryptomail.activity.*;
 import org.atalk.xryptomail.crypto.OpenPgpApiHelper;
 import org.atalk.xryptomail.mail.Folder;
 import org.atalk.xryptomail.mail.Store;
-import org.atalk.xryptomail.mail.store.RemoteStore;
 import org.atalk.xryptomail.mailstore.StorageManager;
 import org.atalk.xryptomail.service.MailService;
 import org.atalk.xryptomail.ui.dialog.AutocryptPreferEncryptDialog;
 import org.atalk.xryptomail.ui.dialog.AutocryptPreferEncryptDialog.OnPreferEncryptChangedListener;
 import org.openintents.openpgp.util.OpenPgpKeyPreference;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import timber.log.Timber;
 
@@ -537,14 +509,9 @@ public class AccountSettings extends XMPreferenceActivity
 
         mCloudSearchEnabled = (CheckBoxPreference) findPreference(PREFERENCE_CLOUD_SEARCH_ENABLED);
         mRemoteSearchNumResults = (ListPreference) findPreference(PREFERENCE_REMOTE_SEARCH_NUM_RESULTS);
-        mRemoteSearchNumResults.setOnPreferenceChangeListener(
-                new OnPreferenceChangeListener()
-                {
-                    public boolean onPreferenceChange(Preference pref, Object newVal)
-                    {
-                        updateRemoteSearchLimit((String) newVal);
-                        return true;
-                    }
+        mRemoteSearchNumResults.setOnPreferenceChangeListener((pref, newVal) -> {
+                    updateRemoteSearchLimit((String) newVal);
+                    return true;
                 }
         );
 
@@ -771,33 +738,23 @@ public class AccountSettings extends XMPreferenceActivity
             cryptoMenu.setOnPreferenceClickListener(null);
 
             autocryptPreferEncryptMutual = findPreference(PREFERENCE_AUTOCRYPT_PREFER_ENCRYPT);
-            autocryptPreferEncryptMutual.setOnPreferenceClickListener(new OnPreferenceClickListener()
-            {
-                @Override
-                public boolean onPreferenceClick(Preference preference)
-                {
-                    showDialog(DIALOG_AUTOCRYPT_PREFER_ENCRYPT);
-                    return false;
-                }
+            autocryptPreferEncryptMutual.setOnPreferenceClickListener(preference -> {
+                showDialog(DIALOG_AUTOCRYPT_PREFER_ENCRYPT);
+                return false;
             });
         }
         else {
             mPgpCryptoKey.setOpenPgpProvider(XryptoMail.NO_OPENPGP_PROVIDER);
 
             cryptoMenu.setSummary(R.string.account_settings_no_openpgp_provider_configured);
-            cryptoMenu.setOnPreferenceClickListener(new OnPreferenceClickListener()
-            {
-                @Override
-                public boolean onPreferenceClick(Preference preference)
-                {
-                    Dialog dialog = ((PreferenceScreen) preference).getDialog();
-                    if (dialog != null) {
-                        dialog.dismiss();
-                    }
-                    Toast.makeText(AccountSettings.this,
-                            R.string.no_crypto_provider_see_global, Toast.LENGTH_SHORT).show();
-                    return true;
+            cryptoMenu.setOnPreferenceClickListener(preference -> {
+                Dialog dialog = ((PreferenceScreen) preference).getDialog();
+                if (dialog != null) {
+                    dialog.dismiss();
                 }
+                Toast.makeText(AccountSettings.this,
+                        R.string.no_crypto_provider_see_global, Toast.LENGTH_SHORT).show();
+                return true;
             });
         }
         updateStealthMode();
@@ -934,13 +891,13 @@ public class AccountSettings extends XMPreferenceActivity
             }
 
             if (needsRefresh && needsPushRestart) {
-                MailService.actionReset(this, null);
+                MailService.actionReset(this);
             }
             else if (needsRefresh) {
-                MailService.actionReschedulePoll(this, null);
+                MailService.actionReschedulePoll(this);
             }
             else if (needsPushRestart) {
-                MailService.actionRestartPushers(this, null);
+                MailService.actionRestartPushers(this);
             }
         }
         // TODO: refresh folder list here
@@ -1010,38 +967,18 @@ public class AccountSettings extends XMPreferenceActivity
         switch (id) {
             case DIALOG_COLOR_PICKER_ACCOUNT: {
                 dialog = new ColorPickerDialog(this,
-                        new ColorPickerDialog.OnColorChangedListener()
-                        {
-                            public void colorChanged(int color)
-                            {
-                                mAccount.setChipColor(color);
-                            }
-                        },
-                        mAccount.getChipColor());
+                        color -> mAccount.setChipColor(color), mAccount.getChipColor());
                 break;
             }
             case DIALOG_COLOR_PICKER_LED: {
                 dialog = new ColorPickerDialog(this,
-                        new ColorPickerDialog.OnColorChangedListener()
-                        {
-                            public void colorChanged(int color)
-                            {
-                                mAccount.getNotificationSetting().setLedColor(color);
-                            }
-                        },
+                        color -> mAccount.getNotificationSetting().setLedColor(color),
                         mAccount.getNotificationSetting().getLedColor());
                 break;
             }
             case DIALOG_AUTOCRYPT_PREFER_ENCRYPT: {
                 dialog = new AutocryptPreferEncryptDialog(this, mAccount.getAutocryptPreferEncryptMutual(),
-                        new OnPreferEncryptChangedListener()
-                        {
-                            @Override
-                            public void onPreferEncryptChanged(boolean enabled)
-                            {
-                                mAccount.setAutocryptPreferEncryptMutual(enabled);
-                            }
-                        });
+                        enabled -> mAccount.setAutocryptPreferEncryptMutual(enabled));
                 break;
             }
         }

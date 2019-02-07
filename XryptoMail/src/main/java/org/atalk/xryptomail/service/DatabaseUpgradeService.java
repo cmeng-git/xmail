@@ -1,19 +1,22 @@
 package org.atalk.xryptomail.service;
 
 import android.app.Service;
-import android.content.*;
-import android.os.*;
+import android.content.Context;
+import android.content.Intent;
+import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.v4.content.LocalBroadcastManager;
-import timber.log.Timber;
 
 import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.activity.UpgradeDatabases;
-import org.atalk.xryptomail.mail.power.TracingPowerManager;
-import org.atalk.xryptomail.mail.power.TracingPowerManager.TracingWakeLock;
+import org.atalk.xryptomail.power.TracingPowerManager;
+import org.atalk.xryptomail.power.TracingPowerManager.TracingWakeLock;
 import org.atalk.xryptomail.mailstore.UnavailableStorageException;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import timber.log.Timber;
 
 /**
  * Service used to upgrade the accounts' databases and/or track the progress of the upgrade.
@@ -22,7 +25,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * See {@link UpgradeDatabases} for a detailed explanation of the database upgrade process.
  * </p>
  */
-public class DatabaseUpgradeService extends Service {
+public class DatabaseUpgradeService extends Service
+{
     /**
      * Broadcast intent reporting the current progress of the database upgrade.
      *
@@ -60,24 +64,22 @@ public class DatabaseUpgradeService extends Service {
      */
     public static final String EXTRA_PROGRESS_END = "progress_end";
 
-
     /**
      * Action used to start this service.
      */
     private static final String ACTION_START_SERVICE =
-			"org.atalk.xryptomail.service.DatabaseUpgradeService.startService";
+            "org.atalk.xryptomail.service.DatabaseUpgradeService.startService";
 
     private static final String WAKELOCK_TAG = "DatabaseUpgradeService";
     private static final long WAKELOCK_TIMEOUT = 10 * 60 * 1000;    // 10 minutes
 
-
     /**
      * Start {@link DatabaseUpgradeService}.
      *
-     * @param context
-     *         The {@link Context} used to start this service.
+     * @param context The {@link Context} used to start this service.
      */
-    public static void startService(Context context) {
+    public static void startService(Context context)
+    {
         Intent i = new Intent();
         i.setClass(context, DatabaseUpgradeService.class);
         i.setAction(DatabaseUpgradeService.ACTION_START_SERVICE);
@@ -99,18 +101,21 @@ public class DatabaseUpgradeService extends Service {
     private TracingWakeLock mWakeLock;
 
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(Intent intent)
+    {
         // unused
         return null;
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
     }
 
     @Override
-    public final int onStartCommand(Intent intent, int flags, int startId) {
+    public final int onStartCommand(Intent intent, int flags, int startId)
+    {
         boolean success = mRunning.compareAndSet(false, true);
         if (success) {
             // The service wasn't running yet.
@@ -119,7 +124,8 @@ public class DatabaseUpgradeService extends Service {
 
             acquireWakelock();
             startUpgradeInBackground();
-        } else {
+        }
+        else {
             // We're already running, so don't start the upgrade process again. But send the current
             // progress via broadcast.
             sendProgressBroadcast(mAccountUuid, mProgress, mProgressEnd);
@@ -131,7 +137,8 @@ public class DatabaseUpgradeService extends Service {
     /**
      * Acquire a partial wake lock so the CPU won't go to sleep when the screen is turned off.
      */
-    private void acquireWakelock() {
+    private void acquireWakelock()
+    {
         TracingPowerManager pm = TracingPowerManager.getPowerManager(this);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, WAKELOCK_TAG);
         mWakeLock.setReferenceCounted(false);
@@ -141,14 +148,16 @@ public class DatabaseUpgradeService extends Service {
     /**
      * Release the wake lock.
      */
-    private void releaseWakelock() {
+    private void releaseWakelock()
+    {
         mWakeLock.release();
     }
 
     /**
      * Stop this service.
      */
-    private void stopService() {
+    private void stopService()
+    {
         stopSelf();
 
         Timber.i("DatabaseUpgradeService stopped");
@@ -160,10 +169,13 @@ public class DatabaseUpgradeService extends Service {
     /**
      * Start a background thread for upgrading the databases.
      */
-    private void startUpgradeInBackground() {
-        new Thread("DatabaseUpgradeService") {
+    private void startUpgradeInBackground()
+    {
+        new Thread("DatabaseUpgradeService")
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 upgradeDatabases();
                 stopService();
             }
@@ -173,7 +185,8 @@ public class DatabaseUpgradeService extends Service {
     /**
      * Upgrade the accounts' databases.
      */
-    private void upgradeDatabases() {
+    private void upgradeDatabases()
+    {
         Preferences preferences = Preferences.getPreferences(this);
 
         List<Account> accounts = preferences.getAccounts();
@@ -195,12 +208,12 @@ public class DatabaseUpgradeService extends Service {
             }
             mProgress++;
         }
-
         XryptoMail.setDatabasesUpToDate(true);
         sendUpgradeCompleteBroadcast();
     }
 
-    private void sendProgressBroadcast(String accountUuid, int progress, int progressEnd) {
+    private void sendProgressBroadcast(String accountUuid, int progress, int progressEnd)
+    {
         Intent intent = new Intent();
         intent.setAction(ACTION_UPGRADE_PROGRESS);
         intent.putExtra(EXTRA_ACCOUNT_UUID, accountUuid);
@@ -209,7 +222,8 @@ public class DatabaseUpgradeService extends Service {
         mLocalBroadcastManager.sendBroadcast(intent);
     }
 
-    private void sendUpgradeCompleteBroadcast() {
+    private void sendUpgradeCompleteBroadcast()
+    {
         Intent intent = new Intent();
         intent.setAction(ACTION_UPGRADE_COMPLETE);
         mLocalBroadcastManager.sendBroadcast(intent);

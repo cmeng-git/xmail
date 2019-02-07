@@ -3,11 +3,10 @@ package org.atalk.xryptomail.activity.compose;
 
 import android.annotation.SuppressLint;
 import android.app.*;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.view.HighlightDialogFragment;
@@ -17,8 +16,8 @@ public class PgpSignOnlyDialog extends HighlightDialogFragment
     public static final String ARG_FIRST_TIME = "first_time";
 
 
-	public static PgpSignOnlyDialog newInstance(boolean firstTime, @IdRes int showcaseView)
-	{
+    public static PgpSignOnlyDialog newInstance(boolean firstTime, @IdRes int showcaseView)
+    {
         PgpSignOnlyDialog dialog = new PgpSignOnlyDialog();
 
         Bundle args = new Bundle();
@@ -29,9 +28,9 @@ public class PgpSignOnlyDialog extends HighlightDialogFragment
         return dialog;
     }
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState)
-	{
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
         Activity activity = getActivity();
 
         @SuppressLint("InflateParams")
@@ -41,46 +40,25 @@ public class PgpSignOnlyDialog extends HighlightDialogFragment
         builder.setView(view);
 
         if (getArguments().getInt(ARG_FIRST_TIME) != 0) {
-			builder.setPositiveButton(R.string.openpgp_sign_only_ok, new OnClickListener()
-			{
-                @Override
-				public void onClick(DialogInterface dialog, int which)
-				{
-                    dialog.dismiss();
+            builder.setPositiveButton(R.string.openpgp_sign_only_ok, (dialog, which) -> dialog.dismiss());
+        }
+        else {
+            builder.setPositiveButton(R.string.openpgp_sign_only_disable, (dialog, which) -> {
+                Activity activity1 = getActivity();
+                if (activity1 == null) {
+                    return;
                 }
+                ((OnOpenPgpSignOnlyChangeListener) activity1).onOpenPgpSignOnlyChange(false);
+                dialog.dismiss();
             });
-		}
-		else {
-			builder.setPositiveButton(R.string.openpgp_sign_only_disable, new OnClickListener()
-			{
-				@Override
-				public void onClick(DialogInterface dialog, int which)
-				{
-                    Activity activity = getActivity();
-                    if (activity == null) {
-                        return;
-                    }
-
-                    ((OnOpenPgpSignOnlyChangeListener) activity).onOpenPgpSignOnlyChange(false);
-                    dialog.dismiss();
-                }
-            });
-			builder.setNegativeButton(R.string.openpgp_sign_only_keep_enabled, new OnClickListener()
-					{
-						@Override
-						public void onClick(DialogInterface dialog, int which)
-						{
-							dialog.dismiss();
-                }
-					});
-		}
+            builder.setNegativeButton(R.string.openpgp_sign_only_keep_enabled, (dialog, which) -> dialog.dismiss());
+        }
 
         return builder.create();
     }
 
-	public interface OnOpenPgpSignOnlyChangeListener
-	{
+    public interface OnOpenPgpSignOnlyChangeListener
+    {
         void onOpenPgpSignOnlyChange(boolean enabled);
     }
-
 }

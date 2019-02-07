@@ -3,7 +3,9 @@ package org.atalk.xryptomail.mail.store.pop3;
 
 
 import android.annotation.SuppressLint;
+import android.net.TrafficStats;
 
+import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.mail.*;
 import org.atalk.xryptomail.mail.ServerSettings.Type;
 import org.atalk.xryptomail.mail.filter.*;
@@ -303,6 +305,7 @@ public class Pop3Store extends RemoteStore {
                     mSocket = new Socket();
                 }
 
+                TrafficStats.setThreadStatsTag(XryptoMail.THREAD_ID);
                 mSocket.connect(socketAddress, SOCKET_CONNECT_TIMEOUT);
                 mIn = new BufferedInputStream(mSocket.getInputStream(), 1024);
                 mOut = new BufferedOutputStream(mSocket.getOutputStream(), 512);

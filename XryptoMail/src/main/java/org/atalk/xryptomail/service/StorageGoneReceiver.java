@@ -25,7 +25,6 @@ public class StorageGoneReceiver extends BroadcastReceiver {
         }
 
         Timber.v("StorageGoneReceiver: %s", intent);
-
         final String path = uri.getPath();
 
         if (Intent.ACTION_MEDIA_EJECT.equals(action)) {
