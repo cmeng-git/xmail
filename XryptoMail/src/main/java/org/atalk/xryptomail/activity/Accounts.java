@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.*;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.SparseBooleanArray;
@@ -16,8 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-
+import de.cketti.library.changelog.ChangeLog;
 import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.activity.compose.MessageActions;
 import org.atalk.xryptomail.activity.misc.ExtendedAsyncTask;
@@ -30,6 +30,7 @@ import org.atalk.xryptomail.helper.SizeFormatter;
 import org.atalk.xryptomail.mail.*;
 import org.atalk.xryptomail.mail.store.RemoteStore;
 import org.atalk.xryptomail.mailstore.StorageManager;
+import org.atalk.xryptomail.notification.NotificationController;
 import org.atalk.xryptomail.notification.NotificationHelper;
 import org.atalk.xryptomail.preferences.*;
 import org.atalk.xryptomail.preferences.SettingsImporter.*;
@@ -38,14 +39,12 @@ import org.atalk.xryptomail.search.SearchAccount;
 import org.atalk.xryptomail.search.SearchSpecification.Attribute;
 import org.atalk.xryptomail.search.SearchSpecification.SearchField;
 import org.atalk.xryptomail.view.ColorChip;
+import timber.log.Timber;
 
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
-import de.cketti.library.changelog.ChangeLog;
-import timber.log.Timber;
 
 public class Accounts extends XMListActivity implements OnItemClickListener
 {
@@ -99,11 +98,6 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     private static final int ACTIVITY_REQUEST_PICK_SETTINGS_FILE = 1;
     private static final int ACTIVITY_REQUEST_SAVE_SETTINGS_FILE = 2;
 
-    private static BaseAccount mLastSelectedAccount = null;
-
-    final boolean isAndroidM = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
-    private static boolean permissionFirstRequest = true;
-
     class AccountsHandler extends Handler
     {
         private void setViewTitle()
@@ -131,7 +125,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
 
         public void refreshTitle()
         {
-            runOnUiThread(() -> setViewTitle());
+            runOnUiThread(this::setViewTitle);
         }
 
         public void dataChanged()
@@ -193,7 +187,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
 
     public void showProgressIndicator(boolean enable)
     {
-        ProgressBar mActionBarProgress = (ProgressBar) findViewById(R.id.actionbar_progress);
+        ProgressBar mActionBarProgress = findViewById(R.id.actionbar_progress);
 
         if (mRefreshMenuItem != null && mRefreshMenuItem.isVisible()) {
             mActionBarProgress.setVisibility(ProgressBar.GONE);
@@ -233,8 +227,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         @Override
         public void accountStatusChanged(BaseAccount account, AccountStats stats)
         {
-            AccountStats oldStats = accountStats.get(account.getUuid());
             int oldUnreadMessageCount = 0;
+            AccountStats oldStats = accountStats.get(account.getUuid());
             if (oldStats != null) {
                 oldUnreadMessageCount = oldStats.unreadMessageCount;
             }
@@ -243,8 +237,16 @@ public class Accounts extends XMListActivity implements OnItemClickListener
                 stats.available = false;
             }
             accountStats.put(account.getUuid(), stats);
+
             if (account instanceof Account) {
-                mUnreadMessageCount += stats.unreadMessageCount - oldUnreadMessageCount;
+                int newUnreadMessageCount = stats.unreadMessageCount;
+                mUnreadMessageCount += newUnreadMessageCount - oldUnreadMessageCount;
+
+//                Timber.d("Account status change: %s => %s += %s-%s", account, mUnreadMessageCount,
+//                        newUnreadMessageCount, oldUnreadMessageCount);
+                if (newUnreadMessageCount != oldUnreadMessageCount)
+                    NotificationController.newInstance(Accounts.this).updateBadgeNumber((Account) account,
+                            newUnreadMessageCount, true);
             }
             mHandler.dataChanged();
             pendingWork.remove(account);
@@ -266,11 +268,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
 
         @Override
-        public void synchronizeMailboxFinished(
-                Account account,
-                String folder,
-                int totalMessagesInMailbox,
-                int numNewMessages)
+        public void synchronizeMailboxFinished(Account account, String folder, int totalMessagesInMailbox, int numNewMessages)
         {
             MessagingController.getInstance(getApplication()).getAccountStats(Accounts.this, account, mListener);
             super.synchronizeMailboxFinished(account, folder, totalMessagesInMailbox, numNewMessages);
@@ -412,7 +410,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         runOnUiThread(() -> {
             new Handler().postDelayed(() -> {
                 ChangeLog cl = new ChangeLog(Accounts.this);
-                if (cl.isFirstRun()) {
+                if (cl.isFirstRun() && !isFinishing()) {
                     cl.getLogDialog().show();
                 }
             }, 15000); // allow 15 seconds for first launch login to complete
@@ -478,7 +476,6 @@ public class Accounts extends XMListActivity implements OnItemClickListener
 
     private StorageManager.StorageListener storageListener = new StorageManager.StorageListener()
     {
-
         @Override
         public void onUnmount(String providerId)
         {
@@ -607,19 +604,12 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     }
 
     /*
-     * This method is called with 'null' for the argument 'account' if all
-     * accounts are to be checked. This is handled accordingly in
-     * MessagingController.checkMail().
+     * This method is called to check mail for all registered accounts
      */
-    private void onCheckMail(Account account)
+    private void onCheckMail()
     {
-        MessagingController.getInstance(getApplication()).checkMail(this, account, true, true, null);
-        if (account == null) {
-            MessagingController.getInstance(getApplication()).sendPendingMessages(null);
-        }
-        else {
-            MessagingController.getInstance(getApplication()).sendPendingMessages(account, null);
-        }
+        MessagingController.getInstance(getApplication()).checkMail(this, null, true, true, null);
+        MessagingController.getInstance(getApplication()).sendPendingMessages(null);
     }
 
     private void onClearCommands(Account account)
@@ -1180,10 +1170,10 @@ public class Accounts extends XMListActivity implements OnItemClickListener
                     onEmptyTrash(realAccount);
                     break;
                 case R.id.clear:
-                    onClear(realAccount);
+                    onClear();
                     break;
                 case R.id.recreate:
-                    onRecreate(realAccount);
+                    onRecreate();
                     break;
                 case R.id.export:
                     onExport(false, realAccount);
@@ -1199,12 +1189,12 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         return true;
     }
 
-    private void onClear(Account account)
+    private void onClear()
     {
         showDialog(DIALOG_CLEAR_ACCOUNT);
     }
 
-    private void onRecreate(Account account)
+    private void onRecreate()
     {
         showDialog(DIALOG_RECREATE_ACCOUNT);
     }
@@ -1233,7 +1223,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
                 onEditPrefs();
                 break;
             case R.id.check_mail:
-                onCheckMail(null);
+                onCheckMail();
                 break;
             case R.id.compose:
                 onCompose();
@@ -1243,6 +1233,9 @@ public class Accounts extends XMListActivity implements OnItemClickListener
                 break;
             case R.id.export_db:
                 exportDB();
+                break;
+            case R.id.notification_setting:
+                openNotificationSettings();
                 break;
             case R.id.search:
                 onSearchRequested();
@@ -1291,6 +1284,10 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.accounts_option, menu);
         mRefreshMenuItem = menu.findItem(R.id.check_mail);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            menu.findItem(R.id.notification_setting).setVisible(false);
+        }
 
         if (!BuildConfig.DEBUG) {
             menu.findItem(R.id.export_db).setVisible(false);
@@ -1635,7 +1632,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
                 SparseBooleanArray pos = listView.getCheckedItemPositions();
 
                 boolean includeGlobals = mImportContents.globalSettings && pos.get(0);
-                List<String> accountUuids = new ArrayList<String>();
+                List<String> accountUuids = new ArrayList<>();
                 int start = mImportContents.globalSettings ? 1 : 0;
                 for (int i = start, end = listView.getCount(); i < end; i++) {
                     if (pos.get(i)) {
@@ -1989,13 +1986,9 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         protected Boolean doInBackground(Void... params)
         {
             try {
-                InputStream is = mContext.getContentResolver().openInputStream(mUri);
-                try {
-                    mImportResults = SettingsImporter.importSettings(mContext,
-                            is, mIncludeGlobals, mAccountUuids, mOverwrite);
-                } finally {
-                    if (is != null)
-                        is.close();
+                try (InputStream is = mContext.getContentResolver().openInputStream(mUri)) {
+                    mImportResults
+                            = SettingsImporter.importSettings(mContext, is, mIncludeGlobals, mAccountUuids, mOverwrite);
                 }
             } catch (SettingsImportExportException e) {
                 Timber.w(e, "Exception during import");
@@ -2161,7 +2154,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         try {
             FileBackend.deleteRecursive(xmailDLDir);
             if (!xmailDLDir.mkdirs()) {
-                Timber.e("Could not create atalk dir: " + xmailDLDir);
+                Timber.e("Could not create atalk dir: %s", xmailDLDir);
             }
 
             // To copy everything under files (large amount of data).
@@ -2171,7 +2164,21 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             FileBackend.copyRecursive(appSPDir, xmailDLDir, sharedPrefs);
 
         } catch (Exception e) {
-            Timber.w("Export database exception: " + e.getMessage());
+            Timber.w("Export database exception: %s", e.getMessage());
+        }
+    }
+
+    public void openNotificationSettings()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+            startActivity(intent);
         }
     }
 }

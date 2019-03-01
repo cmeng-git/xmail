@@ -20,7 +20,8 @@ import org.atalk.xryptomail.mailstore.LocalMessage;
  * {@link NotificationData} keeps track of all data required to (re)create the actual system notifications.
  * </p>
  */
-class NewMailNotifications {
+class NewMailNotifications
+{
     private final NotificationController controller;
     private final NotificationContentCreator contentCreator;
     private final DeviceNotifications deviceNotifications;
@@ -30,7 +31,8 @@ class NewMailNotifications {
 
 
     NewMailNotifications(NotificationController controller, NotificationContentCreator contentCreator,
-            DeviceNotifications deviceNotifications, WearNotifications wearNotifications) {
+            DeviceNotifications deviceNotifications, WearNotifications wearNotifications)
+    {
         this.controller = controller;
         this.deviceNotifications = deviceNotifications;
         this.wearNotifications = wearNotifications;
@@ -38,7 +40,8 @@ class NewMailNotifications {
     }
 
     public static NewMailNotifications newInstance(NotificationController controller,
-            NotificationActionCreator actionCreator) {
+            NotificationActionCreator actionCreator)
+    {
         NotificationContentCreator contentCreator = new NotificationContentCreator(controller.getContext());
         WearNotifications wearNotifications = new WearNotifications(controller, actionCreator);
         DeviceNotifications deviceNotifications = DeviceNotifications.newInstance(
@@ -46,7 +49,8 @@ class NewMailNotifications {
         return new NewMailNotifications(controller, contentCreator, deviceNotifications, wearNotifications);
     }
 
-    public void addNewMailNotification(Account account, LocalMessage message, int unreadMessageCount) {
+    public void addNewMailNotification(Account account, LocalMessage message, int unreadMessageCount)
+    {
         NotificationContent content = contentCreator.createFromMessage(account, message);
 
         synchronized (lock) {
@@ -62,7 +66,8 @@ class NewMailNotifications {
         }
     }
 
-    public void removeNewMailNotification(Account account, MessageReference messageReference) {
+    public void removeNewMailNotification(Account account, MessageReference messageReference)
+    {
         synchronized (lock) {
             NotificationData notificationData = getNotificationData(account);
             if (notificationData == null) {
@@ -80,7 +85,8 @@ class NewMailNotifications {
         }
     }
 
-    public void clearNewMailNotifications(Account account) {
+    public void clearNewMailNotifications(Account account)
+    {
         NotificationData notificationData;
         synchronized (lock) {
             notificationData = removeNotificationData(account);
@@ -95,7 +101,8 @@ class NewMailNotifications {
         cancelNotification(notificationId);
     }
 
-    private NotificationData getOrCreateNotificationData(Account account, int unreadMessageCount) {
+    private NotificationData getOrCreateNotificationData(Account account, int unreadMessageCount)
+    {
         NotificationData notificationData = getNotificationData(account);
         if (notificationData != null) {
             return notificationData;
@@ -106,43 +113,66 @@ class NewMailNotifications {
         return newNotificationHolder;
     }
 
-    private NotificationData getNotificationData(Account account) {
+    private NotificationData getNotificationData(Account account)
+    {
         int accountNumber = account.getAccountNumber();
         return notifications.get(accountNumber);
     }
 
-    private NotificationData removeNotificationData(Account account) {
+    private NotificationData removeNotificationData(Account account)
+    {
         int accountNumber = account.getAccountNumber();
         NotificationData notificationData = notifications.get(accountNumber);
         notifications.remove(accountNumber);
         return notificationData;
     }
 
-    NotificationData createNotificationData(Account account, int unreadMessageCount) {
+    NotificationData createNotificationData(Account account, int unreadMessageCount)
+    {
         NotificationData notificationData = new NotificationData(account);
         notificationData.setUnreadMessageCount(unreadMessageCount);
         return notificationData;
     }
 
-    private void cancelNotification(int notificationId) {
+    private void cancelNotification(int notificationId)
+    {
         getNotificationManager().cancel(notificationId);
     }
 
-    private void updateSummaryNotification(Account account, NotificationData notificationData) {
+    private void updateSummaryNotification(Account account, NotificationData notificationData)
+    {
         if (notificationData.getNewMessagesCount() == 0) {
             clearNewMailNotifications(account);
-        } else {
+        }
+        else {
             createSummaryNotification(account, notificationData, true);
         }
     }
 
-    private void createSummaryNotification(Account account, NotificationData notificationData, boolean silent) {
+    private void createSummaryNotification(Account account, NotificationData notificationData, boolean silent)
+    {
         Notification notification = deviceNotifications.buildSummaryNotification(account, notificationData, silent);
         int notificationId = NotificationIds.getNewMailSummaryNotificationId(account);
         getNotificationManager().notify(notificationId, notification);
     }
 
-    private void createStackedNotification(Account account, NotificationHolder holder) {
+    /**
+     * @param account the new mail recipient
+     * @param unreadMessageCount - unRead message count for all accounts
+     */
+    protected void createMailBadgeNotification(Account account, int unreadMessageCount, int totalCount)
+    {
+        Notification notification = deviceNotifications.createSimpleSummaryNotification(account, unreadMessageCount,
+                NotificationHelper.BADGE_GROUP)
+                .setNumber(totalCount)
+                .build();
+
+        int notificationId = NotificationIds.getNewMailSummaryNotificationId(account);
+        getNotificationManager().notify(notificationId, notification);
+    }
+
+    private void createStackedNotification(Account account, NotificationHolder holder)
+    {
         if (isPrivacyModeEnabled()) {
             return;
         }
@@ -151,11 +181,13 @@ class NewMailNotifications {
         getNotificationManager().notify(notificationId, notification);
     }
 
-    private boolean isPrivacyModeEnabled() {
+    private boolean isPrivacyModeEnabled()
+    {
         return XryptoMail.getNotificationHideSubject() != NotificationHideSubject.NEVER;
     }
 
-    private NotificationManagerCompat getNotificationManager() {
+    private NotificationManagerCompat getNotificationManager()
+    {
         return controller.getNotificationManager();
     }
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
@@ -26,8 +26,8 @@
                 android:layout_marginStart="@dimen/account_setup_settings_margin_start"
                 android:layout_marginTop="@dimen/account_setup_settings_title_margin_top"
                 android:layout_marginRight="@dimen/account_setup_settings_field_margin_end"
-                android:layout_marginEnd="@dimen/account_setup_settings_field_margin_end"
-                />
+                android:layout_marginEnd="@dimen/account_setup_settings_field_margin_end" />
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -42,8 +42,7 @@
                 android:clipToPadding="false"
                 android:fadingEdge="none"
                 android:scrollbarStyle="outsideInset"
-                android:overScrollMode="ifContentScrolls"
-                >
+                android:overScrollMode="ifContentScrolls">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -54,8 +53,7 @@
                         android:id="@+id/email_input_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintRight_toRightOf="parent"
-                        >
+                        app:layout_constraintRight_toRightOf="parent">
 
                         <android.support.design.widget.TextInputEditText
                             android:id="@+id/account_email"
@@ -73,8 +71,7 @@
                         android:layout_marginTop="@dimen/account_setup_margin_between_items"
                         app:layout_constraintTop_toBottomOf="@+id/email_input_layout"
                         app:passwordToggleEnabled="true"
-                        app:layout_constraintRight_toRightOf="@id/email_input_layout"
-                        >
+                        app:layout_constraintRight_toRightOf="@id/email_input_layout">
 
                         <android.support.design.widget.TextInputEditText
                             android:id="@+id/account_password"
@@ -91,12 +88,13 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:text="@string/manual_setup"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_marginTop="8dp" />
                 </LinearLayout>
             </ScrollView>
 
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>
+
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
@@ -107,7 +105,7 @@
         style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <View
             android:layout_width="0dp"

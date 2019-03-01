@@ -71,7 +71,7 @@ XryptoMail是Android版电子邮件客户端加密功能。
     <string name="AboutDialog_title">关于</string>
     <string name="AboutDialog_Version">版本 %s</string>
     <string name="AboutDialog_Copyright">版权所有：2011~2016年，atalk.org\n保留所有权利</string>
-    <string name="AboutDialog_help"><a herf="http://atalk.sytes.net/xmail">在线协助</a></string>
+    <string name="AboutDialog_help"><a herf="https://atalk.sytes.net/xmail">在线协助</a></string>
     <string name="About_action">关于</string>
     <string name="About_help">协助</string>
     <string name="PoweredBy">技术支持：atalk.org</string>

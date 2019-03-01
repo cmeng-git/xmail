@@ -5,5 +5,4 @@
     android:minHeight="40dp"
     android:minWidth="40dp"
     android:configure="org.atalk.xryptomail.activity.UnreadWidgetConfiguration"
-    android:updatePeriodMillis="0">
-</appwidget-provider>
+    android:updatePeriodMillis="0"></appwidget-provider>

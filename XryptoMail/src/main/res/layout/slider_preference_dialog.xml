@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
 Copyright 2012 Jay Weisskopf
 
 Licensed under the MIT License (see LICENSE.txt)
@@ -12,7 +11,7 @@ Licensed under the MIT License (see LICENSE.txt)
     android:paddingBottom="8dip"
     android:paddingLeft="16dip"
     android:paddingRight="16dip"
-    android:paddingTop="8dip" >
+    android:paddingTop="8dip">
 
     <TextView
         android:id="@+id/message"

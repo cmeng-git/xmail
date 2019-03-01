@@ -32,8 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="6dp"
-                style="@style/NegativeBulletPoint"
-                />
+                style="@style/NegativeBulletPoint" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -50,16 +49,14 @@
             android:id="@+id/layout_bullet_2"
             android:layout_below="@+id/layout_bullet_1"
             android:layout_alignLeft="@+id/layout_bullet_1"
-            android:layout_alignStart="@+id/layout_bullet_1"
-            >
+            android:layout_alignStart="@+id/layout_bullet_1">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="6dp"
-                style="@style/NegativeBulletPoint"
-                />
+                style="@style/NegativeBulletPoint" />
 
             <TextView
                 android:layout_width="wrap_content"

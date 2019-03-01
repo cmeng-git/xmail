@@ -70,7 +70,7 @@ XryptoMail是Android版電子郵件客戶端加密功能。
     <string name="AboutDialog_title">關於</string>
     <string name="AboutDialog_Version">版本 %s</string>
     <string name="AboutDialog_Copyright">版權所有：2011~2016年，atalk.org\n保留所有權利</string>
-    <string name="AboutDialog_help"><a herf="http://atalk.sytes.net/xmail">在線協助</a></string>
+    <string name="AboutDialog_help"><a herf="https://atalk.sytes.net/xmail">在線協助</a></string>
     <string name="About_action">關於</string>
     <string name="About_help">协助</string>
 	<string name="PoweredBy">技術支持：atalk.org</string>

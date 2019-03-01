@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:paddingBottom="3dip"
     android:paddingRight="1dip"
-    android:paddingTop="1dip" >
+    android:paddingTop="1dip">
 
     <TextView
         android:id="@+id/textViewVersion"
@@ -15,7 +15,7 @@
         android:paddingTop="4dp"
         android:text="New version exists, Update ?"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,8 +25,8 @@
         android:paddingBottom="2dp"
         android:paddingLeft="2dp"
         android:paddingRight="2dp"
-        android:paddingTop="12dp" >
-        
+        android:paddingTop="12dp">
+
         <Button
             android:id="@+id/ok_button"
             android:layout_width="match_parent"

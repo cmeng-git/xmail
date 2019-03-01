@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/UnreadWidgetContainer"
     android:id="@+id/unread_widget_layout"
@@ -33,7 +32,7 @@
             android:paddingRight="5dp"
             android:background="@drawable/unread_count_background"
             android:textColor="#ffffff"
-            tools:ignore="SpUsage"/>
+            tools:ignore="SpUsage" />
 
     </FrameLayout>
 

@@ -18,14 +18,22 @@
 package org.atalk.xryptomail.notification;
 
 import android.annotation.TargetApi;
-import android.app.*;
-import android.content.*;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 
 import org.atalk.xryptomail.R;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Helper class to manage notification channels, and create notifications.
@@ -35,9 +43,9 @@ import org.atalk.xryptomail.R;
 public class NotificationHelper extends ContextWrapper
 {
     /**
-     * Default group that will use aTalk icon for notifications
+     * Message badge notifications group.
      */
-    public static final String SERVICE_GROUP = "service";
+    public static final String BADGE_GROUP = "badge";
 
     /**
      * Message notifications group.
@@ -48,6 +56,13 @@ public class NotificationHelper extends ContextWrapper
      * Missed call event.
      */
     public static final String ERROR_GROUP = "error";
+
+    /**
+     * Default group that will use aTalk icon for notifications
+     */
+    public static final String SERVICE_GROUP = "service";
+
+    private List<String> notificationIds = Arrays.asList(BADGE_GROUP, EMAIL_GROUP, ERROR_GROUP, SERVICE_GROUP);
 
     private NotificationManager manager;
 
@@ -64,11 +79,19 @@ public class NotificationHelper extends ContextWrapper
             NotificationChannel nEmail = new NotificationChannel(EMAIL_GROUP,
                     getString(R.string.noti_channel_EMAIL_GROUP), NotificationManager.IMPORTANCE_DEFAULT);
             // nMessage.setLightColor(Color.BLUE);
+            nEmail.setShowBadge(true);
             nEmail.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
             getManager().createNotificationChannel(nEmail);
 
+            NotificationChannel nBadge = new NotificationChannel(BADGE_GROUP,
+                    getString(R.string.noti_channel_BADGE_GROUP), NotificationManager.IMPORTANCE_LOW);
+            nBadge.setShowBadge(true);
+            nBadge.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            getManager().createNotificationChannel(nBadge);
+
             NotificationChannel nError = new NotificationChannel(ERROR_GROUP,
                     getString(R.string.noti_channel_ERROR_GROUP), NotificationManager.IMPORTANCE_LOW);
+            nError.setShowBadge(false);
             nError.setLightColor(Color.RED);
             nError.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             getManager().createNotificationChannel(nError);
@@ -76,8 +99,22 @@ public class NotificationHelper extends ContextWrapper
             NotificationChannel nDefault = new NotificationChannel(SERVICE_GROUP,
                     getString(R.string.noti_channel_SERVICE_GROUP), NotificationManager.IMPORTANCE_LOW);
             // nDefault.setLightColor(Color.WHITE);
+            nDefault.setShowBadge(false);
             nDefault.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             getManager().createNotificationChannel(nDefault);
+
+            // Delete any unused channel IDs
+            deleteObsoletedChannelIds();
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private void deleteObsoletedChannelIds(){
+        List<NotificationChannel> channelGroups = getManager().getNotificationChannels();
+        for (NotificationChannel nc: channelGroups) {
+            if (!notificationIds.contains(nc.getId())) {
+                getManager().deleteNotificationChannel(nc.getId());
+            }
         }
     }
 

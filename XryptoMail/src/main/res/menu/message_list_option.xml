@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <!--
     The comments preceding the (top level) menu items denote which part of the combined message
     list/view activity the item belongs to. Either "MessageList", "MessageView", or "always" (as in:
@@ -9,7 +9,7 @@
     MessageList.configureMenu() if you make any changes to this file.
     -->
 
-<!-- ==================================================== -->
+    <!-- ==================================================== -->
     <!-- MessageView: Previous Message -->
     <item
         android:id="@+id/previous_message"
@@ -24,8 +24,8 @@
         android:icon="?attr/iconActionNextMessage"
         android:showAsAction="always" />
 
-	<!-- MessageList: Search -->
-   	<item
+    <!-- MessageList: Search -->
+    <item
         android:id="@+id/search"
         android:icon="?attr/iconActionSearch"
         android:showAsAction="always"
@@ -37,7 +37,7 @@
         android:icon="?attr/iconActionRemoteSearch"
         android:showAsAction="always"
         android:title="@string/action_remote_search"
-        android:visible="false"/>
+        android:visible="false" />
 
     <!-- MessageList: Check Mail -->
     <item
@@ -61,21 +61,21 @@
         android:icon="?attr/iconActionArchive"
         android:showAsAction="ifRoom"
         android:title="@string/archive_action" />
-		
+
     <!-- MessageList: Spam -->
     <item
         android:id="@+id/spam"
         android:icon="?attr/iconActionSpam"
         android:showAsAction="ifRoom"
         android:title="@string/spam_action" />
-		
+
     <!-- MessageList: Move -->
     <item
         android:id="@+id/move"
         android:icon="?attr/iconActionMove"
         android:showAsAction="ifRoom"
         android:title="@string/move_action" />
-		
+
     <!-- MessageList: Copy -->
     <item
         android:id="@+id/copy"
@@ -88,35 +88,35 @@
         android:id="@+id/single_message_options"
         android:icon="?attr/iconActionSingleMessageOptions"
         android:showAsAction="ifRoom"
-        android:title="@string/single_message_options_action" >
+        android:title="@string/single_message_options_action">
         <menu>
             <item
                 android:id="@+id/reply"
-		        android:icon="?attr/iconActionReply"
+                android:icon="?attr/iconActionReply"
                 android:title="@string/reply_action" />
             <item
                 android:id="@+id/reply_all"
-		        android:icon="?attr/iconActionReplyAll"
+                android:icon="?attr/iconActionReplyAll"
                 android:title="@string/reply_all_action" />
             <item
                 android:id="@+id/forward"
-		        android:icon="?attr/iconActionForward"
+                android:icon="?attr/iconActionForward"
                 android:title="@string/forward_action" />
             <item
                 android:id="@+id/forward_as_attachment"
                 android:icon="?attr/iconActionForwardAsAttachment"
                 android:title="@string/forward_as_attachment_action" />
-		     <item
-		         android:id="@+id/send_again"
-		        android:icon="?attr/iconActionSend"
-		         android:title="@string/send_again_action" />
-			<item
+            <item
+                android:id="@+id/send_again"
+                android:icon="?attr/iconActionSend"
+                android:title="@string/send_again_action" />
+            <item
                 android:id="@+id/share"
-		        android:icon="?attr/iconActionShare"
+                android:icon="?attr/iconActionShare"
                 android:title="@string/send_alternate_action" />
-		    <item
-		        android:id="@+id/debug_delete_locally"
-		        android:title="@string/debug_delete_local_body" />
+            <item
+                android:id="@+id/debug_delete_locally"
+                android:title="@string/debug_delete_local_body" />
         </menu>
     </item>
 
@@ -125,7 +125,7 @@
         android:id="@+id/refile"
         android:icon="?attr/iconActionSingleMessageOptions"
         android:showAsAction="never"
-        android:title="@string/refile_action" >
+        android:title="@string/refile_action">
         <menu>
             <item
                 android:id="@+id/refile_archive"
@@ -147,7 +147,7 @@
                 android:title="@string/copy_action" />
         </menu>
     </item>
-	
+
     <!-- MessageView: Toggle UnRead -->
     <item
         android:id="@+id/toggle_unread"
@@ -155,20 +155,22 @@
         android:showAsAction="never"
         android:title="@string/mark_as_unread_action" />
 
-    <item android:id="@+id/show_headers"
-          android:showAsAction="never"
-          android:title="@string/show_headers_action" />
+    <item
+        android:id="@+id/show_headers"
+        android:showAsAction="never"
+        android:title="@string/show_headers_action" />
 
-    <item android:id="@+id/hide_headers"
-          android:showAsAction="never"
-          android:title="@string/hide_headers_action" />
+    <item
+        android:id="@+id/hide_headers"
+        android:showAsAction="never"
+        android:title="@string/hide_headers_action" />
 
     <!-- MessageList: Sort -->
     <item
         android:id="@+id/set_sort"
         android:icon="?attr/iconActionSort"
         android:showAsAction="ifRoom"
-        android:title="@string/sort_by" >
+        android:title="@string/sort_by">
         <menu>
             <item
                 android:id="@+id/set_sort_date"
@@ -184,7 +186,7 @@
                 android:title="@string/sort_by_sender" />
             <item
                 android:id="@+id/set_sort_flag"
-                android:title="@string/sort_by_flag"/>
+                android:title="@string/sort_by_flag" />
             <item
                 android:id="@+id/set_sort_unread"
                 android:title="@string/sort_by_unread" />
@@ -216,7 +218,7 @@
         android:icon="?attr/iconActionSelectAll"
         android:showAsAction="never"
         android:title="@string/batch_select_all" />
-		
+
     <!-- MessageList: Mark all as read -->
     <item
         android:id="@+id/mark_all_as_read"
@@ -237,7 +239,6 @@
         android:showAsAction="never"
         android:title="@string/expunge_action" />
 
-	
     <!-- MessageView: Select Text -->
     <item
         android:id="@+id/select_text"
@@ -249,8 +250,8 @@
         android:id="@+id/toggle_message_view_theme"
         android:showAsAction="never"
         android:title="@string/message_view_theme_action_dark" />
-		
-<!-- ==================================================== -->
+
+    <!-- ==================================================== -->
     <!-- Settings -->
     <item
         android:id="@+id/settings"

@@ -15,8 +15,7 @@
         android:id="@+id/crypto_info_top_icon_1"
         android:layout_marginRight="12dp"
         tools:src="@drawable/status_signature"
-        tools:tint="?attr/openpgp_blue"
-        />
+        tools:tint="?attr/openpgp_blue" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -29,16 +28,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/crypto_info_title"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="@string/crypto_msg_title_unencrypted_signed_e2e"
-            />
+            tools:text="@string/crypto_msg_title_unencrypted_signed_e2e" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/crypto_info_text"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="@string/crypto_msg_encrypted_sign_verified"
-            />
+            tools:text="@string/crypto_msg_encrypted_sign_verified" />
 
     </LinearLayout>
 

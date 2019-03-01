@@ -13,8 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        tools:ignore="UseCompoundDrawables"
-        >
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -22,8 +21,7 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/status_signature"
             android:scaleType="fitCenter"
-            android:tint="@color/light_black"
-            />
+            android:tint="@color/light_black" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -32,8 +30,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:textAppearance="?android:textAppearanceMedium"
-            android:text="@string/openpgp_dialog_sign_only_title"
-            />
+            android:text="@string/openpgp_dialog_sign_only_title" />
 
     </LinearLayout>
 
@@ -43,8 +40,7 @@
         android:textAppearance="?android:textAppearanceSmall"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:text="@string/openpgp_dialog_sign_only_text"
-        />
+        android:text="@string/openpgp_dialog_sign_only_text" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -55,8 +51,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/PositiveBulletPoint"
-            />
+            style="@style/PositiveBulletPoint" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -65,8 +60,7 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:textAppearance="?android:textAppearanceSmall"
-            android:text="@string/openpgp_dialog_sign_only_plus_verified"
-        />
+            android:text="@string/openpgp_dialog_sign_only_plus_verified" />
 
     </LinearLayout>
 
@@ -80,8 +74,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/NegativeBulletPoint"
-            />
+            style="@style/NegativeBulletPoint" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -90,8 +83,7 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:textAppearance="?android:textAppearanceSmall"
-            android:text="@string/openpgp_dialog_sign_only_minus_break"
-            />
+            android:text="@string/openpgp_dialog_sign_only_minus_break" />
 
     </LinearLayout>
 
@@ -105,8 +97,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/NegativeBulletPoint"
-            />
+            style="@style/NegativeBulletPoint" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -115,8 +106,7 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:textAppearance="?android:textAppearanceSmall"
-            android:text="@string/openpgp_dialog_sign_only_minus_attach"
-            />
+            android:text="@string/openpgp_dialog_sign_only_minus_attach" />
 
     </LinearLayout>
 
@@ -129,8 +119,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/NeutralBulletPoint"
-            />
+            style="@style/NeutralBulletPoint" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -139,8 +128,7 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:textAppearance="?android:textAppearanceSmall"
-            android:text="@string/openpgp_dialog_sign_only_neutral_encsigned"
-            />
+            android:text="@string/openpgp_dialog_sign_only_neutral_encsigned" />
 
     </LinearLayout>
 

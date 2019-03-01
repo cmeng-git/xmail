@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/add_from_contacts"
@@ -19,7 +19,7 @@
         android:alphabeticShortcut="s"
         android:title="@string/send_action"
         android:icon="?attr/iconActionSend"
-        android:showAsAction="always" >
+        android:showAsAction="always">
         <menu>
             <item
                 android:id="@+id/Send_OpenPGP_Email"
@@ -35,7 +35,7 @@
                 android:title="@string/Send_Stealth_Email" />
         </menu>
     </item>
-    
+
     <item
         android:id="@+id/save"
         android:alphabeticShortcut="d"
@@ -55,14 +55,12 @@
         android:id="@+id/openpgp_encrypt_enable"
         android:alphabeticShortcut="c"
         android:title="@string/enable_encryption"
-        android:showAsAction="never"
-        />
+        android:showAsAction="never" />
     <item
         android:id="@+id/openpgp_encrypt_disable"
         android:alphabeticShortcut="c"
         android:title="@string/disable_encryption"
-        android:showAsAction="never"
-        />
+        android:showAsAction="never" />
     <item
         android:id="@+id/openpgp_sign_only"
         android:alphabeticShortcut="g"
@@ -78,7 +76,7 @@
         android:alphabeticShortcut="i"
         android:title="@string/enable_inline_pgp"
         android:showAsAction="never" />
-	
+
     <item
         android:id="@+id/openpgp_inline_disable"
         android:alphabeticShortcut="i"

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.atalk.xryptomail.ui.messageview.MessageTopView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<org.atalk.xryptomail.ui.messageview.MessageTopView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/message_view"
@@ -19,13 +18,13 @@
             android:id="@+id/inside_attachments_container"
             android:orientation="vertical"
             android:layout_width="fill_parent"
-	        android:layout_height="fill_parent">
+            android:layout_height="fill_parent">
 
-	        <!-- Header area -->
-	        <include layout="@layout/message_view_header"/>
+            <!-- Header area -->
+            <include layout="@layout/message_view_header" />
 
             <!-- Message Stealth Counter -->
-            <include layout="@layout/message_stealth_counter"/>
+            <include layout="@layout/message_stealth_counter" />
 
             <Button
                 android:id="@+id/show_pictures"
@@ -39,7 +38,7 @@
                 android:layout_marginTop="4dip"
                 android:text="@string/message_view_show_pictures_action"
                 android:visibility="gone"
-                tools:visibility="visible"/>
+                tools:visibility="visible" />
 
             <org.atalk.xryptomail.view.ToolableViewAnimator
                 android:id="@+id/message_layout_animator"
@@ -48,13 +47,16 @@
                 android:inAnimation="@anim/fade_in"
                 android:outAnimation="@anim/fade_out"
                 custom:previewInitialChild="1">
+
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="8dp">
+
                     <ProgressBar
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -64,32 +66,33 @@
                         android:id="@+id/message_progress"
                         android:max="1000"
                         tools:progress="300"
-                        style="@android:style/Widget.Holo.ProgressBar.Horizontal"
-                        />
+                        style="@android:style/Widget.Holo.ProgressBar.Horizontal" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/message_progress"
                         android:layout_centerInParent="true"
                         android:id="@+id/message_progress_text"
-                        android:text="@string/message_progress_text"
-                        />
+                        android:text="@string/message_progress_text" />
                 </RelativeLayout>
+
                 <FrameLayout
-                android:orientation="vertical"
+                    android:orientation="vertical"
                     android:id="@+id/message_container"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
 
             </org.atalk.xryptomail.view.ToolableViewAnimator>
-	    </LinearLayout>
+        </LinearLayout>
 
     </org.atalk.xryptomail.view.NonLockingScrollView>
 
-    <Button android:id="@+id/download_remainder"
+    <Button
+        android:id="@+id/download_remainder"
         android:text="@string/message_view_download_remainder"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:layout_width="fill_parent"/>
+        android:layout_width="fill_parent" />
 
 </org.atalk.xryptomail.ui.messageview.MessageTopView>

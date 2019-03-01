@@ -6,19 +6,18 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.*;
 import android.widget.Toast;
-
 import org.atalk.xryptomail.Account.SortType;
 import org.atalk.xryptomail.account.XMailOAuth2TokenProvider;
 import org.atalk.xryptomail.activity.MessageCompose;
 import org.atalk.xryptomail.activity.UpgradeDatabases;
 import org.atalk.xryptomail.controller.MessagingController;
 import org.atalk.xryptomail.controller.SimpleMessagingListener;
-import org.atalk.xryptomail.mail.*;
+import org.atalk.xryptomail.helper.TimberLog.TimberLogImpl;
 import org.atalk.xryptomail.mail.Message;
+import org.atalk.xryptomail.mail.*;
 import org.atalk.xryptomail.mail.internet.BinaryTempFileBody;
 import org.atalk.xryptomail.mail.ssl.LocalKeyStore;
 import org.atalk.xryptomail.mailstore.LocalStore;
@@ -28,13 +27,12 @@ import org.atalk.xryptomail.preferences.StorageEditor;
 import org.atalk.xryptomail.provider.UnreadWidgetProvider;
 import org.atalk.xryptomail.service.*;
 import org.atalk.xryptomail.widget.list.MessageListWidgetProvider;
+import timber.log.Timber;
 
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.SynchronousQueue;
-
-import timber.log.Timber;
 
 public class XryptoMail extends Application
 {
@@ -42,7 +40,6 @@ public class XryptoMail extends Application
     public static String mVersionOnServer;
     public static String mNewApkPathOnServer;
     public static String mUpdateApkPath;
-    public static String mCurCryptoEmail;
 
     // Default Settings for new firmware online update
     public static String CRYPTO_SERVER = "atalk.sytes.net";
@@ -566,6 +563,7 @@ public class XryptoMail extends Application
         instance = this;
         Globals.setContext(this);
         Globals.setOAuth2TokenProvider(new XMailOAuth2TokenProvider(this));
+        TimberLogImpl.init();
 
         XryptoMailLib.setDebugStatus(new XryptoMailLib.DebugStatus()
         {
@@ -1580,7 +1578,7 @@ public class XryptoMail extends Application
         Timber.uprootAll();
         boolean enableDebugLogging = BuildConfig.DEBUG || DEBUG;
         if (enableDebugLogging) {
-            Timber.plant(new Timber.DebugTree());
+            TimberLogImpl.init();
         }
     }
 

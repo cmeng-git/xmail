@@ -1,19 +1,13 @@
 package org.atalk.xryptomail.notification;
 
-import android.app.KeyguardManager;
-import android.app.Notification;
-import android.app.PendingIntent;
+import android.app.*;
 import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
 import android.support.v4.app.NotificationCompat.InboxStyle;
-
-import org.atalk.xryptomail.Account;
-import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.XryptoMail.NotificationHideSubject;
 import org.atalk.xryptomail.XryptoMail.NotificationQuickDelete;
-import org.atalk.xryptomail.NotificationSetting;
-import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.activity.MessageReference;
 
 import java.util.ArrayList;
@@ -22,46 +16,52 @@ import java.util.List;
 import static org.atalk.xryptomail.notification.NotificationController.NOTIFICATION_LED_BLINK_SLOW;
 import static org.atalk.xryptomail.notification.NotificationController.platformSupportsExtendedNotifications;
 
-
-class DeviceNotifications extends BaseNotifications {
+class DeviceNotifications extends BaseNotifications
+{
     private final WearNotifications wearNotifications;
     private final LockScreenNotification lockScreenNotification;
 
-
     DeviceNotifications(NotificationController controller, NotificationActionCreator actionCreator,
-            LockScreenNotification lockScreenNotification, WearNotifications wearNotifications) {
+            LockScreenNotification lockScreenNotification, WearNotifications wearNotifications)
+    {
         super(controller, actionCreator);
         this.wearNotifications = wearNotifications;
         this.lockScreenNotification = lockScreenNotification;
     }
 
     public static DeviceNotifications newInstance(NotificationController controller,
-            NotificationActionCreator actionCreator, WearNotifications wearNotifications) {
+            NotificationActionCreator actionCreator, WearNotifications wearNotifications)
+    {
         LockScreenNotification lockScreenNotification = LockScreenNotification.newInstance(controller);
         return new DeviceNotifications(controller, actionCreator, lockScreenNotification, wearNotifications);
     }
 
-    public Notification buildSummaryNotification(Account account, NotificationData notificationData,
-            boolean silent) {
+    public Notification buildSummaryNotification(Account account, NotificationData notificationData, boolean silent)
+    {
         int unreadMessageCount = notificationData.getUnreadMessageCount();
 
         NotificationCompat.Builder builder;
         if (isPrivacyModeActive() || !platformSupportsExtendedNotifications()) {
-            builder = createSimpleSummaryNotification(account, unreadMessageCount);
-        } else if (notificationData.isSingleMessageNotification()) {
+            builder = createSimpleSummaryNotification(account, unreadMessageCount, NotificationHelper.EMAIL_GROUP);
+        }
+        else if (notificationData.isSingleMessageNotification()) {
             NotificationHolder holder = notificationData.getHolderForLatestNotification();
             builder = createBigTextStyleSummaryNotification(account, holder);
-        } else {
-            builder = createInboxStyleSummaryNotification(account, notificationData, unreadMessageCount);
         }
+        else {
+            builder = createInboxStyleSummaryNotification(account, notificationData);
+        }
+
+        // Update launcher badge number with total unread messages for devices < android.o only
+        int totalCount = controller.updateBadgeNumber(account, unreadMessageCount, false);
+        builder.setNumber(totalCount);
 
         if (notificationData.containsStarredMessages()) {
             builder.setPriority(NotificationCompat.PRIORITY_HIGH);
         }
 
         int notificationId = NotificationIds.getNewMailSummaryNotificationId(account);
-        PendingIntent deletePendingIntent = actionCreator.createDismissAllMessagesPendingIntent(
-                account, notificationId);
+        PendingIntent deletePendingIntent = actionCreator.createDismissAllMessagesPendingIntent(account, notificationId);
         builder.setDeleteIntent(deletePendingIntent);
 
         lockScreenNotification.configureLockScreenNotification(builder, notificationData);
@@ -84,26 +84,27 @@ class DeviceNotifications extends BaseNotifications {
         return builder.build();
     }
 
-    private NotificationCompat.Builder createSimpleSummaryNotification(Account account, int unreadMessageCount) {
+    protected NotificationCompat.Builder createSimpleSummaryNotification(Account account, int unreadMessageCount,
+            String channelId)
+    {
         String accountName = controller.getAccountName(account);
         CharSequence newMailText = context.getString(R.string.notification_new_title);
+        int notificationId = NotificationIds.getNewMailSummaryNotificationId(account);
+        // Timber.d("Notification Id: %s(%s): %s", controller.getAccountName(account), unreadMessageCount, notificationId);
+
         String unreadMessageCountText = context.getString(R.string.notification_new_one_account_fmt,
                 unreadMessageCount, accountName);
+        PendingIntent contentIntent = actionCreator.createAccountInBoxPendingIntent(account, notificationId);
 
-        int notificationId = NotificationIds.getNewMailSummaryNotificationId(account);
-        PendingIntent contentIntent = actionCreator.createViewFolderListPendingIntent(account, notificationId);
-
-        return createAndInitializeNotificationBuilder(account)
-                .setNumber(unreadMessageCount)
+        return createAndInitializeNotificationBuilder(account, channelId)
                 .setTicker(newMailText)
                 .setContentTitle(unreadMessageCountText)
                 .setContentText(newMailText)
                 .setContentIntent(contentIntent);
     }
 
-    private NotificationCompat.Builder createBigTextStyleSummaryNotification(Account account,
-            NotificationHolder holder) {
-
+    private NotificationCompat.Builder createBigTextStyleSummaryNotification(Account account, NotificationHolder holder)
+    {
         int notificationId = NotificationIds.getNewMailSummaryNotificationId(account);
         Builder builder = createBigTextStyleNotification(account, holder, notificationId)
                 .setGroupSummary(true);
@@ -116,9 +117,8 @@ class DeviceNotifications extends BaseNotifications {
         return builder;
     }
 
-    private NotificationCompat.Builder createInboxStyleSummaryNotification(Account account,
-            NotificationData notificationData, int unreadMessageCount) {
-
+    private NotificationCompat.Builder createInboxStyleSummaryNotification(Account account, NotificationData notificationData)
+    {
         NotificationHolder latestNotification = notificationData.getHolderForLatestNotification();
 
         int newMessagesCount = notificationData.getNewMessagesCount();
@@ -127,12 +127,10 @@ class DeviceNotifications extends BaseNotifications {
                 newMessagesCount, newMessagesCount);
         String summary = (notificationData.hasSummaryOverflowMessages()) ?
                 context.getString(R.string.notification_additional_messages,
-                        notificationData.getSummaryOverflowMessagesCount(), accountName) :
-                accountName;
+                        notificationData.getSummaryOverflowMessagesCount(), accountName) : accountName;
         String groupKey = NotificationGroupKeys.getGroupKey(account);
 
-        NotificationCompat.Builder builder = createAndInitializeNotificationBuilder(account)
-                .setNumber(unreadMessageCount)
+        NotificationCompat.Builder builder = createAndInitializeNotificationBuilder(account, NotificationHelper.EMAIL_GROUP)
                 .setTicker(latestNotification.content.summary)
                 .setGroup(groupKey)
                 .setGroupSummary(true)
@@ -146,7 +144,6 @@ class DeviceNotifications extends BaseNotifications {
         for (NotificationContent content : notificationData.getContentForSummaryNotification()) {
             style.addLine(content.summary);
         }
-
         builder.setStyle(style);
 
         addMarkAllAsReadAction(builder, notificationData);
@@ -163,7 +160,8 @@ class DeviceNotifications extends BaseNotifications {
         return builder;
     }
 
-    private void addMarkAsReadAction(Builder builder, NotificationContent content, int notificationId) {
+    private void addMarkAsReadAction(Builder builder, NotificationContent content, int notificationId)
+    {
         int icon = getMarkAsReadActionIcon();
         String title = context.getString(R.string.notification_action_mark_as_read);
 
@@ -174,7 +172,8 @@ class DeviceNotifications extends BaseNotifications {
         builder.addAction(icon, title, action);
     }
 
-    private void addMarkAllAsReadAction(Builder builder, NotificationData notificationData) {
+    private void addMarkAllAsReadAction(Builder builder, NotificationData notificationData)
+    {
         int icon = getMarkAsReadActionIcon();
         String title = context.getString(R.string.notification_action_mark_as_read);
 
@@ -187,7 +186,8 @@ class DeviceNotifications extends BaseNotifications {
         builder.addAction(icon, title, markAllAsReadPendingIntent);
     }
 
-    private void addDeleteAllAction(Builder builder, NotificationData notificationData) {
+    private void addDeleteAllAction(Builder builder, NotificationData notificationData)
+    {
         if (XryptoMail.getNotificationQuickDeleteBehaviour() != NotificationQuickDelete.ALWAYS) {
             return;
         }
@@ -203,7 +203,8 @@ class DeviceNotifications extends BaseNotifications {
         builder.addAction(icon, title, action);
     }
 
-    private void addDeleteAction(Builder builder, NotificationContent content, int notificationId) {
+    private void addDeleteAction(Builder builder, NotificationContent content, int notificationId)
+    {
         if (!isDeleteActionEnabled()) {
             return;
         }
@@ -217,7 +218,8 @@ class DeviceNotifications extends BaseNotifications {
         builder.addAction(icon, title, action);
     }
 
-    private void addReplyAction(Builder builder, NotificationContent content, int notificationId) {
+    private void addReplyAction(Builder builder, NotificationContent content, int notificationId)
+    {
         int icon = getReplyActionIcon();
         String title = context.getString(R.string.notification_action_reply);
 
@@ -228,7 +230,8 @@ class DeviceNotifications extends BaseNotifications {
         builder.addAction(icon, title, replyToMessagePendingIntent);
     }
 
-    private boolean isPrivacyModeActive() {
+    private boolean isPrivacyModeActive()
+    {
         KeyguardManager keyguardService = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
 
         boolean privacyModeAlwaysEnabled = XryptoMail.getNotificationHideSubject() == NotificationHideSubject.ALWAYS;
@@ -238,19 +241,23 @@ class DeviceNotifications extends BaseNotifications {
         return privacyModeAlwaysEnabled || (privacyModeEnabledWhenLocked && screenLocked);
     }
 
-    private int getMarkAsReadActionIcon() {
+    private int getMarkAsReadActionIcon()
+    {
         return R.drawable.notification_action_mark_as_read;
     }
 
-    private int getDeleteActionIcon() {
+    private int getDeleteActionIcon()
+    {
         return R.drawable.notification_action_delete;
     }
 
-    private int getReplyActionIcon() {
+    private int getReplyActionIcon()
+    {
         return R.drawable.notification_action_reply;
     }
 
-    protected InboxStyle createInboxStyle(Builder builder) {
+    protected InboxStyle createInboxStyle(Builder builder)
+    {
         return new InboxStyle(builder);
     }
 }

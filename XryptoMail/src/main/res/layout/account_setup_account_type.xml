@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:text="@string/account_setup_account_type_instructions"
@@ -37,16 +37,19 @@
             android:checkedButton="@+id/imap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <RadioButton
                 android:id="@+id/imap"
                 android:text="@string/account_setup_account_type_imap_action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
             <RadioButton
                 android:id="@+id/pop"
                 android:text="@string/account_setup_account_type_pop_action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
             <RadioButton
                 android:id="@+id/webdav"
                 android:text="@string/account_setup_account_type_webdav_action"
@@ -65,7 +68,7 @@
         style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <View
             android:layout_width="0dp"

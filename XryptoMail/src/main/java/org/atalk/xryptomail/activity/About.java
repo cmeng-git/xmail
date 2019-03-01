@@ -16,10 +16,7 @@
  */
 package org.atalk.xryptomail.activity;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
+import android.app.*;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -27,33 +24,25 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.webkit.WebView;
 import android.widget.TextView;
-
-import org.atalk.xryptomail.BuildConfig;
-import org.atalk.xryptomail.R;
-import org.atalk.xryptomail.XryptoMail;
+import de.cketti.library.changelog.ChangeLog;
+import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.service.OnlineUpdateService;
 
 import java.io.File;
 
-import de.cketti.library.changelog.ChangeLog;
-
 /**
  * XryptoMail About activity
  */
-public class About extends Activity implements OnClickListener
-{
+public class About extends Activity implements OnClickListener {
     private final int FETCH_ERROR = 10;
     private final int NO_NEW_VERSION = 20;
     private final int DOWNLOAD_ERROR = 30;
 
     private final static int CHECK_NEW_VERSION = 10;
-    private static String appVersion = "";
 
     private static String[][] USED_LIBRARIES = new String[][]{
             new String[]{"Android Support Library", "https://developer.android.com/topic/libraries/support-library/index.html"},
@@ -78,13 +67,21 @@ public class About extends Activity implements OnClickListener
             new String[]{"openpgp-api", "https://github.com/open-keychain/openpgp-api"},
             new String[]{"retrofit", "https://github.com/square/retrofit"},
             new String[]{"SafeContentResolver", "https://github.com/cketti/SafeContentResolver"},
+            new String[]{"ShortcutBadger", "https://github.com/leolin310148/ShortcutBadger"},
             new String[]{"ShowcaseView", "https://github.com/amlcurran/ShowcaseView"},
             new String[]{"Timber", "https://github.com/JakeWharton/timber"},
             new String[]{"TokenAutoComplete", "https://github.com/splitwise/TokenAutoComplete/"},
     };
 
-    public void onCreate(Bundle savedInstanceState)
-    {
+    /**
+     * Default CSS styles used to format the change log.
+     */
+    public static final String DEFAULT_CSS =
+            "h1 { margin-left: 0px; font-size: 1.2em; }" + "\n" +
+                    "li { margin-left: 0px; font-size: 0.9em;}" + "\n" +
+                    "ul { padding-left: 2em; }";
+
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_LEFT_ICON);
         setContentView(R.layout.about);
@@ -107,8 +104,7 @@ public class About extends Activity implements OnClickListener
         if (BuildConfig.DEBUG) {
             btn_update.setVisibility(View.VISIBLE);
             btn_update.setOnClickListener(this);
-        }
-        else {
+        } else {
             btn_update.setVisibility(View.GONE);
         }
 
@@ -123,9 +119,7 @@ public class About extends Activity implements OnClickListener
     }
 
     @Override
-    public void onClick(View view)
-    {
-        boolean cancelUpdate = false;
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ok_button:
                 finish();
@@ -140,7 +134,7 @@ public class About extends Activity implements OnClickListener
 //                aTalkApp.showSendLogsDialog();
 //                break;
             case R.id.history_log:
-                ChangeLog cl = new ChangeLog(this);
+                ChangeLog cl = new ChangeLog(this, DEFAULT_CSS);
                 cl.getFullLogDialog().show();
                 break;
             case R.id.xmail_help:
@@ -153,15 +147,14 @@ public class About extends Activity implements OnClickListener
         }
     }
 
-    private void xmailUrlAccess(){
+    private void xmailUrlAccess() {
         String url = getString(R.string.AboutDialog_Link);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         startActivity(intent);
     }
 
-    private String getAboutInfo()
-    {
+    private String getAboutInfo() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View about = inflater.inflate(R.layout.about, null, false);
         //String versionTitle = getString(R.string.AboutDialog_title);
@@ -174,9 +167,6 @@ public class About extends Activity implements OnClickListener
         } catch (NameNotFoundException e) {
         }
 
-        StringBuilder html = new StringBuilder()
-                .append("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"/>");
-
         StringBuilder libs = new StringBuilder().append("<ul>");
         for (String[] library : USED_LIBRARIES) {
             libs.append("<li><a href=\"")
@@ -187,16 +177,20 @@ public class About extends Activity implements OnClickListener
         }
         libs.append("</ul>");
 
-        html.append(String.format(getString(R.string.app_libraries), libs.toString()))
-                .append("</p><hr/><p>");
-        return html.toString();
+        String html = "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"/>" +
+                "<html><head><style type=\"text/css\">" +
+                DEFAULT_CSS +
+                "</style></head><body>" +
+                String.format(getString(R.string.app_libraries), libs.toString()) +
+                "</p><hr/><p>" +
+                "</body></html>";
+        return html;
     }
 
     /**
      * Displays the send logs dialog.
      */
-    public static void showSendLogsDialog()
-    {
+    public static void showSendLogsDialog() {
 //        LogUploadService logUpload = ServiceUtils.getService(AndroidGUIActivator.bundleContext,
 //                LogUploadService.class);
 //        String defaultEmail = getConfig().getString("org.atalk.android.LOG_REPORT_EMAIL");
@@ -211,8 +205,7 @@ public class About extends Activity implements OnClickListener
      *
      * @return String version
      */
-    private String getVersionNumber()
-    {
+    private String getVersionNumber() {
         String version = "?";
         try {
             PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -225,26 +218,23 @@ public class About extends Activity implements OnClickListener
 
 
     /**
-     *  Check for new version
+     * Check for new version
+     *
      * @param requestCode
      * @param resultCode
      * @param data
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == CHECK_NEW_VERSION) {
             if (OnlineUpdate.OnlineUpdateStatus.FETCH_VERSION_ERROR.getValue() == resultCode) {
                 showDialog(FETCH_ERROR);
-            }
-            else if (OnlineUpdate.OnlineUpdateStatus.NO_NEW_VERSION_FOUND.getValue() == resultCode) {
+            } else if (OnlineUpdate.OnlineUpdateStatus.NO_NEW_VERSION_FOUND.getValue() == resultCode) {
                 showDialog(NO_NEW_VERSION);
-            }
-            else if (OnlineUpdate.OnlineUpdateStatus.DOWNLOAD_APK_ERROR.getValue() == resultCode) {
+            } else if (OnlineUpdate.OnlineUpdateStatus.DOWNLOAD_APK_ERROR.getValue() == resultCode) {
                 showDialog(DOWNLOAD_ERROR);
-            }
-            else if (OnlineUpdate.OnlineUpdateStatus.DOWNLOAD_APK_SUCCESSFUL.getValue() == resultCode) {
+            } else if (OnlineUpdate.OnlineUpdateStatus.DOWNLOAD_APK_SUCCESSFUL.getValue() == resultCode) {
                 if (!TextUtils.isEmpty(XryptoMail.mUpdateApkPath)) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(
@@ -256,8 +246,8 @@ public class About extends Activity implements OnClickListener
     }
 
     @Override
-    protected Dialog onCreateDialog(int id)
-    {
+    protected Dialog onCreateDialog(int id) {
+        String appVersion = "";
         switch (id) {
             case FETCH_ERROR:
                 new AlertDialog.Builder(this)

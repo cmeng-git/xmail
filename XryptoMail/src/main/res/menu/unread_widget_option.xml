@@ -4,6 +4,5 @@
         android:id="@+id/done"
         android:title="@string/unread_widget_action_done"
         android:showAsAction="always"
-        android:icon="?attr/iconActionSave"
-        />
+        android:icon="?attr/iconActionSave" />
 </menu>

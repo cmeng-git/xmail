@@ -1,5 +1,16 @@
 XryptoMail Release Notes:
 =============================
+Version:		4.9.1
+Upload Date:	03/01/2019
+- Add launcher badge support for unread messages
+- Change new mail notification pending intent to launch Message List
+- Add option to access Application Notification Settings
+- Add Notification channel for launcher Badge with silent alert => setSound(null) will not work on >=android-O
+- Clean up unused notification channel
+- Defined two different logcat category for debug and release apk
+- Add ShortcutBadger to support launch badger number display for < android-O
+
+=============================
 Version:		4.9.0
 Upload Date:	02/07/2019
 - Implement android Notification Channel for android-O requirements

@@ -8,6 +8,14 @@
      They are automatically updated with "ant bump-version".
 -->
 <changelog>
+    <release version="4.9.1 (03/01/2019)" versioncode="18910">
+        <change>Add launcher badge support for unread messages</change>
+        <change>Change new mail notification pending intent to launch Message List</change>
+        <change>Add option to access Application Notification Settings</change>
+        <change>Bug fixes and other enhancements</change>
+    </release>
+
+
     <release version="4.9.0 (02/07/2019)" versioncode="18900">
         <change>Launch android runtime permissions request prior to app main startup</change>
         <change>Request battery whitelist for XryptoMail to allow mail receive during doze-standby mode</change>

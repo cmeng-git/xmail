@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2008 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2008 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -23,8 +22,7 @@
   can be displayed after the device has been rotated.
 -->
 
-<PreferenceScreen 
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="main">
 
     <PreferenceScreen
@@ -209,10 +207,10 @@
             android:summary="@string/account_settings_always_show_cc_bcc_summary" />
 
         <CheckBoxPreference
-        android:persistent="false"
-        android:key="message_read_receipt"
-        android:title="@string/account_settings_message_read_receipt_label"
-        android:summary="@string/account_settings_message_read_receipt_summary" />
+            android:persistent="false"
+            android:key="message_read_receipt"
+            android:title="@string/account_settings_message_read_receipt_label"
+            android:summary="@string/account_settings_message_read_receipt_summary" />
 
         <ListPreference
             android:persistent="false"
@@ -329,8 +327,7 @@
             android:persistent="false"
             android:key="local_storage_provider"
             android:title="@string/local_storage_provider_label"
-            android:dialogTitle="@string/local_storage_provider_label"
-            />
+            android:dialogTitle="@string/local_storage_provider_label" />
     </PreferenceScreen>
 
     <PreferenceScreen
@@ -352,7 +349,7 @@
             android:entries="@array/account_settings_folder_notify_new_mail_mode_entries"
             android:entryValues="@array/account_settings_folder_notify_new_mail_mode_values"
             android:dialogTitle="@string/account_settings_folder_notify_new_mail_mode_label" />
-			
+
         <CheckBoxPreference
             android:persistent="false"
             android:key="account_notify_self"
@@ -442,14 +439,14 @@
     </PreferenceScreen>
 
     <PreferenceScreen
-            android:title="@string/account_settings_search"
-            android:key="search">
+        android:title="@string/account_settings_search"
+        android:key="search">
 
         <CheckBoxPreference
             android:key="remote_search_enabled"
             android:title="@string/account_settings_remote_search_enabled"
             android:summary="@string/account_settings_remote_search_enabled_summary"
-            android:persistent="false"/>
+            android:persistent="false" />
 
         <ListPreference
             android:persistent="false"
@@ -458,7 +455,7 @@
             android:key="account_remote_search_num_results"
             android:title="@string/account_settings_remote_search_num_label"
             android:dialogTitle="@string/account_settings_remote_search_num_label"
-            android:dependency="remote_search_enabled"/>
+            android:dependency="remote_search_enabled" />
 
         <!-- Temporarily removed
         <CheckBoxPreference
@@ -483,7 +480,7 @@
         <Preference
             android:key="autocrypt_prefer_encrypt"
             android:title="@string/account_settings_crypto_prefer_encrypt" />
-						
+
         <CheckBoxPreference
             android:persistent="false"
             android:key="stealth_mode"

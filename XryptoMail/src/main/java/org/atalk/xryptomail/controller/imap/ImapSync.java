@@ -1,47 +1,21 @@
 package org.atalk.xryptomail.controller.imap;
 
 import android.content.Context;
-
-import org.atalk.xryptomail.Account;
+import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.Account.Expunge;
-import org.atalk.xryptomail.AccountStats;
-import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.activity.MessageReference;
-import org.atalk.xryptomail.controller.MessagingController;
-import org.atalk.xryptomail.controller.MessagingListener;
-import org.atalk.xryptomail.controller.UidReverseComparator;
-import org.atalk.xryptomail.mail.AuthenticationFailedException;
-import org.atalk.xryptomail.mail.BodyFactory;
-import org.atalk.xryptomail.mail.DefaultBodyFactory;
-import org.atalk.xryptomail.mail.FetchProfile;
-import org.atalk.xryptomail.mail.Flag;
-import org.atalk.xryptomail.mail.Folder;
+import org.atalk.xryptomail.controller.*;
+import org.atalk.xryptomail.mail.*;
 import org.atalk.xryptomail.mail.Folder.FolderType;
-import org.atalk.xryptomail.mail.Message;
-import org.atalk.xryptomail.mail.MessageRetrievalListener;
-import org.atalk.xryptomail.mail.MessagingException;
-import org.atalk.xryptomail.mail.Part;
-import org.atalk.xryptomail.mail.Store;
 import org.atalk.xryptomail.mail.internet.MessageExtractor;
-import org.atalk.xryptomail.mailstore.LocalFolder;
+import org.atalk.xryptomail.mailstore.*;
 import org.atalk.xryptomail.mailstore.LocalFolder.MoreMessages;
-import org.atalk.xryptomail.mailstore.LocalMessage;
-import org.atalk.xryptomail.mailstore.LocalStore;
-import org.atalk.xryptomail.mailstore.MessageRemovalListener;
 import org.atalk.xryptomail.notification.NotificationController;
+import timber.log.Timber;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import timber.log.Timber;
 
 import static org.atalk.xryptomail.helper.ExceptionHelper.getRootCauseMessage;
 
@@ -171,9 +145,6 @@ class ImapSync
                 if (visibleLimit > 0) {
                     remoteStart = Math.max(0, remoteMessageCount - visibleLimit) + 1;
                 }
-                else {
-                    remoteStart = 1;
-                }
 
                 Timber.v("SYNC: About to get messages %d through %d for folder %s",
                         remoteStart, remoteMessageCount, folder);
@@ -251,7 +222,7 @@ class ImapSync
             localFolder.setStatus(null);
 
             Timber.d("Done synchronizing folder %s:%s @ %tc with %d new messages",
-                    account.getDescription(), folder, System.currentTimeMillis(), newMessages);
+                    account.getDescription(), folder, new Date(System.currentTimeMillis()), newMessages);
 
             for (MessagingListener l : getListeners(listener)) {
                 l.synchronizeMailboxFinished(account, folder, remoteMessageCount, newMessages);
@@ -293,7 +264,7 @@ class ImapSync
             }
             notifyUserIfCertificateProblem(account, e, true);
             Timber.e("Failed synchronizing folder %s:%s @ %tc", account.getDescription(), folder,
-                    System.currentTimeMillis());
+                    new Date(System.currentTimeMillis()));
 
         } finally {
             if (providedRemoteFolder == null) {
@@ -529,8 +500,8 @@ class ImapSync
                             if (message.isSet(Flag.DELETED) || message.olderThan(earliestDate)) {
                                 if (XryptoMail.isDebug()) {
                                     if (message.isSet(Flag.DELETED)) {
-                                        Timber.v("Newly downloaded message %s:%s:%s was marked deleted on server, " +
-                                                "skipping", account, folder, message.getUid());
+                                        Timber.v("Newly downloaded message %s:%s:%s was marked deleted on server, skipping",
+                                                account, folder, message.getUid());
                                     }
                                     else {
                                         Timber.d("Newly downloaded message %s is older than %s, skipping",
@@ -592,7 +563,7 @@ class ImapSync
                             }
 
                             // Store the updated message locally
-                            final LocalMessage localMessage = localFolder.storeSmallMessage(message, () -> progress.incrementAndGet());
+                            final LocalMessage localMessage = localFolder.storeSmallMessage(message, progress::incrementAndGet);
 
                             // Increment the number of "new messages" if the newly downloaded message is
                             // not marked as read.
