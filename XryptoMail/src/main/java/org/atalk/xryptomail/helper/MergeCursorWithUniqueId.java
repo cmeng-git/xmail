@@ -16,8 +16,7 @@ public class MergeCursorWithUniqueId extends MergeCursor {
         super(cursors, comparator);
 
         if (cursors.length > MAX_CURSORS) {
-            throw new IllegalArgumentException("This class only supports up to " +
-                    MAX_CURSORS + " cursors");
+            throw new IllegalArgumentException("This class only supports up to " + MAX_CURSORS + " cursors");
         }
     }
 

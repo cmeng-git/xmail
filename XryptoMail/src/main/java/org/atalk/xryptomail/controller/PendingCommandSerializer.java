@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.atalk.xryptomail.controller.MessagingControllerCommands.PendingAppend;
 import org.atalk.xryptomail.controller.MessagingControllerCommands.PendingCommand;
+import org.atalk.xryptomail.controller.MessagingControllerCommands.PendingDelete;
 import org.atalk.xryptomail.controller.MessagingControllerCommands.PendingEmptyTrash;
 import org.atalk.xryptomail.controller.MessagingControllerCommands.PendingExpunge;
 import org.atalk.xryptomail.controller.MessagingControllerCommands.PendingMarkAllAsRead;
@@ -30,6 +31,7 @@ public class PendingCommandSerializer {
         adapters.put(MessagingControllerCommands.COMMAND_EXPUNGE, moshi.adapter(PendingExpunge.class));
         adapters.put(MessagingControllerCommands.COMMAND_MARK_ALL_AS_READ, moshi.adapter(PendingMarkAllAsRead.class));
         adapters.put(MessagingControllerCommands.COMMAND_SET_FLAG, moshi.adapter(PendingSetFlag.class));
+        adapters.put(MessagingControllerCommands.COMMAND_DELETE, moshi.adapter(PendingDelete.class));
 
         this.adapters = Collections.unmodifiableMap(adapters);
     }

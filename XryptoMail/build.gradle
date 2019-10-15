@@ -19,30 +19,25 @@ configurations.all {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
-    implementation "com.android.support:support-v4:${rootProject.supportLibraryVersion}"
+    implementation "androidx.legacy:legacy-support-v4:${rootProject.supportLibraryVersion}"
     // splitActionBarWhenNarrow not supported with appcompat-v7
     // implementation "com.android.support:appcompat-v7:${rootProject.supportLibraryVersion}"
-    implementation "com.android.support:support-annotations:${rootProject.supportLibraryVersion}"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation "com.android.support:design:${rootProject.supportLibraryVersion}"
+    implementation "androidx.annotation:annotation:${rootProject.supportLibraryVersion}"
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation "com.google.android.material:material:${rootProject.supportLibraryVersion}"
 
     implementation project(':plugins:openpgp-api-lib:openpgp-api')
     // implementation 'org.sufficientlysecure:openpgp-api:11.0'
 
-    implementation 'commons-io:commons-io:2.4'
+    implementation 'commons-io:commons-io:2.6'
     implementation 'com.beetstra.jutf7:jutf7:1.0.0'
     implementation 'com.github.amlcurran.showcaseview:library:5.4.1'
 
     // source not compatible with v4.x.x
     implementation 'com.github.bumptech.glide:glide:3.8.0'
 
-    // cmeng - Do not follow as instructed, otherwise butterknife annotationProcessor is not performed
-    // 'annotationProcessor' dependencies won't be recognized as kapt annotation processors.
-    // Please change the configuration name to 'kapt' for these artifacts: 'com.jakewharton:butterknife-compiler:8.8.1'
-    // and apply the kapt plugin: "apply plugin: 'kotlin-kapt'".
-    // butterknife >=9.0.0 uses androidx - incompatible
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'com.karumi:dexter:5.0.0'
@@ -51,22 +46,22 @@ dependencies {
     implementation 'com.jcraft:jzlib:1.0.7'
 
     implementation 'com.squareup.moshi:moshi:1.4.0'
-    implementation 'com.squareup.okio:okio:1.13.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.okio:okio:1.15.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.splitwise:tokenautocomplete:2.0.8'
 
     implementation 'de.cketti.library.changelog:ckchangelog:1.2.2'
     implementation 'de.cketti.safecontentresolver:safe-content-resolver-v14:0.9.0'
-    implementation 'dnsjava:dnsjava:2.1.8'
+    implementation 'dnsjava:dnsjava:2.1.9'
 
     implementation 'me.zhanghai.android.materialprogressbar:library:1.4.1'
     implementation "me.leolin:ShortcutBadger:1.1.22@aar"
     implementation 'net.jcip:jcip-annotations:1.0'
 
     implementation 'org.apache.james:apache-mime4j-core:0.8.2'
-    implementation 'org.apache.james:apache-mime4j-dom:0.8.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.21"
+    implementation 'org.apache.james:apache-mime4j-dom:0.8.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.50"
     implementation 'org.jsoup:jsoup:1.11.2'
 
 //    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -86,13 +81,13 @@ android {
         applicationId "org.atalk.xryptomail"
         testApplicationId "org.atalk.xryptomail.tests"
 
-        versionCode 18910
-        versionName '4.9.1'
+        versionCode 18920
+        versionName '4.9.2'
 
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.compileSdkVersion
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -169,6 +164,30 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
+
+task updateVersionFile(type: Copy) {
+    description '<!-- Generate versionupdate.properties file -->'
+
+    def versionName = android.defaultConfig.versionName
+    def versionCode = android.defaultConfig.versionCode
+    def date = new Date()
+    // ******************************************
+    println "*** " + description
+    println "# Date: " + date
+    println "# last_version = " + versionName
+    println "# last_version_code = " + versionCode
+
+    outputs.upToDateWhen {
+        false
+    }
+    from('./versionupdate.properties') {
+        // Substitute property tokens in files
+        expand(DATE: date, BUILD_VERSION: versionName, BUILD_VERSION_CODE: versionCode)
+    }
+    into 'build/outputs/apk'
+}
+
+build.dependsOn 'updateVersionFile'
 
 task run(type: Exec, dependsOn: 'installDebug') {
     // windows: adb + environment setup

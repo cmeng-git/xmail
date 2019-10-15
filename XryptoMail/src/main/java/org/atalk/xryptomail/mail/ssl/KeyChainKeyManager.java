@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Build;
 import android.security.KeyChain;
 import android.security.KeyChainException;
-import android.util.Log;
 
 import org.atalk.xryptomail.mail.CertificateValidationException;
 import org.atalk.xryptomail.mail.CertificateValidationException.Reason;
@@ -24,39 +23,36 @@ import javax.net.ssl.X509ExtendedKeyManager;
 import javax.security.auth.x500.X500Principal;
 
 import timber.log.Timber;
-import static org.atalk.xryptomail.mail.CertificateValidationException.Reason;
+
 import static org.atalk.xryptomail.mail.CertificateValidationException.Reason.RetrievalFailure;
 
 /**
  * For client certificate authentication! Provide private keys and certificates
  * during the TLS handshake using the Android 4.0 KeyChain API.
  */
-class KeyChainKeyManager extends X509ExtendedKeyManager {
-
+class KeyChainKeyManager extends X509ExtendedKeyManager
+{
     private static PrivateKey sClientCertificateReferenceWorkaround;
 
-
-    private static synchronized void savePrivateKeyReference(PrivateKey privateKey) {
+    private static synchronized void savePrivateKeyReference(PrivateKey privateKey)
+    {
         if (sClientCertificateReferenceWorkaround == null) {
             sClientCertificateReferenceWorkaround = privateKey;
         }
     }
 
-
     private final String mAlias;
     private final X509Certificate[] mChain;
     private final PrivateKey mPrivateKey;
 
-
     /**
-     * @param alias  Must not be null nor empty
-     * @throws MessagingException
-     *          Indicates an error in retrieving the certificate for the alias
-     *          (likely because the alias is invalid or the certificate was deleted)
+     * @param alias Must not be null nor empty
+     * @throws MessagingException Indicates an error in retrieving the certificate for the alias
+     * (likely because the alias is invalid or the certificate was deleted)
      */
-    public KeyChainKeyManager(Context context, String alias) throws MessagingException {
+    public KeyChainKeyManager(Context context, String alias) throws MessagingException
+    {
         mAlias = alias;
-
         try {
             mChain = fetchCertificateChain(context, alias);
             mPrivateKey = fetchPrivateKey(context, alias);
@@ -69,8 +65,8 @@ class KeyChainKeyManager extends X509ExtendedKeyManager {
     }
 
     private X509Certificate[] fetchCertificateChain(Context context, String alias)
-            throws KeyChainException, InterruptedException, MessagingException {
-
+            throws KeyChainException, InterruptedException, MessagingException
+    {
         X509Certificate[] chain = KeyChain.getCertificateChain(context, alias);
         if (chain == null || chain.length == 0) {
             throw new MessagingException("No certificate chain found for: " + alias);
@@ -82,13 +78,12 @@ class KeyChainKeyManager extends X509ExtendedKeyManager {
         } catch (CertificateException e) {
             throw new CertificateValidationException(e.getMessage(), Reason.Expired, alias);
         }
-
         return chain;
     }
 
     private PrivateKey fetchPrivateKey(Context context, String alias) throws KeyChainException,
-            InterruptedException, MessagingException {
-
+            InterruptedException, MessagingException
+    {
         PrivateKey privateKey = KeyChain.getPrivateKey(context, alias);
         if (privateKey == null) {
             throw new MessagingException("No private key found for: " + alias);
@@ -107,48 +102,57 @@ class KeyChainKeyManager extends X509ExtendedKeyManager {
     }
 
     @Override
-    public String chooseClientAlias(String[] keyTypes, Principal[] issuers, Socket socket) {
+    public String chooseClientAlias(String[] keyTypes, Principal[] issuers, Socket socket)
+    {
         return chooseAlias(keyTypes, issuers);
     }
 
     @Override
-    public X509Certificate[] getCertificateChain(String alias) {
+    public X509Certificate[] getCertificateChain(String alias)
+    {
         return (mAlias.equals(alias) ? mChain : null);
     }
 
     @Override
-    public PrivateKey getPrivateKey(String alias) {
+    public PrivateKey getPrivateKey(String alias)
+    {
         return (mAlias.equals(alias) ? mPrivateKey : null);
     }
 
     @Override
-    public String chooseServerAlias(String keyType, Principal[] issuers, Socket socket) {
-        return chooseAlias(new String[] { keyType }, issuers);
+    public String chooseServerAlias(String keyType, Principal[] issuers, Socket socket)
+    {
+        return chooseAlias(new String[]{keyType}, issuers);
     }
 
     @Override
-    public String[] getClientAliases(String keyType, Principal[] issuers) {
-        final String al = chooseAlias(new String[] { keyType }, issuers);
-        return (al == null ? null : new String[] { al });
+    public String[] getClientAliases(String keyType, Principal[] issuers)
+    {
+        final String al = chooseAlias(new String[]{keyType}, issuers);
+        return (al == null ? null : new String[]{al});
     }
 
     @Override
-    public String[] getServerAliases(String keyType, Principal[] issuers) {
-        final String al = chooseAlias(new String[] { keyType }, issuers);
-        return (al == null ? null : new String[] { al });
+    public String[] getServerAliases(String keyType, Principal[] issuers)
+    {
+        final String al = chooseAlias(new String[]{keyType}, issuers);
+        return (al == null ? null : new String[]{al});
     }
 
     @Override
-    public String chooseEngineClientAlias(String[] keyTypes, Principal[] issuers, SSLEngine engine) {
+    public String chooseEngineClientAlias(String[] keyTypes, Principal[] issuers, SSLEngine engine)
+    {
         return chooseAlias(keyTypes, issuers);
     }
 
     @Override
-    public String chooseEngineServerAlias(String keyType, Principal[] issuers, SSLEngine engine) {
-        return chooseAlias(new String[] { keyType }, issuers);
+    public String chooseEngineServerAlias(String keyType, Principal[] issuers, SSLEngine engine)
+    {
+        return chooseAlias(new String[]{keyType}, issuers);
     }
 
-    private String chooseAlias(String[] keyTypes, Principal[] issuers) {
+    private String chooseAlias(String[] keyTypes, Principal[] issuers)
+    {
         if (keyTypes == null || keyTypes.length == 0) {
             return null;
         }
@@ -164,7 +168,8 @@ class KeyChainKeyManager extends X509ExtendedKeyManager {
             int index = keyAlgorithm.indexOf('_');
             if (index == -1) {
                 sigAlgorithm = null;
-            } else {
+            }
+            else {
                 sigAlgorithm = keyAlgorithm.substring(index + 1);
                 keyAlgorithm = keyAlgorithm.substring(0, index);
             }

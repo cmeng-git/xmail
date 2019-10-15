@@ -1,6 +1,6 @@
 package org.atalk.xryptomail.message.extractors;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.atalk.xryptomail.activity.compose.RecipientPresenter;
 import org.atalk.xryptomail.crypto.MessageCryptoStructureDetector;

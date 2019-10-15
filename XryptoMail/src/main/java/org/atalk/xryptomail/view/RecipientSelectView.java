@@ -11,12 +11,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract.Contacts;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import timber.log.Timber;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -45,8 +44,10 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.List;
 
-public class RecipientSelectView extends TokenCompleteTextView<Recipient> implements LoaderCallbacks<List<Recipient>>,
-        AlternateRecipientListener {
+import timber.log.Timber;
+
+public class RecipientSelectView extends TokenCompleteTextView<Recipient>
+        implements LoaderCallbacks<List<Recipient>>, AlternateRecipientListener {
 
     private static final int MINIMUM_LENGTH_FOR_FILTERING = 2;
     private static final String ARG_QUERY = "query";
@@ -578,6 +579,8 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient> implem
         @NonNull
         public Address address;
         public String addressLabel;
+        public final int timesContacted;
+        public final String sortKey;
 
         @Nullable // null if the contact has no photo. transient because we serialize this manually, see below.
         public transient Uri photoThumbnailUri;
@@ -590,14 +593,23 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient> implem
             this.contactId = null;
             this.cryptoStatus = RecipientCryptoStatus.UNDEFINED;
             this.contactLookupKey = null;
+            timesContacted = 0;
+            sortKey = null;
         }
 
         public Recipient(String name, String email, String addressLabel, long contactId, String lookupKey) {
+            this(name, email, addressLabel, contactId, lookupKey, 0, null);
+        }
+
+        public Recipient(String name, String email, String addressLabel, long contactId, String lookupKey,
+                int timesContacted, String sortKey) {
             this.address = new Address(email, name);
             this.contactId = contactId;
             this.addressLabel = addressLabel;
             this.cryptoStatus = RecipientCryptoStatus.UNDEFINED;
             this.contactLookupKey = lookupKey;
+            this.timesContacted = timesContacted;
+            this.sortKey = sortKey;
         }
 
         public String getDisplayNameOrAddress() {

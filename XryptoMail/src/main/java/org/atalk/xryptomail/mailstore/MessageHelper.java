@@ -9,10 +9,11 @@ import org.atalk.xryptomail.mail.internet.MimeBodyPart;
 
 import java.util.Stack;
 
-public class MessageHelper {
-
-    public static boolean isCompletePartAvailable(Part part) {
-        Stack<Part> partsToCheck = new Stack<Part>();
+public class MessageHelper
+{
+    public static boolean isCompletePartAvailable(Part part)
+    {
+        Stack<Part> partsToCheck = new Stack<>();
         partsToCheck.push(part);
 
         while (!partsToCheck.isEmpty()) {
@@ -34,7 +35,8 @@ public class MessageHelper {
         return true;
     }
 
-    public static MimeBodyPart createEmptyPart() {
+    public static MimeBodyPart createEmptyPart()
+    {
         try {
             return new MimeBodyPart(null);
         } catch (MessagingException e) {

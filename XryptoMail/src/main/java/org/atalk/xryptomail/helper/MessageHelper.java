@@ -19,12 +19,10 @@ import org.atalk.xryptomail.mailstore.LocalMessage;
 
 public class MessageHelper {
     /**
-     * If the number of addresses exceeds this value the addresses aren't
-     * resolved to the names of Android contacts.
+     * If the number of addresses exceeds this value the addresses aren't resolved to the names of Android contacts.
      *
      * <p>
-     * TODO: This number was chosen arbitrarily and should be determined by
-     * performance tests.
+     * TODO: This number was chosen arbitrarily and should be determined by performance tests.
      * </p>
      *
      * @see #toFriendly(Address[], org.atalk.xryptomail.helper.Contacts)
@@ -46,10 +44,8 @@ public class MessageHelper {
 		mContext = context;
 	}
 
-    public void populate(final MessageInfoHolder target,
-                         final LocalMessage message,
-                         final FolderInfoHolder folder,
-                         Account account) {
+    public void populate(final MessageInfoHolder target, final LocalMessage message,
+                         final FolderInfoHolder folder, Account account) {
         final Contacts contactHelper = XryptoMail.showContactName() ? Contacts.getInstance(mContext) : null;
         target.message = message;
         target.compareArrival = message.getInternalDate();
@@ -57,16 +53,13 @@ public class MessageHelper {
         if (target.compareDate == null) {
             target.compareDate = message.getInternalDate();
         }
-
         target.folder = folder;
-
         target.read = message.isSet(Flag.SEEN);
         target.answered = message.isSet(Flag.ANSWERED);
         target.forwarded = message.isSet(Flag.FORWARDED);
         target.flagged = message.isSet(Flag.FLAGGED);
 
         Address[] addrs = message.getFrom();
-
         if (addrs.length > 0 &&  account.isAnIdentity(addrs[0])) {
             CharSequence to = toFriendly(message.getRecipients(RecipientType.TO), contactHelper);
             target.compareCounterparty = to.toString();
@@ -151,15 +144,12 @@ public class MessageHelper {
     }
 
     /* package, for testing */
-    static CharSequence toFriendly(Address address, Contacts contacts,
-             boolean showCorrespondentNames,
-             boolean changeContactNameColor,
-             int contactNameColor) {
+    static CharSequence toFriendly(Address address, Contacts contacts, boolean showCorrespondentNames,
+             boolean changeContactNameColor, int contactNameColor) {
         if (!showCorrespondentNames) {
             return address.getAddress();
         } else if (contacts != null) {
             final String name = contacts.getNameForAddress(address.getAddress());
-            // TODO: The results should probably be cached for performance reasons.
             if (name != null) {
                 if (changeContactNameColor) {
                     final SpannableString coloredName = new SpannableString(name);

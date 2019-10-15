@@ -1,25 +1,49 @@
 package org.atalk.xryptomail.activity.setup;
 
 import android.app.Dialog;
-import android.content.*;
-import android.os.*;
-import android.preference.*;
-import android.preference.Preference.OnPreferenceClickListener;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Vibrator;
+import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceScreen;
+import android.preference.RingtonePreference;
 import android.widget.Toast;
 
-import org.atalk.xryptomail.*;
-import org.atalk.xryptomail.Account.*;
-import org.atalk.xryptomail.activity.*;
+import org.atalk.xryptomail.Account;
+import org.atalk.xryptomail.Account.DeletePolicy;
+import org.atalk.xryptomail.Account.Expunge;
+import org.atalk.xryptomail.Account.FolderMode;
+import org.atalk.xryptomail.Account.MessageFormat;
+import org.atalk.xryptomail.Account.QuoteStyle;
+import org.atalk.xryptomail.Account.Searchable;
+import org.atalk.xryptomail.Account.ShowPictures;
+import org.atalk.xryptomail.NotificationSetting;
+import org.atalk.xryptomail.Preferences;
+import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.activity.ChooseFolder;
+import org.atalk.xryptomail.activity.ChooseIdentity;
+import org.atalk.xryptomail.activity.ColorPickerDialog;
+import org.atalk.xryptomail.activity.ManageIdentities;
+import org.atalk.xryptomail.activity.XMPreferenceActivity;
 import org.atalk.xryptomail.crypto.OpenPgpApiHelper;
 import org.atalk.xryptomail.mail.Folder;
 import org.atalk.xryptomail.mail.Store;
 import org.atalk.xryptomail.mailstore.StorageManager;
 import org.atalk.xryptomail.service.MailService;
 import org.atalk.xryptomail.ui.dialog.AutocryptPreferEncryptDialog;
-import org.atalk.xryptomail.ui.dialog.AutocryptPreferEncryptDialog.OnPreferEncryptChangedListener;
 import org.openintents.openpgp.util.OpenPgpKeyPreference;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -86,7 +110,7 @@ public class AccountSettings extends XMPreferenceActivity
     private static final String PREFERENCE_STRIP_SIGNATURE = "strip_signature";
     private static final String PREFERENCE_SYNC_REMOTE_DELETIONS = "account_sync_remote_deletions";
     private static final String PREFERENCE_CRYPTO_MENU = "crypto_menu";
-    private static final String PREFERENCE_CRYPTO_KEY = "crypto_key";
+    private static final String PREFERENCE_OPENPGP_KEY = "openpgp_key";
     private static final String PREFERENCE_AUTOCRYPT_PREFER_ENCRYPT = "autocrypt_prefer_encrypt";
     private static final String PREFERENCE_STEALTH_MODE = "stealth_mode";
     private static final String PREFERENCE_CLOUD_SEARCH_ENABLED = "remote_search_enabled";
@@ -202,15 +226,11 @@ public class AccountSettings extends XMPreferenceActivity
         mAccountDescription = (EditTextPreference) findPreference(PREFERENCE_DESCRIPTION);
         mAccountDescription.setSummary(mAccount.getDescription());
         mAccountDescription.setText(mAccount.getDescription());
-        mAccountDescription.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                mAccountDescription.setSummary(summary);
-                mAccountDescription.setText(summary);
-                return false;
-            }
+        mAccountDescription.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            mAccountDescription.setSummary(summary);
+            mAccountDescription.setText(summary);
+            return false;
         });
 
         mMarkMessageAsReadOnView = (CheckBoxPreference) findPreference(PREFERENCE_MARK_MESSAGE_AS_READ_ON_VIEW);
@@ -219,16 +239,12 @@ public class AccountSettings extends XMPreferenceActivity
         mMessageFormat = (ListPreference) findPreference(PREFERENCE_MESSAGE_FORMAT);
         mMessageFormat.setValue(mAccount.getMessageFormat().name());
         mMessageFormat.setSummary(mMessageFormat.getEntry());
-        mMessageFormat.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mMessageFormat.findIndexOfValue(summary);
-                mMessageFormat.setSummary(mMessageFormat.getEntries()[index]);
-                mMessageFormat.setValue(summary);
-                return false;
-            }
+        mMessageFormat.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mMessageFormat.findIndexOfValue(summary);
+            mMessageFormat.setSummary(mMessageFormat.getEntries()[index]);
+            mMessageFormat.setValue(summary);
+            return false;
         });
 
         mAlwaysShowCcBcc = (CheckBoxPreference) findPreference(PREFERENCE_ALWAYS_SHOW_CC_BCC);
@@ -240,16 +256,11 @@ public class AccountSettings extends XMPreferenceActivity
         mAccountQuotePrefix = (EditTextPreference) findPreference(PREFERENCE_QUOTE_PREFIX);
         mAccountQuotePrefix.setSummary(mAccount.getQuotePrefix());
         mAccountQuotePrefix.setText(mAccount.getQuotePrefix());
-        mAccountQuotePrefix.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String value = newValue.toString();
-                mAccountQuotePrefix.setSummary(value);
-                mAccountQuotePrefix.setText(value);
-                return false;
-            }
+        mAccountQuotePrefix.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String value = newValue.toString();
+            mAccountQuotePrefix.setSummary(value);
+            mAccountQuotePrefix.setText(value);
+            return false;
         });
 
         mAccountDefaultQuotedTextShown = (CheckBoxPreference) findPreference(PREFERENCE_DEFAULT_QUOTED_TEXT_SHOWN);
@@ -263,24 +274,19 @@ public class AccountSettings extends XMPreferenceActivity
 
         mComposingScreen = (PreferenceScreen) findPreference(PREFERENCE_SCREEN_COMPOSING);
 
-        Preference.OnPreferenceChangeListener quoteStyleListener = new Preference.OnPreferenceChangeListener()
-        {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final QuoteStyle style = QuoteStyle.valueOf(newValue.toString());
-                int index = mQuoteStyle.findIndexOfValue(newValue.toString());
-                mQuoteStyle.setSummary(mQuoteStyle.getEntries()[index]);
-                if (style == QuoteStyle.PREFIX) {
-                    mComposingScreen.addPreference(mAccountQuotePrefix);
-                    mComposingScreen.addPreference(mReplyAfterQuote);
-                }
-                else if (style == QuoteStyle.HEADER) {
-                    mComposingScreen.removePreference(mAccountQuotePrefix);
-                    mComposingScreen.removePreference(mReplyAfterQuote);
-                }
-                return true;
+        Preference.OnPreferenceChangeListener quoteStyleListener = (preference, newValue) -> {
+            final QuoteStyle style = QuoteStyle.valueOf(newValue.toString());
+            int index = mQuoteStyle.findIndexOfValue(newValue.toString());
+            mQuoteStyle.setSummary(mQuoteStyle.getEntries()[index]);
+            if (style == QuoteStyle.PREFIX) {
+                mComposingScreen.addPreference(mAccountQuotePrefix);
+                mComposingScreen.addPreference(mReplyAfterQuote);
             }
+            else if (style == QuoteStyle.HEADER) {
+                mComposingScreen.removePreference(mAccountQuotePrefix);
+                mComposingScreen.removePreference(mReplyAfterQuote);
+            }
+            return true;
         };
 
         mQuoteStyle = (ListPreference) findPreference(PREFERENCE_QUOTE_STYLE);
@@ -294,61 +300,45 @@ public class AccountSettings extends XMPreferenceActivity
         mCheckFrequency = (ListPreference) findPreference(PREFERENCE_FREQUENCY);
         mCheckFrequency.setValue(String.valueOf(mAccount.getAutomaticCheckIntervalMinutes()));
         mCheckFrequency.setSummary(mCheckFrequency.getEntry());
-        mCheckFrequency.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mCheckFrequency.findIndexOfValue(summary);
-                mCheckFrequency.setSummary(mCheckFrequency.getEntries()[index]);
-                mCheckFrequency.setValue(summary);
-                return false;
-            }
+        mCheckFrequency.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mCheckFrequency.findIndexOfValue(summary);
+            mCheckFrequency.setSummary(mCheckFrequency.getEntries()[index]);
+            mCheckFrequency.setValue(summary);
+            return false;
         });
 
         mDisplayMode = (ListPreference) findPreference(PREFERENCE_DISPLAY_MODE);
         mDisplayMode.setValue(mAccount.getFolderDisplayMode().name());
         mDisplayMode.setSummary(mDisplayMode.getEntry());
-        mDisplayMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mDisplayMode.findIndexOfValue(summary);
-                mDisplayMode.setSummary(mDisplayMode.getEntries()[index]);
-                mDisplayMode.setValue(summary);
-                return false;
-            }
+        mDisplayMode.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mDisplayMode.findIndexOfValue(summary);
+            mDisplayMode.setSummary(mDisplayMode.getEntries()[index]);
+            mDisplayMode.setValue(summary);
+            return false;
         });
 
         mSyncMode = (ListPreference) findPreference(PREFERENCE_SYNC_MODE);
         mSyncMode.setValue(mAccount.getFolderSyncMode().name());
         mSyncMode.setSummary(mSyncMode.getEntry());
-        mSyncMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mSyncMode.findIndexOfValue(summary);
-                mSyncMode.setSummary(mSyncMode.getEntries()[index]);
-                mSyncMode.setValue(summary);
-                return false;
-            }
+        mSyncMode.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mSyncMode.findIndexOfValue(summary);
+            mSyncMode.setSummary(mSyncMode.getEntries()[index]);
+            mSyncMode.setValue(summary);
+            return false;
         });
 
         mTargetMode = (ListPreference) findPreference(PREFERENCE_TARGET_MODE);
         mTargetMode.setValue(mAccount.getFolderTargetMode().name());
         mTargetMode.setSummary(mTargetMode.getEntry());
-        mTargetMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mTargetMode.findIndexOfValue(summary);
-                mTargetMode.setSummary(mTargetMode.getEntries()[index]);
-                mTargetMode.setValue(summary);
-                return false;
-            }
+        mTargetMode.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mTargetMode.findIndexOfValue(summary);
+            mTargetMode.setSummary(mTargetMode.getEntries()[index]);
+            mTargetMode.setValue(summary);
+            return false;
         });
 
         mDeletePolicy = (ListPreference) findPreference(PREFERENCE_DELETE_POLICY);
@@ -357,32 +347,24 @@ public class AccountSettings extends XMPreferenceActivity
         }
         mDeletePolicy.setValue(mAccount.getDeletePolicy().preferenceString());
         mDeletePolicy.setSummary(mDeletePolicy.getEntry());
-        mDeletePolicy.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mDeletePolicy.findIndexOfValue(summary);
-                mDeletePolicy.setSummary(mDeletePolicy.getEntries()[index]);
-                mDeletePolicy.setValue(summary);
-                return false;
-            }
+        mDeletePolicy.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mDeletePolicy.findIndexOfValue(summary);
+            mDeletePolicy.setSummary(mDeletePolicy.getEntries()[index]);
+            mDeletePolicy.setValue(summary);
+            return false;
         });
 
         mExpungePolicy = (ListPreference) findPreference(PREFERENCE_EXPUNGE_POLICY);
         if (mIsExpungeCapable) {
             mExpungePolicy.setValue(mAccount.getExpungePolicy().name());
             mExpungePolicy.setSummary(mExpungePolicy.getEntry());
-            mExpungePolicy.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-            {
-                public boolean onPreferenceChange(Preference preference, Object newValue)
-                {
-                    final String summary = newValue.toString();
-                    int index = mExpungePolicy.findIndexOfValue(summary);
-                    mExpungePolicy.setSummary(mExpungePolicy.getEntries()[index]);
-                    mExpungePolicy.setValue(summary);
-                    return false;
-                }
+            mExpungePolicy.setOnPreferenceChangeListener((preference, newValue) -> {
+                final String summary = newValue.toString();
+                int index = mExpungePolicy.findIndexOfValue(summary);
+                mExpungePolicy.setSummary(mExpungePolicy.getEntries()[index]);
+                mExpungePolicy.setValue(summary);
+                return false;
             });
         }
         else {
@@ -395,31 +377,23 @@ public class AccountSettings extends XMPreferenceActivity
         mSearchableFolders = (ListPreference) findPreference(PREFERENCE_SEARCHABLE_FOLDERS);
         mSearchableFolders.setValue(mAccount.getSearchableFolders().name());
         mSearchableFolders.setSummary(mSearchableFolders.getEntry());
-        mSearchableFolders.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mSearchableFolders.findIndexOfValue(summary);
-                mSearchableFolders.setSummary(mSearchableFolders.getEntries()[index]);
-                mSearchableFolders.setValue(summary);
-                return false;
-            }
+        mSearchableFolders.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mSearchableFolders.findIndexOfValue(summary);
+            mSearchableFolders.setSummary(mSearchableFolders.getEntries()[index]);
+            mSearchableFolders.setValue(summary);
+            return false;
         });
 
         mDisplayCount = (ListPreference) findPreference(PREFERENCE_DISPLAY_COUNT);
         mDisplayCount.setValue(String.valueOf(mAccount.getDisplayCount()));
         mDisplayCount.setSummary(mDisplayCount.getEntry());
-        mDisplayCount.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mDisplayCount.findIndexOfValue(summary);
-                mDisplayCount.setSummary(mDisplayCount.getEntries()[index]);
-                mDisplayCount.setValue(summary);
-                return false;
-            }
+        mDisplayCount.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mDisplayCount.findIndexOfValue(summary);
+            mDisplayCount.setSummary(mDisplayCount.getEntries()[index]);
+            mDisplayCount.setValue(summary);
+            return false;
         });
 
         mMessageAge = (ListPreference) findPreference(PREFERENCE_MESSAGE_AGE);
@@ -430,32 +404,24 @@ public class AccountSettings extends XMPreferenceActivity
         else {
             mMessageAge.setValue(String.valueOf(mAccount.getMaximumPolledMessageAge()));
             mMessageAge.setSummary(mMessageAge.getEntry());
-            mMessageAge.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-            {
-                public boolean onPreferenceChange(Preference preference, Object newValue)
-                {
-                    final String summary = newValue.toString();
-                    int index = mMessageAge.findIndexOfValue(summary);
-                    mMessageAge.setSummary(mMessageAge.getEntries()[index]);
-                    mMessageAge.setValue(summary);
-                    return false;
-                }
+            mMessageAge.setOnPreferenceChangeListener((preference, newValue) -> {
+                final String summary = newValue.toString();
+                int index = mMessageAge.findIndexOfValue(summary);
+                mMessageAge.setSummary(mMessageAge.getEntries()[index]);
+                mMessageAge.setValue(summary);
+                return false;
             });
         }
 
         mMessageSize = (ListPreference) findPreference(PREFERENCE_MESSAGE_SIZE);
         mMessageSize.setValue(String.valueOf(mAccount.getMaximumAutoDownloadMessageSize()));
         mMessageSize.setSummary(mMessageSize.getEntry());
-        mMessageSize.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mMessageSize.findIndexOfValue(summary);
-                mMessageSize.setSummary(mMessageSize.getEntries()[index]);
-                mMessageSize.setValue(summary);
-                return false;
-            }
+        mMessageSize.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mMessageSize.findIndexOfValue(summary);
+            mMessageSize.setSummary(mMessageSize.getEntries()[index]);
+            mMessageSize.setValue(summary);
+            return false;
         });
 
         mAccountDefault = (CheckBoxPreference) findPreference(PREFERENCE_DEFAULT);
@@ -465,16 +431,12 @@ public class AccountSettings extends XMPreferenceActivity
         mAccountShowPictures = (ListPreference) findPreference(PREFERENCE_SHOW_PICTURES);
         mAccountShowPictures.setValue("" + mAccount.getShowPictures());
         mAccountShowPictures.setSummary(mAccountShowPictures.getEntry());
-        mAccountShowPictures.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mAccountShowPictures.findIndexOfValue(summary);
-                mAccountShowPictures.setSummary(mAccountShowPictures.getEntries()[index]);
-                mAccountShowPictures.setValue(summary);
-                return false;
-            }
+        mAccountShowPictures.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mAccountShowPictures.findIndexOfValue(summary);
+            mAccountShowPictures.setSummary(mAccountShowPictures.getEntries()[index]);
+            mAccountShowPictures.setValue(summary);
+            return false;
         });
 
         mLocalStorageProvider = (ListPreference) findPreference(PREFERENCE_LOCAL_STORAGE_PROVIDER);
@@ -494,13 +456,9 @@ public class AccountSettings extends XMPreferenceActivity
             mLocalStorageProvider.setValue(mAccount.getLocalStorageProviderId());
             mLocalStorageProvider.setSummary(providers.get(mAccount.getLocalStorageProviderId()));
 
-            mLocalStorageProvider.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-            {
-                public boolean onPreferenceChange(Preference preference, Object newValue)
-                {
-                    mLocalStorageProvider.setSummary(providers.get(newValue));
-                    return true;
-                }
+            mLocalStorageProvider.setOnPreferenceChangeListener((preference, newValue) -> {
+                mLocalStorageProvider.setSummary(providers.get(newValue));
+                return true;
             });
         }
 
@@ -522,7 +480,7 @@ public class AccountSettings extends XMPreferenceActivity
         if (mIsPushCapable) {
             mPushPollOnConnect.setChecked(mAccount.isPushPollOnConnect());
 
-            mCloudSearchEnabled.setChecked(mAccount.allowRemoteSearch());
+            mCloudSearchEnabled.setChecked(mAccount.isAllowRemoteSearch());
             String searchNumResults = Integer.toString(mAccount.getRemoteSearchNumResults());
             mRemoteSearchNumResults.setValue(searchNumResults);
             updateRemoteSearchLimit(searchNumResults);
@@ -530,44 +488,32 @@ public class AccountSettings extends XMPreferenceActivity
 
             mIdleRefreshPeriod.setValue(String.valueOf(mAccount.getIdleRefreshMinutes()));
             mIdleRefreshPeriod.setSummary(mIdleRefreshPeriod.getEntry());
-            mIdleRefreshPeriod.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-            {
-                public boolean onPreferenceChange(Preference preference, Object newValue)
-                {
-                    final String summary = newValue.toString();
-                    int index = mIdleRefreshPeriod.findIndexOfValue(summary);
-                    mIdleRefreshPeriod.setSummary(mIdleRefreshPeriod.getEntries()[index]);
-                    mIdleRefreshPeriod.setValue(summary);
-                    return false;
-                }
+            mIdleRefreshPeriod.setOnPreferenceChangeListener((preference, newValue) -> {
+                final String summary = newValue.toString();
+                int index = mIdleRefreshPeriod.findIndexOfValue(summary);
+                mIdleRefreshPeriod.setSummary(mIdleRefreshPeriod.getEntries()[index]);
+                mIdleRefreshPeriod.setValue(summary);
+                return false;
             });
 
             mMaxPushFolders.setValue(String.valueOf(mAccount.getMaxPushFolders()));
             mMaxPushFolders.setSummary(mMaxPushFolders.getEntry());
-            mMaxPushFolders.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-            {
-                public boolean onPreferenceChange(Preference preference, Object newValue)
-                {
-                    final String summary = newValue.toString();
-                    int index = mMaxPushFolders.findIndexOfValue(summary);
-                    mMaxPushFolders.setSummary(mMaxPushFolders.getEntries()[index]);
-                    mMaxPushFolders.setValue(summary);
-                    return false;
-                }
+            mMaxPushFolders.setOnPreferenceChangeListener((preference, newValue) -> {
+                final String summary = newValue.toString();
+                int index = mMaxPushFolders.findIndexOfValue(summary);
+                mMaxPushFolders.setSummary(mMaxPushFolders.getEntries()[index]);
+                mMaxPushFolders.setValue(summary);
+                return false;
             });
             mPushMode = (ListPreference) findPreference(PREFERENCE_PUSH_MODE);
             mPushMode.setValue(mAccount.getFolderPushMode().name());
             mPushMode.setSummary(mPushMode.getEntry());
-            mPushMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-            {
-                public boolean onPreferenceChange(Preference preference, Object newValue)
-                {
-                    final String summary = newValue.toString();
-                    int index = mPushMode.findIndexOfValue(summary);
-                    mPushMode.setSummary(mPushMode.getEntries()[index]);
-                    mPushMode.setValue(summary);
-                    return false;
-                }
+            mPushMode.setOnPreferenceChangeListener((preference, newValue) -> {
+                final String summary = newValue.toString();
+                int index = mPushMode.findIndexOfValue(summary);
+                mPushMode.setSummary(mPushMode.getEntries()[index]);
+                mPushMode.setValue(summary);
+                return false;
             });
         }
         else {
@@ -582,16 +528,12 @@ public class AccountSettings extends XMPreferenceActivity
         mAccountNotifyNewMailMode = (ListPreference) findPreference(PREFERENCE_NOTIFY_NEW_MAIL_MODE);
         mAccountNotifyNewMailMode.setValue(mAccount.getFolderNotifyNewMailMode().name());
         mAccountNotifyNewMailMode.setSummary(mAccountNotifyNewMailMode.getEntry());
-        mAccountNotifyNewMailMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mAccountNotifyNewMailMode.findIndexOfValue(summary);
-                mAccountNotifyNewMailMode.setSummary(mAccountNotifyNewMailMode.getEntries()[index]);
-                mAccountNotifyNewMailMode.setValue(summary);
-                return false;
-            }
+        mAccountNotifyNewMailMode.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mAccountNotifyNewMailMode.findIndexOfValue(summary);
+            mAccountNotifyNewMailMode.setSummary(mAccountNotifyNewMailMode.getEntries()[index]);
+            mAccountNotifyNewMailMode.setValue(summary);
+            return false;
         });
 
         mAccountNotifySelf = (CheckBoxPreference) findPreference(PREFERENCE_NOTIFY_SELF);
@@ -616,33 +558,24 @@ public class AccountSettings extends XMPreferenceActivity
         mAccountVibratePattern = (ListPreference) findPreference(PREFERENCE_VIBRATE_PATTERN);
         mAccountVibratePattern.setValue(String.valueOf(mAccount.getNotificationSetting().getVibratePattern()));
         mAccountVibratePattern.setSummary(mAccountVibratePattern.getEntry());
-        mAccountVibratePattern.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mAccountVibratePattern.findIndexOfValue(summary);
-                mAccountVibratePattern.setSummary(mAccountVibratePattern.getEntries()[index]);
-                mAccountVibratePattern.setValue(summary);
-                doVibrateTest(preference);
-                return false;
-            }
+        mAccountVibratePattern.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mAccountVibratePattern.findIndexOfValue(summary);
+            mAccountVibratePattern.setSummary(mAccountVibratePattern.getEntries()[index]);
+            mAccountVibratePattern.setValue(summary);
+            doVibrateTest(preference);
+            return false;
         });
 
         mAccountVibrateTimes = (ListPreference) findPreference(PREFERENCE_VIBRATE_TIMES);
         mAccountVibrateTimes.setValue(String.valueOf(mAccount.getNotificationSetting().getVibrateTimes()));
         mAccountVibrateTimes.setSummary(String.valueOf(mAccount.getNotificationSetting().getVibrateTimes()));
-        mAccountVibrateTimes.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String value = newValue.toString();
-                mAccountVibrateTimes.setSummary(value);
-                mAccountVibrateTimes.setValue(value);
-                doVibrateTest(preference);
-                return false;
-            }
+        mAccountVibrateTimes.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String value = newValue.toString();
+            mAccountVibrateTimes.setSummary(value);
+            mAccountVibrateTimes.setValue(value);
+            doVibrateTest(preference);
+            return false;
         });
 
         mAccountLedEnabled = (CheckBoxPreference) findPreference(PREFERENCE_NOTIFICATION_LED);
@@ -653,68 +586,40 @@ public class AccountSettings extends XMPreferenceActivity
 
         new PopulateFolderPrefsTask().execute();
         mChipColor = findPreference(PREFERENCE_CHIP_COLOR);
-        mChipColor.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
-        {
-            public boolean onPreferenceClick(Preference preference)
-            {
-                onChooseChipColor();
-                return false;
-            }
+        mChipColor.setOnPreferenceClickListener(preference -> {
+            onChooseChipColor();
+            return false;
         });
 
         mLedColor = findPreference(PREFERENCE_LED_COLOR);
-        mLedColor.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
-        {
-            public boolean onPreferenceClick(Preference preference)
-            {
-                onChooseLedColor();
-                return false;
-            }
+        mLedColor.setOnPreferenceClickListener(preference -> {
+            onChooseLedColor();
+            return false;
         });
 
-        findPreference(PREFERENCE_COMPOSITION).setOnPreferenceClickListener(
-                new Preference.OnPreferenceClickListener()
-                {
-                    public boolean onPreferenceClick(Preference preference)
-                    {
-                        onCompositionSettings();
-                        return true;
-                    }
-                });
+        findPreference(PREFERENCE_COMPOSITION).setOnPreferenceClickListener(preference -> {
+            onCompositionSettings();
+            return true;
+        });
 
-        findPreference(PREFERENCE_MANAGE_IDENTITIES).setOnPreferenceClickListener(
-                new Preference.OnPreferenceClickListener()
-                {
-                    public boolean onPreferenceClick(Preference preference)
-                    {
-                        onManageIdentities();
-                        return true;
-                    }
-                });
+        findPreference(PREFERENCE_MANAGE_IDENTITIES).setOnPreferenceClickListener(preference -> {
+            onManageIdentities();
+            return true;
+        });
 
-        findPreference(PREFERENCE_INCOMING).setOnPreferenceClickListener(
-                new Preference.OnPreferenceClickListener()
-                {
-                    public boolean onPreferenceClick(Preference preference)
-                    {
-                        mIncomingChanged = true;
-                        onIncomingSettings();
-                        return true;
-                    }
-                });
+        findPreference(PREFERENCE_INCOMING).setOnPreferenceClickListener(preference -> {
+            mIncomingChanged = true;
+            onIncomingSettings();
+            return true;
+        });
 
-        findPreference(PREFERENCE_OUTGOING).setOnPreferenceClickListener(
-                new Preference.OnPreferenceClickListener()
-                {
-                    public boolean onPreferenceClick(Preference preference)
-                    {
-                        onOutgoingSettings();
-                        return true;
-                    }
-                });
+        findPreference(PREFERENCE_OUTGOING).setOnPreferenceClickListener(preference -> {
+            onOutgoingSettings();
+            return true;
+        });
 
         PreferenceScreen cryptoMenu = (PreferenceScreen) findPreference(PREFERENCE_CRYPTO_MENU);
-        mPgpCryptoKey = (OpenPgpKeyPreference) findPreference(PREFERENCE_CRYPTO_KEY);
+        mPgpCryptoKey = (OpenPgpKeyPreference) findPreference(PREFERENCE_OPENPGP_KEY);
         mStealthMode = (CheckBoxPreference) findPreference(PREFERENCE_STEALTH_MODE);
 
         mHasPgpCrypto = XryptoMail.isOpenPgpProviderConfigured();
@@ -723,17 +628,13 @@ public class AccountSettings extends XMPreferenceActivity
             mPgpCryptoKey.setOpenPgpProvider(XryptoMail.getOpenPgpProvider());
             // TODO: other identities?
             mPgpCryptoKey.setDefaultUserId(OpenPgpApiHelper.buildUserId(mAccount.getIdentity(0)));
-            mPgpCryptoKey.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-            {
-                public boolean onPreferenceChange(Preference preference, Object newValue)
-                {
-                    long value = (Long) newValue;
-                    mPgpCryptoKey.setValue(value);
+            mPgpCryptoKey.setOnPreferenceChangeListener((preference, newValue) -> {
+                long value = (Long) newValue;
+                mPgpCryptoKey.setValue(value);
 
-                    // update stealthMode when key value changed
-                    updateStealthMode();
-                    return false;
-                }
+                // update stealthMode when key value changed
+                updateStealthMode();
+                return false;
             });
             cryptoMenu.setOnPreferenceClickListener(null);
 
@@ -842,16 +743,16 @@ public class AccountSettings extends XMPreferenceActivity
         // In webdav account we use the exact folder name also for inbox,
         // since it varies because of internationalization
         if (mAccount.getStoreUri().startsWith("webdav"))
-            mAccount.setAutoExpandFolderName(mAutoExpandFolder.getValue());
+            mAccount.setAutoExpandFolder(mAutoExpandFolder.getValue());
         else
-            mAccount.setAutoExpandFolderName(reverseTranslateFolder(mAutoExpandFolder.getValue()));
+            mAccount.setAutoExpandFolder(reverseTranslateFolder(mAutoExpandFolder.getValue()));
 
         if (mIsMoveCapable) {
             mAccount.setArchiveFolderName(mArchiveFolder.getValue());
-            mAccount.setDraftsFolderName(mDraftsFolder.getValue());
-            mAccount.setSentFolderName(mSentFolder.getValue());
+            mAccount.setDraftsFolder(mDraftsFolder.getValue());
+            mAccount.setSentFolder(mSentFolder.getValue());
             mAccount.setSpamFolderName(mSpamFolder.getValue());
-            mAccount.setTrashFolderName(mTrashFolder.getValue());
+            mAccount.setTrashFolder(mTrashFolder.getValue());
         }
 
         //IMAP stuff
@@ -1016,7 +917,7 @@ public class AccountSettings extends XMPreferenceActivity
 
     private String translateFolder(String in)
     {
-        if (mAccount.getInboxFolderName().equalsIgnoreCase(in)) {
+        if (mAccount.getInboxFolder().equalsIgnoreCase(in)) {
             return getString(R.string.special_mailbox_name_inbox);
         }
         else {
@@ -1027,7 +928,7 @@ public class AccountSettings extends XMPreferenceActivity
     private String reverseTranslateFolder(String in)
     {
         if (getString(R.string.special_mailbox_name_inbox).equals(in)) {
-            return mAccount.getInboxFolderName();
+            return mAccount.getInboxFolder();
         }
         else {
             return in;
@@ -1079,7 +980,7 @@ public class AccountSettings extends XMPreferenceActivity
             Iterator<? extends Folder> iter = folders.iterator();
             while (iter.hasNext()) {
                 Folder folder = iter.next();
-                if (mAccount.getOutboxFolderName().equals(folder.getName())) {
+                if (mAccount.getOutboxFolderName().equals(folder.getServerId())) {
                     iter.remove();
                 }
             }
@@ -1092,8 +993,8 @@ public class AccountSettings extends XMPreferenceActivity
 
             int i = 1;
             for (Folder folder : folders) {
-                allFolderLabels[i] = folder.getName();
-                allFolderValues[i] = folder.getName();
+                allFolderLabels[i] = folder.getServerId();
+                allFolderValues[i] = folder.getServerId();
                 i++;
             }
             return null;
@@ -1129,14 +1030,14 @@ public class AccountSettings extends XMPreferenceActivity
         @Override
         protected void onPostExecute(Void res)
         {
-            initListPreference(mAutoExpandFolder, mAccount.getAutoExpandFolderName(), allFolderLabels, allFolderValues);
+            initListPreference(mAutoExpandFolder, mAccount.getAutoExpandFolder(), allFolderLabels, allFolderValues);
             mAutoExpandFolder.setEnabled(true);
             if (mIsMoveCapable) {
-                initListPreference(mArchiveFolder, mAccount.getArchiveFolderName(), allFolderLabels, allFolderValues);
+                initListPreference(mArchiveFolder, mAccount.getArchiveFolder(), allFolderLabels, allFolderValues);
                 initListPreference(mDraftsFolder, mAccount.getDraftsFolderName(), allFolderLabels, allFolderValues);
-                initListPreference(mSentFolder, mAccount.getSentFolderName(), allFolderLabels, allFolderValues);
-                initListPreference(mSpamFolder, mAccount.getSpamFolderName(), allFolderLabels, allFolderValues);
-                initListPreference(mTrashFolder, mAccount.getTrashFolderName(), allFolderLabels, allFolderValues);
+                initListPreference(mSentFolder, mAccount.getSentFolder(), allFolderLabels, allFolderValues);
+                initListPreference(mSpamFolder, mAccount.getSpamFolder(), allFolderLabels, allFolderValues);
+                initListPreference(mTrashFolder, mAccount.getTrashFolder(), allFolderLabels, allFolderValues);
                 mArchiveFolder.setEnabled(true);
                 mSpamFolder.setEnabled(true);
                 mDraftsFolder.setEnabled(true);

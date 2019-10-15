@@ -1,8 +1,6 @@
 package org.atalk.xryptomail.mail.store.webdav;
 
-import org.atalk.xryptomail.mail.AuthType;
-import org.atalk.xryptomail.mail.ConnectionSecurity;
-import org.atalk.xryptomail.mail.ServerSettings;
+import org.atalk.xryptomail.mail.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +10,8 @@ import java.util.Map;
  *
  * @see WebDavStore#decodeUri(String)
  */
-public class WebDavStoreSettings extends ServerSettings {
+public class WebDavStoreSettings extends ServerSettings
+{
     public static final String ALIAS_KEY = "alias";
     public static final String PATH_KEY = "path";
     public static final String AUTH_PATH_KEY = "authPath";
@@ -24,11 +23,10 @@ public class WebDavStoreSettings extends ServerSettings {
     public final String mailboxPath;
 
     protected WebDavStoreSettings(String host, int port, ConnectionSecurity connectionSecurity,
-              AuthType authenticationType, String username, String password,
-              String clientCertificateAlias, String alias,
-              String path, String authPath, String mailboxPath) {
-        super(Type.WebDAV, host, port, connectionSecurity, authenticationType, username,
-                password, clientCertificateAlias);
+            AuthType authenticationType, String username, String password, String clientCertificateAlias,
+            String alias, String path, String authPath, String mailboxPath)
+    {
+        super(Type.WebDAV, host, port, connectionSecurity, authenticationType, username, password, clientCertificateAlias);
         this.alias = alias;
         this.path = path;
         this.authPath = authPath;
@@ -36,8 +34,9 @@ public class WebDavStoreSettings extends ServerSettings {
     }
 
     @Override
-    public Map<String, String> getExtra() {
-        Map<String, String> extra = new HashMap<String, String>();
+    public Map<String, String> getExtra()
+    {
+        Map<String, String> extra = new HashMap<>();
         putIfNotNull(extra, ALIAS_KEY, alias);
         putIfNotNull(extra, PATH_KEY, path);
         putIfNotNull(extra, AUTH_PATH_KEY, authPath);
@@ -46,7 +45,8 @@ public class WebDavStoreSettings extends ServerSettings {
     }
 
     @Override
-    public ServerSettings newPassword(String newPassword) {
+    public ServerSettings newPassword(String newPassword)
+    {
         return new WebDavStoreSettings(host, port, connectionSecurity, authenticationType,
                 username, newPassword, clientCertificateAlias, alias, path, authPath, mailboxPath);
     }

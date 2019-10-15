@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.PowerManager;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 import org.atalk.xryptomail.service.MailService;
 import timber.log.Timber;

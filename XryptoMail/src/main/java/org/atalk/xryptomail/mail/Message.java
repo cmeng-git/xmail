@@ -1,6 +1,6 @@
 package org.atalk.xryptomail.mail;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.atalk.xryptomail.mail.filter.CountingOutputStream;
 import org.atalk.xryptomail.mail.filter.EOLConvertingOutputStream;
@@ -49,7 +49,7 @@ public abstract class Message implements Part, Body
         }
         Message other = (Message) o;
         return (mUid.equals(other.getUid())
-                && mFolder.getName().equals(other.getFolder().getName()));
+                && mFolder.getServerId().equals(other.getFolder().getServerId()));
     }
 
     @Override
@@ -58,7 +58,7 @@ public abstract class Message implements Part, Body
         final int MULTIPLIER = 31;
 
         int result = 1;
-        result = MULTIPLIER * result + (mFolder != null ? mFolder.getName().hashCode() : 0);
+        result = MULTIPLIER * result + (mFolder != null ? mFolder.getServerId().hashCode() : 0);
         result = MULTIPLIER * result + mUid.hashCode();
         return result;
     }

@@ -1,6 +1,6 @@
 package org.atalk.xryptomail.message.extractors;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.atalk.xryptomail.mail.Message;
 import org.atalk.xryptomail.mail.Part;

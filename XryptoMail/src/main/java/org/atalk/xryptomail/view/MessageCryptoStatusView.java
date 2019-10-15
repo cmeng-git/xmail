@@ -1,7 +1,7 @@
 package org.atalk.xryptomail.view;
 
 import android.content.Context;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;

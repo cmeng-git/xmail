@@ -291,8 +291,8 @@ public class FolderList extends XMListActivity
         }
 
         if (intent.getBooleanExtra(EXTRA_FROM_SHORTCUT, false)
-                && !XryptoMail.FOLDER_NONE.equals(mAccount.getAutoExpandFolderName())) {
-            onOpenFolder(mAccount.getAutoExpandFolderName());
+                && !XryptoMail.FOLDER_NONE.equals(mAccount.getAutoExpandFolder())) {
+            onOpenFolder(mAccount.getAutoExpandFolder());
             finish();
         }
         else {
@@ -639,7 +639,7 @@ public class FolderList extends XMListActivity
 
         public long getItemId(int position)
         {
-            return mFilteredFolders.get(position).folder.getName().hashCode();
+            return mFilteredFolders.get(position).folder.getServerId().hashCode();
         }
 
         public int getCount()
@@ -735,7 +735,7 @@ public class FolderList extends XMListActivity
                         }
 
                         FolderInfoHolder holder = null;
-                        int folderIndex = getFolderIndex(folder.getName());
+                        int folderIndex = getFolderIndex(folder.getServerId());
                         if (folderIndex >= 0) {
                             holder = (FolderInfoHolder) getItem(folderIndex);
                         }
@@ -855,7 +855,7 @@ public class FolderList extends XMListActivity
             public void emptyTrashCompleted(Account account)
             {
                 if (account.equals(mAccount)) {
-                    refreshFolder(account, mAccount.getTrashFolderName());
+                    refreshFolder(account, mAccount.getTrashFolder());
                 }
             }
 

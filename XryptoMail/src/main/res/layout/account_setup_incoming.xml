@@ -6,7 +6,7 @@
     android:layout_height="fill_parent"
     android:layout_width="fill_parent">
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/incoming_coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -50,20 +50,20 @@
                     android:orientation="vertical">
                     <!-- This text may be changed in code if the server is IMAP, etc. -->
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/incoming_account_server_layout"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:textColorHint="?android:attr/textColorPrimary">
 
-                        <android.support.design.widget.TextInputEditText
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/incoming_account_server"
                             android:singleLine="true"
                             android:inputType="textUri"
                             android:layout_height="wrap_content"
                             android:layout_width="match_parent"
                             android:hint="@string/account_setup_incoming_pop_server_label" />
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
                         android:id="@+id/account_setup_incoming_security_label"
@@ -80,37 +80,37 @@
                         android:layout_width="match_parent"
                         android:contentDescription="@string/account_setup_incoming_security_label" />
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/incoming_account_port_layout"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:layout_marginTop="@dimen/account_setup_margin_between_items_incoming_and_outgoing"
                         android:textColorHint="?android:attr/textColorPrimary">
 
-                        <android.support.design.widget.TextInputEditText
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/incoming_account_port"
                             android:singleLine="true"
                             android:inputType="number"
                             android:layout_height="wrap_content"
                             android:layout_width="match_parent"
                             android:hint="@string/account_setup_incoming_port_label" />
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/incoming_account_username_layout"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:layout_marginTop="@dimen/account_setup_margin_between_items_incoming_and_outgoing"
                         android:textColorHint="?android:attr/textColorPrimary">
 
-                        <android.support.design.widget.TextInputEditText
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/incoming_account_username"
                             android:singleLine="true"
                             android:inputType="textEmailAddress"
                             android:layout_height="wrap_content"
                             android:layout_width="match_parent"
                             android:hint="@string/account_setup_incoming_username_label" />
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
                         android:id="@+id/incoming_account_auth_type_label"
@@ -127,21 +127,21 @@
                         android:layout_width="match_parent"
                         android:contentDescription="@string/account_setup_incoming_auth_type_label" />
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/incoming_account_password_layout"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:layout_marginTop="@dimen/account_setup_margin_between_items_incoming_and_outgoing"
                         android:textColorHint="?android:attr/textColorPrimary">
 
-                        <android.support.design.widget.TextInputEditText
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/incoming_account_password"
                             android:inputType="textPassword"
                             android:singleLine="true"
                             android:hint="@string/account_setup_incoming_password_label"
                             android:layout_height="wrap_content"
                             android:layout_width="match_parent" />
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
                         android:id="@+id/account_client_certificate_label"
@@ -171,19 +171,19 @@
                             android:layout_width="wrap_content"
                             android:text="@string/account_setup_incoming_autodetect_namespace_label" />
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/imap_path_prefix_layout"
                             android:layout_marginTop="@dimen/account_setup_margin_between_items_incoming_and_outgoing"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <android.support.design.widget.TextInputEditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/imap_path_prefix"
                                 android:singleLine="true"
                                 android:layout_height="wrap_content"
                                 android:layout_width="match_parent"
                                 android:hint="@string/account_setup_incoming_imap_path_prefix_label" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -227,7 +227,7 @@
                             android:layout_height="wrap_content"
                             app:helperText="@string/account_setup_incoming_webdav_mailbox_path_helper_text">
 
-                            <android.support.design.widget.TextInputEditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/webdav_mailbox_path"
                                 android:hint="@string/account_setup_incoming_webdav_mailbox_path_label"
                                 android:singleLine="true"
@@ -247,7 +247,7 @@
                             android:layout_height="wrap_content"
                             app:helperText="@string/account_setup_incoming_webdav_path_prefix_helper_text">
 
-                            <android.support.design.widget.TextInputEditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/webdav_path_prefix"
                                 android:singleLine="true"
                                 android:layout_height="wrap_content"
@@ -317,7 +317,7 @@
             </ScrollView>
 
         </LinearLayout>
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <View
         android:id="@+id/divider"

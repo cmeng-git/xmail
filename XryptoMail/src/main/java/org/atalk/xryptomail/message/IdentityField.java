@@ -1,6 +1,5 @@
 package org.atalk.xryptomail.message;
 
-
 // FYI, there's nothing in the code that requires these variables to one letter. They're one
 // letter simply to save space.  This name sucks.  It's too similar to Account.Identity.
 public enum IdentityField {

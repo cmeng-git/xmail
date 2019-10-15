@@ -5,12 +5,11 @@ import android.content.res.Resources;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.AttrRes;
-import android.support.annotation.DrawableRes;
+import androidx.annotation.AttrRes;
+import androidx.annotation.DrawableRes;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -21,9 +20,11 @@ import org.atalk.xryptomail.activity.compose.RecipientAdapter;
 import org.atalk.xryptomail.ui.ContactBadge;
 import org.atalk.xryptomail.view.RecipientSelectView.Recipient;
 import org.atalk.xryptomail.view.ThemeUtils;
+
 import java.util.List;
 
-public class AlternateRecipientAdapter extends BaseAdapter {
+public class AlternateRecipientAdapter extends BaseAdapter
+{
     private static final int NUMBER_OF_FIXED_LIST_ITEMS = 2;
     private static final int POSITION_HEADER_VIEW = 0;
     private static final int POSITION_CURRENT_ADDRESS = 1;
@@ -36,17 +37,20 @@ public class AlternateRecipientAdapter extends BaseAdapter {
     private boolean showAdvancedInfo;
 
 
-    public AlternateRecipientAdapter(Context context, AlternateRecipientListener listener) {
+    public AlternateRecipientAdapter(Context context, AlternateRecipientListener listener)
+    {
         super();
         this.context = context;
         this.listener = listener;
     }
 
-    public void setCurrentRecipient(Recipient currentRecipient) {
+    public void setCurrentRecipient(Recipient currentRecipient)
+    {
         this.currentRecipient = currentRecipient;
     }
 
-    public void setAlternateRecipientInfo(List<Recipient> recipients) {
+    public void setAlternateRecipientInfo(List<Recipient> recipients)
+    {
         this.recipients = recipients;
         int indexOfCurrentRecipient = recipients.indexOf(currentRecipient);
         if (indexOfCurrentRecipient >= 0) {
@@ -57,7 +61,8 @@ public class AlternateRecipientAdapter extends BaseAdapter {
     }
 
     @Override
-    public int getCount() {
+    public int getCount()
+    {
         if (recipients == null) {
             return NUMBER_OF_FIXED_LIST_ITEMS;
         }
@@ -65,7 +70,8 @@ public class AlternateRecipientAdapter extends BaseAdapter {
     }
 
     @Override
-    public Recipient getItem(int position) {
+    public Recipient getItem(int position)
+    {
         if (position == POSITION_HEADER_VIEW || position == POSITION_CURRENT_ADDRESS) {
             return currentRecipient;
         }
@@ -73,16 +79,19 @@ public class AlternateRecipientAdapter extends BaseAdapter {
     }
 
     @Override
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         return position;
     }
 
-    private Recipient getRecipientFromPosition(int position) {
+    private Recipient getRecipientFromPosition(int position)
+    {
         return recipients.get(position - NUMBER_OF_FIXED_LIST_ITEMS);
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(int position, View view, ViewGroup parent)
+    {
         if (view == null) {
             view = newView(parent);
         }
@@ -91,13 +100,15 @@ public class AlternateRecipientAdapter extends BaseAdapter {
 
         if (position == POSITION_HEADER_VIEW) {
             bindHeaderView(view, recipient);
-        } else {
+        }
+        else {
             bindItemView(view, recipient);
         }
         return view;
     }
 
-    public View newView(ViewGroup parent) {
+    public View newView(ViewGroup parent)
+    {
         View view = LayoutInflater.from(context).inflate(R.layout.recipient_alternate_item, parent, false);
 
         RecipientTokenHolder holder = new RecipientTokenHolder(view);
@@ -106,11 +117,13 @@ public class AlternateRecipientAdapter extends BaseAdapter {
     }
 
     @Override
-    public boolean isEnabled(int position) {
+    public boolean isEnabled(int position)
+    {
         return position != POSITION_HEADER_VIEW;
     }
 
-    public void bindHeaderView(View view, Recipient recipient) {
+    public void bindHeaderView(View view, Recipient recipient)
+    {
         RecipientTokenHolder holder = (RecipientTokenHolder) view.getTag();
         holder.setShowAsHeader(true);
 
@@ -118,7 +131,8 @@ public class AlternateRecipientAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(recipient.addressLabel)) {
             holder.headerAddressLabel.setText(recipient.addressLabel);
             holder.headerAddressLabel.setVisibility(View.VISIBLE);
-        } else {
+        }
+        else {
             holder.headerAddressLabel.setVisibility(View.GONE);
         }
 
@@ -128,7 +142,8 @@ public class AlternateRecipientAdapter extends BaseAdapter {
         holder.headerRemove.setOnClickListener(v -> listener.onRecipientRemove(currentRecipient));
     }
 
-    public void bindItemView(View view, final Recipient recipient) {
+    public void bindItemView(View view, final Recipient recipient)
+    {
         RecipientTokenHolder holder = (RecipientTokenHolder) view.getTag();
         holder.setShowAsHeader(false);
 
@@ -137,7 +152,8 @@ public class AlternateRecipientAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(recipient.addressLabel)) {
             holder.itemAddressLabel.setText(recipient.addressLabel);
             holder.itemAddressLabel.setVisibility(View.VISIBLE);
-        } else {
+        }
+        else {
             holder.itemAddressLabel.setVisibility(View.GONE);
         }
 
@@ -149,15 +165,18 @@ public class AlternateRecipientAdapter extends BaseAdapter {
         configureCryptoStatusView(holder, recipient);
     }
 
-    private void configureCryptoStatusView(RecipientTokenHolder holder, Recipient recipient) {
+    private void configureCryptoStatusView(RecipientTokenHolder holder, Recipient recipient)
+    {
         if (showAdvancedInfo) {
             configureCryptoStatusViewAdvanced(holder, recipient);
-        } else {
+        }
+        else {
             bindCryptoSimple(holder, recipient);
         }
     }
 
-    private void configureCryptoStatusViewAdvanced(RecipientTokenHolder holder, Recipient recipient) {
+    private void configureCryptoStatusViewAdvanced(RecipientTokenHolder holder, Recipient recipient)
+    {
         switch (recipient.getCryptoStatus()) {
             case AVAILABLE_TRUSTED: {
                 setCryptoStatusView(holder, R.drawable.status_lock_dots_3, R.attr.openpgp_green);
@@ -179,7 +198,8 @@ public class AlternateRecipientAdapter extends BaseAdapter {
     }
 
     private void setCryptoStatusView(RecipientTokenHolder holder, @DrawableRes int cryptoStatusRes,
-            @AttrRes int cryptoStatusColorAttr) {
+            @AttrRes int cryptoStatusColorAttr)
+    {
         Resources resources = context.getResources();
 
         Drawable drawable = resources.getDrawable(cryptoStatusRes);
@@ -193,7 +213,8 @@ public class AlternateRecipientAdapter extends BaseAdapter {
         holder.itemCryptoStatus.setVisibility(View.VISIBLE);
     }
 
-    private void bindCryptoSimple(RecipientTokenHolder holder, Recipient recipient) {
+    private void bindCryptoSimple(RecipientTokenHolder holder, Recipient recipient)
+    {
         holder.itemCryptoStatus.setVisibility(View.GONE);
         switch (recipient.getCryptoStatus()) {
             case AVAILABLE_TRUSTED:
@@ -209,11 +230,13 @@ public class AlternateRecipientAdapter extends BaseAdapter {
         }
     }
 
-    public void setShowAdvancedInfo(boolean showAdvancedInfo) {
+    public void setShowAdvancedInfo(boolean showAdvancedInfo)
+    {
         this.showAdvancedInfo = showAdvancedInfo;
     }
 
-    private static class RecipientTokenHolder {
+    private static class RecipientTokenHolder
+    {
         public final View layoutHeader, layoutItem;
         public final TextView headerName;
         public final TextView headerAddressLabel;
@@ -226,7 +249,8 @@ public class AlternateRecipientAdapter extends BaseAdapter {
         public final ImageView itemCryptoStatusSimple;
 
 
-        public RecipientTokenHolder(View view) {
+        public RecipientTokenHolder(View view)
+        {
             layoutHeader = view.findViewById(R.id.alternate_container_header);
             layoutItem = view.findViewById(R.id.alternate_container_item);
 
@@ -243,14 +267,17 @@ public class AlternateRecipientAdapter extends BaseAdapter {
             itemCryptoStatusSimple = view.findViewById(R.id.alternate_crypto_status_simple);
         }
 
-        public void setShowAsHeader(boolean isHeader) {
+        public void setShowAsHeader(boolean isHeader)
+        {
             layoutHeader.setVisibility(isHeader ? View.VISIBLE : View.GONE);
             layoutItem.setVisibility(isHeader ? View.GONE : View.VISIBLE);
         }
     }
 
-    public interface AlternateRecipientListener {
+    public interface AlternateRecipientListener
+    {
         void onRecipientRemove(Recipient currentRecipient);
+
         void onRecipientChange(Recipient currentRecipient, Recipient alternateRecipient);
     }
 }

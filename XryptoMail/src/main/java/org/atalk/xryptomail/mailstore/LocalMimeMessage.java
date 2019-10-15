@@ -1,8 +1,6 @@
 package org.atalk.xryptomail.mailstore;
 
-
 import org.atalk.xryptomail.mail.internet.MimeMessage;
-
 
 public class LocalMimeMessage extends MimeMessage implements LocalPart {
     private final String accountUuid;

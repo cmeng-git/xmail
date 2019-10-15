@@ -43,6 +43,7 @@ public class BinaryTempFileBody implements RawDataBody, SizeAware {
     public String getEncoding() {
         return mEncoding;
     }
+
     public void setEncoding(String encoding) throws MessagingException {
         if (mEncoding != null && mEncoding.equalsIgnoreCase(encoding)) {
             return;

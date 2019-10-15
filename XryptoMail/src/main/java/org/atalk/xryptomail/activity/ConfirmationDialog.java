@@ -76,8 +76,7 @@ public class ConfirmationDialog
      * @see #create(Activity, int, int, String, int, int, Runnable, Runnable)
      */
     public static Dialog create(final Activity activity, final int dialogId, final int title,
-            final int message, final int confirmButton, final int cancelButton,
-            final Runnable action)
+            final int message, final int confirmButton, final int cancelButton, final Runnable action)
     {
 
         return create(activity, dialogId, title, activity.getString(message), confirmButton,

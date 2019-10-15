@@ -41,12 +41,11 @@ public class ChooseIdentity extends XMListActivity
         String accountUuid = intent.getStringExtra(EXTRA_ACCOUNT);
         mAccount = Preferences.getPreferences(this).getAccount(accountUuid);
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
 
         setListAdapter(adapter);
         setupClickListeners();
     }
-
 
     @Override
     public void onResume() {
@@ -88,6 +87,5 @@ public class ChooseIdentity extends XMListActivity
                 }
             }
         });
-
     }
 }

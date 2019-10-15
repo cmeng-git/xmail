@@ -3,7 +3,9 @@ package org.atalk.xryptomail.helper;
 import android.app.*;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.*;
+
+import androidx.annotation.RequiresApi;
+import androidx.annotation.VisibleForTesting;
 
 import org.atalk.xryptomail.power.DozeChecker;
 

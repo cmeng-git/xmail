@@ -20,7 +20,6 @@ import org.atalk.xryptomail.mail.BoundaryGenerator;
 import org.atalk.xryptomail.mail.Flag;
 import org.atalk.xryptomail.mail.Message.RecipientType;
 import org.atalk.xryptomail.mail.MessagingException;
-import org.atalk.xryptomail.mail.filter.Base64;
 import org.atalk.xryptomail.mail.internet.MessageIdGenerator;
 import org.atalk.xryptomail.mail.internet.MimeBodyPart;
 import org.atalk.xryptomail.mail.internet.MimeHeader;
@@ -99,6 +98,8 @@ public abstract class MessageBuilder
         message.addSentDate(sentDate, hideTimeZone);
         Address from = new Address(identity.getEmail(), identity.getName());
         message.setFrom(from);
+
+        // cmeng: use MimeMessage#setRecipients
         message.setRecipients(RecipientType.TO, to);
         message.setRecipients(RecipientType.CC, cc);
         message.setRecipients(RecipientType.BCC, bcc);
@@ -240,7 +241,7 @@ public abstract class MessageBuilder
              * be encoded by MimeHeader.writeTo().
              */
             bp.addHeader(MimeHeader.HEADER_CONTENT_TYPE, String.format("%s;\r\n name=\"%s\"", attachment.contentType,
-                    EncoderUtil.encodeIfNecessary(attachment.name,EncoderUtil.Usage.WORD_ENTITY, 7)));
+                    EncoderUtil.encodeIfNecessary(attachment.name, EncoderUtil.Usage.WORD_ENTITY, 7)));
 
             if (!MimeUtil.isMessage(attachment.contentType)) {
                 bp.setEncoding(MimeUtility.getEncodingforType(attachment.contentType));
@@ -287,11 +288,9 @@ public abstract class MessageBuilder
      * separators between composed text and quoted text are not added.
      * </p>
      *
-     * @param isDraft If {@code true} we build a message that will be saved as a draft (as opposed to
-     * sent).
+     * @param isDraft If {@code true} we build a message that will be saved as a draft (as opposed to sent).
      * @param simpleMessageFormat Specifies what type of message to build ({@code text/plain} vs. {@code text/html}).
-     * @return {@link TextBody} instance that contains the entered text and possibly the quoted
-     * original message.
+     * @return {@link TextBody} instance that contains the entered text and possibly the quoted original message.
      */
     private TextBody buildText(boolean isDraft, SimpleMessageFormat simpleMessageFormat)
     {
@@ -335,6 +334,7 @@ public abstract class MessageBuilder
         }
 
         TextBody body;
+        // isDraft passing parameter is used by XryptoMail
         if (simpleMessageFormat == SimpleMessageFormat.HTML) {
             body = textBodyBuilder.buildTextHtml(isDraft);
         }
@@ -348,6 +348,11 @@ public abstract class MessageBuilder
     {
         this.subject = subject;
         return this;
+    }
+
+    public String getSubject()
+    {
+        return subject;
     }
 
     public MessageBuilder setSentDate(Date sentDate)

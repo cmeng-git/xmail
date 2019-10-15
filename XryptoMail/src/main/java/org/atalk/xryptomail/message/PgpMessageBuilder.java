@@ -3,9 +3,9 @@ package org.atalk.xryptomail.message;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 import org.apache.james.mime4j.util.MimeUtil;
 import org.atalk.xryptomail.Globals;
@@ -40,7 +40,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import timber.log.Timber;
 
@@ -277,9 +276,9 @@ public class PgpMessageBuilder extends MessageBuilder
             }
         }
 
+        // Intent result = openPgpApi.executeApi(openPgpIntent, dataSource, outputStream);
         InputStream inputStream = getInputStreamFromBodyPart(bodyPart, writeBodyContentOnly);
         Intent result = openPgpApi.executeApi(openPgpIntent, inputStream, outputStream);
-        // Intent result = openPgpApi.executeApi(openPgpIntent, dataSource, outputStream);
 
         switch (result.getIntExtra(OpenPgpApi.RESULT_CODE, OpenPgpApi.RESULT_CODE_ERROR)) {
             case OpenPgpApi.RESULT_CODE_SUCCESS:

@@ -1,6 +1,6 @@
 package org.atalk.xryptomail.mail.internet;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.apache.james.mime4j.codec.Base64InputStream;
 import org.apache.james.mime4j.codec.QuotedPrintableInputStream;
@@ -29,11 +29,11 @@ public class MimeUtility
      * http://www.w3schools.com/media/media_mimeref.asp + http://www.stdicon.com/mimetypes
      */
     private static final String[][] MIME_TYPE_BY_EXTENSION_MAP = new String[][]{
-            // * Do not delete the next two lines
+            // * Do not delete the next three lines
             {"", DEFAULT_ATTACHMENT_MIME_TYPE},
             {"XryptoMail", XRYPTOMAIL_SETTINGS_MIME_TYPE},
             {"txt", "text/plain"},
-            // * Do not delete the previous two lines
+            // * Do not delete the previous three lines
             {"123", "application/vnd.lotus-1-2-3"},
             {"323", "text/h323"},
             {"3dml", "text/vnd.in3d.3dml"},
@@ -919,50 +919,43 @@ public class MimeUtility
     }
 
     /**
-     * Returns the named parameter of a header field. If name is null the first
-     * parameter is returned, or if there are no additional parameters in the
-     * field the entire field is returned. Otherwise the named parameter is
-     * searched for in a case insensitive fashion and returned.
+     * Returns the named parameter of a header field.
      *
-     * @param headerValue the header value
-     * @param name the parameter name
-     * @return the value. if the parameter cannot be found the method returns null.
+     * If name is {@code null} the "value" of the header is returned, i.e. "text/html" in the following example:
+     * {@code Content-Type: text/html; charset="utf-8"}
+     * Note: Parsing header parameters is not a very cheap operation. Prefer using {@code MimeParameterDecoder}
+     * directly over calling this method multiple times for extracting different parameters from the the same header.
+     *
+     * @param headerBody The header body.
+     * @param name The parameter name. Might be {@code null}.
+     * @return the (parameter) value. if the parameter cannot be found the method returns null.
      */
-    public static String getHeaderParameter(String headerValue, String name)
+    public static String getHeaderParameter(String headerBody, String name)
     {
-        if (headerValue == null) {
+        if (headerBody == null) {
             return null;
         }
-        headerValue = headerValue.replaceAll("\r|\n", "");
-        String[] parts = headerValue.split(";");
+        headerBody = headerBody.replaceAll("[\r\n]", "");
+        String[] parts = headerBody.split(";");
         if (name == null && parts.length > 0) {
             return parts[0].trim();
         }
-        for (String part : parts) {
-            if (name != null &&
-                    part.trim().toLowerCase(Locale.US).startsWith(name.toLowerCase(Locale.US))) {
-                String[] partParts = part.split("=", 2);
-                if (partParts.length == 2) {
-                    String parameter = partParts[1].trim();
-                    int len = parameter.length();
-                    if (len >= 2 && parameter.startsWith("\"") && parameter.endsWith("\"")) {
-                        return parameter.substring(1, len - 1);
-                    }
-                    else {
-                        return parameter;
-                    }
-                }
-            }
+
+        if (name == null) {
+            return MimeParameterDecoder.extractHeaderValue(headerBody);
         }
-        return null;
+        else {
+            MimeValue mimeValue = MimeParameterDecoder.decode(headerBody);
+            return mimeValue.getParameters().get(name.toLowerCase(Locale.ROOT));
+        }
     }
 
-    public static Map<String, String> getAllHeaderParameters(String headerValue)
+    public static Map<String, String> getAllHeaderParameters(String headerBody)
     {
         Map<String, String> result = new HashMap<>();
 
-        headerValue = headerValue.replaceAll("\r|\n", "");
-        String[] parts = headerValue.split(";");
+        headerBody = headerBody.replaceAll("[\r\n]", "");
+        String[] parts = headerBody.split(";");
         for (String part : parts) {
             String[] partParts = part.split("=", 2);
             if (partParts.length == 2) {

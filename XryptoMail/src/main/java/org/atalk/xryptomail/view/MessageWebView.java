@@ -2,12 +2,14 @@ package org.atalk.xryptomail.view;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.support.annotation.*;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.webkit.*;
 import android.webkit.WebSettings.*;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.mailstore.AttachmentResolver;
@@ -62,7 +64,7 @@ public class MessageWebView extends RigidWebView {
         }
 
         final WebSettings webSettings = this.getSettings();
-        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        // webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
         /* TODO this might improve rendering smoothness when webview is animated into view
         if (VERSION.SDK_INT >= VERSION_CODES.M) {
@@ -116,7 +118,7 @@ public class MessageWebView extends RigidWebView {
 
     private void setWebViewClient(@Nullable AttachmentResolver attachmentResolver,
             @Nullable OnPageFinishedListener onPageFinishedListener) {
-        XryptoMailWebViewClient webViewClient = XryptoMailWebViewClient.newInstance(attachmentResolver);
+        XMWebViewClient webViewClient = XMWebViewClient.newInstance(attachmentResolver);
         if (onPageFinishedListener != null) {
             webViewClient.setOnPageFinishedListener(onPageFinishedListener);
         }

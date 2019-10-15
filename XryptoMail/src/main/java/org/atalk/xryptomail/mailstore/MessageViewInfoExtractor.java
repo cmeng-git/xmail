@@ -1,9 +1,9 @@
 package org.atalk.xryptomail.mailstore;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.annotation.WorkerThread;
 
 import org.atalk.xryptomail.Globals;
 import org.atalk.xryptomail.R;
@@ -51,9 +51,9 @@ public class MessageViewInfoExtractor
     private static final String FILENAME_SUFFIX = " ";
     private static final int FILENAME_SUFFIX_LENGTH = FILENAME_SUFFIX.length();
 
-    private final Context context;
     private final AttachmentInfoExtractor attachmentInfoExtractor;
     private final HtmlProcessor htmlProcessor;
+    private final Context resourceProvider;
     private boolean mStealthMode = false;
 
     public static MessageViewInfoExtractor getInstance()
@@ -64,10 +64,9 @@ public class MessageViewInfoExtractor
         return new MessageViewInfoExtractor(context, attachmentInfoExtractor, htmlProcessor);
     }
 
-    @VisibleForTesting
     MessageViewInfoExtractor(Context context, AttachmentInfoExtractor attachmentInfoExtractor, HtmlProcessor htmlProcessor)
     {
-        this.context = context;
+        this.resourceProvider = context;
         this.attachmentInfoExtractor = attachmentInfoExtractor;
         this.htmlProcessor = htmlProcessor;
     }
@@ -159,9 +158,8 @@ public class MessageViewInfoExtractor
             throws MessagingException
     {
         try {
-            // Collect all viewable parts
-
             /*
+             * // Collect all viewable parts
              * Convert the tree of viewable parts into text and HTML
              */
 
@@ -419,7 +417,7 @@ public class MessageViewInfoExtractor
         // From: <sender>
         Address[] from = message.getFrom();
         if (from != null && from.length > 0) {
-            text.append(context.getString(R.string.message_compose_quote_header_from));
+            text.append(resourceProvider.getString(R.string.message_compose_quote_header_from));
             text.append(' ');
             text.append(Address.toString(from));
             text.append("\r\n");
@@ -428,7 +426,7 @@ public class MessageViewInfoExtractor
         // To: <recipients>
         Address[] to = message.getRecipients(Message.RecipientType.TO);
         if (to != null && to.length > 0) {
-            text.append(context.getString(R.string.message_compose_quote_header_to));
+            text.append(resourceProvider.getString(R.string.message_compose_quote_header_to));
             text.append(' ');
             text.append(Address.toString(to));
             text.append("\r\n");
@@ -437,7 +435,7 @@ public class MessageViewInfoExtractor
         // Cc: <recipients>
         Address[] cc = message.getRecipients(Message.RecipientType.CC);
         if (cc != null && cc.length > 0) {
-            text.append(context.getString(R.string.message_compose_quote_header_cc));
+            text.append(resourceProvider.getString(R.string.message_compose_quote_header_cc));
             text.append(' ');
             text.append(Address.toString(cc));
             text.append("\r\n");
@@ -446,7 +444,7 @@ public class MessageViewInfoExtractor
         // Date: <date>
         Date date = message.getSentDate();
         if (date != null) {
-            text.append(context.getString(R.string.message_compose_quote_header_send_date));
+            text.append(resourceProvider.getString(R.string.message_compose_quote_header_send_date));
             text.append(' ');
             text.append(date.toString());
             text.append("\r\n");
@@ -454,10 +452,10 @@ public class MessageViewInfoExtractor
 
         // Subject: <subject>
         String subject = message.getSubject();
-        text.append(context.getString(R.string.message_compose_quote_header_subject));
+        text.append(resourceProvider.getString(R.string.message_compose_quote_header_subject));
         text.append(' ');
         if (subject == null) {
-            text.append(context.getString(R.string.general_no_subject));
+            text.append(resourceProvider.getString(R.string.general_no_subject));
         }
         else {
             text.append(subject);
@@ -481,35 +479,35 @@ public class MessageViewInfoExtractor
         // From: <sender>
         Address[] from = message.getFrom();
         if (from != null && from.length > 0) {
-            addTableRow(html, context.getString(R.string.message_compose_quote_header_from),
+            addTableRow(html, resourceProvider.getString(R.string.message_compose_quote_header_from),
                     Address.toString(from));
         }
 
         // To: <recipients>
         Address[] to = message.getRecipients(Message.RecipientType.TO);
         if (to != null && to.length > 0) {
-            addTableRow(html, context.getString(R.string.message_compose_quote_header_to),
+            addTableRow(html, resourceProvider.getString(R.string.message_compose_quote_header_to),
                     Address.toString(to));
         }
 
         // Cc: <recipients>
         Address[] cc = message.getRecipients(Message.RecipientType.CC);
         if (cc != null && cc.length > 0) {
-            addTableRow(html, context.getString(R.string.message_compose_quote_header_cc),
+            addTableRow(html, resourceProvider.getString(R.string.message_compose_quote_header_cc),
                     Address.toString(cc));
         }
 
         // Date: <date>
         Date date = message.getSentDate();
         if (date != null) {
-            addTableRow(html, context.getString(R.string.message_compose_quote_header_send_date),
+            addTableRow(html, resourceProvider.getString(R.string.message_compose_quote_header_send_date),
                     date.toString());
         }
 
         // Subject: <subject>
         String subject = message.getSubject();
-        addTableRow(html, context.getString(R.string.message_compose_quote_header_subject),
-                (subject == null) ? context.getString(R.string.general_no_subject) : subject);
+        addTableRow(html, resourceProvider.getString(R.string.message_compose_quote_header_subject),
+                (subject == null) ? resourceProvider.getString(R.string.general_no_subject) : subject);
 
         html.append("</table>");
     }

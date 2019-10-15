@@ -1,6 +1,6 @@
 package org.atalk.xryptomail.activity;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import org.atalk.xryptomail.mail.*;
 import org.atalk.xryptomail.mail.filter.Base64;
@@ -126,7 +126,7 @@ public class MessageReference {
         return accountUuid;
     }
 
-    public String getFolderName() {
+    public String getFolderServerId() {
         return folderName;
     }
 

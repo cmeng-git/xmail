@@ -42,7 +42,7 @@ public class PeekableInputStream extends FilterInputStream {
         if (!mPeeked) {
             return in.read(buffer, offset, length);
         } else {
-            buffer[offset] = (byte)mPeekedByte;
+            buffer[offset] = (byte) mPeekedByte;
             mPeeked = false;
             int r = in.read(buffer, offset + 1, length - 1);
             if (r == -1) {

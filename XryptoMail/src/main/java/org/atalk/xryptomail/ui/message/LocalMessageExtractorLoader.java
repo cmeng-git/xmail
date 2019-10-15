@@ -2,10 +2,9 @@ package org.atalk.xryptomail.ui.message;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.Nullable;
+import androidx.annotation.WorkerThread;
 
-import org.atalk.xryptomail.mail.Message;
 import org.atalk.xryptomail.mailstore.LocalMessage;
 import org.atalk.xryptomail.mailstore.MessageViewInfo;
 import org.atalk.xryptomail.mailstore.MessageViewInfoExtractor;
@@ -17,12 +16,12 @@ public class LocalMessageExtractorLoader extends AsyncTaskLoader<MessageViewInfo
 {
     private static final MessageViewInfoExtractor messageViewInfoExtractor = MessageViewInfoExtractor.getInstance();
 
-    private final Message message;
+    private final LocalMessage message;
     private MessageViewInfo messageViewInfo;
     @Nullable
     private MessageCryptoAnnotations annotations;
 
-    public LocalMessageExtractorLoader(Context context, Message message, @Nullable MessageCryptoAnnotations annotations)
+    public LocalMessageExtractorLoader(Context context, LocalMessage message, @Nullable MessageCryptoAnnotations annotations)
     {
         super(context);
         this.message = message;

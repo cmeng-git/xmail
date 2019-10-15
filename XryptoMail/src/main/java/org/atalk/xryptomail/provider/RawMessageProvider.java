@@ -13,8 +13,8 @@ import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.provider.OpenableColumns;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.BuildConfig;
@@ -167,7 +167,7 @@ public class RawMessageProvider extends ContentProvider {
 
     private LocalMessage loadMessage(MessageReference messageReference) {
         String accountUuid = messageReference.getAccountUuid();
-        String folderName = messageReference.getFolderName();
+        String folderName = messageReference.getFolderServerId();
         String uid = messageReference.getUid();
 
         Account account = Preferences.getPreferences(getContext()).getAccount(accountUuid);

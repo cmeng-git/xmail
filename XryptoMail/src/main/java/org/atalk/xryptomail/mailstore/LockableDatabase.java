@@ -2,7 +2,8 @@ package org.atalk.xryptomail.mailstore;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.database.sqlite.*;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Build;
 
 import org.atalk.xryptomail.XryptoMail;
@@ -10,26 +11,28 @@ import org.atalk.xryptomail.helper.FileHelper;
 import org.atalk.xryptomail.mail.MessagingException;
 
 import java.io.File;
-import java.util.concurrent.locks.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import timber.log.Timber;
 
 import static java.lang.System.currentTimeMillis;
 
-public class LockableDatabase {
+public class LockableDatabase
+{
 
     /**
      * Callback interface for DB operations. Concept is similar to Spring
      * HibernateCallback.
      *
-     * @param <T>
-     *            Return value type for {@link #doDbWork(SQLiteDatabase)}
+     * @param <T> Return value type for {@link #doDbWork(SQLiteDatabase)}
      */
-    public interface DbCallback<T> {
+    public interface DbCallback<T>
+    {
         /**
-         * @param db
-         *            The locked database on which the work should occur. Never
-         *            <code>null</code>.
+         * @param db The locked database on which the work should occur. Never
+         * <code>null</code>.
          * @return Any relevant data. Can be <code>null</code>.
          * @throws WrappedException
          * @throws MessagingException
@@ -37,7 +40,8 @@ public class LockableDatabase {
         T doDbWork(SQLiteDatabase db) throws WrappedException, MessagingException;
     }
 
-    public interface SchemaDefinition {
+    public interface SchemaDefinition
+    {
         int getVersion();
 
         /**
@@ -50,13 +54,15 @@ public class LockableDatabase {
      * Workaround exception wrapper used to keep the inner exception generated
      * in a {@link DbCallback}.
      */
-    public static class WrappedException extends RuntimeException {
+    public static class WrappedException extends RuntimeException
+    {
         /**
          *
          */
         private static final long serialVersionUID = 8184421232587399369L;
 
-        public WrappedException(final Exception cause) {
+        public WrappedException(final Exception cause)
+        {
             super(cause);
         }
     }
@@ -64,9 +70,11 @@ public class LockableDatabase {
     /**
      * Open the DB on mount and close the DB on unmount
      */
-    private class StorageListener implements StorageManager.StorageListener {
+    private class StorageListener implements StorageManager.StorageListener
+    {
         @Override
-        public void onUnmount(final String providerId) {
+        public void onUnmount(final String providerId)
+        {
             if (!providerId.equals(mStorageProviderId)) {
                 return;
             }
@@ -86,7 +94,8 @@ public class LockableDatabase {
         }
 
         @Override
-        public void onMount(final String providerId) {
+        public void onMount(final String providerId)
+        {
             if (!providerId.equals(mStorageProviderId)) {
                 return;
             }
@@ -134,28 +143,29 @@ public class LockableDatabase {
     private String uUid;
 
     /**
-     * @param context
-     *            Never <code>null</code>.
-     * @param uUid
-     *            Never <code>null</code>.
-     * @param schemaDefinition
-     *            Never <code>null</code>.
+     * @param context Never <code>null</code>.
+     * @param uUid Never <code>null</code>.
+     * @param schemaDefinition Never <code>null</code>.
      */
-    public LockableDatabase(final Context context, final String uUid, final SchemaDefinition schemaDefinition) {
+    public LockableDatabase(final Context context, final String uUid, final SchemaDefinition schemaDefinition)
+    {
         mContext = context;
         this.uUid = uUid;
         this.mSchemaDefinition = schemaDefinition;
     }
 
-    public void setStorageProviderId(String mStorageProviderId) {
+    public void setStorageProviderId(String mStorageProviderId)
+    {
         this.mStorageProviderId = mStorageProviderId;
     }
 
-    public String getStorageProviderId() {
+    public String getStorageProviderId()
+    {
         return mStorageProviderId;
     }
 
-    private StorageManager getStorageManager() {
+    private StorageManager getStorageManager()
+    {
         return StorageManager.getInstance(mContext);
     }
 
@@ -168,10 +178,10 @@ public class LockableDatabase {
      * done with the storage.
      * </p>
      *
-     * @throws UnavailableStorageException
-     *             If storage can't be locked because it is not available
+     * @throws UnavailableStorageException If storage can't be locked because it is not available
      */
-    protected void lockRead() throws UnavailableStorageException {
+    protected void lockRead() throws UnavailableStorageException
+    {
         mReadLock.lock();
         try {
             getStorageManager().lockProvider(mStorageProviderId);
@@ -181,7 +191,8 @@ public class LockableDatabase {
         }
     }
 
-    protected void unlockRead() {
+    protected void unlockRead()
+    {
         getStorageManager().unlockProvider(mStorageProviderId);
         mReadLock.unlock();
     }
@@ -195,10 +206,10 @@ public class LockableDatabase {
      * done with the storage.
      * </p>
      *
-     * @throws UnavailableStorageException
-     *             If storage can't be locked because it is not available.
+     * @throws UnavailableStorageException If storage can't be locked because it is not available.
      */
-    protected void lockWrite() throws UnavailableStorageException {
+    protected void lockWrite() throws UnavailableStorageException
+    {
         lockWrite(mStorageProviderId);
     }
 
@@ -211,13 +222,11 @@ public class LockableDatabase {
      * done with the storage.
      * </p>
      *
-     * @param providerId
-     *            Never <code>null</code>.
-     *
-     * @throws UnavailableStorageException
-     *             If storage can't be locked because it is not available.
+     * @param providerId Never <code>null</code>.
+     * @throws UnavailableStorageException If storage can't be locked because it is not available.
      */
-    protected void lockWrite(final String providerId) throws UnavailableStorageException {
+    protected void lockWrite(final String providerId) throws UnavailableStorageException
+    {
         mWriteLock.lock();
         try {
             getStorageManager().lockProvider(providerId);
@@ -227,11 +236,13 @@ public class LockableDatabase {
         }
     }
 
-    protected void unlockWrite() {
+    protected void unlockWrite()
+    {
         unlockWrite(mStorageProviderId);
     }
 
-    protected void unlockWrite(final String providerId) {
+    protected void unlockWrite(final String providerId)
+    {
         getStorageManager().unlockProvider(providerId);
         mWriteLock.unlock();
     }
@@ -246,15 +257,14 @@ public class LockableDatabase {
      * inner transaction created).
      * </p>
      *
-     * @param transactional
-     *            <code>true</code> the callback must be executed in a
-     *            transactional context.
-     * @param callback
-     *            Never <code>null</code>.
+     * @param transactional <code>true</code> the callback must be executed in a
+     * transactional context.
+     * @param callback Never <code>null</code>.
      * @return Whatever {@link DbCallback#doDbWork(SQLiteDatabase)} returns.
      * @throws UnavailableStorageException
      */
-    public <T> T execute(final boolean transactional, final DbCallback<T> callback) throws MessagingException {
+    public <T> T execute(final boolean transactional, final DbCallback<T> callback) throws MessagingException
+    {
         lockRead();
         final boolean doTransaction = transactional && inTransaction.get() == null;
         try {
@@ -274,7 +284,8 @@ public class LockableDatabase {
                     final long begin;
                     if (debug) {
                         begin = currentTimeMillis();
-                    } else {
+                    }
+                    else {
                         begin = 0L;
                     }
                     // not doing endTransaction in the same 'finally' block of unlockRead() because endTransaction() may throw an exception
@@ -295,11 +306,11 @@ public class LockableDatabase {
     }
 
     /**
-     * @param newProviderId
-     *            Never <code>null</code>.
+     * @param newProviderId Never <code>null</code>.
      * @throws MessagingException
      */
-    public void switchProvider(final String newProviderId) throws MessagingException {
+    public void switchProvider(final String newProviderId) throws MessagingException
+    {
         if (newProviderId.equals(mStorageProviderId)) {
             Timber.v("LockableDatabase: Ignoring provider switch request as they are equal: %s", newProviderId);
             return;
@@ -326,7 +337,7 @@ public class LockableDatabase {
                 FileHelper.moveRecursive(oldDatabase, storageManager.getDatabase(uUid, newProviderId));
                 // move all attachment files
                 FileHelper.moveRecursive(storageManager.getAttachmentDirectory(uUid, oldProviderId),
-						storageManager.getAttachmentDirectory(uUid, newProviderId));
+                        storageManager.getAttachmentDirectory(uUid, newProviderId));
                 // remove any remaining old journal files
                 deleteDatabase(oldDatabase);
 
@@ -342,7 +353,8 @@ public class LockableDatabase {
         }
     }
 
-    public void open() throws UnavailableStorageException {
+    public void open() throws UnavailableStorageException
+    {
         lockWrite();
         try {
             openOrCreateDataspace();
@@ -353,10 +365,10 @@ public class LockableDatabase {
     }
 
     /**
-     *
      * @throws UnavailableStorageException
      */
-    private void openOrCreateDataspace() throws UnavailableStorageException {
+    private void openOrCreateDataspace() throws UnavailableStorageException
+    {
 
         lockWrite();
         try {
@@ -366,7 +378,7 @@ public class LockableDatabase {
             } catch (SQLiteException e) {
                 // TODO handle this error in a better way!
                 Timber.w(e, "Unable to open DB %s - removing file and retrying", databaseFile);
-			
+
                 if (databaseFile.exists() && !databaseFile.delete()) {
                     Timber.d("Failed to remove %s that couldn't be opened", databaseFile);
                 }
@@ -380,23 +392,25 @@ public class LockableDatabase {
         }
     }
 
-    private void doOpenOrCreateDb(final File databaseFile) {
+    private void doOpenOrCreateDb(final File databaseFile)
+    {
         if (StorageManager.InternalStorageProvider.ID.equals(mStorageProviderId)) {
             // internal storage
             mDb = mContext.openOrCreateDatabase(databaseFile.getName(), Context.MODE_PRIVATE, null);
-        } else {
+        }
+        else {
             // external storage
             mDb = SQLiteDatabase.openOrCreateDatabase(databaseFile, null);
         }
     }
 
     /**
-     * @param providerId
-     *            Never <code>null</code>.
+     * @param providerId Never <code>null</code>.
      * @return DB file.
      * @throws UnavailableStorageException
      */
-    protected File prepareStorage(final String providerId) throws UnavailableStorageException {
+    protected File prepareStorage(final String providerId) throws UnavailableStorageException
+    {
         final StorageManager storageManager = getStorageManager();
 
         final File databaseFile = storageManager.getDatabase(uUid, providerId);
@@ -433,20 +447,22 @@ public class LockableDatabase {
      *
      * @throws UnavailableStorageException
      */
-    public void delete() throws UnavailableStorageException {
+    public void delete() throws UnavailableStorageException
+    {
         delete(false);
     }
 
-    public void recreate() throws UnavailableStorageException {
+    public void recreate() throws UnavailableStorageException
+    {
         delete(true);
     }
 
     /**
-     * @param recreate
-     *            <code>true</code> if the DB should be recreated after delete
+     * @param recreate <code>true</code> if the DB should be recreated after delete
      * @throws UnavailableStorageException
      */
-    private void delete(final boolean recreate) throws UnavailableStorageException {
+    private void delete(final boolean recreate) throws UnavailableStorageException
+    {
         lockWrite();
         try {
             try {
@@ -483,7 +499,8 @@ public class LockableDatabase {
 
             if (recreate) {
                 openOrCreateDataspace();
-            } else {
+            }
+            else {
                 // stop waiting for mount/unmount events
                 getStorageManager().removeListener(mStorageListener);
             }
@@ -493,11 +510,13 @@ public class LockableDatabase {
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	private void deleteDatabase(File database) {
+    private void deleteDatabase(File database)
+    {
         boolean deleted;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             deleted = SQLiteDatabase.deleteDatabase(database);
-        } else {
+        }
+        else {
             deleted = database.delete();
             deleted |= new File(database.getPath() + "-journal").delete();
         }

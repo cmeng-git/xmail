@@ -3,7 +3,7 @@ package org.atalk.xryptomail.mail.internet;
 import java.util.Locale;
 import java.util.UUID;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import org.atalk.xryptomail.mail.Address;
 import org.atalk.xryptomail.mail.Message;

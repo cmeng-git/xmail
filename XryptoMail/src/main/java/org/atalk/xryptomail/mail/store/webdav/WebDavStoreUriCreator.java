@@ -3,13 +3,14 @@ package org.atalk.xryptomail.mail.store.webdav;
 import org.atalk.xryptomail.mail.ServerSettings;
 import org.atalk.xryptomail.mail.store.StoreConfig;
 
-import java.net.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 
 import static org.atalk.xryptomail.helper.UrlEncodingHelper.encodeUtf8;
 
-public class WebDavStoreUriCreator {
-
+public class WebDavStoreUriCreator
+{
     /**
      * Creates a WebDavStore URI with the supplied settings.
      *
@@ -18,10 +19,10 @@ public class WebDavStoreUriCreator {
      * @see StoreConfig#getStoreUri()
      * @see WebDavStore#decodeUri(String)
      */
-    public static String create(ServerSettings server) {
+    public static String create(ServerSettings server)
+    {
         String userEnc = encodeUtf8(server.username);
-        String passwordEnc = (server.password != null) ?
-                encodeUtf8(server.password) : "";
+        String passwordEnc = (server.password != null) ? encodeUtf8(server.password) : "";
 
         String scheme;
         switch (server.connectionSecurity) {
@@ -35,7 +36,6 @@ public class WebDavStoreUriCreator {
         }
 
         String userInfo = userEnc + ":" + passwordEnc;
-
         String uriPath;
         Map<String, String> extra = server.getExtra();
         if (extra != null) {
@@ -46,10 +46,10 @@ public class WebDavStoreUriCreator {
             String mailboxPath = extra.get(WebDavStoreSettings.MAILBOX_PATH_KEY);
             mailboxPath = (mailboxPath != null) ? mailboxPath : "";
             uriPath = "/" + path + "|" + authPath + "|" + mailboxPath;
-        } else {
+        }
+        else {
             uriPath = "/||";
         }
-
         try {
             return new URI(scheme, userInfo, server.host, server.port, uriPath,
                     null, null).toString();

@@ -16,28 +16,31 @@
  */
 package org.atalk.xryptomail.activity;
 
-import android.app.*;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.webkit.WebView;
 import android.widget.TextView;
-import de.cketti.library.changelog.ChangeLog;
-import org.atalk.xryptomail.*;
-import org.atalk.xryptomail.service.OnlineUpdateService;
 
-import java.io.File;
+import org.atalk.xryptomail.BuildConfig;
+import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.helper.androidupdate.UpdateService;
+
+import de.cketti.library.changelog.ChangeLog;
 
 /**
  * XryptoMail About activity
  */
-public class About extends Activity implements OnClickListener {
+public class About extends Activity implements OnClickListener
+{
     private final int FETCH_ERROR = 10;
     private final int NO_NEW_VERSION = 20;
     private final int DOWNLOAD_ERROR = 30;
@@ -81,7 +84,8 @@ public class About extends Activity implements OnClickListener {
                     "li { margin-left: 0px; font-size: 0.9em;}" + "\n" +
                     "ul { padding-left: 2em; }";
 
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_LEFT_ICON);
         setContentView(R.layout.about);
@@ -104,7 +108,8 @@ public class About extends Activity implements OnClickListener {
         if (BuildConfig.DEBUG) {
             btn_update.setVisibility(View.VISIBLE);
             btn_update.setOnClickListener(this);
-        } else {
+        }
+        else {
             btn_update.setVisibility(View.GONE);
         }
 
@@ -119,20 +124,26 @@ public class About extends Activity implements OnClickListener {
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(View view)
+    {
         switch (view.getId()) {
             case R.id.ok_button:
                 finish();
                 break;
             case R.id.check_new_version:
-                XryptoMail.mUpdateApkPath = null;
-                Intent intent = new Intent(About.this, OnlineUpdate.class);
-                intent.putExtra(OnlineUpdateService.SKIP_VERSION_CHECK, false);
-                About.this.startActivityForResult(intent, CHECK_NEW_VERSION);
+                new Thread()
+                {
+                    @Override
+                    public void run()
+                    {
+                        UpdateService updateService = new UpdateService();
+                        updateService.checkForUpdates(true);
+                    }
+                }.start();
                 break;
-//            case R.id.submit_logs:
-//                aTalkApp.showSendLogsDialog();
-//                break;
+            //            case R.id.submit_logs:
+            //                aTalkApp.showSendLogsDialog();
+            //                break;
             case R.id.history_log:
                 ChangeLog cl = new ChangeLog(this, DEFAULT_CSS);
                 cl.getFullLogDialog().show();
@@ -147,14 +158,16 @@ public class About extends Activity implements OnClickListener {
         }
     }
 
-    private void xmailUrlAccess() {
+    private void xmailUrlAccess()
+    {
         String url = getString(R.string.AboutDialog_Link);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         startActivity(intent);
     }
 
-    private String getAboutInfo() {
+    private String getAboutInfo()
+    {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View about = inflater.inflate(R.layout.about, null, false);
         //String versionTitle = getString(R.string.AboutDialog_title);
@@ -190,87 +203,14 @@ public class About extends Activity implements OnClickListener {
     /**
      * Displays the send logs dialog.
      */
-    public static void showSendLogsDialog() {
-//        LogUploadService logUpload = ServiceUtils.getService(AndroidGUIActivator.bundleContext,
-//                LogUploadService.class);
-//        String defaultEmail = getConfig().getString("org.atalk.android.LOG_REPORT_EMAIL");
-//
-//        logUpload.sendLogs(new String[]{defaultEmail},
-//                getResString(R.string.service_gui_SEND_LOGS_SUBJECT),
-//                getResString(R.string.service_gui_SEND_LOGS_TITLE));
-    }
-
-    /**
-     * Get current version number.
-     *
-     * @return String version
-     */
-    private String getVersionNumber() {
-        String version = "?";
-        try {
-            PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
-            version = pi.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            // Log.e(TAG, "Package name not found", e);
-        }
-        return version;
-    }
-
-
-    /**
-     * Check for new version
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == CHECK_NEW_VERSION) {
-            if (OnlineUpdate.OnlineUpdateStatus.FETCH_VERSION_ERROR.getValue() == resultCode) {
-                showDialog(FETCH_ERROR);
-            } else if (OnlineUpdate.OnlineUpdateStatus.NO_NEW_VERSION_FOUND.getValue() == resultCode) {
-                showDialog(NO_NEW_VERSION);
-            } else if (OnlineUpdate.OnlineUpdateStatus.DOWNLOAD_APK_ERROR.getValue() == resultCode) {
-                showDialog(DOWNLOAD_ERROR);
-            } else if (OnlineUpdate.OnlineUpdateStatus.DOWNLOAD_APK_SUCCESSFUL.getValue() == resultCode) {
-                if (!TextUtils.isEmpty(XryptoMail.mUpdateApkPath)) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(
-                            Uri.fromFile(new File(XryptoMail.mUpdateApkPath)), "application/vnd.android.package-archive");
-                    startActivity(intent);
-                }
-            }
-        }
-    }
-
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        String appVersion = "";
-        switch (id) {
-            case FETCH_ERROR:
-                new AlertDialog.Builder(this)
-                        .setMessage(getString(R.string.fetch_version_error))
-                        .setPositiveButton(R.string.okay_action,
-                                (d, c) -> d.dismiss()).show();
-                break;
-
-            case NO_NEW_VERSION:
-                String msgstr = String.format(getString(R.string.no_new_version_found), appVersion);
-                new AlertDialog.Builder(this)
-                        .setMessage(msgstr)
-                        .setPositiveButton(R.string.okay_action,
-                                (d, c) -> d.dismiss()).show();
-                break;
-
-            case DOWNLOAD_ERROR:
-                new AlertDialog.Builder(this)
-                        .setMessage(getString(R.string.download_apk_error))
-                        .setPositiveButton(R.string.okay_action,
-                                (d, c) -> d.dismiss()).show();
-                break;
-        }
-        return super.onCreateDialog(id);
+    public static void showSendLogsDialog()
+    {
+        //        LogUploadService logUpload = ServiceUtils.getService(AndroidGUIActivator.bundleContext,
+        //                LogUploadService.class);
+        //        String defaultEmail = getConfig().getString("org.atalk.android.LOG_REPORT_EMAIL");
+        //
+        //        logUpload.sendLogs(new String[]{defaultEmail},
+        //                getResString(R.string.service_gui_SEND_LOGS_SUBJECT),
+        //                getResString(R.string.service_gui_SEND_LOGS_TITLE));
     }
 }

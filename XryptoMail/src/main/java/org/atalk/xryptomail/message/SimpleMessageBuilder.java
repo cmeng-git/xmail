@@ -2,7 +2,7 @@ package org.atalk.xryptomail.message;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import org.atalk.xryptomail.Globals;
 import org.atalk.xryptomail.mail.BoundaryGenerator;

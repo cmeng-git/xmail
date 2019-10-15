@@ -3,7 +3,7 @@ package org.atalk.xryptomail.mailstore.migrations;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import org.atalk.xryptomail.controller.MessagingControllerCommands.*;
 import org.atalk.xryptomail.controller.PendingCommandSerializer;

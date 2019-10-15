@@ -189,7 +189,7 @@ public class AccountSettings {
         s.put("stripSignature", Settings.versions(
                 new V(2, new BooleanSetting(Account.DEFAULT_STRIP_SIGNATURE))
             ));
-        s.put("subscribedFoldersOnly", Settings.versions(
+        s.put("isSubscribedFoldersOnly", Settings.versions(
                 new V(1, new BooleanSetting(false))
             ));
         s.put("syncRemoteDeletions", Settings.versions(
@@ -218,7 +218,7 @@ public class AccountSettings {
                 new V(1, new IntegerResourceSetting(5,
                 R.array.account_settings_vibrate_times_label))
             ));
-        s.put("allowRemoteSearch", Settings.versions(
+        s.put("isAllowRemoteSearch", Settings.versions(
                 new V(18, new BooleanSetting(true))
             ));
         s.put("remoteSearchNumResults", Settings.versions(

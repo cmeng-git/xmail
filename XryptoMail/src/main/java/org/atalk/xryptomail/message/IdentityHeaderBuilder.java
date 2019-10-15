@@ -24,7 +24,6 @@ public class IdentityHeaderBuilder {
     private TextBody body;
     private TextBody bodyPlain;
     private int cursorPosition;
-
     private Builder uri;
 
     /**

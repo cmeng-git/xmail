@@ -16,8 +16,8 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -1591,10 +1591,10 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
 
         String folderName;
         if (isThreadDisplay) {
-            folderName = messages.get(0).getFolderName();
+            folderName = messages.get(0).getFolderServerId();
         }
         else if (mSingleFolderMode) {
-            folderName = mCurrentFolder.folder.getName();
+            folderName = mCurrentFolder.folder.getServerId();
         }
         else {
             folderName = null;
@@ -1620,10 +1620,10 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
 
         String folderName;
         if (isThreadDisplay) {
-            folderName = messages.get(0).getFolderName();
+            folderName = messages.get(0).getFolderServerId();
         }
         else if (mSingleFolderMode) {
-            folderName = mCurrentFolder.folder.getName();
+            folderName = mCurrentFolder.folder.getServerId();
         }
         else {
             folderName = null;
@@ -1678,7 +1678,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
 
         for (Entry<Account, List<MessageReference>> entry : messagesByAccount.entrySet()) {
             Account account = entry.getKey();
-            String archiveFolder = account.getArchiveFolderName();
+            String archiveFolder = account.getArchiveFolder();
 
             if (!XryptoMail.FOLDER_NONE.equals(archiveFolder)) {
                 move(entry.getValue(), archiveFolder);
@@ -1730,7 +1730,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
 
         for (Entry<Account, List<MessageReference>> entry : messagesByAccount.entrySet()) {
             Account account = entry.getKey();
-            String spamFolder = account.getSpamFolderName();
+            String spamFolder = account.getSpamFolder();
 
             if (!XryptoMail.FOLDER_NONE.equals(spamFolder)) {
                 move(entry.getValue(), spamFolder);
@@ -1825,7 +1825,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
                 return;
             }
 
-            String folderName = message.getFolderName();
+            String folderName = message.getFolderServerId();
             if (folderName.equals(destination)) {
                 // Skip messages already in the destination folder
                 continue;
@@ -2267,7 +2267,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
             String uid = cursor.getString(UID_COLUMN);
 
             if (accountUuid.equals(messageReference.getAccountUuid())
-                    && folderName.equals(messageReference.getFolderName())
+                    && folderName.equals(messageReference.getFolderServerId())
                     && uid.equals(messageReference.getUid())) {
                 return i;
             }
@@ -2445,7 +2445,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
 
         if (!messagingController.isMoveCapable(mAccount)) {
             // For POP3 accounts only the Inbox is a remote folder.
-            return (mFolderName != null && mFolderName.equals(mAccount.getInboxFolderName()));
+            return (mFolderName != null && mFolderName.equals(mAccount.getInboxFolder()));
         }
         return true;
     }
@@ -2490,7 +2490,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
         boolean allowRemoteSearch = false;
         final Account searchAccount = mAccount;
         if (searchAccount != null) {
-            allowRemoteSearch = searchAccount.allowRemoteSearch();
+            allowRemoteSearch = searchAccount.isAllowRemoteSearch();
         }
         return allowRemoteSearch;
     }
@@ -2536,7 +2536,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
             if (selectActive) {
                 query.append("(" + MessageColumns.UID + " = ? AND " + SpecialColumns.FOLDER_NAME + " = ?) OR (");
                 queryArgs.add(mActiveMessage.getUid());
-                queryArgs.add(mActiveMessage.getFolderName());
+                queryArgs.add(mActiveMessage.getFolderServerId());
             }
 
             SqlQueryBuilder.buildWhereClause(account, mSearch.getConditions(), query, queryArgs);

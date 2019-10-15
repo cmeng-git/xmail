@@ -3,7 +3,7 @@ package org.atalk.xryptomail.activity;
 import android.app.*;
 import android.content.*;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.controller.MessagingController;

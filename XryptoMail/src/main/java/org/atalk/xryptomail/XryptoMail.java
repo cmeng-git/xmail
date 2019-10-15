@@ -1,6 +1,7 @@
 package org.atalk.xryptomail;
 
 import android.app.Application;
+import android.app.DownloadManager;
 import android.content.*;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
@@ -56,7 +57,7 @@ public class XryptoMail extends Application
         /**
          * Called when the Application instance is available and ready.
          *
-         * @param application The application instance. Never <code>null</code>.
+         * @param application The application instance. Never {@code null}.
          */
         void initializeComponent(Application application);
     }
@@ -125,8 +126,7 @@ public class XryptoMail extends Application
 
     /**
      * If this is enabled, various development settings will be enabled
-     * It should NEVER be on for Market builds
-     * Right now, it just governs strictMode
+     * It should NEVER be on for Market builds Right now, it just governs strictMode
      **/
     public static boolean DEVELOPER_MODE = BuildConfig.DEVELOPER_MODE;
 
@@ -589,7 +589,8 @@ public class XryptoMail extends Application
          * MimeMessage does not have access to a Context.
          */
         BinaryTempFileBody.setTempDirectory(getCacheDir());
-        LocalKeyStore.setKeyStoreLocation(getDir("KeyStore", MODE_PRIVATE).toString());
+        // LocalKeyStore.setKeyStoreLocation(getDir("KeyStore", MODE_PRIVATE).toString());
+        LocalKeyStore.createInstance(this);
 
         /*
          * Enable background sync of messages - kill by android???
@@ -1673,4 +1674,14 @@ public class XryptoMail extends Application
 //    {
 //        instance.runOnUiThread((Runnable) () -> showToastMessage(getAppResources().getString(id, arg)));
 //    }
+
+    /**
+     * Retrieves <tt>DownloadManager</tt> instance using application context.
+     *
+     * @return <tt>DownloadManager</tt> service instance.
+     */
+    public static DownloadManager getDownloadManager()
+    {
+        return (DownloadManager) getGlobalContext().getSystemService(Context.DOWNLOAD_SERVICE);
+    }
 }

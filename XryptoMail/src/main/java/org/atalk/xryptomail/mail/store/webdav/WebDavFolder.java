@@ -5,33 +5,14 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.StringEntity;
-import org.atalk.xryptomail.mail.FetchProfile;
-import org.atalk.xryptomail.mail.Flag;
-import org.atalk.xryptomail.mail.Folder;
-import org.atalk.xryptomail.mail.Message;
-import org.atalk.xryptomail.mail.MessageRetrievalListener;
-import org.atalk.xryptomail.mail.MessagingException;
-import org.atalk.xryptomail.mail.XryptoMailLib;
+import org.atalk.xryptomail.mail.*;
 import org.atalk.xryptomail.mail.filter.EOLConvertingOutputStream;
+import timber.log.Timber;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import timber.log.Timber;
+import java.util.*;
 
 import static org.atalk.xryptomail.helper.UrlEncodingHelper.encodeUtf8;
 import static org.atalk.xryptomail.mail.XryptoMailLib.DEBUG_PROTOCOL_WEBDAV;
@@ -75,7 +56,6 @@ class WebDavFolder extends Folder<WebDavMessage>
             }
         }
         encodedName = url;
-
         encodedName = encodedName.replaceAll("\\+", "%20");
 
         this.mFolderUrl = store.getUrl();
@@ -104,7 +84,7 @@ class WebDavFolder extends Folder<WebDavMessage>
     public Map<String, String> copyMessages(List<? extends Message> messages, Folder folder)
             throws MessagingException
     {
-        moveOrCopyMessages(messages, folder.getName(), false);
+        moveOrCopyMessages(messages, folder.getServerId(), false);
         return null;
     }
 
@@ -112,7 +92,7 @@ class WebDavFolder extends Folder<WebDavMessage>
     public Map<String, String> moveMessages(List<? extends Message> messages, Folder folder)
             throws MessagingException
     {
-        moveOrCopyMessages(messages, folder.getName(), true);
+        moveOrCopyMessages(messages, folder.getServerId(), true);
         return null;
     }
 
@@ -127,7 +107,6 @@ class WebDavFolder extends Folder<WebDavMessage>
             throws MessagingException
     {
         String[] uids = new String[messages.size()];
-
         for (int i = 0, count = messages.size(); i < count; i++) {
             uids[i] = messages.get(i).getUid();
         }
@@ -160,7 +139,7 @@ class WebDavFolder extends Folder<WebDavMessage>
     {
         String isRead;
         int messageCount = 0;
-        Map<String, String> headers = new HashMap<String, String>();
+        Map<String, String> headers = new HashMap<>();
         String messageBody;
 
         if (read) {
@@ -220,7 +199,7 @@ class WebDavFolder extends Folder<WebDavMessage>
     }
 
     @Override
-    public String getName()
+    public String getServerId()
     {
         return this.mName;
     }
@@ -272,7 +251,7 @@ class WebDavFolder extends Folder<WebDavMessage>
         String messageBody;
         int prevStart = start;
 
-        /** Reverse the message range since 0 index is newest */
+        /* Reverse the message range since 0 index is newest */
         start = this.mMessageCount - end;
         end = start + (end - prevStart);
 
@@ -284,13 +263,12 @@ class WebDavFolder extends Folder<WebDavMessage>
             end = 10;
         }
 
-        /** Verify authentication */
+        /* Verify authentication */
         messageBody = store.getMessagesXml();
 
         headers.put("Brief", "t");
         headers.put("Range", "rows=" + start + "-" + end);
         DataSet dataset = store.processRequest(this.mFolderUrl, "SEARCH", messageBody, headers);
-
         uids = dataset.getUids();
         Map<String, String> uidToUrl = dataset.getUidToUrl();
         uidsLength = uids.length;
@@ -322,7 +300,7 @@ class WebDavFolder extends Folder<WebDavMessage>
         Map<String, String> headers = new HashMap<>();
         String messageBody;
 
-        /** Retrieve and parse the XML entity for our messages */
+        /* Retrieve and parse the XML entity for our messages */
         messageBody = store.getMessageUrlsXml(uids);
         headers.put("Brief", "t");
 
@@ -339,13 +317,13 @@ class WebDavFolder extends Folder<WebDavMessage>
             return;
         }
 
-        /**
+        /*
          * Fetch message envelope information for the array
          */
         if (fp.contains(FetchProfile.Item.ENVELOPE)) {
             fetchEnvelope(messages, listener);
         }
-        /**
+        /*
          * Fetch message flag info for the array
          */
         if (fp.contains(FetchProfile.Item.FLAGS)) {
@@ -375,7 +353,7 @@ class WebDavFolder extends Folder<WebDavMessage>
         WebDavHttpClient httpclient;
         httpclient = store.getHttpClient();
 
-        /**
+        /*
          * We can't hand off to processRequest() since we need the stream to parse.
          */
         for (int i = 0, count = messages.size(); i < count; i++) {
@@ -386,7 +364,7 @@ class WebDavFolder extends Folder<WebDavMessage>
                 listener.messageStarted(wdMessage.getUid(), i, count);
             }
 
-            /**
+            /*
              * If fetch is called outside of the initial list (ie, a locally stored message), it may not have a URL
              * associated. Verify and fix that
              */
@@ -659,7 +637,7 @@ class WebDavFolder extends Folder<WebDavMessage>
             String url = uidToUrl.get(uid);
             String destinationUrl = generateDeleteUrl(url);
 
-            /**
+            /*
              * If the destination is the same as the origin, assume delete forever
              */
             if (destinationUrl.equals(url)) {

@@ -1,7 +1,7 @@
 package org.atalk.xryptomail.mail.store.imap;
 
 import android.net.ConnectivityManager;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import org.atalk.xryptomail.mail.AuthType;
 import org.atalk.xryptomail.mail.ConnectionSecurity;
@@ -82,26 +82,26 @@ public class ImapStore extends RemoteStore
     {
         super(storeConfig, trustedSocketFactory);
 
-        ImapStoreSettings settings;
+        ImapStoreSettings serverSettings;
         try {
-            settings = decodeUri(storeConfig.getStoreUri());
+            serverSettings = decodeUri(storeConfig.getStoreUri());
         } catch (IllegalArgumentException e) {
             throw new MessagingException("Error while decoding store URI", e);
         }
 
-        mHost = settings.host;
-        mPort = settings.port;
-        mConnectionSecurity = settings.connectionSecurity;
+        mHost = serverSettings.host;
+        mPort = serverSettings.port;
+        mConnectionSecurity = serverSettings.connectionSecurity;
         mConnectivityManager = connectivityManager;
         this.oauthTokenProvider = oauthTokenProvider;
 
-        mAuthType = settings.authenticationType;
-        mUsername = settings.username;
-        mPassword = settings.password;
-        clientCertificateAlias = settings.clientCertificateAlias;
+        mAuthType = serverSettings.authenticationType;
+        mUsername = serverSettings.username;
+        mPassword = serverSettings.password;
+        clientCertificateAlias = serverSettings.clientCertificateAlias;
 
         // Make extra sure mPathPrefix is null if "auto-detect namespace" is configured
-        mPathPrefix = (settings.autoDetectNamespace) ? null : settings.pathPrefix;
+        mPathPrefix = (serverSettings.autoDetectNamespace) ? null : serverSettings.pathPrefix;
         folderNameCodec = FolderNameCodec.newInstance();
     }
 
@@ -150,7 +150,7 @@ public class ImapStore extends RemoteStore
         try {
             Set<String> folderNames = listFolders(connection, false);
 
-            if (forceListAll || !mStoreConfig.subscribedFoldersOnly()) {
+            if (forceListAll || !mStoreConfig.isSubscribedFoldersOnly()) {
                 return getFolders(folderNames);
             }
 
@@ -186,8 +186,7 @@ public class ImapStore extends RemoteStore
             try {
                 decodedFolderName = folderNameCodec.decode(listResponse.getName());
             } catch (CharacterCodingException e) {
-                Timber.w(e,
-                        "Folder name not correctly encoded with the UTF-7 variant as defined by RFC 3501: %s",
+                Timber.w(e, "Folder name not correctly encoded with the UTF-7 variant as defined by RFC 3501: %s",
                         listResponse.getName());
 
                 // TODO: Use the raw name returned by the server for all commands that require
@@ -203,7 +202,7 @@ public class ImapStore extends RemoteStore
                 mCombinedPrefix = null;
             }
 
-            if (folder.equalsIgnoreCase(mStoreConfig.getInboxFolderName())) {
+            if (folder.equalsIgnoreCase(mStoreConfig.getInboxFolder())) {
                 continue;
             }
             else if (folder.equals(mStoreConfig.getOutboxFolderName())) {
@@ -223,9 +222,7 @@ public class ImapStore extends RemoteStore
                 folderNames.add(folder);
             }
         }
-
-        folderNames.add(mStoreConfig.getInboxFolderName());
-
+        folderNames.add(mStoreConfig.getInboxFolder());
         return folderNames;
     }
 
@@ -286,13 +283,13 @@ public class ImapStore extends RemoteStore
                 }
             }
             else if (listResponse.hasAttribute("\\Drafts")) {
-                mStoreConfig.setDraftsFolderName(decodedFolderName);
+                mStoreConfig.setDraftsFolder(decodedFolderName);
                 if (XryptoMailLib.isDebug()) {
                     Timber.d("Folder auto-configuration detected Drafts folder: %s", decodedFolderName);
                 }
             }
             else if (listResponse.hasAttribute("\\Sent")) {
-                mStoreConfig.setSentFolderName(decodedFolderName);
+                mStoreConfig.setSentFolder(decodedFolderName);
                 if (XryptoMailLib.isDebug()) {
                     Timber.d("Folder auto-configuration detected Sent folder: %s", decodedFolderName);
                 }
@@ -304,7 +301,7 @@ public class ImapStore extends RemoteStore
                 }
             }
             else if (listResponse.hasAttribute("\\Trash")) {
-                mStoreConfig.setTrashFolderName(decodedFolderName);
+                mStoreConfig.setTrashFolder(decodedFolderName);
                 if (XryptoMailLib.isDebug()) {
                     Timber.d("Folder auto-configuration detected Trash folder: %s", decodedFolderName);
                 }

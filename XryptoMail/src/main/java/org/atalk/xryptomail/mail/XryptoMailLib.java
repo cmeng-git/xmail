@@ -1,9 +1,11 @@
 package org.atalk.xryptomail.mail;
 
-public class XryptoMailLib {
+public class XryptoMailLib
+{
     private static DebugStatus debugStatus = new DefaultDebugStatus();
 
-    private XryptoMailLib() {
+    private XryptoMailLib()
+    {
     }
 
     public static final int PUSH_WAKE_LOCK_TIMEOUT = 60000;
@@ -29,64 +31,78 @@ public class XryptoMailLib {
      */
     public static boolean DEBUG_PROTOCOL_WEBDAV = true;
 
-    public static boolean isDebug() {
+    public static boolean isDebug()
+    {
         return debugStatus.enabled();
     }
 
-    public static boolean isDebugSensitive() {
+    public static boolean isDebugSensitive()
+    {
         return debugStatus.debugSensitive();
     }
 
-    public static void setDebugSensitive(boolean b) {
+    public static void setDebugSensitive(boolean b)
+    {
         if (debugStatus instanceof WritableDebugStatus) {
             ((WritableDebugStatus) debugStatus).setSensitive(b);
         }
     }
 
-    public static void setDebug(boolean b) {
+    public static void setDebug(boolean b)
+    {
         if (debugStatus instanceof WritableDebugStatus) {
             ((WritableDebugStatus) debugStatus).setEnabled(b);
         }
     }
 
-    public interface DebugStatus {
+    public interface DebugStatus
+    {
         boolean enabled();
+
         boolean debugSensitive();
     }
 
-    public static void setDebugStatus(DebugStatus status) {
+    public static void setDebugStatus(DebugStatus status)
+    {
         if (status == null) {
             throw new IllegalArgumentException("status cannot be null");
         }
         debugStatus = status;
     }
 
-    private interface WritableDebugStatus extends DebugStatus {
+    private interface WritableDebugStatus extends DebugStatus
+    {
         void setEnabled(boolean enabled);
+
         void setSensitive(boolean sensitive);
     }
 
-    private static class DefaultDebugStatus implements WritableDebugStatus {
+    private static class DefaultDebugStatus implements WritableDebugStatus
+    {
         private boolean enabled;
         private boolean sensitive;
 
         @Override
-        public boolean enabled() {
+        public boolean enabled()
+        {
             return enabled;
         }
 
         @Override
-        public boolean debugSensitive() {
+        public boolean debugSensitive()
+        {
             return sensitive;
         }
 
         @Override
-        public void setEnabled(boolean enabled) {
+        public void setEnabled(boolean enabled)
+        {
             this.enabled = enabled;
         }
 
         @Override
-        public void setSensitive(boolean sensitive) {
+        public void setSensitive(boolean sensitive)
+        {
             this.sensitive = sensitive;
         }
     }

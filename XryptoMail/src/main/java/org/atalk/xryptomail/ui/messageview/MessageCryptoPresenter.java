@@ -9,10 +9,9 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import org.atalk.xryptomail.Account;
-import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.mailstore.CryptoResultAnnotation;
 import org.atalk.xryptomail.mailstore.MessageViewInfo;

@@ -6,7 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
 import org.apache.commons.io.IOUtils;
@@ -20,7 +20,6 @@ import org.atalk.xryptomail.controller.MessagingControllerCommands.PendingComman
 import org.atalk.xryptomail.controller.PendingCommandSerializer;
 import org.atalk.xryptomail.helper.Utility;
 import org.atalk.xryptomail.mail.Body;
-import org.atalk.xryptomail.mail.BodyPart;
 import org.atalk.xryptomail.mail.FetchProfile;
 import org.atalk.xryptomail.mail.FetchProfile.Item;
 import org.atalk.xryptomail.mail.Flag;
@@ -94,8 +93,7 @@ public class LocalStore extends Store
     private static ConcurrentMap<String, LocalStore> sLocalStores = new ConcurrentHashMap<>();
 
     /*
-     * a String containing the columns getMessages expects to work with
-     * in the correct order.
+     * a String containing the columns getMessages expects to work with in the correct order.
      */
     static final String GET_MESSAGES_COLS = "subject, sender_list, date, uid, flags, messages.id, to_list, cc_list, " +
             "bcc_list, reply_to_list, attachment_count, internal_date, messages.message_id, " +
@@ -285,23 +283,18 @@ public class LocalStore extends Store
         final StorageManager storageManager = StorageManager.getInstance(mContext);
         final File attachmentDirectory = storageManager.getAttachmentDirectory(mAccountUuid,
                 database.getStorageProviderId());
-        return database.execute(false, new DbCallback<Long>()
-        {
-            @Override
-            public Long doDbWork(final SQLiteDatabase db)
-            {
-                final File[] files = attachmentDirectory.listFiles();
-                long attachmentLength = 0;
-                if (files != null) {
-                    for (File file : files) {
-                        if (file.exists()) {
-                            attachmentLength += file.length();
-                        }
+        return database.execute(false, db -> {
+            final File[] files = attachmentDirectory.listFiles();
+            long attachmentLength = 0;
+            if (files != null) {
+                for (File file : files) {
+                    if (file.exists()) {
+                        attachmentLength += file.length();
                     }
                 }
-                final File dbFile = storageManager.getDatabase(mAccountUuid, database.getStorageProviderId());
-                return dbFile.length() + attachmentLength;
             }
+            final File dbFile = storageManager.getDatabase(mAccountUuid, database.getStorageProviderId());
+            return dbFile.length() + attachmentLength;
         });
     }
 
@@ -312,15 +305,9 @@ public class LocalStore extends Store
             Timber.i("Before compaction size = %d", getSize());
         }
 
-        database.execute(false, new DbCallback<Void>()
-        {
-            @Override
-            public Void doDbWork(final SQLiteDatabase db)
-                    throws WrappedException
-            {
-                db.execSQL("VACUUM");
-                return null;
-            }
+        database.execute(false, (DbCallback<Void>) db -> {
+            db.execSQL("VACUUM");
+            return null;
         });
 
         if (XryptoMail.isDebug()) {
@@ -343,23 +330,18 @@ public class LocalStore extends Store
             Timber.i("After prune / before clear size = %d", getSize());
         }
 
-        database.execute(false, new DbCallback<Void>()
-        {
-            @Override
-            public Void doDbWork(final SQLiteDatabase db)
-            {
-                // We don't care about threads of deleted messages, so delete the whole table.
-                db.delete("threads", null, null);
+        database.execute(false, (DbCallback<Void>) db -> {
+            // We don't care about threads of deleted messages, so delete the whole table.
+            db.delete("threads", null, null);
 
-                // Don't delete deleted messages. They are essentially placeholders for UIDs of
-                // messages that have been deleted locally.
-                db.delete("messages", "deleted = 0", null);
+            // Don't delete deleted messages. They are essentially placeholders for UIDs of
+            // messages that have been deleted locally.
+            db.delete("messages", "deleted = 0", null);
 
-                // We don't need the search data now either
-                db.delete("messages_fulltext", null, null);
+            // We don't need the search data now either
+            db.delete("messages_fulltext", null, null);
 
-                return null;
-            }
+            return null;
         });
 
         compact();
@@ -372,19 +354,14 @@ public class LocalStore extends Store
     private int getMessageCount()
             throws MessagingException
     {
-        return database.execute(false, new DbCallback<Integer>()
-        {
-            @Override
-            public Integer doDbWork(final SQLiteDatabase db)
-            {
-                Cursor cursor = null;
-                try {
-                    cursor = db.rawQuery("SELECT COUNT(*) FROM messages", null);
-                    cursor.moveToFirst();
-                    return cursor.getInt(0); // message count
-                } finally {
-                    Utility.closeQuietly(cursor);
-                }
+        return database.execute(false, db -> {
+            Cursor cursor = null;
+            try {
+                cursor = db.rawQuery("SELECT COUNT(*) FROM messages", null);
+                cursor.moveToFirst();
+                return cursor.getInt(0); // message count
+            } finally {
+                Utility.closeQuietly(cursor);
             }
         });
     }
@@ -392,19 +369,14 @@ public class LocalStore extends Store
     private int getFolderCount()
             throws MessagingException
     {
-        return database.execute(false, new DbCallback<Integer>()
-        {
-            @Override
-            public Integer doDbWork(final SQLiteDatabase db)
-            {
-                Cursor cursor = null;
-                try {
-                    cursor = db.rawQuery("SELECT COUNT(*) FROM folders", null);
-                    cursor.moveToFirst();
-                    return cursor.getInt(0); // folder count
-                } finally {
-                    Utility.closeQuietly(cursor);
-                }
+        return database.execute(false, db -> {
+            Cursor cursor = null;
+            try {
+                cursor = db.rawQuery("SELECT COUNT(*) FROM folders", null);
+                cursor.moveToFirst();
+                return cursor.getInt(0); // folder count
+            } finally {
+                Utility.closeQuietly(cursor);
             }
         });
     }
@@ -420,32 +392,25 @@ public class LocalStore extends Store
     {
         final List<LocalFolder> folders = new LinkedList<>();
         try {
-            database.execute(false, new DbCallback<List<? extends Folder>>()
-            {
-                @Override
-                public List<? extends Folder> doDbWork(final SQLiteDatabase db)
-                        throws WrappedException
-                {
-                    Cursor cursor = null;
-
-                    try {
-                        cursor = db.rawQuery("SELECT " + GET_FOLDER_COLS + " FROM folders " +
-                                "ORDER BY name ASC", null);
-                        while (cursor.moveToNext()) {
-                            if (cursor.isNull(FOLDER_ID_INDEX)) {
-                                continue;
-                            }
-                            String folderName = cursor.getString(FOLDER_NAME_INDEX);
-                            LocalFolder folder = new LocalFolder(LocalStore.this, folderName);
-                            folder.open(cursor);
-                            folders.add(folder);
+            database.execute(false, (DbCallback<List<? extends Folder>>) db -> {
+                Cursor cursor = null;
+                try {
+                    cursor = db.rawQuery("SELECT " + GET_FOLDER_COLS + " FROM folders " +
+                            "ORDER BY name ASC", null);
+                    while (cursor.moveToNext()) {
+                        if (cursor.isNull(FOLDER_ID_INDEX)) {
+                            continue;
                         }
-                        return folders;
-                    } catch (MessagingException e) {
-                        throw new WrappedException(e);
-                    } finally {
-                        Utility.closeQuietly(cursor);
+                        String folderName = cursor.getString(FOLDER_NAME_INDEX);
+                        LocalFolder folder = new LocalFolder(LocalStore.this, folderName);
+                        folder.open(cursor);
+                        folders.add(folder);
                     }
+                    return folders;
+                } catch (MessagingException e) {
+                    throw new WrappedException(e);
+                } finally {
+                    Utility.closeQuietly(cursor);
                 }
             });
         } catch (WrappedException e) {
@@ -482,17 +447,11 @@ public class LocalStore extends Store
     private void markAllMessagePartsDataAsMissing()
             throws MessagingException
     {
-        database.execute(false, new DbCallback<Void>()
-        {
-            @Override
-            public Void doDbWork(final SQLiteDatabase db)
-                    throws WrappedException
-            {
-                ContentValues cv = new ContentValues();
-                cv.put("data_location", DataLocation.MISSING);
-                db.update("message_parts", cv, null, null);
-                return null;
-            }
+        database.execute(false, (DbCallback<Void>) db -> {
+            ContentValues cv = new ContentValues();
+            cv.put("data_location", DataLocation.MISSING);
+            db.update("message_parts", cv, null, null);
+            return null;
         });
     }
 
@@ -518,45 +477,33 @@ public class LocalStore extends Store
         final ContentValues cv = new ContentValues();
         cv.put("visible_limit", Integer.toString(visibleLimit));
         cv.put("more_messages", MoreMessages.UNKNOWN.getDatabaseName());
-        database.execute(false, new DbCallback<Void>()
-        {
-            @Override
-            public Void doDbWork(final SQLiteDatabase db)
-                    throws WrappedException
-            {
-                db.update("folders", cv, null, null);
-                return null;
-            }
+        database.execute(false, (DbCallback<Void>) db -> {
+            db.update("folders", cv, null, null);
+            return null;
         });
     }
 
     public List<PendingCommand> getPendingCommands()
             throws MessagingException
     {
-        return database.execute(false, new DbCallback<List<PendingCommand>>()
-        {
-            @Override
-            public List<PendingCommand> doDbWork(final SQLiteDatabase db)
-                    throws WrappedException
-            {
-                Cursor cursor = null;
-                try {
-                    cursor = db.query("pending_commands",
-                            new String[]{"id", "command", "data"},
-                            null, null, null, null,
-                            "id ASC");
-                    List<PendingCommand> commands = new ArrayList<>();
-                    while (cursor.moveToNext()) {
-                        long databaseId = cursor.getLong(0);
-                        String commandName = cursor.getString(1);
-                        String data = cursor.getString(2);
-                        PendingCommand command = pendingCommandSerializer.unserialize(databaseId, commandName, data);
-                        commands.add(command);
-                    }
-                    return commands;
-                } finally {
-                    Utility.closeQuietly(cursor);
+        return database.execute(false, db -> {
+            Cursor cursor = null;
+            try {
+                cursor = db.query("pending_commands",
+                        new String[]{"id", "command", "data"},
+                        null, null, null, null,
+                        "id ASC");
+                List<PendingCommand> commands = new ArrayList<>();
+                while (cursor.moveToNext()) {
+                    long databaseId = cursor.getLong(0);
+                    String commandName = cursor.getString(1);
+                    String data = cursor.getString(2);
+                    PendingCommand command = pendingCommandSerializer.unserialize(databaseId, commandName, data);
+                    commands.add(command);
                 }
+                return commands;
+            } finally {
+                Utility.closeQuietly(cursor);
             }
         });
     }
@@ -567,45 +514,27 @@ public class LocalStore extends Store
         final ContentValues cv = new ContentValues();
         cv.put("command", command.getCommandName());
         cv.put("data", pendingCommandSerializer.serialize(command));
-        database.execute(false, new DbCallback<Void>()
-        {
-            @Override
-            public Void doDbWork(final SQLiteDatabase db)
-                    throws WrappedException
-            {
-                db.insert("pending_commands", "command", cv);
-                return null;
-            }
+        database.execute(false, (DbCallback<Void>) db -> {
+            db.insert("pending_commands", "command", cv);
+            return null;
         });
     }
 
     public void removePendingCommand(final PendingCommand command)
             throws MessagingException
     {
-        database.execute(false, new DbCallback<Void>()
-        {
-            @Override
-            public Void doDbWork(final SQLiteDatabase db)
-                    throws WrappedException
-            {
-                db.delete("pending_commands", "id = ?", new String[]{Long.toString(command.databaseId)});
-                return null;
-            }
+        database.execute(false, (DbCallback<Void>) db -> {
+            db.delete("pending_commands", "id = ?", new String[]{Long.toString(command.databaseId)});
+            return null;
         });
     }
 
     public void removePendingCommands()
             throws MessagingException
     {
-        database.execute(false, new DbCallback<Void>()
-        {
-            @Override
-            public Void doDbWork(final SQLiteDatabase db)
-                    throws WrappedException
-            {
-                db.delete("pending_commands", null, null);
-                return null;
-            }
+        database.execute(false, (DbCallback<Void>) db -> {
+            db.delete("pending_commands", null, null);
+            return null;
         });
     }
 
@@ -631,7 +560,7 @@ public class LocalStore extends Store
         // Avoid "ambiguous column name" error by prefixing "id" with the message table name
         String where = SqlQueryBuilder.addPrefixToSelection(new String[]{"id"}, "messages.", query.toString());
 
-        String[] selectionArgs = queryArgs.toArray(new String[queryArgs.size()]);
+        String[] selectionArgs = queryArgs.toArray(new String[0]);
 
         String sqlQuery = "SELECT " + GET_MESSAGES_COLS + "FROM messages " +
                 "LEFT JOIN threads ON (threads.message_id = messages.id) " +
@@ -656,47 +585,41 @@ public class LocalStore extends Store
             throws MessagingException
     {
         final List<LocalMessage> messages = new ArrayList<>();
-        final int j = database.execute(false, new DbCallback<Integer>()
-        {
-            @Override
-            public Integer doDbWork(final SQLiteDatabase db)
-                    throws WrappedException
-            {
-                Cursor cursor = null;
-                int i = 0;
-                try {
-                    cursor = db.rawQuery(queryString + " LIMIT 10", placeHolders);
+        final int j = database.execute(false, db -> {
+            Cursor cursor = null;
+            int i = 0;
+            try {
+                cursor = db.rawQuery(queryString + " LIMIT 10", placeHolders);
 
-                    while (cursor.moveToNext()) {
-                        LocalMessage message = new LocalMessage(LocalStore.this, null, folder);
-                        message.populateFromGetMessageCursor(cursor);
+                while (cursor.moveToNext()) {
+                    LocalMessage message = new LocalMessage(LocalStore.this, null, folder);
+                    message.populateFromGetMessageCursor(cursor);
 
-                        messages.add(message);
-                        if (listener != null) {
-                            listener.messageFinished(message, i, -1);
-                        }
-                        i++;
+                    messages.add(message);
+                    if (listener != null) {
+                        listener.messageFinished(message, i, -1);
                     }
-                    cursor.close();
-                    cursor = db.rawQuery(queryString + " LIMIT -1 OFFSET 10", placeHolders);
-
-                    while (cursor.moveToNext()) {
-                        LocalMessage message = new LocalMessage(LocalStore.this, null, folder);
-                        message.populateFromGetMessageCursor(cursor);
-
-                        messages.add(message);
-                        if (listener != null) {
-                            listener.messageFinished(message, i, -1);
-                        }
-                        i++;
-                    }
-                } catch (Exception e) {
-                    Timber.d(e, "Got an exception");
-                } finally {
-                    Utility.closeQuietly(cursor);
+                    i++;
                 }
-                return i;
+                cursor.close();
+                cursor = db.rawQuery(queryString + " LIMIT -1 OFFSET 10", placeHolders);
+
+                while (cursor.moveToNext()) {
+                    LocalMessage message = new LocalMessage(LocalStore.this, null, folder);
+                    message.populateFromGetMessageCursor(cursor);
+
+                    messages.add(message);
+                    if (listener != null) {
+                        listener.messageFinished(message, i, -1);
+                    }
+                    i++;
+                }
+            } catch (Exception e) {
+                Timber.d(e, "Got an exception");
+            } finally {
+                Utility.closeQuietly(cursor);
             }
+            return i;
         });
         if (listener != null) {
             listener.messagesFinished(j);
@@ -718,32 +641,23 @@ public class LocalStore extends Store
     public AttachmentInfo getAttachmentInfo(final String attachmentId)
             throws MessagingException
     {
-        return database.execute(false, new DbCallback<AttachmentInfo>()
-        {
-            @Override
-            public AttachmentInfo doDbWork(final SQLiteDatabase db)
-                    throws WrappedException
-            {
-                Cursor cursor = db.query("message_parts",
-                        new String[]{"display_name", "decoded_body_size", "mime_type"},
-                        "id = ?",
-                        new String[]{attachmentId},
-                        null, null, null);
-                try {
-                    if (!cursor.moveToFirst()) {
-                        return null;
-                    }
-                    String name = cursor.getString(0);
-                    long size = cursor.getLong(1);
-                    String mimeType = cursor.getString(2);
-                    final AttachmentInfo attachmentInfo = new AttachmentInfo();
-                    attachmentInfo.name = name;
-                    attachmentInfo.size = size;
-                    attachmentInfo.type = mimeType;
-                    return attachmentInfo;
-                } finally {
-                    cursor.close();
+        return database.execute(false, db -> {
+            try (Cursor cursor = db.query("message_parts",
+                    new String[]{"display_name", "decoded_body_size", "mime_type"},
+                    "id = ?",
+                    new String[]{attachmentId},
+                    null, null, null)) {
+                if (!cursor.moveToFirst()) {
+                    return null;
                 }
+                String name = cursor.getString(0);
+                long size = cursor.getLong(1);
+                String mimeType = cursor.getString(2);
+                final AttachmentInfo attachmentInfo = new AttachmentInfo();
+                attachmentInfo.name = name;
+                attachmentInfo.size = size;
+                attachmentInfo.type = mimeType;
+                return attachmentInfo;
             }
         });
     }
@@ -763,31 +677,24 @@ public class LocalStore extends Store
         };
     }
 
-    private void writeAttachmentDataToOutputStream(final String partId,
-            final OutputStream outputStream)
+    private void writeAttachmentDataToOutputStream(final String partId, final OutputStream outputStream)
             throws IOException
     {
         try {
-            database.execute(false, new DbCallback<Void>()
-            {
-                @Override
-                public Void doDbWork(final SQLiteDatabase db)
-                        throws WrappedException, MessagingException
-                {
-                    Cursor cursor = db.query("message_parts",
-                            GET_ATTACHMENT_COLS,
-                            "id = ?", new String[]{partId},
-                            null, null, null);
-                    try {
-                        writeCursorPartsToOutputStream(db, cursor, outputStream);
-                    } catch (IOException e) {
-                        throw new WrappedException(e);
-                    } finally {
-                        Utility.closeQuietly(cursor);
-                    }
-
-                    return null;
+            database.execute(false, (DbCallback<Void>) db -> {
+                Cursor cursor = db.query("message_parts",
+                        GET_ATTACHMENT_COLS,
+                        "id = ?", new String[]{partId},
+                        null, null, null);
+                try {
+                    writeCursorPartsToOutputStream(db, cursor, outputStream);
+                } catch (IOException e) {
+                    throw new WrappedException(e);
+                } finally {
+                    Utility.closeQuietly(cursor);
                 }
+
+                return null;
             });
         } catch (MessagingException e) {
             throw new IOException("Got a MessagingException while writing attachment data!", e);
@@ -861,9 +768,7 @@ public class LocalStore extends Store
             Body body = part.getBody();
             if (body instanceof Multipart) {
                 Multipart innerMultipart = (Multipart) body;
-                for (BodyPart innerPart : innerMultipart.getBodyParts()) {
-                    partStack.add(innerPart);
-                }
+                partStack.addAll(innerMultipart.getBodyParts());
             }
             if (body instanceof Part) {
                 partStack.add((Part) body);
@@ -995,55 +900,49 @@ public class LocalStore extends Store
     public void createFolders(final List<LocalFolder> foldersToCreate, final int visibleLimit)
             throws MessagingException
     {
-        database.execute(true, new DbCallback<Void>()
-        {
-            @Override
-            public Void doDbWork(final SQLiteDatabase db)
-                    throws WrappedException
-            {
-                for (LocalFolder folder : foldersToCreate) {
-                    String name = folder.getName();
-                    final LocalFolder.PreferencesHolder prefHolder = folder.new PreferencesHolder();
+        database.execute(true, (DbCallback<Void>) db -> {
+            for (LocalFolder folder : foldersToCreate) {
+                String name = folder.getServerId();
+                final LocalFolder.PreferencesHolder prefHolder = folder.new PreferencesHolder();
 
-                    // When created, special folders should always be displayed inbox should be integrated
-                    // and the inbox and drafts folders should be syncced by default
-                    if (mAccount.isSpecialFolder(name)) {
-                        prefHolder.inTopGroup = true;
-                        prefHolder.displayClass = LocalFolder.FolderClass.FIRST_CLASS;
-                        if (name.equalsIgnoreCase(mAccount.getInboxFolderName())) {
-                            prefHolder.integrate = true;
-                            prefHolder.notifyClass = LocalFolder.FolderClass.FIRST_CLASS;
-                            prefHolder.pushClass = LocalFolder.FolderClass.FIRST_CLASS;
-                        }
-                        else {
-                            prefHolder.pushClass = LocalFolder.FolderClass.INHERITED;
-
-                        }
-                        if (name.equalsIgnoreCase(mAccount.getInboxFolderName()) || name.equals(mAccount.getDraftsFolderName())) {
-                            prefHolder.syncClass = LocalFolder.FolderClass.FIRST_CLASS;
-                        }
-                        else {
-                            prefHolder.syncClass = LocalFolder.FolderClass.NO_CLASS;
-                        }
+                // When created, special folders should always be displayed inbox should be integrated
+                // and the inbox and drafts folders should be syncced by default
+                if (mAccount.isSpecialFolder(name)) {
+                    prefHolder.inTopGroup = true;
+                    prefHolder.displayClass = LocalFolder.FolderClass.FIRST_CLASS;
+                    if (name.equalsIgnoreCase(mAccount.getInboxFolder())) {
+                        prefHolder.integrate = true;
+                        prefHolder.notifyClass = LocalFolder.FolderClass.FIRST_CLASS;
+                        prefHolder.pushClass = LocalFolder.FolderClass.FIRST_CLASS;
                     }
-                    folder.refresh(name, prefHolder); // Recover settings from Preferences
+                    else {
+                        prefHolder.pushClass = LocalFolder.FolderClass.INHERITED;
 
-                    db.execSQL("INSERT INTO folders (name, visible_limit, top_group, display_class, poll_class, " +
-                                    "notify_class, push_class, integrate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                            new Object[]{
-                                    name,
-                                    visibleLimit,
-                                    prefHolder.inTopGroup ? 1 : 0,
-                                    prefHolder.displayClass.name(),
-                                    prefHolder.syncClass.name(),
-                                    prefHolder.notifyClass.name(),
-                                    prefHolder.pushClass.name(),
-                                    prefHolder.integrate ? 1 : 0,
-                            });
-
+                    }
+                    if (name.equalsIgnoreCase(mAccount.getInboxFolder()) || name.equals(mAccount.getDraftsFolderName())) {
+                        prefHolder.syncClass = LocalFolder.FolderClass.FIRST_CLASS;
+                    }
+                    else {
+                        prefHolder.syncClass = LocalFolder.FolderClass.NO_CLASS;
+                    }
                 }
-                return null;
+                folder.refresh(name, prefHolder); // Recover settings from Preferences
+
+                db.execSQL("INSERT INTO folders (name, visible_limit, top_group, display_class, poll_class, " +
+                                "notify_class, push_class, integrate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                        new Object[]{
+                                name,
+                                visibleLimit,
+                                prefHolder.inTopGroup ? 1 : 0,
+                                prefHolder.displayClass.name(),
+                                prefHolder.syncClass.name(),
+                                prefHolder.notifyClass.name(),
+                                prefHolder.pushClass.name(),
+                                prefHolder.integrate ? 1 : 0,
+                        });
+
             }
+            return null;
         });
     }
 
@@ -1134,16 +1033,9 @@ public class LocalStore extends Store
             selection.append(")");
 
             try {
-                database.execute(true, new DbCallback<Void>()
-                {
-                    @Override
-                    public Void doDbWork(final SQLiteDatabase db)
-                            throws WrappedException, UnavailableStorageException
-                    {
-                        selectionCallback.doDbWork(db, selection.toString(),
-                                selectionArgs.toArray(new String[selectionArgs.size()]));
-                        return null;
-                    }
+                database.execute(true, (DbCallback<Void>) db -> {
+                    selectionCallback.doDbWork(db, selection.toString(), selectionArgs.toArray(new String[0]));
+                    return null;
                 });
                 selectionCallback.postDbWork();
             } catch (WrappedException e) {

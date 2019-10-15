@@ -4,21 +4,21 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.view.HighlightDialogFragment;
 
-public class PgpInlineDialog extends HighlightDialogFragment {
+public class PgpInlineDialog extends HighlightDialogFragment
+{
     public static final String ARG_FIRST_TIME = "first_time";
 
 
-    public static PgpInlineDialog newInstance(boolean firstTime, @IdRes int showcaseView) {
+    public static PgpInlineDialog newInstance(boolean firstTime, @IdRes int showcaseView)
+    {
         PgpInlineDialog dialog = new PgpInlineDialog();
 
         Bundle args = new Bundle();
@@ -30,7 +30,8 @@ public class PgpInlineDialog extends HighlightDialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
         Activity activity = getActivity();
 
         @SuppressLint("InflateParams")
@@ -41,7 +42,8 @@ public class PgpInlineDialog extends HighlightDialogFragment {
 
         if (getArguments().getInt(ARG_FIRST_TIME) != 0) {
             builder.setPositiveButton(R.string.openpgp_inline_ok, (dialog, which) -> dialog.dismiss());
-        } else {
+        }
+        else {
             builder.setPositiveButton(R.string.openpgp_inline_disable, (dialog, which) -> {
                 Activity activity1 = getActivity();
                 if (activity1 == null) {
@@ -57,7 +59,8 @@ public class PgpInlineDialog extends HighlightDialogFragment {
         return builder.create();
     }
 
-    public interface OnOpenPgpInlineChangeListener {
+    public interface OnOpenPgpInlineChangeListener
+    {
         void onOpenPgpInlineChange(boolean enabled);
     }
 

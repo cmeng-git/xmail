@@ -4,18 +4,18 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.view.HighlightDialogFragment;
 
-public class PgpEncryptDescriptionDialog extends HighlightDialogFragment {
-    public static PgpEncryptDescriptionDialog newInstance(@IdRes int showcaseView) {
+public class PgpEncryptDescriptionDialog extends HighlightDialogFragment
+{
+    public static PgpEncryptDescriptionDialog newInstance(@IdRes int showcaseView)
+    {
         PgpEncryptDescriptionDialog dialog = new PgpEncryptDescriptionDialog();
 
         Bundle args = new Bundle();
@@ -26,7 +26,8 @@ public class PgpEncryptDescriptionDialog extends HighlightDialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
         Activity activity = getActivity();
 
         @SuppressLint("InflateParams")

@@ -75,7 +75,6 @@ public class MergeCursor implements Cursor {
     public MergeCursor(Cursor[] cursors, Comparator<Cursor> comparator) {
         mCursors = cursors.clone();
         mComparator = comparator;
-
         resetCursors();
     }
 
@@ -219,18 +218,12 @@ public class MergeCursor implements Cursor {
     @Override
     public boolean isAfterLast() {
         int count = getCount();
-        if (count == 0) {
-            return true;
-        }
-        return (mPosition == count);
+        return count == 0 || mPosition == count;
     }
 
     @Override
     public boolean isBeforeFirst() {
-        if (getCount() == 0) {
-            return true;
-        }
-        return (mPosition == -1);
+        return getCount() == 0 || mPosition == -1;
     }
 
     @Override
@@ -240,20 +233,13 @@ public class MergeCursor implements Cursor {
 
     @Override
     public boolean isFirst() {
-        if (getCount() == 0) {
-            return false;
-        }
-
-        return (mPosition == 0);
+        return getCount() != 0 && mPosition == 0;
     }
 
     @Override
     public boolean isLast() {
         int count = getCount();
-        if (count == 0) {
-            return false;
-        }
-        return (mPosition == (count - 1));
+        return count != 0 && mPosition == count - 1;
     }
 
     @Override
@@ -421,7 +407,6 @@ public class MergeCursor implements Cursor {
         for (Cursor cursor : mCursors) {
             success &= cursor.requery();
         }
-
         return success;
     }
 

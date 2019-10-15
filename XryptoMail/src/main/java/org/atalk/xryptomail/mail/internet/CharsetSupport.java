@@ -19,7 +19,7 @@ public class CharsetSupport
 {
     /**
      * Table for character set fall-back.
-     * <p>
+     *
      * Table format: unsupported charset (regular expression), fall-back charset
      */
     private static final String[][] CHARSET_FALLBACK_MAP = new String[][]{
@@ -31,7 +31,6 @@ public class CharsetSupport
     };
 
     public static void setCharset(String charset, Part part)
-            throws MessagingException
     {
         part.setHeader(MimeHeader.HEADER_CONTENT_TYPE,
                 part.getMimeType() + ";\r\n charset=" + getExternalCharset(charset));

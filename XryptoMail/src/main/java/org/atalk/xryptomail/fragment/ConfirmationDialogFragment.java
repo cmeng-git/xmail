@@ -7,8 +7,7 @@ import android.os.Bundle;
 
 import timber.log.Timber;
 
-public class ConfirmationDialogFragment extends DialogFragment implements OnClickListener,
-        OnCancelListener {
+public class ConfirmationDialogFragment extends DialogFragment implements OnClickListener, OnCancelListener {
     private ConfirmationDialogFragmentListener mListener;
 
     private static final String ARG_DIALOG_ID = "dialog_id";

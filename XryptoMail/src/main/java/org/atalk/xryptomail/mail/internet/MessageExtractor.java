@@ -1,14 +1,30 @@
 package org.atalk.xryptomail.mail.internet;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.apache.commons.io.input.BoundedInputStream;
-import org.atalk.xryptomail.mail.*;
-import org.atalk.xryptomail.mail.internet.Viewable.*;
+import org.atalk.xryptomail.mail.Body;
+import org.atalk.xryptomail.mail.BodyPart;
+import org.atalk.xryptomail.mail.Message;
+import org.atalk.xryptomail.mail.MessagingException;
+import org.atalk.xryptomail.mail.Multipart;
+import org.atalk.xryptomail.mail.Part;
+import org.atalk.xryptomail.mail.internet.Viewable.Alternative;
+import org.atalk.xryptomail.mail.internet.Viewable.Flowed;
+import org.atalk.xryptomail.mail.internet.Viewable.Html;
+import org.atalk.xryptomail.mail.internet.Viewable.MessageHeader;
+import org.atalk.xryptomail.mail.internet.Viewable.Text;
+import org.atalk.xryptomail.mail.internet.Viewable.Textual;
 
-import java.io.*;
-import java.util.*;
-import java.util.regex.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import timber.log.Timber;
 
@@ -17,16 +33,21 @@ import static org.atalk.xryptomail.mail.internet.FlowedMessageUtils.isFormatFlow
 import static org.atalk.xryptomail.mail.internet.MimeUtility.getHeaderParameter;
 import static org.atalk.xryptomail.mail.internet.MimeUtility.isSameMimeType;
 
-public class MessageExtractor {
+public class MessageExtractor
+{
     public static final long NO_TEXT_SIZE_LIMIT = -1L;
 
-    private MessageExtractor() {}
+    private MessageExtractor()
+    {
+    }
 
-    public static String getTextFromPart(Part part) {
+    public static String getTextFromPart(Part part)
+    {
         return getTextFromPart(part, NO_TEXT_SIZE_LIMIT);
     }
 
-    public static String getTextFromPart(Part part, long textSizeLimit) {
+    public static String getTextFromPart(Part part, long textSizeLimit)
+    {
         try {
             if ((part != null) && (part.getBody() != null)) {
                 final Body body = part.getBody();
@@ -37,10 +58,12 @@ public class MessageExtractor {
                 if (mimeType != null && MimeUtility.mimeTypeMatches(mimeType, "text/*") ||
                         part.isMimeType("application/pgp")) {
                     return getTextFromTextPart(part, body, mimeType, textSizeLimit);
-                } else {
+                }
+                else {
                     throw new MessagingException("Provided non-text part: " + mimeType);
                 }
-            } else {
+            }
+            else {
                 throw new MessagingException("Provided invalid part");
             }
         } catch (IOException e) {
@@ -52,7 +75,8 @@ public class MessageExtractor {
     }
 
     private static String getTextFromTextPart(Part part, Body body, String mimeType, long textSizeLimit)
-            throws IOException, MessagingException {
+            throws IOException, MessagingException
+    {
         /*
          * We've got a text part, so let's see if it needs to be processed further.
          */
@@ -98,7 +122,8 @@ public class MessageExtractor {
         }
     }
 
-    public static boolean hasMissingParts(Part part) {
+    public static boolean hasMissingParts(Part part)
+    {
         Body body = part.getBody();
         if (body == null) {
             return true;
@@ -115,10 +140,13 @@ public class MessageExtractor {
     }
 
 
-    /** Traverse the MIME tree of a message and extract viewable parts. */
+    /**
+     * Traverse the MIME tree of a message and extract viewable parts.
+     */
     public static void findViewablesAndAttachments(Part part,
-                @Nullable List<Viewable> outputViewableParts, @Nullable List<Part> outputNonViewableParts)
-            throws MessagingException {
+            @Nullable List<Viewable> outputViewableParts, @Nullable List<Part> outputNonViewableParts)
+            throws MessagingException
+    {
         boolean skipSavingNonViewableParts = outputNonViewableParts == null;
         boolean skipSavingViewableParts = outputViewableParts == null;
         if (skipSavingNonViewableParts && skipSavingViewableParts) {
@@ -145,18 +173,21 @@ public class MessageExtractor {
                     Alternative alternative = new Alternative(text, html);
                     outputViewableParts.add(alternative);
                 }
-            } else if (isSameMimeType(part.getMimeType(), "multipart/signed")) {
+            }
+            else if (isSameMimeType(part.getMimeType(), "multipart/signed")) {
                 if (multipart.getCount() > 0) {
                     BodyPart bodyPart = multipart.getBodyPart(0);
                     findViewablesAndAttachments(bodyPart, outputViewableParts, outputNonViewableParts);
                 }
-            } else {
+            }
+            else {
                 // For all other multipart parts we recurse to grab all viewable children.
                 for (Part bodyPart : multipart.getBodyParts()) {
                     findViewablesAndAttachments(bodyPart, outputViewableParts, outputNonViewableParts);
                 }
             }
-        } else if (body instanceof Message &&
+        }
+        else if (body instanceof Message &&
                 !("attachment".equalsIgnoreCase(getContentDisposition(part)))) {
             if (skipSavingViewableParts) {
                 return;
@@ -172,7 +203,8 @@ public class MessageExtractor {
 
             // Recurse to grab all viewable parts and attachments from that message.
             findViewablesAndAttachments(message, outputViewableParts, outputNonViewableParts);
-        } else if (isPartTextualBody(part)) {
+        }
+        else if (isPartTextualBody(part)) {
             if (skipSavingViewableParts) {
                 return;
             }
@@ -182,16 +214,20 @@ public class MessageExtractor {
                 if (isFormatFlowed(part.getContentType())) {
                     boolean delSp = FlowedMessageUtils.isDelSp(part.getContentType());
                     viewable = new Flowed(part, delSp);
-                } else {
+                }
+                else {
                     viewable = new Text(part);
                 }
-            } else {
+            }
+            else {
                 viewable = new Html(part);
             }
             outputViewableParts.add(viewable);
-        } else if (isSameMimeType(part.getMimeType(), "application/pgp-signature")) {
+        }
+        else if (isSameMimeType(part.getMimeType(), "application/pgp-signature")) {
             // ignore this type explicitly
-        } else {
+        }
+        else {
             if (skipSavingNonViewableParts) {
                 return;
             }
@@ -200,7 +236,8 @@ public class MessageExtractor {
         }
     }
 
-    public static Set<Part> getTextParts(Part part) throws MessagingException {
+    public static Set<Part> getTextParts(Part part) throws MessagingException
+    {
         List<Viewable> viewableParts = new ArrayList<>();
         List<Part> nonViewableParts = new ArrayList<>();
         findViewablesAndAttachments(part, viewableParts, nonViewableParts);
@@ -209,10 +246,12 @@ public class MessageExtractor {
 
     /**
      * Collect attachment parts of a message.
+     *
      * @return A list of parts regarded as attachments.
      * @throws MessagingException In case of an error.
      */
-    public static List<Part> collectAttachments(Message message) throws MessagingException {
+    public static List<Part> collectAttachments(Message message) throws MessagingException
+    {
         try {
             List<Part> attachments = new ArrayList<>();
             findViewablesAndAttachments(message, new ArrayList<Viewable>(), attachments);
@@ -224,10 +263,12 @@ public class MessageExtractor {
 
     /**
      * Collect the viewable textual parts of a message.
+     *
      * @return A set of viewable parts of the message.
      * @throws MessagingException In case of an error.
      */
-    public static Set<Part> collectTextParts(Message message) throws MessagingException {
+    public static Set<Part> collectTextParts(Message message) throws MessagingException
+    {
         try {
             return getTextParts(message);
         } catch (Exception e) {
@@ -235,15 +276,16 @@ public class MessageExtractor {
         }
     }
 
-    private static Message getMessageFromPart(Part part) {
+    private static Message getMessageFromPart(Part part)
+    {
         while (part != null) {
             if (part instanceof Message)
-                return (Message)part;
+                return (Message) part;
 
             if (!(part instanceof BodyPart))
                 return null;
 
-            Multipart multipart = ((BodyPart)part).getParent();
+            Multipart multipart = ((BodyPart) part).getParent();
             if (multipart == null)
                 return null;
 
@@ -257,15 +299,13 @@ public class MessageExtractor {
      *
      * @param multipart The {@code Multipart} to search through.
      * @param directChild If {@code true}, this method will return after the first {@code text/plain} was
-     *         found.
-     *
+     * found.
      * @return A list of {@link Text} viewables.
-     *
-     * @throws MessagingException
-     *          In case of an error.
+     * @throws MessagingException In case of an error.
      */
     private static List<Viewable> findTextPart(Multipart multipart, boolean directChild)
-            throws MessagingException {
+            throws MessagingException
+    {
         List<Viewable> viewables = new ArrayList<>();
 
         for (Part part : multipart.getBodyParts()) {
@@ -292,7 +332,8 @@ public class MessageExtractor {
                         break;
                     }
                 }
-            } else if (isPartTextualBody(part) && isSameMimeType(part.getMimeType(), "text/plain")) {
+            }
+            else if (isPartTextualBody(part) && isSameMimeType(part.getMimeType(), "text/plain")) {
                 Text text = new Text(part);
                 viewables.add(text);
                 if (directChild) {
@@ -311,14 +352,13 @@ public class MessageExtractor {
      * @param knownTextParts A set of {@code text/plain} parts that shouldn't be added to 'attachments'.
      * @param outputNonViewableParts A list that will receive the parts that are considered attachments.
      * @param directChild If {@code true}, this method will add all {@code text/html} parts except the first
-     *         found to 'attachments'.
-     *
+     * found to 'attachments'.
      * @return A list of {@link Text} viewables.
-     *
      * @throws MessagingException In case of an error.
      */
     private static List<Viewable> findHtmlPart(Multipart multipart, Set<Part> knownTextParts,
-            @Nullable List<Part> outputNonViewableParts, boolean directChild) throws MessagingException {
+            @Nullable List<Part> outputNonViewableParts, boolean directChild) throws MessagingException
+    {
         boolean saveNonViewableParts = outputNonViewableParts != null;
         List<Viewable> viewables = new ArrayList<>();
 
@@ -333,7 +373,8 @@ public class MessageExtractor {
                         // We already found our text/html part. Now we're only looking for attachments.
                         findAttachments(innerMultipart, knownTextParts, outputNonViewableParts);
                     }
-                } else {
+                }
+                else {
                     /*
                      * Recurse to find HTML parts. Since this is a multipart that is a child of a
                      * multipart/alternative we don't want to stop after the first text/html part
@@ -354,14 +395,16 @@ public class MessageExtractor {
                         viewables.addAll(htmlViewables);
                     }
                 }
-            } else if (!(directChild && partFound) && isPartTextualBody(part)
-            		&& isSameMimeType(part.getMimeType(), "text/html")) {
+            }
+            else if (!(directChild && partFound) && isPartTextualBody(part)
+                    && isSameMimeType(part.getMimeType(), "text/html")) {
                 Html html = new Html(part);
                 viewables.add(html);
                 partFound = true;
-            } else if (!knownTextParts.contains(part)) {
+            }
+            else if (!knownTextParts.contains(part)) {
                 if (saveNonViewableParts) {
-                // Only add this part as attachment if it's not a viewable text/plain part found earlier.
+                    // Only add this part as attachment if it's not a viewable text/plain part found earlier.
                     outputNonViewableParts.add(part);
                 }
             }
@@ -372,21 +415,20 @@ public class MessageExtractor {
     /**
      * Traverse the MIME tree and add everything that's not a known text part to 'attachments'.
      *
-     * @param multipart
-     *         The {@link Multipart} to start from.
-     * @param knownTextParts
-     *         A set of known text parts we don't want to end up in 'attachments'.
-     * @param attachments
-     *         A list that will receive the parts that are considered attachments.
+     * @param multipart The {@link Multipart} to start from.
+     * @param knownTextParts A set of known text parts we don't want to end up in 'attachments'.
+     * @param attachments A list that will receive the parts that are considered attachments.
      */
     private static void findAttachments(Multipart multipart, Set<Part> knownTextParts,
-            @NonNull List<Part> attachments) {
+            @NonNull List<Part> attachments)
+    {
         for (Part part : multipart.getBodyParts()) {
             Body body = part.getBody();
             if (body instanceof Multipart) {
                 Multipart innerMultipart = (Multipart) body;
                 findAttachments(innerMultipart, knownTextParts, attachments);
-            } else if (!knownTextParts.contains(part)) {
+            }
+            else if (!knownTextParts.contains(part)) {
                 attachments.add(part);
             }
         }
@@ -395,22 +437,21 @@ public class MessageExtractor {
     /**
      * Build a set of message parts for fast lookups.
      *
-     * @param viewables
-     *         A list of {@link Viewable}s containing references to the message parts to include in
-     *         the set.
-     *
+     * @param viewables A list of {@link Viewable}s containing references to the message parts to include in
+     * the set.
      * @return The set of viewable {@code Part}s.
-     *
      * @see MessageExtractor#findHtmlPart(Multipart, Set, List, boolean)
      * @see MessageExtractor#findAttachments(Multipart, Set, List)
      */
-    private static Set<Part> getParts(List<Viewable> viewables) {
+    private static Set<Part> getParts(List<Viewable> viewables)
+    {
         Set<Part> parts = new HashSet<>();
 
         for (Viewable viewable : viewables) {
             if (viewable instanceof Textual) {
                 parts.add(((Textual) viewable).getPart());
-            } else if (viewable instanceof Alternative) {
+            }
+            else if (viewable instanceof Alternative) {
                 Alternative alternative = (Alternative) viewable;
                 parts.addAll(getParts(alternative.getText()));
                 parts.addAll(getParts(alternative.getHtml()));
@@ -419,7 +460,8 @@ public class MessageExtractor {
         return parts;
     }
 
-    private static Boolean isPartTextualBody(Part part) throws MessagingException {
+    private static Boolean isPartTextualBody(Part part) throws MessagingException
+    {
         String disposition = part.getDisposition();
         String dispositionType = null;
         String dispositionFilename = null;
@@ -429,14 +471,13 @@ public class MessageExtractor {
         }
 
         boolean isAttachmentDisposition = ("attachment".equalsIgnoreCase(dispositionType) || (dispositionFilename != null));
-        if (isAttachmentDisposition) {
-            return false;
-        }
-        return part.isMimeType("text/html") || part.isMimeType("text/plain") || part.isMimeType("application/pgp");
+        return !isAttachmentDisposition &&
+                (part.isMimeType("text/html") || part.isMimeType("text/plain") || part.isMimeType("application/pgp"));
 
     }
 
-    private static String getContentDisposition(Part part) {
+    private static String getContentDisposition(Part part)
+    {
         String disposition = part.getDisposition();
         if (disposition != null) {
             return MimeUtility.getHeaderParameter(disposition, null);

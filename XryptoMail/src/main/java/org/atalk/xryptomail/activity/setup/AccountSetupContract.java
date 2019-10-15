@@ -5,7 +5,7 @@ import java.security.cert.X509Certificate;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.activity.AccountConfig;

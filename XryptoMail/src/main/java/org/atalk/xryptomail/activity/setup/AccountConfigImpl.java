@@ -91,7 +91,7 @@ class AccountConfigImpl implements AccountConfig, Parcelable {
     }
 
     @Override
-    public boolean subscribedFoldersOnly() {
+    public boolean isSubscribedFoldersOnly() {
         return subscribedFoldersOnly;
     }
 
@@ -111,7 +111,7 @@ class AccountConfigImpl implements AccountConfig, Parcelable {
     }
 
     @Override
-    public String getInboxFolderName() {
+    public String getInboxFolder() {
         return inboxFolderName;
     }
 
@@ -131,12 +131,12 @@ class AccountConfigImpl implements AccountConfig, Parcelable {
     }
 
     @Override
-    public void setDraftsFolderName(String name) {
+    public void setDraftsFolder(String name) {
         draftsFolderName = name;
     }
 
     @Override
-    public void setTrashFolderName(String name) {
+    public void setTrashFolder(String name) {
         trashFolderName = name;
     }
 
@@ -146,17 +146,17 @@ class AccountConfigImpl implements AccountConfig, Parcelable {
     }
 
     @Override
-    public void setSentFolderName(String name) {
+    public void setSentFolder(String name) {
         sentFolderName = name;
     }
 
     @Override
-    public void setAutoExpandFolderName(String name) {
+    public void setAutoExpandFolder(String name) {
         autoExpandFolderName = name;
     }
 
     @Override
-    public void setInboxFolderName(String name) {
+    public void setInboxFolder(String name) {
         inboxFolderName = name;
     }
 
@@ -166,7 +166,7 @@ class AccountConfigImpl implements AccountConfig, Parcelable {
     }
 
     @Override
-    public boolean allowRemoteSearch() {
+    public boolean isAllowRemoteSearch() {
         return allowRemoteSearch;
     }
 
@@ -320,9 +320,9 @@ class AccountConfigImpl implements AccountConfig, Parcelable {
     }
 
     private void setupFolderNames(String domain) {
-        setDraftsFolderName(XryptoMail.getResString(R.string.special_mailbox_name_drafts));
-        setTrashFolderName(XryptoMail.getResString(R.string.special_mailbox_name_trash));
-        setSentFolderName(XryptoMail.getResString(R.string.special_mailbox_name_sent));
+        setDraftsFolder(XryptoMail.getResString(R.string.special_mailbox_name_drafts));
+        setTrashFolder(XryptoMail.getResString(R.string.special_mailbox_name_trash));
+        setSentFolder(XryptoMail.getResString(R.string.special_mailbox_name_sent));
         setArchiveFolderName(XryptoMail.getResString(R.string.special_mailbox_name_archive));
 
         // Yahoo! has a special folder for Spam, called "Bulk Mail".

@@ -28,7 +28,6 @@ class AddNotificationResult {
             throw new IllegalStateException("getNotificationId() can only be called when " +
                     "shouldCancelNotification() returns true");
         }
-
         return notificationHolder.notificationId;
     }
 

@@ -9,7 +9,6 @@ import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.IntentSender.SendIntentException;
@@ -19,8 +18,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.TypedValue;
@@ -985,9 +984,9 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
     }
 
-//	public void setXryptoMode(XryptoMode xryptoMode) {
-//		recipientPresenter.setXryptoMode(xryptoMode);
-//	}
+    //	public void setXryptoMode(XryptoMode xryptoMode) {
+    //		recipientPresenter.setXryptoMode(xryptoMode);
+    //	}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -1131,7 +1130,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
 
     private void openAutoExpandFolder()
     {
-        String folder = mAccount.getAutoExpandFolderName();
+        String folder = mAccount.getAutoExpandFolder();
         LocalSearch search = new LocalSearch(folder);
         search.addAccountUuid(mAccount.getUuid());
         search.addAllowedFolder(folder);
@@ -1502,13 +1501,13 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         {
             if (messageReference != null && messageReference.getFlag() != null) {
                 Timber.d("Setting referenced message (%s, %s) flag to %s",
-                        messageReference.getFolderName(),
+                        messageReference.getFolderServerId(),
                         messageReference.getUid(),
                         messageReference.getFlag());
 
                 final Account account = Preferences.getPreferences(context)
                         .getAccount(messageReference.getAccountUuid());
-                final String folderName = messageReference.getFolderName();
+                final String folderName = messageReference.getFolderServerId();
                 final String sourceMessageUid = messageReference.getUid();
                 MessagingController.getInstance(context).setFlag(account, folderName,
                         sourceMessageUid, messageReference.getFlag(), true);
@@ -1618,7 +1617,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
      */
     public void launchSendProgressDialog(final MimeMessage message)
     {
-        StringBuilder recipients =  new StringBuilder();
+        StringBuilder recipients = new StringBuilder();
 
         Address[] addresses = message.getRecipients(RecipientType.TO);
         for (Address address : addresses) {
@@ -1802,7 +1801,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
 
             Account sourceAccount = Preferences.getPreferences(MessageCompose.this)
                     .getAccount(relatedMessageReference.getAccountUuid());
-            String sourceFolder = relatedMessageReference.getFolderName();
+            String sourceFolder = relatedMessageReference.getFolderServerId();
             String sourceMessageUid = relatedMessageReference.getUid();
 
             boolean changedMessageIsCurrent =

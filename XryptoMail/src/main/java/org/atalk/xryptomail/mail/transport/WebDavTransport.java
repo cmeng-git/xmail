@@ -21,7 +21,6 @@ public class WebDavTransport extends Transport
             throws MessagingException
     {
         store = new WebDavStore(storeConfig, new WebDavHttpClient.WebDavHttpClientFactory());
-
         if (XryptoMailLib.isDebug())
             Timber.d(">>> New WebDavTransport creation complete");
     }
@@ -46,5 +45,9 @@ public class WebDavTransport extends Transport
             throws MessagingException
     {
         store.sendMessages(Collections.singletonList(message));
+    }
+
+    public void checkSettings() throws MessagingException {
+        store.checkSettings();
     }
 }

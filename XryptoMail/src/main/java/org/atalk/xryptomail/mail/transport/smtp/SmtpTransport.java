@@ -1,7 +1,7 @@
 package org.atalk.xryptomail.mail.transport.smtp;
 
 import android.net.TrafficStats;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import org.apache.commons.io.IOUtils;

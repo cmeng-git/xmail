@@ -442,7 +442,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
         if (mMessageReference != null) {
             mSearch = new LocalSearch();
             mSearch.addAccountUuid(mMessageReference.getAccountUuid());
-            mSearch.addAllowedFolder(mMessageReference.getFolderName());
+            mSearch.addAllowedFolder(mMessageReference.getFolderServerId());
         }
 
         if (mSearch == null) {
@@ -1241,7 +1241,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     {
         Preferences prefs = Preferences.getPreferences(getApplicationContext());
         Account account = prefs.getAccount(messageReference.getAccountUuid());
-        String folderName = messageReference.getFolderName();
+        String folderName = messageReference.getFolderServerId();
 
         if (folderName.equals(account.getDraftsFolderName())) {
             MessageActions.actionEditDraft(this, messageReference);

@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.provider.Browser;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.webkit.*;
 
@@ -22,7 +22,7 @@ import timber.log.Timber;
 /**
  * {@link WebViewClient} that intercepts requests for {@code cid:} URIs to load the respective body part.
  */
-abstract class XryptoMailWebViewClient extends WebViewClient {
+abstract class XMWebViewClient extends WebViewClient {
     private static final String CID_SCHEME = "cid";
     private static final WebResourceResponse RESULT_DO_NOT_INTERCEPT = null;
     private static final WebResourceResponse RESULT_DUMMY_RESPONSE = new WebResourceResponse(null, null, null);
@@ -31,14 +31,14 @@ abstract class XryptoMailWebViewClient extends WebViewClient {
     @Nullable
     private final AttachmentResolver attachmentResolver;
 
-    public static XryptoMailWebViewClient newInstance(@Nullable AttachmentResolver attachmentResolver) {
+    public static XMWebViewClient newInstance(@Nullable AttachmentResolver attachmentResolver) {
         if (Build.VERSION.SDK_INT < 21) {
             return new PreLollipopWebViewClient(attachmentResolver);
         }
         return new LollipopWebViewClient(attachmentResolver);
     }
 
-    private XryptoMailWebViewClient(@Nullable AttachmentResolver attachmentResolver) {
+    private XMWebViewClient(@Nullable AttachmentResolver attachmentResolver) {
         this.attachmentResolver = attachmentResolver;
     }
 
@@ -120,7 +120,8 @@ abstract class XryptoMailWebViewClient extends WebViewClient {
     }
 
     @SuppressWarnings("deprecation")
-    private static class PreLollipopWebViewClient extends XryptoMailWebViewClient {
+    private static class PreLollipopWebViewClient extends XMWebViewClient
+    {
         protected PreLollipopWebViewClient(AttachmentResolver attachmentResolver) {
             super(attachmentResolver);
         }
@@ -142,7 +143,8 @@ abstract class XryptoMailWebViewClient extends WebViewClient {
     }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
-    private static class LollipopWebViewClient extends XryptoMailWebViewClient {
+    private static class LollipopWebViewClient extends XMWebViewClient
+    {
         protected LollipopWebViewClient(AttachmentResolver attachmentResolver) {
             super(attachmentResolver);
         }

@@ -1,12 +1,11 @@
 package org.atalk.xryptomail.mailstore;
 
 import android.net.Uri;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.annotation.WorkerThread;
 import timber.log.Timber;
 
-import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.mail.Body;
 import org.atalk.xryptomail.mail.MessagingException;
 import org.atalk.xryptomail.mail.Multipart;

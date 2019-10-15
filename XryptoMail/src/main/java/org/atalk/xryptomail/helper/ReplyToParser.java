@@ -1,6 +1,6 @@
 package org.atalk.xryptomail.helper;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.mail.*;
@@ -39,8 +39,7 @@ public class ReplyToParser
 
 	public ReplyToAddresses getRecipientsToReplyAllTo(Message message, Account account)
 	{
-		List<Address> replyToAddresses
-				= Arrays.asList(getRecipientsToReplyTo(message, account).to);
+		List<Address> replyToAddresses = Arrays.asList(getRecipientsToReplyTo(message, account).to);
 
 		HashSet<Address> alreadyAddedAddresses = new HashSet<>(replyToAddresses);
 		ArrayList<Address> toAddresses = new ArrayList<>(replyToAddresses);

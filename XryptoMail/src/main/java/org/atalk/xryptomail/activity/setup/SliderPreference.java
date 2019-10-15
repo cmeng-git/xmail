@@ -27,7 +27,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.*;
 import android.preference.DialogPreference;
-import android.support.annotation.ArrayRes;
+import androidx.annotation.ArrayRes;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.SeekBar;

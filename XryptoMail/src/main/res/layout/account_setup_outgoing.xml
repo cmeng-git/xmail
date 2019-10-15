@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/outgoing_coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/outgoing_account_server_layout"
                         app:layout_constraintTop_toBottomOf="@id/title"
                         app:layout_constraintLeft_toLeftOf="@id/title"
@@ -57,14 +57,14 @@
                         android:layout_height="wrap_content"
                         android:textColorHint="?android:attr/textColorPrimary">
 
-                        <android.support.design.widget.TextInputEditText
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/outgoing_account_server"
                             android:singleLine="true"
                             android:inputType="textUri"
                             android:layout_height="wrap_content"
                             android:layout_width="match_parent"
                             android:hint="@string/account_setup_outgoing_smtp_server_label" />
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
                         android:id="@+id/account_setup_outgoing_security_label"
@@ -87,7 +87,7 @@
                         app:layout_constraintRight_toRightOf="@id/outgoing_account_server_layout"
                         android:contentDescription="@string/account_setup_outgoing_security_label" />
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/outgoing_account_port_layout"
 
                         app:layout_constraintTop_toBottomOf="@id/outgoing_account_security_type"
@@ -99,14 +99,14 @@
                         android:layout_marginTop="@dimen/account_setup_margin_between_items_incoming_and_outgoing"
                         android:textColorHint="?android:attr/textColorPrimary">
 
-                        <android.support.design.widget.TextInputEditText
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/outgoing_account_port"
                             android:singleLine="true"
                             android:inputType="number"
                             android:layout_height="wrap_content"
                             android:layout_width="match_parent"
                             android:hint="@string/account_setup_outgoing_port_label" />
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <CheckBox
                         android:id="@+id/account_require_login"
@@ -127,7 +127,7 @@
                         android:orientation="vertical"
                         android:visibility="gone">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/outgoing_account_username_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                             app:layout_constraintLeft_toLeftOf="@id/outgoing_account_server_layout"
                             app:layout_constraintRight_toRightOf="@id/outgoing_account_server_layout">
 
-                            <android.support.design.widget.TextInputEditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/outgoing_account_username"
                                 android:singleLine="true"
                                 android:inputType="textEmailAddress"
@@ -146,7 +146,7 @@
                                 android:layout_width="match_parent"
                                 android:textColor="#333333"
                                 android:hint="@string/account_setup_outgoing_username_label" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <TextView
                             android:id="@+id/account_setup_outgoing_authentication_label"
@@ -170,7 +170,7 @@
                             app:layout_constraintRight_toRightOf="@id/outgoing_account_server_layout"
                             android:contentDescription="@string/account_setup_outgoing_authentication_label" />
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/outgoing_account_password_layout"
                             android:layout_height="wrap_content"
                             android:layout_width="match_parent"
@@ -180,7 +180,7 @@
                             app:layout_constraintLeft_toLeftOf="@id/outgoing_account_server_layout"
                             app:layout_constraintRight_toRightOf="@id/outgoing_account_server_layout">
 
-                            <android.support.design.widget.TextInputEditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/outgoing_account_password"
                                 android:singleLine="true"
                                 android:inputType="textPassword"
@@ -188,7 +188,7 @@
                                 android:layout_width="match_parent"
                                 android:hint="@string/account_setup_outgoing_password_label" />
 
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <TextView
                             android:id="@+id/account_client_certificate_label"
@@ -217,7 +217,7 @@
             </ScrollView>
         </LinearLayout>
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <View
         android:id="@+id/divider"

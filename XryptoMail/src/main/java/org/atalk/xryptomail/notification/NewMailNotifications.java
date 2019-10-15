@@ -1,7 +1,8 @@
 package org.atalk.xryptomail.notification;
 
 import android.app.Notification;
-import android.support.v4.app.NotificationManagerCompat;
+
+import androidx.core.app.NotificationManagerCompat;
 import android.util.SparseArray;
 
 import org.atalk.xryptomail.Account;
@@ -170,6 +171,17 @@ class NewMailNotifications
         int notificationId = NotificationIds.getNewMailSummaryNotificationId(account);
         getNotificationManager().notify(notificationId, notification);
     }
+
+    protected void updateBadgeNumber(Account account, int totalCount)
+    {
+        Notification notification = deviceNotifications.createBadgeNotification(account, NotificationHelper.BADGE_ONLY)
+                .setNumber(totalCount)
+                .build();
+
+        int notificationId = NotificationIds.getNewMailSummaryNotificationId(account);
+        getNotificationManager().notify(notificationId, notification);
+    }
+
 
     private void createStackedNotification(Account account, NotificationHolder holder)
     {

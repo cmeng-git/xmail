@@ -2,7 +2,7 @@ package org.atalk.xryptomail.autocrypt;
 
 import java.util.Arrays;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 class AutocryptGossipHeader {
     static final String AUTOCRYPT_GOSSIP_HEADER = "Autocrypt-Gossip";
@@ -46,10 +46,7 @@ class AutocryptGossipHeader {
         if (!Arrays.equals(keyData, that.keyData)) {
             return false;
         }
-        if (!addr.equals(that.addr)) {
-            return false;
-        }
-        return true;
+        return addr.equals(that.addr);
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Intents;
@@ -23,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.mail.Address;
 
 /**
  * ContactBadge replaces the android ContactBadge for custom drawing.
@@ -164,6 +166,21 @@ public class ContactBadge extends ImageView implements OnClickListener {
         super.onInitializeAccessibilityNodeInfo(info);
         info.setClassName(ContactBadge.class.getName());
     }
+
+    /**
+     * Assign the contact to the badge.
+     *
+     * On 4.3, we pass the address name as extra info so that if the contact doesn't exist
+     * the name is auto-populated.
+     *
+     * @param address the address to look for a contact for.
+     */
+    public void setContact(Address address) {
+        Bundle extraContactInfo = new Bundle();
+        extraContactInfo.putString(ContactsContract.Intents.Insert.NAME, address.getPersonal());
+        assignContactFromEmail(address.getAddress(), true, extraContactInfo);
+    }
+
 
     private class QueryHandler extends AsyncQueryHandler {
 

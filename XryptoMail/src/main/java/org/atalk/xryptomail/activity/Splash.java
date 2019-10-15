@@ -18,19 +18,15 @@ package org.atalk.xryptomail.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import org.atalk.xryptomail.*;
-import org.atalk.xryptomail.service.OnlineUpdateService;
-
-import java.io.File;
+import org.atalk.xryptomail.helper.androidupdate.OnlineUpdateService;
 
 /**
  * Splash screen activity
@@ -63,31 +59,13 @@ public class Splash extends Activity
         new Handler().postDelayed(() -> {
             // Start update service for debug version only
             if (BuildConfig.DEBUG) {
-                startService(new Intent(getApplicationContext(), OnlineUpdateService.class));
+                Intent dailyCheckupIntent = new Intent(getApplicationContext(), OnlineUpdateService.class);
+                dailyCheckupIntent.setAction(OnlineUpdateService.ACTION_AUTO_UPDATE_START);
+                startService(dailyCheckupIntent);
             }
             // must exit splash screen
             finish();
         }, SPLASH_SCREEN_SHOW_TIME);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == ONLINE_UPDATE) {
-            if (OnlineUpdate.OnlineUpdateStatus.DOWNLOAD_APK_SUCCESSFUL.getValue() != resultCode) {
-                Intent intent = new Intent(Splash.this, Accounts.class);
-                Splash.this.startActivity(intent);
-            }
-            else {
-                if (!TextUtils.isEmpty(XryptoMail.mUpdateApkPath)) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(Uri.fromFile(new File(XryptoMail.mUpdateApkPath)),
-                            "application/vnd.android.package-archive");
-                    startActivity(intent);
-                }
-            }
-            finish();
-        }
     }
 
     static public boolean isFirstRun()

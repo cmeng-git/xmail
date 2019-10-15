@@ -10,11 +10,11 @@ public interface StoreConfig
     void setStoreUri(String storeUri);
     void setTransportUri(String transportUri);
 
-    boolean subscribedFoldersOnly();
+    boolean isSubscribedFoldersOnly();
 
     boolean useCompression(NetworkType type);
 
-    String getInboxFolderName();
+    String getInboxFolder();
 
     String getOutboxFolderName();
 
@@ -22,21 +22,21 @@ public interface StoreConfig
 
     void setArchiveFolderName(String name);
 
-    void setDraftsFolderName(String name);
+    void setDraftsFolder(String name);
 
-    void setTrashFolderName(String name);
+    void setTrashFolder(String name);
 
     void setSpamFolderName(String name);
 
-    void setSentFolderName(String name);
+    void setSentFolder(String name);
 
-    void setAutoExpandFolderName(String name);
+    void setAutoExpandFolder(String name);
 
-    void setInboxFolderName(String name);
+    void setInboxFolder(String name);
 
     int getMaximumAutoDownloadMessageSize();
 
-    boolean allowRemoteSearch();
+    boolean isAllowRemoteSearch();
 
     boolean isRemoteSearchFullText();
 

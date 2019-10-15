@@ -1,6 +1,5 @@
 package org.atalk.xryptomail.helper;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.*;
@@ -12,7 +11,6 @@ import android.widget.*;
 
 import org.atalk.xryptomail.ui.ContactBadge;
 import org.apache.james.mime4j.util.MimeUtil;
-import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.mail.Address;
 
 import java.nio.charset.Charset;

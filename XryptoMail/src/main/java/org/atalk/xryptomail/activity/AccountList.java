@@ -61,8 +61,7 @@ public abstract class AccountList extends XMListActivity implements OnItemClickL
     /**
      * Create a new {@link AccountsAdapter} instance and assign it to the {@link ListView}.
      *
-     * @param realAccounts
-     *         An array of accounts to display.
+     * @param realAccounts  An array of accounts to display.
      */
     public void populateListView(List<Account> realAccounts) {
 		List<BaseAccount> accounts = new ArrayList<>();

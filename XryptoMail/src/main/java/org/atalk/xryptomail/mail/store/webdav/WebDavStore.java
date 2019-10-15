@@ -54,8 +54,7 @@ import static org.atalk.xryptomail.mail.XryptoMailLib.DEBUG_PROTOCOL_WEBDAV;
 
 /**
  * <pre>
- * Uses WebDAV formatted HTTP calls to an MS Exchange server to fetch email
- * and email information.
+ * Uses WebDAV formatted HTTP calls to an MS Exchange server to fetch email  and email information.
  * </pre>
  */
 @SuppressWarnings("deprecation")
@@ -100,25 +99,25 @@ public class WebDavStore extends RemoteStore
         super(storeConfig, null);
         mHttpClientFactory = clientFactory;
 
-        WebDavStoreSettings settings;
+        WebDavStoreSettings serverSettings;
         try {
-            settings = WebDavStore.decodeUri(storeConfig.getStoreUri());
+            serverSettings = WebDavStore.decodeUri(storeConfig.getStoreUri());
         } catch (IllegalArgumentException e) {
             throw new MessagingException("Error while decoding store URI", e);
         }
 
-        mHostName = settings.host;
-        mPort = settings.port;
+        mHostName = serverSettings.host;
+        mPort = serverSettings.port;
 
-        mConnectionSecurity = settings.connectionSecurity;
+        mConnectionSecurity = serverSettings.connectionSecurity;
 
-        mUsername = settings.username;
-        mPassword = settings.password;
-        mAlias = settings.alias;
+        mUsername = serverSettings.username;
+        mPassword = serverSettings.password;
+        mAlias = serverSettings.alias;
 
-        mPath = settings.path;
-        mFormBasedAuthPath = settings.authPath;
-        mMailboxPath = settings.mailboxPath;
+        mPath = serverSettings.path;
+        mFormBasedAuthPath = serverSettings.authPath;
+        mMailboxPath = serverSettings.mailboxPath;
 
 
         if (mPath == null || mPath.equals("")) {
@@ -150,11 +149,8 @@ public class WebDavStore extends RemoteStore
 
     private String getRoot()
     {
-        String root;
-        if (mConnectionSecurity == ConnectionSecurity.SSL_TLS_REQUIRED) {
-            root = "https";
-        }
-        else {
+        String root = "https";
+        if (mConnectionSecurity == ConnectionSecurity.NONE) {
             root = "http";
         }
         root += "://" + mHostName + ":" + mPort;
@@ -188,12 +184,12 @@ public class WebDavStore extends RemoteStore
             throws MessagingException
     {
         List<Folder> folderList = new LinkedList<>();
-        /**
+        /*
          * We have to check authentication here so we have the proper URL stored
          */
         getHttpClient();
 
-        /**
+        /*
          *  Firstly we get the "special" folders list (inbox, outbox, etc)
          *  and setup the account accordingly
          */
@@ -205,17 +201,17 @@ public class WebDavStore extends RemoteStore
         Map<String, String> specialFoldersMap = dataset.getSpecialFolderToUrl();
         String folderName = getFolderName(specialFoldersMap.get(WebDavConstants.DAV_MAIL_INBOX_FOLDER));
         if (folderName != null) {
-            mStoreConfig.setAutoExpandFolderName(folderName);
-            mStoreConfig.setInboxFolderName(folderName);
+            mStoreConfig.setAutoExpandFolder(folderName);
+            mStoreConfig.setInboxFolder(folderName);
         }
 
         folderName = getFolderName(specialFoldersMap.get(WebDavConstants.DAV_MAIL_DRAFTS_FOLDER));
         if (folderName != null)
-            mStoreConfig.setDraftsFolderName(folderName);
+            mStoreConfig.setDraftsFolder(folderName);
 
         folderName = getFolderName(specialFoldersMap.get(WebDavConstants.DAV_MAIL_TRASH_FOLDER));
         if (folderName != null)
-            mStoreConfig.setTrashFolderName(folderName);
+            mStoreConfig.setTrashFolder(folderName);
 
         folderName = getFolderName(specialFoldersMap.get(WebDavConstants.DAV_MAIL_SPAM_FOLDER));
         if (folderName != null)
@@ -223,16 +219,16 @@ public class WebDavStore extends RemoteStore
 
         // K-9 Mail's outbox is a special local folder and different from Exchange/WebDAV's outbox.
         /*
-        folderName = getFolderName(specialFoldersMap.get(DAV_MAIL_OUTBOX_FOLDER));
+        folderName = getFolderServerId(specialFoldersMap.get(DAV_MAIL_OUTBOX_FOLDER));
         if (folderName != null)
             mAccount.setOutboxFolderName(folderName);
         */
 
         folderName = getFolderName(specialFoldersMap.get(WebDavConstants.DAV_MAIL_SENT_FOLDER));
         if (folderName != null)
-            mStoreConfig.setSentFolderName(folderName);
+            mStoreConfig.setSentFolder(folderName);
 
-        /**
+        /*
          * Next we get all the folders (including "special" ones)
          */
         headers = new HashMap<>();
@@ -252,9 +248,7 @@ public class WebDavStore extends RemoteStore
      * Creates a folder using the URL passed as parameter (only if it has not been
      * already created) and adds this to our store folder map.
      *
-     * @param folderUrl
-     *         URL
-     *
+     * @param folderUrl URL
      * @return WebDAV remote folder
      */
     private WebDavFolder createFolder(String folderUrl)
@@ -318,7 +312,6 @@ public class WebDavStore extends RemoteStore
     }
 
     private Folder getSendSpoolFolder()
-            throws MessagingException
     {
         if (mSendFolder == null)
             mSendFolder = getFolder(WebDavConstants.DAV_MAIL_SEND_FOLDER);
@@ -504,7 +497,7 @@ public class WebDavStore extends RemoteStore
         return buffer.toString();
     }
 
-    /***************************************************************
+    /* **************************************************************
      * Authentication related methods
      */
 
@@ -989,8 +982,7 @@ public class WebDavStore extends RemoteStore
         return processRequest(url, method, messageBody, headers, true);
     }
 
-    DataSet processRequest(String url, String method, String messageBody, Map<String, String> headers,
-            boolean needsParsing)
+    DataSet processRequest(String url, String method, String messageBody, Map<String, String> headers, boolean needsParsing)
             throws MessagingException
     {
         DataSet dataset = new DataSet();
@@ -1051,7 +1043,8 @@ public class WebDavStore extends RemoteStore
     }
 
     @Override
-    public void sendMessages(List<? extends Message> messages) throws MessagingException {
+    public void sendMessages(List<? extends Message> messages) throws MessagingException
+    {
         WebDavFolder tmpFolder = getFolder(mStoreConfig.getDraftsFolderName());
         try {
             tmpFolder.open(Folder.OPEN_MODE_RW);

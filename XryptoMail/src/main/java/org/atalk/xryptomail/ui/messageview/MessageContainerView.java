@@ -1,5 +1,6 @@
 package org.atalk.xryptomail.ui.messageview;
 
+import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +12,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
@@ -30,14 +30,17 @@ import org.atalk.xryptomail.mailstore.AttachmentResolver;
 import org.atalk.xryptomail.mailstore.AttachmentViewInfo;
 import org.atalk.xryptomail.mailstore.MessageViewInfo;
 import org.atalk.xryptomail.message.html.HtmlConverter;
-import org.atalk.xryptomail.view.MessageHeader.OnLayoutChangedListener;
 import org.atalk.xryptomail.view.MessageWebView;
 import org.atalk.xryptomail.view.MessageWebView.OnPageFinishedListener;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MessageContainerView extends LinearLayout implements OnLayoutChangedListener, OnCreateContextMenuListener
+import timber.log.Timber;
+
+import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
+
+public class MessageContainerView extends LinearLayout implements OnCreateContextMenuListener
 {
     private static final int MENU_ITEM_LINK_VIEW = Menu.FIRST;
     private static final int MENU_ITEM_LINK_SHARE = Menu.FIRST + 1;
@@ -161,6 +164,7 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
                     return;
                 }
 
+                Timber.w("Uri Link: %s", uri);
                 final AttachmentViewInfo attachmentViewInfo = getAttachmentViewInfoIfCidUri(uri);
                 final boolean inlineImage = attachmentViewInfo != null;
 
@@ -181,8 +185,7 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
                                 attachmentCallback.onSaveAttachment(attachmentViewInfo);
                             }
                             else {
-                                //TODO: Use download manager
-                                new DownloadImageTask(mContext).execute(uri.toString());
+                                downloadImage(uri);
                             }
                             break;
                         }
@@ -296,6 +299,15 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
                 break;
             }
         }
+    }
+
+    private void downloadImage(Uri uri)
+    {
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setNotificationVisibility(VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+        DownloadManager downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+        downloadManager.enqueue(request);
     }
 
     private AttachmentViewInfo getAttachmentViewInfoIfCidUri(Uri uri)
@@ -482,14 +494,6 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
          * is now hidden.
          */
         clearDisplayedContent();
-    }
-
-    @Override
-    public void onLayoutChanged()
-    {
-        if (mMessageContentView != null) {
-            mMessageContentView.invalidate();
-        }
     }
 
     public void enableAttachmentButtons(AttachmentViewInfo attachment)

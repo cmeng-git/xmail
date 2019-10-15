@@ -26,12 +26,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Stack;
 
-public class MimePartStreamParser {
+public class MimePartStreamParser
+{
     public static MimeBodyPart parse(FileFactory fileFactory, InputStream inputStream)
-            throws MessagingException, IOException {
+            throws MessagingException, IOException
+    {
         MimeBodyPart parsedRootPart = new MimeBodyPart();
 
-        MimeConfig parserConfig  = new MimeConfig.Builder()
+        MimeConfig parserConfig = new MimeConfig.Builder()
                 .setMaxHeaderLen(-1)
                 .setMaxLineLen(-1)
                 .setMaxHeaderCount(-1)
@@ -50,7 +52,8 @@ public class MimePartStreamParser {
     }
 
     private static Body createBody(InputStream inputStream, String transferEncoding,
-            FileFactory fileFactory) throws IOException {
+            FileFactory fileFactory) throws IOException
+    {
         DeferredFileBody body = new DeferredFileBody(fileFactory, transferEncoding);
         OutputStream outputStream = body.getOutputStream();
         try {
@@ -61,7 +64,8 @@ public class MimePartStreamParser {
         return body;
     }
 
-    private static class PartBuilder implements ContentHandler {
+    private static class PartBuilder implements ContentHandler
+    {
         private MimeStreamParser parser;
         private final FileFactory fileFactory;
         private final MimeBodyPart decryptedRootPart;
@@ -71,17 +75,20 @@ public class MimePartStreamParser {
         private boolean isContentDispositionAttachment;
 
         PartBuilder(MimeStreamParser parser, FileFactory fileFactory,
-                MimeBodyPart decryptedRootPart) {
+                MimeBodyPart decryptedRootPart)
+        {
             this.parser = parser;
             this.fileFactory = fileFactory;
             this.decryptedRootPart = decryptedRootPart;
         }
 
         @Override
-        public void startMessage() throws MimeException {
+        public void startMessage() throws MimeException
+        {
             if (stack.isEmpty()) {
                 stack.push(decryptedRootPart);
-            } else {
+            }
+            else {
                 Part part = (Part) stack.peek();
 
                 Message innerMessage = new MimeMessage();
@@ -91,12 +98,14 @@ public class MimePartStreamParser {
         }
 
         @Override
-        public void endMessage() throws MimeException {
+        public void endMessage() throws MimeException
+        {
             stack.pop();
         }
 
         @Override
-        public void startBodyPart() throws MimeException {
+        public void startBodyPart() throws MimeException
+        {
             try {
                 Multipart multipart = (Multipart) stack.peek();
                 BodyPart bodyPart = new MimeBodyPart();
@@ -109,19 +118,22 @@ public class MimePartStreamParser {
         }
 
         @Override
-        public void endBodyPart() throws MimeException {
+        public void endBodyPart() throws MimeException
+        {
             stack.pop();
             parser.setRecurse();
         }
 
         @Override
-        public void startHeader() throws MimeException {
+        public void startHeader() throws MimeException
+        {
             isMessagePart = false;
             isContentDispositionAttachment = false;
         }
 
         @Override
-        public void field(Field parsedField) throws MimeException {
+        public void field(Field parsedField) throws MimeException
+        {
             String name = parsedField.getName();
             String raw = parsedField.getRaw().toString();
 
@@ -139,22 +151,25 @@ public class MimePartStreamParser {
         }
 
         @Override
-        public void endHeader() throws MimeException {
+        public void endHeader() throws MimeException
+        {
             if (isMessagePart && isContentDispositionAttachment) {
                 parser.setFlat();
             }
         }
 
         @Override
-        public void preamble(InputStream is) throws MimeException, IOException {
+        public void preamble(InputStream is) throws MimeException, IOException
+        {
             expect(MimeMultipart.class);
             ByteArrayOutputStream preamble = new ByteArrayOutputStream();
             IOUtils.copy(is, preamble);
-            ((MimeMultipart)stack.peek()).setPreamble(preamble.toByteArray());
+            ((MimeMultipart) stack.peek()).setPreamble(preamble.toByteArray());
         }
 
         @Override
-        public void epilogue(InputStream is) throws MimeException, IOException {
+        public void epilogue(InputStream is) throws MimeException, IOException
+        {
             expect(MimeMultipart.class);
             ByteArrayOutputStream epilogue = new ByteArrayOutputStream();
             IOUtils.copy(is, epilogue);
@@ -162,7 +177,8 @@ public class MimePartStreamParser {
         }
 
         @Override
-        public void startMultipart(BodyDescriptor bd) throws MimeException {
+        public void startMultipart(BodyDescriptor bd) throws MimeException
+        {
             Part part = (Part) stack.peek();
 
             String mimeType = bd.getMimeType();
@@ -174,12 +190,14 @@ public class MimePartStreamParser {
         }
 
         @Override
-        public void endMultipart() throws MimeException {
+        public void endMultipart() throws MimeException
+        {
             stack.pop();
         }
 
         @Override
-        public void body(BodyDescriptor bd, InputStream inputStream) throws MimeException, IOException {
+        public void body(BodyDescriptor bd, InputStream inputStream) throws MimeException, IOException
+        {
             Part part = (Part) stack.peek();
             String transferEncoding = bd.getTransferEncoding();
             Body body = createBody(inputStream, transferEncoding, fileFactory);
@@ -187,11 +205,13 @@ public class MimePartStreamParser {
         }
 
         @Override
-        public void raw(InputStream is) throws MimeException, IOException {
+        public void raw(InputStream is) throws MimeException, IOException
+        {
             throw new IllegalStateException("Not implemented");
         }
 
-        private void expect(Class<?> c) {
+        private void expect(Class<?> c)
+        {
             if (!c.isInstance(stack.peek())) {
                 throw new IllegalStateException("Internal stack error: " + "Expected '"
                         + c.getName() + "' found '" + stack.peek().getClass().getName() + "'");

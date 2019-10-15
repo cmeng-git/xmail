@@ -2,8 +2,8 @@ package org.atalk.xryptomail.notification;
 
 import android.app.PendingIntent;
 import android.content.Context;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.R;
@@ -62,7 +62,7 @@ class SyncNotifications
     public void showFetchingMailNotification(Account account, Folder folder)
     {
         String accountName = account.getDescription();
-        String folderName = folder.getName();
+        String folderName = folder.getServerId();
 
         Context context = controller.getContext();
         String tickerText = context.getString(R.string.notification_bg_sync_ticker, accountName, folderName);

@@ -28,11 +28,9 @@ public class AuthTypeAdapter extends ArrayAdapter<AuthTypeHolder>
      * Used to select an appropriate localized text label for the
      * {@code AuthType.PLAIN} option presented to users.
      *
-     * @param insecure
-     * A value of {@code true} will use "Normal password".
+     * @param insecure A value of {@code true} will use "Normal password".
      *
-     * A value of {@code false} will use
-     * "Password, transmitted insecurely"
+     * A value of {@code false} will use "Password, transmitted insecurely"
      */
     public void useInsecureText(boolean insecure)
     {

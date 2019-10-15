@@ -3,8 +3,8 @@ package org.atalk.xryptomail.mail.store.webdav;
 /**
  * WebDAV constants
  */
-class WebDavConstants {
-
+class WebDavConstants
+{
     // Authentication types
     static final short AUTH_TYPE_NONE = 0;
     static final short AUTH_TYPE_BASIC = 1;

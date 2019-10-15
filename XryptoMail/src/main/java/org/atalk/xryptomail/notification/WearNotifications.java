@@ -2,9 +2,9 @@ package org.atalk.xryptomail.notification;
 
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationCompat.Builder;
-import android.support.v4.app.NotificationCompat.WearableExtender;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationCompat.Builder;
+import androidx.core.app.NotificationCompat.WearableExtender;
 
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.XryptoMail;
@@ -224,12 +224,12 @@ class WearNotifications extends BaseNotifications {
     }
 
     private boolean isArchiveActionAvailableForWear(Account account) {
-        String archiveFolderName = account.getArchiveFolderName();
+        String archiveFolderName = account.getArchiveFolder();
         return archiveFolderName != null && isMovePossible(account, archiveFolderName);
     }
 
     private boolean isSpamActionAvailableForWear(Account account) {
-        String spamFolderName = account.getSpamFolderName();
+        String spamFolderName = account.getSpamFolder();
         return spamFolderName != null && !XryptoMail.confirmSpam() && isMovePossible(account, spamFolderName);
     }
 

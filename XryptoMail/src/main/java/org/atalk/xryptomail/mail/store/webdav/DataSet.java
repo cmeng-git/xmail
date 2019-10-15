@@ -16,7 +16,7 @@ import timber.log.Timber;
  * Maintains WebDAV data
  */
 class DataSet {
-	private Map<String, Map<String, String>> mData = new HashMap<>();
+    private Map<String, Map<String, String>> mData = new HashMap<>();
     private StringBuilder mUid = new StringBuilder();
     private Map<String, String> mTempData = new HashMap<>();
 
@@ -70,7 +70,6 @@ class DataSet {
                 uidToUrl.put(uid, value);
             }
         }
-
         return uidToUrl;
     }
 

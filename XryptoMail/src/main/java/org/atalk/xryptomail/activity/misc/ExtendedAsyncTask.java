@@ -65,8 +65,7 @@ public abstract class ExtendedAsyncTask<Params, Progress, Result>
 	 * activity that's being destroyed.
 	 * </p>
 	 * 
-	 * @return {@code true} if this instance should be retained; {@code false}
-	 *         otherwise.
+	 * @return {@code true} if this instance should be retained; {@code false} otherwise.
 	 * 
 	 * @see Activity#onRetainNonConfigurationInstance()
 	 */
@@ -102,8 +101,7 @@ public abstract class ExtendedAsyncTask<Params, Progress, Result>
 	 * 
 	 * <p>
 	 * <strong>Important:</strong> Be sure to call
-	 * {@link #removeProgressDialog()} in
-	 * {@link AsyncTask#onPostExecute(Object)}.
+	 * {@link #removeProgressDialog()} in {@link AsyncTask#onPostExecute(Object)}.
 	 * </p>
 	 */
 	@Override

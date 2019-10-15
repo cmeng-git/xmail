@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -28,7 +29,6 @@ import org.atalk.xryptomail.mail.Address;
 import org.atalk.xryptomail.mail.Message;
 import org.atalk.xryptomail.mailstore.MessageViewInfo;
 import org.atalk.xryptomail.message.extractors.EncryptionDetector;
-import org.atalk.xryptomail.ui.messageview.MessageContainerView.OnRenderingFinishedListener;
 import org.atalk.xryptomail.view.MessageHeader;
 import org.atalk.xryptomail.view.ThemeUtils;
 import org.atalk.xryptomail.view.ToolableViewAnimator;
@@ -158,8 +158,8 @@ public class MessageTopView extends LinearLayout
         resetAndPrepareMessageView(messageViewInfo);
         View view = mInflater.inflate(R.layout.message_content_crypto_cancelled, containerView, false);
         setCryptoProviderIcon(providerIcon, view);
-        view.findViewById(R.id.crypto_cancelled_retry).setOnClickListener(view1
-                -> messageCryptoPresenter.onClickRetryCryptoOperation());
+        view.findViewById(R.id.crypto_cancelled_retry).setOnClickListener(
+                viewCP -> messageCryptoPresenter.onClickRetryCryptoOperation());
 
         containerView.addView(view);
         displayViewOnLoadFinished(false);
@@ -170,8 +170,8 @@ public class MessageTopView extends LinearLayout
         resetAndPrepareMessageView(messageViewInfo);
         View view = mInflater.inflate(R.layout.message_content_crypto_no_provider, containerView, false);
 
-        view.findViewById(R.id.crypto_settings).setOnClickListener(view1
-                -> messageCryptoPresenter.onClickConfigureProvider());
+        view.findViewById(R.id.crypto_settings).setOnClickListener(
+                viewCP -> messageCryptoPresenter.onClickConfigureProvider());
 
         containerView.addView(view);
         displayViewOnLoadFinished(false);
@@ -200,7 +200,7 @@ public class MessageTopView extends LinearLayout
         return mHeaderContainer;
     }
 
-    public void setHeaders(final Message message, Account account)
+    public void setHeaders(Message message, Account account)
     {
         // Background color
         int res;
@@ -223,6 +223,11 @@ public class MessageTopView extends LinearLayout
         TypedValue outValue = new TypedValue();
         mContext.getTheme().resolveAttribute(res, outValue, true);
         mHeaderContainer.setBackgroundColor(outValue.data);
+    }
+
+    public void setSubject(@NonNull String subject)
+    {
+        mHeaderContainer.setSubject(subject);
     }
 
     public void setOnToggleFlagClickListener(OnClickListener listener)

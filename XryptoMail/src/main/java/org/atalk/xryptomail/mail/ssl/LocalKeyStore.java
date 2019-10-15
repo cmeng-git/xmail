@@ -1,6 +1,6 @@
 package org.atalk.xryptomail.mail.ssl;
 
-import android.util.Log;
+import android.content.Context;
 
 import org.apache.commons.io.IOUtils;
 
@@ -17,59 +17,43 @@ import java.security.cert.X509Certificate;
 
 import timber.log.Timber;
 
-public class LocalKeyStore {
+public class LocalKeyStore
+{
     private static final int KEY_STORE_FILE_VERSION = 1;
 
+    private static LocalKeyStore INSTANCE;
     private static String sKeyStoreLocation;
-
-    public static void setKeyStoreLocation(String directory) {
-        sKeyStoreLocation = directory;
-    }
-
-    private static class LocalKeyStoreHolder {
-        static final LocalKeyStore INSTANCE = new LocalKeyStore();
-    }
-
-    public static LocalKeyStore getInstance() {
-        return LocalKeyStoreHolder.INSTANCE;
-    }
-
-
     private File mKeyStoreFile;
     private KeyStore mKeyStore;
 
-
-    private LocalKeyStore() {
-        try {
-            upgradeKeyStoreFile();
-            setKeyStoreFile(null);
-        } catch (CertificateException e) {
-            /*
-             * Can happen if setKeyStoreLocation(String directory) has not been
-             * called before the first call to getInstance(). Not necessarily an
-             * error, presuming setKeyStoreFile(File) is called next with a
-             * non-null File.
-             */
-            Timber.w("Local key store has not been initialized");
+    public static LocalKeyStore createInstance(Context context)
+    {
+        if (INSTANCE == null) {
+            String keyStoreLocation = context.getDir("KeyStore", Context.MODE_PRIVATE).toString();
+            INSTANCE = new LocalKeyStore(keyStoreLocation);
         }
+        return INSTANCE;
+    }
+
+    private LocalKeyStore(String keyStoreLocation)
+    {
+        sKeyStoreLocation = keyStoreLocation;
+        initializeKeyStore();
+    }
+
+    // INSTANCE is already initialize on xmail first launch
+    public static LocalKeyStore getInstance() {
+        return INSTANCE;
     }
 
     /**
-     * Reinitialize the local key store with certificates contained in
-     * {@code file}
-     *
-     * @param file
-     *            {@link File} containing locally saved certificates. May be 0
-     *            length, in which case it is deleted and recreated. May be
-     *            {@code null}, in which case a default file location is used.
-     * @throws CertificateException
-     *            Occurs if {@code file == null} and
-     *            {@code setKeyStoreLocation(directory)} was not called previously.
+     * Reinitialize the local key store with stored certificates
      */
-    public synchronized void setKeyStoreFile(File file) throws CertificateException {
-        if (file == null) {
-            file = new File(getKeyStoreFilePath(KEY_STORE_FILE_VERSION));
-        }
+    private synchronized void initializeKeyStore()
+    {
+        upgradeKeyStoreFile();
+
+        File file = new File(getKeyStoreFilePath(KEY_STORE_FILE_VERSION));
         if (file.length() == 0) {
             /*
              * The file may be empty (e.g., if it was created with
@@ -103,8 +87,20 @@ public class LocalKeyStore {
         }
     }
 
+    private void upgradeKeyStoreFile()
+    {
+        if (KEY_STORE_FILE_VERSION > 0) {
+            // Blow away version "0" because certificate aliases have changed.
+            File versionZeroFile = new File(getKeyStoreFilePath(0));
+            if (versionZeroFile.exists() && !versionZeroFile.delete()) {
+                Timber.d("Failed to delete old key-store file: %s", versionZeroFile.getAbsolutePath());
+            }
+        }
+    }
+
     public synchronized void addCertificate(String host, int port,
-            X509Certificate certificate) throws CertificateException {
+            X509Certificate certificate) throws CertificateException
+    {
         if (mKeyStore == null) {
             throw new CertificateException(
                     "Certificate not added because key store not initialized");
@@ -118,7 +114,8 @@ public class LocalKeyStore {
         writeCertificateFile();
     }
 
-    private void writeCertificateFile() throws CertificateException {
+    private void writeCertificateFile() throws CertificateException
+    {
         java.io.OutputStream keyStoreStream = null;
         try {
             keyStoreStream = new java.io.FileOutputStream(mKeyStoreFile);
@@ -143,25 +140,26 @@ public class LocalKeyStore {
         }
     }
 
-    public synchronized boolean isValidCertificate(Certificate certificate,
-            String host, int port) {
+    public synchronized boolean isValidCertificate(Certificate certificate, String host, int port)
+    {
         if (mKeyStore == null) {
             return false;
         }
-        Certificate storedCert = null;
         try {
-            storedCert = mKeyStore.getCertificate(getCertKey(host, port));
+            Certificate storedCert = mKeyStore.getCertificate(getCertKey(host, port));
             return (storedCert != null && storedCert.equals(certificate));
         } catch (KeyStoreException e) {
             return false;
         }
     }
 
-    private static String getCertKey(String host, int port) {
+    private static String getCertKey(String host, int port)
+    {
         return host + ":" + port;
     }
 
-    public synchronized void deleteCertificate(String oldHost, int oldPort) {
+    public synchronized void deleteCertificate(String oldHost, int oldPort)
+    {
         if (mKeyStore == null) {
             return;
         }
@@ -175,23 +173,12 @@ public class LocalKeyStore {
         }
     }
 
-    private void upgradeKeyStoreFile() throws CertificateException {
-        if (KEY_STORE_FILE_VERSION > 0) {
-            // Blow away version "0" because certificate aliases have changed.
-            File versionZeroFile = new File(getKeyStoreFilePath(0));
-            if (versionZeroFile.exists() && !versionZeroFile.delete()) {
-                Timber.d("Failed to delete old key-store file: %s", versionZeroFile.getAbsolutePath());
-            }
-        }
-    }
-
-    private String getKeyStoreFilePath(int version) throws CertificateException {
-        if (sKeyStoreLocation == null) {
-            throw new CertificateException("Local key store location has not been initialized");
-        }
+    private String getKeyStoreFilePath(int version)
+    {
         if (version < 1) {
             return sKeyStoreLocation + File.separator + "KeyStore.bks";
-        } else {
+        }
+        else {
             return sKeyStoreLocation + File.separator + "KeyStore_v" + version + ".bks";
         }
     }

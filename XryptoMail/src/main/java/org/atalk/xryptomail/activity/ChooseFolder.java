@@ -295,12 +295,12 @@ public class ChooseFolder extends XMListActivity
             List<String> topFolders = new ArrayList<>();
 
             for (Folder folder : folders) {
-                String name = folder.getName();
+                String name = folder.getServerId();
 
                 // Inbox needs to be compared case-insensitively
                 if (mHideCurrentFolder && (name.equals(mFolder)
-                        || (mAccount.getInboxFolderName().equalsIgnoreCase(mFolder)
-                        && mAccount.getInboxFolderName().equalsIgnoreCase(name)))) {
+                        || (mAccount.getInboxFolder().equalsIgnoreCase(mFolder)
+                        && mAccount.getInboxFolder().equalsIgnoreCase(name)))) {
                     continue;
                 }
                 Folder.FolderClass fMode = folder.getDisplayClass();
@@ -356,7 +356,7 @@ public class ChooseFolder extends XMListActivity
             try {
                 int position = 0;
                 for (String name : localFolders) {
-                    if (mAccount.getInboxFolderName().equalsIgnoreCase(name)) {
+                    if (mAccount.getInboxFolder().equalsIgnoreCase(name)) {
                         folderList.add(getString(R.string.special_mailbox_name_inbox));
                         mHeldInbox = name;
                     }
@@ -374,8 +374,8 @@ public class ChooseFolder extends XMListActivity
                         }
                     }
                     else if (name.equals(mFolder)
-                            || (mAccount.getInboxFolderName().equalsIgnoreCase(mFolder)
-                            && mAccount.getInboxFolderName().equalsIgnoreCase(name))) {
+                            || (mAccount.getInboxFolder().equalsIgnoreCase(mFolder)
+                            && mAccount.getInboxFolder().equalsIgnoreCase(name))) {
                         selectedFolder = position;
                     }
                     position++;

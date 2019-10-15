@@ -1,22 +1,29 @@
 package org.atalk.xryptomail.activity.compose;
 
+import android.Manifest;
 import android.content.AsyncTaskLoader;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Contacts.Data;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.mail.Address;
+import org.atalk.xryptomail.mail.helper.EmptyCursor;
 import org.atalk.xryptomail.view.RecipientSelectView.Recipient;
 import org.atalk.xryptomail.view.RecipientSelectView.RecipientCryptoStatus;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +41,8 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
     private static final int INDEX_EMAIL_CUSTOM_LABEL = 5;
     private static final int INDEX_CONTACT_ID = 6;
     private static final int INDEX_PHOTO_URI = 7;
+    private static final int INDEX_TIMES_CONTACTED = 8;
+    private static final int INDEX_KEY_PRIMARY = 9;
 
     private static final String[] PROJECTION = {
             ContactsContract.CommonDataKinds.Email._ID,
@@ -43,7 +52,9 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
             ContactsContract.CommonDataKinds.Email.TYPE,
             ContactsContract.CommonDataKinds.Email.LABEL,
             ContactsContract.CommonDataKinds.Email.CONTACT_ID,
-            ContactsContract.Contacts.PHOTO_THUMBNAIL_URI
+            ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
+            ContactsContract.CommonDataKinds.Email.TIMES_CONTACTED,
+            ContactsContract.Contacts.SORT_KEY_PRIMARY
     };
 
     private static final String SORT_ORDER = "" +
@@ -78,6 +89,19 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
     private static final int CRYPTO_PROVIDER_STATUS_UNTRUSTED = 1;
     private static final int CRYPTO_PROVIDER_STATUS_TRUSTED = 2;
 
+    private static final Comparator<Recipient> RECIPIENT_COMPARATOR = new Comparator<Recipient>() {
+        @Override
+        public int compare(Recipient lhs, Recipient rhs) {
+            int timesContactedDiff = rhs.timesContacted - lhs.timesContacted;
+            if (timesContactedDiff != 0) {
+                return timesContactedDiff;
+            }
+            if (lhs.sortKey == null || rhs.sortKey == null) {
+                return 0;
+            }
+            return lhs.sortKey.compareTo(rhs.sortKey);
+        }
+    };
 
     private final String query;
     private final Address[] addresses;
@@ -89,6 +113,16 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
     private List<Recipient> cachedRecipients;
     private ForceLoadContentObserver observerContact, observerKey;
 
+    private RecipientLoader(Context context) {
+        super(context);
+        this.query = null;
+        this.lookupKeyUri = null;
+        this.addresses = null;
+        this.contactUri = null;
+
+        this.cryptoProvider = null;
+        this.contentResolver = context.getContentResolver();
+    }
 
     public RecipientLoader(Context context, String cryptoProvider, String query) {
         super(context);
@@ -123,6 +157,15 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
         contentResolver = context.getContentResolver();
     }
 
+    public static RecipientLoader getMostContactedRecipientLoader(Context context, final int maxRecipients) {
+        return new RecipientLoader(context) {
+            @Override
+            public List<Recipient> loadInBackground() {
+                return super.fillContactDataBySortOrder(maxRecipients);
+            }
+        };
+    }
+
     @Override
     public List<Recipient> loadInBackground() {
         List<Recipient> recipients = new ArrayList<>();
@@ -143,11 +186,14 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
         } else {
             throw new IllegalStateException("loader must be initialized with query or list of addresses!");
         }
+        return fillCryptoStatusData(recipients, recipientMap);
+    }
 
+    @NonNull
+    private List<Recipient> fillCryptoStatusData(List<Recipient> recipients, Map<String, Recipient> recipientMap) {
         if (recipients.isEmpty()) {
             return recipients;
         }
-
         if (cryptoProvider != null) {
             fillCryptoStatusData(recipientMap);
         }
@@ -184,7 +230,6 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
                 recipientMap.put(address.getAddress(), recipient);
             }
         }
-
         cursor.close();
     }
 
@@ -217,7 +262,6 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
         }
 
         String contactIdStr = getContactIdFromContactUri(contactContentUri);
-
         Cursor cursor = contentResolver.query(
                 ContactsContract.CommonDataKinds.Email.CONTENT_URI,
                 PROJECTION, ContactsContract.CommonDataKinds.Email.CONTACT_ID + "=?",
@@ -233,16 +277,28 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
         return contactUri.getLastPathSegment();
     }
 
+    private boolean hasContactPermission() {
+        boolean canRead = ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
+        boolean canWrite = ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.WRITE_CONTACTS) == PackageManager.PERMISSION_GRANTED;
+        return  canRead && canWrite;
+    }
+
     private Cursor getNicknameCursor(String nickname) {
         nickname = "%" + nickname + "%";
         Uri queryUriForNickname = ContactsContract.Data.CONTENT_URI;
 
-        return contentResolver.query(queryUriForNickname,
-                PROJECTION_NICKNAME,
-                ContactsContract.CommonDataKinds.Nickname.NAME + " LIKE ? AND " +
-                        Data.MIMETYPE + " = ?",
-                new String[] { nickname, ContactsContract.CommonDataKinds.Nickname.CONTENT_ITEM_TYPE },
-                null);
+        if (hasContactPermission()) {
+            return contentResolver.query(queryUriForNickname,
+                    PROJECTION_NICKNAME,
+                    ContactsContract.CommonDataKinds.Nickname.NAME + " LIKE ? AND " +
+                            Data.MIMETYPE + " = ?",
+                    new String[] { nickname, ContactsContract.CommonDataKinds.Nickname.CONTENT_ITEM_TYPE },
+                    null);
+        } else {
+            return new EmptyCursor();
+        }
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -251,9 +307,10 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
 
         boolean foundValidCursor = false;
         foundValidCursor |= fillContactDataFromNickname(query, recipients, recipientMap);
-        foundValidCursor |= fillContactDataFromNameAndEmail(query, recipients, recipientMap);
+        foundValidCursor |= fillContactDataFromNameAndEmail(query, recipients, recipientMap, null);
 
         if (foundValidCursor) {
+            Collections.sort(recipients, RECIPIENT_COMPARATOR);
             registerContentObserver();
         }
     }
@@ -285,7 +342,8 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
                         .query(queryUri, PROJECTION, selection, new String[] { id }, SORT_ORDER);
 
                 String contactNickname = nicknameCursor.getString(INDEX_NICKNAME);
-                fillContactDataFromCursor(cursor, recipients, recipientMap, contactNickname);
+                fillContactDataFromCursor(cursor, recipients, recipientMap, contactNickname, null);
+
                 hasContact = true;
             }
         } finally {
@@ -294,16 +352,40 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
         return hasContact;
     }
 
+    private List<Recipient> fillContactDataBySortOrder(int maxRecipients) {
+        List<Recipient> recipients = new ArrayList<>();
+
+        Uri queryUri = Email.CONTENT_URI;
+
+        Cursor cursor = null;
+        if (hasContactPermission()) {
+            cursor = contentResolver.query(queryUri, PROJECTION, null, null, SORT_ORDER);
+        }
+
+        if (cursor == null) {
+            return recipients;
+        }
+
+        fillContactDataFromCursor(cursor, recipients, new HashMap<String, Recipient>(), null, maxRecipients);
+
+        return recipients;
+    }
+
 
     private boolean fillContactDataFromNameAndEmail(String query, List<Recipient> recipients,
-            Map<String, Recipient> recipientMap) {
+            Map<String, Recipient> recipientMap, Integer maxTargets) {
+
         query = "%" + query + "%";
         Uri queryUri = Email.CONTENT_URI;
 
         String selection = Contacts.DISPLAY_NAME_PRIMARY + " LIKE ? " +
                 " OR (" + Email.ADDRESS + " LIKE ? AND " + Data.MIMETYPE + " = '" + Email.CONTENT_ITEM_TYPE + "')";
         String[] selectionArgs = { query, query };
-        Cursor cursor = contentResolver.query(queryUri, PROJECTION, selection, selectionArgs, SORT_ORDER);
+
+        Cursor cursor = null;
+        if (hasContactPermission()) {
+            cursor = contentResolver.query(queryUri, PROJECTION, selection, selectionArgs, SORT_ORDER);
+        }
 
         if (cursor == null) {
             return false;
@@ -314,23 +396,26 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
 
     private void fillContactDataFromCursor(Cursor cursor, List<Recipient> recipients,
             Map<String, Recipient> recipientMap) {
-        fillContactDataFromCursor(cursor, recipients, recipientMap, null);
+        fillContactDataFromCursor(cursor, recipients, recipientMap, null, null);
     }
 
     private void fillContactDataFromCursor(Cursor cursor, List<Recipient> recipients,
-            Map<String, Recipient> recipientMap, @Nullable String prefilledName) {
+            Map<String, Recipient> recipientMap, @Nullable String prefilledName, @Nullable Integer maxRecipients) {
 
-        while (cursor.moveToNext()) {
+        while (cursor.moveToNext() && (maxRecipients == null || recipients.size() < maxRecipients)) {
             String name = prefilledName != null ? prefilledName : cursor.getString(INDEX_NAME);
             String email = cursor.getString(INDEX_EMAIL);
-            long contactId = cursor.getLong(INDEX_CONTACT_ID);
-            String lookupKey = cursor.getString(INDEX_LOOKUP_KEY);
 
             // already exists? just skip then
             if (email == null || recipientMap.containsKey(email)) {
                 // TODO We should probably merging contacts with the same email address
                 continue;
             }
+
+            long contactId = cursor.getLong(INDEX_CONTACT_ID);
+            String lookupKey = cursor.getString(INDEX_LOOKUP_KEY);
+            int timesContacted = cursor.getInt(INDEX_TIMES_CONTACTED);
+            String sortKey = cursor.getString(INDEX_KEY_PRIMARY);
 
             int addressType = cursor.getInt(INDEX_EMAIL_TYPE);
             String addressLabel = null;
@@ -357,9 +442,12 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
                     break;
                 }
             }
-            Recipient recipient = new Recipient(name, email, addressLabel, contactId, lookupKey);
+
+            Recipient recipient = new Recipient(name, email, addressLabel, contactId, lookupKey, timesContacted, sortKey);
             if (recipient.isValidEmailAddress()) {
-                recipient.photoThumbnailUri = cursor.isNull(INDEX_PHOTO_URI) ? null : Uri.parse(cursor.getString(INDEX_PHOTO_URI));
+
+                recipient.photoThumbnailUri =
+                        cursor.isNull(INDEX_PHOTO_URI) ? null : Uri.parse(cursor.getString(INDEX_PHOTO_URI));
                 recipientMap.put(email, recipient);
                 recipients.add(recipient);
             }

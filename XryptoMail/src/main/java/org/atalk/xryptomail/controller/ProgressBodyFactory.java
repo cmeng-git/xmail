@@ -9,7 +9,6 @@ import java.util.*;
 class ProgressBodyFactory extends DefaultBodyFactory {
     private final ProgressListener progressListener;
 
-
     ProgressBodyFactory(ProgressListener progressListener) {
         this.progressListener = progressListener;
     }

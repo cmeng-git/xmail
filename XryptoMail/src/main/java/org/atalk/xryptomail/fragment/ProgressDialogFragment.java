@@ -7,7 +7,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-public class ProgressDialogFragment extends DialogFragment {
+public class ProgressDialogFragment extends DialogFragment
+{
     protected static final String ARG_TITLE = "title";
     protected static final String ARG_MESSAGE = "message";
 

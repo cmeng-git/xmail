@@ -34,11 +34,6 @@
         android:title="@string/preferences_action" />
 
     <item
-        android:id="@+id/help"
-        android:icon="?attr/iconActionAbout"
-        android:title="@string/About_help" />
-
-    <item
         android:id="@+id/export_db"
         android:title="@string/export_db_action" />
 
@@ -59,6 +54,11 @@
                 android:title="@string/settings_import" />
         </menu>
     </item>
+
+    <item
+        android:id="@+id/help"
+        android:icon="?attr/iconActionAbout"
+        android:title="@string/About_help" />
     <item
         android:id="@+id/exit"
         android:icon="?attr/iconActionAbout"

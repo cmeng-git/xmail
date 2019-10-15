@@ -10,6 +10,8 @@ public class MessageViewInfo {
     public final Message message;
     public final boolean isMessageIncomplete;
     public final Part rootPart;
+    public final String subject;
+    public final boolean isSubjectEncrypted;
     public final AttachmentResolver attachmentResolver;
     public final String text;
     public final CryptoResultAnnotation cryptoResultAnnotation;
@@ -20,6 +22,7 @@ public class MessageViewInfo {
 
     public MessageViewInfo(
             Message message, boolean isMessageIncomplete, Part rootPart,
+            String subject, boolean isSubjectEncrypted,
             String text, List<AttachmentViewInfo> attachments,
             CryptoResultAnnotation cryptoResultAnnotation,
             AttachmentResolver attachmentResolver,
@@ -27,6 +30,8 @@ public class MessageViewInfo {
         this.message = message;
         this.isMessageIncomplete = isMessageIncomplete;
         this.rootPart = rootPart;
+        this.subject = subject;
+        this.isSubjectEncrypted = isSubjectEncrypted;
         this.text = text;
         this.cryptoResultAnnotation = cryptoResultAnnotation;
         this.attachmentResolver = attachmentResolver;
@@ -37,22 +42,29 @@ public class MessageViewInfo {
 
     static MessageViewInfo createWithExtractedContent(Message message, Part rootPart, boolean isMessageIncomplete,
             String text, List<AttachmentViewInfo> attachments, AttachmentResolver attachmentResolver) {
-        return new MessageViewInfo(message, isMessageIncomplete, rootPart, text, attachments, null,
+        return new MessageViewInfo(message, isMessageIncomplete, rootPart, null, false, text, attachments, null,
                 attachmentResolver, null, Collections.<AttachmentViewInfo>emptyList());
     }
 
     public static MessageViewInfo createWithErrorState(Message message, boolean isMessageIncomplete) {
-        return new MessageViewInfo(message, isMessageIncomplete, null, null, null, null, null, null, null);
+        return new MessageViewInfo(message, isMessageIncomplete, null, null, false, null, null, null, null, null, null);
     }
 
     public static MessageViewInfo createForMetadataOnly(Message message, boolean isMessageIncomplete) {
-        return new MessageViewInfo(message, isMessageIncomplete, null, null, null, null, null, null, null);
+        return new MessageViewInfo(message, isMessageIncomplete, null, null, false, null, null, null, null, null, null);
     }
 
     MessageViewInfo withCryptoData(CryptoResultAnnotation rootPartAnnotation, String extraViewableText,
             List<AttachmentViewInfo> extraAttachmentInfos) {
-        return new MessageViewInfo( message, isMessageIncomplete, rootPart, text, attachments,
+        return new MessageViewInfo( message, isMessageIncomplete, rootPart, subject, isSubjectEncrypted,  text, attachments,
                 rootPartAnnotation, attachmentResolver, extraViewableText, extraAttachmentInfos
+        );
+    }
+
+    MessageViewInfo withSubject(String subject, boolean isSubjectEncrypted) {
+        return new MessageViewInfo(
+                message, isMessageIncomplete, rootPart, subject, isSubjectEncrypted, text, attachments,
+                cryptoResultAnnotation, attachmentResolver, extraText, extraAttachments
         );
     }
 }

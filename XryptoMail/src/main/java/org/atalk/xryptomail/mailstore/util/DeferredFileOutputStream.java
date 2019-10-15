@@ -1,6 +1,5 @@
 package org.atalk.xryptomail.mailstore.util;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,7 +17,6 @@ public class DeferredFileOutputStream extends ThresholdingOutputStream {
 
     private OutputStream currentOutputStream;
     private File outputFile;
-
 
     public DeferredFileOutputStream(int threshold, FileFactory fileFactory) {
         super(threshold);

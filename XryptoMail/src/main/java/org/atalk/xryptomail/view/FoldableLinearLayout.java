@@ -172,7 +172,7 @@ public class FoldableLinearLayout extends LinearLayout {
         // Inflate the inner foldable_linearlayout.xml
         LayoutInflater inflator = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mFoldableLayout = inflator.inflate(R.layout.foldable_linearlayout, this, true);
-        mFoldableContainer = (LinearLayout) mFoldableLayout.findViewById(R.id.foldableContainer);
+        mFoldableContainer = mFoldableLayout.findViewById(R.id.foldableContainer);
         // Push previously collected children into foldableContainer.
         for (int i = 0; i < childNum; i++) {
             addView(children[i]);
@@ -185,7 +185,7 @@ public class FoldableLinearLayout extends LinearLayout {
         mFoldableTextView.setText(mFoldedLabel);
         // retrieve and cache the system's short animation time
         mShortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
-        LinearLayout foldableControl = (LinearLayout) mFoldableLayout.findViewById(R.id.foldableControl);
+        LinearLayout foldableControl = mFoldableLayout.findViewById(R.id.foldableControl);
         foldableControl.setOnClickListener(view -> {
             mIsFolded = !mIsFolded;
             updateFoldedState(mIsFolded, true);

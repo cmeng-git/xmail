@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.widget.TextView;
 
 import org.atalk.xryptomail.Account;
@@ -16,7 +16,6 @@ import org.atalk.xryptomail.Preferences;
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.controller.MessagingController;
 import org.atalk.xryptomail.service.DatabaseUpgradeService;
-
 
 /**
  * This activity triggers a database upgrade if necessary and displays the current upgrade progress.

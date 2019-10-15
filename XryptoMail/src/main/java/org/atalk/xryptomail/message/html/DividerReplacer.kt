@@ -18,7 +18,6 @@ internal object DividerReplacer : TextToHtml.HtmlModifier {
         }.toList()
     }
 
-
     class Divider(startIndex: Int, endIndex: Int) : HtmlModification.Replace(startIndex, endIndex) {
         override fun replace(textToHtml: TextToHtml) {
             textToHtml.appendHtml("<hr>")

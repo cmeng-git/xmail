@@ -64,8 +64,28 @@ some quirks when talking to Microsoft Exchange.
 	<string name="checking_update">Checking For Update …</string>
 	<string name="update_found">1 new update found</string>
     <string name="file_not_exist">The specified file could not be found. It was either deleted or moved</string>
+    <string name="fetch_version_error">Failed to query software information from server.</string>
+    <string name="new_version_found">New software version %s found.\nProceed to update?</string>
+    <string name="no_new_version_found">Current software version %s is already up-to-date.</string>
+    <string name="download_apk_error">Cannot download software from server.</string>
 
-	<string name="stealth_ack_fmt1">This is the return receipt for the message you sent to &lt;<xliff:g id="recipient">%s</xliff:g>&gt; on <xliff:g id="send_date">%s</xliff:g>.</string>
+    <!-- Update checker -->
+    <string name="updatechecker_BUTTON_DOWNLOAD">Download</string>
+    <string name="updatechecker_BUTTON_INSTALL">Install</string>
+    <string name="updatechecker_DIALOG_DOWNLOADED_TITLE">Download finished</string>
+    <string name="updatechecker_DIALOG_DOWNLOADED">Update is downloaded and ready to be installed.</string>
+    <string name="updatechecker_DIALOG_IN_PROGRESS_TITLE">In progress</string>
+    <string name="updatechecker_DIALOG_IN_PROGRESS">Downloading update is in progress.</string>
+    <string name="updatechecker_DIALOG_MESSAGE">A new released version (%1$s-%2$s) for %3$s is available for download.</string>
+    <string name="updatechecker_DIALOG_NOUPDATE">Your current installed version: (%1$s-%2$s) is up to date.</string>
+    <string name="updatechecker_DIALOG_NOUPDATE_TITLE">No new version</string>
+    <string name="updatechecker_DIALOG_TITLE">Install Updates</string>
+    <string name="updatechecker_DOWNLOAD_FAILED">Failed to download new update!</string>
+    <string name="updatechecker_UPDATE_MENU_ENTRY">Check for updates</string>
+    <string name="updatechecker_NEW_UPDATE_DIALOG_MESSAGE">A new software version (%1$s) is available.</string>
+
+
+    <string name="stealth_ack_fmt1">This is the return receipt for the message you sent to &lt;<xliff:g id="recipient">%s</xliff:g>&gt; on <xliff:g id="send_date">%s</xliff:g>.</string>
     <string name="stealth_ack_fmt2">This receipt confirms that the message has been read and purged on the recipient\'s device and mail server on <xliff:g id="read_date">%s</xliff:g>.</string>
 	<string name="stealth_ack_subject">StealthAck: <xliff:g id="subject">%s</xliff:g></string>
     <string name="stealth_deleted_message">Read stealth message has been deleted.</string>
@@ -85,10 +105,6 @@ some quirks when talking to Microsoft Exchange.
 
     <string name="show_history_log">History Logs</string>
     <string name="check_new_version">Check Update</string>
-    <string name="fetch_version_error">Failed to query software information from server.</string>
-    <string name="new_version_found">New software version %s found.\nProceed to update?</string>
-    <string name="no_new_version_found">Current software version %s is already up-to-date.</string>
-    <string name="download_apk_error">Cannot download software from server.</string>
 
     <string name="Send_Mode">Send As</string>
     <string name="Send_Normal_Email">Normal Email</string>
@@ -1427,6 +1443,7 @@ some quirks when talking to Microsoft Exchange.
 
     <!-- Android Notification Channels -->
     <string name="noti_channel_BADGE_GROUP">Badge Notification</string>
+    <string name="noti_channel_BADGE_ONLY">Badge-Number Notification</string>
     <string name="noti_channel_EMAIL_GROUP">Email Notification</string>
     <string name="noti_channel_ERROR_GROUP">Error Notification</string>
     <string name="noti_channel_SERVICE_GROUP">Service Notification</string>

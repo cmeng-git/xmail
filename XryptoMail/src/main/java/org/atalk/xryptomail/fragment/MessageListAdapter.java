@@ -275,7 +275,7 @@ public class MessageListAdapter extends CursorAdapter
         String folderName = cursor.getString(FOLDER_NAME_COLUMN);
 
         if (account.getUuid().equals(fragment.mActiveMessage.getAccountUuid())
-                && folderName.equals(fragment.mActiveMessage.getFolderName())
+                && folderName.equals(fragment.mActiveMessage.getFolderServerId())
                 && uid.equals(fragment.mActiveMessage.getUid())) {
             int res = R.attr.messageListActiveItemBackgroundColor;
 

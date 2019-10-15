@@ -109,8 +109,8 @@ class TextBodyBuilder {
 
         if (mStealthMode && !isDraft)
             text = Base64.encode(text);
-        TextBody body = new TextBody(text);
 
+        TextBody body = new TextBody(text);
         body.setComposedMessageLength(composedMessageLength);
         body.setComposedMessageOffset(composedMessageOffset);
         return body;
@@ -170,8 +170,8 @@ class TextBodyBuilder {
 
         if (mStealthMode  && !isDraft)
             text = Base64.encode(text);
-        TextBody body = new TextBody(text);
 
+        TextBody body = new TextBody(text);
         body.setComposedMessageLength(composedMessageLength);
         body.setComposedMessageOffset(composedMessageOffset);
         return body;

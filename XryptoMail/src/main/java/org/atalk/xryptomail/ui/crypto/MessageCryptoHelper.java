@@ -2,7 +2,10 @@ package org.atalk.xryptomail.ui.crypto;
 
 import android.app.*;
 import android.content.*;
-import android.support.annotation.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.WorkerThread;
 
 import org.apache.commons.io.IOUtils;
 import org.atalk.xryptomail.XryptoMail;
@@ -30,7 +33,7 @@ public class MessageCryptoHelper {
     private static final int REQUEST_CODE_USER_INTERACTION = 124;
 
     private final Context mContext;
-    private final String openPgpProviderPackage;
+    private final String openPgpProvider;
     private final AutocryptOperations autocryptOperations;
     private final Object callbackLock = new Object();
     private final Deque<CryptoPart> partsToProcess = new ArrayDeque<>();
@@ -65,11 +68,11 @@ public class MessageCryptoHelper {
 
         this.autocryptOperations = autocryptOperations;
         this.openPgpApiFactory = openPgpApiFactory;
-        openPgpProviderPackage = XryptoMail.getOpenPgpProvider();
+        openPgpProvider = XryptoMail.getOpenPgpProvider();
     }
 
-    public boolean isConfiguredForOutdatedCryptoProvider() {
-        return !openPgpProviderPackage.equals(XryptoMail.getOpenPgpProvider());
+    public boolean isConfiguredForOpenPgpProvider() {
+        return openPgpProvider.equals(XryptoMail.getOpenPgpProvider());
     }
 
     public void asyncStartOrResumeProcessingMessage(Message message, MessageCryptoCallback callback,
@@ -196,7 +199,7 @@ public class MessageCryptoHelper {
     }
 
     private void connectToCryptoProviderService() {
-        openPgpServiceConnection = new OpenPgpServiceConnection(mContext, openPgpProviderPackage,
+        openPgpServiceConnection = new OpenPgpServiceConnection(mContext, openPgpProvider,
                 new OnBound() {
                     @Override
                     public void onBound(IOpenPgpService2 service) {

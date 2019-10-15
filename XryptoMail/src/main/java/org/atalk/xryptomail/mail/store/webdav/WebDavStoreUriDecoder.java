@@ -7,7 +7,8 @@ import java.net.URISyntaxException;
 
 import static org.atalk.xryptomail.helper.UrlEncodingHelper.decodeUtf8;
 
-public class WebDavStoreUriDecoder {
+public class WebDavStoreUriDecoder
+{
 
     /**
      * Decodes a WebDavStore URI.
@@ -18,7 +19,8 @@ public class WebDavStoreUriDecoder {
      * webdav+ssl+://user:password@server:port ConnectionSecurity.SSL_TLS_REQUIRED
      * </pre>
      */
-    public static WebDavStoreSettings decode(String uri) {
+    public static WebDavStoreSettings decode(String uri)
+    {
         String host;
         int port;
         ConnectionSecurity connectionSecurity;
@@ -28,7 +30,6 @@ public class WebDavStoreUriDecoder {
         String path = null;
         String authPath = null;
         String mailboxPath = null;
-
 
         URI webDavUri;
         try {
@@ -52,9 +53,11 @@ public class WebDavStoreUriDecoder {
          */
         if (scheme.equals("webdav")) {
             connectionSecurity = ConnectionSecurity.NONE;
-        } else if (scheme.startsWith("webdav+")) {
+        }
+        else if (scheme.startsWith("webdav+")) {
             connectionSecurity = ConnectionSecurity.SSL_TLS_REQUIRED;
-        } else {
+        }
+        else {
             throw new IllegalArgumentException("Unsupported protocol (" + scheme + ")");
         }
 
@@ -65,7 +68,6 @@ public class WebDavStoreUriDecoder {
                 host = hostParts[1];
             }
         }
-
         port = webDavUri.getPort();
 
         String userInfo = webDavUri.getUserInfo();
@@ -76,7 +78,8 @@ public class WebDavStoreUriDecoder {
 
             if (userParts.length > 1) {
                 alias = userParts[1];
-            } else {
+            }
+            else {
                 alias = username;
             }
             if (userInfoParts.length > 1) {
@@ -91,12 +94,14 @@ public class WebDavStoreUriDecoder {
                         pathParts[0].length() > 1) {
                     path = pathParts[0];
                 }
-            } else if (i == 1) {
+            }
+            else if (i == 1) {
                 if (pathParts[1] != null &&
                         pathParts[1].length() > 1) {
                     authPath = pathParts[1];
                 }
-            } else if (i == 2) {
+            }
+            else if (i == 2) {
                 if (pathParts[2] != null &&
                         pathParts[2].length() > 1) {
                     mailboxPath = pathParts[2];

@@ -85,7 +85,7 @@ public class FolderInfoHolder implements Comparable<FolderInfoHolder>
     public void populate(Context context, LocalFolder folder, Account account)
     {
         this.folder = folder;
-        this.name = folder.getName();
+        this.name = folder.getServerId();
         this.lastChecked = folder.getLastUpdate();
 
         this.status = truncateStatus(folder.getStatus());
@@ -110,19 +110,19 @@ public class FolderInfoHolder implements Comparable<FolderInfoHolder>
     public static String getDisplayName(Context context, Account account, String name)
     {
         final String displayName;
-        if (name.equals(account.getSpamFolderName())) {
+        if (name.equals(account.getSpamFolder())) {
             displayName = String.format(
                     context.getString(R.string.special_mailbox_name_spam_fmt), name);
         }
-        else if (name.equals(account.getArchiveFolderName())) {
+        else if (name.equals(account.getArchiveFolder())) {
             displayName = String.format(
                     context.getString(R.string.special_mailbox_name_archive_fmt), name);
         }
-        else if (name.equals(account.getSentFolderName())) {
+        else if (name.equals(account.getSentFolder())) {
             displayName = String.format(
                     context.getString(R.string.special_mailbox_name_sent_fmt), name);
         }
-        else if (name.equals(account.getTrashFolderName())) {
+        else if (name.equals(account.getTrashFolder())) {
             displayName = String.format(
                     context.getString(R.string.special_mailbox_name_trash_fmt), name);
         }
@@ -133,7 +133,7 @@ public class FolderInfoHolder implements Comparable<FolderInfoHolder>
         else if (name.equals(account.getOutboxFolderName())) {
             displayName = context.getString(R.string.special_mailbox_name_outbox);
         }
-        else if (name.equalsIgnoreCase(account.getInboxFolderName())) {
+        else if (name.equalsIgnoreCase(account.getInboxFolder())) {
             displayName = context.getString(R.string.special_mailbox_name_inbox);
         }
         else {

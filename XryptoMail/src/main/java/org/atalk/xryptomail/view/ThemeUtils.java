@@ -2,9 +2,9 @@ package org.atalk.xryptomail.view;
 
 import android.content.Context;
 import android.content.res.Resources.Theme;
-import android.support.annotation.AttrRes;
-import android.support.annotation.ColorInt;
-import android.support.annotation.UiThread;
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
+import androidx.annotation.UiThread;
 import android.util.TypedValue;
 
 

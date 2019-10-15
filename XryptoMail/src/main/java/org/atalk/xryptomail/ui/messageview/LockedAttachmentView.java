@@ -38,16 +38,13 @@ public class LockedAttachmentView extends ToolableViewAnimator implements OnClic
         View unlockButton = findViewById(R.id.locked_button);
         unlockButton.setOnClickListener(this);
 
-        attachmentViewStub = (ViewStub) findViewById(R.id.attachment_stub);
+        attachmentViewStub = findViewById(R.id.attachment_stub);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.locked_button: {
-                showUnlockedView();
-                break;
-            }
+        if (view.getId() == R.id.locked_button) {
+            showUnlockedView();
         }
     }
 

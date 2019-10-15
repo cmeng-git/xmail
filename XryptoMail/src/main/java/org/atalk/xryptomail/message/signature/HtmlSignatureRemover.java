@@ -1,6 +1,6 @@
 package org.atalk.xryptomail.message.signature;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.atalk.xryptomail.helper.jsoup.*;
 import org.atalk.xryptomail.message.html.HtmlProcessor;

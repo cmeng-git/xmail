@@ -1,6 +1,7 @@
 package org.atalk.xryptomail.mailstore;
 
-import android.support.annotation.*;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 import org.apache.commons.io.IOUtils;
 import org.atalk.xryptomail.mail.MessagingException;

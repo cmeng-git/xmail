@@ -49,7 +49,7 @@ class ImapFolderPusher extends ImapFolder
         mPushReceiver = pushReceiver;
         Context context = pushReceiver.getContext();
         TracingPowerManager powerManager = TracingPowerManager.getPowerManager(context);
-        String tag = "ImapFolderPusher " + store.getStoreConfig().toString() + ":" + getName();
+        String tag = "ImapFolderPusher " + store.getStoreConfig().toString() + ":" + getServerId();
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, tag);
         wakeLock.setReferenceCounted(false);
     }
@@ -192,7 +192,7 @@ class ImapFolderPusher extends ImapFolder
                         Timber.i("Got exception while idling, but stop is set for %s", getLogId());
                     }
                     else {
-                        mPushReceiver.pushError("Push error for " + getName(), e);
+                        mPushReceiver.pushError("Push error for " + getServerId(), e);
                         Timber.e("Handle returned (io)exception while idling for %s", getLogId());
 
                         mPushReceiver.sleep(wakeLock, delayTime);
@@ -203,14 +203,14 @@ class ImapFolderPusher extends ImapFolder
                         idleFailureCount++;
                         if (idleFailureCount > IDLE_FAILURE_COUNT_LIMIT) {
                             Timber.e("Disabling pusher for %s after %d consecutive errors", getLogId(), idleFailureCount);
-                            mPushReceiver.pushError("Push disabled for " + getName() + " after " + idleFailureCount +
+                            mPushReceiver.pushError("Push disabled for " + getServerId() + " after " + idleFailureCount +
                                     " consecutive errors", e);
                             stop = true;
                         }
                     }
                 }
             }
-            mPushReceiver.setPushActive(getName(), false);
+            mPushReceiver.setPushActive(getServerId(), false);
 
             try {
                 if (XryptoMailLib.isDebug()) {
@@ -229,7 +229,7 @@ class ImapFolderPusher extends ImapFolder
             wakeLock.acquire(XryptoMail.PUSH_WAKE_LOCK_TIMEOUT);
             clearStoredUntaggedResponses();
             idling = false;
-            mPushReceiver.setPushActive(getName(), false);
+            mPushReceiver.setPushActive(getServerId(), false);
 
             try {
                 if (mConnection != null)
@@ -283,7 +283,7 @@ class ImapFolderPusher extends ImapFolder
 
         private void prepareForIdle()
         {
-            mPushReceiver.setPushActive(getName(), true);
+            mPushReceiver.setPushActive(getServerId(), true);
             idling = true;
         }
 
@@ -666,7 +666,7 @@ class ImapFolderPusher extends ImapFolder
         {
             long oldUidNext = -1L;
             try {
-                String serializedPushState = mPushReceiver.getPushState(getName());
+                String serializedPushState = mPushReceiver.getPushState(getServerId());
                 ImapPushState pushState = ImapPushState.parse(serializedPushState);
                 oldUidNext = pushState.uidNext;
 

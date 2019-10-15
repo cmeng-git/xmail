@@ -101,12 +101,13 @@ public class ActivityListener extends SimpleMessagingListener
                 displayName = mLoadingFolderName;
             }
 
-            if ((mAccount != null)
-                    && (displayName.equalsIgnoreCase(mAccount.getInboxFolderName()))) {
-                displayName = context.getString(R.string.special_mailbox_name_inbox);
-            }
-            else if (displayName.equalsIgnoreCase(mAccount.getOutboxFolderName())) {
-                displayName = context.getString(R.string.special_mailbox_name_outbox);
+            if (mAccount != null) {
+                if (displayName.equalsIgnoreCase(mAccount.getInboxFolder())) {
+                    displayName = context.getString(R.string.special_mailbox_name_inbox);
+                }
+                else if (displayName.equalsIgnoreCase(mAccount.getOutboxFolderName())) {
+                    displayName = context.getString(R.string.special_mailbox_name_outbox);
+                }
             }
 
             if (mLoadingHeaderFolderName != null) {

@@ -2,8 +2,8 @@ package org.atalk.xryptomail.notification;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.app.JobIntentService;
+import androidx.annotation.NonNull;
+import androidx.core.app.JobIntentService;
 
 import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.activity.MessageReference;
@@ -171,7 +171,7 @@ public class NotificationActionService extends JobIntentService
         List<String> messageReferenceStrings = intent.getStringArrayListExtra(EXTRA_MESSAGE_REFERENCES);
         List<MessageReference> messageReferences = toMessageReferenceList(messageReferenceStrings);
         for (MessageReference messageReference : messageReferences) {
-            String folderName = messageReference.getFolderName();
+            String folderName = messageReference.getFolderServerId();
             String uid = messageReference.getUid();
             controller.setFlag(account, folderName, uid, Flag.SEEN, true);
         }
@@ -188,9 +188,9 @@ public class NotificationActionService extends JobIntentService
     private void archiveMessages(Intent intent, Account account, MessagingController controller)
     {
         Timber.i("NotificationActionService archiving messages");
-        String archiveFolderName = account.getArchiveFolderName();
+        String archiveFolderName = account.getArchiveFolder();
         if (archiveFolderName == null ||
-                (archiveFolderName.equals(account.getSpamFolderName()) && XryptoMail.confirmSpam()) ||
+                (archiveFolderName.equals(account.getSpamFolder()) && XryptoMail.confirmSpam()) ||
                 !isMovePossible(controller, account, archiveFolderName)) {
             Timber.w("Can not archive messages");
             return;
@@ -200,7 +200,7 @@ public class NotificationActionService extends JobIntentService
         List<MessageReference> messageReferences = toMessageReferenceList(messageReferenceStrings);
         for (MessageReference messageReference : messageReferences) {
             if (controller.isMoveCapable(messageReference)) {
-                String sourceFolderName = messageReference.getFolderName();
+                String sourceFolderName = messageReference.getFolderServerId();
                 controller.moveMessage(account, sourceFolderName, messageReference, archiveFolderName);
             }
         }
@@ -216,9 +216,9 @@ public class NotificationActionService extends JobIntentService
             return;
         }
 
-        String spamFolderName = account.getSpamFolderName();
+        String spamFolderName = account.getSpamFolder();
         if ((spamFolderName != null) && !XryptoMail.confirmSpam() && isMovePossible(controller, account, spamFolderName)) {
-            String sourceFolderName = messageReference.getFolderName();
+            String sourceFolderName = messageReference.getFolderServerId();
             controller.moveMessage(account, sourceFolderName, messageReference, spamFolderName);
         }
     }

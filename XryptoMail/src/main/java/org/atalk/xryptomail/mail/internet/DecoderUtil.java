@@ -39,7 +39,6 @@ class DecoderUtil
      */
     public static String decodeEncodedWords(String body, Message message)
     {
-
         // ANDROID:  Most strings will not include "=?" so a quick test can prevent unneeded
         // object creation.  This could also be handled via lazy creation of the StringBuilder.
         if (!body.contains("=?")) {
@@ -81,20 +80,19 @@ class DecoderUtil
             end += 2;
 
             String sep = body.substring(previousEnd, begin);
-
             EncodedWord word = extractEncodedWord(body, begin, end, message);
 
             if (previousWord == null) {
                 sb.append(sep);
                 if (word == null) {
-                    sb.append(body.substring(begin, end));
+                    sb.append(body, begin, end);
                 }
             }
             else {
                 if (word == null) {
                     sb.append(charsetDecode(previousWord));
                     sb.append(sep);
-                    sb.append(body.substring(begin, end));
+                    sb.append(body, begin, end);
                 }
                 else {
                     if (!CharsetUtil.isWhitespace(sep)) {
@@ -143,7 +141,12 @@ class DecoderUtil
         if (qm2 == end - 2)
             return null;
 
-        String mimeCharset = body.substring(begin + 2, qm1);
+        // Extract charset, skipping language information if present (example: =?utf-8*en?Q?Text?=)
+        String charsetPart = body.substring(begin + 2, qm1);
+        int languageSuffixStart = charsetPart.indexOf('*');
+        boolean languageSuffixFound = languageSuffixStart != -1;
+        String mimeCharset = languageSuffixFound ? charsetPart.substring(0, languageSuffixStart) : charsetPart;
+
         String encoding = body.substring(qm1 + 1, qm2);
         String encodedText = body.substring(qm2 + 1, end - 2);
 

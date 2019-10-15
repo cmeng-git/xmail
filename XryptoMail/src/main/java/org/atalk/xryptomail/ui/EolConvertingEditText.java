@@ -1,7 +1,7 @@
 package org.atalk.xryptomail.ui;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatEditText;
 import android.util.AttributeSet;
 
 /**
@@ -29,7 +29,7 @@ public class EolConvertingEditText extends AppCompatEditText //ContentEditText
      * Sets the string value of the EolConvertingEditText. Any line endings
      * in the string will be converted to {@code \n}.
      *
-     * @param text string
+     * @param text String
      */
     public void  setCharacters(CharSequence text) {
         setText(text.toString().replace("\r\n", "\n"));

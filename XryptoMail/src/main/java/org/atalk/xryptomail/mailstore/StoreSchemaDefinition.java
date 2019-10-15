@@ -107,7 +107,7 @@ class StoreSchemaDefinition implements LockableDatabase.SchemaDefinition {
                 "message_id TEXT, " +
                 "preview_type TEXT default \"none\", " +
                 "preview TEXT, " +
-                "mime_type TEXT, "+
+                "mime_type TEXT, " +
                 "normalized_subject_hash INTEGER, " +
                 "empty INTEGER default 0, " +
                 "read INTEGER default 0, " +

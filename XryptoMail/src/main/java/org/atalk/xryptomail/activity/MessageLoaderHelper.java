@@ -1,33 +1,52 @@
 package org.atalk.xryptomail.activity;
 
-import android.app.*;
+import android.app.FragmentManager;
+import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.*;
-import android.os.*;
-import android.support.annotation.*;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentSender;
+import android.content.Loader;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Parcelable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
 
-import org.atalk.xryptomail.*;
+import org.atalk.xryptomail.Account;
+import org.atalk.xryptomail.Preferences;
+import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.autocrypt.AutocryptOperations;
-import org.atalk.xryptomail.controller.*;
+import org.atalk.xryptomail.controller.MessagingController;
+import org.atalk.xryptomail.controller.MessagingListener;
+import org.atalk.xryptomail.controller.SimpleMessagingListener;
 import org.atalk.xryptomail.helper.RetainFragment;
 import org.atalk.xryptomail.mail.Flag;
-import org.atalk.xryptomail.mailstore.*;
-import org.atalk.xryptomail.ui.crypto.*;
-import org.atalk.xryptomail.ui.message.*;
+import org.atalk.xryptomail.mailstore.LocalMessage;
+import org.atalk.xryptomail.mailstore.MessageViewInfo;
+import org.atalk.xryptomail.ui.crypto.MessageCryptoAnnotations;
+import org.atalk.xryptomail.ui.crypto.MessageCryptoCallback;
+import org.atalk.xryptomail.ui.crypto.MessageCryptoHelper;
+import org.atalk.xryptomail.ui.crypto.OpenPgpApiFactory;
+import org.atalk.xryptomail.ui.message.LocalMessageExtractorLoader;
+import org.atalk.xryptomail.ui.message.LocalMessageLoader;
 import org.openintents.openpgp.OpenPgpDecryptionResult;
 
 import timber.log.Timber;
 
 
-/** This class is responsible for loading a message start to finish, and
+/**
+ * This class is responsible for loading a message start to finish, and
  * retaining or reloading the loading state on configuration changes.
  *
  * In particular, it takes care of the following:
- *  - load raw message data from the database, using LocalMessageLoader
- *  - download partial message content if it is missing using MessagingController
- *  - apply crypto operations if applicable, using MessageCryptoHelper
- *  - extract MessageViewInfo from the message and crypto data using DecodeMessageLoader
- *  - download complete message content for partially downloaded messages if requested
+ * - load raw message data from the database, using LocalMessageLoader
+ * - download partial message content if it is missing using MessagingController
+ * - apply crypto operations if applicable, using MessageCryptoHelper
+ * - extract MessageViewInfo from the message and crypto data using DecodeMessageLoader
+ * - download complete message content for partially downloaded messages if requested
  *
  * No state is retained in this object itself. Instead, state is stored in the
  * message loaders and the MessageCryptoHelper which is stored in a
@@ -51,9 +70,9 @@ import timber.log.Timber;
  * retained DecodeMessageLoader, returning the final result. At each
  * intermediate step, the input of the respective loaders will be checked for
  * consistency, reloading if there is a mismatch.
- *
  */
-public class MessageLoaderHelper {
+public class MessageLoaderHelper
+{
     private static final int LOCAL_MESSAGE_LOADER_ID = 1;
     private static final int DECODE_MESSAGE_LOADER_ID = 2;
 
@@ -65,6 +84,7 @@ public class MessageLoaderHelper {
     @Nullable // make this explicitly nullable, make sure to cancel/ignore any operation if this is null
     private MessageLoaderCallbacks callback;
     private final boolean processSignedOnly;
+    private Handler handler = new Handler(Looper.getMainLooper());
 
     // transient state
     private boolean onlyLoadMetadata;
@@ -77,7 +97,8 @@ public class MessageLoaderHelper {
     private MessageCryptoHelper messageCryptoHelper;
 
     public MessageLoaderHelper(Context context, LoaderManager loaderManager, FragmentManager fragmentManager,
-            @NonNull MessageLoaderCallbacks callback) {
+            @NonNull MessageLoaderCallbacks callback)
+    {
         this.context = context;
         this.loaderManager = loaderManager;
         this.fragmentManager = fragmentManager;
@@ -87,7 +108,8 @@ public class MessageLoaderHelper {
 
     // public interface
     @UiThread
-    public void asyncStartOrResumeLoadingMessage(MessageReference messageReference, Parcelable cachedDecryptionResult) {
+    public void asyncStartOrResumeLoadingMessage(MessageReference messageReference, Parcelable cachedDecryptionResult)
+    {
         onlyLoadMetadata = false;
         this.messageReference = messageReference;
         this.account = Preferences.getPreferences(context).getAccount(messageReference.getAccountUuid());
@@ -95,7 +117,8 @@ public class MessageLoaderHelper {
         if (cachedDecryptionResult != null) {
             if (cachedDecryptionResult instanceof OpenPgpDecryptionResult) {
                 this.cachedDecryptionResult = (OpenPgpDecryptionResult) cachedDecryptionResult;
-            } else {
+            }
+            else {
                 Timber.e("Got decryption result of unknown type - ignoring");
             }
         }
@@ -103,7 +126,8 @@ public class MessageLoaderHelper {
     }
 
     @UiThread
-    public void asyncStartOrResumeLoadingMessageMetadata(MessageReference messageReference) {
+    public void asyncStartOrResumeLoadingMessageMetadata(MessageReference messageReference)
+    {
         onlyLoadMetadata = true;
         this.messageReference = messageReference;
         this.account = Preferences.getPreferences(context).getAccount(messageReference.getAccountUuid());
@@ -111,24 +135,30 @@ public class MessageLoaderHelper {
     }
 
     @UiThread
-    public void asyncReloadMessage() {
+    public void asyncReloadMessage()
+    {
         startOrResumeLocalMessageLoader();
     }
 
     @UiThread
-    public void asyncRestartMessageCryptoProcessing() {
+    public void asyncRestartMessageCryptoProcessing()
+    {
         cancelAndClearCryptoOperation();
         cancelAndClearDecodeLoader();
         if (XryptoMail.isOpenPgpProviderConfigured()) {
             startOrResumeCryptoOperation();
-        } else {
+        }
+        else {
             startOrResumeDecodeMessage();
         }
     }
 
-    /** Cancels all loading processes, prevents future callbacks, and destroys all loading state. */
+    /**
+     * Cancels all loading processes, prevents future callbacks, and destroys all loading state.
+     */
     @UiThread
-    public void onDestroy() {
+    public void onDestroy()
+    {
         if (messageCryptoHelper != null) {
             messageCryptoHelper.cancelIfRunning();
         }
@@ -138,10 +168,13 @@ public class MessageLoaderHelper {
         loaderManager = null;
     }
 
-    /** Prevents future callbacks, but retains loading state to pick up from in a call to
-     * asyncStartOrResumeLoadingMessage in a new instance of this class. */
+    /**
+     * Prevents future callbacks, but retains loading state to pick up from in a call to
+     * asyncStartOrResumeLoadingMessage in a new instance of this class.
+     */
     @UiThread
-    public void onDestroyChangingConfigurations() {
+    public void onDestroyChangingConfigurations()
+    {
         cancelAndClearDecodeLoader();
 
         if (messageCryptoHelper != null) {
@@ -154,17 +187,20 @@ public class MessageLoaderHelper {
     }
 
     @UiThread
-    public void downloadCompleteMessage() {
+    public void downloadCompleteMessage()
+    {
         startDownloadingMessageBody(true);
     }
 
     @UiThread
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         messageCryptoHelper.onActivityResult(requestCode, resultCode, data);
     }
 
     // load from database
-    private void startOrResumeLocalMessageLoader() {
+    private void startOrResumeLocalMessageLoader()
+    {
         LocalMessageLoader loader = (LocalMessageLoader) loaderManager.<LocalMessage>getLoader(LOCAL_MESSAGE_LOADER_ID);
         boolean isLoaderStale = (loader == null) || !loader.isCreatedFor(messageReference);
 
@@ -173,18 +209,19 @@ public class MessageLoaderHelper {
             cancelAndClearCryptoOperation();
             cancelAndClearDecodeLoader();
             loaderManager.restartLoader(LOCAL_MESSAGE_LOADER_ID, null, localMessageLoaderCallback);
-        } else {
+        }
+        else {
             Timber.d("Reusing local message loader");
             loaderManager.initLoader(LOCAL_MESSAGE_LOADER_ID, null, localMessageLoaderCallback);
         }
     }
 
     @UiThread
-    private void onLoadMessageFromDatabaseFinished() {
+    private void onLoadMessageFromDatabaseFinished()
+    {
         if (callback == null) {
             throw new IllegalStateException("unexpected call when callback is already detached");
         }
-
         callback.onMessageDataLoadFinished(localMessage);
 
         boolean downloadedCompletely = localMessage.isSet(Flag.X_DOWNLOADED_FULL);
@@ -209,20 +246,24 @@ public class MessageLoaderHelper {
         startOrResumeDecodeMessage();
     }
 
-    private void onLoadMessageFromDatabaseFailed() {
+    private void onLoadMessageFromDatabaseFailed()
+    {
         if (callback == null) {
             throw new IllegalStateException("unexpected call when callback is already detached");
         }
         callback.onMessageDataLoadFailed();
     }
 
-    private void cancelAndClearLocalMessageLoader() {
+    private void cancelAndClearLocalMessageLoader()
+    {
         loaderManager.destroyLoader(LOCAL_MESSAGE_LOADER_ID);
     }
 
-    private LoaderCallbacks<LocalMessage> localMessageLoaderCallback = new LoaderCallbacks<LocalMessage>() {
+    private LoaderCallbacks<LocalMessage> localMessageLoaderCallback = new LoaderCallbacks<LocalMessage>()
+    {
         @Override
-        public Loader<LocalMessage> onCreateLoader(int id, Bundle args) {
+        public Loader<LocalMessage> onCreateLoader(int id, Bundle args)
+        {
             if (id != LOCAL_MESSAGE_LOADER_ID) {
                 throw new IllegalStateException("loader id must be message loader id");
             }
@@ -231,7 +272,8 @@ public class MessageLoaderHelper {
         }
 
         @Override
-        public void onLoadFinished(Loader<LocalMessage> loader, LocalMessage message) {
+        public void onLoadFinished(Loader<LocalMessage> loader, LocalMessage message)
+        {
             if (loader.getId() != LOCAL_MESSAGE_LOADER_ID) {
                 throw new IllegalStateException("loader id must be message loader id");
             }
@@ -239,13 +281,15 @@ public class MessageLoaderHelper {
             localMessage = message;
             if (message == null) {
                 onLoadMessageFromDatabaseFailed();
-            } else {
+            }
+            else {
                 onLoadMessageFromDatabaseFinished();
             }
         }
 
         @Override
-        public void onLoaderReset(Loader<LocalMessage> loader) {
+        public void onLoaderReset(Loader<LocalMessage> loader)
+        {
             if (loader.getId() != LOCAL_MESSAGE_LOADER_ID) {
                 throw new IllegalStateException("loader id must be message loader id");
             }
@@ -254,12 +298,13 @@ public class MessageLoaderHelper {
     };
 
     // process with crypto helper
-    private void startOrResumeCryptoOperation() {
+    private void startOrResumeCryptoOperation()
+    {
         RetainFragment<MessageCryptoHelper> retainCryptoHelperFragment = getMessageCryptoHelperRetainFragment(true);
         if (retainCryptoHelperFragment.hasData()) {
             messageCryptoHelper = retainCryptoHelperFragment.getData();
         }
-        if (messageCryptoHelper == null || messageCryptoHelper.isConfiguredForOutdatedCryptoProvider()) {
+        if (messageCryptoHelper == null || !messageCryptoHelper.isConfiguredForOpenPgpProvider()) {
             messageCryptoHelper = new MessageCryptoHelper(
                     context, new OpenPgpApiFactory(), AutocryptOperations.getInstance());
             retainCryptoHelperFragment.setData(messageCryptoHelper);
@@ -268,7 +313,8 @@ public class MessageLoaderHelper {
                 localMessage, messageCryptoCallback, cachedDecryptionResult, processSignedOnly);
     }
 
-    private void cancelAndClearCryptoOperation() {
+    private void cancelAndClearCryptoOperation()
+    {
         RetainFragment<MessageCryptoHelper> retainCryptoHelperFragment = getMessageCryptoHelperRetainFragment(false);
         if (retainCryptoHelperFragment != null) {
             if (retainCryptoHelperFragment.hasData()) {
@@ -280,17 +326,21 @@ public class MessageLoaderHelper {
         }
     }
 
-    private RetainFragment<MessageCryptoHelper> getMessageCryptoHelperRetainFragment(boolean createIfNotExists) {
+    private RetainFragment<MessageCryptoHelper> getMessageCryptoHelperRetainFragment(boolean createIfNotExists)
+    {
         if (createIfNotExists) {
             return RetainFragment.findOrCreate(fragmentManager, "crypto_helper_" + messageReference.hashCode());
-        } else {
+        }
+        else {
             return RetainFragment.findOrNull(fragmentManager, "crypto_helper_" + messageReference.hashCode());
         }
     }
 
-    private MessageCryptoCallback messageCryptoCallback = new MessageCryptoCallback() {
+    private MessageCryptoCallback messageCryptoCallback = new MessageCryptoCallback()
+    {
         @Override
-        public void onCryptoHelperProgress(int current, int max) {
+        public void onCryptoHelperProgress(int current, int max)
+        {
             if (callback == null) {
                 throw new IllegalStateException("unexpected call when callback is already detached");
             }
@@ -298,7 +348,8 @@ public class MessageLoaderHelper {
         }
 
         @Override
-        public void onCryptoOperationsFinished(MessageCryptoAnnotations annotations) {
+        public void onCryptoOperationsFinished(MessageCryptoAnnotations annotations)
+        {
             if (callback == null) {
                 throw new IllegalStateException("unexpected call when callback is already detached");
             }
@@ -308,7 +359,8 @@ public class MessageLoaderHelper {
 
         @Override
         public void startPendingIntentForCryptoHelper(IntentSender si, int requestCode, Intent fillIntent,
-                int flagsMask, int flagValues, int extraFlags) {
+                int flagsMask, int flagValues, int extraFlags)
+        {
             if (callback == null) {
                 throw new IllegalStateException("unexpected call when callback is already detached");
             }
@@ -318,7 +370,8 @@ public class MessageLoaderHelper {
     };
 
     // decode message
-    private void startOrResumeDecodeMessage() {
+    private void startOrResumeDecodeMessage()
+    {
         LocalMessageExtractorLoader loader =
                 (LocalMessageExtractorLoader) loaderManager.<MessageViewInfo>getLoader(DECODE_MESSAGE_LOADER_ID);
         boolean isLoaderStale = (loader == null) || !loader.isCreatedFor(localMessage, messageCryptoAnnotations);
@@ -326,13 +379,15 @@ public class MessageLoaderHelper {
         if (isLoaderStale) {
             Timber.d("Creating new decode message loader");
             loaderManager.restartLoader(DECODE_MESSAGE_LOADER_ID, null, decodeMessageLoaderCallback);
-        } else {
+        }
+        else {
             Timber.d("Reusing decode message loader");
             loaderManager.initLoader(DECODE_MESSAGE_LOADER_ID, null, decodeMessageLoaderCallback);
         }
     }
 
-    private void onDecodeMessageFinished(MessageViewInfo messageViewInfo) {
+    private void onDecodeMessageFinished(MessageViewInfo messageViewInfo)
+    {
         if (callback == null) {
             throw new IllegalStateException("unexpected call when callback is already detached");
         }
@@ -346,18 +401,22 @@ public class MessageLoaderHelper {
     }
 
     @NonNull
-    private MessageViewInfo createErrorStateMessageViewInfo() {
+    private MessageViewInfo createErrorStateMessageViewInfo()
+    {
         boolean isMessageIncomplete = !localMessage.isSet(Flag.X_DOWNLOADED_FULL);
         return MessageViewInfo.createWithErrorState(localMessage, isMessageIncomplete);
     }
 
-    private void cancelAndClearDecodeLoader() {
+    private void cancelAndClearDecodeLoader()
+    {
         loaderManager.destroyLoader(DECODE_MESSAGE_LOADER_ID);
     }
 
-    private LoaderCallbacks<MessageViewInfo> decodeMessageLoaderCallback = new LoaderCallbacks<MessageViewInfo>() {
+    private LoaderCallbacks<MessageViewInfo> decodeMessageLoaderCallback = new LoaderCallbacks<MessageViewInfo>()
+    {
         @Override
-        public Loader<MessageViewInfo> onCreateLoader(int id, Bundle args) {
+        public Loader<MessageViewInfo> onCreateLoader(int id, Bundle args)
+        {
             if (id != DECODE_MESSAGE_LOADER_ID) {
                 throw new IllegalStateException("loader id must be message decoder id");
             }
@@ -365,7 +424,8 @@ public class MessageLoaderHelper {
         }
 
         @Override
-        public void onLoadFinished(Loader<MessageViewInfo> loader, MessageViewInfo messageViewInfo) {
+        public void onLoadFinished(Loader<MessageViewInfo> loader, MessageViewInfo messageViewInfo)
+        {
             if (loader.getId() != DECODE_MESSAGE_LOADER_ID) {
                 throw new IllegalStateException("loader id must be message decoder id");
             }
@@ -373,7 +433,8 @@ public class MessageLoaderHelper {
         }
 
         @Override
-        public void onLoaderReset(Loader<MessageViewInfo> loader) {
+        public void onLoaderReset(Loader<MessageViewInfo> loader)
+        {
             if (loader.getId() != DECODE_MESSAGE_LOADER_ID) {
                 throw new IllegalStateException("loader id must be message decoder id");
             }
@@ -382,17 +443,20 @@ public class MessageLoaderHelper {
     };
 
     // download missing body
-    private void startDownloadingMessageBody(boolean downloadComplete) {
+    private void startDownloadingMessageBody(boolean downloadComplete)
+    {
         if (downloadComplete) {
             MessagingController.getInstance(context).loadMessageRemote(
-                    account, messageReference.getFolderName(), messageReference.getUid(), downloadMessageListener);
-        } else {
+                    account, messageReference.getFolderServerId(), messageReference.getUid(), downloadMessageListener);
+        }
+        else {
             MessagingController.getInstance(context).loadMessageRemotePartial(
-                    account, messageReference.getFolderName(), messageReference.getUid(), downloadMessageListener);
+                    account, messageReference.getFolderServerId(), messageReference.getUid(), downloadMessageListener);
         }
     }
 
-    private void onMessageDownloadFinished() {
+    private void onMessageDownloadFinished()
+    {
         if (callback == null) {
             return;
         }
@@ -403,39 +467,49 @@ public class MessageLoaderHelper {
         startOrResumeLocalMessageLoader();
     }
 
-    private void onDownloadMessageFailed(final Throwable t) {
+    private void onDownloadMessageFailed(final Throwable t)
+    {
         if (callback == null) {
             return;
         }
 
         if (t instanceof IllegalArgumentException) {
             callback.onDownloadErrorMessageNotFound();
-        } else {
+        }
+        else {
             callback.onDownloadErrorNetworkError();
         }
     }
 
-    MessagingListener downloadMessageListener = new SimpleMessagingListener() {
+    MessagingListener downloadMessageListener = new SimpleMessagingListener()
+    {
         @Override
-        public void loadMessageRemoteFinished(Account account, String folder, String uid) {
-            if (!messageReference.equals(account.getUuid(), folder, uid)) {
-                return;
-            }
-            onMessageDownloadFinished();
+        public void loadMessageRemoteFinished(final Account account, final String folder, final String uid)
+        {
+            handler.post(() -> {
+                if (!messageReference.equals(account.getUuid(), folder, uid)) {
+                    return;
+                }
+                onMessageDownloadFinished();
+            });
         }
 
         @Override
-        public void loadMessageRemoteFailed(Account account, String folder, String uid, final Throwable t) {
-            onDownloadMessageFailed(t);
+        public void loadMessageRemoteFailed(Account account, String folder, String uid, final Throwable t)
+        {
+            handler.post(() -> onDownloadMessageFailed(t));
         }
     };
 
     // callback interface
-    public interface MessageLoaderCallbacks {
+    public interface MessageLoaderCallbacks
+    {
         void onMessageDataLoadFinished(LocalMessage message);
+
         void onMessageDataLoadFailed();
 
         void onMessageViewInfoLoadFinished(MessageViewInfo messageViewInfo);
+
         void onMessageViewInfoLoadFailed(MessageViewInfo messageViewInfo);
 
         void setLoadingProgress(int current, int max);
@@ -444,6 +518,7 @@ public class MessageLoaderHelper {
                 int flagValues, int extraFlags);
 
         void onDownloadErrorMessageNotFound();
+
         void onDownloadErrorNetworkError();
     }
 }

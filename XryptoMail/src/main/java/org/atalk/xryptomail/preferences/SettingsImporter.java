@@ -1,7 +1,7 @@
 package org.atalk.xryptomail.preferences;
 
 import android.content.*;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import org.atalk.xryptomail.*;

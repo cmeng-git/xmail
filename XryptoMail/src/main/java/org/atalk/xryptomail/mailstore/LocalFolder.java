@@ -3,7 +3,7 @@ package org.atalk.xryptomail.mailstore;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.james.mime4j.util.MimeUtil;
@@ -104,7 +104,7 @@ public class LocalFolder extends Folder<LocalMessage> implements Serializable
         mName = name;
         attachmentInfoExtractor = localStore.getAttachmentInfoExtractor();
 
-        if (mAccount.getInboxFolderName().equals(getName())) {
+        if (mAccount.getInboxFolder().equals(getServerId())) {
             mSyncClass = FolderClass.FIRST_CLASS;
             mPushClass = FolderClass.FIRST_CLASS;
             mInTopGroup = true;
@@ -137,7 +137,7 @@ public class LocalFolder extends Folder<LocalMessage> implements Serializable
 
     public void setLastSelectedFolderName(String destFolderName)
     {
-        mAccount.setLastSelectedFolderName(destFolderName);
+        mAccount.setLastSelectedFolder(destFolderName);
     }
 
     public boolean syncRemoteDeletions()
@@ -181,7 +181,7 @@ public class LocalFolder extends Folder<LocalMessage> implements Serializable
                             }
                         }
                         else {
-                            Timber.w("Creating folder %s with existing id %d", getName(), getDatabaseId());
+                            Timber.w("Creating folder %s with existing id %d", getServerId(), getDatabaseId());
                             create(FolderType.HOLDS_MESSAGES);
                             open(mode);
                         }
@@ -238,7 +238,7 @@ public class LocalFolder extends Folder<LocalMessage> implements Serializable
     }
 
     @Override
-    public String getName()
+    public String getServerId()
     {
         return mName;
     }
@@ -256,7 +256,7 @@ public class LocalFolder extends Folder<LocalMessage> implements Serializable
                 Cursor cursor = null;
                 try {
                     cursor = db.rawQuery("SELECT id FROM folders where folders.name = ?",
-                            new String[]{LocalFolder.this.getName()});
+                            new String[]{LocalFolder.this.getServerId()});
                     if (cursor.moveToFirst()) {
                         int folderId = cursor.getInt(0);
                         return (folderId > 0);
@@ -681,27 +681,27 @@ public class LocalFolder extends Folder<LocalMessage> implements Serializable
         String id = getPrefId();
 
         // there can be a lot of folders. For the defaults, let's not save prefs, saving space, except for INBOX
-        if (mDisplayClass == FolderClass.NO_CLASS && !mAccount.getInboxFolderName().equals(getName())) {
+        if (mDisplayClass == FolderClass.NO_CLASS && !mAccount.getInboxFolder().equals(getServerId())) {
             editor.remove(id + ".displayMode");
         }
         else {
             editor.putString(id + ".displayMode", mDisplayClass.name());
         }
 
-        if (mSyncClass == FolderClass.INHERITED && !mAccount.getInboxFolderName().equals(getName())) {
+        if (mSyncClass == FolderClass.INHERITED && !mAccount.getInboxFolder().equals(getServerId())) {
             editor.remove(id + ".syncMode");
         }
         else {
             editor.putString(id + ".syncMode", mSyncClass.name());
         }
 
-        if (mNotifyClass == FolderClass.INHERITED && !mAccount.getInboxFolderName().equals(getName())) {
+        if (mNotifyClass == FolderClass.INHERITED && !mAccount.getInboxFolder().equals(getServerId())) {
             editor.remove(id + ".notifyMode");
         }
         else {
             editor.putString(id + ".notifyMode", mNotifyClass.name());
         }
-        if (mPushClass == FolderClass.SECOND_CLASS && !mAccount.getInboxFolderName().equals(getName())) {
+        if (mPushClass == FolderClass.SECOND_CLASS && !mAccount.getInboxFolder().equals(getServerId())) {
             editor.remove(id + ".pushMode");
         }
         else {
@@ -721,7 +721,7 @@ public class LocalFolder extends Folder<LocalMessage> implements Serializable
             prefHolder.displayClass = FolderClass.valueOf(storage.getString(id + ".displayMode",
                     prefHolder.displayClass.name()));
         } catch (Exception e) {
-            Timber.e(e, "Unable to load displayMode for %s", getName());
+            Timber.e(e, "Unable to load displayMode for %s", getServerId());
         }
         if (prefHolder.displayClass == FolderClass.NONE) {
             prefHolder.displayClass = FolderClass.NO_CLASS;
@@ -731,7 +731,7 @@ public class LocalFolder extends Folder<LocalMessage> implements Serializable
             prefHolder.syncClass = FolderClass.valueOf(storage.getString(id + ".syncMode",
                     prefHolder.syncClass.name()));
         } catch (Exception e) {
-            Timber.e(e, "Unable to load syncMode for %s", getName());
+            Timber.e(e, "Unable to load syncMode for %s", getServerId());
 
         }
         if (prefHolder.syncClass == FolderClass.NONE) {
@@ -742,7 +742,7 @@ public class LocalFolder extends Folder<LocalMessage> implements Serializable
             prefHolder.notifyClass = FolderClass.valueOf(storage.getString(id + ".notifyMode",
                     prefHolder.notifyClass.name()));
         } catch (Exception e) {
-            Timber.e(e, "Unable to load notifyMode for %s", getName());
+            Timber.e(e, "Unable to load notifyMode for %s", getServerId());
         }
         if (prefHolder.notifyClass == FolderClass.NONE) {
             prefHolder.notifyClass = FolderClass.INHERITED;
@@ -751,7 +751,7 @@ public class LocalFolder extends Folder<LocalMessage> implements Serializable
             prefHolder.pushClass = FolderClass.valueOf(storage.getString(id + ".pushMode",
                     prefHolder.pushClass.name()));
         } catch (Exception e) {
-            Timber.e(e, "Unable to load pushMode for %s", getName());
+            Timber.e(e, "Unable to load pushMode for %s", getServerId());
         }
         if (prefHolder.pushClass == FolderClass.NONE) {
             prefHolder.pushClass = FolderClass.INHERITED;
@@ -1127,14 +1127,14 @@ public class LocalFolder extends Folder<LocalMessage> implements Serializable
         open(OPEN_MODE_RW);
 
         String accountUuid = getAccountUuid();
-        String folderName = getName();
+        String folderName = getServerId();
 
         List<LocalMessage> messages = new ArrayList<>();
         for (MessageReference messageReference : messageReferences) {
             if (!accountUuid.equals(messageReference.getAccountUuid())) {
                 throw new IllegalArgumentException("all message references must belong to this Account!");
             }
-            if (!folderName.equals(messageReference.getFolderName())) {
+            if (!folderName.equals(messageReference.getFolderServerId())) {
                 throw new IllegalArgumentException("all message references must belong to this LocalFolder!");
             }
             LocalMessage message = getMessage(messageReference.getUid());
@@ -1180,7 +1180,7 @@ public class LocalFolder extends Folder<LocalMessage> implements Serializable
 
                             String oldUID = message.getUid();
                             Timber.d("Updating folder_id to %s for message with UID %s, id %d currently in folder %s",
-                                    lDestFolder.getDatabaseId(), message.getUid(), lMessage.getDatabaseId(), getName());
+                                    lDestFolder.getDatabaseId(), message.getUid(), lMessage.getDatabaseId(), getServerId());
 
                             String newUid = XryptoMail.LOCAL_UID_PREFIX + UUID.randomUUID().toString();
                             message.setUid(newUid);

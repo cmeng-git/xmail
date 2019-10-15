@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Parcel;
 import android.os.Parcelable;
+import androidx.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -34,7 +35,6 @@ import org.atalk.xryptomail.helper.Utility;
 import org.atalk.xryptomail.mail.Address;
 import org.atalk.xryptomail.mail.Flag;
 import org.atalk.xryptomail.mail.Message;
-import org.atalk.xryptomail.mail.MessagingException;
 import org.atalk.xryptomail.mail.internet.MimeUtility;
 import org.atalk.xryptomail.ui.messageview.OnCryptoClickListener;
 import org.atalk.xryptomail.ui.ContactBadge;
@@ -358,14 +358,16 @@ public class MessageHeader extends LinearLayout implements OnClickListener, OnLo
         }
     }
 
+    public void setSubject(@NonNull String subject) {
+        mSubjectView.setText(subject);
+        mSubjectView.setTextColor(0xff000000 | defaultSubjectColor);
+    }
+
     public static boolean shouldShowSender(Message message) {
         Address[] from = message.getFrom();
         Address[] sender = message.getSender();
 
-        if (sender == null || sender.length == 0) {
-            return false;
-        }
-        return !Arrays.equals(from, sender);
+        return sender != null && sender.length != 0 && !Arrays.equals(from, sender);
     }
 
     public void hideCryptoStatus() {
@@ -426,7 +428,7 @@ public class MessageHeader extends LinearLayout implements OnClickListener, OnLo
     }
 
     private List<HeaderEntry> getAdditionalHeaders(final Message message)
-    throws MessagingException {
+    {
         List<HeaderEntry> additionalHeaders = new LinkedList<>();
         /*
         * Remove "Subject" header as it is already shown in the standard

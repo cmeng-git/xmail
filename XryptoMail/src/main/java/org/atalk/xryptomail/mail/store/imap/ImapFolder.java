@@ -81,7 +81,7 @@ class ImapFolder extends Folder<ImapMessage>
     {
         String prefixedName = "";
 
-        if (!mStore.getStoreConfig().getInboxFolderName().equalsIgnoreCase(mName)) {
+        if (!mStore.getStoreConfig().getInboxFolder().equalsIgnoreCase(mName)) {
             ImapConnection connection = null;
             synchronized (this) {
                 if (mConnection == null) {
@@ -233,7 +233,7 @@ class ImapFolder extends Folder<ImapMessage>
     }
 
     @Override
-    public String getName()
+    public String getServerId()
     {
         return mName;
     }
@@ -415,7 +415,7 @@ class ImapFolder extends Folder<ImapMessage>
             return;
         }
 
-        if (trashFolderName == null || getName().equalsIgnoreCase(trashFolderName)) {
+        if (trashFolderName == null || getServerId().equalsIgnoreCase(trashFolderName)) {
             setFlags(messages, Collections.singleton(Flag.DELETED), true);
         }
         else {
@@ -1438,7 +1438,7 @@ class ImapFolder extends Folder<ImapMessage>
     {
         if (other instanceof ImapFolder) {
             ImapFolder otherFolder = (ImapFolder) other;
-            return otherFolder.getName().equalsIgnoreCase(getName());
+            return otherFolder.getServerId().equalsIgnoreCase(getServerId());
         }
         return super.equals(other);
     }
@@ -1446,7 +1446,7 @@ class ImapFolder extends Folder<ImapMessage>
     @Override
     public int hashCode()
     {
-        return getName().hashCode();
+        return getServerId().hashCode();
     }
 
     private ImapStore getStore()
@@ -1456,7 +1456,7 @@ class ImapFolder extends Folder<ImapMessage>
 
     protected String getLogId()
     {
-        String id = mStore.getStoreConfig().toString() + ":" + getName() + "/" + Thread.currentThread().getName();
+        String id = mStore.getStoreConfig().toString() + ":" + getServerId() + "/" + Thread.currentThread().getName();
         if (mConnection != null) {
             id += "/" + mConnection.getLogId();
         }
@@ -1473,12 +1473,10 @@ class ImapFolder extends Folder<ImapMessage>
      * @throws MessagingException On any error.
      */
     @Override
-    public List<ImapMessage> search(final String queryString, final Set<Flag> requiredFlags,
-            final Set<Flag> forbiddenFlags)
+    public List<ImapMessage> search(final String queryString, final Set<Flag> requiredFlags, final Set<Flag> forbiddenFlags)
             throws MessagingException
     {
-
-        if (!mStore.getStoreConfig().allowRemoteSearch()) {
+        if (!mStore.getStoreConfig().isAllowRemoteSearch()) {
             throw new MessagingException("Your settings do not allow remote searching of this account");
         }
 

@@ -3,7 +3,7 @@ package org.atalk.xryptomail.activity.compose;
 import android.annotation.SuppressLint;
 import android.app.*;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 import android.view.LayoutInflater;
 import android.view.View;
 

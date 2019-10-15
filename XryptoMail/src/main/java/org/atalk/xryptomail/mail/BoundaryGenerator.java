@@ -2,7 +2,7 @@ package org.atalk.xryptomail.mail;
 
 import java.util.Random;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 
 public class BoundaryGenerator {

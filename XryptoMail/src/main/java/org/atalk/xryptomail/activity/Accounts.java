@@ -1,50 +1,103 @@
 package org.atalk.xryptomail.activity;
 
-import android.app.*;
-import android.content.*;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Application;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.os.*;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.SparseBooleanArray;
-import android.view.*;
+import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import de.cketti.library.changelog.ChangeLog;
-import org.atalk.xryptomail.*;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.atalk.xryptomail.Account;
+import org.atalk.xryptomail.AccountStats;
+import org.atalk.xryptomail.BaseAccount;
+import org.atalk.xryptomail.BuildConfig;
+import org.atalk.xryptomail.FontSizes;
+import org.atalk.xryptomail.Preferences;
+import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.activity.compose.MessageActions;
 import org.atalk.xryptomail.activity.misc.ExtendedAsyncTask;
 import org.atalk.xryptomail.activity.misc.NonConfigurationInstance;
 import org.atalk.xryptomail.activity.setup.AccountSettings;
-import org.atalk.xryptomail.activity.setup.*;
+import org.atalk.xryptomail.activity.setup.AccountSetupActivity;
+import org.atalk.xryptomail.activity.setup.Prefs;
+import org.atalk.xryptomail.activity.setup.WelcomeMessage;
 import org.atalk.xryptomail.controller.MessagingController;
 import org.atalk.xryptomail.helper.FileBackend;
 import org.atalk.xryptomail.helper.SizeFormatter;
-import org.atalk.xryptomail.mail.*;
+import org.atalk.xryptomail.mail.AuthType;
+import org.atalk.xryptomail.mail.ServerSettings;
+import org.atalk.xryptomail.mail.TransportUris;
 import org.atalk.xryptomail.mail.store.RemoteStore;
 import org.atalk.xryptomail.mailstore.StorageManager;
 import org.atalk.xryptomail.notification.NotificationController;
 import org.atalk.xryptomail.notification.NotificationHelper;
-import org.atalk.xryptomail.preferences.*;
-import org.atalk.xryptomail.preferences.SettingsImporter.*;
+import org.atalk.xryptomail.preferences.SettingsExporter;
+import org.atalk.xryptomail.preferences.SettingsImportExportException;
+import org.atalk.xryptomail.preferences.SettingsImporter;
+import org.atalk.xryptomail.preferences.SettingsImporter.AccountDescription;
+import org.atalk.xryptomail.preferences.SettingsImporter.AccountDescriptionPair;
+import org.atalk.xryptomail.preferences.SettingsImporter.ImportContents;
+import org.atalk.xryptomail.preferences.SettingsImporter.ImportResults;
 import org.atalk.xryptomail.search.LocalSearch;
 import org.atalk.xryptomail.search.SearchAccount;
 import org.atalk.xryptomail.search.SearchSpecification.Attribute;
 import org.atalk.xryptomail.search.SearchSpecification.SearchField;
 import org.atalk.xryptomail.view.ColorChip;
-import timber.log.Timber;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import de.cketti.library.changelog.ChangeLog;
+import timber.log.Timber;
 
 public class Accounts extends XMListActivity implements OnItemClickListener
 {
@@ -242,11 +295,15 @@ public class Accounts extends XMListActivity implements OnItemClickListener
                 int newUnreadMessageCount = stats.unreadMessageCount;
                 mUnreadMessageCount += newUnreadMessageCount - oldUnreadMessageCount;
 
-//                Timber.d("Account status change: %s => %s += %s-%s", account, mUnreadMessageCount,
-//                        newUnreadMessageCount, oldUnreadMessageCount);
-                if (newUnreadMessageCount != oldUnreadMessageCount)
+                // Timber.w("Account status change: %s => %s += %s <- %s", account, mUnreadMessageCount,
+                //        newUnreadMessageCount, oldUnreadMessageCount);
+
+                // Do not send mail notification; just update the badge number if user accesses the mail message (android-O)
+                // Android-O setuNumber not working for updateBadge - send for < android-O
+                if (newUnreadMessageCount != oldUnreadMessageCount) {
                     NotificationController.newInstance(Accounts.this).updateBadgeNumber((Account) account,
                             newUnreadMessageCount, true);
+                }
             }
             mHandler.dataChanged();
             pendingWork.remove(account);
@@ -384,9 +441,9 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
 
         requestWindowFeature(Window.FEATURE_PROGRESS);
+        setContentView(R.layout.accounts);
         mActionBar = getActionBar();
         initializeActionBar();
-        setContentView(R.layout.accounts);
         ListView listView = getListView();
         listView.setOnItemClickListener(this);
         listView.setItemsCanFocus(false);
@@ -660,12 +717,12 @@ public class Accounts extends XMListActivity implements OnItemClickListener
                 Timber.i("refusing to open account that is not available");
                 return false;
             }
-            if (XryptoMail.FOLDER_NONE.equals(realAccount.getAutoExpandFolderName())) {
+            if (XryptoMail.FOLDER_NONE.equals(realAccount.getAutoExpandFolder())) {
                 FolderList.actionHandleAccount(this, realAccount);
             }
             else {
-                LocalSearch search = new LocalSearch(realAccount.getAutoExpandFolderName());
-                search.addAllowedFolder(realAccount.getAutoExpandFolderName());
+                LocalSearch search = new LocalSearch(realAccount.getAutoExpandFolder());
+                search.addAllowedFolder(realAccount.getAutoExpandFolder());
                 search.addAccountUuid(realAccount.getUuid());
                 MessageList.actionDisplaySearch(this, search, false, true);
             }

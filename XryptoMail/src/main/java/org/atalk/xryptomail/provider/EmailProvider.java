@@ -11,6 +11,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import androidx.cursoradapter.widget.CursorAdapter;
+
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.BuildConfig;
 import org.atalk.xryptomail.Preferences;
@@ -638,7 +640,7 @@ public class EmailProvider extends ContentProvider
     }
 
     /**
-     * This class is needed to make {@link android.support.v4.widget.CursorAdapter} work with our
+     * This class is needed to make {@link CursorAdapter} work with our
      * database schema.
      * <p>
      * <p>

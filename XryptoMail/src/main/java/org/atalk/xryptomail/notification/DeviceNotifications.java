@@ -2,9 +2,9 @@ package org.atalk.xryptomail.notification;
 
 import android.app.*;
 import android.content.Context;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationCompat.Builder;
-import android.support.v4.app.NotificationCompat.InboxStyle;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationCompat.Builder;
+import androidx.core.app.NotificationCompat.InboxStyle;
 import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.XryptoMail.NotificationHideSubject;
 import org.atalk.xryptomail.XryptoMail.NotificationQuickDelete;
@@ -100,6 +100,24 @@ class DeviceNotifications extends BaseNotifications
                 .setTicker(newMailText)
                 .setContentTitle(unreadMessageCountText)
                 .setContentText(newMailText)
+                .setContentIntent(contentIntent);
+    }
+
+    /**
+     * Create a notification with non-shown to update badge number
+     * @param account Acount ID
+     * @param channelId chanel ID
+     * @return builder
+     */
+    protected NotificationCompat.Builder createBadgeNotification(Account account, String channelId)
+    {
+        int notificationId = NotificationIds.getNewMailSummaryNotificationId(account);
+
+        PendingIntent contentIntent = actionCreator.createAccountInBoxPendingIntent(account, notificationId);
+        return createAndInitializeNotificationBuilder(account, channelId)
+                // .setTicker(newMailText)
+                .setContentTitle(" ")
+                // .setContentText(newMailText)
                 .setContentIntent(contentIntent);
     }
 

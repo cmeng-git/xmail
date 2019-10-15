@@ -12,14 +12,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.helper.SizeFormatter;
-import org.atalk.xryptomail.mail.MessagingException;
 import org.atalk.xryptomail.mailstore.AttachmentViewInfo;
 
 
-public class AttachmentView extends FrameLayout implements OnClickListener, OnLongClickListener {
+public class AttachmentView extends FrameLayout implements OnClickListener, OnLongClickListener
+{
     private AttachmentViewInfo attachment;
     private AttachmentViewCallback callback;
 
@@ -27,39 +27,47 @@ public class AttachmentView extends FrameLayout implements OnClickListener, OnLo
     private Button downloadButton;
 
 
-    public AttachmentView(Context context, AttributeSet attrs, int defStyle) {
+    public AttachmentView(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
     }
 
-    public AttachmentView(Context context, AttributeSet attrs) {
+    public AttachmentView(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
     }
 
-    public AttachmentView(Context context) {
+    public AttachmentView(Context context)
+    {
         super(context);
     }
 
-    public AttachmentViewInfo getAttachment() {
+    public AttachmentViewInfo getAttachment()
+    {
         return attachment;
     }
 
-    public void enableButtons() {
+    public void enableButtons()
+    {
         viewButton.setEnabled(true);
         downloadButton.setEnabled(true);
     }
 
-    public void disableButtons() {
+    public void disableButtons()
+    {
         viewButton.setEnabled(false);
         downloadButton.setEnabled(false);
     }
 
-    public void setAttachment(AttachmentViewInfo attachment) {
+    public void setAttachment(AttachmentViewInfo attachment)
+    {
         this.attachment = attachment;
 
         displayAttachmentInformation();
     }
 
-    private void displayAttachmentInformation() {
+    private void displayAttachmentInformation()
+    {
         viewButton = findViewById(R.id.view);
         downloadButton = findViewById(R.id.download);
 
@@ -79,18 +87,21 @@ public class AttachmentView extends FrameLayout implements OnClickListener, OnLo
         refreshThumbnail();
     }
 
-    private void setAttachmentSize(long size) {
+    private void setAttachmentSize(long size)
+    {
         TextView attachmentSize = findViewById(R.id.attachment_info);
         if (size == AttachmentViewInfo.UNKNOWN_SIZE) {
             attachmentSize.setText("");
-        } else {
+        }
+        else {
             String text = SizeFormatter.formatSize(getContext(), size);
             attachmentSize.setText(text);
         }
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(View view)
+    {
         switch (view.getId()) {
             case R.id.view: {
                 onViewButtonClick();
@@ -104,7 +115,8 @@ public class AttachmentView extends FrameLayout implements OnClickListener, OnLo
     }
 
     @Override
-    public boolean onLongClick(View view) {
+    public boolean onLongClick(View view)
+    {
         if (view.getId() == R.id.download) {
             onSaveButtonLongClick();
             return true;
@@ -112,23 +124,28 @@ public class AttachmentView extends FrameLayout implements OnClickListener, OnLo
         return false;
     }
 
-    private void onViewButtonClick() {
+    private void onViewButtonClick()
+    {
         callback.onViewAttachment(attachment);
     }
 
-    private void onSaveButtonClick() {
+    private void onSaveButtonClick()
+    {
         callback.onSaveAttachment(attachment);
     }
 
-    private void onSaveButtonLongClick() {
-        callback.onSaveAttachmentToUserProvidedDirectory(attachment);
+    private void onSaveButtonLongClick()
+    {
+        callback.onSaveAttachment(attachment);
     }
 
-    public void setCallback(AttachmentViewCallback callback) {
+    public void setCallback(AttachmentViewCallback callback)
+    {
         this.callback = callback;
     }
 
-    public void refreshThumbnail() {
+    public void refreshThumbnail()
+    {
         ImageView thumbnailView = findViewById(R.id.attachment_icon);
         Glide.with(getContext())
                 .load(attachment.internalUri)

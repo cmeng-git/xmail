@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -17,7 +16,6 @@ import org.atalk.xryptomail.activity.XMActivity;
 
 public class AccountSetupComposition extends XMActivity
 {
-
     private static final String EXTRA_ACCOUNT = "account";
 
     private Account mAccount;
@@ -31,16 +29,17 @@ public class AccountSetupComposition extends XMActivity
     private RadioButton mAccountSignatureAfterLocation;
     private LinearLayout mAccountSignatureLayout;
 
-    public static void actionEditCompositionSettings(Activity context, Account account) {
+    public static void actionEditCompositionSettings(Activity context, Account account)
+    {
         Intent i = new Intent(context, AccountSetupComposition.class);
         i.setAction(Intent.ACTION_EDIT);
         i.putExtra(EXTRA_ACCOUNT, account.getUuid());
         context.startActivity(i);
     }
 
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         String accountUuid = getIntent().getStringExtra(EXTRA_ACCOUNT);
@@ -49,26 +48,25 @@ public class AccountSetupComposition extends XMActivity
         setContentView(R.layout.account_setup_composition);
 
         /*
-         * If we're being reloaded we override the original account with the one
-         * we saved
+         * If we're being reloaded we override the original account with the one we saved
          */
         if (savedInstanceState != null && savedInstanceState.containsKey(EXTRA_ACCOUNT)) {
             accountUuid = savedInstanceState.getString(EXTRA_ACCOUNT);
             mAccount = Preferences.getPreferences(this).getAccount(accountUuid);
         }
 
-        mAccountName = (EditText)findViewById(R.id.account_name);
+        mAccountName = findViewById(R.id.account_name);
         mAccountName.setText(mAccount.getName());
 
-        mAccountEmail = (EditText)findViewById(R.id.account_email);
+        mAccountEmail = findViewById(R.id.account_email);
         mAccountEmail.setText(mAccount.getEmail());
 
-        mAccountAlwaysBcc = (EditText)findViewById(R.id.account_always_bcc);
+        mAccountAlwaysBcc = findViewById(R.id.account_always_bcc);
         mAccountAlwaysBcc.setText(mAccount.getAlwaysBcc());
 
-        mAccountSignatureLayout = (LinearLayout)findViewById(R.id.account_signature_layout);
+        mAccountSignatureLayout = findViewById(R.id.account_signature_layout);
 
-        mAccountSignatureUse = (CheckBox)findViewById(R.id.account_signature_use);
+        mAccountSignatureUse = findViewById(R.id.account_signature_use);
         boolean useSignature = mAccount.getSignatureUse();
         mAccountSignatureUse.setChecked(useSignature);
         mAccountSignatureUse.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -78,12 +76,13 @@ public class AccountSetupComposition extends XMActivity
                 boolean isSignatureBeforeQuotedText = mAccount.isSignatureBeforeQuotedText();
                 mAccountSignatureBeforeLocation.setChecked(isSignatureBeforeQuotedText);
                 mAccountSignatureAfterLocation.setChecked(!isSignatureBeforeQuotedText);
-            } else {
+            }
+            else {
                 mAccountSignatureLayout.setVisibility(View.GONE);
             }
         });
 
-        mAccountSignature = (EditText)findViewById(R.id.account_signature);
+        mAccountSignature = findViewById(R.id.account_signature);
 
         mAccountSignatureBeforeLocation = findViewById(R.id.account_signature_location_before_quoted_text);
         mAccountSignatureAfterLocation = findViewById(R.id.account_signature_location_after_quoted_text);
@@ -94,12 +93,14 @@ public class AccountSetupComposition extends XMActivity
             boolean isSignatureBeforeQuotedText = mAccount.isSignatureBeforeQuotedText();
             mAccountSignatureBeforeLocation.setChecked(isSignatureBeforeQuotedText);
             mAccountSignatureAfterLocation.setChecked(!isSignatureBeforeQuotedText);
-        } else {
+        }
+        else {
             mAccountSignatureLayout.setVisibility(View.GONE);
         }
     }
 
-    private void saveSettings() {
+    private void saveSettings()
+    {
         mAccount.setEmail(mAccountEmail.getText().toString());
         mAccount.setAlwaysBcc(mAccountAlwaysBcc.getText().toString());
         mAccount.setName(mAccountName.getText().toString());
@@ -109,24 +110,26 @@ public class AccountSetupComposition extends XMActivity
             boolean isSignatureBeforeQuotedText = mAccountSignatureBeforeLocation.isChecked();
             mAccount.setSignatureBeforeQuotedText(isSignatureBeforeQuotedText);
         }
-
         mAccount.save(Preferences.getPreferences(this));
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         saveSettings();
         super.onBackPressed();
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle outState)
+    {
         super.onSaveInstanceState(outState);
         outState.putSerializable(EXTRA_ACCOUNT, mAccount.getUuid());
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         mAccount.save(Preferences.getPreferences(this));
         finish();
     }

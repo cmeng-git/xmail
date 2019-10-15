@@ -29,10 +29,10 @@ public class MlfUtils {
         try {
             MessageReference firstMsg = messages.get(0);
             Account account = preferences.getAccount(firstMsg.getAccountUuid());
-            LocalFolder firstMsgFolder = MlfUtils.getOpenFolder(firstMsg.getFolderName(), account);
+            LocalFolder firstMsgFolder = MlfUtils.getOpenFolder(firstMsg.getFolderServerId(), account);
             firstMsgFolder.setLastSelectedFolderName(destFolderName);
         } catch (MessagingException e) {
-            Timber.e(e, "Error getting folder for setLastSelectedFolderName()");
+            Timber.e(e, "Error getting folder for setLastSelectedFolder()");
         }
     }
 

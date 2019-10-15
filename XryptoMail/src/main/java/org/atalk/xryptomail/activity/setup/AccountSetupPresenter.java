@@ -7,8 +7,8 @@ import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
 import org.atalk.xryptomail.Account;
@@ -616,7 +616,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
             if (editSettings) {
                 Account account = (Account) accountConfig;
                 MessagingController.getInstance(context).listFoldersSynchronous(account, true, null);
-                MessagingController.getInstance(context).synchronizeMailbox(account, account.getInboxFolderName(),
+                MessagingController.getInstance(context).synchronizeMailbox(account, account.getInboxFolder(),
                         null, null);
             }
         }
@@ -842,9 +842,9 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
 
     private void setupFolderNames(String domain)
     {
-        accountConfig.setDraftsFolderName(XryptoMail.getResString(R.string.special_mailbox_name_drafts));
-        accountConfig.setTrashFolderName(XryptoMail.getResString(R.string.special_mailbox_name_trash));
-        accountConfig.setSentFolderName(XryptoMail.getResString(R.string.special_mailbox_name_sent));
+        accountConfig.setDraftsFolder(XryptoMail.getResString(R.string.special_mailbox_name_drafts));
+        accountConfig.setTrashFolder(XryptoMail.getResString(R.string.special_mailbox_name_trash));
+        accountConfig.setSentFolder(XryptoMail.getResString(R.string.special_mailbox_name_sent));
         accountConfig.setArchiveFolderName(XryptoMail.getResString(R.string.special_mailbox_name_archive));
 
         // Yahoo! has a special folder for Spam, called "Bulk Mail".
@@ -1198,7 +1198,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
             view.setCompressionWifi(accountConfig.useCompression(NetworkType.WIFI));
             view.setCompressionOther(accountConfig.useCompression(NetworkType.OTHER));
 
-            view.setSubscribedFoldersOnly(accountConfig.subscribedFoldersOnly());
+            view.setSubscribedFoldersOnly(accountConfig.isSubscribedFoldersOnly());
 
         } catch (IllegalArgumentException e) {
             view.showFailureToast(e);
@@ -1442,7 +1442,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         account.loadConfig(accountConfig);
 
         MessagingController.getInstance(context).listFoldersSynchronous(account, true, null);
-        MessagingController.getInstance(context).synchronizeMailbox(account, account.getInboxFolderName(), null, null);
+        MessagingController.getInstance(context).synchronizeMailbox(account, account.getInboxFolder(), null, null);
 
         account.save(preferences);
         if (account.equals(preferences.getDefaultAccount()) || makeDefault) {

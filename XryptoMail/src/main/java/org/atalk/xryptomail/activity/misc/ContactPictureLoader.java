@@ -6,7 +6,7 @@ import android.content.res.Resources;
 import android.graphics.*;
 import android.graphics.Paint.Style;
 import android.net.Uri;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.widget.ImageView;
 

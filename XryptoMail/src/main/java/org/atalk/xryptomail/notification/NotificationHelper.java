@@ -27,11 +27,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 import org.atalk.xryptomail.R;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,6 +45,11 @@ public class NotificationHelper extends ContextWrapper
      * Message badge notifications group.
      */
     public static final String BADGE_GROUP = "badge";
+
+    /**
+     * Message badge notifications group.
+     */
+    public static final String BADGE_ONLY = "badgeOnly";
 
     /**
      * Message notifications group.
@@ -89,6 +93,12 @@ public class NotificationHelper extends ContextWrapper
             nBadge.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             getManager().createNotificationChannel(nBadge);
 
+//            NotificationChannel nBadgeOnly = new NotificationChannel(BADGE_ONLY,
+//                    getString(R.string.noti_channel_BADGE_ONLY), NotificationManager.IMPORTANCE_MIN);
+//            nBadgeOnly.setShowBadge(true);
+//            nBadgeOnly.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+//            getManager().createNotificationChannel(nBadgeOnly);
+
             NotificationChannel nError = new NotificationChannel(ERROR_GROUP,
                     getString(R.string.noti_channel_ERROR_GROUP), NotificationManager.IMPORTANCE_LOW);
             nError.setShowBadge(false);
@@ -108,6 +118,7 @@ public class NotificationHelper extends ContextWrapper
         }
     }
 
+    // Clear any obsoleted notification channels
     @TargetApi(Build.VERSION_CODES.O)
     private void deleteObsoletedChannelIds(){
         List<NotificationChannel> channelGroups = getManager().getNotificationChannels();

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.atalk.xryptomail.ui.messageview.MessageTopView xmlns:android="http://schemas.android.com/apk/res/android"
+<org.atalk.xryptomail.ui.messageview.MessageTopView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/message_view"
@@ -15,7 +16,6 @@
         android:layout_weight="1">
 
         <LinearLayout
-            android:id="@+id/inside_attachments_container"
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">

@@ -3,7 +3,7 @@ package org.atalk.xryptomail.mail.store.imap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import static org.atalk.xryptomail.mail.store.imap.ImapResponseParser.equalsIgnoreCase;
 

@@ -172,7 +172,7 @@ public abstract class Folder<T extends Message>
     public abstract void delete(boolean recurse)
             throws MessagingException;
 
-    public abstract String getName();
+    public abstract String getServerId();
 
     /**
      * @param oldPushState
@@ -197,7 +197,7 @@ public abstract class Folder<T extends Message>
     @Override
     public String toString()
     {
-        return getName();
+        return getServerId();
     }
 
     public long getLastChecked()

@@ -3,36 +3,51 @@ package org.atalk.xryptomail.message.extractors;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.*;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.annotation.WorkerThread;
 
 import org.atalk.xryptomail.Globals;
-import org.atalk.xryptomail.mail.*;
-import org.atalk.xryptomail.mail.internet.*;
-import org.atalk.xryptomail.mailstore.*;
-import org.atalk.xryptomail.provider.*;
+import org.atalk.xryptomail.mail.Body;
+import org.atalk.xryptomail.mail.MessagingException;
+import org.atalk.xryptomail.mail.Part;
+import org.atalk.xryptomail.mail.internet.MimeHeader;
+import org.atalk.xryptomail.mail.internet.MimeUtility;
+import org.atalk.xryptomail.mailstore.AttachmentViewInfo;
+import org.atalk.xryptomail.mailstore.DeferredFileBody;
+import org.atalk.xryptomail.mailstore.LocalMessage;
+import org.atalk.xryptomail.mailstore.LocalPart;
+import org.atalk.xryptomail.provider.AttachmentProvider;
+import org.atalk.xryptomail.provider.DecryptedFileProvider;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import timber.log.Timber;
 
 
-public class AttachmentInfoExtractor {
+public class AttachmentInfoExtractor
+{
     private final Context context;
 
-    public static AttachmentInfoExtractor getInstance() {
+    public static AttachmentInfoExtractor getInstance()
+    {
         Context context = Globals.getContext();
         return new AttachmentInfoExtractor(context);
     }
 
-    @VisibleForTesting
-    AttachmentInfoExtractor(Context context) {
+    AttachmentInfoExtractor(Context context)
+    {
         this.context = context;
     }
 
     @WorkerThread
     public List<AttachmentViewInfo> extractAttachmentInfoForView(List<Part> attachmentParts)
-            throws MessagingException {
+            throws MessagingException
+    {
 
         List<AttachmentViewInfo> attachments = new ArrayList<>();
         for (Part part : attachmentParts) {
@@ -43,7 +58,8 @@ public class AttachmentInfoExtractor {
     }
 
     @WorkerThread
-    public AttachmentViewInfo extractAttachmentInfo(Part part) throws MessagingException {
+    public AttachmentViewInfo extractAttachmentInfo(Part part) throws MessagingException
+    {
         Uri uri;
         long size;
         boolean isContentAvailable;
@@ -55,21 +71,24 @@ public class AttachmentInfoExtractor {
             size = localPart.getSize();
             isContentAvailable = part.getBody() != null;
             uri = AttachmentProvider.getAttachmentUri(accountUuid, messagePartId);
-        } else if (part instanceof LocalMessage) {
+        }
+        else if (part instanceof LocalMessage) {
             LocalMessage localMessage = (LocalMessage) part;
             String accountUuid = localMessage.getAccount().getUuid();
             long messagePartId = localMessage.getMessagePartId();
             size = localMessage.getSize();
             isContentAvailable = part.getBody() != null;
             uri = AttachmentProvider.getAttachmentUri(accountUuid, messagePartId);
-        } else {
+        }
+        else {
             Body body = part.getBody();
             if (body instanceof DeferredFileBody) {
                 DeferredFileBody decryptedTempFileBody = (DeferredFileBody) body;
                 size = decryptedTempFileBody.getSize();
                 uri = getDecryptedFileProviderUri(decryptedTempFileBody, part.getMimeType());
                 isContentAvailable = true;
-            } else {
+            }
+            else {
                 throw new IllegalArgumentException("Unsupported part type provided");
             }
         }
@@ -78,7 +97,8 @@ public class AttachmentInfoExtractor {
 
     @Nullable
     @VisibleForTesting
-    protected Uri getDecryptedFileProviderUri(DeferredFileBody decryptedTempFileBody, String mimeType) {
+    protected Uri getDecryptedFileProviderUri(DeferredFileBody decryptedTempFileBody, String mimeType)
+    {
         Uri uri;
         try {
             File file = decryptedTempFileBody.getFile();
@@ -91,19 +111,20 @@ public class AttachmentInfoExtractor {
         return uri;
     }
 
-    public AttachmentViewInfo extractAttachmentInfoForDatabase(Part part) throws MessagingException {
+    public AttachmentViewInfo extractAttachmentInfoForDatabase(Part part) throws MessagingException
+    {
         boolean isContentAvailable = part.getBody() != null;
         return extractAttachmentInfo(part, Uri.EMPTY, AttachmentViewInfo.UNKNOWN_SIZE, isContentAvailable);
     }
 
     @WorkerThread
     private AttachmentViewInfo extractAttachmentInfo(Part part, Uri uri, long size, boolean isContentAvailable)
-            throws MessagingException {
+    {
         boolean inlineAttachment = false;
 
         String mimeType = part.getMimeType();
-        String contentTypeHeader = MimeUtility.unfoldAndDecode(part.getContentType());
-        String contentDisposition = MimeUtility.unfoldAndDecode(part.getDisposition());
+        String contentTypeHeader = part.getContentType();
+        String contentDisposition = part.getDisposition();
 
         String name = MimeUtility.getHeaderParameter(contentDisposition, "filename");
         if (name == null) {
@@ -122,8 +143,8 @@ public class AttachmentInfoExtractor {
         // not attachments.
         if (contentDisposition != null &&
                 MimeUtility.getHeaderParameter(contentDisposition, null).matches("^(?i:inline)")
-				&& (part.getHeader(MimeHeader.HEADER_CONTENT_ID).length > 0)
-				&& (mimeType != null) && mimeType.toLowerCase(Locale.ROOT).startsWith("image/")) {
+                && (part.getHeader(MimeHeader.HEADER_CONTENT_ID).length > 0)
+                && (mimeType != null) && mimeType.toLowerCase(Locale.ROOT).startsWith("image/")) {
             inlineAttachment = true;
         }
         long attachmentSize = extractAttachmentSize(contentDisposition, size);
@@ -132,7 +153,8 @@ public class AttachmentInfoExtractor {
     }
 
     @WorkerThread
-    private long extractAttachmentSize(String contentDisposition, long size) {
+    private long extractAttachmentSize(String contentDisposition, long size)
+    {
         if (size != AttachmentViewInfo.UNKNOWN_SIZE) {
             return size;
         }

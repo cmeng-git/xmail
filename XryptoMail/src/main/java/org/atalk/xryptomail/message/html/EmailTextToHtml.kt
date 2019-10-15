@@ -15,11 +15,8 @@ class EmailTextToHtml private constructor(private val text: String) {
 
             TextToHtml.appendAsHtmlFragment(html, section)
         }
-
         appendBlockQuoteElement(quoteDepth = 0)
-
         appendHtmlSuffix()
-
         return html.toString()
     }
 
@@ -56,7 +53,6 @@ class EmailTextToHtml private constructor(private val text: String) {
         5 -> "#e9b96e"
         else -> "#ccc"
     }
-
 
     companion object {
         private const val EXTRA_BUFFER_LENGTH = 2048

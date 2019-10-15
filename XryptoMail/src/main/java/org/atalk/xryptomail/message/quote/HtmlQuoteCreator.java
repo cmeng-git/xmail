@@ -39,7 +39,6 @@ public class HtmlQuoteCreator {
      * @param messageBody Text of the message to be quoted.
      * @param quoteStyle Style of quoting.
      * @return Modified insertable message.
-     * @throws MessagingException
      */
     public static InsertableHtmlContent quoteOriginalHtmlMessage(Resources resources, Message originalMessage,
             String messageBody, QuoteStyle quoteStyle) {

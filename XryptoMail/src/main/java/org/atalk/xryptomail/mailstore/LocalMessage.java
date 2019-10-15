@@ -2,8 +2,7 @@ package org.atalk.xryptomail.mailstore;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.BuildConfig;
@@ -150,7 +149,7 @@ public class LocalMessage extends MimeMessage
         return mimeType;
     }
 
-    /* 
+    /*
      * Custom version of writeTo that updates the MIME message based on localMessage changes.
      */
 
@@ -276,33 +275,27 @@ public class LocalMessage extends MimeMessage
             throws MessagingException
     {
         try {
-            mLocalStore.getDatabase().execute(true, new DbCallback<Void>()
-            {
-                @Override
-                public Void doDbWork(final SQLiteDatabase db)
-                        throws WrappedException, UnavailableStorageException
-                {
-                    try {
-                        if (flag == Flag.DELETED && set) {
-                            delete();
-                        }
-                        LocalMessage.super.setFlag(flag, set);
-                    } catch (MessagingException e) {
-                        throw new WrappedException(e);
+            mLocalStore.getDatabase().execute(true, (DbCallback<Void>) db -> {
+                try {
+                    if (flag == Flag.DELETED && set) {
+                        delete();
                     }
-                    /*
-                     * Set the flags on the message.
-                     */
-                    ContentValues cv = new ContentValues();
-                    cv.put("flags", LocalStore.serializeFlags(getFlags()));
-                    cv.put("read", isSet(Flag.SEEN) ? 1 : 0);
-                    cv.put("flagged", isSet(Flag.FLAGGED) ? 1 : 0);
-                    cv.put("answered", isSet(Flag.ANSWERED) ? 1 : 0);
-                    cv.put("forwarded", isSet(Flag.FORWARDED) ? 1 : 0);
-
-                    db.update("messages", cv, "id = ?", new String[]{Long.toString(databaseId)});
-                    return null;
+                    LocalMessage.super.setFlag(flag, set);
+                } catch (MessagingException e) {
+                    throw new WrappedException(e);
                 }
+                /*
+                 * Set the flags on the message.
+                 */
+                ContentValues cv = new ContentValues();
+                cv.put("flags", LocalStore.serializeFlags(getFlags()));
+                cv.put("read", isSet(Flag.SEEN) ? 1 : 0);
+                cv.put("flagged", isSet(Flag.FLAGGED) ? 1 : 0);
+                cv.put("answered", isSet(Flag.ANSWERED) ? 1 : 0);
+                cv.put("forwarded", isSet(Flag.FORWARDED) ? 1 : 0);
+
+                db.update("messages", cv, "id = ?", new String[]{Long.toString(databaseId)});
+                return null;
             });
         } catch (WrappedException e) {
             throw (MessagingException) e.getCause();
@@ -324,17 +317,11 @@ public class LocalMessage extends MimeMessage
             throws MessagingException
     {
         try {
-            mLocalStore.getDatabase().execute(true, new DbCallback<Void>()
-            {
-                @Override
-                public Void doDbWork(final SQLiteDatabase db)
-                        throws WrappedException, UnavailableStorageException
-                {
-                    ContentValues cv = new ContentValues();
-                    cv.put("stealth_timer", stealthCounter);
-                    db.update("messages", cv, "id = ?", new String[]{Long.toString(databaseId)});
-                    return null;
-                }
+            mLocalStore.getDatabase().execute(true, (DbCallback<Void>) db -> {
+                ContentValues cv = new ContentValues();
+                cv.put("stealth_timer", stealthCounter);
+                db.update("messages", cv, "id = ?", new String[]{Long.toString(databaseId)});
+                return null;
             });
         } catch (WrappedException e) {
             throw (MessagingException) e.getCause();
@@ -350,37 +337,31 @@ public class LocalMessage extends MimeMessage
             throws MessagingException
     {
         try {
-            mLocalStore.getDatabase().execute(true, new DbCallback<Void>()
-            {
-                @Override
-                public Void doDbWork(final SQLiteDatabase db)
-                        throws WrappedException, UnavailableStorageException
-                {
-                    ContentValues cv = new ContentValues();
-                    cv.put("deleted", 1);
-                    cv.put("empty", 1);
-                    cv.putNull("subject");
-                    cv.putNull("sender_list");
-                    cv.putNull("date");
-                    cv.putNull("to_list");
-                    cv.putNull("cc_list");
-                    cv.putNull("bcc_list");
-                    cv.putNull("preview");
-                    cv.putNull("reply_to_list");
-                    cv.putNull("message_part_id");
-                    cv.putNull("stealth_timer");
+            mLocalStore.getDatabase().execute(true, (DbCallback<Void>) db -> {
+                ContentValues cv = new ContentValues();
+                cv.put("deleted", 1);
+                cv.put("empty", 1);
+                cv.putNull("subject");
+                cv.putNull("sender_list");
+                cv.putNull("date");
+                cv.putNull("to_list");
+                cv.putNull("cc_list");
+                cv.putNull("bcc_list");
+                cv.putNull("preview");
+                cv.putNull("reply_to_list");
+                cv.putNull("message_part_id");
+                cv.putNull("stealth_timer");
 
-                    db.update("messages", cv, "id = ?", new String[]{Long.toString(databaseId)});
-                    try {
-                        ((LocalFolder) mFolder).deleteMessagePartsAndDataFromDisk(messagePartId);
-                    } catch (MessagingException e) {
-                        throw new WrappedException(e);
-                    }
-
-                    getFolder().deleteFulltextIndexEntry(db, databaseId);
-
-                    return null;
+                db.update("messages", cv, "id = ?", new String[]{Long.toString(databaseId)});
+                try {
+                    ((LocalFolder) mFolder).deleteMessagePartsAndDataFromDisk(messagePartId);
+                } catch (MessagingException e) {
+                    throw new WrappedException(e);
                 }
+
+                getFolder().deleteFulltextIndexEntry(db, databaseId);
+
+                return null;
             });
         } catch (WrappedException e) {
             throw (MessagingException) e.getCause();
@@ -396,27 +377,21 @@ public class LocalMessage extends MimeMessage
         }
 
         try {
-            mLocalStore.getDatabase().execute(true, new DbCallback<Void>()
-            {
-                @Override
-                public Void doDbWork(final SQLiteDatabase db)
-                        throws WrappedException, MessagingException
-                {
-                    ContentValues cv = new ContentValues();
-                    cv.putNull("message_part_id");
+            mLocalStore.getDatabase().execute(true, (DbCallback<Void>) db -> {
+                ContentValues cv = new ContentValues();
+                cv.putNull("message_part_id");
 
-                    db.update("messages", cv, "id = ?", new String[]{Long.toString(databaseId)});
-                    try {
-                        ((LocalFolder) mFolder).deleteMessagePartsAndDataFromDisk(messagePartId);
-                    } catch (MessagingException e) {
-                        throw new WrappedException(e);
-                    }
-
-                    setFlag(Flag.X_DOWNLOADED_FULL, false);
-                    setFlag(Flag.X_DOWNLOADED_PARTIAL, false);
-
-                    return null;
+                db.update("messages", cv, "id = ?", new String[]{Long.toString(databaseId)});
+                try {
+                    ((LocalFolder) mFolder).deleteMessagePartsAndDataFromDisk(messagePartId);
+                } catch (MessagingException e) {
+                    throw new WrappedException(e);
                 }
+
+                setFlag(Flag.X_DOWNLOADED_FULL, false);
+                setFlag(Flag.X_DOWNLOADED_PARTIAL, false);
+
+                return null;
             });
         } catch (WrappedException e) {
             throw (MessagingException) e.getCause();
@@ -475,7 +450,7 @@ public class LocalMessage extends MimeMessage
     public MessageReference makeMessageReference()
     {
         if (messageReference == null) {
-            messageReference = new MessageReference(getFolder().getAccountUuid(), getFolder().getName(), mUid, null);
+            messageReference = new MessageReference(getFolder().getAccountUuid(), getFolder().getServerId(), mUid, null);
         }
         return messageReference;
     }
@@ -488,7 +463,7 @@ public class LocalMessage extends MimeMessage
 
     public String getUri()
     {
-        return "email://messages/" + getAccount().getAccountNumber() + "/" + getFolder().getName() + "/" + getUid();
+        return "email://messages/" + getAccount().getAccountNumber() + "/" + getFolder().getServerId() + "/" + getUid();
     }
 
     @Override

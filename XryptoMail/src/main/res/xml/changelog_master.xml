@@ -8,6 +8,12 @@
      They are automatically updated with "ant bump-version".
 -->
 <changelog>
+    <release version="4.9.2 (05/28/2019)" versioncode="18920">
+        <change>Allow android-P clearText download pictures in email with html content</change>
+        <change>Auto remove mail notifications and update badge counter on user access to mail messages</change>
+        <change>Bug fixes and other enhancements</change>
+    </release>
+
     <release version="4.9.1 (03/01/2019)" versioncode="18910">
         <change>Add launcher badge support for unread messages</change>
         <change>Change new mail notification pending intent to launch Message List</change>

@@ -3,7 +3,7 @@ package org.atalk.xryptomail.power;
 import android.content.Context;
 import android.os.Build;
 import android.os.PowerManager;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 public class DozeChecker
 {

@@ -37,7 +37,7 @@ class ImapPusher implements Pusher {
                 try {
                     folderPusher.refresh();
                 } catch (Exception e) {
-                    Timber.e(e, "Got exception while refreshing for %s", folderPusher.getName());
+                    Timber.e(e, "Got exception while refreshing for %s", folderPusher.getServerId());
                 }
             }
         }
@@ -53,12 +53,12 @@ class ImapPusher implements Pusher {
             for (ImapFolderPusher folderPusher : folderPushers) {
                 try {
                     if (XryptoMailLib.isDebug()) {
-                        Timber.i("Requesting stop of IMAP folderPusher %s", folderPusher.getName());
+                        Timber.i("Requesting stop of IMAP folderPusher %s", folderPusher.getServerId());
                     }
 
                     folderPusher.stop();
                 } catch (Exception e) {
-                    Timber.e(e, "Got exception while stopping %s", folderPusher.getName());
+                    Timber.e(e, "Got exception while stopping %s", folderPusher.getServerId());
                 }
             }
             folderPushers.clear();

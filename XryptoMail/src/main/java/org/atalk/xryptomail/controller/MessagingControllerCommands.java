@@ -9,6 +9,7 @@ public class MessagingControllerCommands {
     static final String COMMAND_APPEND = "append";
     static final String COMMAND_MARK_ALL_AS_READ = "mark_all_as_read";
     static final String COMMAND_SET_FLAG = "set_flag";
+    static final String COMMAND_DELETE = "delete";
     static final String COMMAND_EXPUNGE = "expunge";
     static final String COMMAND_MOVE_OR_COPY = "move_or_copy";
     static final String COMMAND_EMPTY_TRASH = "empty_trash";
@@ -107,8 +108,8 @@ public class MessagingControllerCommands {
         public final String uid;
 
 
-        public static PendingAppend create(String folderName, String uid) {
-            return new PendingAppend(folderName, uid);
+        public static PendingAppend create(String folderServerId, String uid) {
+            return new PendingAppend(folderServerId, uid);
         }
 
         private PendingAppend(String folder, String uid) {
@@ -150,12 +151,37 @@ public class MessagingControllerCommands {
         }
     }
 
+    public static class PendingDelete extends PendingCommand {
+        public final String folder;
+        public final List<String> uids;
+
+
+        public static PendingDelete create(String folder, List<String> uids) {
+            return new PendingDelete(folder, uids);
+        }
+
+        private PendingDelete(String folder, List<String> uids) {
+            this.folder = folder;
+            this.uids = uids;
+        }
+
+        @Override
+        public String getCommandName() {
+            return COMMAND_DELETE;
+        }
+
+        @Override
+        public void execute(MessagingController controller, Account account) throws MessagingException {
+            controller.processPendingDelete(this, account);
+        }
+    }
+
     public static class PendingExpunge extends PendingCommand {
         public final String folder;
 
 
-        public static PendingExpunge create(String folderName) {
-            return new PendingExpunge(folderName);
+        public static PendingExpunge create(String folderServerId) {
+            return new PendingExpunge(folderServerId);
         }
 
         private PendingExpunge(String folder) {

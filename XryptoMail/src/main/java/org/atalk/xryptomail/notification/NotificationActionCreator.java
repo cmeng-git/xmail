@@ -3,7 +3,7 @@ package org.atalk.xryptomail.notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.TaskStackBuilder;
+import androidx.core.app.TaskStackBuilder;
 import android.text.TextUtils;
 import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.activity.*;
@@ -280,7 +280,7 @@ class NotificationActionCreator
     private TaskStackBuilder buildMessageViewBackStack(MessageReference message)
     {
         Account account = Preferences.getPreferences(context).getAccount(message.getAccountUuid());
-        String folderName = message.getFolderName();
+        String folderName = message.getFolderServerId();
         TaskStackBuilder stack = buildMessageListBackStack(account, folderName);
 
         Intent intent = MessageList.actionDisplayMessageIntent(context, message);
@@ -292,10 +292,10 @@ class NotificationActionCreator
     private String getFolderNameOfAllMessages(List<MessageReference> messageReferences)
     {
         MessageReference firstMessage = messageReferences.get(0);
-        String folderName = firstMessage.getFolderName();
+        String folderName = firstMessage.getFolderServerId();
 
         for (MessageReference messageReference : messageReferences) {
-            if (!TextUtils.equals(folderName, messageReference.getFolderName())) {
+            if (!TextUtils.equals(folderName, messageReference.getFolderServerId())) {
                 return null;
             }
         }
@@ -304,7 +304,7 @@ class NotificationActionCreator
 
     private boolean skipFolderListInBackStack(Account account, String folderName)
     {
-        return (folderName != null) && folderName.equals(account.getAutoExpandFolderName());
+        return (folderName != null) && folderName.equals(account.getAutoExpandFolder());
     }
 
     private boolean skipAccountsInBackStack()

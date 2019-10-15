@@ -85,7 +85,7 @@ public class FolderSettings extends XMPreferenceActivity
 
         addPreferencesFromResource(R.xml.folder_settings_preferences);
 
-        String displayName = FolderInfoHolder.getDisplayName(this, mAccount, mFolder.getName());
+        String displayName = FolderInfoHolder.getDisplayName(this, mAccount, mFolder.getServerId());
         Preference category = findPreference(PREFERENCE_TOP_CATERGORY);
         category.setTitle(displayName);
 

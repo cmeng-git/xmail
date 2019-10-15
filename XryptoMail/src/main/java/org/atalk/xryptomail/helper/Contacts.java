@@ -1,14 +1,21 @@
 package org.atalk.xryptomail.helper;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import timber.log.Timber;
 import android.provider.ContactsContract.CommonDataKinds.Photo;
+import androidx.core.content.ContextCompat;
+
 import org.atalk.xryptomail.mail.Address;
+import org.atalk.xryptomail.mail.helper.EmptyCursor;
+
+import java.util.HashMap;
 
 /**
  * Helper class to access the contacts stored on the device.
@@ -61,6 +68,7 @@ public class Contacts {
 
     protected Context mContext;
     protected ContentResolver mContentResolver;
+    private static HashMap<String, String> nameCache = new HashMap<>();
 
 
     /**
@@ -89,7 +97,7 @@ public class Contacts {
         contactIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         contactIntent.setData(contactUri);
 
-        // Pass along full E-mail string for possible create dialog
+        // Pass along full email string for possible create dialog
         contactIntent.putExtra(ContactsContract.Intents.EXTRA_CREATE_DESCRIPTION,
                 email.toString());
 
@@ -100,6 +108,7 @@ public class Contacts {
         }
 
         mContext.startActivity(contactIntent);
+        clearCache();
     }
 
     /**
@@ -114,6 +123,7 @@ public class Contacts {
         addIntent.putExtra(ContactsContract.Intents.Insert.PHONE, Uri.decode(phoneNumber));
         addIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(addIntent);
+        clearCache();
     }
 
     /**
@@ -168,6 +178,8 @@ public class Contacts {
     public String getNameForAddress(String address) {
         if (address == null) {
             return null;
+        } else if (nameCache.containsKey(address)) {
+            return nameCache.get(address);
         }
 
         final Cursor c = getContactByAddress(address);
@@ -181,6 +193,7 @@ public class Contacts {
             c.close();
         }
 
+        nameCache.put(address, name);
         return name;
     }
 
@@ -252,6 +265,14 @@ public class Contacts {
         }
     }
 
+    private boolean hasContactPermission() {
+        boolean canRead = ContextCompat.checkSelfPermission(mContext,
+                Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
+        boolean canWrite = ContextCompat.checkSelfPermission(mContext,
+                Manifest.permission.WRITE_CONTACTS) == PackageManager.PERMISSION_GRANTED;
+        return  canRead && canWrite;
+    }
+
     /**
      * Return a {@link Cursor} instance that can be used to fetch information
      * about the contact with the given email address.
@@ -262,11 +283,24 @@ public class Contacts {
      */
     private Cursor getContactByAddress(final String address) {
         final Uri uri = Uri.withAppendedPath(ContactsContract.CommonDataKinds.Email.CONTENT_LOOKUP_URI, Uri.encode(address));
-        return mContentResolver.query(
-                uri,
-                PROJECTION,
-                null,
-                null,
-                SORT_ORDER);
+
+        if (hasContactPermission()) {
+            return mContentResolver.query(
+                    uri,
+                    PROJECTION,
+                    null,
+                    null,
+                    SORT_ORDER);
+        } else {
+            return new EmptyCursor();
+        }
     }
+
+    /**
+     * Clears the cache for names and photo uris
+     */
+    public static void clearCache() {
+        nameCache.clear();
+    }
+
 }
