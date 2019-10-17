@@ -8,6 +8,14 @@
      They are automatically updated with "ant bump-version".
 -->
 <changelog>
+    <release version="5.0.0 (10/17/2019)" versioncode="19000">
+        <change>Fix debug apk update for android-N: need REQUEST_INSTALL_PACKAGES in manifest and support only scheme content://</change>
+        <change>Complete redesign of the debug version update implementation</change>
+        <change>Migrate source to use androidx support libraries</change>
+        <change>Libraries upgrade for commons-io, butterknife, butterknife-compiler, retrofit, converter-gson, dnsjava etc</change>
+        <change>Bug fixes and other enhancements</change>
+    </release>
+
     <release version="4.9.2 (05/28/2019)" versioncode="18920">
         <change>Allow android-P clearText download pictures in email with html content</change>
         <change>Auto remove mail notifications and update badge counter on user access to mail messages</change>

@@ -1,10 +1,10 @@
 XryptoMail Release Notes:
 =============================
 Version:		5.0.0
-Upload Date:	10/15/2019
+Upload Date:	10/17/2019
 - Fix debug apk update for android-N: need REQUEST_INSTALL_PACKAGES in manifest and support only scheme content://
-- Complete redesign the handling of debug version update implementation
-- Migrate source to use androidX libraries
+- Complete redesign of the debug version update implementation
+- Migrate source to use androidx support libraries
 - Libraries upgrade: androidx.annotation:annotation:1.0.0 => 1.1.0; commons-io:commons-io:2.4 => 2.6;
 com.jakewharton:butterknife:8.8.1 => 10.1.0; com.jakewharton:butterknife-compiler:8.8.1 => 10.1.0
 com.squareup.retrofit2:retrofit:2.3.0 => 2.5.0; com.squareup.retrofit2:converter-gson:2.3.0 => 2.5.0

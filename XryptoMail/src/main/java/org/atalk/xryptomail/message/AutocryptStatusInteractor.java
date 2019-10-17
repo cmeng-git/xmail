@@ -39,7 +39,7 @@ public class AutocryptStatusInteractor {
                 if (error != null) {
                     Timber.w("OpenPGP API Error #%s: %s", error.getErrorId(), error.getMessage());
                 } else {
-                    Timber.w("OpenPGP API Unknown Error");
+                    Timber.w("%s", "OpenPGP API Unknown Error");
                 }
                 return new RecipientAutocryptStatus(RecipientAutocryptStatusType.ERROR, null);
             case OpenPgpApi.RESULT_CODE_USER_INTERACTION_REQUIRED:

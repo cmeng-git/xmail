@@ -160,7 +160,7 @@ public class MessageCryptoPresenter implements OnCryptoClickListener {
                         pendingIntent.getIntentSender(), REQUEST_CODE_UNKNOWN_KEY, null, 0, 0, 0);
             }
         } catch (IntentSender.SendIntentException e) {
-            Timber.e(e, "SendIntentException");
+            Timber.e("SendIntentException: %s", e.getMessage());
         }
     }
 
@@ -172,7 +172,7 @@ public class MessageCryptoPresenter implements OnCryptoClickListener {
                         pendingIntent.getIntentSender(), null, null, 0, 0, 0);
             }
         } catch (IntentSender.SendIntentException e) {
-            Timber.e(e, "SendIntentException");
+            Timber.e("SendIntentException: %s", e.getMessage());
         }
     }
 
@@ -188,7 +188,7 @@ public class MessageCryptoPresenter implements OnCryptoClickListener {
                         pendingIntent.getIntentSender(), REQUEST_CODE_SECURITY_WARNING, null, 0, 0, 0);
             }
         } catch (IntentSender.SendIntentException e) {
-            Timber.e(e, "SendIntentException");
+            Timber.e("SendIntentException: %s", e.getMessage());
         }
     }
 

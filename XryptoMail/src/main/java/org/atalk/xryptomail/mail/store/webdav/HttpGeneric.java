@@ -43,7 +43,7 @@ public class HttpGeneric extends HttpEntityEnclosingRequestBase
         String end = urlParts[length - 1];
         String url = "";
 
-        /**
+        /*
          * We have to decode, then encode the URL because Exchange likes to not properly encode
          * all characters
          */
@@ -54,7 +54,7 @@ public class HttpGeneric extends HttpEntityEnclosingRequestBase
                 end = end.replaceAll("\\+", "%20");
             }
         } catch (IllegalArgumentException iae) {
-            Timber.e(iae, "IllegalArgumentException caught in HttpGeneric(String uri): %s", end);
+            Timber.e("IllegalArgumentException caught in HttpGeneric(String uri): %s : %s", end, iae.getMessage());
         }
 
         for (int i = 0; i < length - 1; i++) {

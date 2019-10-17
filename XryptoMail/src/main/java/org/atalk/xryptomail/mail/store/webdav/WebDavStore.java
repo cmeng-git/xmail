@@ -546,7 +546,7 @@ public class WebDavStore extends RemoteStore
                 performFormBasedAuthentication(null);
             }
         } catch (IOException ioe) {
-            Timber.e(ioe, "Error during authentication");
+            Timber.e("Error during authentication: %s", ioe.getMessage());
             throw new MessagingException("Error during authentication", ioe);
         }
         return mAuthenticationType != WebDavConstants.AUTH_TYPE_NONE;
@@ -619,7 +619,7 @@ public class WebDavStore extends RemoteStore
         } catch (SSLException e) {
             throw new CertificateValidationException(e.getMessage(), e);
         } catch (IOException ioe) {
-            Timber.e(ioe, "IOException during initial connection");
+            Timber.e("IOException during initial connection: %s", ioe.getMessage());
             throw new MessagingException("IOException", ioe);
         }
         return info;

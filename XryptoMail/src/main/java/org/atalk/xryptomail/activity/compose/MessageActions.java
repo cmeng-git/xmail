@@ -15,6 +15,10 @@ public class MessageActions {
      * will be used.
      */
     public static void actionCompose(Context context, Account account) {
+        // Just return if no account is active
+        if ((account == null) && Preferences.getPreferences(context).getAvailableAccounts().isEmpty())
+            return;
+
         String accountUuid = (account == null) ?
                 Preferences.getPreferences(context).getDefaultAccount().getUuid() :
                 account.getUuid();

@@ -166,7 +166,7 @@ public abstract class Folder<T extends Message>
         // This is causing trouble. Disabled for now. See issue 1733
         //throw new RuntimeException("fetchPart() not implemented.");
 
-        Timber.d("fetchPart() not implemented.");
+        Timber.d("%s", "fetchPart() not implemented.");
     }
 
     public abstract void delete(boolean recurse)

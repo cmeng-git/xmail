@@ -136,7 +136,7 @@ public class AttachmentController
         try {
             intentDataUri = AttachmentTempFileProvider.createTempUriForContentUri(context, attachment.internalUri);
         } catch (IOException e) {
-            Timber.e(e, "Error creating temp file for attachment!");
+            Timber.e(e, "%s", "Error creating temp file for attachment!");
             return null;
         }
 
@@ -277,7 +277,7 @@ public class AttachmentController
                 writeAttachment(documentUri);
                 return true;
             } catch (IOException e) {
-                Timber.e(e, "Error saving attachment");
+                Timber.e(e, "%s", "Error saving attachment");
                 return false;
             }
         }

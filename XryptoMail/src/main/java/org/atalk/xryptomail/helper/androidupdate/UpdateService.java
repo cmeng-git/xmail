@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.Environment;
 
@@ -364,6 +365,7 @@ public class UpdateService
         Properties mProperties = null;
 		String errMsg = "";
 
+        TrafficStats.setThreadStatsTag(XryptoMail.THREAD_ID);
         for (String aLink : updateLinks) {
             String urlStr = aLink.trim() + filePath;
             try {
@@ -386,7 +388,6 @@ public class UpdateService
                 }
             } catch (IOException e) {
                 errMsg = e.getMessage();
-                continue;
             }
         }
 

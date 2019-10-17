@@ -73,7 +73,7 @@ public class MessagingControllerPushReceiver implements PushReceiver {
         if (errMess == null && e != null) {
             errMess = e.getMessage();
         }
-        Timber.e(e, errMess);
+        Timber.e(e, "%s", errMess);
     }
 
     @Override

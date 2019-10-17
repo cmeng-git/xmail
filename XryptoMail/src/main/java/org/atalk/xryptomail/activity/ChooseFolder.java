@@ -80,6 +80,9 @@ public class ChooseFolder extends XMListActivity
         Intent intent = getIntent();
         String accountUuid = intent.getStringExtra(EXTRA_ACCOUNT);
         mAccount = Preferences.getPreferences(this).getAccount(accountUuid);
+        if (mAccount == null)
+            return;
+
         if (intent.hasExtra(EXTRA_MESSAGE)) {
             String messageReferenceString = intent.getStringExtra(EXTRA_MESSAGE);
             mMessageReference = MessageReference.parse(messageReferenceString);

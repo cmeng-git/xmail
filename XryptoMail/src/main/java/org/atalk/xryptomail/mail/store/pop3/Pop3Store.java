@@ -893,8 +893,7 @@ public class Pop3Store extends RemoteStore {
             if ((lines != -1) && (!mTopNotSupported || mCapabilities.top)) {
                 try {
                     if (XryptoMailLib.isDebug() && DEBUG_PROTOCOL_POP3 && !mCapabilities.top) {
-                        Timber.d("This server doesn't support the CAPA command. " +
-                              "Checking to see if the TOP command is supported nevertheless.");
+                        Timber.d("%s", "This server doesn't support the CAPA command. Checking to see if the TOP command is supported nevertheless.");
                     }
 
                     response = executeSimpleCommand(String.format(Locale.US, TOP_COMMAND + " %d %d",
@@ -908,8 +907,7 @@ public class Pop3Store extends RemoteStore {
                         throw e;
                     } else {
                         if (XryptoMailLib.isDebug() && DEBUG_PROTOCOL_POP3) {
-                            Timber.d("The server really doesn't support the TOP " +
-                                  "command. Using RETR instead.");
+                            Timber.d("%s", "The server really doesn't support the TOP command. Using RETR instead.");
                         }
                         // Don't try to use the TOP command again.
                         mTopNotSupported = true;
@@ -1107,7 +1105,7 @@ public class Pop3Store extends RemoteStore {
                 if (command != null) {
                     if (XryptoMailLib.isDebug() && DEBUG_PROTOCOL_POP3) {
                         if (sensitive && !XryptoMailLib.isDebugSensitive()) {
-                            Timber.d(">>> [Command Hidden, Enable Sensitive Debug Logging To Show]");
+                            Timber.d("%s", ">>> [Command Hidden, Enable Sensitive Debug Logging To Show]");
                         } else {
                             Timber.d(">>> %s", command);
                         }

@@ -25,7 +25,6 @@ abstract class OAuth2WebViewClient extends WebViewClient {
     protected abstract boolean arrivedAtRedirectUri(Uri uri);
     protected abstract boolean getOutOfDomain(Uri uri);
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         Uri uri = Uri.parse(url);
@@ -33,7 +32,7 @@ abstract class OAuth2WebViewClient extends WebViewClient {
         if (arrivedAtRedirectUri(uri)) {
             final String error = uri.getQueryParameter("error");
             if (error != null) {
-                Timber.e("got oauth error: " + error);
+                Timber.e("got oauth error: %s",  error);
                 errorHandler.onError(error);
                 requestHandler.onErrorWhenGettingOAuthCode(error);
                 return true;

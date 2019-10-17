@@ -41,14 +41,8 @@ import de.cketti.library.changelog.ChangeLog;
  */
 public class About extends Activity implements OnClickListener
 {
-    private final int FETCH_ERROR = 10;
-    private final int NO_NEW_VERSION = 20;
-    private final int DOWNLOAD_ERROR = 30;
-
-    private final static int CHECK_NEW_VERSION = 10;
-
     private static String[][] USED_LIBRARIES = new String[][]{
-            new String[]{"Android Support Library", "https://developer.android.com/topic/libraries/support-library/index.html"},
+            new String[]{"Android Support Library", "https://developer.android.com/topic/libraries/support-library"},
             new String[]{"butterknife", "https://github.com/JakeWharton/butterknife"},
             new String[]{"ckChangeLog", "https://github.com/cketti/ckChangeLog"},
             new String[]{"Commons IO", "http://commons.apache.org/io/"},
@@ -170,14 +164,12 @@ public class About extends Activity implements OnClickListener
     {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View about = inflater.inflate(R.layout.about, null, false);
-        //String versionTitle = getString(R.string.AboutDialog_title);
         try {
             PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
-            // versionTitle += " v" + pi.versionName;
 
             TextView textView = about.findViewById(R.id.AboutDialog_Version);
             textView.setText(String.format(getString(R.string.AboutDialog_Version), pi.versionName));
-        } catch (NameNotFoundException e) {
+        } catch (NameNotFoundException ignore) {
         }
 
         StringBuilder libs = new StringBuilder().append("<ul>");

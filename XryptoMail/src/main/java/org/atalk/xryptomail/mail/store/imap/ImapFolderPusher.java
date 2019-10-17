@@ -592,8 +592,7 @@ class ImapFolderPusher extends ImapFolder
                 Set<Long> messageSeqSet = new HashSet<>(flagSyncMsgSeqs);
                 List<? extends Message> messageList = getMessages(messageSeqSet, true, null);
 
-                List<Message> messages = new ArrayList<>();
-                messages.addAll(messageList);
+                List<Message> messages = new ArrayList<>(messageList);
                 mPushReceiver.messagesFlagsChanged(ImapFolderPusher.this, messages);
             } catch (Exception e) {
                 mPushReceiver.pushError("Exception while processing Push untagged responses", e);
