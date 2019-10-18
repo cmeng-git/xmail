@@ -79,8 +79,8 @@ android {
         applicationId "org.atalk.xryptomail"
         testApplicationId "org.atalk.xryptomail.tests"
 
-        versionCode 19000
-        versionName '5.0.0'
+        versionCode 19010
+        versionName '5.0.1'
 
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.compileSdkVersion

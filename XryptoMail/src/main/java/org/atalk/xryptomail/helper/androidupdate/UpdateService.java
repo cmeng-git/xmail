@@ -23,6 +23,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.TrafficStats;
 import android.net.Uri;
@@ -125,8 +127,8 @@ public class UpdateService
                     Uri fileUri = downloadManager.getUriForDownloadedFile(lastDownload);
                     File apkFile = new File(FilePathHelper.getPath(XryptoMail.getGlobalContext(), fileUri));
 
-                    if (apkFile.exists()) {
-                        // Ask the user if he wants to install
+                    // Ask the user if he wants to install if available and valid apk is found
+                    if (apkFile.exists() && isVersionCodeValid(apkFile, latestVersionCode)) {
                         askInstallDownloadedApk(fileUri);
                         return;
                     }
@@ -257,14 +259,6 @@ public class UpdateService
         rememberDownloadId(jobId);
     }
 
-    private void rememberDownloadId(long id)
-    {
-        SharedPreferences store = getStore();
-        String storeStr = store.getString(ENTRY_NAME, "");
-        storeStr += id + ",";
-        store.edit().putString(ENTRY_NAME, storeStr).apply();
-    }
-
     private class DownloadReceiver extends BroadcastReceiver
     {
         @Override
@@ -280,8 +274,8 @@ public class UpdateService
                     Uri fileUri = downloadManager.getUriForDownloadedFile(lastDownload);
                     File apkFile = new File(FilePathHelper.getPath(XryptoMail.getGlobalContext(), fileUri));
 
-                    if (apkFile.exists()) {
-                        // Ask the user if he wants to install
+                    // Ask the user if he wants to install if available and valid apk is found
+                    if (apkFile.exists() && isVersionCodeValid(apkFile, latestVersionCode)) {
                         askInstallDownloadedApk(fileUri);
                         return;
                     }
@@ -309,6 +303,14 @@ public class UpdateService
             store = XryptoMail.getGlobalContext().getSharedPreferences("store", Context.MODE_PRIVATE);
         }
         return store;
+    }
+
+    private void rememberDownloadId(long id)
+    {
+        SharedPreferences store = getStore();
+        String storeStr = store.getString(ENTRY_NAME, "");
+        storeStr += id + ",";
+        store.edit().putString(ENTRY_NAME, storeStr).apply();
     }
 
     private List<Long> getOldDownloads()
@@ -343,6 +345,21 @@ public class UpdateService
     }
 
     /**
+     * Validate the downloaded apk file for correct versionCode
+     *
+     * @param apkFile apk File
+     * @param versionCode apk versionCode
+     * @return true if apkFile has the specified versionCode
+     */
+    // Checked  apk for valid
+    private boolean isVersionCodeValid(File apkFile, int versionCode)
+    {
+        PackageManager pm = XryptoMail.getGlobalContext().getPackageManager();
+        PackageInfo info = pm.getPackageArchiveInfo(apkFile.getPath(), 0);
+        return (info != null) && (versionCode == info.versionCode);
+    }
+
+    /**
      * Gets the latest available (software) version online.
      *
      * @return the latest (software) version
@@ -363,7 +380,7 @@ public class UpdateService
         currentVersion = versionService.getCurrentVersionName();
         currentVersionCode = versionService.getCurrentVersionCode();
         Properties mProperties = null;
-		String errMsg = "";
+        String errMsg = "";
 
         TrafficStats.setThreadStatsTag(XryptoMail.THREAD_ID);
         for (String aLink : updateLinks) {

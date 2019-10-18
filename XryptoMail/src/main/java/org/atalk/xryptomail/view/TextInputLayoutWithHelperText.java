@@ -40,8 +40,7 @@ public class TextInputLayoutWithHelperText extends TextInputLayout {
         super(_context, _attrs);
 
         final TypedArray a = getContext().obtainStyledAttributes(
-                _attrs,
-                R.styleable.TextInputLayoutWithHelperText,0,0);
+                _attrs, R.styleable.TextInputLayoutWithHelperText,0,0);
         try {
             mHelperTextColor = a.getColorStateList(R.styleable.TextInputLayoutWithHelperText_helperTextColor);
             mHelperText = a.getText(R.styleable.TextInputLayoutWithHelperText_helperText);
@@ -86,7 +85,8 @@ public class TextInputLayoutWithHelperText extends TextInputLayout {
                 }
                 this.mHelperView.setVisibility(INVISIBLE);
                 this.addView(this.mHelperView);
-                if (this.mHelperView != null) {
+                // getEditText() can be null and crash
+                if ((this.mHelperView != null) && (getEditText() != null)) {
                     ViewCompat.setPaddingRelative(
                             this.mHelperView,
                             ViewCompat.getPaddingStart(getEditText()),

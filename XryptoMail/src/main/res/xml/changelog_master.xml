@@ -8,6 +8,13 @@
      They are automatically updated with "ant bump-version".
 -->
 <changelog>
+    <release version="5.0.1 (10/18/2019)" versioncode="19010">
+        <change>Fix NPE crashes in mail incoming and outgoing server settings edit</change>
+        <change>UpdateService when checkForUpdate must validate the downloaded apk version Code is valid</change>
+        <change>Fix 'Composition defaults' in Account settings crashes when access</change>
+        <change>Bug fixes and other enhancements</change>
+    </release>
+
     <release version="5.0.0 (10/17/2019)" versioncode="19000">
         <change>Fix debug apk update for android-N: need REQUEST_INSTALL_PACKAGES in manifest and support only scheme content://</change>
         <change>Complete redesign of the debug version update implementation</change>

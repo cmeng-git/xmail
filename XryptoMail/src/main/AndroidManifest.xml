@@ -129,6 +129,10 @@
             android:configChanges="locale"
             android:theme="@style/Theme.XMail.Material.Light" />
         <activity
+            android:name=".activity.setup.AccountSetupComposition"
+            android:configChanges="locale"
+            android:label="@string/account_settings_composition_title"/>
+        <activity
             android:name=".activity.ChooseAccount"
             android:configChanges="locale"
             android:label="@string/choose_account_title"

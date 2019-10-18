@@ -1,5 +1,12 @@
 XryptoMail Release Notes:
 =============================
+Version:		5.0.1
+Upload Date:	10/18/2019
+- Fix NPE crashes in mail incoming and outgoing server settings edit - TextInputLayoutWithHelperText->getEditText() == null
+- UpdateService.checkForUpdate must validate the downloaded apk version Code is valid.
+- AccountSetupComposition activity missing in AndroidManifest.xml
+
+=============================
 Version:		5.0.0
 Upload Date:	10/17/2019
 - Fix debug apk update for android-N: need REQUEST_INSTALL_PACKAGES in manifest and support only scheme content://
