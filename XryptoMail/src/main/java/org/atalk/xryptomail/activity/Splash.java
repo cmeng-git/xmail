@@ -16,7 +16,6 @@
  */
 package org.atalk.xryptomail.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,13 +24,16 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import androidx.fragment.app.FragmentActivity;
+
 import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.helper.androidupdate.OnlineUpdateService;
+import org.atalk.xryptomail.helper.androidupdate.UpdateService;
 
 /**
  * Splash screen activity
  */
-public class Splash extends Activity
+public class Splash extends FragmentActivity
 {
     private final static int ONLINE_UPDATE = 10;
 
@@ -59,6 +61,7 @@ public class Splash extends Activity
         new Handler().postDelayed(() -> {
             // Start update service for debug version only
             if (BuildConfig.DEBUG) {
+                UpdateService.getInstance().removeOldDownloads();
                 Intent dailyCheckupIntent = new Intent(getApplicationContext(), OnlineUpdateService.class);
                 dailyCheckupIntent.setAction(OnlineUpdateService.ACTION_AUTO_UPDATE_START);
                 startService(dailyCheckupIntent);

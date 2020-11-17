@@ -440,7 +440,7 @@
   <string name="account_settings_color_label">계정 색깔</string>
   <string name="account_settings_color_summary">계정 목록과 폴더 내에서 사용될 계정 색깔을 선택하십시오</string>
   <string name="account_settings_led_color_label">알림 LED 색깔</string>
-  <string name="account_settings_led_color_summary">이 계정의 LED 깜박임 색을 선택하십시오</string>
+  <string name="account_settings_led_color_summary">이 계정의 LED 깜박임 색을 선택하십시오. android-O 이상의 경우 고정 색상, 파란색</string>
   <string name="account_settings_mail_display_count_label">로컬 폴더 용량</string>
   <string name="account_settings_autodownload_message_size_label">가져올 메시지 최대 용량</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

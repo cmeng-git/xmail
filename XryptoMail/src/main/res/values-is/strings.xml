@@ -497,7 +497,7 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="account_settings_color_label">Litur aðgangsins</string>
   <string name="account_settings_color_summary">Liturinn sem notaður er til að auðkenna þennan aðgang í listum</string>
   <string name="account_settings_led_color_label">Litur LED-merkis fyrir tilkynningar</string>
-  <string name="account_settings_led_color_summary">Litur LED-merkis sem tækið á að blikka við tilkynningar fyrir þennan aðgang</string>
+  <string name="account_settings_led_color_summary">Litur LED-merkis sem tækið á að blikka við tilkynningar fyrir þennan aðgang. Fastur litur, blár fyrir Android-O og hærra</string>
   <string name="account_settings_mail_display_count_label">Stærð staðværrar möppu</string>
   <string name="account_settings_autodownload_message_size_label">Ná í skilaboð upp að</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

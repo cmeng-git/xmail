@@ -77,35 +77,26 @@ public class UnreadWidgetConfiguration extends XMPreferenceActivity
 
         addPreferencesFromResource(R.xml.unread_widget_configuration);
         unreadAccount = findPreference(PREFERENCE_UNREAD_ACCOUNT);
-        unreadAccount.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                Intent intent = new Intent(UnreadWidgetConfiguration.this, ChooseAccount.class);
-                startActivityForResult(intent, REQUEST_CHOOSE_ACCOUNT);
-                return false;
-            }
+        unreadAccount.setOnPreferenceClickListener(preference -> {
+            Intent intent1 = new Intent(UnreadWidgetConfiguration.this, ChooseAccount.class);
+            startActivityForResult(intent1, REQUEST_CHOOSE_ACCOUNT);
+            return false;
         });
 
         unreadFolderEnabled = (CheckBoxPreference) findPreference(PREFERENCE_UNREAD_FOLDER_ENABLED);
-        unreadFolderEnabled.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                unreadFolder.setSummary(getString(R.string.unread_widget_folder_summary));
-                selectedFolderName = null;
-                return true;
-            }
+        unreadFolderEnabled.setOnPreferenceChangeListener((preference, newValue) -> {
+            unreadFolder.setSummary(getString(R.string.unread_widget_folder_summary));
+            selectedFolderName = null;
+            return true;
         });
 
         unreadFolder = findPreference(PREFERENCE_UNREAD_FOLDER);
-        unreadFolder.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                Intent intent = new Intent(UnreadWidgetConfiguration.this, ChooseFolder.class);
-                intent.putExtra(ChooseFolder.EXTRA_ACCOUNT, selectedAccountUuid);
-                intent.putExtra(ChooseFolder.EXTRA_SHOW_DISPLAYABLE_ONLY, "yes");
-                startActivityForResult(intent, REQUEST_CHOOSE_FOLDER);
-                return false;
-            }
+        unreadFolder.setOnPreferenceClickListener(preference -> {
+            Intent intent12 = new Intent(UnreadWidgetConfiguration.this, ChooseFolder.class);
+            intent12.putExtra(ChooseFolder.EXTRA_ACCOUNT, selectedAccountUuid);
+            intent12.putExtra(ChooseFolder.EXTRA_SHOW_DISPLAYABLE_ONLY, "yes");
+            startActivityForResult(intent12, REQUEST_CHOOSE_FOLDER);
+            return false;
         });
         setTitle(R.string.unread_widget_select_account);
     }

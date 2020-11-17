@@ -490,7 +490,7 @@ Prosím, nahlasujte prípadné chyby, prispievajte novými funkciami a pýtajte 
   <string name="account_settings_color_label">Farba účtu</string>
   <string name="account_settings_color_summary">Farba účtu v zozname priečinkov a účtov</string>
   <string name="account_settings_led_color_label">Farba notifikačnej LED</string>
-  <string name="account_settings_led_color_summary">Farba blikania LED pre tento účet</string>
+  <string name="account_settings_led_color_summary">Farba blikania LED pre tento účet. Pevná farba, modrá pre Android-O a vyššie</string>
   <string name="account_settings_mail_display_count_label">Veľkosť lokálneho priečinka</string>
   <string name="account_settings_autodownload_message_size_label">Načítať správy do veľkosti</string>
   <string name="account_settings_autodownload_message_size_1">1 kB</string>

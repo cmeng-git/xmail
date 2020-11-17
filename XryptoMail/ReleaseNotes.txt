@@ -1,5 +1,20 @@
 XryptoMail Release Notes:
 =============================
+Version:		5.0.2
+Upload Date:	11/17/2020
+- Enhance LED notification support for android OS >= android 8.0(O) devices with LED indicators;
+  and the LED light color is fixed Color.BLUE, not customizable
+  Edge lighting not supported as it affects heads-up notification stripping all action buttons.
+  API-26 for LED control in NotificationChannel
+  i.e. nEmail.setLightColor(Color.BLUE);
+       nEmail.enableLights(true);
+- Note-10 Edge-lighting when enabled for xMail, it affects the heads-up notifications stripping all the action buttons
+  i.e. Reply, and Mark As Read etc. Edge-light only supported in a locked-screen state, and required fullScreen Intent
+  to trigger it, LED light on duration is only momentarily. Decided not to implement for xMail.
+- Upgrade to support up to android 11.0(R), API-30
+- Update online update service classes
+
+=============================
 Version:		5.0.1
 Upload Date:	10/18/2019
 - Fix NPE crashes in mail incoming and outgoing server settings edit - TextInputLayoutWithHelperText->getEditText() == null
@@ -11,7 +26,7 @@ Version:		5.0.0
 Upload Date:	10/17/2019
 - Fix debug apk update for android-N: need REQUEST_INSTALL_PACKAGES in manifest and support only scheme content://
 - Complete redesign of the debug version update implementation
-- Migrate source to use androidx support libraries
+- Migrate the source to use androidx support libraries
 - Libraries upgrade: androidx.annotation:annotation:1.0.0 => 1.1.0; commons-io:commons-io:2.4 => 2.6;
 com.jakewharton:butterknife:8.8.1 => 10.1.0; com.jakewharton:butterknife-compiler:8.8.1 => 10.1.0
 com.squareup.retrofit2:retrofit:2.3.0 => 2.5.0; com.squareup.retrofit2:converter-gson:2.3.0 => 2.5.0
@@ -30,7 +45,7 @@ Version:		4.9.2
 Upload Date:	05/28/2019
 - Allow android-P clearText download pictures in email with html content</change>
 - Auto remove mail notifications and update badge counter on user access to mail messages.
-  currently android-O setNumber is not working - so temporary disabled 
+  Currently, android-O setNumber is not working - so temporary disabled
 
 =============================
 Version:		4.9.1
@@ -67,7 +82,7 @@ Upload Date:	10/22/2018
   use TrafficStats.setThreadSocketTag() to track all network usage
 - Allow some outdated HTML attributes so emails from popular internet services are displayed as intended
 - Fixed bug when moving or copying message (IMAP)
-- Source update based on k-9-5.6-MAINT_20181020
+- Source update based on K9-5.6-MAINT_20181020
 
 =============================
 

@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
+import androidx.fragment.app.FragmentActivity;
+
 import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.activity.misc.SwipeGestureDetector;
 import org.atalk.xryptomail.activity.misc.SwipeGestureDetector.OnSwipeGestureListener;

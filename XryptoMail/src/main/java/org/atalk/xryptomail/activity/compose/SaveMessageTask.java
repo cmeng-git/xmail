@@ -10,7 +10,8 @@ import org.atalk.xryptomail.controller.MessagingController;
 import org.atalk.xryptomail.helper.Contacts;
 import org.atalk.xryptomail.mail.Message;
 
-public class SaveMessageTask extends AsyncTask<Void, Void, Void> {
+public class SaveMessageTask extends AsyncTask<Void, Void, Void>
+{
     Context context;
     Account account;
     Contacts contacts;

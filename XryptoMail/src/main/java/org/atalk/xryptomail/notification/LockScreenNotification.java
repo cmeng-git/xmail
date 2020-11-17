@@ -21,7 +21,6 @@ class LockScreenNotification {
     private final Context context;
     private final NotificationController controller;
 
-
     LockScreenNotification(NotificationController controller) {
         context = controller.getContext();
         this.controller = controller;

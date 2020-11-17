@@ -1,7 +1,8 @@
 package org.atalk.xryptomail.ui.message;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
+
+import androidx.loader.content.AsyncTaskLoader;
 
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.activity.MessageReference;

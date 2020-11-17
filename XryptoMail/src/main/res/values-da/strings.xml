@@ -481,7 +481,7 @@ Rapporter venligst fejl, forslag til nye funktioner eller stil spørgsmål på:
   <string name="account_settings_color_label">Kontofarve</string>
   <string name="account_settings_color_summary">Vælg en farve til konto (benyttes ved mappevisning og listning af konti)</string>
   <string name="account_settings_led_color_label">LED-farve ved besked</string>
-  <string name="account_settings_led_color_summary">Vælg den farve som din telefonens LED skal benytte for denne konto</string>
+  <string name="account_settings_led_color_summary">Vælg den farve som din telefonens LED skal benytte for denne konto. Fast farve, blå til Android-O og derover</string>
   <string name="account_settings_mail_display_count_label">Lokal mappestørrelse</string>
   <string name="account_settings_autodownload_message_size_label">Hent automatisk mail hvis indhold fylder op til</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

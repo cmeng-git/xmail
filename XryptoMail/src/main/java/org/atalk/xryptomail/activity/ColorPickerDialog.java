@@ -109,38 +109,33 @@ public class ColorPickerDialog extends AlertDialog
                 return false;
             }
         });
-        mColorPicker.setOnTouchListener(new View.OnTouchListener()
-        {
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                if (event.getAction() == MotionEvent.ACTION_MOVE
-                        || event.getAction() == MotionEvent.ACTION_DOWN
-                        || event.getAction() == MotionEvent.ACTION_UP) {
+        mColorPicker.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_MOVE
+                    || event.getAction() == MotionEvent.ACTION_DOWN
+                    || event.getAction() == MotionEvent.ACTION_UP) {
 
-                    float x = event.getX(); // dalam px, bukan dp
-                    float y = event.getY(); // dalam px, bukan dp
+                float x = event.getX(); // dalam px, bukan dp
+                float y = event.getY(); // dalam px, bukan dp
 
-                    if (x < 0.f)
-                        x = 0.f;
-                    if (x > sizeUiPx)
-                        x = sizeUiPx;
-                    if (y < 0.f)
-                        y = 0.f;
-                    if (y > sizeUiPx)
-                        y = sizeUiPx;
+                if (x < 0.f)
+                    x = 0.f;
+                if (x > sizeUiPx)
+                    x = sizeUiPx;
+                if (y < 0.f)
+                    y = 0.f;
+                if (y > sizeUiPx)
+                    y = sizeUiPx;
 
-                    sat = (1.f / sizeUiPx * x);
-                    val = 1.f - (1.f / sizeUiPx * y);
+                sat = (1.f / sizeUiPx * x);
+                val = 1.f - (1.f / sizeUiPx * y);
 
-                    colorNew = calculateColor();
-                    // update view
-                    placeSpyglass();
-                    viewColorNew.setBackgroundColor(colorNew);
-                    return true;
-                }
-                return false;
+                colorNew = calculateColor();
+                // update view
+                placeSpyglass();
+                viewColorNew.setBackgroundColor(colorNew);
+                return true;
             }
+            return false;
         });
 
         this.setView(view);

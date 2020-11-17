@@ -500,7 +500,7 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="account_settings_color_label">Цвет</string>
   <string name="account_settings_color_summary">Метка в списке ящиков и папок</string>
   <string name="account_settings_led_color_label">Цвет LED-индикатора</string>
-  <string name="account_settings_led_color_summary">Цвет LED-индикатора для оповещений этого ящика</string>
+  <string name="account_settings_led_color_summary">Цвет LED-индикатора для оповещений этого ящика. Фиксированный цвет, синий для android-O и выше</string>
   <string name="account_settings_mail_display_count_label">Отображать сообщений</string>
   <string name="account_settings_autodownload_message_size_label">Загружать фрагмент</string>
   <string name="account_settings_autodownload_message_size_1">1 Кб</string>

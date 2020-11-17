@@ -487,7 +487,7 @@ Por favor informe de fallos, aporte nueva funcionalidad o envíe sus preguntas a
   <string name="account_settings_color_label">Color de la cuenta</string>
   <string name="account_settings_color_summary">Seleccione el color a utilizar en la carpeta y en la cuenta</string>
   <string name="account_settings_led_color_label">Color de aviso</string>
-  <string name="account_settings_led_color_summary">Seleccione el color del LED para los avisos de esta cuenta</string>
+  <string name="account_settings_led_color_summary">Seleccione el color del LED para los avisos de esta cuenta. Color fijo, azul para Android-O y superior</string>
   <string name="account_settings_mail_display_count_label">Tamaño carpeta local</string>
   <string name="account_settings_autodownload_message_size_label">Obtener mensajes de hasta</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

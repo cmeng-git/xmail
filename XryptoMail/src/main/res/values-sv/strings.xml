@@ -496,7 +496,7 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="account_settings_color_label">Kontofärg</string>
   <string name="account_settings_color_summary">Färg för detta konto i mapp- och kontolista</string>
   <string name="account_settings_led_color_label">Färg på LED vid avisering</string>
-  <string name="account_settings_led_color_summary">Den färg som enhetens LED ska visa för detta konto</string>
+  <string name="account_settings_led_color_summary">Den färg som enhetens LED ska visa för detta konto. Fast färg, blå för Android-O och högre</string>
   <string name="account_settings_mail_display_count_label">Lokal mappstorlek</string>
   <string name="account_settings_autodownload_message_size_label">Hämta brev upp till</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

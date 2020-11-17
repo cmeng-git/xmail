@@ -2,11 +2,12 @@ package org.atalk.xryptomail.view;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import androidx.fragment.app.DialogFragment;
 
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.ShowcaseView.Builder;
@@ -14,7 +15,8 @@ import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
 import org.atalk.xryptomail.R;
 
-public class HighlightDialogFragment extends DialogFragment {
+public class HighlightDialogFragment extends DialogFragment
+{
     public static final String ARG_HIGHLIGHT_VIEW = "highlighted_view";
     public static final float BACKGROUND_DIM_AMOUNT = 0.25f;
     private ShowcaseView showcaseView;

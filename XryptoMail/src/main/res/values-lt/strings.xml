@@ -396,7 +396,7 @@
   <string name="account_settings_color_label">Paskyros spalva</string>
   <string name="account_settings_color_summary">Šios paskyros spalva kuri bus naudojama aplankuose ir paskyrų sąraše</string>
   <string name="account_settings_led_color_label">Pranešimų LED spalva</string>
-  <string name="account_settings_led_color_summary">Kokia spalva turėtų mirksėti LED šiai paskyrai</string>
+  <string name="account_settings_led_color_summary">Kokia spalva turėtų mirksėti LED šiai paskyrai. Fiksuota spalva, mėlyna, skirta „Android-O“ ir naujesnėms versijoms</string>
   <string name="account_settings_mail_display_count_label">Vietinio aplanko dydis</string>
   <string name="account_settings_autodownload_message_size_label">Gauti laiškus iki</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

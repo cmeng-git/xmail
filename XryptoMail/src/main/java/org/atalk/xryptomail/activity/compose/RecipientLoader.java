@@ -1,7 +1,6 @@
 package org.atalk.xryptomail.activity.compose;
 
 import android.Manifest;
-import android.content.AsyncTaskLoader;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -14,6 +13,7 @@ import android.provider.ContactsContract.Contacts.Data;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.loader.content.AsyncTaskLoader;
 
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.mail.Address;
@@ -30,7 +30,8 @@ import java.util.Map;
 
 import timber.log.Timber;
 
-public class RecipientLoader extends AsyncTaskLoader<List<Recipient>> {
+public class RecipientLoader extends AsyncTaskLoader<List<Recipient>>
+{
     /*
      * Indexes of the fields in the projection. This must match the order in {@link #PROJECTION}.
      */

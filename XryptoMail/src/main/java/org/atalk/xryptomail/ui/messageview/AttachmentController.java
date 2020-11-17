@@ -7,8 +7,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import androidx.annotation.WorkerThread;
+
+import android.os.AsyncTask;
 import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;

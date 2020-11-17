@@ -488,7 +488,7 @@ Por favor envie relatórios de falhas, contribua com novas funcionalidades e col
   <string name="account_settings_color_label">Cor da conta</string>
   <string name="account_settings_color_summary">A cor predominante desta conta usada na lista de pastas e contas</string>
   <string name="account_settings_led_color_label">Cor da notificação LED</string>
-  <string name="account_settings_led_color_summary">A cor que o LED do dispositivo deve piscar para esta conta</string>
+  <string name="account_settings_led_color_summary">A cor que o LED do dispositivo deve piscar para esta conta. Cor fixa, azul para android-O e superior</string>
   <string name="account_settings_mail_display_count_label">Tamanho da pasta local</string>
   <string name="account_settings_autodownload_message_size_label">Obter mensagens até</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

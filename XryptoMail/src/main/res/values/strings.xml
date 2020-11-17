@@ -657,7 +657,7 @@ some quirks when talking to Microsoft Exchange.
     <string name="account_settings_color_label">Account color</string>
     <string name="account_settings_color_summary">The accent color of this account used in folder and account list</string>
     <string name="account_settings_led_color_label">Notification LED color</string>
-    <string name="account_settings_led_color_summary">The color your device LED should blink for this account</string>
+    <string name="account_settings_led_color_summary">The color your device LED should blink for this account. Fixed color Blue for android-O and above</string>
 
     <string name="account_settings_mail_display_count_label">Local folder size</string>
     <string name="account_settings_autodownload_message_size_label">Fetch messages up to</string>

@@ -108,7 +108,7 @@ public class XryptoMail extends Application
     }
 
     private static String language = "";
-    private static Theme theme = Theme.LIGHT;
+    private static Theme mTheme = Theme.LIGHT;
     private static Theme messageViewTheme = Theme.USE_GLOBAL;
     private static Theme composerTheme = Theme.USE_GLOBAL;
     private static boolean useFixedMessageTheme = true;
@@ -490,7 +490,7 @@ public class XryptoMail extends Application
         editor.putBoolean("openPgpSupportSignOnly", sOpenPgpSupportSignOnly);
 
         editor.putString("language", language);
-        editor.putInt("theme", theme.ordinal());
+        editor.putInt("theme", mTheme.ordinal());
         editor.putInt("messageViewTheme", messageViewTheme.ordinal());
         editor.putInt("messageComposeTheme", composerTheme.ordinal());
         editor.putBoolean("fixedMessageViewTheme", useFixedMessageTheme);
@@ -885,19 +885,19 @@ public class XryptoMail extends Application
         language = nlanguage;
     }
 
-    public static int getXMThemeResourceId(Theme themeId)
+    public static int getXMThemeResourceId(Theme theme)
     {
-        return (themeId == Theme.LIGHT) ? R.style.Theme_XMail_Light : R.style.Theme_XMail_Dark;
+        return (theme == Theme.LIGHT) ? R.style.Theme_XMail_Light : R.style.Theme_XMail_Dark;
     }
 
     public static int getXMThemeResourceId()
     {
-        return getXMThemeResourceId(theme);
+        return getXMThemeResourceId(mTheme);
     }
 
     public static Theme getXMMessageViewTheme()
     {
-        return messageViewTheme == Theme.USE_GLOBAL ? theme : messageViewTheme;
+        return messageViewTheme == Theme.USE_GLOBAL ? mTheme : messageViewTheme;
     }
 
     public static Theme getXMMessageViewThemeSetting()
@@ -907,7 +907,7 @@ public class XryptoMail extends Application
 
     public static Theme getXMComposerTheme()
     {
-        return composerTheme == Theme.USE_GLOBAL ? theme : composerTheme;
+        return composerTheme == Theme.USE_GLOBAL ? mTheme : composerTheme;
     }
 
     public static Theme getXMComposerThemeSetting()
@@ -917,13 +917,13 @@ public class XryptoMail extends Application
 
     public static Theme getXMTheme()
     {
-        return theme;
+        return mTheme;
     }
 
-    public static void setXMTheme(Theme ntheme)
+    public static void setXMTheme(Theme theme)
     {
-        if (ntheme != Theme.USE_GLOBAL) {
-            theme = ntheme;
+        if (theme != Theme.USE_GLOBAL) {
+            mTheme = theme;
         }
     }
 
@@ -946,7 +946,7 @@ public class XryptoMail extends Application
     {
         useFixedMessageTheme = useFixed;
         if (!useFixedMessageTheme && messageViewTheme == Theme.USE_GLOBAL) {
-            messageViewTheme = theme;
+            messageViewTheme = mTheme;
         }
     }
 

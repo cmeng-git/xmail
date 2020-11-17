@@ -400,7 +400,7 @@
   <string name="account_settings_color_label">رنگ حساب کاربری</string>
   <string name="account_settings_color_summary">رنگ گویش این حساب کاربری  در پوشه و لیست حساب کاربری استفاده شده</string>
   <string name="account_settings_led_color_label">رنگ اعلام ال ای دی</string>
-  <string name="account_settings_led_color_summary">رنگ ال ای دی دستگاه شما باید این حساب کاربری چشمک بزند</string>
+  <string name="account_settings_led_color_summary">رنگ ال ای دی دستگاه شما باید این حساب کاربری چشمک بزندرنگ ثابت ، آبی برای android-O و بالاتر</string>
   <string name="account_settings_mail_display_count_label">انداره پوشه داخلی</string>
   <string name="account_settings_autodownload_message_size_label">پیام ها را واکشی کن تا</string>
   <string name="account_settings_autodownload_message_size_1">1 کیلو بایت</string>

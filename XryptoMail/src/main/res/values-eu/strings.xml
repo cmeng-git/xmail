@@ -496,7 +496,7 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="account_settings_color_label">Kontuaren kolorea</string>
   <string name="account_settings_color_summary">Kontu honen kolore orokorra karpeta eta kontu zerrendan erabiliko da</string>
   <string name="account_settings_led_color_label">Jakinarazpenetarako LED kolorea</string>
-  <string name="account_settings_led_color_summary">Kontu honetarako zure gailuaren LEDak keinatu beharko lukeen kolorea</string>
+  <string name="account_settings_led_color_summary">Kontu honetarako zure gailuaren LEDak keinatu beharko lukeen kolorea. Kolore finkoa, urdina android-O eta gehiagorako</string>
   <string name="account_settings_mail_display_count_label">Karpeta lokalaren tamaina</string>
   <string name="account_settings_autodownload_message_size_label">Honenbesterainoko mezuak eskuratu</string>
   <string name="account_settings_autodownload_message_size_1">1 kb</string>

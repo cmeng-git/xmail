@@ -1,10 +1,11 @@
 package org.atalk.xryptomail.helper;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 public class RetainFragment<T> extends Fragment {
     private T data;

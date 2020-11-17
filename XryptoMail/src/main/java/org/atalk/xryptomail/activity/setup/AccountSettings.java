@@ -1,37 +1,14 @@
 package org.atalk.xryptomail.activity.setup;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Vibrator;
-import android.preference.CheckBoxPreference;
-import android.preference.EditTextPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceScreen;
-import android.preference.RingtonePreference;
+import android.content.*;
+import android.os.*;
+import android.preference.*;
 import android.widget.Toast;
 
-import org.atalk.xryptomail.Account;
-import org.atalk.xryptomail.Account.DeletePolicy;
-import org.atalk.xryptomail.Account.Expunge;
-import org.atalk.xryptomail.Account.FolderMode;
-import org.atalk.xryptomail.Account.MessageFormat;
-import org.atalk.xryptomail.Account.QuoteStyle;
-import org.atalk.xryptomail.Account.Searchable;
-import org.atalk.xryptomail.Account.ShowPictures;
-import org.atalk.xryptomail.NotificationSetting;
-import org.atalk.xryptomail.Preferences;
-import org.atalk.xryptomail.R;
-import org.atalk.xryptomail.XryptoMail;
-import org.atalk.xryptomail.activity.ChooseFolder;
-import org.atalk.xryptomail.activity.ChooseIdentity;
-import org.atalk.xryptomail.activity.ColorPickerDialog;
-import org.atalk.xryptomail.activity.ManageIdentities;
-import org.atalk.xryptomail.activity.XMPreferenceActivity;
+import org.atalk.xryptomail.*;
+import org.atalk.xryptomail.Account.*;
+import org.atalk.xryptomail.activity.*;
 import org.atalk.xryptomail.crypto.OpenPgpApiHelper;
 import org.atalk.xryptomail.mail.Folder;
 import org.atalk.xryptomail.mail.Store;
@@ -40,10 +17,7 @@ import org.atalk.xryptomail.service.MailService;
 import org.atalk.xryptomail.ui.dialog.AutocryptPreferEncryptDialog;
 import org.openintents.openpgp.util.OpenPgpKeyPreference;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import timber.log.Timber;
 
@@ -872,8 +846,8 @@ public class AccountSettings extends XMPreferenceActivity
                 break;
             }
             case DIALOG_COLOR_PICKER_LED: {
-                dialog = new ColorPickerDialog(this,
-                        color -> mAccount.getNotificationSetting().setLedColor(color),
+                dialog = new ColorPickerDialog(this, color ->
+                        mAccount.getNotificationSetting().setLedColor(color),
                         mAccount.getNotificationSetting().getLedColor());
                 break;
             }

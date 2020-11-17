@@ -494,7 +494,7 @@
   <string name="account_settings_color_label">Χρώμα λογαριασμού</string>
   <string name="account_settings_color_summary">Επιλογή χρώματος για χρήση στους φακέλους και τη λίστα των λογαριασμών</string>
   <string name="account_settings_led_color_label">Χρώμα ειδοποίησης LED</string>
-  <string name="account_settings_led_color_summary">Επιλογή του χρώματος που θα αναβοσβήνει η λυχνία του κινητού για αυτό το λογαριασμό</string>
+  <string name="account_settings_led_color_summary">Επιλογή του χρώματος που θα αναβοσβήνει η λυχνία του κινητού για αυτό το λογαριασμό. Σταθερό χρώμα, μπλε για Android-O και άνω</string>
   <string name="account_settings_mail_display_count_label">Μέγεθος τοπικού φακέλου</string>
   <string name="account_settings_autodownload_message_size_label">Ανάκτηση μηνυμάτων μέχρι</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

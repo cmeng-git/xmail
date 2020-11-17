@@ -17,13 +17,9 @@
 
 package org.atalk.xryptomail.helper.androidupdate;
 
-import android.app.AlarmManager;
-import android.app.IntentService;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.app.*;
+import android.content.*;
+
 import androidx.core.app.NotificationCompat;
 
 import org.atalk.xryptomail.R;
@@ -31,6 +27,11 @@ import org.atalk.xryptomail.notification.NotificationHelper;
 
 import java.util.Calendar;
 
+/**
+ * Online Update Service started on first XryptoMail launched. It is set to check for an update every 24hours
+ *
+ * @author Eng Chong Meng
+ */
 public class OnlineUpdateService extends IntentService
 {
     public static final String ACTION_AUTO_UPDATE_APP = "org.atalk.android.ACTION_AUTO_UPDATE_APP";
@@ -39,7 +40,7 @@ public class OnlineUpdateService extends IntentService
 
     private static final String ACTION_UPDATE_AVAILABLE = "org.atalk.android.ACTION_UPDATE_AVAILABLE";
     private static final String ONLINE_UPDATE_SERVICE = "OnlineUpdateService";
-    private static final String UPDATE_AVAIL_TAG = "aTalk Update Available";
+    private static final String UPDATE_AVAIL_TAG = "XryptoMail Update Available";
 
     // in unit of seconds
     public static int CHECK_INTERVAL_ON_LAUNCH = 30;
@@ -47,11 +48,6 @@ public class OnlineUpdateService extends IntentService
     private static final int UPDATE_AVAIL_NOTIFY_ID = 1;
 
     private NotificationManager mNotificationMgr;
-
-    /**
-     * <tt>SharedPreferences</tt> used to store download ids.
-     */
-    private SharedPreferences store;
 
     public OnlineUpdateService()
     {
@@ -76,8 +72,7 @@ public class OnlineUpdateService extends IntentService
                         checkAppUpdate();
                         break;
                     case ACTION_UPDATE_AVAILABLE:
-                        UpdateService updateService = new UpdateService();
-                        updateService.checkForUpdates(true);
+                        UpdateService.getInstance().checkForUpdates(true);
                         break;
                     case ACTION_AUTO_UPDATE_START:
                         setNextAlarm(CHECK_INTERVAL_ON_LAUNCH);
@@ -92,7 +87,7 @@ public class OnlineUpdateService extends IntentService
 
     private void checkAppUpdate()
     {
-        UpdateService updateService = new UpdateService();
+        UpdateService updateService = UpdateService.getInstance();
         boolean isLatest = updateService.isLatestVersion();
 
         if (!isLatest) {

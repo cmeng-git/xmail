@@ -426,7 +426,7 @@
   <string name="account_settings_color_label">Cor da conta</string>
   <string name="account_settings_color_summary">A cor identificativa para esta conta para os cartafoles e lista de contas</string>
   <string name="account_settings_led_color_label">Cor do aviso LED</string>
-  <string name="account_settings_led_color_summary">Selecciona a cor LED para os avisos desta conta</string>
+  <string name="account_settings_led_color_summary">Selecciona a cor LED para os avisos desta conta. Cor fixa, azul para Android-O e superior</string>
   <string name="account_settings_mail_display_count_label">Tamaño do cartafol local</string>
   <string name="account_settings_autodownload_message_size_label">Obter mensaxes ata</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

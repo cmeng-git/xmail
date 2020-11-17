@@ -500,7 +500,7 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="account_settings_color_label">Lliw y cyfrif</string>
   <string name="account_settings_color_summary">Acen y lliw ar gyfer y cyfrif hwn i\'w defnyddio yn rhestrau ffolderi a chyfrifon</string>
   <string name="account_settings_led_color_label">Lliw LED hysbysiadau</string>
-  <string name="account_settings_led_color_summary">Y lliw i LED dy ddyfais fflachio ar gyfer y cyfrif hwn</string>
+  <string name="account_settings_led_color_summary">Y lliw i LED dy ddyfais fflachio ar gyfer y cyfrif hwn. Lliw sefydlog, glas ar gyfer android-O ac uwch</string>
   <string name="account_settings_mail_display_count_label">Maint ffolder lleol</string>
   <string name="account_settings_autodownload_message_size_label">Nôl negeseuon hyd at</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

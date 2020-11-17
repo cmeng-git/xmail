@@ -4,6 +4,7 @@ import android.app.*;
 import android.content.*;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 
 import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.controller.MessagingController;
@@ -15,7 +16,8 @@ import static org.atalk.xryptomail.activity.MessageReferenceHelper.toMessageRefe
 import static org.atalk.xryptomail.activity.MessageReferenceHelper.toMessageReferenceStringList;
 
 
-public class NotificationDeleteConfirmation extends Activity {
+public class NotificationDeleteConfirmation extends FragmentActivity
+{
     private final static String EXTRA_ACCOUNT_UUID = "accountUuid";
     private final static String EXTRA_MESSAGE_REFERENCES = "messageReferences";
 

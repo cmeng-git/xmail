@@ -610,7 +610,7 @@ XryptoMail是Android版電子郵件客戶端加密功能。
     <string name="account_settings_color_label">帳戶顏色</string>
     <string name="account_settings_color_summary">選擇帳戶在文件夹和帳戶列表中顯示時所使用的顏色</string>
     <string name="account_settings_led_color_label">通知LED燈顏色</string>
-    <string name="account_settings_led_color_summary">選擇手機提醒該帳戶訊息時LED燈閃爍的顏色</string>
+    <string name="account_settings_led_color_summary">選擇手機提醒該帳戶訊息時LED燈閃爍的顏色。固定顏色，android-O及更高版本為藍色</string>
 
     <string name="account_settings_mail_display_count_label">本地文件夹大小</string>
     <string name="account_settings_autodownload_message_size_label">收取郵件的最大尺寸為</string>

@@ -494,7 +494,7 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="account_settings_color_label">Kolor konta</string>
   <string name="account_settings_color_summary">Wybierz kolor, który będzie użyty przy wyświetlaniu folderów i listy kont</string>
   <string name="account_settings_led_color_label">Kolor powiadomienia LED</string>
-  <string name="account_settings_led_color_summary">Wybierz kolor jakim migać ma dioda LED przy powiadomieniach</string>
+  <string name="account_settings_led_color_summary">Wybierz kolor jakim migać ma dioda LED przy powiadomieniach. Naprawiono kolor, niebieski dla Androida-O i nowszych</string>
   <string name="account_settings_mail_display_count_label">Liczba wiadomości</string>
   <string name="account_settings_autodownload_message_size_label">Rozmiar pobieranych wiadomości</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

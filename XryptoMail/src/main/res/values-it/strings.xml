@@ -498,7 +498,7 @@ Per favore invia segnalazioni di errori, contribuisci con nuove funzionalità e 
   <string name="account_settings_color_label">Colore dell\'account</string>
   <string name="account_settings_color_summary">Scegli il colore dell\'account utilizzato nell\'elenco delle cartelle e degli account</string>
   <string name="account_settings_led_color_label">Colore del LED di notifica</string>
-  <string name="account_settings_led_color_summary">Scegli con quale colore dovrà lampeggiare il LED del dispositivo per questo account</string>
+  <string name="account_settings_led_color_summary">Scegli con quale colore dovrà lampeggiare il LED del dispositivo per questo account. Colore fisso, blu per Android-O e versioni successive</string>
   <string name="account_settings_mail_display_count_label">Dimensione cartelle locali</string>
   <string name="account_settings_autodownload_message_size_label">Scarica messaggi di dimensione fino a</string>
   <string name="account_settings_autodownload_message_size_1">1KB</string>

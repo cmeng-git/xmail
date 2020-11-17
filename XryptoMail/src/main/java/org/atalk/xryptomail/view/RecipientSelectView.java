@@ -2,10 +2,7 @@ package org.atalk.xryptomail.view;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.LoaderManager;
-import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
-import android.content.Loader;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +10,10 @@ import android.os.Handler;
 import android.provider.ContactsContract.Contacts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -47,7 +48,7 @@ import java.util.List;
 import timber.log.Timber;
 
 public class RecipientSelectView extends TokenCompleteTextView<Recipient>
-        implements LoaderCallbacks<List<Recipient>>, AlternateRecipientListener {
+        implements LoaderManager.LoaderCallbacks<List<Recipient>>, AlternateRecipientListener {
 
     private static final int MINIMUM_LENGTH_FOR_FILTERING = 2;
     private static final String ARG_QUERY = "query";
@@ -102,8 +103,8 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient>
 
         // cmeng - must init loaderManager in initView to take care of screen rotation
         if (getContext() instanceof Activity) {
-            Activity activity = (Activity) getContext();
-            loaderManager = activity.getLoaderManager();
+            FragmentActivity activity = (FragmentActivity) getContext();
+            loaderManager = LoaderManager.getInstance(activity);
         }
     }
 

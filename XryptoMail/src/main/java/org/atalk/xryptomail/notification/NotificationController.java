@@ -115,7 +115,7 @@ public class NotificationController
         sendFailedNotifications.clearSendFailedNotification(account);
     }
 
-    public void showFetchingMailNotification(Account account, Folder folder)
+    public void showFetchingMailNotification(Account account, Folder<?> folder)
     {
         syncNotifications.showFetchingMailNotification(account, folder);
     }
@@ -157,6 +157,12 @@ public class NotificationController
             }
         }
 
+        /*
+         * Android OS version (Build.VERSION.SDK_INT >= 26 or Android-O), the below settings will be overridden by
+         * {@see NotificationCompatBuilder#NotificationCompatBuilder(NotificationCompat.Builder)}
+         * https://developer.android.com/reference/android/app/NotificationChannel#enableLights(boolean)
+         * and are predefined in NotificationHelper#EMAIL_GROUP
+         */
         if (ledColor != null) {
             int ledOnMS;
             int ledOffMS;
@@ -193,14 +199,14 @@ public class NotificationController
         return new NotificationCompat.Builder(context, channelId);
     }
 
-    private Map<Account, Integer> accountUnreadCount = new HashMap<>();
+    private final Map<Account, Integer> accountUnreadCount = new HashMap<>();
 
     /**
      * set the launcher badge number. set updateBadge == false if the call handle itself >= android.o
      *
      * @param account mail account
      * @param msgCount unread message count for the specified account
-     * @param updateBadge update the badge number if true, for android-O
+     * @param updateBadge update the badge number if true, for < android-O
      * @return the total number of unread messages for all the account for badge update
      */
     public int updateBadgeNumber(Account account, int msgCount, boolean updateBadge)

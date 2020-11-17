@@ -497,7 +497,7 @@ Bitte senden Sie Fehlerberichte, Ideen für neue Funktionen und stellen Sie Frag
   <string name="account_settings_color_label">Kontofarbe</string>
   <string name="account_settings_color_summary">Farbe, in der das Konto in der Konten- und Ordnerliste dargestellt wird</string>
   <string name="account_settings_led_color_label">Farbe der Benachrichtigungs-LED</string>
-  <string name="account_settings_led_color_summary">Farbe, die für die Benachrichtigungs-LED bei Benachrichtigungen für dieses Konto verwendet wird</string>
+  <string name="account_settings_led_color_summary">Farbe, die für die Benachrichtigungs-LED bei Benachrichtigungen für dieses Konto verwendet wird. Feste Farbe, blau für Android-O und höher</string>
   <string name="account_settings_mail_display_count_label">Anzahl anzuzeigender Nachrichten</string>
   <string name="account_settings_autodownload_message_size_label">Nachrichten automatisch laden bis</string>
   <string name="account_settings_autodownload_message_size_1">1KB</string>

@@ -1,9 +1,9 @@
 package org.atalk.xryptomail.ui.message;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
+import androidx.loader.content.AsyncTaskLoader;
 
 import org.atalk.xryptomail.mailstore.LocalMessage;
 import org.atalk.xryptomail.mailstore.MessageViewInfo;

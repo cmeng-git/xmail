@@ -5,42 +5,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
+import android.preference.*;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceScreen;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import org.atalk.xryptomail.BuildConfig;
-import org.atalk.xryptomail.Preferences;
-import org.atalk.xryptomail.R;
-import org.atalk.xryptomail.XryptoMail;
-import org.atalk.xryptomail.XryptoMail.NotificationHideSubject;
-import org.atalk.xryptomail.XryptoMail.NotificationQuickDelete;
-import org.atalk.xryptomail.XryptoMail.SplitViewMode;
+import org.atalk.xryptomail.*;
+import org.atalk.xryptomail.XryptoMail.*;
 import org.atalk.xryptomail.activity.ColorPickerDialog;
 import org.atalk.xryptomail.activity.XMPreferenceActivity;
 import org.atalk.xryptomail.helper.FileBrowserHelper;
 import org.atalk.xryptomail.helper.FileBrowserHelper.FileBrowserFailOverCallback;
 import org.atalk.xryptomail.notification.NotificationController;
-import org.atalk.xryptomail.preferences.CheckBoxListPreference;
-import org.atalk.xryptomail.preferences.Storage;
-import org.atalk.xryptomail.preferences.StorageEditor;
-import org.atalk.xryptomail.preferences.TimePickerPreference;
+import org.atalk.xryptomail.preferences.*;
 import org.atalk.xryptomail.service.MailService;
 import org.atalk.xryptomail.ui.dialog.ApgDeprecationWarningDialog;
 import org.openintents.openpgp.util.OpenPgpAppPreference;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import static org.atalk.xryptomail.XryptoMail.confirmMarkAllRead;
+import static org.atalk.xryptomail.XryptoMail.*;
 
 public class Prefs extends XMPreferenceActivity
 {
@@ -187,10 +172,10 @@ public class Prefs extends XMPreferenceActivity
         mLanguage = (ListPreference) findPreference(PREFERENCE_LANGUAGE);
         List<CharSequence> entryVector = new ArrayList<>(Arrays.asList(mLanguage.getEntries()));
         List<CharSequence> entryValueVector = new ArrayList<>(Arrays.asList(mLanguage.getEntryValues()));
-        String supportedLanguages[] = getResources().getStringArray(R.array.supported_languages);
+        String[] supportedLanguages = getResources().getStringArray(R.array.supported_languages);
         Set<String> supportedLanguageSet = new HashSet<>(Arrays.asList(supportedLanguages));
         for (int i = entryVector.size() - 1; i > -1; --i) {
-            if (!supportedLanguageSet.contains(entryValueVector.get(i))) {
+            if (!supportedLanguageSet.contains(entryValueVector.get(i).toString())) {
                 entryVector.remove(i);
                 entryValueVector.remove(i);
             }
@@ -208,13 +193,9 @@ public class Prefs extends XMPreferenceActivity
                 themeIdToName(XryptoMail.getXMComposerThemeSetting()));
 
         findPreference(PREFERENCE_FONT_SIZE).setOnPreferenceClickListener(
-                new Preference.OnPreferenceClickListener()
-                {
-                    public boolean onPreferenceClick(Preference preference)
-                    {
-                        onFontSizeSettings();
-                        return true;
-                    }
+                preference -> {
+                    onFontSizeSettings();
+                    return true;
                 });
 
         mAnimations = (CheckBoxPreference) findPreference(PREFERENCE_ANIMATIONS);
@@ -303,21 +284,17 @@ public class Prefs extends XMPreferenceActivity
             mChangeContactNameColor.setSummary(R.string.global_settings_registered_name_color_default);
         }
 
-        mChangeContactNameColor.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final Boolean checked = (Boolean) newValue;
-                if (checked) {
-                    onChooseContactNameColor();
-                    mChangeContactNameColor.setSummary(R.string.global_settings_registered_name_color_changed);
-                }
-                else {
-                    mChangeContactNameColor.setSummary(R.string.global_settings_registered_name_color_default);
-                }
-                mChangeContactNameColor.setChecked(checked);
-                return false;
+        mChangeContactNameColor.setOnPreferenceChangeListener((preference, newValue) -> {
+            final Boolean checked = (Boolean) newValue;
+            if (checked) {
+                onChooseContactNameColor();
+                mChangeContactNameColor.setSummary(R.string.global_settings_registered_name_color_changed);
             }
+            else {
+                mChangeContactNameColor.setSummary(R.string.global_settings_registered_name_color_default);
+            }
+            mChangeContactNameColor.setChecked(checked);
+            return false;
         });
 
         mFixedWidth = (CheckBoxPreference) findPreference(PREFERENCE_MESSAGEVIEW_FIXEDWIDTH);
@@ -342,27 +319,19 @@ public class Prefs extends XMPreferenceActivity
         mQuietTimeStarts = (TimePickerPreference) findPreference(PREFERENCE_QUIET_TIME_STARTS);
         mQuietTimeStarts.setDefaultValue(XryptoMail.getQuietTimeStarts());
         mQuietTimeStarts.setSummary(XryptoMail.getQuietTimeStarts());
-        mQuietTimeStarts.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String time = (String) newValue;
-                mQuietTimeStarts.setSummary(time);
-                return false;
-            }
+        mQuietTimeStarts.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String time = (String) newValue;
+            mQuietTimeStarts.setSummary(time);
+            return false;
         });
 
         mQuietTimeEnds = (TimePickerPreference) findPreference(PREFERENCE_QUIET_TIME_ENDS);
         mQuietTimeEnds.setSummary(XryptoMail.getQuietTimeEnds());
         mQuietTimeEnds.setDefaultValue(XryptoMail.getQuietTimeEnds());
-        mQuietTimeEnds.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String time = (String) newValue;
-                mQuietTimeEnds.setSummary(time);
-                return false;
-            }
+        mQuietTimeEnds.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String time = (String) newValue;
+            mQuietTimeEnds.setSummary(time);
+            return false;
         });
 
         mNotificationQuickDelete = setupListPreference(PREFERENCE_NOTIF_QUICK_DELETE,
@@ -409,20 +378,16 @@ public class Prefs extends XMPreferenceActivity
             mOpenPgpProvider.addLegacyProvider(
                     APG_PROVIDER_PLACEHOLDER, getString(R.string.apg), R.drawable.ic_apg_small);
         }
-        mOpenPgpProvider.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                String value = newValue.toString();
-                if (APG_PROVIDER_PLACEHOLDER.equals(value)) {
-                    mOpenPgpProvider.setValue("");
-                    showDialog(DIALOG_APG_DEPRECATION_WARNING);
-                }
-                else {
-                    mOpenPgpProvider.setValue(value);
-                }
-                return false;
+        mOpenPgpProvider.setOnPreferenceChangeListener((preference, newValue) -> {
+            String value = newValue.toString();
+            if (APG_PROVIDER_PLACEHOLDER.equals(value)) {
+                mOpenPgpProvider.setValue("");
+                showDialog(DIALOG_APG_DEPRECATION_WARNING);
             }
+            else {
+                mOpenPgpProvider.setValue(value);
+            }
+            return false;
         });
 
         mOpenPgpSupportSignOnly = (CheckBoxPreference) findPreference(PREFERENCE_OPENPGP_SUPPORT_SIGN_ONLY);
@@ -618,14 +583,7 @@ public class Prefs extends XMPreferenceActivity
 
     private void onChooseContactNameColor()
     {
-        new ColorPickerDialog(this, new ColorPickerDialog.OnColorChangedListener()
-        {
-            public void colorChanged(int color)
-            {
-                XryptoMail.setContactNameColor(color);
-            }
-        },
-                XryptoMail.getContactNameColor()).show();
+        new ColorPickerDialog(this, XryptoMail::setContactNameColor, XryptoMail.getContactNameColor()).show();
     }
 
     @Override

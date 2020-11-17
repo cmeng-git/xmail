@@ -493,7 +493,7 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="account_settings_color_label">Fiók színe</string>
   <string name="account_settings_color_summary">Válasszon egyéni színt a fiókhoz</string>
   <string name="account_settings_led_color_label">Figyelmeztető LED színe</string>
-  <string name="account_settings_led_color_summary">Telefon LED színe figyelmeztetéskor</string>
+  <string name="account_settings_led_color_summary">Telefon LED színe figyelmeztetéskor. Rögzített szín, kék az android-O és a fölött</string>
   <string name="account_settings_mail_display_count_label">Helyi mappa mérete</string>
   <string name="account_settings_autodownload_message_size_label">Letölthető levélméret</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

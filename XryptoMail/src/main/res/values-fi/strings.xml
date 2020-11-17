@@ -496,7 +496,7 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="account_settings_color_label">Tilin väri</string>
   <string name="account_settings_color_summary">Valitse väri tilin kansio- ja tililistaan</string>
   <string name="account_settings_led_color_label">LED-ilmoitusvalon väri</string>
-  <string name="account_settings_led_color_summary">Valitse väri, jota laitteesi vilkuttaa tälle tilille</string>
+  <string name="account_settings_led_color_summary">Valitse väri, jota laitteesi vilkuttaa tälle tilille. Kiinteä väri, sininen android-O: lle ja uudemmille</string>
   <string name="account_settings_mail_display_count_label">Paikallisen kansion koko</string>
   <string name="account_settings_autodownload_message_size_label">Hae viestit, joiden koko on enintään</string>
   <string name="account_settings_autodownload_message_size_1">1 kt</string>

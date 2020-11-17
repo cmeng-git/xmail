@@ -1,11 +1,6 @@
 package org.atalk.xryptomail.activity;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Application;
-import android.app.Dialog;
-import android.app.ProgressDialog;
+import android.app.*;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -299,7 +294,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
                 //        newUnreadMessageCount, oldUnreadMessageCount);
 
                 // Do not send mail notification; just update the badge number if user accesses the mail message (android-O)
-                // Android-O setuNumber not working for updateBadge - send for < android-O
+                // Android-O setNumber not working for updateBadge - send for < android-O
                 if (newUnreadMessageCount != oldUnreadMessageCount) {
                     NotificationController.newInstance(Accounts.this).updateBadgeNumber((Account) account,
                             newUnreadMessageCount, true);

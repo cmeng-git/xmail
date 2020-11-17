@@ -4,13 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.Fragment;
 import android.os.Bundle;
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,7 +21,8 @@ import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.view.MessageCryptoDisplayStatus;
 import org.atalk.xryptomail.view.ThemeUtils;
 
-public class CryptoInfoDialog extends DialogFragment {
+public class CryptoInfoDialog extends DialogFragment
+{
     public static final String ARG_DISPLAY_STATUS = "display_status";
     public static final String ARG_HAS_SECURITY_WARNING = "has_security_warning";
 

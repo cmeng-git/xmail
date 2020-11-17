@@ -80,9 +80,15 @@ public class NotificationHelper extends ContextWrapper
         super(ctx);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            // Delete any unused channel IDs or force to re-init all notification channels
+            deleteObsoletedChannelIds(false);
+
             NotificationChannel nEmail = new NotificationChannel(EMAIL_GROUP,
                     getString(R.string.noti_channel_EMAIL_GROUP), NotificationManager.IMPORTANCE_DEFAULT);
-            // nMessage.setLightColor(Color.BLUE);
+            nEmail.setLightColor(Color.BLUE);
+            nEmail.enableLights(true);
+            nEmail.enableVibration(true);
             nEmail.setShowBadge(true);
             nEmail.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
             getManager().createNotificationChannel(nEmail);
@@ -112,18 +118,15 @@ public class NotificationHelper extends ContextWrapper
             nDefault.setShowBadge(false);
             nDefault.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             getManager().createNotificationChannel(nDefault);
-
-            // Delete any unused channel IDs
-            deleteObsoletedChannelIds();
         }
     }
 
     // Clear any obsoleted notification channels
     @TargetApi(Build.VERSION_CODES.O)
-    private void deleteObsoletedChannelIds(){
+    private void deleteObsoletedChannelIds(boolean force){
         List<NotificationChannel> channelGroups = getManager().getNotificationChannels();
         for (NotificationChannel nc: channelGroups) {
-            if (!notificationIds.contains(nc.getId())) {
+            if (force || !notificationIds.contains(nc.getId())) {
                 getManager().deleteNotificationChannel(nc.getId());
             }
         }

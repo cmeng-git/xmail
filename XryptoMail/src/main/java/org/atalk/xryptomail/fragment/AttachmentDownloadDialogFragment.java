@@ -2,10 +2,11 @@ package org.atalk.xryptomail.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
+import androidx.fragment.app.DialogFragment;
 
 import org.atalk.xryptomail.controller.MessagingController;
 import org.atalk.xryptomail.controller.MessagingListener;

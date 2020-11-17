@@ -1,9 +1,7 @@
 package org.atalk.xryptomail.activity.setup;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +10,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -29,7 +30,7 @@ import org.openintents.openpgp.util.OpenPgpAppPreference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OpenPgpAppSelectDialog extends Activity
+public class OpenPgpAppSelectDialog extends FragmentActivity
 {
     private static final String OPENKEYCHAIN_PACKAGE = "org.sufficientlysecure.keychain";
     private static final String APG_PROVIDER_PLACEHOLDER = "apg-placeholder";
@@ -66,13 +67,13 @@ public class OpenPgpAppSelectDialog extends Activity
     private void showOpenPgpSelectDialogFragment()
     {
         OpenPgpAppSelectFragment fragment = new OpenPgpAppSelectFragment();
-        fragment.show(getFragmentManager(), FRAG_OPENPGP_SELECT);
+        fragment.show(getSupportFragmentManager(), FRAG_OPENPGP_SELECT);
     }
 
     private void showApgDeprecationDialogFragment()
     {
         ApgDeprecationDialogFragment fragment = new ApgDeprecationDialogFragment();
-        fragment.show(getFragmentManager(), FRAG_APG_DEPRECATE);
+        fragment.show(getSupportFragmentManager(), FRAG_APG_DEPRECATE);
     }
 
     public static class OpenPgpAppSelectFragment extends DialogFragment
@@ -182,7 +183,7 @@ public class OpenPgpAppSelectDialog extends Activity
                      * Current approach is to assume the user installed the app.
                      * If he does not, the selected package is not valid.
                      *
-                     * However  applications should always consider this could happen,
+                     * However, applications should always consider this could happen,
                      * as the user might remove the currently used OpenPGP app.
                      */
                     getActivity().startActivity(entry.intent);

@@ -8,6 +8,15 @@
      They are automatically updated with "ant bump-version".
 -->
 <changelog>
+    <release version="5.0.2 (11/17/2020)" versioncode="19020">
+        <change>Enhance LED notification support for android OS >= android 8.0(O), devices with LED indicators;
+            The LED light color is Color.BLUE, not customizable</change>
+        <change>Edge lighting is not supported as it affects heads-up notification stripping all notification action buttons,
+            and LED light on duration is only momentarily</change>
+        <change>Upgrade to support android devices with OS up to android 11.0(R), API-30</change>
+        <change>Bug fixes and other enhancements</change>
+    </release>
+
     <release version="5.0.1 (10/18/2019)" versioncode="19010">
         <change>Fix NPE crashes in mail incoming and outgoing server settings edit</change>
         <change>UpdateService when checkForUpdate must validate the downloaded apk version Code is valid</change>

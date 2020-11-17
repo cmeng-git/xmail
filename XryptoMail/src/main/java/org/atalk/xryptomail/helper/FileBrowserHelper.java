@@ -2,13 +2,13 @@ package org.atalk.xryptomail.helper;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.InputType;
 import android.widget.EditText;
+
+import androidx.fragment.app.Fragment;
 
 import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.R;
@@ -37,11 +37,11 @@ public class FileBrowserHelper {
          * the user has entered a path
          * @param path the path as String
          */
-        public void onPathEntered(String path);
+        void onPathEntered(String path);
         /**
          * the user has cancel the inputtext dialog
          */
-        public void onCancel();
+        void onCancel();
     }
     /**
      * factory method

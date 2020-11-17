@@ -97,7 +97,7 @@ public class OpenPgpAppPreference extends DialogPreference {
             public View getView(int position, View convertView, ViewGroup parent) {
                 // User super class to create the View
                 View v = super.getView(position, convertView, parent);
-                TextView tv = (TextView) v.findViewById(android.R.id.text1);
+                TextView tv = v.findViewById(android.R.id.text1);
 
                 // Put the image on the TextView
                 tv.setCompoundDrawablesWithIntrinsicBounds(mList.get(position).icon, null,
@@ -125,7 +125,7 @@ public class OpenPgpAppPreference extends DialogPreference {
                              * Current approach is to assume the user installed the app.
                              * If he does not, the selected package is not valid.
                              *
-                             * However  applications should always consider this could happen,
+                             * However, applications should always consider this could happen,
                              * as the user might remove the currently used OpenPGP app.
                              */
                             getContext().startActivity(entry.intent);

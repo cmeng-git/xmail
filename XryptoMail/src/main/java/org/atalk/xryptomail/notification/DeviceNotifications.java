@@ -2,9 +2,10 @@ package org.atalk.xryptomail.notification;
 
 import android.app.*;
 import android.content.Context;
+
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationCompat.Builder;
-import androidx.core.app.NotificationCompat.InboxStyle;
+import androidx.core.app.NotificationCompat.*;
+
 import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.XryptoMail.NotificationHideSubject;
 import org.atalk.xryptomail.XryptoMail.NotificationQuickDelete;
@@ -41,6 +42,7 @@ class DeviceNotifications extends BaseNotifications
         int unreadMessageCount = notificationData.getUnreadMessageCount();
 
         NotificationCompat.Builder builder;
+        // Build custom badge number if not natively supported by android OS
         if (isPrivacyModeActive() || !platformSupportsExtendedNotifications()) {
             builder = createSimpleSummaryNotification(account, unreadMessageCount, NotificationHelper.EMAIL_GROUP);
         }
@@ -52,7 +54,7 @@ class DeviceNotifications extends BaseNotifications
             builder = createInboxStyleSummaryNotification(account, notificationData);
         }
 
-        // Update launcher badge number with total unread messages for devices < android.o only
+        // Update launcher badge number with total unread messages for devices < android.o
         int totalCount = controller.updateBadgeNumber(account, unreadMessageCount, false);
         builder.setNumber(totalCount);
 
@@ -105,6 +107,7 @@ class DeviceNotifications extends BaseNotifications
 
     /**
      * Create a notification with non-shown to update badge number
+     *
      * @param account Acount ID
      * @param channelId chanel ID
      * @return builder
@@ -121,6 +124,8 @@ class DeviceNotifications extends BaseNotifications
                 .setContentIntent(contentIntent);
     }
 
+    // Must setFullScreenIntent to wake android from sleep and for heads-up to show and trigger edge-light; implement???
+    // See aTalk NotificationPopupHandler#showPopupMessage()
     private NotificationCompat.Builder createBigTextStyleSummaryNotification(Account account, NotificationHolder holder)
     {
         int notificationId = NotificationIds.getNewMailSummaryNotificationId(account);
@@ -183,11 +188,14 @@ class DeviceNotifications extends BaseNotifications
         int icon = getMarkAsReadActionIcon();
         String title = context.getString(R.string.notification_action_mark_as_read);
 
-
         MessageReference messageReference = content.messageReference;
         PendingIntent action = actionCreator.createMarkMessageAsReadPendingIntent(messageReference, notificationId);
 
-        builder.addAction(icon, title, action);
+        Action markAsReadAction = new Action.Builder(icon, title, action)
+                .setSemanticAction(Action.SEMANTIC_ACTION_MARK_AS_READ)
+                .build();
+
+        builder.addAction(markAsReadAction);
     }
 
     private void addMarkAllAsReadAction(Builder builder, NotificationData notificationData)
@@ -201,7 +209,11 @@ class DeviceNotifications extends BaseNotifications
         PendingIntent markAllAsReadPendingIntent =
                 actionCreator.createMarkAllAsReadPendingIntent(account, messageReferences, notificationId);
 
-        builder.addAction(icon, title, markAllAsReadPendingIntent);
+        Action markAllAsReadAction = new Action.Builder(icon, title, markAllAsReadPendingIntent)
+                .setSemanticAction(Action.SEMANTIC_ACTION_MARK_AS_READ)
+                .build();
+
+        builder.addAction(markAllAsReadAction);
     }
 
     private void addDeleteAllAction(Builder builder, NotificationData notificationData)
@@ -218,7 +230,11 @@ class DeviceNotifications extends BaseNotifications
         ArrayList<MessageReference> messageReferences = notificationData.getAllMessageReferences();
         PendingIntent action = actionCreator.createDeleteAllPendingIntent(account, messageReferences, notificationId);
 
-        builder.addAction(icon, title, action);
+        Action deleteAllAction = new Action.Builder(icon, title, action)
+                .setSemanticAction(NotificationCompat.Action.SEMANTIC_ACTION_DELETE)
+                .build();
+
+        builder.addAction(deleteAllAction);
     }
 
     private void addDeleteAction(Builder builder, NotificationContent content, int notificationId)
@@ -233,7 +249,11 @@ class DeviceNotifications extends BaseNotifications
         MessageReference messageReference = content.messageReference;
         PendingIntent action = actionCreator.createDeleteMessagePendingIntent(messageReference, notificationId);
 
-        builder.addAction(icon, title, action);
+        Action deleteAction = new Action.Builder(icon, title, action)
+                .setSemanticAction(NotificationCompat.Action.SEMANTIC_ACTION_DELETE)
+                .build();
+
+        builder.addAction(deleteAction);
     }
 
     private void addReplyAction(Builder builder, NotificationContent content, int notificationId)
@@ -245,7 +265,11 @@ class DeviceNotifications extends BaseNotifications
         PendingIntent replyToMessagePendingIntent =
                 actionCreator.createReplyPendingIntent(messageReference, notificationId);
 
-        builder.addAction(icon, title, replyToMessagePendingIntent);
+        Action replyAction = new Action.Builder(icon, title, replyToMessagePendingIntent)
+                .setSemanticAction(NotificationCompat.Action.SEMANTIC_ACTION_REPLY)
+                .build();
+
+        builder.addAction(replyAction);
     }
 
     private boolean isPrivacyModeActive()

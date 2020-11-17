@@ -1,7 +1,8 @@
 package org.atalk.xryptomail.activity.loader;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
+
+import androidx.loader.content.AsyncTaskLoader;
 
 import org.apache.commons.io.IOUtils;
 import org.atalk.xryptomail.activity.misc.Attachment;

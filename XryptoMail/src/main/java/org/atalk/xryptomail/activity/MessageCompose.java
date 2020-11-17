@@ -1,16 +1,9 @@
 package org.atalk.xryptomail.activity;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.*;
 import android.app.AlertDialog.Builder;
-import android.app.Dialog;
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentSender;
+import android.content.*;
 import android.content.IntentSender.SendIntentException;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -296,7 +289,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         RecipientMvpView recipientMvpView = new RecipientMvpView(this);
         ComposePgpInlineDecider composePgpInlineDecider = new ComposePgpInlineDecider();
         ComposePgpEnableByDefaultDecider composePgpEnableByDefaultDecider = new ComposePgpEnableByDefaultDecider();
-        recipientPresenter = new RecipientPresenter(getApplicationContext(), getLoaderManager(),
+        recipientPresenter = new RecipientPresenter(getApplicationContext(), getSupportLoaderManager(),
                 recipientMvpView, mAccount, composePgpInlineDecider, composePgpEnableByDefaultDecider,
                 AutocryptStatusInteractor.getInstance(), new ReplyToParser(), this);
         recipientPresenter.asyncUpdateCryptoStatus();
@@ -309,7 +302,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
 
         QuotedMessageMvpView quotedMessageMvpView = new QuotedMessageMvpView(this);
         quotedMessagePresenter = new QuotedMessagePresenter(this, quotedMessageMvpView, mAccount);
-        attachmentPresenter = new AttachmentPresenter(getApplicationContext(), attachmentMvpView, getLoaderManager(), this);
+        attachmentPresenter = new AttachmentPresenter(getApplicationContext(), attachmentMvpView, getSupportLoaderManager(), this);
 
         mMessageContentView = findViewById(R.id.message_content);
         mMessageContentView.getInputExtras(true).putBoolean("allowEmoji", true);
@@ -409,7 +402,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
             if (mAction == Action.REPLY || mAction == Action.REPLY_ALL || mAction == Action.FORWARD
                     || mAction == Action.FORWARD_AS_ATTACHMENT || mAction == Action.EDIT_DRAFT) {
                 messageLoaderHelper
-                        = new MessageLoaderHelper(this, getLoaderManager(), getFragmentManager(), messageLoaderCallbacks);
+                        = new MessageLoaderHelper(this, getSupportLoaderManager(), getSupportFragmentManager(), messageLoaderCallbacks);
                 internalMessageHandler.sendEmptyMessage(MSG_PROGRESS_ON);
 
                 if (mAction == Action.FORWARD_AS_ATTACHMENT) {
@@ -618,8 +611,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     }
 
     @Override
-    public Object onRetainNonConfigurationInstance()
-    {
+    public Object onRetainCustomNonConfigurationInstance() {
         if (currentMessageBuilder != null) {
             currentMessageBuilder.detachCallback();
         }
@@ -811,6 +803,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        super.onActivityResult(requestCode, resultCode, data);
         isInSubActivity = false;
 
         if ((requestCode & REQUEST_MASK_MESSAGE_BUILDER) == REQUEST_MASK_MESSAGE_BUILDER) {
@@ -1837,14 +1830,14 @@ public class MessageCompose extends XMActivity implements OnClickListener,
 
             ProgressDialogFragment fragment = ProgressDialogFragment.newInstance(title,
                     getString(R.string.fetching_attachment_dialog_message));
-            fragment.show(getFragmentManager(), FRAGMENT_WAITING_FOR_ATTACHMENT);
+            fragment.show(getSupportFragmentManager(), FRAGMENT_WAITING_FOR_ATTACHMENT);
         }
 
         @Override
         public void dismissWaitingForAttachmentDialog()
         {
             ProgressDialogFragment fragment = (ProgressDialogFragment)
-                    getFragmentManager().findFragmentByTag(FRAGMENT_WAITING_FOR_ATTACHMENT);
+                    getSupportFragmentManager().findFragmentByTag(FRAGMENT_WAITING_FOR_ATTACHMENT);
 
             if (fragment != null) {
                 fragment.dismiss();

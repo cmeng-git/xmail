@@ -1,15 +1,14 @@
 package org.atalk.xryptomail.activity.compose;
 
 import android.app.Activity;
-import android.app.LoaderManager;
-import android.content.ClipData;
-import android.content.Context;
-import android.content.Intent;
-import android.content.Loader;
+import android.content.*;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 
 import org.atalk.xryptomail.activity.MessageReference;
 import org.atalk.xryptomail.activity.compose.ComposeCryptoStatus.AttachErrorState;
@@ -293,8 +292,8 @@ public class AttachmentPresenter
                 }
             };
 
-    private LoaderManager.LoaderCallbacks<Attachment> mAttachmentContentLoaderCallback =
-            new LoaderManager.LoaderCallbacks<Attachment>()
+    private LoaderManager.LoaderCallbacks<Attachment> mAttachmentContentLoaderCallback
+            = new LoaderManager.LoaderCallbacks<Attachment>()
             {
                 @Override
                 public Loader<Attachment> onCreateLoader(int id, Bundle args)

@@ -1,92 +1,49 @@
 package org.atalk.xryptomail.fragment;
 
+// import android.app.*;
+
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.LoaderManager;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.CursorLoader;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.Loader;
+import android.content.*;
 import android.database.Cursor;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.TextUtils;
+import android.view.*;
+import android.widget.*;
+import android.widget.AdapterView.OnItemClickListener;
+
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import android.text.TextUtils;
-import android.view.ActionMode;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import org.atalk.xryptomail.Account;
+
+import org.atalk.xryptomail.*;
 import org.atalk.xryptomail.Account.SortType;
-import org.atalk.xryptomail.Preferences;
-import org.atalk.xryptomail.R;
-import org.atalk.xryptomail.XryptoMail;
-import org.atalk.xryptomail.activity.ActivityListener;
-import org.atalk.xryptomail.activity.ChooseFolder;
-import org.atalk.xryptomail.activity.FolderInfoHolder;
-import org.atalk.xryptomail.activity.MessageReference;
+import org.atalk.xryptomail.activity.*;
 import org.atalk.xryptomail.activity.misc.ContactPictureLoader;
 import org.atalk.xryptomail.cache.EmailProviderCache;
 import org.atalk.xryptomail.controller.MessagingController;
 import org.atalk.xryptomail.fragment.ConfirmationDialogFragment.ConfirmationDialogFragmentListener;
-import org.atalk.xryptomail.fragment.MessageListFragmentComparators.ArrivalComparator;
-import org.atalk.xryptomail.fragment.MessageListFragmentComparators.AttachmentComparator;
-import org.atalk.xryptomail.fragment.MessageListFragmentComparators.ComparatorChain;
-import org.atalk.xryptomail.fragment.MessageListFragmentComparators.DateComparator;
-import org.atalk.xryptomail.fragment.MessageListFragmentComparators.FlaggedComparator;
-import org.atalk.xryptomail.fragment.MessageListFragmentComparators.ReverseComparator;
-import org.atalk.xryptomail.fragment.MessageListFragmentComparators.ReverseIdComparator;
-import org.atalk.xryptomail.fragment.MessageListFragmentComparators.SenderComparator;
-import org.atalk.xryptomail.fragment.MessageListFragmentComparators.SubjectComparator;
-import org.atalk.xryptomail.fragment.MessageListFragmentComparators.UnreadComparator;
-import org.atalk.xryptomail.helper.ContactPicture;
-import org.atalk.xryptomail.helper.MergeCursorWithUniqueId;
-import org.atalk.xryptomail.helper.MessageHelper;
-import org.atalk.xryptomail.helper.Utility;
-import org.atalk.xryptomail.mail.Flag;
-import org.atalk.xryptomail.mail.Folder;
-import org.atalk.xryptomail.mail.Message;
-import org.atalk.xryptomail.mail.MessagingException;
+import org.atalk.xryptomail.fragment.MessageListFragmentComparators.*;
+import org.atalk.xryptomail.helper.*;
+import org.atalk.xryptomail.mail.*;
 import org.atalk.xryptomail.mailstore.LocalFolder;
 import org.atalk.xryptomail.preferences.StorageEditor;
 import org.atalk.xryptomail.provider.EmailProvider;
 import org.atalk.xryptomail.provider.EmailProvider.MessageColumns;
 import org.atalk.xryptomail.provider.EmailProvider.SpecialColumns;
-import org.atalk.xryptomail.search.ConditionsTreeNode;
-import org.atalk.xryptomail.search.LocalSearch;
-import org.atalk.xryptomail.search.SearchSpecification;
+import org.atalk.xryptomail.search.*;
 import org.atalk.xryptomail.search.SearchSpecification.SearchCondition;
 import org.atalk.xryptomail.search.SearchSpecification.SearchField;
-import org.atalk.xryptomail.search.SqlQueryBuilder;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.Future;
 
 import timber.log.Timber;
@@ -104,8 +61,10 @@ import static org.atalk.xryptomail.fragment.MLFProjectionInfo.THREAD_COUNT_COLUM
 import static org.atalk.xryptomail.fragment.MLFProjectionInfo.THREAD_ROOT_COLUMN;
 import static org.atalk.xryptomail.fragment.MLFProjectionInfo.UID_COLUMN;
 
+// import android.content.Context;
+
 public class MessageListFragment extends Fragment implements OnItemClickListener,
-        AdapterView.OnItemLongClickListener, ConfirmationDialogFragmentListener, LoaderCallbacks<Cursor>
+        AdapterView.OnItemLongClickListener, ConfirmationDialogFragmentListener, androidx.loader.app.LoaderManager.LoaderCallbacks<Cursor>
 {
     public static MessageListFragment newInstance(LocalSearch search, boolean isThreadDisplay, boolean threadedList)
     {
@@ -748,26 +707,12 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
 
         if (isRemoteSearchAllowed()) {
             mSwipeRefreshLayout.setOnRefreshListener(
-                    new SwipeRefreshLayout.OnRefreshListener()
-                    {
-                        @Override
-                        public void onRefresh()
-                        {
-                            onRemoteSearchRequested();
-                        }
-                    }
+                    this::onRemoteSearchRequested
             );
         }
         else if (isCheckMailSupported()) {
             mSwipeRefreshLayout.setOnRefreshListener(
-                    new SwipeRefreshLayout.OnRefreshListener()
-                    {
-                        @Override
-                        public void onRefresh()
-                        {
-                            checkMail();
-                        }
-                    }
+                    this::checkMail
             );
         }
 
@@ -1376,7 +1321,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
 
                 if (showingThreadedList) {
                     int threadCount = cursor.getInt(THREAD_COUNT_COLUMN);
-                    mSelectedCount += (threadCount > 1) ? threadCount : 1;
+                    mSelectedCount += Math.max(threadCount, 1);
                 }
                 else {
                     mSelectedCount++;

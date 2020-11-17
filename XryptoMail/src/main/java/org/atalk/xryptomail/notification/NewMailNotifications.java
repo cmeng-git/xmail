@@ -45,8 +45,8 @@ class NewMailNotifications
     {
         NotificationContentCreator contentCreator = new NotificationContentCreator(controller.getContext());
         WearNotifications wearNotifications = new WearNotifications(controller, actionCreator);
-        DeviceNotifications deviceNotifications = DeviceNotifications.newInstance(
-                controller, actionCreator, wearNotifications);
+        DeviceNotifications deviceNotifications
+                = DeviceNotifications.newInstance(controller, actionCreator, wearNotifications);
         return new NewMailNotifications(controller, contentCreator, deviceNotifications, wearNotifications);
     }
 

@@ -1,9 +1,13 @@
 package org.atalk.xryptomail.fragment;
 
+//import android.app.*;
 import android.app.*;
 import android.content.DialogInterface;
 import android.content.DialogInterface.*;
 import android.os.Bundle;
+
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 
 import timber.log.Timber;
 

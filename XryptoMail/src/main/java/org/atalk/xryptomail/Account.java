@@ -160,9 +160,9 @@ public class Account implements BaseAccount, AccountConfig
         SORT_FLAGGED(R.string.sort_flagged_first, R.string.sort_flagged_last, true),
         SORT_ATTACHMENT(R.string.sort_attach_first, R.string.sort_unattached_first, true);
 
-        private int ascendingToast;
-        private int descendingToast;
-        private boolean defaultAscending;
+        private final int ascendingToast;
+        private final int descendingToast;
+        private final boolean defaultAscending;
 
         SortType(int ascending, int descending, boolean ndefaultAscending)
         {
@@ -222,7 +222,7 @@ public class Account implements BaseAccount, AccountConfig
     private boolean mPushPollOnConnect;
     private boolean mNotifySync;
     private SortType mSortType;
-    private Map<SortType, Boolean> mSortAscending = new HashMap<>();
+    private final Map<SortType, Boolean> mSortAscending = new HashMap<>();
     private ShowPictures mShowPictures;
     private boolean mIsSignatureBeforeQuotedText;
     private Expunge mExpungePolicy = Expunge.EXPUNGE_IMMEDIATELY;
@@ -1901,7 +1901,7 @@ public class Account implements BaseAccount, AccountConfig
 
     public void setRemoteSearchNumResults(int val)
     {
-        mRemoteSearchNumResults = (val >= 0 ? val : 0);
+        mRemoteSearchNumResults = Math.max(val, 0);
     }
 
     public String getInboxFolder()
@@ -1940,8 +1940,7 @@ public class Account implements BaseAccount, AccountConfig
     }
 
     /**
-     * @return <code>true</code> if our {@link StorageProvider} is ready. (e.g.
-     * card inserted)
+     * @return <code>true</code> if our {@link StorageProvider} is ready. (e.g. card inserted)
      */
     public boolean isAvailable(Context context)
     {

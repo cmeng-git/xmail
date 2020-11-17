@@ -1,13 +1,14 @@
 package org.atalk.xryptomail.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
+
+import androidx.fragment.app.FragmentActivity;
 
 import org.atalk.xryptomail.activity.XMActivityCommon.XMActivityMagic;
 import org.atalk.xryptomail.activity.misc.SwipeGestureDetector.OnSwipeGestureListener;
 
-public abstract class XMActivity extends Activity implements XMActivityMagic
+public abstract class XMActivity extends FragmentActivity implements XMActivityMagic
 {
     private XMActivityCommon mBase;
 

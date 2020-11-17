@@ -1,14 +1,15 @@
 package org.atalk.xryptomail.activity.loader;
 
-import android.content.AsyncTaskLoader;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
+
+import androidx.loader.content.AsyncTaskLoader;
+
 import timber.log.Timber;
 
-import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.activity.misc.Attachment;
 import org.atalk.xryptomail.activity.misc.Attachment.LoadingState;
 import org.atalk.xryptomail.mail.internet.MimeUtility;
@@ -18,7 +19,8 @@ import java.io.File;
 /**
  * Loader to fetch metadata of an attachment.
  */
-public class AttachmentInfoLoader  extends AsyncTaskLoader<Attachment> {
+public class AttachmentInfoLoader  extends AsyncTaskLoader<Attachment>
+{
     private final Attachment sourceAttachment;
     private Attachment cachedResultAttachment;
 

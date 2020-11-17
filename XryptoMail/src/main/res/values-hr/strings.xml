@@ -433,7 +433,7 @@
   <string name="account_settings_color_label">Boja računa</string>
   <string name="account_settings_color_summary">Oznaka boje za ovaj račun koristi se za mape i popis računa</string>
   <string name="account_settings_led_color_label">Boja LED obavijesti</string>
-  <string name="account_settings_led_color_summary">LED boja vašeg uređaja koja bi trebala treptati za ovaj račun</string>
+  <string name="account_settings_led_color_summary">LED boja vašeg uređaja koja bi trebala treptati za ovaj račun. Fiksna boja, plava za android-O i novije verzije</string>
   <string name="account_settings_mail_display_count_label">Veličina lokalne mape</string>
   <string name="account_settings_autodownload_message_size_label">Dohvaćaj poruke do</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

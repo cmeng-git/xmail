@@ -190,7 +190,7 @@ public class ContactPictureLoader {
         paint.setAntiAlias(true);
         paint.setStyle(Style.FILL);
         paint.setARGB(255, 255, 255, 255);
-        paint.setTextSize(mPictureSizeInPx * 3 / 4); // just scale this down a bit
+        paint.setTextSize(mPictureSizeInPx * 3f / 4f); // just scale this down a bit
         Rect rect = new Rect();
         paint.getTextBounds(letter, 0, 1, rect);
         float width = paint.measureText(letter);

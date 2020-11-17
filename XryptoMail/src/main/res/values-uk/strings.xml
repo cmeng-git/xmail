@@ -485,7 +485,7 @@ XryptoMail Mail — це вільний клієнт електронної по
   <string name="account_settings_color_label">Колір облікового запису</string>
   <string name="account_settings_color_summary">Виберіть колір облікового запису для папок та списку облікових записів</string>
   <string name="account_settings_led_color_label">Колір для сповіщень блиманням</string>
-  <string name="account_settings_led_color_summary">Виберіть колір блимання вашого телефону для цього облікового запису</string>
+  <string name="account_settings_led_color_summary">Виберіть колір блимання вашого телефону для цього облікового запису. Виправлений колір, синій для android-O і вище</string>
   <string name="account_settings_mail_display_count_label">Кількість відображуваних повідомлень</string>
   <string name="account_settings_autodownload_message_size_label">Завантажувати повідомлення до </string>
   <string name="account_settings_autodownload_message_size_1">1Кб</string>

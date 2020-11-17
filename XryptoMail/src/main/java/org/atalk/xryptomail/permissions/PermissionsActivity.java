@@ -31,6 +31,8 @@ import android.provider.Settings;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -55,7 +57,7 @@ import timber.log.Timber;
 /**
  * Sample activity showing the permission request process with Dexter.
  */
-public class PermissionsActivity extends Activity
+public class PermissionsActivity extends FragmentActivity
 {
     private static final int REQUEST_BATTERY_OP = 100;
 

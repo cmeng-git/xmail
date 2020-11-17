@@ -388,7 +388,7 @@
   <string name="account_settings_color_label">צבע חשבון</string>
   <string name="account_settings_color_summary">בחר את הצבע של החשבון המשומש בתיקייה וברשימת החשבונות</string>
   <string name="account_settings_led_color_label">צבע התראות LED</string>
-  <string name="account_settings_led_color_summary">בחר את צבע ה LED שיהבהב לחשבון זה</string>
+  <string name="account_settings_led_color_summary">בחר את צבע ה LED שיהבהב לחשבון זה. צבע קבוע, כחול ל- Android-O ומעלה</string>
   <string name="account_settings_mail_display_count_label">גודל תיקיה מקומית</string>
   <string name="account_settings_autodownload_message_size_label">להביא הודעות בנפח של עד</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

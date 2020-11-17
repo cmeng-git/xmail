@@ -2,9 +2,6 @@ package org.atalk.xryptomail.activity;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
-import android.app.FragmentManager;
-import android.app.FragmentManager.OnBackStackChangedListener;
-import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +23,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.Account.SortType;
@@ -68,7 +68,7 @@ import timber.log.Timber;
  * From this Activity the user can perform all standard message operations.
  */
 public class MessageList extends XMActivity implements MessageListFragmentListener,
-        MessageViewFragmentListener, OnBackStackChangedListener, OnSwipeGestureListener, OnSwitchCompleteListener
+        MessageViewFragmentListener, FragmentManager.OnBackStackChangedListener, OnSwipeGestureListener, OnSwitchCompleteListener
 {
     private static final String EXTRA_SEARCH = "search_bytes";
     private static final String EXTRA_NO_THREADING = "no_threading";
@@ -263,7 +263,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
      */
     private void findFragments()
     {
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         mMessageListFragment = (MessageListFragment) fragmentManager.findFragmentById(R.id.message_list_container);
         mMessageViewFragment = (MessageViewFragment) fragmentManager.findFragmentById(R.id.message_view_container);
     }
@@ -275,7 +275,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
      */
     private void initializeFragments()
     {
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
 
         boolean hasMessageListFragment = (mMessageListFragment != null);
@@ -1254,7 +1254,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
             }
 
             MessageViewFragment fragment = MessageViewFragment.newInstance(messageReference);
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.message_view_container, fragment);
             mMessageViewFragment = fragment;
             ft.commit();
@@ -1385,7 +1385,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
 
     private void addMessageListFragment(MessageListFragment fragment, boolean addToBackStack)
     {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.message_list_container, fragment);
         if (addToBackStack)
             ft.addToBackStack(null);
@@ -1445,7 +1445,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     private void removeMessageViewFragment()
     {
         if (mMessageViewFragment != null) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.remove(mMessageViewFragment);
             mMessageViewFragment = null;
             ft.commit();
@@ -1455,7 +1455,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
 
     private void removeMessageListFragment()
     {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.remove(mMessageListFragment);
         mMessageListFragment = null;
         ft.commit();
@@ -1471,7 +1471,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     @Override
     public void goBack()
     {
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         if (mDisplayMode == DisplayMode.MESSAGE_VIEW) {
             showMessageList();
         }

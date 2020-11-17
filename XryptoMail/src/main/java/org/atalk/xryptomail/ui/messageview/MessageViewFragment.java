@@ -1,9 +1,6 @@
 package org.atalk.xryptomail.ui.messageview;
 
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -21,6 +18,10 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import org.apache.james.mime4j.util.MimeUtil;
 import org.atalk.xryptomail.Account;
@@ -95,7 +96,7 @@ public class MessageViewFragment extends Fragment implements ConfirmationDialogF
     private MessageReference mMessageReference;
     private LocalMessage mMessage;
     private MessagingController mController;
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
     private MessageLoaderHelper messageLoaderHelper;
     private MessageCryptoPresenter messageCryptoPresenter;
     private Long showProgressThreshold;

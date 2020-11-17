@@ -464,7 +464,7 @@
   <string name="account_settings_color_label">Konto värv</string>
   <string name="account_settings_color_summary">Konto rõhutamise värvi kasutatakse selle konto kaustades ja nimekirjades</string>
   <string name="account_settings_led_color_label">Märgutule LED-i värvus</string>
-  <string name="account_settings_led_color_summary">Mis värviga peab Sinu seadme LED tuli selle konto jaoks vilkuma</string>
+  <string name="account_settings_led_color_summary">Mis värviga peab Sinu seadme LED tuli selle konto jaoks vilkuma. Fikseeritud värv, sinine android-O ja uuem</string>
   <string name="account_settings_mail_display_count_label">Lokaalse kausta suurus</string>
   <string name="account_settings_autodownload_message_size_label">Tood sõnumid kuni</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

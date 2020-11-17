@@ -497,7 +497,7 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="account_settings_color_label">Color del compte</string>
   <string name="account_settings_color_summary">Tria el color del compte utilitzat a la llista de carpetes i de comptes</string>
   <string name="account_settings_led_color_label">Color del LED de notificació</string>
-  <string name="account_settings_led_color_summary">El color en què ha de fer pampallugues el LED del telèfon per a aquest compte</string>
+  <string name="account_settings_led_color_summary">El color en què ha de fer pampallugues el LED del telèfon per a aquest compte. S\'ha corregit el color, blau per a Android-O i versions posteriors</string>
   <string name="account_settings_mail_display_count_label">Mida de la carpeta local</string>
   <string name="account_settings_autodownload_message_size_label">Recupera missatges fins a...</string>
   <string name="account_settings_autodownload_message_size_1">1 Kb</string>

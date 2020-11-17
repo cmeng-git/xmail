@@ -494,7 +494,7 @@ Por favor envíen informes de fallos, contribúa con novas características e co
   <string name="account_settings_color_label">Cor da conta</string>
   <string name="account_settings_color_summary">Elixe a cor a usar na carpeta e na conta</string>
   <string name="account_settings_led_color_label">Cor de aviso</string>
-  <string name="account_settings_led_color_summary">Elixe a cor do LED cando haxa un aviso para esta conta</string>
+  <string name="account_settings_led_color_summary">Elixe a cor do LED cando haxa un aviso para esta conta. Cor fixa, azul para Android-O e superior</string>
   <string name="account_settings_mail_display_count_label">Tamaño carpeta local</string>
   <string name="account_settings_autodownload_message_size_label">Obter mensaxes hata</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

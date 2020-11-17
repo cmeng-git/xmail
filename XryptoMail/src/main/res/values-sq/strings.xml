@@ -498,7 +498,7 @@ Ju lutemi, parashtrim njoftimesh për të meta, kontribute për veçori të reaj
   <string name="account_settings_color_label">Ngjyrë llogarie</string>
   <string name="account_settings_color_summary">Ngjyrë theksimi për këtë llogari, e përdorur në listë dosjesh dhe llogarish</string>
   <string name="account_settings_led_color_label">Ngjyrë LED-i njoftimesh</string>
-  <string name="account_settings_led_color_summary">Ngjyra me të cilën duhet të xixëllojë LED-i i pajisjes tuaj për këtë llogari</string>
+  <string name="account_settings_led_color_summary">Ngjyra me të cilën duhet të xixëllojë LED-i i pajisjes tuaj për këtë llogari. Ngjyra fikse, blu për android-O dhe më lart</string>
   <string name="account_settings_mail_display_count_label">Madhësi dosjeje vendore</string>
   <string name="account_settings_autodownload_message_size_label">Sill mesazhe deri në</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>

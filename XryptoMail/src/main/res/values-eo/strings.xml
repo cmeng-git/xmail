@@ -495,7 +495,7 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="account_settings_color_label">Konta koloro</string>
   <string name="account_settings_color_summary">Distinga koloro por tiu ĉi konto uzata en listoj de mesaĝujoj kaj kontoj</string>
   <string name="account_settings_led_color_label">Sciiga LED-a koloro</string>
-  <string name="account_settings_led_color_summary">Koloro de aparata LED kiu briletos je sciigoj pri tiu ĉi konto</string>
+  <string name="account_settings_led_color_summary">Koloro de aparata LED kiu briletos je sciigoj pri tiu ĉi konto. Fiksita koloro, blua por android-O kaj pli supre</string>
   <string name="account_settings_mail_display_count_label">Grando de loka mesaĝujo</string>
   <string name="account_settings_autodownload_message_size_label">Elŝuti mesaĝojn de maksimuma grando</string>
   <string name="account_settings_autodownload_message_size_1">1kB</string>

@@ -96,8 +96,6 @@ public class NotificationSetting {
         mVibrateTimes = times;
     }
 
-
-
     /*
      * Fetch a vibration pattern.
      *

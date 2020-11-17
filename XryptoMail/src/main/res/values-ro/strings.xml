@@ -498,7 +498,7 @@ Uneori datorită faptului că cineva încearcă să te atace pe tine sau serveru
   <string name="account_settings_color_label">Culoarea contului</string>
   <string name="account_settings_color_summary">Culoarea contului folosită în lista de dosare și conturi</string>
   <string name="account_settings_led_color_label">Culoare LED notificare</string>
-  <string name="account_settings_led_color_summary">Culoarea în care LED-ul dispozitivului trebuie sa clipească pentru acest cont</string>
+  <string name="account_settings_led_color_summary">Culoarea în care LED-ul dispozitivului trebuie sa clipească pentru acest cont. Culoare fixă, albastru pentru Android-O și mai sus</string>
   <string name="account_settings_mail_display_count_label">Mărimea dosarului local</string>
   <string name="account_settings_autodownload_message_size_label">Aduce mesaje până la</string>
   <string name="account_settings_autodownload_message_size_1">1Kb</string>
