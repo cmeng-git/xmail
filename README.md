@@ -5,7 +5,7 @@
     <a href="http://atalk.sytes.net/xmail">
         <img src="./art/xmail.png" alt="XryptoMail">
     </a>
-    <a href="https://play.google.com/store/apps/details?id=org.atalk.android&hl=en">
+    <a href="https://play.google.com/store/apps/details?id=org.atalk.xryptomail&hl=en">
         <img src="./art/google_play.png" alt="Google PlayStore">
     </a>
 </p>
