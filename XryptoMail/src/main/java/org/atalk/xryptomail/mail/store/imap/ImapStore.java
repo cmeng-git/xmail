@@ -40,23 +40,23 @@ import timber.log.Timber;
  */
 public class ImapStore extends RemoteStore
 {
-    private Set<Flag> permanentFlagsIndex = EnumSet.noneOf(Flag.class);
-    private ConnectivityManager mConnectivityManager;
-    private OAuth2TokenProvider oauthTokenProvider;
+    private final Set<Flag> permanentFlagsIndex = EnumSet.noneOf(Flag.class);
+    private final ConnectivityManager mConnectivityManager;
+    private final OAuth2TokenProvider oauthTokenProvider;
 
-    private String mHost;
-    private int mPort;
-    private String mUsername;
-    private String mPassword;
-    private String clientCertificateAlias;
-    private ConnectionSecurity mConnectionSecurity;
-    private AuthType mAuthType;
+    private final String mHost;
+    private final int mPort;
+    private final String mUsername;
+    private final String mPassword;
+    private final String clientCertificateAlias;
+    private final ConnectionSecurity mConnectionSecurity;
+    private final AuthType mAuthType;
     private String mPathPrefix;
     private String mCombinedPrefix = null;
     private String mPathDelimiter = null;
 
     private final Deque<ImapConnection> mConnections = new LinkedList<>();
-    private FolderNameCodec folderNameCodec;
+    private final FolderNameCodec folderNameCodec;
 
     /**
      * Cache of ImapFolder objects. ImapFolders are attached to a given folder

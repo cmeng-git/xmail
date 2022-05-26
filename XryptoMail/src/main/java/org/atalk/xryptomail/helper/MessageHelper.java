@@ -38,7 +38,7 @@ public class MessageHelper {
 		return sInstance;
 	}
 
-	private Context mContext;
+	private final Context mContext;
 
 	private MessageHelper(final Context context) {
 		mContext = context;

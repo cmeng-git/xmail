@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Ebligas al tiu ĉi aplikaĵo regi agojn kaj agordojn de XryptoMail Retpoŝtilo.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Kopirajto 2008-<xliff:g>%s</xliff:g> The XryptoMail. Parta kopirajto 2006-<xliff:g>%s</xliff:g> la Malfermkoda Projekto Android (AOSP).</string>
+  <string name="app_copyright_fmt">Kopirajto 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Parta kopirajto 2006-<xliff:g>%2$s</xliff:g> la Malfermkoda Projekto Android (AOSP).</string>
   <string name="app_license">Eldonita laŭ la permesilo Apache, versio 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Bonvenon al XryptoMail Retpoŝtilo</string>
@@ -45,25 +45,25 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <!--Default signature-->
   <string name="default_signature">-- \nSendita per XryptoMail Retpoŝtilo. Bonvolu pardoni min por skribi mallonge.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">La konto \"<xliff:g id="account">%s</xliff:g>\" estos forigita el XryptoMail Retpoŝtilo.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Ĉiuj lokaj datumoj de \"<xliff:g id="account">%s</xliff:g>\" estos forigitaj. Agordoj de konto estos konservitaj.</string>
-  <string name="account_clear_dlg_instructions_fmt">Lokaj kopioj de mesaĝoj en \"<xliff:g id="account">%s</xliff:g>\" estos forigitaj. Agordoj de konto estos konservitaj.</string>
+  <string name="account_delete_dlg_instructions_fmt">La konto \"<xliff:g id="account">%1$s</xliff:g>\" estos forigita el XryptoMail Retpoŝtilo.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Ĉiuj lokaj datumoj de \"<xliff:g id="account">%1$s</xliff:g>\" estos forigitaj. Agordoj de konto estos konservitaj.</string>
+  <string name="account_clear_dlg_instructions_fmt">Lokaj kopioj de mesaĝoj en \"<xliff:g id="account">%1$s</xliff:g>\" estos forigitaj. Agordoj de konto estos konservitaj.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Bonvolu instali dosier-esprolilon por pluigi enporti.</string>
   <string name="open_market">Malfermi vendejon Play</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Aŭtoroj: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Informoj pri eldono: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">La jenaj bibliotekoj de eksteraj liverantoj estas uzataj: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Aŭtoroj: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Informoj pri eldono: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">La jenaj bibliotekoj de eksteraj liverantoj estas uzataj: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Legi retleterojn</string>
   <string name="read_messages_desc">Permesas al tiu ĉi aplikaĵo legi viajn retleterojn.</string>
   <string name="delete_messages_label">Forigi retleterojn</string>
   <string name="delete_messages_desc">Permesas al tiu ĉi aplikaĵo forigi viajn retleterojn.</string>
-  <string name="about_title_fmt">Pri <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">Pri <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Kontoj</string>
   <string name="folders_title">Mesaĝujoj</string>
   <string name="advanced">Spertaj</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Krei</string>
   <string name="compose_title_reply">Respondi</string>
   <string name="compose_title_reply_all">Respondi al ĉiuj</string>
@@ -71,18 +71,18 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="compose_title_forward_as_attachment">Plusendi kiel kunsendaĵon</string>
   <string name="choose_account_title">Elektu konton</string>
   <string name="choose_folder_title">Elekti mesaĝujon</string>
-  <string name="status_loading_account_folder">Kontrolado: <xliff:g id="account">%s</xliff:g>: <xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Ŝargado de kapoj: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Sendado: <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Pritraktado: <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Sekva kontrolado: <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Kontrolado: <xliff:g id="account">%1$s</xliff:g>: <xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Ŝargado de kapoj: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Sendado: <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Pritraktado: <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Sekva kontrolado: <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Samtempigo malaktiva - nekonektita</string>
   <string name="status_no_background">Samtempigo malaktiva - neniu fona aktiveco</string>
   <string name="status_poll_and_push_disabled">Elŝutado kaj sendado malaktiva</string>
   <string name="status_syncing_blocked">Samtempigo blokita</string>
   <string name="status_syncing_off">Samtempigo malaktiva</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> elektitaj</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> elektitaj</string>
   <string name="next_action">Sekva</string>
   <string name="previous_action">Antaŭa</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -155,21 +155,21 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="status_invalid_id_error">Mesaĝo ne trovita</string>
   <string name="status_loading_error">Eraro dum ŝargado de mesaĝo</string>
   <string name="status_loading_more_failed">Reprovi ŝargi pli da mesaĝoj</string>
-  <string name="load_more_messages_fmt">Ŝargi maksimume <xliff:g id="messages_to_load">%d</xliff:g> sekvajn</string>
+  <string name="load_more_messages_fmt">Ŝargi maksimume <xliff:g id="messages_to_load">%1$d</xliff:g> sekvajn</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">kB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Kompaktigis konton \"<xliff:g id="account">%s</xliff:g>\" el <xliff:g id="oldSize">%s</xliff:g> al <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Kompaktigado de konto \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">Forviŝado de konto \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Rekreado de konto \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="account_size_changed">Kompaktigis konton \"<xliff:g id="account">%1$s</xliff:g>\" el <xliff:g id="oldSize">%2$s</xliff:g> al <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Kompaktigado de konto \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">Forviŝado de konto \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Rekreado de konto \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="notification_new_title">Nova mesaĝo</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> nova mesaĝo</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> novaj mesaĝoj</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> nova mesaĝo</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> novaj mesaĝoj</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> novaj (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> novaj (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> pliaj en <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Respondi</string>
   <string name="notification_action_mark_as_read">Marki kiel legitan</string>
@@ -179,13 +179,13 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="notification_action_archive">Arĥivigi</string>
   <string name="notification_action_archive_all">Arĥivigi ĉiujn</string>
   <string name="notification_action_spam">Trudmesaĝo</string>
-  <string name="notification_certificate_error_title">Eraro pri atestilo por <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Eraro pri atestilo por <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Kontrolu agordojn de servilo</string>
   <string name="notification_authentication_error_title">Aŭtentigo malsukcesis</string>
-  <string name="notification_authentication_error_text">Aŭtentigo por <xliff:g id="account">%s</xliff:g> malsukcesis. Aktualigu agordojn de servilo.</string>
-  <string name="notification_bg_sync_ticker">Kontrolado de retpoŝto: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Aŭtentigo por <xliff:g id="account">%1$s</xliff:g> malsukcesis. Aktualigu agordojn de servilo.</string>
+  <string name="notification_bg_sync_ticker">Kontrolado de retpoŝto: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Kontrolado de retpoŝto</string>
-  <string name="notification_bg_send_ticker">Sendado de retletero: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Sendado de retletero: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Sendado de retletero</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Ricevujo</string>
@@ -195,19 +195,19 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="special_mailbox_name_sent">Senditujo</string>
   <string name="special_mailbox_name_archive">Arĥivo</string>
   <string name="special_mailbox_name_spam">Trudmesaĝujo</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Malnetujo)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Rubujo)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Senditujo)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Arĥivo)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Trudmesaĝujo)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Malnetujo)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Rubujo)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Senditujo)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Arĥivo)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Trudmesaĝujo)</string>
   <string name="send_failure_subject">Malsukcesis sendi iujn mesaĝojn</string>
-  <string name="debug_version_fmt">Versio: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Versio: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Aktivigi senerarigan protokoladon</string>
   <string name="debug_enable_debug_logging_summary">Protokolas aldonajn informojn pri senerarigo.</string>
   <string name="debug_enable_sensitive_logging_title">Protokoli konfidajn informojn</string>
   <string name="debug_enable_sensitive_logging_summary">Protokoloj povas enhavi viajn pasvortojn.</string>
   <string name="message_list_load_more_messages_action">Ŝargi pli da mesaĝoj</string>
-  <string name="message_to_fmt">Al:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">Al:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Temo</string>
   <string name="message_compose_content_hint">Mesaĝa teksto</string>
   <string name="message_compose_signature_hint">Subskribo</string>
@@ -217,7 +217,7 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="message_compose_quote_header_from">De:</string>
   <string name="message_compose_quote_header_to">Al:</string>
   <string name="message_compose_quote_header_cc">Kopio:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> skribis:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> skribis:</string>
   <string name="message_compose_reply_header_fmt_with_date">Je <xliff:g id="sent_date">%1$s</xliff:g>, <xliff:g id="sender">%2$s</xliff:g> skribis:</string>
   <string name="message_compose_error_no_recipients">Vi devas aldoni almenaŭ unu ricevonton.</string>
   <string name="compose_error_incomplete_recipient">La kampo \'Ricevonto\' enhavas nekompletan enigo!</string>
@@ -227,7 +227,7 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="message_compose_show_quoted_text_action">Enhavi citatan mesaĝon</string>
   <string name="message_compose_description_delete_quoted_text">Forigi citatan tekston</string>
   <string name="message_compose_description_edit_quoted_text">Redakti citatan tekston</string>
-  <string name="message_view_from_format">De: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">De: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Al:</string>
   <string name="message_view_cc_label">Kopio:</string>
   <string name="message_view_bcc_label">Kaŝkopio:</string>
@@ -236,7 +236,7 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="message_view_status_attachment_not_saved">Fiaskis konservi kunsendaĵon al SD-karto.</string>
   <string name="message_view_status_no_space">La kunsendaĵo ne povis esti konservita pro nesufiĉa spaco.</string>
   <string name="message_view_show_pictures_action">Montri bildojn</string>
-  <string name="message_view_no_viewer">Ne povas trovi vidigilon por <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Ne povas trovi vidigilon por <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Elŝuti tutan mesaĝon</string>
   <string name="message_view_toast_unable_to_display_message">Ne povas vidigi mesaĝon</string>
   <string name="message_view_sender_label">per %1$s</string>
@@ -244,7 +244,7 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="message_no_additional_headers_available">Ĉiuj mesaĝokapoj elŝutitaj, tamen estas neniuj aldonaj kapoj por montri.</string>
   <string name="message_additional_headers_retrieval_failed">Fiaskis elŝuti aldonajn mesaĝokapojn el datumbazo aŭ retpoŝta servilo.</string>
   <string name="from_same_sender">Pli de tiu ĉi sendinto</string>
-  <string name="search_from_format">De <xliff:g id="sender">%s</xliff:g></string>
+  <string name="search_from_format">De <xliff:g id="sender">%1$s</xliff:g></string>
   <string name="debug_delete_local_body">Senerarigi / forviŝi mesaĝan enhavon</string>
   <string name="message_discarded_toast">Mesaĝo nuligita</string>
   <string name="message_saved_toast">Mesaĝo konservita kiel malneto</string>
@@ -385,7 +385,7 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="account_setup_outgoing_password_label">Pasvorto</string>
   <string name="account_setup_outgoing_authentication_label">Aŭtentigo</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" ne estas ĝusta kun \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
-  <string name="account_setup_bad_uri">Erara agordaro: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Erara agordaro: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Kontaj agordoj</string>
   <string name="compact_action">Kompaktigi konton</string>
   <string name="clear_action">Forigi ĉiujn mesaĝojn (danĝere!)</string>
@@ -432,9 +432,9 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="account_setup_options_mail_display_count_all">ĉiuj mesaĝoj</string>
   <string name="move_copy_cannot_copy_unsynced_message">Ne povas kopii aŭ movi mesaĝon, kiun ne estas samtempigita kun la servilo</string>
   <string name="account_setup_failed_dlg_title">Okazis eraro</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Erara uzantnomo aŭ pasvorto.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">La servilo prezentis malĝustan SSL atestilon. Iam tio ĉi okazas pro misagordita servilo. Iam tio ĉi okazas pro iu provas ataki vin aŭ la retpoŝtan servilon. Se vi ne scias kio okazas, klaku \'rifuzi\' kaj kontaktu kun uloj, kiuj administras vian retpoŝtan servilon.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Ne povas konekti al servilo.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Erara uzantnomo aŭ pasvorto.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">La servilo prezentis malĝustan SSL atestilon. Iam tio ĉi okazas pro misagordita servilo. Iam tio ĉi okazas pro iu provas ataki vin aŭ la retpoŝtan servilon. Se vi ne scias kio okazas, klaku \'rifuzi\' kaj kontaktu kun uloj, kiuj administras vian retpoŝtan servilon.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Ne povas konekti al servilo.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Korekti agordojn</string>
   <string name="account_setup_failed_dlg_continue_action">Pluigi</string>
   <string name="account_settings_push_advanced_title">Spertaj</string>
@@ -714,7 +714,7 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="count_search_summary">Malaktivigu por plirapidigi vidigon</string>
   <string name="hide_special_accounts_title">Kaŝi specialajn kontojn</string>
   <string name="hide_special_accounts_summary">Kaŝas la unuigitan ricevujon kaj ĉiujn mesaĝojn</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier">- steletigita</string>
   <string name="unread_modifier">- nelegita</string>
   <string name="search_all_messages_title">Ĉiuj mesaĝoj</string>
@@ -750,7 +750,7 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="font_size_message_view_subject">Temo</string>
   <string name="font_size_message_view_date">Tempo kaj dato</string>
   <string name="font_size_message_view_content">Mesaĝa enhavo</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Kreado de mesaĝo</string>
   <string name="font_size_message_compose_input">Tekst-enigaj kampoj</string>
@@ -764,7 +764,7 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="font_size_larger">Grandega</string>
   <string name="miscellaneous_preferences">Diversaj</string>
   <string name="error_activity_not_found">Ne trovis taŭgan aplikaĵon por tiu ĉi ago.</string>
-  <string name="send_failed_reason">Sendado malsukcesis: %s</string>
+  <string name="send_failed_reason">Sendado malsukcesis:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Ĉu konservi malneton?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Ĉu konservi aŭ forigi tiun ĉi mesaĝon?</string>
   <string name="confirm_discard_draft_message_title">Ĉu forigi mesaĝon?</string>
@@ -804,36 +804,36 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="settings_exporting">Elportado de agordoj…</string>
   <string name="settings_importing">Enportado de agordoj…</string>
   <string name="settings_import_scanning_file">Skanado de dosiero…</string>
-  <string name="settings_export_success">Konservis elportitajn agordojn al <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Konservis elportitajn agordojn al <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Sukcese elportis agordojn</string>
-  <string name="settings_import_global_settings_success">Enportis ĝeneralajn agordojn el <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Enportis <xliff:g id="accounts">%s</xliff:g> el <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_account_imported_as">Enportis <xliff:g id="original_account_name">%s</xliff:g> kiel <xliff:g id="account_name_after_import">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Enportis ĝeneralajn agordojn el <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Enportis <xliff:g id="accounts">%1$s</xliff:g> el <xliff:g id="filename">%2$s</xliff:g></string>
+  <string name="settings_import_account_imported_as">Enportis <xliff:g id="original_account_name">%1$s</xliff:g> kiel <xliff:g id="account_name_after_import">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 konto</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> kontoj</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> kontoj</item>
   </plurals>
   <string name="settings_export_failure">Fiaskis elporti agordojn</string>
-  <string name="settings_import_failure">Fiaskis enporti ĉiujn agordojn el <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Fiaskis enporti ĉiujn agordojn el <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Sukcesis elporti</string>
   <string name="settings_export_failed_header">Fiaskis elporti</string>
   <string name="settings_import_success_header">Sukcesis enporti</string>
   <string name="settings_import_failed_header">Fiaskis enporti</string>
   <string name="settings_import_activate_account_header">Aktivigi konton</string>
-  <string name="settings_import_activate_account_intro">Por uzi la konton \"<xliff:g id="account">%s</xliff:g>\", vi devas enigi <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">Por uzi la konton \"<xliff:g id="account">%1$s</xliff:g>\", vi devas enigi <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">servilan pasvorton</item>
     <item quantity="other">servilajn pasvortojn</item>
   </plurals>
-  <string name="settings_import_incoming_server">Enira servilo (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Elira servilo (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Enira servilo (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Elira servilo (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Agordado de pasvorto…</item>
     <item quantity="other">Agordado de pasvortoj…</item>
   </plurals>
   <string name="settings_import_use_incoming_server_password">Uzi pasvorton de eniga servilo</string>
   <string name="activate_account_action">Aktivigi</string>
-  <string name="account_unavailable">Konto \"<xliff:g id="account">%s</xliff:g>\" estas nedisponebla, kontrolu memoron</string>
+  <string name="account_unavailable">Konto \"<xliff:g id="account">%1$s</xliff:g>\" estas nedisponebla, kontrolu memoron</string>
   <string name="settings_attachment_default_path">Konservi kunsendaĵojn al…</string>
   <string name="attachment_save_title">Konservi kunsendaĵon</string>
   <string name="attachment_save_desc">Neniu dosier-esplorilo trovita. Kien vi volas konservi tiun ĉi kunsendaĵon?</string>
@@ -874,7 +874,7 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="webview_contextmenu_email_save_action">Konservi al kontaktoj</string>
   <string name="webview_contextmenu_email_copy_action">Kopii adreson al tondejo</string>
   <string name="webview_contextmenu_email_clipboard_label">Retpoŝta adreso</string>
-  <string name="image_saved_as">Konservis bildon kiel \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Konservis bildon kiel \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">Fiaskis konservi la bildon.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Senlima</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -885,11 +885,11 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Limigo de serĉ-rezultoj</string>
-  <string name="account_settings_remote_search_num_summary">Serĉado haltos post trovi <xliff:g id="num_results">%s</xliff:g> rezultojn.</string>
+  <string name="account_settings_remote_search_num_summary">Serĉado haltos post trovi <xliff:g id="num_results">%1$s</xliff:g> rezultojn.</string>
   <string name="remote_search_sending_query">Sendado de peto al servilo</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">Elŝutado de %d rezulto</item>
-    <item quantity="other">Elŝutado de %d rezultoj</item>
+    <item quantity="one">Elŝutado de%1$d rezulto</item>
+    <item quantity="other">Elŝutado de%1$d rezultoj</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="one">Elŝutado de %1$d el %2$d rezultoj</item>
@@ -909,7 +909,7 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="global_settings_threaded_view_summary">Grupigas mesaĝojn laŭ interparoladoj</string>
   <string name="upgrade_databases_title">Ĝisdatigado de datumbazoj</string>
   <string name="upgrade_databases_unspecified">Ĝisdatigado de datumbazoj…</string>
-  <string name="upgrade_database_format">Ĝisdatigado de datumbazo de konto \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="upgrade_database_format">Ĝisdatigado de datumbazo de konto \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="message_list_loading">Ŝargado…</string>
   <string name="global_settings_splitview_mode_label">Dividi ekranon</string>
   <string name="global_settings_splitview_always">Ĉiam</string>
@@ -918,9 +918,9 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="message_view_empty">Bonvolu elekti mesaĝon el listo maldekstre</string>
   <string name="global_settings_show_contact_picture_label">Montri kontaktajn bildojn</string>
   <string name="global_settings_show_contact_picture_summary">Montras bildojn de kontaktoj en la listo de mesaĝoj</string>
-  <string name="last_refresh_time_format">Aktualigita je <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Aktualigita je <xliff:g id="time_with_preposition">%s</xliff:g> (puŝ-kontrolo aktiva)</string>
-  <string name="preposition_for_date">je <xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Aktualigita je <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Aktualigita je <xliff:g id="time_with_preposition">%1$s</xliff:g> (puŝ-kontrolo aktiva)</string>
+  <string name="preposition_for_date">je <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Marki ĉiujn kiel legitajn</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Kolorigi kontaktajn bildojn</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Uzas kolorojn kiam kontakta bildo mankas</string>
@@ -935,7 +935,7 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="account_setup_basics_client_certificate">Uzi klientan atestilon</string>
   <string name="client_certificate_spinner_empty">Neniu klienta atestilo</string>
   <string name="client_certificate_spinner_delete">Forviŝi elekton de klienta atestilo</string>
-  <string name="client_certificate_retrieval_failure">Fiaskis elŝuti klientan atestilon por kromnomo \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">Fiaskis elŝuti klientan atestilon por kromnomo \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Spertaj agordoj</string>
   <string name="client_certificate_expired">Klienta atestilo \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" senvalidiĝis aŭ ne estas ankoraŭ valida (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

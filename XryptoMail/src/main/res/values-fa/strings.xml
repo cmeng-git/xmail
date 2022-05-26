@@ -121,19 +121,19 @@
   <string name="special_mailbox_name_sent">نامه‌های ارسالی</string>
   <string name="special_mailbox_name_archive">آرشیو</string>
   <string name="special_mailbox_name_spam">هرزنامه</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (پیش‌نویس‌ها)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (حذف شده)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (فرستاده‌شده)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (آرشیو)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (هرزنامه)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (پیش‌نویس‌ها)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (حذف شده)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (فرستاده‌شده)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (آرشیو)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (هرزنامه)</string>
   <string name="send_failure_subject">ناموفق در ارسال برخی پیام ها</string>
-  <string name="debug_version_fmt">نسخه: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">نسخه: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">فعال سازی اشکال زدایی ثبت وقایع</string>
   <string name="debug_enable_debug_logging_summary">ثبت اطلاعات با تشخیص فوق العاده</string>
   <string name="debug_enable_sensitive_logging_title">ثبت اطلاعات حساس</string>
   <string name="debug_enable_sensitive_logging_summary">نمایش رمزهای من در ثبت وقایع</string>
   <string name="message_list_load_more_messages_action">بارگذاری پیام های بیشتر</string>
-  <string name="message_to_fmt">به:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">به:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">موضوع</string>
   <string name="message_compose_content_hint">متن پیام</string>
   <string name="message_compose_signature_hint">امضا</string>
@@ -143,7 +143,7 @@
   <string name="message_compose_quote_header_from">از</string>
   <string name="message_compose_quote_header_to">به</string>
   <string name="message_compose_quote_header_cc">کپی</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> نوشت:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> نوشت:</string>
   <string name="message_compose_reply_header_fmt_with_date">در <xliff:g id="sent_date">%1$s</xliff:g>، <xliff:g id="sender">%2$s</xliff:g> نوشت:</string>
   <string name="message_compose_error_no_recipients">شما باید حداقل یک دریافت کننده را اضافه کنید</string>
   <string name="compose_error_incomplete_recipient">فیلد دریافتی حاوی ورودی ناقص است</string>
@@ -151,14 +151,14 @@
   <string name="message_compose_attachments_skipped_toast">بعضی پیوست ها نمی توانند ارسال شوند زیرا بارگیری (دانلود) نشده اند</string>
   <string name="message_compose_description_delete_quoted_text">حذف متن اعلام شده</string>
   <string name="message_compose_description_edit_quoted_text">ویرایش متن اعلام شده</string>
-  <string name="message_view_from_format">از: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">از: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">به</string>
   <string name="message_view_cc_label">کپی</string>
   <string name="message_view_attachment_view_action">باز</string>
   <string name="message_view_attachment_download_action">ذخیره</string>
   <string name="message_view_status_attachment_not_saved">ناتوان برای ذخیره پیوست ها در کارت حافظه</string>
   <string name="message_view_show_pictures_action">نمایش تصاویر</string>
-  <string name="message_view_no_viewer">نمایش‌دهنده‌ای برای <xliff:g id="mimetype">%s</xliff:g> پیدا نشد.</string>
+  <string name="message_view_no_viewer">نمایش‌دهنده‌ای برای <xliff:g id="mimetype">%1$s</xliff:g> پیدا نشد.</string>
   <string name="message_view_download_remainder">دانلود پیام کامل</string>
   <!--NOTE: The following message refers to strings with id account_setup_incoming_save_all_headers_label and account_setup_incoming_title-->
   <string name="message_no_additional_headers_available">تمام سرصفحه ها دانلود شده اند. اما هیچ سرصفحه اضافی برای نمایش وجود ندارد.</string>
@@ -297,7 +297,7 @@
   <string name="account_setup_outgoing_password_label">کلمه عبور</string>
   <string name="account_setup_outgoing_authentication_label">احراز هویت</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice"><xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" is not valid with \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g></string>
-  <string name="account_setup_bad_uri">پیکربندی نادرست: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">پیکربندی نادرست: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">گزینه های حساب کاربری</string>
   <string name="compact_action">حساب کاربری فشرده</string>
   <string name="clear_action">پاک کردن پیام ها (خطر)</string>

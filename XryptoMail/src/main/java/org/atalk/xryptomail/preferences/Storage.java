@@ -1,6 +1,18 @@
 package org.atalk.xryptomail.preferences;
 
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
+import android.os.SystemClock;
+
+import org.atalk.xryptomail.helper.UrlEncodingHelper;
+import org.atalk.xryptomail.helper.Utility;
+import org.atalk.xryptomail.helper.timberlog.TimberLog;
+import org.atalk.xryptomail.mail.filter.Base64;
+
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,29 +20,19 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import android.content.*;
-import android.database.Cursor;
-import android.database.sqlite.*;
-import android.os.SystemClock;
-
-import org.atalk.xryptomail.XryptoMail;
-import org.atalk.xryptomail.helper.*;
-import org.atalk.xryptomail.mail.filter.Base64;
 import timber.log.Timber;
-import java.util.Map;
-import java.util.concurrent.ConcurrentMap;
 
 public class Storage {
-    private static ConcurrentMap<Context, Storage> storages = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<Context, Storage> storages = new ConcurrentHashMap<>();
     private volatile ConcurrentMap<String, String> storage = new ConcurrentHashMap<>();
 
     private static final int DB_VERSION = 2;
     private static final String DB_NAME = "preferences_storage";
 
 
-    private ThreadLocal<ConcurrentMap<String, String>> workingStorage = new ThreadLocal<>();
-    private ThreadLocal<SQLiteDatabase> workingDB = new ThreadLocal<>();
-    private ThreadLocal<List<String>> workingChangedKeys = new ThreadLocal<>();
+    private final ThreadLocal<ConcurrentMap<String, String>> workingStorage = new ThreadLocal<>();
+    private final ThreadLocal<SQLiteDatabase> workingDB = new ThreadLocal<>();
+    private final ThreadLocal<List<String>> workingChangedKeys = new ThreadLocal<>();
     private Context context = null;
 
     private SQLiteDatabase openDB() {
@@ -124,7 +126,7 @@ public class Storage {
             Timber.i("Creating Storage database");
             mDb.execSQL("DROP TABLE IF EXISTS preferences_storage");
             mDb.execSQL("CREATE TABLE preferences_storage " +
-                        "(primkey TEXT PRIMARY KEY ON CONFLICT REPLACE, value TEXT)");
+                    "(primkey TEXT PRIMARY KEY ON CONFLICT REPLACE, value TEXT)");
             mDb.setVersion(DB_VERSION);
         }
         return mDb;
@@ -160,7 +162,8 @@ public class Storage {
             while (cursor.moveToNext()) {
                 String key = cursor.getString(0);
                 String value = cursor.getString(1);
-                Timber.d("Loading key '%s', value = '%s'", key, value);
+                if (TimberLog.isTraceEnable)
+                    Timber.d("Loading key '%s', value = '%s'", key, value);
                 storage.put(key, value);
             }
         } finally {
@@ -207,20 +210,19 @@ public class Storage {
     }
 
     void remove(String key) {
-        workingDB.get().delete("preferences_storage", "primkey = ?", new String[] { key });
+        workingDB.get().delete("preferences_storage", "primkey = ?", new String[]{key});
         workingStorage.get().remove(key);
         keyChange(key);
     }
 
     void doInTransaction(Runnable dbWork) {
-        ConcurrentMap<String, String> newStorage = new ConcurrentHashMap<String, String>();
-        newStorage.putAll(storage);
+        ConcurrentMap<String, String> newStorage = new ConcurrentHashMap<>(storage);
         workingStorage.set(newStorage);
 
         SQLiteDatabase mDb = openDB();
         workingDB.set(mDb);
 
-        List<String> changedKeys = new ArrayList<String>();
+        List<String> changedKeys = new ArrayList<>();
         workingChangedKeys.set(changedKeys);
 
         mDb.beginTransaction();
@@ -304,13 +306,13 @@ public class Storage {
         String value = null;
         try {
             cursor = mDb.query(
-                         "preferences_storage",
-                         new String[] {"value"},
-                         "primkey = ?",
-                         new String[] {key},
-                         null,
-                         null,
-                         null);
+                    "preferences_storage",
+                    new String[]{"value"},
+                    "primkey = ?",
+                    new String[]{key},
+                    null,
+                    null,
+                    null);
 
             if (cursor.moveToNext()) {
                 value = cursor.getString(0);

@@ -46,7 +46,7 @@ public class ListHeaders {
                 listPostAddresses.add(address);
             }
         }
-        return listPostAddresses.toArray(new Address[listPostAddresses.size()]);
+        return listPostAddresses.toArray(new Address[0]);
     }
 
     private static Address extractAddress(String headerValue) {

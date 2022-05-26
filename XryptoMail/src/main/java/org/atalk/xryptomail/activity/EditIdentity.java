@@ -6,6 +6,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.Identity;
 import org.atalk.xryptomail.Preferences;
@@ -15,7 +17,6 @@ import java.util.List;
 
 public class EditIdentity extends XMActivity
 {
-
     public static final String EXTRA_IDENTITY = "org.atalk.xryptomail.EditIdentity_identity";
     public static final String EXTRA_IDENTITY_INDEX = "org.atalk.xryptomail.EditIdentity_identity_index";
     public static final String EXTRA_ACCOUNT = "org.atalk.xryptomail.EditIdentity_account";
@@ -125,7 +126,7 @@ public class EditIdentity extends XMActivity
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(EXTRA_IDENTITY, mIdentity);
     }

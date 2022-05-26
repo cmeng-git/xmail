@@ -6,6 +6,8 @@ package org.atalk.xryptomail.activity.setup;
 
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
+
 public class SpinnerOption {
     public Object value;
 
@@ -26,6 +28,7 @@ public class SpinnerOption {
         this.label = label;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return label;

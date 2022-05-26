@@ -3,7 +3,7 @@ package org.atalk.xryptomail.mailstore;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
-import org.apache.commons.io.IOUtils;
+import org.atalk.xryptomail.helper.FileBackend;
 import org.atalk.xryptomail.mail.MessagingException;
 import org.atalk.xryptomail.mail.internet.*;
 import org.atalk.xryptomail.mailstore.util.*;
@@ -115,8 +115,9 @@ public class DeferredFileBody implements RawDataBody, SizeAware {
 
     @Override
     public void writeTo(OutputStream out) throws IOException, MessagingException {
-        InputStream inputStream = getInputStream();
-        IOUtils.copy(inputStream, out);
+        try (InputStream inputStream = getInputStream()) {
+            FileBackend.copy(inputStream, out);
+        }
     }
 
     @Override

@@ -88,7 +88,7 @@ class JisSupport {
     }
 
     private static String getJisVariantFromFromHeaders(Message message) {
-        Address addresses[] = message.getFrom();
+        Address[] addresses = message.getFrom();
         if (addresses == null || addresses.length == 0) {
             return null;
         }

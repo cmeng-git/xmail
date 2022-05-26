@@ -1,6 +1,8 @@
 package org.atalk.xryptomail.mail.store.imap;
 
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -16,14 +18,14 @@ class IdGrouper {
         }
 
         if (ids.size() < 2) {
-            return new GroupedIds(ids, Collections.<ContiguousIdGroup>emptyList());
+            return new GroupedIds(ids, Collections.emptyList());
         }
 
-        TreeSet<Long> orderedIds = new TreeSet<Long>(ids);
+        TreeSet<Long> orderedIds = new TreeSet<>(ids);
         Iterator<Long> orderedIdIterator = orderedIds.iterator();
         Long previousId = orderedIdIterator.next();
 
-        TreeSet<Long> remainingIds = new TreeSet<Long>();
+        TreeSet<Long> remainingIds = new TreeSet<>();
         remainingIds.add(previousId);
         List<ContiguousIdGroup> idGroups = new ArrayList<>();
         long currentIdGroupStart = -1L;
@@ -85,6 +87,7 @@ class IdGrouper {
             this.end = end;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return start + ":" + end;

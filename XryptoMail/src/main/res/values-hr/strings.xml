@@ -10,45 +10,45 @@
   <string name="remote_control_desc">Dozvoljava  ovoj aplikaciji kontrolu XryptoMail aktivnosti i podešenja.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%s</xliff:g> The XryptoMail. Portions Copyright 2006-<xliff:g>%s</xliff:g> the Android Open Source Project.</string>
+  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Portions Copyright 2006-<xliff:g>%2$s</xliff:g> the Android Open Source Project.</string>
   <string name="app_license">Licencirano pod Apache License, Version 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Dobrodošli u XryptoMail Mail</string>
   <!--Default signature-->
   <string name="default_signature">-- \nPoslano sa mog Android uređaja sa XryptoMail Mail. Molim vas oprostite na mojoj sažetosti.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">Račun \"<xliff:g id="account">%s</xliff:g>\" će biti maknut iz XryptoMail Maila.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Svi lokalni podaci za \"<xliff:g id="account">%s</xliff:g>\" biti će obrisani. Postavke računa će biti zadržane.</string>
-  <string name="account_clear_dlg_instructions_fmt">Lokalne kopije \"<xliff:g id="account">%s</xliff:g>\" biti će izbrisane. Postavke računa biti će sačuvane.</string>
+  <string name="account_delete_dlg_instructions_fmt">Račun \"<xliff:g id="account">%1$s</xliff:g>\" će biti maknut iz XryptoMail Maila.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Svi lokalni podaci za \"<xliff:g id="account">%1$s</xliff:g>\" biti će obrisani. Postavke računa će biti zadržane.</string>
+  <string name="account_clear_dlg_instructions_fmt">Lokalne kopije \"<xliff:g id="account">%1$s</xliff:g>\" biti će izbrisane. Postavke računa biti će sačuvane.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Molimo vas instalirajte upravitelj datoteka za nastavak uvoza.</string>
   <string name="open_market">Otvorite Trgovinu Play</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Autori: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Informacije Revizije: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Mi koristimo slijedeće biblioteke treće strane: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Autori: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Informacije Revizije: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Mi koristimo slijedeće biblioteke treće strane: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Čitanje E-Pošte</string>
   <string name="read_messages_desc">Dopušta ovoj aplikaciji čitanje vaše E-Pošte</string>
   <string name="delete_messages_label">Brisanje E-Pošte</string>
   <string name="delete_messages_desc">Dopušta ovoj aplikaciji brisanje vaše E-Pošte.</string>
-  <string name="about_title_fmt">O <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">O <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Računi</string>
   <string name="folders_title">Mape</string>
   <string name="advanced">Napredno</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="mapa">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="mapa">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Sastavi</string>
   <string name="compose_title_reply">Odgovori</string>
   <string name="compose_title_reply_all">Odgovori svima</string>
   <string name="compose_title_forward">Proslijedi</string>
   <string name="choose_folder_title">Odaberite Mapu</string>
-  <string name="status_loading_account_folder">Provjera <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Dobavljanje zaglavlja <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Šaljem <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Obrađujem <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Slijedeća provjera <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Provjera <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Dobavljanje zaglavlja <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Šaljem <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Obrađujem <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Slijedeća provjera <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_syncing_off">Sinhroniziranje je onemogućeno</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> odabrano</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> odabrano</string>
   <string name="next_action">Slijedeća</string>
   <string name="previous_action">Prethodna</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -115,33 +115,33 @@
   <string name="status_invalid_id_error">Poruka nije pronađena</string>
   <string name="status_loading_more_failed">pokušaj učitati više poruka</string>
   <string name="load_more_messages_fmt">Učitati
-    za <xliff:g id="messages_to_load">%d</xliff:g> više</string>
+    za <xliff:g id="messages_to_load">%1$d</xliff:g> više</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Račun \"<xliff:g id="account">%s</xliff:g>\" smanjeno sa <xliff:g id="oldSize">%s</xliff:g> na <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Zbijanje računa \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">Čišćenje računa \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Ponovno stvaranje računa \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="account_size_changed">Račun \"<xliff:g id="account">%1$s</xliff:g>\" smanjeno sa <xliff:g id="oldSize">%2$s</xliff:g> na <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Zbijanje računa \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">Čišćenje računa \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Ponovno stvaranje računa \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="notification_new_title">Nova pošta</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> nova poruka</item>
-    <item quantity="few"><xliff:g id="new_message_count">%d</xliff:g> novih poruka</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> novih poruka</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> nova poruka</item>
+    <item quantity="few"><xliff:g id="new_message_count">%1$d</xliff:g> novih poruka</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> novih poruka</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> Nepročitano (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> Nepročitano (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> više na <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Odgovori</string>
   <string name="notification_action_mark_as_read">Označi Pročitanim</string>
   <string name="notification_action_delete">Obriši</string>
   <string name="notification_action_archive">Arhiva</string>
   <string name="notification_action_spam">Neželjena pošta</string>
-  <string name="notification_certificate_error_title">Greška certifikata za <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Greška certifikata za <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">provjerite postavke vašeg poslužitelja</string>
-  <string name="notification_bg_sync_ticker">Provjeravam poštu: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_bg_sync_ticker">Provjeravam poštu: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Provjeravanje pošte</string>
-  <string name="notification_bg_send_ticker">Šaljem poštu: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Šaljem poštu: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Slanje pošte</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Dolazna pošta</string>
@@ -151,19 +151,19 @@
   <string name="special_mailbox_name_sent">Poslano</string>
   <string name="special_mailbox_name_archive">Arhiva</string>
   <string name="special_mailbox_name_spam">Neželjena pošta</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Skice)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Smeće)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Poslano)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Arhiva)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Neželjena pošta)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Skice)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Smeće)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Poslano)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Arhiva)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Neželjena pošta)</string>
   <string name="send_failure_subject">Slanje nekih poruka nije uspjelo</string>
-  <string name="debug_version_fmt">Inačica: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Inačica: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Omogući zapisnik ispravljanja</string>
   <string name="debug_enable_debug_logging_summary">Zapisuj posebne informacije dijagnoze</string>
   <string name="debug_enable_sensitive_logging_title">Zapisnik osjetljivih informacija</string>
   <string name="debug_enable_sensitive_logging_summary">Mpže prikazati lozinke u zapisnicima.</string>
   <string name="message_list_load_more_messages_action">Učitaj više poruka</string>
-  <string name="message_to_fmt">Za:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">Za:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Subjekt</string>
   <string name="message_compose_content_hint">Tekst poruke</string>
   <string name="message_compose_signature_hint">Potpis</string>
@@ -173,21 +173,21 @@
   <string name="message_compose_quote_header_from">Od:</string>
   <string name="message_compose_quote_header_to">Za:</string>
   <string name="message_compose_quote_header_cc">Cc:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> je napisao:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> je napisao:</string>
   <string name="message_compose_reply_header_fmt_with_date">Na <xliff:g id="sent_date">%1$s</xliff:g>, <xliff:g id="sender">%2$s</xliff:g> wrote:</string>
   <string name="message_compose_error_no_recipients">Morate dodati barem jednog primatelja</string>
   <string name="error_contact_address_not_found">Nije poronađena adrese e-pošte za ovaj kontakt.</string>
   <string name="message_compose_attachments_skipped_toast">Neki privici ne mogu biti proslijeđeni zato jer nisu preuzeti.</string>
   <string name="message_compose_description_delete_quoted_text">Maknuti citirani tekst</string>
   <string name="message_compose_description_edit_quoted_text">Urediti citirani tekst</string>
-  <string name="message_view_from_format">Od: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">Od: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Za:</string>
   <string name="message_view_cc_label">Cc:</string>
   <string name="message_view_attachment_view_action">Otvori</string>
   <string name="message_view_attachment_download_action">Spremi</string>
   <string name="message_view_status_attachment_not_saved">Spremanje privitka na SD karticu nije moguće.</string>
   <string name="message_view_show_pictures_action">Prikaži slike</string>
-  <string name="message_view_no_viewer">Ne mogu pronaći preglednik za <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Ne mogu pronaći preglednik za <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Preuzmi cijelu poruku</string>
   <!--NOTE: The following message refers to strings with id account_setup_incoming_save_all_headers_label and account_setup_incoming_title-->
   <string name="message_no_additional_headers_available">Sva zaglavlja su preuzeta, ali nema dodatnih zaglavlja za prikaz.</string>
@@ -326,7 +326,7 @@
   <string name="account_setup_outgoing_password_label">Lozinka</string>
   <string name="account_setup_outgoing_authentication_label">Identifikacija</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" nije važeća sa \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
-  <string name="account_setup_bad_uri">Nevažeće postavljanje: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Nevažeće postavljanje: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Opcije računa</string>
   <string name="compact_action">Sažmi račun</string>
   <string name="clear_action">Očisti poruke (opasno!)</string>
@@ -373,9 +373,9 @@
   <string name="account_setup_options_mail_display_count_all">sve poruke</string>
   <string name="move_copy_cannot_copy_unsynced_message">Nemogu kopirati ili premjestiti poruke koje nisu sinhronizirane sa poslužiteljem</string>
   <string name="account_setup_failed_dlg_title">Postavljanje nije moglo biti završeno</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Netočno korisničko ime ili lozinka.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">Poslužitelj ukazuje na nevažeći SSL certifikat. Ponekad je to zbog loše konfiguracije poslužitelja. Ponekad je zbog toga što netko pokušava napasi vas ili vaš poslužitelj. Ako niste sigurni o čemu se radi, kliknite Odbij i kontaktirajte ljude koji upravljaju vašim poslužiteljem pošte.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">ne mogu se povezati na poslužitelj.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Netočno korisničko ime ili lozinka.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">Poslužitelj ukazuje na nevažeći SSL certifikat. Ponekad je to zbog loše konfiguracije poslužitelja. Ponekad je zbog toga što netko pokušava napasi vas ili vaš poslužitelj. Ako niste sigurni o čemu se radi, kliknite Odbij i kontaktirajte ljude koji upravljaju vašim poslužiteljem pošte.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">ne mogu se povezati na poslužitelj.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Uredi detalje</string>
   <string name="account_setup_failed_dlg_continue_action">Nastavi</string>
   <string name="account_settings_push_advanced_title">Napredno</string>
@@ -644,7 +644,7 @@
   <string name="count_search_summary">Isključi za brži prikaz</string>
   <string name="hide_special_accounts_title">Sakrij detalje računa</string>
   <string name="hide_special_accounts_summary">Sakrij objedinjeni pretinac dolazne pošte i sve račune poruka</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier"> - Označeno Zvjezdicom</string>
   <string name="unread_modifier">- Nepročitano</string>
   <string name="search_all_messages_title">Sve poruke</string>
@@ -679,7 +679,7 @@
   <string name="font_size_message_view_subject">Subjekt</string>
   <string name="font_size_message_view_date">Vrijeme i datum</string>
   <string name="font_size_message_view_content">Tijelo poruke</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Sastavljanje poruke</string>
   <string name="font_size_message_compose_input">Polja unosa teksta</string>
@@ -732,29 +732,29 @@
   <string name="settings_exporting">Izvozim postavke…</string>
   <string name="settings_importing">Uvozim postavke…</string>
   <string name="settings_import_scanning_file">Skeniram datoteku…</string>
-  <string name="settings_export_success">Spremi izvezene postavke u <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_global_settings_success">Uvezene opće postavke iz  <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Uvezeni <xliff:g id="accounts">%s</xliff:g> iz <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Spremi izvezene postavke u <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Uvezene opće postavke iz  <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Uvezeni <xliff:g id="accounts">%1$s</xliff:g> iz <xliff:g id="filename">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 račun</item>
-    <item quantity="few"><xliff:g id="numAccounts">%s</xliff:g> računa</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> računa</item>
+    <item quantity="few"><xliff:g id="numAccounts">%1$s</xliff:g> računa</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> računa</item>
   </plurals>
   <string name="settings_export_failure">Izvoz postavki nije uspio</string>
-  <string name="settings_import_failure">Uvoz bilo kojih postavki iz <xliff:g id="filename">%s</xliff:g> nije uspio</string>
+  <string name="settings_import_failure">Uvoz bilo kojih postavki iz <xliff:g id="filename">%1$s</xliff:g> nije uspio</string>
   <string name="settings_export_success_header">Izvoz uspio</string>
   <string name="settings_export_failed_header">Izvoz nije uspio</string>
   <string name="settings_import_success_header">Uvoz uspio</string>
   <string name="settings_import_failed_header">Uvoz nije uspio</string>
   <string name="settings_import_activate_account_header">Aktivirajte račun</string>
-  <string name="settings_import_activate_account_intro">Za mogućnost korištenja računa \"<xliff:g id="account">%s</xliff:g>\" morate dati <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">Za mogućnost korištenja računa \"<xliff:g id="account">%1$s</xliff:g>\" morate dati <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">lozinka poslužitelja</item>
     <item quantity="few">lozinka poslužitelja</item>
     <item quantity="other">lozinke poslužitelja</item>
   </plurals>
-  <string name="settings_import_incoming_server">Dolazni poslužitelj (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Odlazni poslužitelj (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Dolazni poslužitelj (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Odlazni poslužitelj (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Postavljam lozinku…</item>
     <item quantity="few">Postavljam lozinku…</item>
@@ -762,7 +762,7 @@
   </plurals>
   <string name="settings_import_use_incoming_server_password">Koristi lozinku dolaznog poslužitelja</string>
   <string name="activate_account_action">Aktiviranje</string>
-  <string name="account_unavailable">Račun \"<xliff:g id="account">%s</xliff:g>\" je nedostupan, provjerite pohranu</string>
+  <string name="account_unavailable">Račun \"<xliff:g id="account">%1$s</xliff:g>\" je nedostupan, provjerite pohranu</string>
   <string name="settings_attachment_default_path">Spremi privitke u…</string>
   <string name="attachment_save_title">Spremi privitak</string>
   <string name="attachment_save_desc">Nije pronađen preglednik datoteka. Gdje biste željeli spremiti ovaj privitak?</string>
@@ -791,7 +791,7 @@
   <string name="webview_contextmenu_email_save_action">Spremi u Kontakte</string>
   <string name="webview_contextmenu_email_copy_action">Kopiraj adresu u međuspremnik</string>
   <string name="webview_contextmenu_email_clipboard_label">Adresa e-pošte</string>
-  <string name="image_saved_as">Spremi sliku kao \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Spremi sliku kao \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">Spremanje slike nije uspjelo.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Sve</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -802,7 +802,7 @@
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Granica pretrage poslužitelja</string>
-  <string name="account_settings_remote_search_num_summary">Traženje će se zaustaviti nakon pronalaska <xliff:g id="num_results">%s</xliff:g> rezultata.</string>
+  <string name="account_settings_remote_search_num_summary">Traženje će se zaustaviti nakon pronalaska <xliff:g id="num_results">%1$s</xliff:g> rezultata.</string>
   <string name="remote_search_sending_query">Šaljem upit poslužitelju</string>
   <string name="remote_search_error">Udaljeno pretraživanje nije uspjelo</string>
   <string name="account_settings_search">Pretraga</string>
@@ -816,7 +816,7 @@
   <string name="global_settings_threaded_view_summary">Grupiraj poruke po konverzaciji</string>
   <string name="upgrade_databases_title">Nadograđujem baze podataka</string>
   <string name="upgrade_databases_unspecified">Nadograđujem baze podataka…</string>
-  <string name="upgrade_database_format">Nadograđujem baze podataka računa \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="upgrade_database_format">Nadograđujem baze podataka računa \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="message_list_loading">Učitavam…</string>
   <string name="global_settings_splitview_mode_label">Prikaži podijeljeni zaslon</string>
   <string name="global_settings_splitview_always">Uvijek</string>
@@ -825,9 +825,9 @@
   <string name="message_view_empty">Molimo vas odaberite poruku s lijeva</string>
   <string name="global_settings_show_contact_picture_label">Prikaži slike kontakata</string>
   <string name="global_settings_show_contact_picture_summary">Prikaži slike kontakata u popisu poruka</string>
-  <string name="last_refresh_time_format">Osvježeno <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Osvježeno <xliff:g id="time_with_preposition">%s</xliff:g> (Guranje aktivno)</string>
-  <string name="preposition_for_date">na <xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Osvježeno <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Osvježeno <xliff:g id="time_with_preposition">%1$s</xliff:g> (Guranje aktivno)</string>
+  <string name="preposition_for_date">na <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Označi sve pročitanim</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Oboji slike kontakta</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Oboji slike kontakta koji nedostaje</string>
@@ -842,7 +842,7 @@
   <string name="account_setup_basics_client_certificate">Koristi certifikat klijenta</string>
   <string name="client_certificate_spinner_empty">Nema certifikata klijenta</string>
   <string name="client_certificate_spinner_delete">Makni odabir certifikata klijenta</string>
-  <string name="client_certificate_retrieval_failure">Neuspješno dobivanje certifikata klijenta za alias \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">Neuspješno dobivanje certifikata klijenta za alias \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Napredne Opcije</string>
   <string name="client_certificate_expired">Certifikat klijenta \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" je istekao ili još nije važeći (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

@@ -9,7 +9,6 @@ import android.net.Uri;
 import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.james.mime4j.codec.Base64InputStream;
 import org.apache.james.mime4j.codec.QuotedPrintableInputStream;
 import org.apache.james.mime4j.util.MimeUtil;
@@ -18,6 +17,7 @@ import org.atalk.xryptomail.Preferences;
 import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.controller.MessagingControllerCommands.PendingCommand;
 import org.atalk.xryptomail.controller.PendingCommandSerializer;
+import org.atalk.xryptomail.helper.FileBackend;
 import org.atalk.xryptomail.helper.Utility;
 import org.atalk.xryptomail.mail.Body;
 import org.atalk.xryptomail.mail.FetchProfile;
@@ -85,12 +85,12 @@ public class LocalStore extends Store
      *
      * @see #getInstance(Account, Context)
      */
-    private static ConcurrentMap<String, Object> sAccountLocks = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, Object> sAccountLocks = new ConcurrentHashMap<>();
 
     /**
      * Local stores indexed by UUID because the Uri may change due to migration to/from SD-card.
      */
-    private static ConcurrentMap<String, LocalStore> sLocalStores = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, LocalStore> sLocalStores = new ConcurrentHashMap<>();
 
     /*
      * a String containing the columns getMessages expects to work with in the correct order.
@@ -826,13 +826,12 @@ public class LocalStore extends Store
     {
         int location = cursor.getInt(ATTACH_LOCATION_INDEX);
         InputStream inputStream = getRawAttachmentInputStream(partId, location, cursor);
-
         try {
             String encoding = cursor.getString(ATTACH_ENCODING_INDEX);
             inputStream = getDecodingInputStream(inputStream, encoding);
-            IOUtils.copy(inputStream, outputStream);
+            FileBackend.copy(inputStream, outputStream);
         } finally {
-            IOUtils.closeQuietly(inputStream);
+            inputStream.close();
         }
     }
 

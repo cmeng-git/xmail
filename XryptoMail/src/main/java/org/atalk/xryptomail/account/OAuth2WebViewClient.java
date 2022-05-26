@@ -7,15 +7,13 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import org.atalk.xryptomail.activity.setup.AccountSetupPresenter;
-
 import timber.log.Timber;
 
 /**
  * bass class for standard authorization code flow like Google's or Microsoft's
  */
 abstract class OAuth2WebViewClient extends WebViewClient {
-    private Oauth2PromptRequestHandler requestHandler;
+    private final Oauth2PromptRequestHandler requestHandler;
     private OAuth2ErrorHandler errorHandler;
 
     public OAuth2WebViewClient(Oauth2PromptRequestHandler requestHandler) {

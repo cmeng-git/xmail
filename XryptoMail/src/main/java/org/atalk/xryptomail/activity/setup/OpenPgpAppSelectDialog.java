@@ -10,6 +10,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -78,7 +80,7 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
 
     public static class OpenPgpAppSelectFragment extends DialogFragment
     {
-        private ArrayList<OpenPgpProviderEntry> openPgpProviderList = new ArrayList<>();
+        private final ArrayList<OpenPgpProviderEntry> openPgpProviderList = new ArrayList<>();
         private String selectedPackage;
 
         private void populateAppList()
@@ -88,13 +90,12 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
 
             OpenPgpProviderEntry noneEntry = new OpenPgpProviderEntry("",
                     context.getString(R.string.openpgp_list_preference_none),
-                    getResources().getDrawable(R.drawable.ic_action_cancel_launchersize));
+                    ResourcesCompat.getDrawable(getResources(), R.drawable.ic_action_cancel_launchersize, null));
             openPgpProviderList.add(0, noneEntry);
 
             if (OpenPgpAppPreference.isApgInstalled(getActivity())) {
-                Drawable icon = getResources().getDrawable(R.drawable.ic_apg_small);
-                openPgpProviderList.add(new OpenPgpProviderEntry(
-                        APG_PROVIDER_PLACEHOLDER, getString(R.string.apg), icon));
+                openPgpProviderList.add(new OpenPgpProviderEntry(APG_PROVIDER_PLACEHOLDER,
+                        getString(R.string.apg), ResourcesCompat.getDrawable(getResources(),R.drawable.ic_apg_small, null)));
             }
 
             // search for OpenPGP providers...
@@ -207,7 +208,7 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
         }
 
         @Override
-        public void onDismiss(DialogInterface dialog)
+        public void onDismiss(@NonNull DialogInterface dialog)
         {
             super.onDismiss(dialog);
             ((OpenPgpAppSelectDialog) getActivity()).onSelectProvider(selectedPackage);
@@ -216,6 +217,7 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
 
     public static class ApgDeprecationDialogFragment extends DialogFragment
     {
+        @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState)
         {
@@ -223,7 +225,7 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
         }
 
         @Override
-        public void onDismiss(DialogInterface dialog)
+        public void onDismiss(@NonNull DialogInterface dialog)
         {
             super.onDismiss(dialog);
             ((OpenPgpAppSelectDialog) getActivity()).onDismissApgDialog();
@@ -256,9 +258,9 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
 
     private static class OpenPgpProviderEntry
     {
-        private String packageName;
-        private String simpleName;
-        private Drawable icon;
+        private final String packageName;
+        private final String simpleName;
+        private final Drawable icon;
         private Intent intent;
 
         OpenPgpProviderEntry(String packageName, String simpleName, Drawable icon)
@@ -274,6 +276,7 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
             this.intent = intent;
         }
 
+        @NonNull
         @Override
         public String toString()
         {

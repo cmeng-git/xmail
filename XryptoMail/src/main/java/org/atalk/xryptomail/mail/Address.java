@@ -29,7 +29,6 @@ public class Address implements Serializable
      */
     private static final Address[] EMPTY_ADDRESS_ARRAY = new Address[0];
 
-    @NonNull
     private String mAddress;
     private String mPersonal;
 
@@ -49,7 +48,7 @@ public class Address implements Serializable
         this(address, null, true);
     }
 
-    private Address(String address, String personal, boolean parse)
+    private Address(@NonNull String address, String personal, boolean parse)
     {
         if (address == null) {
             throw new IllegalArgumentException("address");
@@ -211,6 +210,7 @@ public class Address implements Serializable
         return hash;
     }
 
+    @NonNull
     @Override
     public String toString()
     {
@@ -269,15 +269,15 @@ public class Address implements Serializable
         List<Address> addresses = new ArrayList<>();
         int length = addressList.length();
         int pairStartIndex = 0;
-        int pairEndIndex = 0;
-        int addressEndIndex = 0;
+        int pairEndIndex;
+        int addressEndIndex;
         while (pairStartIndex < length) {
             pairEndIndex = addressList.indexOf(",\u0000", pairStartIndex);
             if (pairEndIndex == -1) {
                 pairEndIndex = length;
             }
             addressEndIndex = addressList.indexOf(";\u0000", pairStartIndex);
-            String address = null;
+            String address;
             String personal = null;
             if (addressEndIndex == -1 || addressEndIndex > pairEndIndex) {
                 address = addressList.substring(pairStartIndex, pairEndIndex);

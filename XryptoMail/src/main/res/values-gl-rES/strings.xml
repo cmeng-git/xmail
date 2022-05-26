@@ -10,45 +10,45 @@
   <string name="remote_control_desc">Permitir a este aplicativo controlar as actividades e os axustes de XryptoMail Mail.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%s</xliff:g> The XryptoMail. Portions Copyright 2006-<xliff:g>%s</xliff:g> the Android Open Source Project.</string>
+  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Portions Copyright 2006-<xliff:g>%2$s</xliff:g> the Android Open Source Project.</string>
   <string name="app_license">Baixo licenza Apache, versión 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Benvido/a a XryptoMail Mail</string>
   <!--Default signature-->
   <string name="default_signature">-- \nEnviado desde o meu Android con XryptoMail Mail. Disculpa a brevidade.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">A conta \"<xliff:g id="account">%s</xliff:g>\" será eliminada do XryptoMail Mail.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Todos os datos locais de \"<xliff:g id="account">%s</xliff:g>\" serán eliminados. Os axustes da conta manteranse.</string>
-  <string name="account_clear_dlg_instructions_fmt">As copias locais das mensaxes de \"<xliff:g id="account">%s</xliff:g>\" serán eliminadas. Manteranse os axustes da conta.</string>
+  <string name="account_delete_dlg_instructions_fmt">A conta \"<xliff:g id="account">%1$s</xliff:g>\" será eliminada do XryptoMail Mail.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Todos os datos locais de \"<xliff:g id="account">%1$s</xliff:g>\" serán eliminados. Os axustes da conta manteranse.</string>
+  <string name="account_clear_dlg_instructions_fmt">As copias locais das mensaxes de \"<xliff:g id="account">%1$s</xliff:g>\" serán eliminadas. Manteranse os axustes da conta.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Por favor, selecciona un xestor de ficheiros para continuar con esta importación.</string>
   <string name="open_market">Abrir Play Store</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Autores: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Revisión da información: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Estamos a usar as seguintes librarías de terceiros: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Autores: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Revisión da información: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Estamos a usar as seguintes librarías de terceiros: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Ler correos</string>
   <string name="read_messages_desc">Permitir a este aplicativo ler os teus correos.</string>
   <string name="delete_messages_label">Eliminar correos</string>
   <string name="delete_messages_desc">Permitir a este aplicativo eliminar os teus correos.</string>
-  <string name="about_title_fmt">Acerca de <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">Acerca de <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Contas</string>
   <string name="folders_title">Cartafoles</string>
   <string name="advanced">Avanzado</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Redactar</string>
   <string name="compose_title_reply">Responder</string>
   <string name="compose_title_reply_all">Responder a todos</string>
   <string name="compose_title_forward">Reenviar</string>
   <string name="choose_folder_title">Escoller cartafol</string>
-  <string name="status_loading_account_folder">Comprobando <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Obtendo cabeceiras <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Enviando <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Procesando <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Próxima comprobación ás <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Comprobando <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Obtendo cabeceiras <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Enviando <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Procesando <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Próxima comprobación ás <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_syncing_off">Sincronización deshabilitada</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> seleccionada</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> seleccionada</string>
   <string name="next_action">Seguinte</string>
   <string name="previous_action">Anterior</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -114,17 +114,17 @@
   <string name="status_invalid_id_error">Mensaxe non atopada</string>
   <string name="status_loading_more_failed">Volver tentar cargar máis mensaxes</string>
   <string name="load_more_messages_fmt">Cargar
-     <xliff:g id="messages_to_load">%d</xliff:g> máis</string>
+     <xliff:g id="messages_to_load">%1$d</xliff:g> máis</string>
   <string name="abbrev_gigabytes">Gb</string>
   <string name="abbrev_megabytes">Mb</string>
   <string name="abbrev_kilobytes">Kb</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Conta \"<xliff:g id="account">%s</xliff:g>\" reducida de <xliff:g id="oldSize">%s</xliff:g> a <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">A compactar a conta \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">A limpar a conta \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Volvendo crear a conta \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="account_size_changed">Conta \"<xliff:g id="account">%1$s</xliff:g>\" reducida de <xliff:g id="oldSize">%2$s</xliff:g> a <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">A compactar a conta \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">A limpar a conta \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Volvendo crear a conta \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="notification_new_title">Correo novo</string>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> sen ler (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> sen ler (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> máis en <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Responder</string>
   <string name="notification_action_mark_as_read">Marcar como lida</string>
@@ -134,11 +134,11 @@
   <string name="notification_action_archive">Arquivar</string>
   <string name="notification_action_archive_all">Arquivar todo</string>
   <string name="notification_action_spam">Lixo</string>
-  <string name="notification_certificate_error_title">Erro de certificado para <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Erro de certificado para <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Comproba a configuración do servidor</string>
-  <string name="notification_bg_sync_ticker">Comprobando correo: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_bg_sync_ticker">Comprobando correo: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Comprobando correo</string>
-  <string name="notification_bg_send_ticker">Enviando correo: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Enviando correo: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Enviando correo</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Caixa de entrada</string>
@@ -148,19 +148,19 @@
   <string name="special_mailbox_name_sent">Enviadas</string>
   <string name="special_mailbox_name_archive">Arquivo</string>
   <string name="special_mailbox_name_spam">Lixo</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Borradores)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Papeleira)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Enviadas)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Arquivo)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Correo lixo)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Borradores)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Papeleira)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Enviadas)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Arquivo)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Correo lixo)</string>
   <string name="send_failure_subject">Erro ao enviar algunhas mensaxes</string>
-  <string name="debug_version_fmt">Versión: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Versión: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Activar acceso a depurar</string>
   <string name="debug_enable_debug_logging_summary">Diagnóstico con información adicional</string>
   <string name="debug_enable_sensitive_logging_title">Información sensible</string>
   <string name="debug_enable_sensitive_logging_summary">Permitir mostrar os contrasinais nos informes.</string>
   <string name="message_list_load_more_messages_action">Cargar máis mensaxes</string>
-  <string name="message_to_fmt">Para:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">Para:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Asunto</string>
   <string name="message_compose_content_hint">Texto da mensaxe</string>
   <string name="message_compose_signature_hint">Sinatura</string>
@@ -170,21 +170,21 @@
   <string name="message_compose_quote_header_from">De:</string>
   <string name="message_compose_quote_header_to">Para:</string>
   <string name="message_compose_quote_header_cc">Cc:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> escribiu:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> escribiu:</string>
   <string name="message_compose_reply_header_fmt_with_date">O <xliff:g id="sent_date">%1$s</xliff:g>, <xliff:g id="sender">%2$s</xliff:g> escribiu:</string>
   <string name="message_compose_error_no_recipients">Debes engadir cando menos un destinatario.</string>
   <string name="error_contact_address_not_found">Non se puido atopar un enderezo electrónico para este contacto.</string>
   <string name="message_compose_attachments_skipped_toast">Algúns anexos non poden reenviarse porque non foron descargados previamente.</string>
   <string name="message_compose_description_delete_quoted_text">Eliminar texto citado</string>
   <string name="message_compose_description_edit_quoted_text">Editar texto citado</string>
-  <string name="message_view_from_format">Desde: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">Desde: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Para:</string>
   <string name="message_view_cc_label">Cc:</string>
   <string name="message_view_attachment_view_action">Abrir</string>
   <string name="message_view_attachment_download_action">Gardar</string>
   <string name="message_view_status_attachment_not_saved">Non é posible gardar o anexo na tarxeta SD.</string>
   <string name="message_view_show_pictures_action">Mostrar imaxes</string>
-  <string name="message_view_no_viewer">Non é posible atopar un visor para <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Non é posible atopar un visor para <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Descargar mensaxe completa</string>
   <!--NOTE: The following message refers to strings with id account_setup_incoming_save_all_headers_label and account_setup_incoming_title-->
   <string name="message_no_additional_headers_available">Descargáronse todas as cabeceiras, mais non hai cabeceiras adicionais para mostrar.</string>
@@ -321,7 +321,7 @@
   <string name="account_setup_outgoing_username_label">Nome de usuario</string>
   <string name="account_setup_outgoing_password_label">Contrasinal</string>
   <string name="account_setup_outgoing_authentication_label">Autenticación</string>
-  <string name="account_setup_bad_uri">Configuración non válida: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Configuración non válida: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Opcións da conta</string>
   <string name="compact_action">Compactar conta</string>
   <string name="clear_action">Limpar mensaxes (perigoso!)</string>
@@ -367,8 +367,8 @@
   <string name="account_setup_options_mail_display_count_all">todas as mensaxes</string>
   <string name="move_copy_cannot_copy_unsynced_message">Non se pode mover ou copiar unha mensaxe se non está sincronizada co servidor</string>
   <string name="account_setup_failed_dlg_title">Non se puido rematar a configuración</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Usuario ou contrasinal non válidos.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Non se conectou ao servidor.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Usuario ou contrasinal non válidos.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Non se conectou ao servidor.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Editar detalles</string>
   <string name="account_setup_failed_dlg_continue_action">Continuar</string>
   <string name="account_settings_push_advanced_title">Avanzado</string>
@@ -633,7 +633,7 @@
   <string name="count_search_summary">Desactivar para mellorar o rendemento</string>
   <string name="hide_special_accounts_title">Agochar contas especiais</string>
   <string name="hide_special_accounts_summary">Agochar a conta unificada e todas as contas</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier"> - Marcada</string>
   <string name="unread_modifier"> - Non lida</string>
   <string name="search_all_messages_title">Todas as mensaxes</string>
@@ -668,7 +668,7 @@
   <string name="font_size_message_view_subject">Asunto</string>
   <string name="font_size_message_view_date">Hora e data</string>
   <string name="font_size_message_view_content">Corpo da mensaxe</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Edición da mensaxe</string>
   <string name="font_size_message_compose_input">Campos de entrada de texto</string>
@@ -719,34 +719,34 @@
   <string name="settings_exporting">A exportar os axustes…</string>
   <string name="settings_importing">A importar os axustes…</string>
   <string name="settings_import_scanning_file">A escanear ficheiro…</string>
-  <string name="settings_export_success">Axustes exportados gardados en <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_global_settings_success">Axustes globais importados desde <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Importado <xliff:g id="accounts">%s</xliff:g> desde <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Axustes exportados gardados en <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Axustes globais importados desde <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Importado <xliff:g id="accounts">%1$s</xliff:g> desde <xliff:g id="filename">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 conta</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> contas</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> contas</item>
   </plurals>
   <string name="settings_export_failure">Erro ao exportar os axustes</string>
-  <string name="settings_import_failure">Erro ao importar calquera axuste desde <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Erro ao importar calquera axuste desde <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Exportación satisfactoria</string>
   <string name="settings_export_failed_header">Erro ao exportar</string>
   <string name="settings_import_success_header">Importación satisfactoria</string>
   <string name="settings_import_failed_header">Erro ao importar</string>
   <string name="settings_import_activate_account_header">Activar conta</string>
-  <string name="settings_import_activate_account_intro">Para poder activar a conta \"<xliff:g id="account">%s</xliff:g>\" debes facilitar <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">Para poder activar a conta \"<xliff:g id="account">%1$s</xliff:g>\" debes facilitar <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">contrasinal do servidor</item>
     <item quantity="other">contrasinais do servidor</item>
   </plurals>
-  <string name="settings_import_incoming_server">Servidor de entrada (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Servidor de saída (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Servidor de entrada (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Servidor de saída (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Axustes do contrasinal…</item>
     <item quantity="other">Axustes dos contrasinais…</item>
   </plurals>
   <string name="settings_import_use_incoming_server_password">Utilizar o contrasinal do servidor de entrada</string>
   <string name="activate_account_action">Activar</string>
-  <string name="account_unavailable">A conta \"<xliff:g id="account">%s</xliff:g>\" non está dispoñible; comproba o almacenamento</string>
+  <string name="account_unavailable">A conta \"<xliff:g id="account">%1$s</xliff:g>\" non está dispoñible; comproba o almacenamento</string>
   <string name="settings_attachment_default_path">Gardar os anexos en…</string>
   <string name="attachment_save_title">Gardar anexo</string>
   <string name="attachment_save_desc">Ningún explorador atopado. Onde desexas gardar este anexo?</string>
@@ -775,7 +775,7 @@
   <string name="webview_contextmenu_email_save_action">Gardar en contactos</string>
   <string name="webview_contextmenu_email_copy_action">Copiar enderezo ao portapapeis</string>
   <string name="webview_contextmenu_email_clipboard_label">Enderezo electrónico</string>
-  <string name="image_saved_as">Imaxe gardada como \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Imaxe gardada como \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">Erro ao gardar a imaxe.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Todos</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -786,7 +786,7 @@
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Limitar resultados nas procuras no servidor</string>
-  <string name="account_settings_remote_search_num_summary">A procura deterase cando se alcancen os <xliff:g id="num_results">%s</xliff:g> resultados.</string>
+  <string name="account_settings_remote_search_num_summary">A procura deterase cando se alcancen os <xliff:g id="num_results">%1$s</xliff:g> resultados.</string>
   <string name="remote_search_sending_query">Enviando consulta ao servidor</string>
   <string name="remote_search_error">Erro na procura en remoto</string>
   <string name="account_settings_search">Procurar</string>
@@ -800,7 +800,7 @@
   <string name="global_settings_threaded_view_summary">Mensaxes agrupadas por conversa</string>
   <string name="upgrade_databases_title">Actualizando as bases de datos</string>
   <string name="upgrade_databases_unspecified">Actualizando as bases de datos…</string>
-  <string name="upgrade_database_format">Actualizando a base de datos da conta  \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="upgrade_database_format">Actualizando a base de datos da conta  \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="message_list_loading">A cargar…</string>
   <string name="global_settings_splitview_mode_label">Mostrar pantalla dividida</string>
   <string name="global_settings_splitview_always">Sempre</string>
@@ -808,7 +808,7 @@
   <string name="message_view_empty">Por favor, selecciona unha mensaxe na esquerda</string>
   <string name="global_settings_show_contact_picture_label">Mostrar fotos dos contactos</string>
   <string name="global_settings_show_contact_picture_summary">Mostrar fotos dos contactos na listaxe de mensaxes</string>
-  <string name="preposition_for_date">o <xliff:g id="date">%s</xliff:g></string>
+  <string name="preposition_for_date">o <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Marcar todas como lidas</string>
   <string name="loading_attachment">A cargar anexo…</string>
   <string name="fetching_attachment_dialog_title_send">A enviar mensaxe</string>

@@ -14,30 +14,30 @@ import org.atalk.xryptomail.mail.Store;
 import org.atalk.xryptomail.mail.store.StoreConfig;
 
 public interface AccountConfig extends StoreConfig {
-    public ConnectionSecurity getIncomingSecurityType();
-    public AuthType getIncomingAuthType();
-    public String getIncomingPort();
-    public ConnectionSecurity getOutgoingSecurityType();
-    public AuthType getOutgoingAuthType();
-    public String getOutgoingPort();
-    public boolean isNotifyNewMail();
-    public boolean isShowOngoing();
-    public int getAutomaticCheckIntervalMinutes();
-    public int getDisplayCount();
-    public FolderMode getFolderPushMode();
-    public String getName();
+    ConnectionSecurity getIncomingSecurityType();
+    AuthType getIncomingAuthType();
+    String getIncomingPort();
+    ConnectionSecurity getOutgoingSecurityType();
+    AuthType getOutgoingAuthType();
+    String getOutgoingPort();
+    boolean isNotifyNewMail();
+    boolean isShowOngoing();
+    int getAutomaticCheckIntervalMinutes();
+    int getDisplayCount();
+    FolderMode getFolderPushMode();
+    String getName();
     DeletePolicy getDeletePolicy();
 
     void init(String email, String password);
 
-    public String getEmail();
-    public String getDescription();
+    String getEmail();
+    String getDescription();
     Store getRemoteStore() throws MessagingException;
 
-    public void setName(String name);
-    public void setDescription(String description);
-    public void setDeletePolicy(DeletePolicy deletePolicy);
-    public void setEmail(String email);
+    void setName(String name);
+    void setDescription(String description);
+    void setDeletePolicy(DeletePolicy deletePolicy);
+    void setEmail(String email);
     void setCompression(NetworkType networkType, boolean useCompression);
 
     void addCertificate(CheckDirection direction, X509Certificate certificate) throws CertificateException;

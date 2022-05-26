@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import com.google.android.material.textfield.TextInputLayout;
+
+import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewPropertyAnimatorListenerAdapter;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
@@ -50,7 +52,7 @@ public class TextInputLayoutWithHelperText extends TextInputLayout {
     }
 
     @Override
-    public void addView(View child, int index, ViewGroup.LayoutParams params) {
+    public void addView(@NonNull View child, int index, @NonNull ViewGroup.LayoutParams params) {
         super.addView(child, index, params);
         if (child instanceof EditText) {
             if (!TextUtils.isEmpty(mHelperText)) {

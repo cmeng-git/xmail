@@ -30,7 +30,7 @@ import java.util.List;
  * </p>
  */
 public abstract class AccountList extends XMListActivity implements OnItemClickListener {
-	private FontSizes mFontSizes = XryptoMail.getFontSizes();
+	private final FontSizes mFontSizes = XryptoMail.getFontSizes();
 
     @Override
     public void onCreate(Bundle icicle) {

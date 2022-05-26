@@ -4,11 +4,11 @@ import org.atalk.xryptomail.mail.filter.Base64;
 import org.atalk.xryptomail.mail.filter.Hex;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 public class Authentication
 {
-    private static final String US_ASCII = "US-ASCII";
     private static final String XOAUTH_FORMAT = "user=%1s\001auth=Bearer %2s\001\001";
 
     /**
@@ -27,9 +27,9 @@ public class Authentication
     {
 
         try {
-            byte[] b64NonceBytes = b64Nonce.getBytes(US_ASCII);
+            byte[] b64NonceBytes = b64Nonce.getBytes(StandardCharsets.US_ASCII);
             byte[] b64CRAM = computeCramMd5Bytes(username, password, b64NonceBytes);
-            return new String(b64CRAM, US_ASCII);
+            return new String(b64CRAM, StandardCharsets.US_ASCII);
         } catch (MessagingException e) {
             throw e;
         } catch (Exception e) {
@@ -91,6 +91,6 @@ public class Authentication
         byte[] base64encodedAuthenticationString =
                 Base64.encodeBase64(formattedAuthenticationString.getBytes());
 
-        return new String(base64encodedAuthenticationString, US_ASCII);
+        return new String(base64encodedAuthenticationString, StandardCharsets.US_ASCII);
     }
 }

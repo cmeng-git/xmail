@@ -1,5 +1,6 @@
 package org.atalk.xryptomail.activity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.atalk.xryptomail.mail.*;
@@ -17,14 +18,12 @@ public class MessageReference {
     private final String uid;
     private final Flag flag;
 
-    @Nullable
     /**
      * Initialize a MessageReference from a serialized identity.
 	 * 
-	 * @param identity
      * @param identity Serialized identity.
-     * @throws MessagingException On missing or corrupted identity.
      */
+    @Nullable
     public static MessageReference parse(String identity) {
         // Can't be null and must be at least length one so we can check the version.
         if (identity == null || identity.length() < 1 || identity.charAt(0) != IDENTITY_VERSION_1) {
@@ -112,6 +111,7 @@ public class MessageReference {
 		return result;
 	}
 
+    @NonNull
     @Override
     public String toString() {
         return "MessageReference{" +

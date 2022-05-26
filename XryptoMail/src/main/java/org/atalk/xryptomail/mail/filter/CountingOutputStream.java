@@ -23,7 +23,7 @@ public class CountingOutputStream extends OutputStream {
     }
 
     @Override
-    public void write(byte b[], int offset, int len) throws IOException {
+    public void write(byte[] b, int offset, int len) throws IOException {
         mCount += len;
     }
 

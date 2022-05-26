@@ -3,10 +3,19 @@ package org.atalk.xryptomail.notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import androidx.core.app.TaskStackBuilder;
+import android.os.Build;
 import android.text.TextUtils;
-import org.atalk.xryptomail.*;
-import org.atalk.xryptomail.activity.*;
+
+import androidx.core.app.TaskStackBuilder;
+
+import org.atalk.xryptomail.Account;
+import org.atalk.xryptomail.Preferences;
+import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.activity.Accounts;
+import org.atalk.xryptomail.activity.FolderList;
+import org.atalk.xryptomail.activity.MessageList;
+import org.atalk.xryptomail.activity.MessageReference;
+import org.atalk.xryptomail.activity.NotificationDeleteConfirmation;
 import org.atalk.xryptomail.activity.compose.MessageActions;
 import org.atalk.xryptomail.search.LocalSearch;
 
@@ -22,184 +31,170 @@ import java.util.List;
  * We use the notification ID as {@code requestCode} argument to ensure each notification/action pair gets a unique
  * {@code PendingIntent}.
  */
-class NotificationActionCreator
-{
+class NotificationActionCreator {
     private final Context context;
 
 
-    public NotificationActionCreator(Context context)
-    {
+    public NotificationActionCreator(Context context) {
         this.context = context;
     }
 
-    public PendingIntent createViewMessagePendingIntent(MessageReference messageReference, int notificationId)
-    {
+    public PendingIntent createViewMessagePendingIntent(MessageReference messageReference, int notificationId) {
         TaskStackBuilder stack = buildMessageViewBackStack(messageReference);
-        return stack.getPendingIntent(notificationId, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        return stack.getPendingIntent(notificationId,
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
-    public PendingIntent createViewFolderPendingIntent(Account account, String folderName, int notificationId)
-    {
+    public PendingIntent createViewFolderPendingIntent(Account account, String folderName, int notificationId) {
         TaskStackBuilder stack = buildMessageListBackStack(account, folderName);
-        return stack.getPendingIntent(notificationId, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        return stack.getPendingIntent(notificationId,
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
     public PendingIntent createViewMessagesPendingIntent(Account account, List<MessageReference> messageReferences,
-            int notificationId)
-    {
+            int notificationId) {
 
         TaskStackBuilder stack;
         if (account.goToUnreadMessageSearch()) {
             stack = buildUnreadBackStack(account);
-        }
-        else {
+        } else {
             String folderName = getFolderNameOfAllMessages(messageReferences);
 
             if (folderName == null) {
                 stack = buildFolderListBackStack(account);
-            }
-            else {
+            } else {
                 stack = buildMessageListBackStack(account, folderName);
             }
         }
-        return stack.getPendingIntent(notificationId, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        return stack.getPendingIntent(notificationId,
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
     /**
      * @param notificationId notification ID
      * @return intent ot launch InBox for the given account
      */
-    public PendingIntent createAccountInBoxPendingIntent(Account account, int notificationId)
-    {
+    public PendingIntent createAccountInBoxPendingIntent(Account account, int notificationId) {
         TaskStackBuilder stack = buildMessageListBackStack(account, Account.INBOX);
-        return stack.getPendingIntent(notificationId, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        return stack.getPendingIntent(notificationId,
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
-    public PendingIntent createViewFolderListPendingIntent(Account account, int notificationId)
-    {
+    public PendingIntent createViewFolderListPendingIntent(Account account, int notificationId) {
         TaskStackBuilder stack = buildFolderListBackStack(account);
-        return stack.getPendingIntent(notificationId, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        return stack.getPendingIntent(notificationId,
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
-    public PendingIntent createDismissAllMessagesPendingIntent(Account account, int notificationId)
-    {
+    public PendingIntent createDismissAllMessagesPendingIntent(Account account, int notificationId) {
         Intent intent = NotificationActionService.createDismissAllMessagesIntent(context, account);
-
         return PendingIntent.getService(context, notificationId, intent,
-                PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
-    public PendingIntent createDismissMessagePendingIntent(Context context, MessageReference messageReference,
-            int notificationId)
-    {
-
+    public PendingIntent createDismissMessagePendingIntent(Context context, MessageReference messageReference, int notificationId) {
         Intent intent = NotificationActionService.createDismissMessageIntent(context, messageReference);
-
         return PendingIntent.getService(context, notificationId, intent,
-                PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
-    public PendingIntent createReplyPendingIntent(MessageReference messageReference, int notificationId)
-    {
+    public PendingIntent createReplyPendingIntent(MessageReference messageReference, int notificationId) {
         Intent intent = MessageActions.getActionReplyIntent(context, messageReference);
-
         return PendingIntent.getActivity(context, notificationId, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
-    public PendingIntent createMarkMessageAsReadPendingIntent(MessageReference messageReference, int notificationId)
-    {
+    public PendingIntent createMarkMessageAsReadPendingIntent(MessageReference messageReference, int notificationId) {
         Intent intent = NotificationActionService.createMarkMessageAsReadIntent(context, messageReference);
-
         return PendingIntent.getService(context, notificationId, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
-    public PendingIntent createMarkAllAsReadPendingIntent(Account account, List<MessageReference> messageReferences,
-            int notificationId)
-    {
+    public PendingIntent createMarkAllAsReadPendingIntent(Account account, List<MessageReference> messageReferences, int notificationId) {
         return getMarkAsReadPendingIntent(account, messageReferences, notificationId, context,
-                PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
-    public PendingIntent getMarkAllAsReadPendingIntent(Account account, List<MessageReference> messageReferences,
-            int notificationId)
-    {
+    public PendingIntent getMarkAllAsReadPendingIntent(Account account, List<MessageReference> messageReferences, int notificationId) {
         return getMarkAsReadPendingIntent(account, messageReferences, notificationId, context,
-                PendingIntent.FLAG_NO_CREATE);
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_NO_CREATE
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_NO_CREATE);
     }
 
     private PendingIntent getMarkAsReadPendingIntent(Account account, List<MessageReference> messageReferences,
-            int notificationId, Context context, int flags)
-    {
+            int notificationId, Context context, int flags) {
         String accountUuid = account.getUuid();
         Intent intent = NotificationActionService.createMarkAllAsReadIntent(context, accountUuid, messageReferences);
 
         return PendingIntent.getService(context, notificationId, intent, flags);
     }
 
-    public PendingIntent createDeleteMessagePendingIntent(MessageReference messageReference, int notificationId)
-    {
+    public PendingIntent createDeleteMessagePendingIntent(MessageReference messageReference, int notificationId) {
         if (XryptoMail.confirmDeleteFromNotification()) {
             return createDeleteConfirmationPendingIntent(messageReference, notificationId);
-        }
-        else {
+        } else {
             return createDeleteServicePendingIntent(messageReference, notificationId);
         }
     }
 
-    private PendingIntent createDeleteServicePendingIntent(MessageReference messageReference, int notificationId)
-    {
+    private PendingIntent createDeleteServicePendingIntent(MessageReference messageReference, int notificationId) {
         Intent intent = NotificationActionService.createDeleteMessageIntent(context, messageReference);
 
         return PendingIntent.getService(context, notificationId, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
-    private PendingIntent createDeleteConfirmationPendingIntent(MessageReference messageReference, int notificationId)
-    {
+    private PendingIntent createDeleteConfirmationPendingIntent(MessageReference messageReference, int notificationId) {
         Intent intent = NotificationDeleteConfirmation.getIntent(context, messageReference);
-
-        return PendingIntent.getActivity(context, notificationId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getActivity(context, notificationId, intent,
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    public PendingIntent createDeleteAllPendingIntent(Account account, List<MessageReference> messageReferences,
-            int notificationId)
-    {
+    public PendingIntent createDeleteAllPendingIntent(Account account, List<MessageReference> messageReferences, int notificationId) {
         if (XryptoMail.confirmDeleteFromNotification()) {
             return getDeleteAllConfirmationPendingIntent(messageReferences, notificationId,
-                    PendingIntent.FLAG_CANCEL_CURRENT);
-        }
-        else {
+                    Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT
+                            : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT);
+        } else {
             return getDeleteAllServicePendingIntent(account, messageReferences, notificationId,
-                    PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+                    Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                            : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
         }
     }
 
-    public PendingIntent getDeleteAllPendingIntent(Account account, List<MessageReference> messageReferences,
-            int notificationId)
-    {
+    public PendingIntent getDeleteAllPendingIntent(Account account, List<MessageReference> messageReferences, int notificationId) {
         if (XryptoMail.confirmDeleteFromNotification()) {
             return getDeleteAllConfirmationPendingIntent(messageReferences, notificationId,
-                    PendingIntent.FLAG_NO_CREATE);
-        }
-        else {
+                    Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_NO_CREATE
+                            : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_NO_CREATE);
+        } else {
             return getDeleteAllServicePendingIntent(account, messageReferences, notificationId,
-                    PendingIntent.FLAG_NO_CREATE);
+                    Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_NO_CREATE
+                            : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_NO_CREATE);
         }
     }
 
     private PendingIntent getDeleteAllConfirmationPendingIntent(List<MessageReference> messageReferences,
-            int notificationId, int flags)
-    {
+            int notificationId, int flags) {
         Intent intent = NotificationDeleteConfirmation.getIntent(context, messageReferences);
 
         return PendingIntent.getActivity(context, notificationId, intent, flags);
     }
 
     private PendingIntent getDeleteAllServicePendingIntent(Account account, List<MessageReference> messageReferences,
-            int notificationId, int flags)
-    {
+            int notificationId, int flags) {
         String accountUuid = account.getUuid();
         Intent intent = NotificationActionService.createDeleteAllMessagesIntent(
                 context, accountUuid, messageReferences);
@@ -207,33 +202,32 @@ class NotificationActionCreator
         return PendingIntent.getService(context, notificationId, intent, flags);
     }
 
-    public PendingIntent createArchiveMessagePendingIntent(MessageReference messageReference, int notificationId)
-    {
+    public PendingIntent createArchiveMessagePendingIntent(MessageReference messageReference, int notificationId) {
         Intent intent = NotificationActionService.createArchiveMessageIntent(context, messageReference);
 
         return PendingIntent.getService(context, notificationId, intent,
-                PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
     public PendingIntent createArchiveAllPendingIntent(Account account, List<MessageReference> messageReferences,
-            int notificationId)
-    {
+            int notificationId) {
         Intent intent = NotificationActionService.createArchiveAllIntent(context, account, messageReferences);
 
         return PendingIntent.getService(context, notificationId, intent,
-                PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
-    public PendingIntent createMarkMessageAsSpamPendingIntent(MessageReference messageReference, int notificationId)
-    {
+    public PendingIntent createMarkMessageAsSpamPendingIntent(MessageReference messageReference, int notificationId) {
         Intent intent = NotificationActionService.createMarkMessageAsSpamIntent(context, messageReference);
 
         return PendingIntent.getService(context, notificationId, intent,
-                PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
     }
 
-    private TaskStackBuilder buildAccountsBackStack()
-    {
+    private TaskStackBuilder buildAccountsBackStack() {
         TaskStackBuilder stack = TaskStackBuilder.create(context);
         if (!skipAccountsInBackStack()) {
             Intent intent = new Intent(context, Accounts.class);
@@ -243,8 +237,7 @@ class NotificationActionCreator
         return stack;
     }
 
-    private TaskStackBuilder buildFolderListBackStack(Account account)
-    {
+    private TaskStackBuilder buildFolderListBackStack(Account account) {
         TaskStackBuilder stack = buildAccountsBackStack();
 
         Intent intent = FolderList.actionHandleAccountIntent(context, account, false);
@@ -252,8 +245,7 @@ class NotificationActionCreator
         return stack;
     }
 
-    private TaskStackBuilder buildUnreadBackStack(final Account account)
-    {
+    private TaskStackBuilder buildUnreadBackStack(final Account account) {
         TaskStackBuilder stack = buildAccountsBackStack();
 
         LocalSearch search = Accounts.createUnreadSearch(context, account);
@@ -263,8 +255,7 @@ class NotificationActionCreator
         return stack;
     }
 
-    private TaskStackBuilder buildMessageListBackStack(Account account, String folderName)
-    {
+    private TaskStackBuilder buildMessageListBackStack(Account account, String folderName) {
         TaskStackBuilder stack = skipFolderListInBackStack(account, folderName)
                 ? buildAccountsBackStack() : buildFolderListBackStack(account);
 
@@ -277,8 +268,7 @@ class NotificationActionCreator
         return stack;
     }
 
-    private TaskStackBuilder buildMessageViewBackStack(MessageReference message)
-    {
+    private TaskStackBuilder buildMessageViewBackStack(MessageReference message) {
         Account account = Preferences.getPreferences(context).getAccount(message.getAccountUuid());
         String folderName = message.getFolderServerId();
         TaskStackBuilder stack = buildMessageListBackStack(account, folderName);
@@ -289,8 +279,7 @@ class NotificationActionCreator
         return stack;
     }
 
-    private String getFolderNameOfAllMessages(List<MessageReference> messageReferences)
-    {
+    private String getFolderNameOfAllMessages(List<MessageReference> messageReferences) {
         MessageReference firstMessage = messageReferences.get(0);
         String folderName = firstMessage.getFolderServerId();
 
@@ -302,13 +291,11 @@ class NotificationActionCreator
         return folderName;
     }
 
-    private boolean skipFolderListInBackStack(Account account, String folderName)
-    {
+    private boolean skipFolderListInBackStack(Account account, String folderName) {
         return (folderName != null) && folderName.equals(account.getAutoExpandFolder());
     }
 
-    private boolean skipAccountsInBackStack()
-    {
+    private boolean skipAccountsInBackStack() {
         return Preferences.getPreferences(context).getAccounts().size() == 1;
     }
 }

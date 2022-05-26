@@ -25,8 +25,8 @@ public class AndroidAccountOAuth2TokenStore {
     private static final String GMAIL_AUTH_TOKEN_TYPE = "oauth2:https://mail.google.com/";
     private static final String GOOGLE_ACCOUNT_TYPE = "com.google";
 
-    private Map<String,String> authTokens = new HashMap<>();
-    private AccountManager accountManager;
+    private final Map<String,String> authTokens = new HashMap<>();
+    private final AccountManager accountManager;
     private Oauth2PromptRequestHandler promptRequestHandler;
 
     public AndroidAccountOAuth2TokenStore(Context applicationContext) {

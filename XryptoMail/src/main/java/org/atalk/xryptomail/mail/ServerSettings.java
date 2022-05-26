@@ -5,6 +5,7 @@ import org.atalk.xryptomail.Account;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * This is an abstraction to get rid of the store- and transport-specific URIs.
@@ -109,22 +110,14 @@ public class ServerSettings {
     /**
      * Creates a new {@code ServerSettings} object.
      *
-     * @param type
-     *         see {@link ServerSettings#type}
-     * @param host
-     *         see {@link ServerSettings#host}
-     * @param port
-     *         see {@link ServerSettings#port}
-     * @param connectionSecurity
-     *         see {@link ServerSettings#connectionSecurity}
-     * @param authenticationType
-     *         see {@link ServerSettings#authenticationType}
-     * @param username
-     *         see {@link ServerSettings#username}
-     * @param password
-     *         see {@link ServerSettings#password}
-     * @param clientCertificateAlias
-     *         see {@link ServerSettings#clientCertificateAlias}
+     * @param type see {@link ServerSettings#type}
+     * @param host see {@link ServerSettings#host}
+     * @param port see {@link ServerSettings#port}
+     * @param connectionSecurity see {@link ServerSettings#connectionSecurity}
+     * @param authenticationType see {@link ServerSettings#authenticationType}
+     * @param username see {@link ServerSettings#username}
+     * @param password see {@link ServerSettings#password}
+     * @param clientCertificateAlias see {@link ServerSettings#clientCertificateAlias}
      */
     public ServerSettings(Type type, String host, int port,
             ConnectionSecurity connectionSecurity, AuthType authenticationType, String username,
@@ -143,24 +136,15 @@ public class ServerSettings {
     /**
      * Creates a new {@code ServerSettings} object.
      *
-     * @param type
-     *         see {@link ServerSettings#type}
-     * @param host
-     *         see {@link ServerSettings#host}
-     * @param port
-     *         see {@link ServerSettings#port}
-     * @param connectionSecurity
-     *         see {@link ServerSettings#connectionSecurity}
-     * @param authenticationType
-     *         see {@link ServerSettings#authenticationType}
-     * @param username
-     *         see {@link ServerSettings#username}
-     * @param password
-     *         see {@link ServerSettings#password}
-     * @param clientCertificateAlias
-     *         see {@link ServerSettings#clientCertificateAlias}
-     * @param extra
-     *         see {@link ServerSettings#extra}
+     * @param type see {@link ServerSettings#type}
+     * @param host see {@link ServerSettings#host}
+     * @param port see {@link ServerSettings#port}
+     * @param connectionSecurity see {@link ServerSettings#connectionSecurity}
+     * @param authenticationType see {@link ServerSettings#authenticationType}
+     * @param username see {@link ServerSettings#username}
+     * @param password see {@link ServerSettings#password}
+     * @param clientCertificateAlias see {@link ServerSettings#clientCertificateAlias}
+     * @param extra see {@link ServerSettings#extra}
      */
     public ServerSettings(Type type, String host, int port,
             ConnectionSecurity connectionSecurity, AuthType authenticationType, String username,
@@ -182,8 +166,7 @@ public class ServerSettings {
      *
      * Everything but {@link ServerSettings#type} is unused.
      *
-     * @param type
-     *         see {@link ServerSettings#type}
+     * @param type see {@link ServerSettings#type}
      */
     public ServerSettings(Type type) {
         this.type = type;
@@ -224,7 +207,7 @@ public class ServerSettings {
 
     @Override
     public boolean equals(Object obj) {
-        if (! (obj instanceof ServerSettings)) {
+        if (!(obj instanceof ServerSettings)) {
             return false;
         }
         ServerSettings that = (ServerSettings) obj;
@@ -232,10 +215,9 @@ public class ServerSettings {
                 port == that.port &&
                 connectionSecurity == that.connectionSecurity &&
                 authenticationType == that.authenticationType &&
-                (host == null ? that.host == null : host.equals(that.host)) &&
-                (username == null ? that.username == null : username.equals(that.username)) &&
-                (password == null ? that.password == null : password.equals(that.password)) &&
-                (clientCertificateAlias == null ? that.clientCertificateAlias == null :
-                        clientCertificateAlias.equals(that.clientCertificateAlias));
+                (Objects.equals(host, that.host)) &&
+                (Objects.equals(username, that.username)) &&
+                (Objects.equals(password, that.password)) &&
+                (Objects.equals(clientCertificateAlias, that.clientCertificateAlias));
     }
 }

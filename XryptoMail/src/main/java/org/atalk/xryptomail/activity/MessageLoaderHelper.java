@@ -84,7 +84,7 @@ public class MessageLoaderHelper
     @Nullable // make this explicitly nullable, make sure to cancel/ignore any operation if this is null
     private MessageLoaderCallbacks callback;
     private final boolean processSignedOnly;
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     // transient state
     private boolean onlyLoadMetadata;
@@ -259,8 +259,9 @@ public class MessageLoaderHelper
         loaderManager.destroyLoader(LOCAL_MESSAGE_LOADER_ID);
     }
 
-    private LoaderCallbacks<LocalMessage> localMessageLoaderCallback = new LoaderCallbacks<LocalMessage>()
+    private final LoaderCallbacks<LocalMessage> localMessageLoaderCallback = new LoaderCallbacks<LocalMessage>()
     {
+        @NonNull
         @Override
         public Loader<LocalMessage> onCreateLoader(int id, Bundle args)
         {
@@ -336,7 +337,7 @@ public class MessageLoaderHelper
         }
     }
 
-    private MessageCryptoCallback messageCryptoCallback = new MessageCryptoCallback()
+    private final MessageCryptoCallback messageCryptoCallback = new MessageCryptoCallback()
     {
         @Override
         public void onCryptoHelperProgress(int current, int max)
@@ -412,8 +413,9 @@ public class MessageLoaderHelper
         loaderManager.destroyLoader(DECODE_MESSAGE_LOADER_ID);
     }
 
-    private LoaderCallbacks<MessageViewInfo> decodeMessageLoaderCallback = new LoaderCallbacks<MessageViewInfo>()
+    private final LoaderCallbacks<MessageViewInfo> decodeMessageLoaderCallback = new LoaderCallbacks<MessageViewInfo>()
     {
+        @NonNull
         @Override
         public Loader<MessageViewInfo> onCreateLoader(int id, Bundle args)
         {

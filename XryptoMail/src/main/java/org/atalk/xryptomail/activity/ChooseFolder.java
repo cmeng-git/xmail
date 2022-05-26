@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.ListView;
@@ -30,8 +28,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ChooseFolder extends XMListActivity
-{
+public class ChooseFolder extends XMListActivity {
     public static final String EXTRA_ACCOUNT = "org.atalk.xryptomail.ChooseFolder_account";
     public static final String EXTRA_CUR_FOLDER = "org.atalk.xryptomail.ChooseFolder_curfolder";
     public static final String EXTRA_SEL_FOLDER = "org.atalk.xryptomail.ChooseFolder_selfolder";
@@ -46,7 +43,7 @@ public class ChooseFolder extends XMListActivity
     Account mAccount;
     MessageReference mMessageReference;
     ArrayAdapter<String> mAdapter;
-    private ChooseFolderHandler mHandler = new ChooseFolderHandler();
+    private final ChooseFolderHandler mHandler = new ChooseFolderHandler();
     String mHeldInbox = null;
     boolean mHideCurrentFolder = true;
     boolean mShowOptionNone = false;
@@ -65,11 +62,10 @@ public class ChooseFolder extends XMListActivity
      * Created on the fly and invalidated if a new
      * set of folders is chosen via {@link #onOptionsItemSelected(MenuItem)}
      */
-    private FolderListFilter<String> mMyFilter = null;
+    private final FolderListFilter<String> mMyFilter = null;
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -101,15 +97,13 @@ public class ChooseFolder extends XMListActivity
         if (mFolder == null)
             mFolder = "";
 
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1)
-        {
+        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1) {
             private Filter myFilter = null;
 
             @Override
-            public Filter getFilter()
-            {
+            public Filter getFilter() {
                 if (myFilter == null) {
-                    myFilter = new FolderListFilter<String>(this);
+                    myFilter = new FolderListFilter<>(this);
                 }
                 return myFilter;
             }
@@ -119,36 +113,29 @@ public class ChooseFolder extends XMListActivity
         mMode = mAccount.getFolderTargetMode();
         MessagingController.getInstance(getApplication()).listFolders(mAccount, false, mListener);
 
-        this.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                Intent result = new Intent();
-                result.putExtra(EXTRA_ACCOUNT, mAccount.getUuid());
-                result.putExtra(EXTRA_CUR_FOLDER, mFolder);
-                String destFolderName = ((TextView) view).getText().toString();
-                if (mHeldInbox != null && getString(R.string.special_mailbox_name_inbox).equals(destFolderName)) {
-                    destFolderName = mHeldInbox;
-                }
-                result.putExtra(EXTRA_NEW_FOLDER, destFolderName);
-                if (mMessageReference != null) {
-                    result.putExtra(EXTRA_MESSAGE, mMessageReference.toIdentityString());
-                }
-                setResult(RESULT_OK, result);
-                finish();
+        this.getListView().setOnItemClickListener((parent, view, position, id) -> {
+            Intent result = new Intent();
+            result.putExtra(EXTRA_ACCOUNT, mAccount.getUuid());
+            result.putExtra(EXTRA_CUR_FOLDER, mFolder);
+            String destFolderName = ((TextView) view).getText().toString();
+            if (mHeldInbox != null && getString(R.string.special_mailbox_name_inbox).equals(destFolderName)) {
+                destFolderName = mHeldInbox;
             }
+            result.putExtra(EXTRA_NEW_FOLDER, destFolderName);
+            if (mMessageReference != null) {
+                result.putExtra(EXTRA_MESSAGE, mMessageReference.toIdentityString());
+            }
+            setResult(RESULT_OK, result);
+            finish();
         });
     }
 
-    class ChooseFolderHandler extends Handler
-    {
+    class ChooseFolderHandler extends Handler {
         private static final int MSG_PROGRESS = 1;
         private static final int MSG_SET_SELECTED_FOLDER = 2;
 
         @Override
-        public void handleMessage(android.os.Message msg)
-        {
+        public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case MSG_PROGRESS: {
                     setProgressBarIndeterminateVisibility(msg.arg1 != 0);
@@ -161,16 +148,14 @@ public class ChooseFolder extends XMListActivity
             }
         }
 
-        public void progress(boolean progress)
-        {
+        public void progress(boolean progress) {
             android.os.Message msg = new android.os.Message();
             msg.what = MSG_PROGRESS;
             msg.arg1 = progress ? 1 : 0;
             sendMessage(msg);
         }
 
-        public void setSelectedFolder(int position)
-        {
+        public void setSelectedFolder(int position) {
             android.os.Message msg = new android.os.Message();
             msg.what = MSG_SET_SELECTED_FOLDER;
             msg.arg1 = position;
@@ -179,31 +164,26 @@ public class ChooseFolder extends XMListActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.folder_select_option, menu);
         configureFolderSearchView(menu);
         return true;
     }
 
-    private void configureFolderSearchView(Menu menu)
-    {
+    private void configureFolderSearchView(Menu menu) {
         final MenuItem folderMenuItem = menu.findItem(R.id.filter_folders);
         final SearchView folderSearchView = (SearchView) folderMenuItem.getActionView();
         folderSearchView.setQueryHint(getString(R.string.folder_list_filter_hint));
-        folderSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
-        {
+        folderSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query)
-            {
+            public boolean onQueryTextSubmit(String query) {
                 folderMenuItem.collapseActionView();
                 return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText)
-            {
+            public boolean onQueryTextChange(String newText) {
                 mAdapter.getFilter().filter(newText);
                 return true;
             }
@@ -211,8 +191,7 @@ public class ChooseFolder extends XMListActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.display_1st_class: {
                 setDisplayMode(FolderMode.FIRST_CLASS);
@@ -240,14 +219,12 @@ public class ChooseFolder extends XMListActivity
         }
     }
 
-    private void onRefresh()
-    {
+    private void onRefresh() {
         MessagingController.getInstance(getApplication()).listFolders(mAccount, true, mListener);
     }
 
 
-    private void setDisplayMode(FolderMode aMode)
-    {
+    private void setDisplayMode(FolderMode aMode) {
         mMode = aMode;
         // invalidate the current filter as it is working on an inval
         if (mMyFilter != null) {
@@ -257,11 +234,9 @@ public class ChooseFolder extends XMListActivity
         MessagingController.getInstance(getApplication()).listFolders(mAccount, false, mListener);
     }
 
-    private MessagingListener mListener = new SimpleMessagingListener()
-    {
+    private final MessagingListener mListener = new SimpleMessagingListener() {
         @Override
-        public void listFoldersStarted(Account account)
-        {
+        public void listFoldersStarted(Account account) {
             if (!account.equals(mAccount)) {
                 return;
             }
@@ -269,8 +244,7 @@ public class ChooseFolder extends XMListActivity
         }
 
         @Override
-        public void listFoldersFailed(Account account, String message)
-        {
+        public void listFoldersFailed(Account account, String message) {
             if (!account.equals(mAccount)) {
                 return;
             }
@@ -278,8 +252,7 @@ public class ChooseFolder extends XMListActivity
         }
 
         @Override
-        public void listFoldersFinished(Account account)
-        {
+        public void listFoldersFinished(Account account) {
             if (!account.equals(mAccount)) {
                 return;
             }
@@ -287,8 +260,7 @@ public class ChooseFolder extends XMListActivity
         }
 
         @Override
-        public void listFolders(Account account, List<LocalFolder> folders)
-        {
+        public void listFolders(Account account, List<LocalFolder> folders) {
             if (!account.equals(mAccount)) {
                 return;
             }
@@ -297,7 +269,7 @@ public class ChooseFolder extends XMListActivity
             List<String> newFolders = new ArrayList<>();
             List<String> topFolders = new ArrayList<>();
 
-            for (Folder folder : folders) {
+            for (Folder<?> folder : folders) {
                 String name = folder.getServerId();
 
                 // Inbox needs to be compared case-insensitively
@@ -320,20 +292,14 @@ public class ChooseFolder extends XMListActivity
 
                 if (folder.isInTopGroup()) {
                     topFolders.add(name);
-                }
-                else {
+                } else {
                     newFolders.add(name);
                 }
             }
 
-            final Comparator<String> comparator = new Comparator<String>()
-            {
-                @Override
-                public int compare(String s1, String s2)
-                {
-                    int ret = s1.compareToIgnoreCase(s2);
-                    return (ret != 0) ? ret : s1.compareTo(s2);
-                }
+            final Comparator<String> comparator = (s1, s2) -> {
+                int ret = s1.compareToIgnoreCase(s2);
+                return (ret != 0) ? ret : s1.compareTo(s2);
             };
 
             Collections.sort(topFolders, comparator);
@@ -362,8 +328,7 @@ public class ChooseFolder extends XMListActivity
                     if (mAccount.getInboxFolder().equalsIgnoreCase(name)) {
                         folderList.add(getString(R.string.special_mailbox_name_inbox));
                         mHeldInbox = name;
-                    }
-                    else if (!account.getOutboxFolderName().equals(name)) {
+                    } else if (!account.getOutboxFolderName().equals(name)) {
                         folderList.add(name);
                     }
                     if (mSelectFolder != null) {
@@ -375,8 +340,7 @@ public class ChooseFolder extends XMListActivity
                         if (name.equals(mSelectFolder)) {
                             selectedFolder = position;
                         }
-                    }
-                    else if (name.equals(mFolder)
+                    } else if (name.equals(mFolder)
                             || (mAccount.getInboxFolder().equalsIgnoreCase(mFolder)
                             && mAccount.getInboxFolder().equalsIgnoreCase(name))) {
                         selectedFolder = position;

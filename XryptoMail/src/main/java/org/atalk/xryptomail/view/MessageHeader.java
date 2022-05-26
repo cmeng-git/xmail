@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.Set;
 
 public class MessageHeader extends LinearLayout implements OnClickListener, OnLongClickListener {
-    private Context mContext;
+    private final Context mContext;
     private TextView mFromView;
     private TextView mSenderView;
     private TextView mDateView;
@@ -65,9 +65,7 @@ public class MessageHeader extends LinearLayout implements OnClickListener, OnLo
     private View mAnsweredIcon;
     private View mForwardedIcon;
     private Message mMessage;
-    private Account mAccount;
-    private FontSizes mFontSizes;
-    private Contacts mContacts;
+    private final Contacts mContacts;
     private SavedState mSavedState;
 
     private MessageHelper mMessageHelper;
@@ -100,7 +98,7 @@ public class MessageHeader extends LinearLayout implements OnClickListener, OnLo
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-		mFontSizes = XryptoMail.getFontSizes();
+        FontSizes mFontSizes = XryptoMail.getFontSizes();
         mAnsweredIcon = findViewById(R.id.answered);
         mForwardedIcon = findViewById(R.id.forwarded);
         mFromView = findViewById(R.id.from);
@@ -291,7 +289,6 @@ public class MessageHeader extends LinearLayout implements OnClickListener, OnLo
             mSubjectView.setVisibility(GONE);
         }
         mMessage = message;
-        mAccount = account;
 
         // mContactBadge can sometimes be null
 //        if (mContactBadge == null)
@@ -345,7 +342,7 @@ public class MessageHeader extends LinearLayout implements OnClickListener, OnLo
         mForwardedIcon.setVisibility(message.isSet(Flag.FORWARDED) ? View.VISIBLE : View.GONE);
         mFlagged.setChecked(message.isSet(Flag.FLAGGED));
 
-        mChip.setBackgroundColor(mAccount.getChipColor());
+        mChip.setBackgroundColor(account.getChipColor());
         setVisibility(View.VISIBLE);
 
         if (mSavedState != null) {

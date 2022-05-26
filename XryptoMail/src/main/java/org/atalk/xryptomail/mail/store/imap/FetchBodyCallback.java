@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Map;
 
 class FetchBodyCallback implements ImapResponseCallback {
-    private Map<String, Message> mMessageMap;
+    private final Map<String, Message> mMessageMap;
 
     FetchBodyCallback(Map<String, Message> messageMap) {
         mMessageMap = messageMap;

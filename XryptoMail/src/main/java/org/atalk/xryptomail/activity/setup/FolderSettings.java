@@ -23,7 +23,6 @@ import org.atalk.xryptomail.service.MailService;
 
 import timber.log.Timber;
 
-
 public class FolderSettings extends XMPreferenceActivity
 {
 
@@ -98,62 +97,46 @@ public class FolderSettings extends XMPreferenceActivity
         mDisplayClass = (ListPreference) findPreference(PREFERENCE_DISPLAY_CLASS);
         mDisplayClass.setValue(mFolder.getDisplayClass().name());
         mDisplayClass.setSummary(mDisplayClass.getEntry());
-        mDisplayClass.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mDisplayClass.findIndexOfValue(summary);
-                mDisplayClass.setSummary(mDisplayClass.getEntries()[index]);
-                mDisplayClass.setValue(summary);
-                return false;
-            }
+        mDisplayClass.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mDisplayClass.findIndexOfValue(summary);
+            mDisplayClass.setSummary(mDisplayClass.getEntries()[index]);
+            mDisplayClass.setValue(summary);
+            return false;
         });
 
         mSyncClass = (ListPreference) findPreference(PREFERENCE_SYNC_CLASS);
         mSyncClass.setValue(mFolder.getRawSyncClass().name());
         mSyncClass.setSummary(mSyncClass.getEntry());
-        mSyncClass.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mSyncClass.findIndexOfValue(summary);
-                mSyncClass.setSummary(mSyncClass.getEntries()[index]);
-                mSyncClass.setValue(summary);
-                return false;
-            }
+        mSyncClass.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mSyncClass.findIndexOfValue(summary);
+            mSyncClass.setSummary(mSyncClass.getEntries()[index]);
+            mSyncClass.setValue(summary);
+            return false;
         });
 
         mPushClass = (ListPreference) findPreference(PREFERENCE_PUSH_CLASS);
         mPushClass.setEnabled(isPushCapable);
         mPushClass.setValue(mFolder.getRawPushClass().name());
         mPushClass.setSummary(mPushClass.getEntry());
-        mPushClass.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mPushClass.findIndexOfValue(summary);
-                mPushClass.setSummary(mPushClass.getEntries()[index]);
-                mPushClass.setValue(summary);
-                return false;
-            }
+        mPushClass.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mPushClass.findIndexOfValue(summary);
+            mPushClass.setSummary(mPushClass.getEntries()[index]);
+            mPushClass.setValue(summary);
+            return false;
         });
 
         mNotifyClass = (ListPreference) findPreference(PREFERENCE_NOTIFY_CLASS);
         mNotifyClass.setValue(mFolder.getRawNotifyClass().name());
         mNotifyClass.setSummary(mNotifyClass.getEntry());
-        mNotifyClass.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                final String summary = newValue.toString();
-                int index = mNotifyClass.findIndexOfValue(summary);
-                mNotifyClass.setSummary(mNotifyClass.getEntries()[index]);
-                mNotifyClass.setValue(summary);
-                return false;
-            }
+        mNotifyClass.setOnPreferenceChangeListener((preference, newValue) -> {
+            final String summary = newValue.toString();
+            int index = mNotifyClass.findIndexOfValue(summary);
+            mNotifyClass.setSummary(mNotifyClass.getEntries()[index]);
+            mNotifyClass.setValue(summary);
+            return false;
         });
     }
 

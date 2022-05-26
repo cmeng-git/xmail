@@ -7,7 +7,7 @@
     <ScrollView
         android:id="@+id/messageCompose"
         android:layout_width="fill_parent"
-        android:layout_height="0dip"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:scrollbarStyle="insideOverlay"
         android:fillViewport="true">
@@ -22,8 +22,8 @@
             <LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_marginLeft="12dip"
-                android:layout_marginRight="12dip"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:minHeight="50dp">
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
 
-            <!-- We have to use "wrap_content" (not "0dip") for "layout_height", otherwise the
+            <!-- We have to use "wrap_content" (not "0dp") for "layout_height", otherwise the
                  EditText won't properly grow in height while the user is typing the message -->
             <view
                 class="org.atalk.xryptomail.ui.EolConvertingEditText"
@@ -87,8 +87,8 @@
                 android:id="@+id/quoted_text_show"
                 android:text="@string/message_compose_show_quoted_text_action"
                 android:textSize="16sp"
-                android:padding="0dip"
-                android:layout_gravity="right"
+                android:padding="0dp"
+                android:layout_gravity="end"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent" />
 
@@ -118,14 +118,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true">
+                    android:layout_alignParentEnd="true">
 
                     <ImageButton
                         android:id="@+id/quoted_text_edit"
                         android:contentDescription="@string/message_compose_description_edit_quoted_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="8dip"
+                        android:layout_marginEnd="8dp"
                         android:background="@drawable/btn_edit" />
 
                     <ImageButton

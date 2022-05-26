@@ -44,7 +44,7 @@ class WebDavHandler extends DefaultHandler {
     }
 
     @Override
-    public void characters(char ch[], int start, int length) {
+    public void characters(char[] ch, int start, int length) {
         String value = new String(ch, start, length);
         mDataSet.addValue(value, mOpenTags.peek());
     }

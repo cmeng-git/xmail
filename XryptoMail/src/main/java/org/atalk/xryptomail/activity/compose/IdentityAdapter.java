@@ -24,13 +24,11 @@ import java.util.List;
  * </p>
  */
 public class IdentityAdapter extends BaseAdapter {
-    private LayoutInflater mLayoutInflater;
-    private List<Object> mItems;
+    private final LayoutInflater mLayoutInflater;
+    private final List<Object> mItems;
 
     public IdentityAdapter(Context context) {
-        mLayoutInflater = (LayoutInflater) context.getSystemService(
-                Context.LAYOUT_INFLATER_SERVICE);
-
+        mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         List<Object> items = new ArrayList<>();
         Preferences prefs = Preferences.getPreferences(context.getApplicationContext());
         Collection<Account> accounts = prefs.getAvailableAccounts();

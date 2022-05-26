@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Tillåter denna applikation att kontrollera XryptoMail Mail aktiviteter och inställningar.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%s</xliff:g> The XryptoMail. Vissa delar har Copyright 2006-<xliff:g>%s</xliff:g> Android Open Source Project.</string>
+  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Vissa delar har Copyright 2006-<xliff:g>%2$s</xliff:g> Android Open Source Project.</string>
   <string name="app_license">Licensierat under Apache-licensen, version 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Välkommen till XryptoMail Mail</string>
@@ -46,25 +46,25 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <!--Default signature-->
   <string name="default_signature">-- \nSkickat från min Android-enhet med XryptoMail Mail. Ursäkta min fåordighet.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">Kontot \"<xliff:g id="account">%s</xliff:g>\" kommer att tas bort från XryptoMail Mail.</string>
-  <string name="account_recreate_dlg_instructions_fmt">All lokal data för \"<xliff:g id="account">%s</xliff:g>\" kommer att raderas. Kontoinställningar kommer att bevaras.</string>
-  <string name="account_clear_dlg_instructions_fmt">Alla lokalt lagrade meddelanden i \"<xliff:g id="account">%s</xliff:g>\" kommer att raderas. Kontoinställningar kommer att bevaras.</string>
+  <string name="account_delete_dlg_instructions_fmt">Kontot \"<xliff:g id="account">%1$s</xliff:g>\" kommer att tas bort från XryptoMail Mail.</string>
+  <string name="account_recreate_dlg_instructions_fmt">All lokal data för \"<xliff:g id="account">%1$s</xliff:g>\" kommer att raderas. Kontoinställningar kommer att bevaras.</string>
+  <string name="account_clear_dlg_instructions_fmt">Alla lokalt lagrade meddelanden i \"<xliff:g id="account">%1$s</xliff:g>\" kommer att raderas. Kontoinställningar kommer att bevaras.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Installera en filhanterare för att fortsätta med denna import.</string>
   <string name="open_market">Öppna Play butik</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Upphovsmän: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Revisionsinformation: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Vi använder följande tredjepartsbibliotek: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Upphovsmän: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Revisionsinformation: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Vi använder följande tredjepartsbibliotek: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Läs e-post</string>
   <string name="read_messages_desc">Ger applikationen tillåtelse att läsa din e-post.</string>
   <string name="delete_messages_label">Ta bort e-post</string>
   <string name="delete_messages_desc">Ger applikationen tillåtelse att radera din e-post.</string>
-  <string name="about_title_fmt">Om <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">Om <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Konton</string>
   <string name="folders_title">Mappar</string>
   <string name="advanced">Avancerat</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Skriv</string>
   <string name="compose_title_reply">Svara</string>
   <string name="compose_title_reply_all">Svara alla</string>
@@ -72,18 +72,18 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="compose_title_forward_as_attachment">Vidarebefordra som bilaga</string>
   <string name="choose_account_title">Välj konto</string>
   <string name="choose_folder_title">Välj mapp</string>
-  <string name="status_loading_account_folder">Kontrollerar <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Hämtar brevhuvuden <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Skickar <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Behandlar <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Nästa kontroll <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Kontrollerar <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Hämtar brevhuvuden <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Skickar <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Behandlar <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Nästa kontroll <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Synkronisering avaktiverad - Inget nätverk</string>
   <string name="status_no_background">Synkronisering avaktiverad - Ingen bakgrundsaktivitet</string>
   <string name="status_poll_and_push_disabled">Kontrollera och pushning avaktiverad</string>
   <string name="status_syncing_blocked">Synkronisering blockerad</string>
   <string name="status_syncing_off">Synkronisering inaktiverad</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> markerade</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> markerade</string>
   <string name="next_action">Nästa</string>
   <string name="previous_action">Föregående</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -157,21 +157,21 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="status_loading_error">Meddelande laddningsfel</string>
   <string name="status_loading_more_failed">Försök ladda fler meddelanden igen</string>
   <string name="load_more_messages_fmt">Ladda ytterligare upp
-    till <xliff:g id="messages_to_load">%d</xliff:g></string>
+    till <xliff:g id="messages_to_load">%1$d</xliff:g></string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Konto \"<xliff:g id="account">%s</xliff:g>\" har krympt från <xliff:g id="oldSize">%s</xliff:g> till <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Komprimerar konto \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">Rensar konto \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Återskapar konto \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="account_size_changed">Konto \"<xliff:g id="account">%1$s</xliff:g>\" har krympt från <xliff:g id="oldSize">%2$s</xliff:g> till <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Komprimerar konto \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">Rensar konto \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Återskapar konto \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="notification_new_title">Nytt brev</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> nytt meddelande</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> nya meddelanden</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> nytt meddelande</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> nya meddelanden</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> olästa (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> olästa (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> fler på <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Svara</string>
   <string name="notification_action_mark_as_read">Märk som läst</string>
@@ -181,13 +181,13 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="notification_action_archive">Arkivera</string>
   <string name="notification_action_archive_all">Arkivera alla</string>
   <string name="notification_action_spam">Skräppost</string>
-  <string name="notification_certificate_error_title">Certifikatsfel för <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Certifikatsfel för <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Kontrollera dina serverinställningar</string>
   <string name="notification_authentication_error_title">Autentisering misslyckades</string>
-  <string name="notification_authentication_error_text">Autentisering misslyckades för <xliff:g id="account">%s</xliff:g>. Uppdatera dina serverinställningar.</string>
-  <string name="notification_bg_sync_ticker">Kontrollerar e-post: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Autentisering misslyckades för <xliff:g id="account">%1$s</xliff:g>. Uppdatera dina serverinställningar.</string>
+  <string name="notification_bg_sync_ticker">Kontrollerar e-post: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Kontrollerar e-post</string>
-  <string name="notification_bg_send_ticker">Skickar e-post: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Skickar e-post: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Skickar e-post</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Inkorg</string>
@@ -197,19 +197,19 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="special_mailbox_name_sent">Skickat</string>
   <string name="special_mailbox_name_archive">Arkiv</string>
   <string name="special_mailbox_name_spam">Skräppost</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Utkast)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Papperskorg)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Skickat)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Arkiv)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Skräppost)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Utkast)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Papperskorg)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Skickat)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Arkiv)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Skräppost)</string>
   <string name="send_failure_subject">Misslyckades med att skicka några brev</string>
-  <string name="debug_version_fmt">Version: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Version: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Aktivera felsöksloggning</string>
   <string name="debug_enable_debug_logging_summary">Logga extra diagnostisk information</string>
   <string name="debug_enable_sensitive_logging_title">Logga känslig information</string>
   <string name="debug_enable_sensitive_logging_summary">Kan visa lösenord i loggarna.</string>
   <string name="message_list_load_more_messages_action">Ladda fler brev</string>
-  <string name="message_to_fmt">Till:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">Till:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Ämne</string>
   <string name="message_compose_content_hint">Meddelandetext</string>
   <string name="message_compose_signature_hint">Signatur</string>
@@ -219,7 +219,7 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="message_compose_quote_header_from">Från:</string>
   <string name="message_compose_quote_header_to">Till:</string>
   <string name="message_compose_quote_header_cc">Kopia:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> skrev:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> skrev:</string>
   <string name="message_compose_reply_header_fmt_with_date"><xliff:g id="sender">%2$s</xliff:g> skrev: (<xliff:g id="sent_date">%1$s</xliff:g>)</string>
   <string name="message_compose_error_no_recipients">Du måste ange minst en mottagare.</string>
   <string name="compose_error_incomplete_recipient">Mottagarfältet är inte komplett!</string>
@@ -228,7 +228,7 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="message_compose_attachments_forward_toast">Meddelandet kan inte vidarebefordras eftersom vissa bilagor inte har hämtats.</string>
   <string name="message_compose_description_delete_quoted_text">Ta bort citerad text</string>
   <string name="message_compose_description_edit_quoted_text">Redigera citerad text</string>
-  <string name="message_view_from_format">Från: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">Från: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Till:</string>
   <string name="message_view_cc_label">Kopia:</string>
   <string name="message_view_bcc_label">Dold kopia:</string>
@@ -237,7 +237,7 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="message_view_status_attachment_not_saved">Kan inte spara bilaga till SD-kortet.</string>
   <string name="message_view_status_no_space">Bifogningen kan inte sparas eftersom det inte finns tillräckligt med utrymme.</string>
   <string name="message_view_show_pictures_action">Visa bilder</string>
-  <string name="message_view_no_viewer">Kan inte hitta visare för <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Kan inte hitta visare för <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Ladda ned hela brevet</string>
   <string name="message_view_toast_unable_to_display_message">Det går inte att visa meddelande</string>
   <string name="message_view_sender_label">via %1$s</string>
@@ -245,7 +245,7 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="message_no_additional_headers_available">Hela brevhuvudet har laddats ner, men det det finns inga ytterligare brevhuvuden att visa.</string>
   <string name="message_additional_headers_retrieval_failed">Hämtningen av ytterligare brevhuvuden från databasen eller e-postservern misslyckades.</string>
   <string name="from_same_sender">Mer från denna avsändare</string>
-  <string name="search_from_format">Från <xliff:g id="sender">%s</xliff:g></string>
+  <string name="search_from_format">Från <xliff:g id="sender">%1$s</xliff:g></string>
   <string name="debug_delete_local_body">Felsök/rensa meddelandets brödtext</string>
   <string name="message_discarded_toast">Meddelandet kastat</string>
   <string name="message_saved_toast">Meddelandet sparat som utkast</string>
@@ -386,7 +386,7 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="account_setup_outgoing_password_label">Lösenord</string>
   <string name="account_setup_outgoing_authentication_label">Autentiseringstyp</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" är inte giltigt tillsammans med \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
-  <string name="account_setup_bad_uri">Ogiltig konfiguration: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Ogiltig konfiguration: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Kontoinställningar</string>
   <string name="compact_action">Komprimera konto</string>
   <string name="clear_action">Ta bort meddelanden (varning!)</string>
@@ -433,9 +433,9 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="account_setup_options_mail_display_count_all">alla brev</string>
   <string name="move_copy_cannot_copy_unsynced_message">Kan inte kopiera eller flytta ett brev som inte är synkroniserat med servern</string>
   <string name="account_setup_failed_dlg_title">Kunde inte fullborda konfigurationen</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Felaktigt användarnamn eller lösenord.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">Servern skickade ett ogiltigt SSL-certifikat. Det kan bero på en felaktigt konfigurerad server. Det kan också bero på att någon försöker attackera dig eller din epostserver. Om du inte vet vad som pågår, välj Avvisa och kontakta personerna som sköter epostservern.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Kan inte ansluta till servern.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Felaktigt användarnamn eller lösenord.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">Servern skickade ett ogiltigt SSL-certifikat. Det kan bero på en felaktigt konfigurerad server. Det kan också bero på att någon försöker attackera dig eller din epostserver. Om du inte vet vad som pågår, välj Avvisa och kontakta personerna som sköter epostservern.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Kan inte ansluta till servern.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Redigera detaljer</string>
   <string name="account_setup_failed_dlg_continue_action">Fortsätt</string>
   <string name="account_settings_push_advanced_title">Avancerat</string>
@@ -715,7 +715,7 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="count_search_summary">Stäng av för snabbare visning</string>
   <string name="hide_special_accounts_title">Dölj specialkonton</string>
   <string name="hide_special_accounts_summary">Dölj den sammansatta inkorgen och mappen för alla meddelanden</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier"> - Stjärnmärkta</string>
   <string name="unread_modifier"> - Olästa</string>
   <string name="search_all_messages_title">Alla meddelanden</string>
@@ -751,7 +751,7 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="font_size_message_view_subject">Ämne</string>
   <string name="font_size_message_view_date">Tid och datum</string>
   <string name="font_size_message_view_content">Innehåll</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Skriva meddelanden</string>
   <string name="font_size_message_compose_input">Fält för textinmatning</string>
@@ -765,7 +765,7 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="font_size_larger">Störst</string>
   <string name="miscellaneous_preferences">Diverse</string>
   <string name="error_activity_not_found">Hittade ingen passande applikation för denna åtgärd.</string>
-  <string name="send_failed_reason">Skicka misslyckades: %s</string>
+  <string name="send_failed_reason">Skicka misslyckades:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Spara utkast?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Spara eller kasta detta brev?</string>
   <string name="confirm_discard_draft_message_title">Kasta meddelande?</string>
@@ -805,36 +805,36 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="settings_exporting">Exporterar inställningar…</string>
   <string name="settings_importing">Importerar inställningar…</string>
   <string name="settings_import_scanning_file">Skannar fil…</string>
-  <string name="settings_export_success">Sparade exporterade inställningar till <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Sparade exporterade inställningar till <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Inställningar exporterades</string>
-  <string name="settings_import_global_settings_success">Importerade globala inställningar från <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Importerade <xliff:g id="accounts">%s</xliff:g> från <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_account_imported_as">Importerade <xliff:g id="original_account_name">%s</xliff:g> som <xliff:g id="account_name_after_import">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Importerade globala inställningar från <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Importerade <xliff:g id="accounts">%1$s</xliff:g> från <xliff:g id="filename">%2$s</xliff:g></string>
+  <string name="settings_import_account_imported_as">Importerade <xliff:g id="original_account_name">%1$s</xliff:g> som <xliff:g id="account_name_after_import">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 konto</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> konton</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> konton</item>
   </plurals>
   <string name="settings_export_failure">Export av inställningar misslyckades</string>
-  <string name="settings_import_failure">Misslyckades med importeringen av några inställningar ifrån <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Misslyckades med importeringen av några inställningar ifrån <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Export lyckades</string>
   <string name="settings_export_failed_header">Export misslyckades</string>
   <string name="settings_import_success_header">Import lyckades</string>
   <string name="settings_import_failed_header">Import misslyckades</string>
   <string name="settings_import_activate_account_header">Aktivera konto</string>
-  <string name="settings_import_activate_account_intro">För att kunna använda kontot \"<xliff:g id="account">%s</xliff:g>\" måste du ange <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">För att kunna använda kontot \"<xliff:g id="account">%1$s</xliff:g>\" måste du ange <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">serverlösenord</item>
     <item quantity="other">serverlösenord</item>
   </plurals>
-  <string name="settings_import_incoming_server">Inkommande server (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Utgående server (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Inkommande server (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Utgående server (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Byt lösenord…</item>
     <item quantity="other">Ställer in lösenord...</item>
   </plurals>
   <string name="settings_import_use_incoming_server_password">Använd lösenordet för inkommande server</string>
   <string name="activate_account_action">Aktivera</string>
-  <string name="account_unavailable">Kontot \"<xliff:g id="account">%s</xliff:g>\" är inte tillgängligt; kontrollera lagring</string>
+  <string name="account_unavailable">Kontot \"<xliff:g id="account">%1$s</xliff:g>\" är inte tillgängligt; kontrollera lagring</string>
   <string name="settings_attachment_default_path">Spara bilagor till…</string>
   <string name="attachment_save_title">Spara bilaga</string>
   <string name="attachment_save_desc">Ingen filhanterare kunde hittas. Var vill du spara denna bilaga?</string>
@@ -875,7 +875,7 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="webview_contextmenu_email_save_action">Spara till kontakter</string>
   <string name="webview_contextmenu_email_copy_action">Kopiera adress</string>
   <string name="webview_contextmenu_email_clipboard_label">E-postadress</string>
-  <string name="image_saved_as">Sparade bild som \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Sparade bild som \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">Misslyckades med att spara bild.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Alla</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -886,11 +886,11 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Serverns sökgräns</string>
-  <string name="account_settings_remote_search_num_summary">Sökning kommer att sluta efter <xliff:g id="num_results">%s</xliff:g> träffar.</string>
+  <string name="account_settings_remote_search_num_summary">Sökning kommer att sluta efter <xliff:g id="num_results">%1$s</xliff:g> träffar.</string>
   <string name="remote_search_sending_query">Skickar fråga till servern</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">Hämtar %d resultat</item>
-    <item quantity="other">Hämtar %d resultat</item>
+    <item quantity="one">Hämtar%1$d resultat</item>
+    <item quantity="other">Hämtar%1$d resultat</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="one">Hämtar %1$d av %2$d resultat</item>
@@ -910,7 +910,7 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="global_settings_threaded_view_summary">Gruppera meddelanden efter konversation</string>
   <string name="upgrade_databases_title">Uppgraderar databaser</string>
   <string name="upgrade_databases_unspecified">Uppgraderar databaser…</string>
-  <string name="upgrade_database_format">Uppgraderar databas för konto \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="upgrade_database_format">Uppgraderar databas för konto \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="message_list_loading">Laddar…</string>
   <string name="global_settings_splitview_mode_label">Använd tvådelad skärm</string>
   <string name="global_settings_splitview_always">Alltid</string>
@@ -919,9 +919,9 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="message_view_empty">Välj ett meddelande till vänster</string>
   <string name="global_settings_show_contact_picture_label">Visa kontaktbilder</string>
   <string name="global_settings_show_contact_picture_summary">Visa kontaktbilder i meddelandelistan</string>
-  <string name="last_refresh_time_format">Uppdaterades <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Uppdaterade <xliff:g id="time_with_preposition">%s</xliff:g> (push aktiv)</string>
-  <string name="preposition_for_date"> <xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Uppdaterades <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Uppdaterade <xliff:g id="time_with_preposition">%1$s</xliff:g> (push aktiv)</string>
+  <string name="preposition_for_date"> <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Märk alla som lästa</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Färglägg bilder på kontakter</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Färglägg kontaktbilder som saknas</string>
@@ -936,7 +936,7 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="account_setup_basics_client_certificate">Använd klientcertifikat</string>
   <string name="client_certificate_spinner_empty">Inget klientcertifikat</string>
   <string name="client_certificate_spinner_delete">Ta bort klientcertifikat val</string>
-  <string name="client_certificate_retrieval_failure">Kunde inte hitta klientcertifikat för \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">Kunde inte hitta klientcertifikat för \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Avancerade inställningar</string>
   <string name="client_certificate_expired">Klientcertifikatet \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" har gått ut eller är inte giltigt ännu (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

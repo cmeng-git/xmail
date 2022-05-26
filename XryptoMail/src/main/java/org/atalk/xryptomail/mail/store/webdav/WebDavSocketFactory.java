@@ -23,8 +23,8 @@ import javax.net.ssl.TrustManager;
  */
 public class WebDavSocketFactory implements LayeredSocketFactory
 {
-    private SSLSocketFactory mSocketFactory;
-    private org.apache.http.conn.ssl.SSLSocketFactory mSchemeSocketFactory;
+    private final SSLSocketFactory mSocketFactory;
+    private final org.apache.http.conn.ssl.SSLSocketFactory mSchemeSocketFactory;
 
     public WebDavSocketFactory(String host, int port)
             throws NoSuchAlgorithmException, KeyManagementException

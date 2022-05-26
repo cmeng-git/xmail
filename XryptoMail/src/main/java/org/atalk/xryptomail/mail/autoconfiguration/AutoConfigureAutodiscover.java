@@ -65,7 +65,7 @@ public class AutoConfigureAutodiscover implements AutoConfigure {
         } catch (TextParseException e) {
             Timber.e(e, "Error while trying to do SRV lookup");
         } catch (UnknownHostException e) {
-            Timber.w(e, "No valid SRV record for " + domain);
+            Timber.w(e, "No valid SRV record for %s", domain);
         }
 
         return providerInfo;
@@ -99,7 +99,7 @@ public class AutoConfigureAutodiscover implements AutoConfigure {
             }
 
         } catch (IOException e) {
-            Timber.w(e, "No information at " + url);
+            Timber.w(e, "No information at %s", url);
         }
         return providerInfo;
     }
@@ -129,7 +129,7 @@ public class AutoConfigureAutodiscover implements AutoConfigure {
 
                 Element port = protocol.select("Port").first();
                 if (port != null) {
-                    providerInfo.incomingPort = Integer.valueOf(port.text());
+                    providerInfo.incomingPort = Integer.parseInt(port.text());
                 }
 
                 Element loginName = protocol.select("LoginName").first();
@@ -197,7 +197,7 @@ public class AutoConfigureAutodiscover implements AutoConfigure {
 
                 Element port = protocol.select("Port").first();
                 if (port != null) {
-                    providerInfo.outgoingPort = Integer.valueOf(port.text());
+                    providerInfo.outgoingPort = Integer.parseInt(port.text());
                 }
 
                 Element loginName = protocol.select("LoginName").first();

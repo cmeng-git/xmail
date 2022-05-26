@@ -27,12 +27,11 @@ class OutlookOAuth2TokenStore extends SpecificOAuth2TokenProvider
             "scope=wl.imap wl.offline_access&" +
             "response_type=code&" +
             "redirect_uri=" + REDIRECT_URI;
-    private Retrofit retrofit;
-    private OutlookService service;
+    private final OutlookService service;
 
     OutlookOAuth2TokenStore()
     {
-        retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(OUTLOOK_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

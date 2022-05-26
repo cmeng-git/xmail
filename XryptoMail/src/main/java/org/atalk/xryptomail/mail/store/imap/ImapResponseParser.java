@@ -1,10 +1,12 @@
 package org.atalk.xryptomail.mail.store.imap;
 
+import org.atalk.xryptomail.helper.timberlog.TimberLog;
 import org.atalk.xryptomail.mail.XryptoMailLib;
 import org.atalk.xryptomail.mail.filter.FixedLengthInputStream;
 import org.atalk.xryptomail.mail.filter.PeekableInputStream;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -94,7 +96,7 @@ class ImapResponseParser
         ImapResponse response;
         do {
             response = readResponse();
-            if (XryptoMailLib.isDebug() && DEBUG_PROTOCOL_IMAP) {
+            if (TimberLog.isTraceEnable && DEBUG_PROTOCOL_IMAP) {
                 Timber.v("%s<<<%s", logId, response);
             }
 
@@ -122,7 +124,7 @@ class ImapResponseParser
         } while (response == null || response.getTag() == null);
 
         if (response.size() < 1 || !equalsIgnoreCase(response.get(0), Responses.OK)) {
-            String message = "Command: " + commandToLog + "; response: " + response.toString();
+            String message = "Command: " + commandToLog + "; response: " + response;
             throw new NegativeImapResponseException(message, responses);
         }
         return responses;
@@ -436,7 +438,7 @@ class ImapResponseParser
             }
             read += count;
         }
-        return new String(data, "US-ASCII");
+        return new String(data, StandardCharsets.US_ASCII);
     }
 
     private String parseQuoted()
@@ -498,7 +500,7 @@ class ImapResponseParser
             }
         }
         throw new IOException("readStringUntil(): end of stream reached. " +
-                "Read: \"" + sb.toString() + "\" while waiting for " + formatChar(end));
+                "Read: \"" + sb + "\" while waiting for " + formatChar(end));
     }
 
     private String formatChar(char value)

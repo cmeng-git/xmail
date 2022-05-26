@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Leyfa þessu forriti að stýra virkni og stillingum XryptoMail póstsins.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, XryptoMail hundatemjararnir.</string>
-  <string name="app_copyright_fmt">Höfundarréttur 2008-<xliff:g>%s</xliff:g> The XryptoMail. Höfundarréttur að hluta 2006-<xliff:g>%s</xliff:g> til Android Open Source verkefnisins.</string>
+  <string name="app_copyright_fmt">Höfundarréttur 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Höfundarréttur að hluta 2006-<xliff:g>%2$s</xliff:g> til Android Open Source verkefnisins.</string>
   <string name="app_license">Gefið út með Apache notkunarleyfinu, útgáfu 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Velkomin í XryptoMail póstinn</string>
@@ -46,25 +46,25 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <!--Default signature-->
   <string name="default_signature">-- \nSent úr Android tækinu mínu með XryptoMail póstforritinu. Afsakaðu hvað ég stytti mál mitt mikið.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">Aðgangurinn \"<xliff:g id="account">%s</xliff:g>\" verður fjarlægður úr XryptoMail póstinum.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Öll staðvær gögn fyrir \"<xliff:g id="account">%s</xliff:g>\" verða fjarlægð. Stillingum aðgangs verður haldið eftir.</string>
-  <string name="account_clear_dlg_instructions_fmt">Staðvær afrit skilaboða í \"<xliff:g id="account">%s</xliff:g>\" verða fjarlægð. Stillingum aðgangs verður haldið eftir.</string>
+  <string name="account_delete_dlg_instructions_fmt">Aðgangurinn \"<xliff:g id="account">%1$s</xliff:g>\" verður fjarlægður úr XryptoMail póstinum.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Öll staðvær gögn fyrir \"<xliff:g id="account">%1$s</xliff:g>\" verða fjarlægð. Stillingum aðgangs verður haldið eftir.</string>
+  <string name="account_clear_dlg_instructions_fmt">Staðvær afrit skilaboða í \"<xliff:g id="account">%1$s</xliff:g>\" verða fjarlægð. Stillingum aðgangs verður haldið eftir.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Settu upp skráastjóra til að halda áfram með innflutning á þessu.</string>
   <string name="open_market">Opna Play Store</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Höfundar: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Upplýsingar útgáfu: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Við erum að nota eftirfarandi aðgerðasöfn frá öðrum aðilum: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Höfundar: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Upplýsingar útgáfu: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Við erum að nota eftirfarandi aðgerðasöfn frá öðrum aðilum: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Lesa tölvupósta</string>
   <string name="read_messages_desc">Leyfa þessu forriti að lesa tölvupóstana mína.</string>
   <string name="delete_messages_label">Eyða tölvupóstum</string>
   <string name="delete_messages_desc">Leyfa þessu forriti að eyða tölvupóstum.</string>
-  <string name="about_title_fmt">Um <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">Um <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Aðgangar</string>
   <string name="folders_title">Möppur</string>
   <string name="advanced">Ítarlegt</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Semja</string>
   <string name="compose_title_reply">Svara</string>
   <string name="compose_title_reply_all">Svara öllum</string>
@@ -72,18 +72,18 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="compose_title_forward_as_attachment">Áframsenda sem viðhengi</string>
   <string name="choose_account_title">Veldu aðgang</string>
   <string name="choose_folder_title">Veldu möppu</string>
-  <string name="status_loading_account_folder">Athuga <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Sæki hausa <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Sendi <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Vinn <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Næsta athugun <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Athuga <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Sæki hausa <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Sendi <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Vinn <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Næsta athugun <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Samstilling óvirk - Ekkert netkerfi</string>
   <string name="status_no_background">Samstilling óvirk - Engin bakgrunnsvirkni</string>
   <string name="status_poll_and_push_disabled">Vöktun og ýting eru óvirkar</string>
   <string name="status_syncing_blocked">Lokað á samstillingu</string>
   <string name="status_syncing_off">Samstilling óvirk</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> valið</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> valið</string>
   <string name="next_action">Næsta</string>
   <string name="previous_action">Fyrra</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -157,21 +157,21 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="status_loading_error">Villa við að hlaða inn skilaboðum</string>
   <string name="status_loading_more_failed">Reyna aftur að hlaða inn fleiri skilaboðum</string>
   <string name="load_more_messages_fmt">Hlaða inn allt
-    að <xliff:g id="messages_to_load">%d</xliff:g> til viðbótar</string>
+    að <xliff:g id="messages_to_load">%1$d</xliff:g> til viðbótar</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Aðgangurinn \"<xliff:g id="account">%s</xliff:g>\" minnkaði úr <xliff:g id="oldSize">%s</xliff:g> í <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Þjappa \"<xliff:g id="account">%s</xliff:g>\" aðganginum</string>
-  <string name="clearing_account">Hreinsa aðganginn \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Endurbyggi \"<xliff:g id="account">%s</xliff:g>\" aðganginn</string>
+  <string name="account_size_changed">Aðgangurinn \"<xliff:g id="account">%1$s</xliff:g>\" minnkaði úr <xliff:g id="oldSize">%2$s</xliff:g> í <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Þjappa \"<xliff:g id="account">%1$s</xliff:g>\" aðganginum</string>
+  <string name="clearing_account">Hreinsa aðganginn \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Endurbyggi \"<xliff:g id="account">%1$s</xliff:g>\" aðganginn</string>
   <string name="notification_new_title">Nýr póstur</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> ný skilaboð</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> ný skilaboð</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> ný skilaboð</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> ný skilaboð</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> ólesin (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> ólesin (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> fleiri á <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Svara</string>
   <string name="notification_action_mark_as_read">Merkja sem lesið</string>
@@ -181,13 +181,13 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="notification_action_archive">Geymsla</string>
   <string name="notification_action_archive_all">Setja allt í geymslu</string>
   <string name="notification_action_spam">Ruslpóstur</string>
-  <string name="notification_certificate_error_title">Villa í skilríki fyrir <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Villa í skilríki fyrir <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Athugaðu stillingar póstþjónsins</string>
   <string name="notification_authentication_error_title">Auðkenning mistókst</string>
-  <string name="notification_authentication_error_text">Auðkenning mistókst fyrir <xliff:g id="account">%s</xliff:g>. Uppfærðu stillingar póstþjónsins þíns.</string>
-  <string name="notification_bg_sync_ticker">Athuga með póst: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Auðkenning mistókst fyrir <xliff:g id="account">%1$s</xliff:g>. Uppfærðu stillingar póstþjónsins þíns.</string>
+  <string name="notification_bg_sync_ticker">Athuga með póst: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Athuga með póst</string>
-  <string name="notification_bg_send_ticker">Sendi póst: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Sendi póst: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Sendi póst</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Innhólf</string>
@@ -197,19 +197,19 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="special_mailbox_name_sent">Sent</string>
   <string name="special_mailbox_name_archive">Geymsla</string>
   <string name="special_mailbox_name_spam">Ruslpóstur</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Drög)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Rusl)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Sent)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Geymsla)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Ruslpóstur)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Drög)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Rusl)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Sent)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Geymsla)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Ruslpóstur)</string>
   <string name="send_failure_subject">Náði ekki að senda einhver skilaboð</string>
-  <string name="debug_version_fmt">Útgáfa: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Útgáfa: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Skrá upplýsingar fyrir villuleit</string>
   <string name="debug_enable_debug_logging_summary">Skrá viðbótarupplýsingar fyrir villuleit</string>
   <string name="debug_enable_sensitive_logging_title">Skrá viðkvæmar upplýsingar</string>
   <string name="debug_enable_sensitive_logging_summary">Má birta lykilorð í ánnálum.</string>
   <string name="message_list_load_more_messages_action">Hlaða inn fleiri skilaboðum</string>
-  <string name="message_to_fmt">Til:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">Til:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Viðfangsefni</string>
   <string name="message_compose_content_hint">Texti skilaboða</string>
   <string name="message_compose_signature_hint">Undirskrift</string>
@@ -219,8 +219,8 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="message_compose_quote_header_from">Frá:</string>
   <string name="message_compose_quote_header_to">Til:</string>
   <string name="message_compose_quote_header_cc">Afrit:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> skrifaði:</string>
-  <string name="message_compose_reply_header_fmt_with_date">Þann <xliff:g id="sent_date">%1$s</xliff:g>, skrifaði <xliff:g id="sender">%2$s</xliff:g>:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> skrifaði:</string>
+  <string name="message_compose_reply_header_fmt_with_date">Þann <xliff:g id="sent_date">%1$s</xliff:g>, skrifaði <xliff:g id="sender">%2$s</xliff:g></string>
   <string name="message_compose_error_no_recipients">Þú verður að bæta við að minnsta kosti einum viðtakanda.</string>
   <string name="compose_error_incomplete_recipient">Reitur fyrir viðtakanda inniheldur ekki nægar upplýsingar!</string>
   <string name="error_contact_address_not_found">Ekkert póstfang fannst fyrir þennan tengilið.</string>
@@ -229,7 +229,7 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="message_compose_show_quoted_text_action">Hafa með tilvitnuð skilaboð</string>
   <string name="message_compose_description_delete_quoted_text">Fjarlægja tilvitnun</string>
   <string name="message_compose_description_edit_quoted_text">Breyta tilvitnun</string>
-  <string name="message_view_from_format">Frá: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">Frá: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Til:</string>
   <string name="message_view_cc_label">Afrit:</string>
   <string name="message_view_bcc_label">Falið afrit:</string>
@@ -238,7 +238,7 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="message_view_status_attachment_not_saved">Tókst ekki að vista viðhengi á SD-minniskort.</string>
   <string name="message_view_status_no_space">Ekki var hægt að vista viðhengið því það er ekki nægilegt pláss eftir.</string>
   <string name="message_view_show_pictures_action">Sýna myndir</string>
-  <string name="message_view_no_viewer">Gat ekki fundið neitt skoðunarforrit fyrir <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Gat ekki fundið neitt skoðunarforrit fyrir <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Niðurhala heil skilaboð</string>
   <string name="message_view_toast_unable_to_display_message">Náði ekki að birta skilaboð</string>
   <string name="message_view_sender_label">í gegnum %1$s</string>
@@ -246,7 +246,7 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="message_no_additional_headers_available">Búið er að ná í alla hausa, en það eru engir viðbótarhausar sem hægt er að sækja.</string>
   <string name="message_additional_headers_retrieval_failed">Mistókst að sækja viðbótarhausa úr gagnagrunni eða af póstþjóni.</string>
   <string name="from_same_sender">Fleira frá þessum sendanda</string>
-  <string name="search_from_format">Frá <xliff:g id="sender">%s</xliff:g></string>
+  <string name="search_from_format">Frá <xliff:g id="sender">%1$s</xliff:g></string>
   <string name="debug_delete_local_body">Aflúsa / Hreinsa meginmál skilaboða</string>
   <string name="message_discarded_toast">Skilaboðum hent</string>
   <string name="message_saved_toast">Skilaboð vistuð sem drög</string>
@@ -387,7 +387,7 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="account_setup_outgoing_password_label">Lykilorð</string>
   <string name="account_setup_outgoing_authentication_label">Auðkenning</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" er ekki gilt með \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
-  <string name="account_setup_bad_uri">Ógild uppsetning: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Ógild uppsetning: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Valkostir aðgangs</string>
   <string name="compact_action">Þjappa aðgangi</string>
   <string name="clear_action">Hreinsa skilaboð (áhættusamt!)</string>
@@ -434,9 +434,9 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="account_setup_options_mail_display_count_all">öll skilaboð</string>
   <string name="move_copy_cannot_copy_unsynced_message">Get ekki afritað eða fært skilaboð sem ekki er samstillt við póstþjóninn</string>
   <string name="account_setup_failed_dlg_title">Ekki var hægt að ljúka uppsetningu</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Rangt notandanafn eða lykilorð.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">Þjónninn gaf upp ógilt SSL-skilríki. Stundum getur þetta gerst vegna vanstillingar á þjóninum. En stundum gerist þetta vegna þess að einhver er að gera árás á þig eða póstþjóninn. Ef þú ert ekki alveg viss, smelltu þá á \'Hafna\' og hafðu samband við þá sem sjá um póstþjóninn þinn.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Gat ekki tengst við póstþjón.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Rangt notandanafn eða lykilorð.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">Þjónninn gaf upp ógilt SSL-skilríki. Stundum getur þetta gerst vegna vanstillingar á þjóninum. En stundum gerist þetta vegna þess að einhver er að gera árás á þig eða póstþjóninn. Ef þú ert ekki alveg viss, smelltu þá á \'Hafna\' og hafðu samband við þá sem sjá um póstþjóninn þinn.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Gat ekki tengst við póstþjón.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Breyta upplýsingum</string>
   <string name="account_setup_failed_dlg_continue_action">Áfram</string>
   <string name="account_settings_push_advanced_title">Ítarlegt</string>
@@ -716,7 +716,7 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="count_search_summary">Slökkva til að hraða birtingu á skjá</string>
   <string name="hide_special_accounts_title">Fela sérstaka aðganga</string>
   <string name="hide_special_accounts_summary">Fela sameinaða innhólfið og alla póstaðganga</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier"> - Stjörnumerkt</string>
   <string name="unread_modifier">- Ólesið</string>
   <string name="search_all_messages_title">Öll skilaboð</string>
@@ -752,7 +752,7 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="font_size_message_view_subject">Viðfangsefni</string>
   <string name="font_size_message_view_date">Tími og dagsetning</string>
   <string name="font_size_message_view_content">Efni skilaboða</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Samsetning skilaboða</string>
   <string name="font_size_message_compose_input">Inntaksreitir texta</string>
@@ -766,7 +766,7 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="font_size_larger">Stærra</string>
   <string name="miscellaneous_preferences">Ýmislegt</string>
   <string name="error_activity_not_found">Ekkert hentugt forrit fannst fyrir þessa aðgerð.</string>
-  <string name="send_failed_reason">Sending mistókst: %s</string>
+  <string name="send_failed_reason">Sending mistókst:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Vista skilaboðin sem drög?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Vista eða henda þessum skilaboðum?</string>
   <string name="confirm_discard_draft_message_title">Henda skilaboðum?</string>
@@ -806,36 +806,36 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="settings_exporting">Flytja út stillingar…</string>
   <string name="settings_importing">Flytja inn stillingar…</string>
   <string name="settings_import_scanning_file">Skanna skrá…</string>
-  <string name="settings_export_success">Vistaði útfluttar stillingar í <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Vistaði útfluttar stillingar í <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Tókst að flytja út stillingar</string>
-  <string name="settings_import_global_settings_success">Flutti inn víðværar stillingar úr <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Flutti inn <xliff:g id="accounts">%s</xliff:g> frá <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_account_imported_as">Flutti inn <xliff:g id="original_account_name">%s</xliff:g> sem <xliff:g id="account_name_after_import">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Flutti inn víðværar stillingar úr <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Flutti inn <xliff:g id="accounts">%1$s</xliff:g> frá <xliff:g id="filename">%2$s</xliff:g></string>
+  <string name="settings_import_account_imported_as">Flutti inn <xliff:g id="original_account_name">%1$s</xliff:g> sem <xliff:g id="account_name_after_import">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 aðgangur</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> aðgangar</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> aðgangar</item>
   </plurals>
   <string name="settings_export_failure">Mistókst að flytja út stillingar</string>
-  <string name="settings_import_failure">Mistókst að vista nokkrar stillingar úr <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Mistókst að vista nokkrar stillingar úr <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Útflutningur tókst</string>
   <string name="settings_export_failed_header">Útflutningur mistókst</string>
   <string name="settings_import_success_header">Innflutningur tókst</string>
   <string name="settings_import_failed_header">Innflutningur mistókst</string>
   <string name="settings_import_activate_account_header">Virkja aðgang</string>
-  <string name="settings_import_activate_account_intro">Til að geta notað aðganginn \"<xliff:g id="account">%s</xliff:g>\" verður þú að gefa upp <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">Til að geta notað aðganginn \"<xliff:g id="account">%1$s</xliff:g>\" verður þú að gefa upp <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">lykilorð á póstþjóni</item>
     <item quantity="other">lykilorð á póstþjóni</item>
   </plurals>
-  <string name="settings_import_incoming_server">Inn-póstþjónn (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Út-póstþjónn (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Inn-póstþjónn (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Út-póstþjónn (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Set lykilorð…</item>
     <item quantity="other">Set lykilorð…</item>
   </plurals>
   <string name="settings_import_use_incoming_server_password">Nota lykilorð móttöku-póstþjóns</string>
   <string name="activate_account_action">Virkja</string>
-  <string name="account_unavailable">Aðgangurinn \"<xliff:g id="account">%s</xliff:g>\" er ekki tiltækur; athugaðu með gagnageymslur</string>
+  <string name="account_unavailable">Aðgangurinn \"<xliff:g id="account">%1$s</xliff:g>\" er ekki tiltækur; athugaðu með gagnageymslur</string>
   <string name="settings_attachment_default_path">Vista viðhengi í…</string>
   <string name="attachment_save_title">Vista viðhengið</string>
   <string name="attachment_save_desc">Enginn skráavafri fannst. Hvar viltu vista þetta viðhengi?</string>
@@ -876,7 +876,7 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="webview_contextmenu_email_save_action">Vista í Tengiliði</string>
   <string name="webview_contextmenu_email_copy_action">Afrita vistfang á klippispjald</string>
   <string name="webview_contextmenu_email_clipboard_label">Netfang</string>
-  <string name="image_saved_as">Vistaði mynd sem \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Vistaði mynd sem \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">Tókst ekki að vista myndina.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Allt</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -887,11 +887,11 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Leitartakmörk á póstþjóni</string>
-  <string name="account_settings_remote_search_num_summary">Leit mun hætta um leið og <xliff:g id="num_results">%s</xliff:g> niðurstöður hafa fundist.</string>
+  <string name="account_settings_remote_search_num_summary">Leit mun hætta um leið og <xliff:g id="num_results">%1$s</xliff:g> niðurstöður hafa fundist.</string>
   <string name="remote_search_sending_query">Sendi fyrirspurn á póstþjón</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">Næ í %d niðurstöðu</item>
-    <item quantity="other">Næ í %d niðurstöður</item>
+    <item quantity="one">Næ í%1$d niðurstöðu</item>
+    <item quantity="other">Næ í%1$d niðurstöður</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="one">Næ í %1$d af %2$d niðurstöðum</item>
@@ -911,7 +911,7 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="global_settings_threaded_view_summary">Hópa skilaboð eftir samtölum</string>
   <string name="upgrade_databases_title">Uppfæri gagnagrunna</string>
   <string name="upgrade_databases_unspecified">Uppfæri gagnagrunna…</string>
-  <string name="upgrade_database_format">Uppfæri gagnagrunn \"<xliff:g id="account">%s</xliff:g>\" aðgangsins</string>
+  <string name="upgrade_database_format">Uppfæri gagnagrunn \"<xliff:g id="account">%1$s</xliff:g>\" aðgangsins</string>
   <string name="message_list_loading">Hleður…</string>
   <string name="global_settings_splitview_mode_label">Birta klofinn skjá</string>
   <string name="global_settings_splitview_always">Alltaf</string>
@@ -920,9 +920,9 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="message_view_empty">Veldu skilaboð hér til vinstri</string>
   <string name="global_settings_show_contact_picture_label">Birta myndir tengiliða</string>
   <string name="global_settings_show_contact_picture_summary">Birta myndir tengiliða í skilaboðalista</string>
-  <string name="last_refresh_time_format">Endurlas <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Endurlas <xliff:g id="time_with_preposition">%s</xliff:g> (ýting virk)</string>
-  <string name="preposition_for_date">þann <xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Endurlas <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Endurlas <xliff:g id="time_with_preposition">%1$s</xliff:g> (ýting virk)</string>
+  <string name="preposition_for_date">þann <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Merkja allt sem lesið</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Lita myndir tengiliða</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Lita myndir tengiliða sem vantar</string>
@@ -935,7 +935,7 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="account_setup_basics_client_certificate">Nota skilríki forritsins</string>
   <string name="client_certificate_spinner_empty">Ekkert skilríki forrits</string>
   <string name="client_certificate_spinner_delete">Fjarlægja valin skilríki forrits</string>
-  <string name="client_certificate_retrieval_failure">Mistókst á ná í skilríki forrits vegna samheitisins \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">Mistókst á ná í skilríki forrits vegna samheitisins \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Ítarlegir valkostir</string>
   <string name="client_certificate_expired">Skilríki forrits \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" er útrunnið eða hefur ekki tekið gildi (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

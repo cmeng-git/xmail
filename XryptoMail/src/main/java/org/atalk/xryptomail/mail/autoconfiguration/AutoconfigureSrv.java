@@ -1,14 +1,13 @@
 package org.atalk.xryptomail.mail.autoconfiguration;
 
+import org.xbill.DNS.SRVRecord;
+import org.xbill.DNS.TextParseException;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.xbill.DNS.SRVRecord;
-import org.xbill.DNS.TextParseException;
 import timber.log.Timber;
-
 
 /**
  * According to RFC 6186
@@ -94,7 +93,7 @@ public class AutoconfigureSrv implements AutoConfigure {
             Timber.e(e, "Error while trying to do SRV lookup");
             return null;
         } catch (UnknownHostException e) {
-            Timber.w(e, "No valid SRV record for " + domain);
+            Timber.w(e, "No valid SRV record for %s", domain);
             return null;
         }
 

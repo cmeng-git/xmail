@@ -1,5 +1,7 @@
 package org.atalk.xryptomail.mail.autoconfiguration;
 
+import androidx.annotation.NonNull;
+
 /**
  * An interface for autoconfiguration
  */
@@ -7,7 +9,7 @@ package org.atalk.xryptomail.mail.autoconfiguration;
 public interface AutoConfigure {
     ProviderInfo findProviderInfo(String email);
 
-    public static class ProviderInfo {
+    class ProviderInfo {
         public String incomingUsernameTemplate = "";
 
         public String outgoingUsernameTemplate = "";
@@ -70,6 +72,7 @@ public interface AutoConfigure {
             return this;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return "ProviderInfo{" +

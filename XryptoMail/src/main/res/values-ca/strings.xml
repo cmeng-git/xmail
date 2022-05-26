@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Permet que aquesta aplicació controli les activitats i la configuració de XryptoMail.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%s</xliff:g> The XryptoMail. Porcions de Copyright 2006-<xliff:g>%s</xliff:g> Projecte de codi obert d\'Android.</string>
+  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Porcions de Copyright 2006-<xliff:g>%2$s</xliff:g> Projecte de codi obert d\'Android.</string>
   <string name="app_license">Llicenciat sota Llicència Apache, Versió 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Us donem la benvinguda a XryptoMail</string>
@@ -46,25 +46,25 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <!--Default signature-->
   <string name="default_signature">-- \nEnviat des del meu dispositiu Android amb el XryptoMail Mail. Disculpeu la brevetat.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">El compte \"<xliff:g id="account">%s</xliff:g>\" s\'eliminarà del XryptoMail Mail.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Totes les dades locals de \"<xliff:g id="account">%s</xliff:g>\" s\'eliminaran, però la configuració del compte romandrà.</string>
-  <string name="account_clear_dlg_instructions_fmt">Totes les còpies locals dels missatges de \"<xliff:g id="account">%s</xliff:g>\" s\'eliminaran, però la configuració del compte romandrà.</string>
+  <string name="account_delete_dlg_instructions_fmt">El compte \"<xliff:g id="account">%1$s</xliff:g>\" s\'eliminarà del XryptoMail Mail.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Totes les dades locals de \"<xliff:g id="account">%1$s</xliff:g>\" s\'eliminaran, però la configuració del compte romandrà.</string>
+  <string name="account_clear_dlg_instructions_fmt">Totes les còpies locals dels missatges de \"<xliff:g id="account">%1$s</xliff:g>\" s\'eliminaran, però la configuració del compte romandrà.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Si us plau, instal·leu un gestor de fitxers per continuar aquesta importació.</string>
   <string name="open_market">Obre la Play Store</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Autors: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Informació de la revisió: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Fem servir les següents biblioteques de tercers: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Autors: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Informació de la revisió: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Fem servir les següents biblioteques de tercers: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Llegeix els correus</string>
   <string name="read_messages_desc">Permet a aquesta aplicació llegir els correus.</string>
   <string name="delete_messages_label">Elimina correus</string>
   <string name="delete_messages_desc">Permet que aquesta aplicació elimini correus.</string>
-  <string name="about_title_fmt">Quant a <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">Quant a <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Comptes</string>
   <string name="folders_title">Carpetes</string>
   <string name="advanced">Avançat</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="compose_title_compose">Redacta</string>
   <string name="compose_title_reply">Respon</string>
   <string name="compose_title_reply_all">Respon a tothom</string>
@@ -72,18 +72,18 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="compose_title_forward_as_attachment">Reenvia com a adjunt</string>
   <string name="choose_account_title">Trieu un compte</string>
   <string name="choose_folder_title">Tria carpeta</string>
-  <string name="status_loading_account_folder">Comprova <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Recuperant capçaleres <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Enviant <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Proc <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Propera comprovació <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Comprova <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Recuperant capçaleres <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Enviant <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Proc <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Propera comprovació <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Sincronització desactivada - No hi ha xarxa</string>
   <string name="status_no_background">Sincronització desactivada - No hi ha activitat</string>
   <string name="status_poll_and_push_disabled">Comprovació i tramesa inhabilitades</string>
   <string name="status_syncing_blocked">Sincronització blocada</string>
   <string name="status_syncing_off">Sincronització desactivada</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> seleccionats</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> seleccionats</string>
   <string name="next_action">Següent</string>
   <string name="previous_action">Anterior</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -157,21 +157,21 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="status_loading_error">Hi ha hagut un error durant la càrrega del missatge</string>
   <string name="status_loading_more_failed">Reintenta carregar més missatges</string>
   <string name="load_more_messages_fmt">Carrega\'n
-    fins a <xliff:g id="messages_to_load">%d</xliff:g> més</string>
+    fins a <xliff:g id="messages_to_load">%1$d</xliff:g> més</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Compte \"<xliff:g id="account">%s</xliff:g>\" comprimida des de <xliff:g id="oldSize">%s</xliff:g> a <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Compactant el compte \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">Netejant el compte \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Recreant el compte \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="account_size_changed">Compte \"<xliff:g id="account">%1$s</xliff:g>\" comprimida des de <xliff:g id="oldSize">%2$s</xliff:g> a <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Compactant el compte \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">Netejant el compte \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Recreant el compte \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="notification_new_title">Correu nou</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> nous missatges</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> nous missatges</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> nous missatges</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> nous missatges</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> no llegit(s) (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> no llegit(s) (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> més sobre <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Respon</string>
   <string name="notification_action_mark_as_read">Marca com a llegit</string>
@@ -181,13 +181,13 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="notification_action_archive">Arxiva</string>
   <string name="notification_action_archive_all">Arxiva-ho tot</string>
   <string name="notification_action_spam">Correu brossa</string>
-  <string name="notification_certificate_error_title">Error al certificat de <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Error al certificat de <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Comproveu la configuració del servidor.</string>
   <string name="notification_authentication_error_title">Ha fallat l\'autenticació</string>
-  <string name="notification_authentication_error_text">Ha fallat l\'autenticació de <xliff:g id="account">%s</xliff:g>. Actualitzeu la configuració del servidor.</string>
-  <string name="notification_bg_sync_ticker">Comprovant el correu: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Ha fallat l\'autenticació de <xliff:g id="account">%1$s</xliff:g>. Actualitzeu la configuració del servidor.</string>
+  <string name="notification_bg_sync_ticker">Comprovant el correu: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Comprovant el correu</string>
-  <string name="notification_bg_send_ticker">Enviant correu: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Enviant correu: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Enviant correu</string>
   <string name="notification_bg_title_separator">.</string>
   <string name="special_mailbox_name_inbox">Bústia d\'entrada</string>
@@ -197,19 +197,19 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="special_mailbox_name_sent">Enviat</string>
   <string name="special_mailbox_name_archive">Arxiu</string>
   <string name="special_mailbox_name_spam">Brossa</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Esborranys)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Paperera)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Enviat)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Arxiu)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Brossa)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Esborranys)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Paperera)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Enviat)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Arxiu)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Brossa)</string>
   <string name="send_failure_subject">La tramesa d\'alguns missatges ha fallat.</string>
-  <string name="debug_version_fmt">Versió: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Versió: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Habilita la depuració del registre</string>
   <string name="debug_enable_debug_logging_summary">Registra informació extra de diagnòstic</string>
   <string name="debug_enable_sensitive_logging_title">Registra informació sensible</string>
   <string name="debug_enable_sensitive_logging_summary">Pot mostrar les contrasenyes als registres.</string>
   <string name="message_list_load_more_messages_action">Carrega més missatges</string>
-  <string name="message_to_fmt">A: <xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">A: <xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Assumpte</string>
   <string name="message_compose_content_hint">Text del missatge</string>
   <string name="message_compose_signature_hint">Firma</string>
@@ -219,7 +219,7 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="message_compose_quote_header_from">De:</string>
   <string name="message_compose_quote_header_to">A:</string>
   <string name="message_compose_quote_header_cc">A/c:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> ha escrit:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> ha escrit:</string>
   <string name="message_compose_reply_header_fmt_with_date">El <xliff:g id="sent_date">%1$s</xliff:g>, <xliff:g id="sender">%2$s</xliff:g> ha escrit:</string>
   <string name="message_compose_error_no_recipients">Heu d\'afegir-hi, com a mínim, un destinatari.</string>
   <string name="compose_error_incomplete_recipient">El camp del destinatari conté una entrada incompleta!</string>
@@ -229,7 +229,7 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="message_compose_show_quoted_text_action">Inclou el missatge citat</string>
   <string name="message_compose_description_delete_quoted_text">Elimina el text citat</string>
   <string name="message_compose_description_edit_quoted_text">Edita el text citat</string>
-  <string name="message_view_from_format">De: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">De: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">A:</string>
   <string name="message_view_cc_label">A/c:</string>
   <string name="message_view_bcc_label">Bcc:</string>
@@ -238,7 +238,7 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="message_view_status_attachment_not_saved">No s\'ha pogut desar l\'adjunt a la SD.</string>
   <string name="message_view_status_no_space">L\'adjunt no s\'ha pogut desar per manca d\'espai.</string>
   <string name="message_view_show_pictures_action">Mostra les imatges</string>
-  <string name="message_view_no_viewer">No s\'ha pogut trobar un visualitzador per <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">No s\'ha pogut trobar un visualitzador per <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Baixa el missatge complet</string>
   <string name="message_view_toast_unable_to_display_message">No s\'ha pogut mostrar el missatge</string>
   <string name="message_view_sender_label">mitjançant %1$s</string>
@@ -246,7 +246,7 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="message_no_additional_headers_available">S\'han baixat totes les capçaleres. No hi ha capçaleres addicionals per mostrar.</string>
   <string name="message_additional_headers_retrieval_failed">La recuperació de capçaleres addicionals de la base de dades o del servidor de correu ha fallat.</string>
   <string name="from_same_sender">Més d\'aquest remitent</string>
-  <string name="search_from_format">De <xliff:g id="sender">%s</xliff:g></string>
+  <string name="search_from_format">De <xliff:g id="sender">%1$s</xliff:g></string>
   <string name="debug_delete_local_body">Depura / neteja el cos del missatge</string>
   <string name="message_discarded_toast">S\'ha descartat el missatge</string>
   <string name="message_saved_toast">S\'ha desat el missatge com a esborrany</string>
@@ -387,7 +387,7 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="account_setup_outgoing_password_label">Contrasenya</string>
   <string name="account_setup_outgoing_authentication_label">Tipus d\'autenticació</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" no és vàlid amb \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
-  <string name="account_setup_bad_uri">Configuració no vàlida: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Configuració no vàlida: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Opcions del compte</string>
   <string name="compact_action">Compacta el compte</string>
   <string name="clear_action">Neteja els missatges (Compte!)</string>
@@ -434,9 +434,9 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="account_setup_options_mail_display_count_all">Tots els missatges</string>
   <string name="move_copy_cannot_copy_unsynced_message">No es pot copiar o moure un missatge que no està sincronitzat amb el servidor</string>
   <string name="account_setup_failed_dlg_title">No s\'ha pogut acabar la configuració</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Nom d\'usuari o contrasenya incorrectes.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">El servidor ha mostrat un certificat SSL no vàlid. A vegades això és degut a una mala configuració del servidor. També pot ser degut que algú estigui intentant atacar-vos o al vostre servidor. Si no n\'esteu segurs feu clic a Rebutja i contacteu amb la gent que us administra el vostre servidor.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">No s\'ha pogut connectar amb el servidor.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Nom d\'usuari o contrasenya incorrectes.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">El servidor ha mostrat un certificat SSL no vàlid. A vegades això és degut a una mala configuració del servidor. També pot ser degut que algú estigui intentant atacar-vos o al vostre servidor. Si no n\'esteu segurs feu clic a Rebutja i contacteu amb la gent que us administra el vostre servidor.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">No s\'ha pogut connectar amb el servidor.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Edita els detalls</string>
   <string name="account_setup_failed_dlg_continue_action">Continua</string>
   <string name="account_settings_push_advanced_title">Avançat</string>
@@ -716,7 +716,7 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="count_search_summary">Apaga-ho perquè es mostri més ràpid</string>
   <string name="hide_special_accounts_title">Amaga els comptes especials</string>
   <string name="hide_special_accounts_summary">Amaga la bústia d\'entrada unificada i tots els missatges dels comptes</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier">- Marcat</string>
   <string name="unread_modifier">- No llegit</string>
   <string name="search_all_messages_title">Tots els missatges</string>
@@ -752,7 +752,7 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="font_size_message_view_subject">Assumpte</string>
   <string name="font_size_message_view_date">Data i hora</string>
   <string name="font_size_message_view_content">Cos del missatge</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Redacció de missatges</string>
   <string name="font_size_message_compose_input">Camps d\'entrada de text</string>
@@ -766,7 +766,7 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="font_size_larger">Més gros</string>
   <string name="miscellaneous_preferences">Miscel·lània</string>
   <string name="error_activity_not_found">No s\'ha trobat cap aplicació idònia per a aquesta acció.</string>
-  <string name="send_failed_reason">Ha fallat l\'enviament: %s</string>
+  <string name="send_failed_reason">Ha fallat l\'enviament:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Deso l\'esborrany?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Deso o descarto aquest missatge?</string>
   <string name="confirm_discard_draft_message_title">Descarto el missatge?</string>
@@ -806,36 +806,36 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="settings_exporting">Exportant la configuració...</string>
   <string name="settings_importing">Important la configuració...</string>
   <string name="settings_import_scanning_file">Examinant el fitxer…</string>
-  <string name="settings_export_success">S\'ha exportat la configuració global a <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">S\'ha exportat la configuració global a <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">La configuració s\'ha exportat correctament.</string>
-  <string name="settings_import_global_settings_success">S\'ha importat la configuració global de <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">S\'ha importat <xliff:g id="accounts">%s</xliff:g> des de <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_account_imported_as">S\'ha importat <xliff:g id="original_account_name">%s</xliff:g> com a <xliff:g id="account_name_after_import">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">S\'ha importat la configuració global de <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">S\'ha importat <xliff:g id="accounts">%1$s</xliff:g> des de <xliff:g id="filename">%2$s</xliff:g></string>
+  <string name="settings_import_account_imported_as">S\'ha importat <xliff:g id="original_account_name">%1$s</xliff:g> com a <xliff:g id="account_name_after_import">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">un compte</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> comptes</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> comptes</item>
   </plurals>
   <string name="settings_export_failure">Ha fallat exportar la configuració.</string>
-  <string name="settings_import_failure">Ha fallat importar la configuració de <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Ha fallat importar la configuració de <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Exportació correcta</string>
   <string name="settings_export_failed_header">Error d\'exportació</string>
   <string name="settings_import_success_header">Importació correcta</string>
   <string name="settings_import_failed_header">Error d\'importació</string>
   <string name="settings_import_activate_account_header">Activa el compte</string>
-  <string name="settings_import_activate_account_intro">Per tal de poder utilitzar el compte \"<xliff:g id="account">%s</xliff:g>\", heu de proporcionar les contrasenyes del servidor <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">Per tal de poder utilitzar el compte \"<xliff:g id="account">%1$s</xliff:g>\", heu de proporcionar les contrasenyes del servidor <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">contrasenya del servidor</item>
     <item quantity="other">contrasenyes del servidor</item>
   </plurals>
-  <string name="settings_import_incoming_server">Servidor d\'entrada (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Servidor de sortida (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Servidor d\'entrada (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Servidor de sortida (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Establint la contrasenya...</item>
     <item quantity="other">Establint les contrasenyes...</item>
   </plurals>
   <string name="settings_import_use_incoming_server_password">Utilitza la contrasenya del servidor d\'entrada</string>
   <string name="activate_account_action">Activa</string>
-  <string name="account_unavailable">El compte \"<xliff:g id="account">%s</xliff:g>\" no és disponible; comproveu l\'emmagatzematge</string>
+  <string name="account_unavailable">El compte \"<xliff:g id="account">%1$s</xliff:g>\" no és disponible; comproveu l\'emmagatzematge</string>
   <string name="settings_attachment_default_path">Desa els adjunts a…</string>
   <string name="attachment_save_title">Desa l\'adjunt</string>
   <string name="attachment_save_desc">No s\'ha trobat cap gestor de fitxers. On voleu desar l\'adjunt?</string>
@@ -876,7 +876,7 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="webview_contextmenu_email_save_action">Desa a Contactes</string>
   <string name="webview_contextmenu_email_copy_action">Copia l\'adreça electrònica</string>
   <string name="webview_contextmenu_email_clipboard_label">Envia un correu electrònic a aquesta adreça</string>
-  <string name="image_saved_as">S\'ha desat la imatge com a \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">S\'ha desat la imatge com a \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">No s\'ha pogut desar la imatge</string>
   <string name="account_settings_remote_search_num_results_entries_all">Tots</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -887,11 +887,11 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Límit de resultats de la cerca del servidor</string>
-  <string name="account_settings_remote_search_num_summary">La cerca s\'aturarà després d\'haver trobat <xliff:g id="num_results">%s</xliff:g> resultats.</string>
+  <string name="account_settings_remote_search_num_summary">La cerca s\'aturarà després d\'haver trobat <xliff:g id="num_results">%1$s</xliff:g> resultats.</string>
   <string name="remote_search_sending_query">Enviant la consulta al servidor</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">Recuperant %d resultat</item>
-    <item quantity="other">Recuperant %d resultats</item>
+    <item quantity="one">Recuperant%1$d resultat</item>
+    <item quantity="other">Recuperant%1$d resultats</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="one">Recuperant %1$d de %2$d resultats</item>
@@ -911,7 +911,7 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="global_settings_threaded_view_summary">Recull els missatges del mateix fil de discussió</string>
   <string name="upgrade_databases_title">Actualització de les bases de dades</string>
   <string name="upgrade_databases_unspecified">Actualitzant les bases de dades...</string>
-  <string name="upgrade_database_format">Actualitzant la base de dades del compte \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="upgrade_database_format">Actualitzant la base de dades del compte \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="message_list_loading">Carregant...</string>
   <string name="global_settings_splitview_mode_label">Mostra amb pantalla dividida</string>
   <string name="global_settings_splitview_always">Sempre</string>
@@ -920,9 +920,9 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="message_view_empty">Seleccioneu un misssatge a l\'esquerra</string>
   <string name="global_settings_show_contact_picture_label">Mostra les imatges dels contactes</string>
   <string name="global_settings_show_contact_picture_summary">Mostra les imatges dels contactes a la llista de missatges.</string>
-  <string name="last_refresh_time_format">Última actualització: <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Última actualització <xliff:g id="time_with_preposition">%s</xliff:g> (Tramesa activa)</string>
-  <string name="preposition_for_date">el <xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Última actualització: <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Última actualització <xliff:g id="time_with_preposition">%1$s</xliff:g> (Tramesa activa)</string>
+  <string name="preposition_for_date">el <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Marca\'ls tots com a llegits</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Acoloreix les imatges del contacte</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Acoloreix les imatges de contactes absents</string>
@@ -937,7 +937,7 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="account_setup_basics_client_certificate">Fes servir el certificat de client</string>
   <string name="client_certificate_spinner_empty">Sense certificat de client</string>
   <string name="client_certificate_spinner_delete">Elimina la selecció de certificat de client</string>
-  <string name="client_certificate_retrieval_failure">No s\'ha pogut recuperar el certificat de client per a l\'àlies \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">No s\'ha pogut recuperar el certificat de client per a l\'àlies \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Opcions avançades</string>
   <string name="client_certificate_expired">El certificat de client \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" ha caducat o encara no és vàlid (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

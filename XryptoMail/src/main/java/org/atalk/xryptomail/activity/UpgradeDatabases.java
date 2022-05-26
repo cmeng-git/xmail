@@ -7,13 +7,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.widget.TextView;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import org.atalk.xryptomail.Account;
-import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.Preferences;
 import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.controller.MessagingController;
 import org.atalk.xryptomail.service.DatabaseUpgradeService;
 
@@ -29,7 +30,7 @@ import org.atalk.xryptomail.service.DatabaseUpgradeService;
  * <li>{@link #actionUpgradeDatabases(Context, Intent)} will call {@link XryptoMail#areDatabasesUpToDate()}
  *     to check if we already know whether the databases have been upgraded.</li>
  * <li>{@link XryptoMail#areDatabasesUpToDate()} will compare the last known database version stored in a
- *     {@link SharedPreferences} file to {@link org.atalk.xryptomail.mail.store.LocalStore#DB_VERSION}. This
+ *     {@link SharedPreferences} file to {@link org.atalk.xryptomail.mailstore.LocalStore#DB_VERSION}. This
  *     is done as an optimization because it's faster than opening all of the accounts' databases
  *     one by one.</li>
  * <li>If there was an error reading the cached database version or if it shows the databases need
@@ -53,8 +54,7 @@ import org.atalk.xryptomail.service.DatabaseUpgradeService;
  * for this activity) it will appear as if {@link DatabaseUpgradeService} is performing the upgrade.
  * </p>
  */
-public class UpgradeDatabases extends XMActivity
-{
+public class UpgradeDatabases extends XMActivity {
     private static final String ACTION_UPGRADE_DATABASES = "upgrade_databases";
     private static final String EXTRA_START_INTENT = "start_intent";
 
@@ -62,16 +62,12 @@ public class UpgradeDatabases extends XMActivity
     /**
      * Start the {@link UpgradeDatabases} activity if necessary.
      *
-     * @param context
-     *         The {@link Context} used to start the activity.
-     * @param startIntent
-     *         After the database upgrade is complete an activity is started using this intent.
-     *         Usually this is the intent that was used to start the calling activity.
-     *         Never {@code null}.
-     *
+     * @param context The {@link Context} used to start the activity.
+     * @param startIntent After the database upgrade is complete an activity is started using this intent.
+     * Usually this is the intent that was used to start the calling activity. Never {@code null}.
      * @return {@code true}, if the {@code UpgradeDatabases} activity was started. In this case the
-     *         calling activity is expected to finish itself.<br>
-     *         {@code false}, if the account databases don't need upgrading.
+     * calling activity is expected to finish itself.<br>
+     * {@code false}, if the account databases don't need upgrading.
      */
     public static boolean actionUpgradeDatabases(Context context, Intent startIntent) {
         if (XryptoMail.areDatabasesUpToDate()) {

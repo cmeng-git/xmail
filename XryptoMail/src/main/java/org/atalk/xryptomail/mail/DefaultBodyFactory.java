@@ -1,7 +1,7 @@
 package org.atalk.xryptomail.mail;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.james.mime4j.util.MimeUtil;
+import org.atalk.xryptomail.helper.FileBackend;
 import org.atalk.xryptomail.mail.internet.*;
 
 import java.io.*;
@@ -21,17 +21,13 @@ public class DefaultBodyFactory implements BodyFactory {
             tempBody = new BinaryTempFileBody(contentTransferEncoding);
         }
 
-        OutputStream outputStream = tempBody.getOutputStream();
-        try {
+        try (OutputStream outputStream = tempBody.getOutputStream()) {
             copyData(inputStream, outputStream);
-        } finally {
-            outputStream.close();
         }
-
         return tempBody;
     }
 
     protected void copyData(InputStream inputStream, OutputStream outputStream) throws IOException {
-        IOUtils.copy(inputStream, outputStream);
+        FileBackend.copy(inputStream, outputStream);
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Empty marker class interface the class hierarchy used by
- * {@link MessageExtractor#findViewablesAndAttachments(org.atalk.xryptomail.mail.Part, java.util.List)}
+ * {@link MessageExtractor#findViewablesAndAttachments(Part, List, List)}
  *
  * @see Viewable.Text
  * @see Viewable.Html
@@ -18,7 +18,7 @@ public interface Viewable {
     /**
      * Class representing textual parts of a message that aren't marked as attachments.
      *
-     * @see org.atalk.xryptomail.mail.internet.MessageExtractor#isPartTextualBody(org.atalk.xryptomail.mail.Part)
+     * @see org.atalk.xryptomail.mail.internet.MessageExtractor#isPartTextualBody(Part)
      */
     abstract class Textual implements Viewable {
         private Part mPart;
@@ -42,7 +42,7 @@ public interface Viewable {
     }
 
     class Flowed extends Textual {
-        private boolean delSp;
+        private final boolean delSp;
 
         public Flowed(Part part, boolean delSp) {
             super(part);
@@ -72,8 +72,8 @@ public interface Viewable {
      * </p>
      */
     class MessageHeader implements Viewable {
-        private Part mContainerPart;
-        private Message mMessage;
+        private final Part mContainerPart;
+        private final Message mMessage;
 
         public MessageHeader(Part containerPart, Message message) {
             mContainerPart = containerPart;
@@ -98,8 +98,8 @@ public interface Viewable {
      * </p>
      */
     class Alternative implements Viewable {
-        private List<Viewable> mText;
-        private List<Viewable> mHtml;
+        private final List<Viewable> mText;
+        private final List<Viewable> mHtml;
 
         public Alternative(List<Viewable> text, List<Viewable> html) {
             mText = text;

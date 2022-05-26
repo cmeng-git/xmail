@@ -1,12 +1,14 @@
 package org.atalk.xryptomail.activity.compose;
 
 import android.app.Activity;
-import android.content.*;
+import android.content.ClipData;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
+import androidx.annotation.NonNull;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
@@ -24,10 +26,10 @@ import org.atalk.xryptomail.provider.RawMessageProvider;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 
 
-public class AttachmentPresenter
-{
+public class AttachmentPresenter {
     private static final String STATE_KEY_ATTACHMENTS = "org.atalk.xryptomail.activity.MessageCompose.attachments";
     private static final String STATE_KEY_WAITING_FOR_ATTACHMENTS = "waitingForAttachments";
     private static final String STATE_KEY_NEXT_LOADER_ID = "nextLoaderId";
@@ -44,13 +46,12 @@ public class AttachmentPresenter
     private final AttachmentsChangedListener listener;
 
     // persistent state
-    private LinkedHashMap<Uri, Attachment> attachments;
+    private final LinkedHashMap<Uri, Attachment> attachments;
     private int nextLoaderId = 0;
     private WaitingAction actionToPerformAfterWaiting = WaitingAction.NONE;
 
     public AttachmentPresenter(Context context, AttachmentMvpView attachmentMvpView, LoaderManager loaderManager,
-            AttachmentsChangedListener listener)
-    {
+            AttachmentsChangedListener listener) {
         this.context = context;
         this.attachmentMvpView = attachmentMvpView;
         this.loaderManager = loaderManager;
@@ -58,36 +59,32 @@ public class AttachmentPresenter
         attachments = new LinkedHashMap<>();
     }
 
-    public void onSaveInstanceState(Bundle outState)
-    {
+    public void onSaveInstanceState(Bundle outState) {
         outState.putString(STATE_KEY_WAITING_FOR_ATTACHMENTS, actionToPerformAfterWaiting.name());
         outState.putParcelableArrayList(STATE_KEY_ATTACHMENTS, createAttachmentList());
         outState.putInt(STATE_KEY_NEXT_LOADER_ID, nextLoaderId);
     }
 
-    public void onRestoreInstanceState(Bundle savedInstanceState)
-    {
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
         actionToPerformAfterWaiting = WaitingAction.valueOf(
                 savedInstanceState.getString(STATE_KEY_WAITING_FOR_ATTACHMENTS));
         nextLoaderId = savedInstanceState.getInt(STATE_KEY_NEXT_LOADER_ID);
 
         ArrayList<Attachment> attachmentList = savedInstanceState.getParcelableArrayList(STATE_KEY_ATTACHMENTS);
-        // noinspection ConstantConditions, we know this is set in onSaveInstanceState
+        // noinspection  we know this is set in onSaveInstanceState
         for (Attachment attachment : attachmentList) {
             attachments.put(attachment.uri, attachment);
             attachmentMvpView.addAttachmentView(attachment);
 
             if (attachment.state == LoadingState.URI_ONLY) {
                 initAttachmentInfoLoader(attachment);
-            }
-            else if (attachment.state == LoadingState.METADATA) {
+            } else if (attachment.state == LoadingState.METADATA) {
                 initAttachmentContentLoader(attachment);
             }
         }
     }
 
-    public boolean checkOkForSendingOrDraftSaving()
-    {
+    public boolean checkOkForSendingOrDraftSaving() {
         if (actionToPerformAfterWaiting != WaitingAction.NONE) {
             return true;
         }
@@ -100,10 +97,9 @@ public class AttachmentPresenter
         return false;
     }
 
-    private boolean hasLoadingAttachments()
-    {
+    private boolean hasLoadingAttachments() {
         for (Attachment attachment : attachments.values()) {
-            Loader loader = loaderManager.getLoader(attachment.loaderId);
+            Loader<?> loader = loaderManager.getLoader(attachment.loaderId);
             if (loader != null && loader.isStarted()) {
                 return true;
             }
@@ -111,18 +107,15 @@ public class AttachmentPresenter
         return false;
     }
 
-    public ArrayList<Attachment> createAttachmentList()
-    {
+    public ArrayList<Attachment> createAttachmentList() {
         return new ArrayList<>(attachments.values());
     }
 
-    public List<Attachment> getAttachments()
-    {
+    public List<Attachment> getAttachments() {
         return new ArrayList<>(attachments.values());
     }
 
-    public void onClickAddAttachment(RecipientPresenter recipientPresenter)
-    {
+    public void onClickAddAttachment(RecipientPresenter recipientPresenter) {
         ComposeCryptoStatus currentCachedCryptoStatus = recipientPresenter.getCurrentCachedCryptoStatus();
         if (currentCachedCryptoStatus == null) {
             return;
@@ -136,13 +129,11 @@ public class AttachmentPresenter
         attachmentMvpView.showPickAttachmentDialog(REQUEST_CODE_ATTACHMENT_URI);
     }
 
-    private void addAttachment(Uri uri)
-    {
+    private void addAttachment(Uri uri) {
         addAttachment(uri, null);
     }
 
-    private void addAttachment(AttachmentViewInfo attachmentViewInfo)
-    {
+    private void addAttachment(AttachmentViewInfo attachmentViewInfo) {
         if (attachments.containsKey(attachmentViewInfo.internalUri)) {
             throw new IllegalStateException("Received the same attachmentViewInfo twice!");
         }
@@ -156,13 +147,11 @@ public class AttachmentPresenter
         addAttachmentAndStartLoader(attachment);
     }
 
-    public void addAttachment(Uri uri, String contentType)
-    {
+    public void addAttachment(Uri uri, String contentType) {
         addAttachment(uri, contentType, false);
     }
 
-    private void addAttachment(Uri uri, String contentType, boolean allowMessageType)
-    {
+    private void addAttachment(Uri uri, String contentType, boolean allowMessageType) {
         if (attachments.containsKey(uri)) {
             return;
         }
@@ -173,8 +162,7 @@ public class AttachmentPresenter
         addAttachmentAndStartLoader(attachment);
     }
 
-    public boolean loadNonInlineAttachments(MessageViewInfo messageViewInfo)
-    {
+    public boolean loadNonInlineAttachments(MessageViewInfo messageViewInfo) {
         boolean allPartsAvailable = true;
 
         for (AttachmentViewInfo attachmentViewInfo : messageViewInfo.attachments) {
@@ -191,20 +179,17 @@ public class AttachmentPresenter
         return allPartsAvailable;
     }
 
-    public void processMessageToForward(MessageViewInfo messageViewInfo)
-    {
+    public void processMessageToForward(MessageViewInfo messageViewInfo) {
         boolean isMissingParts = !loadNonInlineAttachments(messageViewInfo);
         if (isMissingParts) {
             attachmentMvpView.showMissingAttachmentsPartialMessageWarning();
         }
     }
 
-    public void processMessageToForwardAsAttachment(MessageViewInfo messageViewInfo)
-    {
+    public void processMessageToForwardAsAttachment(MessageViewInfo messageViewInfo) {
         if (messageViewInfo.isMessageIncomplete) {
             attachmentMvpView.showMissingAttachmentsPartialMessageForwardWarning();
-        }
-        else {
+        } else {
             LocalMessage localMessage = (LocalMessage) messageViewInfo.message;
             MessageReference messageReference = localMessage.makeMessageReference();
             Uri rawMessageUri = RawMessageProvider.getRawMessageUri(messageReference);
@@ -213,25 +198,21 @@ public class AttachmentPresenter
         }
     }
 
-    private void addAttachmentAndStartLoader(Attachment attachment)
-    {
+    private void addAttachmentAndStartLoader(Attachment attachment) {
         attachments.put(attachment.uri, attachment);
         listener.onAttachmentAdded();
         attachmentMvpView.addAttachmentView(attachment);
 
         if (attachment.state == LoadingState.URI_ONLY) {
             initAttachmentInfoLoader(attachment);
-        }
-        else if (attachment.state == LoadingState.METADATA) {
+        } else if (attachment.state == LoadingState.METADATA) {
             initAttachmentContentLoader(attachment);
-        }
-        else {
+        } else {
             throw new IllegalStateException("Attachment can only be added in URI_ONLY or METADATA state!");
         }
     }
 
-    private void initAttachmentInfoLoader(Attachment attachment)
-    {
+    private void initAttachmentInfoLoader(Attachment attachment) {
         if (attachment.state != LoadingState.URI_ONLY) {
             throw new IllegalStateException("initAttachmentInfoLoader can only be called for URI_ONLY state!");
         }
@@ -241,8 +222,7 @@ public class AttachmentPresenter
         loaderManager.initLoader(attachment.loaderId, bundle, mAttachmentInfoLoaderCallback);
     }
 
-    private void initAttachmentContentLoader(Attachment attachment)
-    {
+    private void initAttachmentContentLoader(Attachment attachment) {
         if (attachment.state != LoadingState.METADATA) {
             throw new IllegalStateException("initAttachmentContentLoader can only be called for METADATA state!");
         }
@@ -252,92 +232,82 @@ public class AttachmentPresenter
         loaderManager.initLoader(attachment.loaderId, bundle, mAttachmentContentLoaderCallback);
     }
 
-    private int getNextFreeLoaderId()
-    {
+    private int getNextFreeLoaderId() {
         if (nextLoaderId >= MAX_TOTAL_LOADERS) {
             throw new AssertionError("more than " + MAX_TOTAL_LOADERS + " attachments? hum.");
         }
         return LOADER_ID_MASK | nextLoaderId++;
     }
 
-    private LoaderManager.LoaderCallbacks<Attachment> mAttachmentInfoLoaderCallback =
-            new LoaderManager.LoaderCallbacks<Attachment>()
-            {
-                @Override
-                public Loader<Attachment> onCreateLoader(int id, Bundle args)
-                {
-                    Uri uri = args.getParcelable(LOADER_ARG_ATTACHMENT);
-                    return new AttachmentInfoLoader(context, attachments.get(uri));
-                }
+    private final LoaderManager.LoaderCallbacks<Attachment> mAttachmentInfoLoaderCallback
+            = new LoaderManager.LoaderCallbacks<Attachment>() {
+        @NonNull
+        @Override
+        public Loader<Attachment> onCreateLoader(int id, Bundle args) {
+            Uri uri = args.getParcelable(LOADER_ARG_ATTACHMENT);
+            return new AttachmentInfoLoader(context, Objects.requireNonNull(attachments.get(uri)));
+        }
 
-                @Override
-                public void onLoadFinished(Loader<Attachment> loader, Attachment attachment)
-                {
-                    int loaderId = loader.getId();
-                    loaderManager.destroyLoader(loaderId);
+        @Override
+        public void onLoadFinished(Loader<Attachment> loader, Attachment attachment) {
+            int loaderId = loader.getId();
+            loaderManager.destroyLoader(loaderId);
 
-                    if (!attachments.containsKey(attachment.uri)) {
-                        return;
-                    }
+            if (!attachments.containsKey(attachment.uri)) {
+                return;
+            }
 
-                    attachmentMvpView.updateAttachmentView(attachment);
-                    attachments.put(attachment.uri, attachment);
-                    initAttachmentContentLoader(attachment);
-                }
+            attachmentMvpView.updateAttachmentView(attachment);
+            attachments.put(attachment.uri, attachment);
+            initAttachmentContentLoader(attachment);
+        }
 
-                @Override
-                public void onLoaderReset(Loader<Attachment> loader)
-                {
-                    // nothing to do
-                }
-            };
+        @Override
+        public void onLoaderReset(@NonNull Loader<Attachment> loader) {
+            // nothing to do
+        }
+    };
 
-    private LoaderManager.LoaderCallbacks<Attachment> mAttachmentContentLoaderCallback
-            = new LoaderManager.LoaderCallbacks<Attachment>()
-            {
-                @Override
-                public Loader<Attachment> onCreateLoader(int id, Bundle args)
-                {
-                    Uri uri = args.getParcelable(LOADER_ARG_ATTACHMENT);
-                    return new AttachmentContentLoader(context, attachments.get(uri));
-                }
+    private final LoaderManager.LoaderCallbacks<Attachment> mAttachmentContentLoaderCallback
+            = new LoaderManager.LoaderCallbacks<Attachment>() {
+        @NonNull
+        @Override
+        public Loader<Attachment> onCreateLoader(int id, Bundle args) {
+            Uri uri = args.getParcelable(LOADER_ARG_ATTACHMENT);
+            return new AttachmentContentLoader(context, Objects.requireNonNull(attachments.get(uri)));
+        }
 
-                @Override
-                public void onLoadFinished(Loader<Attachment> loader, Attachment attachment)
-                {
-                    int loaderId = loader.getId();
-                    loaderManager.destroyLoader(loaderId);
+        @Override
+        public void onLoadFinished(Loader<Attachment> loader, Attachment attachment) {
+            int loaderId = loader.getId();
+            loaderManager.destroyLoader(loaderId);
 
-                    if (!attachments.containsKey(attachment.uri)) {
-                        return;
-                    }
+            if (!attachments.containsKey(attachment.uri)) {
+                return;
+            }
 
-                    if (attachment.state == Attachment.LoadingState.COMPLETE) {
-                        attachmentMvpView.updateAttachmentView(attachment);
-                        attachments.put(attachment.uri, attachment);
-                    }
-                    else {
-                        attachments.remove(attachment.uri);
-                        attachmentMvpView.removeAttachmentView(attachment);
-                    }
+            if (attachment.state == Attachment.LoadingState.COMPLETE) {
+                attachmentMvpView.updateAttachmentView(attachment);
+                attachments.put(attachment.uri, attachment);
+            } else {
+                attachments.remove(attachment.uri);
+                attachmentMvpView.removeAttachmentView(attachment);
+            }
 
-                    postPerformStalledAction();
-                }
+            postPerformStalledAction();
+        }
 
-                @Override
-                public void onLoaderReset(Loader<Attachment> loader)
-                {
-                    // nothing to do
-                }
-            };
+        @Override
+        public void onLoaderReset(@NonNull Loader<Attachment> loader) {
+            // nothing to do
+        }
+    };
 
-    private void postPerformStalledAction()
-    {
+    private void postPerformStalledAction() {
         new Handler().post(this::performStalledAction);
     }
 
-    private void performStalledAction()
-    {
+    private void performStalledAction() {
         attachmentMvpView.dismissWaitingForAttachmentDialog();
 
         WaitingAction waitingFor = actionToPerformAfterWaiting;
@@ -355,20 +325,17 @@ public class AttachmentPresenter
         }
     }
 
-    private void addAttachmentsFromResultIntent(Intent data)
-    {
+    private void addAttachmentsFromResultIntent(Intent data) {
         // TODO draftNeedsSaving = true
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            ClipData clipData = data.getClipData();
-            if (clipData != null) {
-                for (int i = 0, end = clipData.getItemCount(); i < end; i++) {
-                    Uri uri = clipData.getItemAt(i).getUri();
-                    if (uri != null) {
-                        addAttachment(uri);
-                    }
+        ClipData clipData = data.getClipData();
+        if (clipData != null) {
+            for (int i = 0, end = clipData.getItemCount(); i < end; i++) {
+                Uri uri = clipData.getItemAt(i).getUri();
+                if (uri != null) {
+                    addAttachment(uri);
                 }
-                return;
             }
+            return;
         }
         Uri uri = data.getData();
         if (uri != null) {
@@ -376,23 +343,20 @@ public class AttachmentPresenter
         }
     }
 
-    public void attachmentProgressDialogCancelled()
-    {
+    public void attachmentProgressDialogCancelled() {
         actionToPerformAfterWaiting = WaitingAction.NONE;
     }
 
-    public void onClickRemoveAttachment(Uri uri)
-    {
+    public void onClickRemoveAttachment(Uri uri) {
         Attachment attachment = attachments.get(uri);
-        loaderManager.destroyLoader(attachment.loaderId);
+        loaderManager.destroyLoader(Objects.requireNonNull(attachment).loaderId);
 
         attachmentMvpView.removeAttachmentView(attachment);
         attachments.remove(uri);
         listener.onAttachmentRemoved();
     }
 
-    public void onActivityResult(int resultCode, int requestCode, Intent data)
-    {
+    public void onActivityResult(int resultCode, int requestCode, Intent data) {
         if (requestCode != REQUEST_CODE_ATTACHMENT_URI) {
             throw new AssertionError("onActivityResult must only be called for our request code");
         }
@@ -406,15 +370,13 @@ public class AttachmentPresenter
         addAttachmentsFromResultIntent(data);
     }
 
-    public enum WaitingAction
-    {
+    public enum WaitingAction {
         NONE,
         SEND,
         SAVE
     }
 
-    public interface AttachmentMvpView
-    {
+    public interface AttachmentMvpView {
         void showWaitingForAttachmentDialog(WaitingAction waitingAction);
 
         void dismissWaitingForAttachmentDialog();
@@ -437,8 +399,7 @@ public class AttachmentPresenter
         void showMissingAttachmentsPartialMessageForwardWarning();
     }
 
-    public interface AttachmentsChangedListener
-    {
+    public interface AttachmentsChangedListener {
         void onAttachmentAdded();
 
         void onAttachmentRemoved();

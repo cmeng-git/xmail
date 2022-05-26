@@ -18,9 +18,9 @@ import org.atalk.xryptomail.search.SearchAccount;
 
 public class UnreadWidgetProperties {
 
-    private int appWidgetId;
-    private String accountUuid;
-    private String folderName;
+    private final int appWidgetId;
+    private final String accountUuid;
+    private final String folderName;
     private Type type;
 
     public UnreadWidgetProperties(int appWidgetId, String accountUuid, String folderName) {

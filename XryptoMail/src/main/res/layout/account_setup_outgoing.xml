@@ -23,7 +23,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/outgoing_settings"
                 style="@style/AccountSetupTitle"
-                android:layout_marginLeft="@dimen/account_setup_settings_margin_start"
                 android:layout_marginStart="@dimen/account_setup_settings_margin_start"
                 android:layout_marginTop="@dimen/account_setup_settings_title_margin_top" />
 
@@ -34,9 +33,7 @@
                 android:paddingTop="6dp"
                 android:paddingBottom="10dp"
                 android:layout_marginTop="@dimen/account_setup_margin_below_title_incoming_and_outgoing"
-                android:layout_marginLeft="@dimen/account_setup_settings_margin_start"
                 android:layout_marginStart="@dimen/account_setup_settings_margin_start"
-                android:layout_marginRight="@dimen/account_setup_settings_field_margin_end"
                 android:layout_marginEnd="@dimen/account_setup_settings_field_margin_end"
                 android:clipToPadding="false"
                 android:fadingEdge="none"

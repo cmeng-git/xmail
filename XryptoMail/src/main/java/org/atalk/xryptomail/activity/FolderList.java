@@ -51,13 +51,12 @@ public class FolderList extends XMListActivity
     private static final String EXTRA_FROM_SHORTCUT = "fromShortcut";
     private static final boolean REFRESH_REMOTE = true;
 
-    private ListView mListView;
     private FolderListAdapter mAdapter;
     private LayoutInflater mInflater;
     private Account mAccount;
-    private FolderListHandler mHandler = new FolderListHandler();
+    private final FolderListHandler mHandler = new FolderListHandler();
+    private final FontSizes mFontSizes = XryptoMail.getFontSizes();
     private int mUnreadMessageCount;
-    private FontSizes mFontSizes = XryptoMail.getFontSizes();
     private Context context;
 
     private MenuItem mRefreshMenuItem;
@@ -224,7 +223,7 @@ public class FolderList extends XMListActivity
         mActionBar = getActionBar();
         initializeActionBar();
         setContentView(R.layout.folder_list);
-        mListView = getListView();
+        ListView mListView = getListView();
         mListView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         mListView.setLongClickable(true);
         mListView.setFastScrollEnabled(true);
@@ -577,14 +576,9 @@ public class FolderList extends XMListActivity
             }
         });
 
-        folderSearchView.setOnCloseListener(new SearchView.OnCloseListener()
-        {
-            @Override
-            public boolean onClose()
-            {
-                mActionBarTitle.setText(getString(R.string.folders_title));
-                return false;
-            }
+        folderSearchView.setOnCloseListener(() -> {
+            mActionBarTitle.setText(getString(R.string.folders_title));
+            return false;
         });
     }
 
@@ -659,7 +653,7 @@ public class FolderList extends XMListActivity
             return true;
         }
 
-        private ActivityListener mListener = new ActivityListener()
+        private final ActivityListener mListener = new ActivityListener()
         {
             @Override
             public void informUserOfStatus()
@@ -916,10 +910,7 @@ public class FolderList extends XMListActivity
         {
             int index = getFolderIndex(folder);
             if (index >= 0) {
-                FolderInfoHolder holder = (FolderInfoHolder) getItem(index);
-                if (holder != null) {
-                    return holder;
-                }
+                return (FolderInfoHolder) getItem(index);
             }
             return null;
         }
@@ -1016,7 +1007,7 @@ public class FolderList extends XMListActivity
                 holder.newMessageCount.setText(String.format("%d", folder.unreadMessageCount));
                 holder.newMessageCountWrapper.setOnClickListener(createUnreadSearch(mAccount, folder));
                 holder.newMessageCountWrapper.setVisibility(View.VISIBLE);
-                holder.newMessageCountIcon.setBackgroundDrawable(mAccount.generateColorChip(false, false).drawable());
+                holder.newMessageCountIcon.setBackground(mAccount.generateColorChip(false, false).drawable());
             }
             else {
                 holder.newMessageCountWrapper.setVisibility(View.GONE);
@@ -1036,8 +1027,7 @@ public class FolderList extends XMListActivity
                 holder.flaggedMessageCountWrapper.setOnClickListener(
                         createFlaggedSearch(mAccount, folder));
                 holder.flaggedMessageCountWrapper.setVisibility(View.VISIBLE);
-                holder.flaggedMessageCountIcon.setBackgroundDrawable(
-                        mAccount.generateColorChip(false, true).drawable());
+                holder.flaggedMessageCountIcon.setBackground(mAccount.generateColorChip(false, true).drawable());
             }
             else {
                 holder.flaggedMessageCountWrapper.setVisibility(View.GONE);

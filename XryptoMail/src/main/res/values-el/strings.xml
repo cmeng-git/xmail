@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Επιτρέπει σε αυτή την εφαρμογή να ελέγχει τη δραστηριότητα και τις ρυθμίσεις του XryptoMail Mail.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Πνευματικά δικαιώματα 2008-<xliff:g>%s</xliff:g> από The XryptoMail. Τμηματικά πνευματικά δικαιώματα 2006-<xliff:g>%s</xliff:g> από το Android Open Source Project.</string>
+  <string name="app_copyright_fmt">Πνευματικά δικαιώματα 2008-<xliff:g>%1$s</xliff:g> από The XryptoMail. Τμηματικά πνευματικά δικαιώματα 2006-<xliff:g>%2$s</xliff:g> από το Android Open Source Project.</string>
   <string name="app_license">Διέπεται από την άδεια χρήσης Apache, έκδοση 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Καλώς ήλθατε στο XryptoMail Mail</string>
@@ -47,25 +47,25 @@
   <!--Default signature-->
   <string name="default_signature">-- \nΣταλμένο από τη συσκευή μου Android με το XryptoMail Mail. Παρακαλώ συγχωρήστε την ολιγολογία μου.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">Ο λογαριασμός \'<xliff:g id="account">%s</xliff:g>\' θα διαγραφεί από το XryptoMail Mail.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Όλα τα δεδομένα για το λογαριασμό \'<xliff:g id="account">%s</xliff:g>\' θα διαγραφούν από το XryptoMail Mail, αλλά οι ρυθμίσεις του λογαριασμού θα διατηρηθούν.</string>
-  <string name="account_clear_dlg_instructions_fmt">Όλα τα μηνύματα του λογαριασμού \'<xliff:g id="account">%s</xliff:g>\' θα διαγραφούν από το XryptoMail Mail, αλλά οι ρυθμίσεις του λογαριασμού θα διατηρηθούν.</string>
+  <string name="account_delete_dlg_instructions_fmt">Ο λογαριασμός \'<xliff:g id="account">%1$s</xliff:g>\' θα διαγραφεί από το XryptoMail Mail.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Όλα τα δεδομένα για το λογαριασμό \'<xliff:g id="account">%1$s</xliff:g>\' θα διαγραφούν από το XryptoMail Mail, αλλά οι ρυθμίσεις του λογαριασμού θα διατηρηθούν.</string>
+  <string name="account_clear_dlg_instructions_fmt">Όλα τα μηνύματα του λογαριασμού \'<xliff:g id="account">%1$s</xliff:g>\' θα διαγραφούν από το XryptoMail Mail, αλλά οι ρυθμίσεις του λογαριασμού θα διατηρηθούν.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Δεν υπάρχει κατάλληλη εφαρμογή για να χειριστεί την εισαγωγή. Εγκαταστήστε μια εφαρμογή επόπτη αρχείων από το Android Market</string>
   <string name="open_market">Open Market</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Συγγραφείς: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Πληροφορίες αναθεωρήσεων: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Χρησιμοποιούνται οι ακόλουθες βιβλιοθήκες τρίτων: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Συγγραφείς: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Πληροφορίες αναθεωρήσεων: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Χρησιμοποιούνται οι ακόλουθες βιβλιοθήκες τρίτων: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Ανάγνωση μηνυμάτων</string>
   <string name="read_messages_desc">Επιτρέπει στην εφαρμογή να διαβάζει τα email.</string>
   <string name="delete_messages_label">Διαγραφή μηνυμάτων</string>
   <string name="delete_messages_desc">Επιτρέπει στην εφαρμογή να σβήνει τα email.</string>
-  <string name="about_title_fmt">Περί του <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">Περί του <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Λογαριασμοί</string>
   <string name="folders_title">Φάκελοι</string>
   <string name="advanced">Προχωρημένα</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Σύνθεση</string>
   <string name="compose_title_reply">Απάντηση</string>
   <string name="compose_title_reply_all">Απάντηση σε όλους</string>
@@ -73,17 +73,17 @@
   <string name="compose_title_forward_as_attachment">Προώθηση σαν συνημέννο</string>
   <string name="choose_account_title">Επιλογή Λογαριασμού</string>
   <string name="choose_folder_title">Επιλογή φακέλου</string>
-  <string name="status_loading_account_folder">Έλεγχος <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Ανάγνωση επικεφαλίδων <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Αποστολή <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Επεξεργασία <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Επόμενος έλεγχος στις <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Έλεγχος <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Ανάγνωση επικεφαλίδων <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Αποστολή <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Επεξεργασία <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Επόμενος έλεγχος στις <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Συγχρονισμός απενεργοποιημένος - Δεν υπάρχει δίκτυο</string>
   <string name="status_no_background">Συγχρονισμός απενεργοποιημένος - καμία δραστηριότητα στο παρασκήνιο</string>
   <string name="status_syncing_blocked">Συγχρονισμός μπλοκαρισμένος</string>
   <string name="status_syncing_off">Συγχρονισμός απενεργοποιημένος</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> επιλέχθηκαν</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> επιλέχθηκαν</string>
   <string name="next_action">Επόμενο</string>
   <string name="previous_action">Προηγούμενο</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -157,21 +157,21 @@
   <string name="status_loading_error">Σφάλμα φόρτωση μηνύματος</string>
   <string name="status_loading_more_failed">Επανάληψη φόρτωσης περισσότερων μηνυμάτων</string>
   <string name="load_more_messages_fmt">Φόρτωση
-    έως <xliff:g id="messages_to_load">%d</xliff:g> περισσότερων</string>
+    έως <xliff:g id="messages_to_load">%1$d</xliff:g> περισσότερων</string>
   <string name="abbrev_gigabytes">Gb</string>
   <string name="abbrev_megabytes">Mb</string>
   <string name="abbrev_kilobytes">Kb</string>
   <string name="abbrev_bytes">b</string>
-  <string name="account_size_changed">Ο λογαριασμός \'<xliff:g id="account">%s</xliff:g>\' συμπυκνώθηκε από <xliff:g id="oldSize">%s</xliff:g>    σε <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Συμπύκνωση λογαριασμού \'<xliff:g id="account">%s</xliff:g>\'</string>
-  <string name="clearing_account">Καθαρισμός λογαριασμού \'<xliff:g id="account">%s</xliff:g>\'</string>
-  <string name="recreating_account">Ανακατασκευή λογαριασμού \'<xliff:g id="account">%s</xliff:g>\'</string>
+  <string name="account_size_changed">Ο λογαριασμός \'<xliff:g id="account">%1$s</xliff:g>\' συμπυκνώθηκε από <xliff:g id="oldSize">%2$s</xliff:g>    σε <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Συμπύκνωση λογαριασμού \'<xliff:g id="account">%1$s</xliff:g>\'</string>
+  <string name="clearing_account">Καθαρισμός λογαριασμού \'<xliff:g id="account">%1$s</xliff:g>\'</string>
+  <string name="recreating_account">Ανακατασκευή λογαριασμού \'<xliff:g id="account">%1$s</xliff:g>\'</string>
   <string name="notification_new_title">Νέο μήνυμα</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> νέο μήνυμα</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> νέα μηνύματα</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> νέο μήνυμα</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> νέα μηνύματα</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> μη αναγνωσμένα (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> μη αναγνωσμένα (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> περισσότερα για <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Απάντηση</string>
   <string name="notification_action_mark_as_read">Ανάγνωση</string>
@@ -181,13 +181,13 @@
   <string name="notification_action_archive">Αρχειοθήκη</string>
   <string name="notification_action_archive_all">Αρχειοθέτηση όλων</string>
   <string name="notification_action_spam">Σκουπίδια</string>
-  <string name="notification_certificate_error_title">Σφάλμα πιστοποιητικού για <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Σφάλμα πιστοποιητικού για <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Ελέγξτε τις ρυθμίσεις του εξυπηρετητή</string>
   <string name="notification_authentication_error_title">Αποτυχία πιστοποίησης</string>
-  <string name="notification_authentication_error_text">Αποτυχία πιστοποίησης <xliff:g id="account">%s</xliff:g>. Αναβαθμίστε τις ρυθμ,ίσεις του διακομιστή.</string>
-  <string name="notification_bg_sync_ticker">Έλεγχος μηνύματος: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Αποτυχία πιστοποίησης <xliff:g id="account">%1$s</xliff:g>. Αναβαθμίστε τις ρυθμ,ίσεις του διακομιστή.</string>
+  <string name="notification_bg_sync_ticker">Έλεγχος μηνύματος: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Έλεγχος μηνύματος</string>
-  <string name="notification_bg_send_ticker">Αποστολή μηνύματος: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Αποστολή μηνύματος: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Αποστολή μηνύματος</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Εισερχόμενα</string>
@@ -197,19 +197,19 @@
   <string name="special_mailbox_name_sent">Απεσταλμένα</string>
   <string name="special_mailbox_name_archive">Αρχειοθήκη</string>
   <string name="special_mailbox_name_spam">Σκουπίδια</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Πρόχειρα)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Διαγραμμένα)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Απεσταλμένα)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Αρχειοθήκη)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Σκουπίδια)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Πρόχειρα)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Διαγραμμένα)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Απεσταλμένα)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Αρχειοθήκη)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Σκουπίδια)</string>
   <string name="send_failure_subject">Αποτυχία αποστολής μερικών μηνυμάτων</string>
-  <string name="debug_version_fmt">Έκδοση: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Έκδοση: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Ενεργοποίηση καταγραφών αποσφαλμάτωσης</string>
   <string name="debug_enable_debug_logging_summary">Καταγραφή πρόσθετων διαγνωστικών πληροφοριών</string>
   <string name="debug_enable_sensitive_logging_title">Καταγραφή ευαίσθητων πληροφοριών</string>
   <string name="debug_enable_sensitive_logging_summary">Συνθηματικά μπορεί να εμφανιστούν στις καταγραφές.</string>
   <string name="message_list_load_more_messages_action">Φόρτωση περισσότερων μηνυμάτων</string>
-  <string name="message_to_fmt">Προς:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">Προς:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Θέμα</string>
   <string name="message_compose_content_hint">Κείμενο μηνύματος</string>
   <string name="message_compose_signature_hint">Υπογραφή</string>
@@ -219,7 +219,7 @@
   <string name="message_compose_quote_header_from">Από:</string>
   <string name="message_compose_quote_header_to">Προς:</string>
   <string name="message_compose_quote_header_cc">Κοιν:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> έγραψε:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> έγραψε:</string>
   <string name="message_compose_reply_header_fmt_with_date">Στις <xliff:g id="sent_date">%1$s</xliff:g>, ο/η <xliff:g id="sender">%2$s</xliff:g> έγραψε:</string>
   <string name="message_compose_error_no_recipients">Πρέπει να συμπεριλάβετε τουλάχιστον έναν παραλήπτη.</string>
   <string name="compose_error_incomplete_recipient">Το πεδίο παραλήπτη περιέχει ελλιπή στοιχεία!</string>
@@ -228,7 +228,7 @@
   <string name="message_compose_attachments_forward_toast">Το μήνυμα δεν μπορεί να προωθηθεί επειδή μερικά συνημμένα δεν έχουν κατεβεί.</string>
   <string name="message_compose_description_delete_quoted_text">Αφαίρεση κειμένου προηγ. μηνύματος</string>
   <string name="message_compose_description_edit_quoted_text">Αλλαγή κειμένου προηγ. μηνύματος</string>
-  <string name="message_view_from_format">Από: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">Από: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Προς:</string>
   <string name="message_view_cc_label">Κοιν:</string>
   <string name="message_view_bcc_label">Κρυφή Κοιν:</string>
@@ -237,7 +237,7 @@
   <string name="message_view_status_attachment_not_saved">Αδύνατο να αποθηκευτεί το συνημμένο στην κάρτα αποθήκευσης.</string>
   <string name="message_view_status_no_space">Δεν ήταν δυνατή η αποθήκευση του συνημμένου, καθώς δεν υπάρχει αρκετός χώρος.</string>
   <string name="message_view_show_pictures_action">Προβολή εικόνων</string>
-  <string name="message_view_no_viewer">Δεν υπάρχει πρόγραμμα προβολής για <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Δεν υπάρχει πρόγραμμα προβολής για <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Κατέβασμα πλήρους μηνύματος</string>
   <string name="message_view_toast_unable_to_display_message">Αδυναμία προβολής μηνύματος</string>
   <string name="message_view_sender_label">μέσω %1$s</string>
@@ -245,7 +245,7 @@
   <string name="message_no_additional_headers_available">Όλες οι επικεφαλίδες έχουν κατεβεί, αλλά δεν υπάρχουν πρόσθετες επικεφαλίδες για να προβληθούν.</string>
   <string name="message_additional_headers_retrieval_failed">Η ανάσυρση πρόσθετων επικεφαλίδων από τη βάση δεδομένων ή τον εξυπηρέτη ταχυδρομείου απέτυχε.</string>
   <string name="from_same_sender">Από τον ίδιο αποστολέα</string>
-  <string name="search_from_format">Από <xliff:g id="sender">%s</xliff:g></string>
+  <string name="search_from_format">Από <xliff:g id="sender">%1$s</xliff:g></string>
   <string name="debug_delete_local_body">Αποσφαλμάτωση / Απαλοιφή του σώματος του μηνύματος</string>
   <string name="message_discarded_toast">Το μήνυμα αγνοήθηκε.</string>
   <string name="message_saved_toast">Το μήνυμα αποθηκεύτηκε στα πρόχειρα.</string>
@@ -384,7 +384,7 @@
   <string name="account_setup_outgoing_password_label">Συνθηματικό</string>
   <string name="account_setup_outgoing_authentication_label">Πιστοποίηση</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" δεν είναι έγκυρο με\"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
-  <string name="account_setup_bad_uri">Άκυρη ρύθμιση: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Άκυρη ρύθμιση: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Επιλογές λογαριασμού</string>
   <string name="compact_action">Συμπύκνωση</string>
   <string name="clear_action">Καθαρισμός μηνυμάτων (Κίνδυνος!)</string>
@@ -431,9 +431,9 @@
   <string name="account_setup_options_mail_display_count_all">Όλα τα μηνύματα</string>
   <string name="move_copy_cannot_copy_unsynced_message">Αδύνατη η αντιγραφή ή μετακίνηση μηνύματος που δεν έχει συγχρονιστεί με τον εξυπηρέτη</string>
   <string name="account_setup_failed_dlg_title">Οι ρυθμίσεις δεν μπόρεσαν να ολοκληρωθούν.</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Το όνομα χρήστη ή ο κωδικός πρόσβασης δεν είναι σωστά.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">Ο διακομιστής παρουσίασε ένα μη εγκυρο πιστοποιητικό SSL. Κάποιες φορές αυτό συμβαίνει λόγω κακής ρύθμισής του. Άλλες φορές γιατί κάποιος προσπαθεί να επιτεθεί σε εσάς ή τον διακομιστή mail σας. Αν δεν είστε βέβαιοι τι συμβαίνει, επιλέξτε Απόρριψη και επικοινωνήστε με τους διαχειριστές του διακομιστή mail σας.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Αδύνατη η σύνδεση στον διακομιστή.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Το όνομα χρήστη ή ο κωδικός πρόσβασης δεν είναι σωστά.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">Ο διακομιστής παρουσίασε ένα μη εγκυρο πιστοποιητικό SSL. Κάποιες φορές αυτό συμβαίνει λόγω κακής ρύθμισής του. Άλλες φορές γιατί κάποιος προσπαθεί να επιτεθεί σε εσάς ή τον διακομιστή mail σας. Αν δεν είστε βέβαιοι τι συμβαίνει, επιλέξτε Απόρριψη και επικοινωνήστε με τους διαχειριστές του διακομιστή mail σας.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Αδύνατη η σύνδεση στον διακομιστή.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Διόρθωση λεπτομερειών</string>
   <string name="account_setup_failed_dlg_continue_action">Συνέχεια</string>
   <string name="account_settings_push_advanced_title">Προχωρημένα</string>
@@ -707,7 +707,7 @@
   <string name="count_search_summary">Απενεργοποιήστε το για ταχύτητα.</string>
   <string name="hide_special_accounts_title">Απόκρυψη ειδικών λογαριασμών</string>
   <string name="hide_special_accounts_summary">Απόκρυψη λογαριασμών του «ενιαίου φακέλου εισερχομένων» και «όλων των μηνυμάτων»</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier"> - Με αστέρι</string>
   <string name="unread_modifier"> - Μη αναγνωσμένα</string>
   <string name="search_all_messages_title">Όλα τα μηνύματα</string>
@@ -743,7 +743,7 @@
   <string name="font_size_message_view_subject">Θέμα</string>
   <string name="font_size_message_view_date">Ώρα και Ημερομηνία</string>
   <string name="font_size_message_view_content">Σώμα μηνύματος</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Σύνθεση μηνύματος</string>
   <string name="font_size_message_compose_input">Κείμενο πεδίων εισόδου</string>
@@ -757,7 +757,7 @@
   <string name="font_size_larger">Μεγαλύτερο</string>
   <string name="miscellaneous_preferences">Διάφορα</string>
   <string name="error_activity_not_found">Δεν βρέθηκε κατάλληλη εφαρμογή για αυτή την ενέργεια.</string>
-  <string name="send_failed_reason">Αποστολή απέτυχε: %s</string>
+  <string name="send_failed_reason">Αποστολή απέτυχε:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Αποθήκευση πρόχειρου μηνύματος;</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Αποθήκευση ή απόρριψη αυτού του μηνύματος;</string>
   <string name="confirm_discard_draft_message_title">Απόρριψη μηνύματος;</string>
@@ -797,36 +797,36 @@
   <string name="settings_exporting">Εξαγωγή ρυθμίσεων σε εξέλιξη…</string>
   <string name="settings_importing">Εισαγωγή ρυθμίσεων σε εξέλιξη…</string>
   <string name="settings_import_scanning_file">Ανίχνευση αρχείου…</string>
-  <string name="settings_export_success">Οι εξαγόμενες ρυθμίσεις αποθηκεύτηκαν στο <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Οι εξαγόμενες ρυθμίσεις αποθηκεύτηκαν στο <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Οι ρυθμίσεις έχουν εξαχθεί με επιτυχία</string>
-  <string name="settings_import_global_settings_success">Ρυθμίσεις εισήχθηκαν από το <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Εισήχθηκαν <xliff:g id="accounts">%s</xliff:g> λογαριασμοί από το <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_account_imported_as">Εισήχθηκαν <xliff:g id="original_account_name">%s</xliff:g> ως <xliff:g id="account_name_after_import">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Ρυθμίσεις εισήχθηκαν από το <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Εισήχθηκαν <xliff:g id="accounts">%1$s</xliff:g> λογαριασμοί από το <xliff:g id="filename">%2$s</xliff:g></string>
+  <string name="settings_import_account_imported_as">Εισήχθηκαν <xliff:g id="original_account_name">%1$s</xliff:g> ως <xliff:g id="account_name_after_import">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 λογαριασμός</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> λογαριασμοί</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> λογαριασμοί</item>
   </plurals>
   <string name="settings_export_failure">Αποτυχία εξαγωγής ρυθμίσεων</string>
-  <string name="settings_import_failure">Αποτυχία εισαγωγής ρυθμίσεων από το <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Αποτυχία εισαγωγής ρυθμίσεων από το <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Εξαγωγή επιτυχημένη</string>
   <string name="settings_export_failed_header">Εξαγωγή απέτυχε</string>
   <string name="settings_import_success_header">Εισαγωγή επιτυχημένη</string>
   <string name="settings_import_failed_header">Εισαγωγή απέτυχε</string>
   <string name="settings_import_activate_account_header">Ενεργοποίηση λογαριασμού</string>
-  <string name="settings_import_activate_account_intro">Για να χρησιμοποιήσετε το λογαριασμό \'<xliff:g id="account">%s</xliff:g>\' πρέπει να εισάγετε <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">Για να χρησιμοποιήσετε το λογαριασμό \'<xliff:g id="account">%1$s</xliff:g>\' πρέπει να εισάγετε <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">συνθηματικό για τον εξυπηρέτη</item>
     <item quantity="other">συνθηματικά για τον εξυπηρέτη</item>
   </plurals>
-  <string name="settings_import_incoming_server">Εξυπηρέτης εισερχόμενων (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Εξυπηρέτης εξερχόμενων (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Εξυπηρέτης εισερχόμενων (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Εξυπηρέτης εξερχόμενων (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Καθορισμός συνθηματικού…</item>
     <item quantity="other">Καθορισμός συνθηματικών…</item>
   </plurals>
   <string name="settings_import_use_incoming_server_password">Χρήση του συνθηματικού του εξυπηρέτη εισερχόμενων</string>
   <string name="activate_account_action">Ενεργοποίηση</string>
-  <string name="account_unavailable">Ο λογαριασμός \'<xliff:g id="account">%s</xliff:g>\' δεν είναι διαθέσιμος. Ελέγξτε αποθήκευση.</string>
+  <string name="account_unavailable">Ο λογαριασμός \'<xliff:g id="account">%1$s</xliff:g>\' δεν είναι διαθέσιμος. Ελέγξτε αποθήκευση.</string>
   <string name="settings_attachment_default_path">Αποθήκευση συνημμένων στο…</string>
   <string name="attachment_save_title">Αποθήκευση συνημμένων</string>
   <string name="attachment_save_desc">Δεν βρέθηκε επόπτης αρχείων. Πού θέλετε να αποθηκευτεί αυτό το συνημμένο;</string>
@@ -862,7 +862,7 @@
   <string name="webview_contextmenu_email_save_action">Αποθήκευση στις Επαφές</string>
   <string name="webview_contextmenu_email_copy_action">Αντιγραφή διεύθυνσης μηνύματος στο clipboard</string>
   <string name="webview_contextmenu_email_clipboard_label">Διεύθυνση μηνύματος</string>
-  <string name="image_saved_as">Αποθήκευση μηνύματος ως \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Αποθήκευση μηνύματος ως \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">Αποτυχία αποθήκευσης της εικόνας</string>
   <string name="account_settings_remote_search_num_results_entries_all">Όλα</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -873,11 +873,11 @@
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Όριο εξυπηρέτη για αναζήτηση αποτελεσμάτων</string>
-  <string name="account_settings_remote_search_num_summary">Η αναζήτηση θα διακοπεί όταν βρεθούν <xliff:g id="num_results">%s</xliff:g> αποτελέσματα.</string>
+  <string name="account_settings_remote_search_num_summary">Η αναζήτηση θα διακοπεί όταν βρεθούν <xliff:g id="num_results">%1$s</xliff:g> αποτελέσματα.</string>
   <string name="remote_search_sending_query">Αποστολή ερωτήματος στον εξυπηρέτη</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">Ανάκληση %d αποτελέσματος</item>
-    <item quantity="other">Ανάκληση %d αποτελεσμάτων</item>
+    <item quantity="one">Ανάκληση%1$d αποτελέσματος</item>
+    <item quantity="other">Ανάκληση%1$d αποτελεσμάτων</item>
   </plurals>
   <string name="remote_search_error">Η απομακρυσμένη αναζήτηση απέτυχε.</string>
   <string name="account_settings_search">Αναζήτηση</string>
@@ -891,7 +891,7 @@
   <string name="global_settings_threaded_view_summary">Σύντμηση μηνυμάτων που ανήκουν στον ίδιο νήμα</string>
   <string name="upgrade_databases_title">Αναβάθμιση βάσεων δεδομένων</string>
   <string name="upgrade_databases_unspecified">Γίνεται αναβάθμιση των βάσεων δεδομένων…</string>
-  <string name="upgrade_database_format">Γίνεται αναβάθμιση της βάσης δεδομένων του λογαριασμού \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="upgrade_database_format">Γίνεται αναβάθμιση της βάσης δεδομένων του λογαριασμού \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="message_list_loading">Φόρτωση…</string>
   <string name="global_settings_splitview_mode_label">Προβολή διαιρούμενης οθόνης</string>
   <string name="global_settings_splitview_always">Πάντοτε</string>
@@ -900,9 +900,9 @@
   <string name="message_view_empty">Επιλέξτε ένα μήνυμα στα αριστερά</string>
   <string name="global_settings_show_contact_picture_label">Προβολή εικόνων από επαφές</string>
   <string name="global_settings_show_contact_picture_summary">Προβολή εικόνων από επαφές στη λίστα μηνυμάτων</string>
-  <string name="last_refresh_time_format">Τελευταία ενημέρωση <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Τελευταία ενημέρωση <xliff:g id="time_with_preposition">%s</xliff:g> (Σπρώξιμο ενεργό)</string>
-  <string name="preposition_for_date">την <xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Τελευταία ενημέρωση <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Τελευταία ενημέρωση <xliff:g id="time_with_preposition">%1$s</xliff:g> (Σπρώξιμο ενεργό)</string>
+  <string name="preposition_for_date">την <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Μαρκάρισμα όλων ως αναγνωσμένων</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Χρωματισμός επαφών χωρίς εικόνα</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Χρωματισμός επαφών χωρίς εικόνα</string>
@@ -917,7 +917,7 @@
   <string name="account_setup_basics_client_certificate">Χρήση πιστοποιητικού πελάτη</string>
   <string name="client_certificate_spinner_empty">Χωρίς πιστοποιητικό πελάτη</string>
   <string name="client_certificate_spinner_delete">Αφαίρεση επιλογής πιστοποιητικού πελάτη</string>
-  <string name="client_certificate_retrieval_failure">Αποτυχία ανάκτησης του πιστοποιητικού πελάτη για το ψευδώνυμο \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">Αποτυχία ανάκτησης του πιστοποιητικού πελάτη για το ψευδώνυμο \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Προχωρημένες ρυθμίσεις</string>
   <string name="client_certificate_expired">Το πιστοποιητικό πελάτη \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" έχει λήξει ή δεν είναι ακόμα έγκυρο (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

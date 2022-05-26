@@ -149,7 +149,7 @@ public class SettingsExporter {
                 exportAccounts = accountUuids;
             }
 
-            Map<String, Object> prefs = new TreeMap<String, Object>(storage.getAll());
+            Map<String, Object> prefs = new TreeMap<>(storage.getAll());
 
             if (includeGlobals) {
                 serializer.startTag(null, GLOBAL_ELEMENT);

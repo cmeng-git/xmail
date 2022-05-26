@@ -76,8 +76,8 @@ public class ReplyToParser
 		@VisibleForTesting
 		public ReplyToAddresses(List<Address> toAddresses, List<Address> ccAddresses)
 		{
-			to = toAddresses.toArray(new Address[toAddresses.size()]);
-			cc = ccAddresses.toArray(new Address[ccAddresses.size()]);
+			to = toAddresses.toArray(new Address[0]);
+			cc = ccAddresses.toArray(new Address[0]);
 		}
 
 		@VisibleForTesting

@@ -1,5 +1,7 @@
 package org.atalk.xryptomail.mail.store.imap;
 
+import androidx.annotation.NonNull;
+
 import timber.log.Timber;
 
 class ImapPushState {
@@ -33,6 +35,7 @@ class ImapPushState {
         this.uidNext = uidNext;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "uidNext=" + uidNext;

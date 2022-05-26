@@ -1,5 +1,7 @@
 package org.atalk.xryptomail;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class Identity implements Serializable {
@@ -59,6 +61,7 @@ public class Identity implements Serializable {
         this.replyTo = replyTo;
     }
 
+    @NonNull
     @Override
     public synchronized String toString() {
         return "Account.Identity(description=" + mDescription + ", name=" + mName + ", email=" + mEmail + ", replyTo=" + replyTo + ", signature=" + mSignature;

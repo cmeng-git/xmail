@@ -246,7 +246,7 @@ public class MailService extends JobIntentService
 
         // Invalidate the lastCheckEnd if the value is older than (shortestInterval + 1)
         long now = System.currentTimeMillis();
-        if ((lastCheckEnd > now) || (now - lastCheckEnd) > (shortestInterval + 1) * 60 * 60 * 1000) {
+        if ((lastCheckEnd > now) || (now - lastCheckEnd) > (long) (shortestInterval + 1) * 60 * 60 * 1000) {
             Timber.w("Database has invalid last mail check time (%tc). Reset it to present: %tc",
                     new Date(lastCheckEnd), new Date());
             lastCheckEnd = now;

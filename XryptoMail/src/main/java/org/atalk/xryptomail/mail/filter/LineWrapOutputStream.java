@@ -7,7 +7,7 @@ import java.io.OutputStream;
 public class LineWrapOutputStream extends FilterOutputStream {
     private static final byte[] CRLF = new byte[] {'\r', '\n'};
 
-    private byte[] buffer;
+    private final byte[] buffer;
     private int bufferStart = 0;
     private int lineLength = 0;
     private int endOfLastWord = 0;

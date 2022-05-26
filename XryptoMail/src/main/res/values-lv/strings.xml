@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Atļauj šai aplikācijai kontrolēt XryptoMail Pasta darbības un iestatījumus</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Autortiesības 2008-<xliff:g>%s</xliff:g> The XryptoMail. Daļējas autortiesības 2006-<xliff:g>%s</xliff:g> Android atvērtā koda projekts.</string>
+  <string name="app_copyright_fmt">Autortiesības 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Daļējas autortiesības 2006-<xliff:g>%2$s</xliff:g> Android atvērtā koda projekts.</string>
   <string name="app_license">Licencēts ar Apache License, versija 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Laipni lūdzam XryptoMail Pastā</string>
@@ -46,42 +46,42 @@ Lūdzu, iesniedziet kļūdu ziņojumus, ierosiniet jaunas iespējas un uzdodiet 
   <!--Default signature-->
   <string name="default_signature">-- \nNosūtīts ar XryptoMail Pastu no manas Android ierīces. Atvainojiet, ka esmu tik kodolīgs.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">Konts \"<xliff:g id="account">%s</xliff:g>\" tiks noņemts no XryptoMail Pasta.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Visi ierīcē saglabātie konta \"<xliff:g id="account">%s</xliff:g>\" dati tiks noņemti. Visi konta iestatījumi tiks saglabāti.</string>
-  <string name="account_clear_dlg_instructions_fmt">Ierīcē saglabātās konta \"<xliff:g id="account">%s</xliff:g>\" vēstules tiks izdzēstas. Konta iestatījumi tiks saglabāti.</string>
+  <string name="account_delete_dlg_instructions_fmt">Konts \"<xliff:g id="account">%1$s</xliff:g>\" tiks noņemts no XryptoMail Pasta.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Visi ierīcē saglabātie konta \"<xliff:g id="account">%1$s</xliff:g>\" dati tiks noņemti. Visi konta iestatījumi tiks saglabāti.</string>
+  <string name="account_clear_dlg_instructions_fmt">Ierīcē saglabātās konta \"<xliff:g id="account">%1$s</xliff:g>\" vēstules tiks izdzēstas. Konta iestatījumi tiks saglabāti.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Lūdzu, uzinstalējiet failu pārvaldnieku, lai turpinātu importēt datus.</string>
   <string name="open_market">Atvērt Play veikalu</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Autori: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Revīzijas informācija: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Mēs izmantojam sekojošas trešo pušu bibliotēkas: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Autori: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Revīzijas informācija: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Mēs izmantojam sekojošas trešo pušu bibliotēkas: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Izlasīt e-pastus</string>
   <string name="read_messages_desc">Atļauj šai aplikācijai lasīt Jūsu e-pastus</string>
   <string name="delete_messages_label">Izdzēst e-pastus</string>
   <string name="delete_messages_desc">Atļauj šai aplikācijai izdzēst Jūsu e-pastus</string>
-  <string name="about_title_fmt">Par <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">Par <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Konti</string>
   <string name="folders_title">Mapes</string>
   <string name="advanced">Detalizētāk</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="compose_title_compose">Rakstīt vēstuli</string>
   <string name="compose_title_reply">Atbildēt</string>
   <string name="compose_title_reply_all">Atbildēt visiem</string>
   <string name="compose_title_forward">Pārsūtīt</string>
   <string name="choose_folder_title">Izvēlēties mapi</string>
-  <string name="status_loading_account_folder">Pārbauda <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Saņem vēstuļu papildinformāciju <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Sūta <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Proc <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Nākošā pārbaude <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Pārbauda <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Saņem vēstuļu papildinformāciju <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Sūta <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Proc <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Nākošā pārbaude <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Sinhronizācija atslēgta - tīkls nav pieejams</string>
   <string name="status_no_background">Sinhronizācija atslēgta - fonā nav darbību</string>
   <string name="status_poll_and_push_disabled">Pārbaude un lejupielādēšana atiestatīta</string>
   <string name="status_syncing_blocked">Sinhronizācija bloķēta</string>
   <string name="status_syncing_off">Sinhronizācija atslēgta</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> atzīmēts</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> atzīmēts</string>
   <string name="next_action">Nākošais</string>
   <string name="previous_action">Iepriekšējais</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -155,22 +155,22 @@ Lūdzu, iesniedziet kļūdu ziņojumus, ierosiniet jaunas iespējas un uzdodiet 
   <string name="status_loading_error">Kļūda ielādējot vēstuli</string>
   <string name="status_loading_more_failed">Pamēģināt ielādēt vairāk vēstuļu</string>
   <string name="load_more_messages_fmt">Ielādēt līdz
-pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
+pat <xliff:g id="messages_to_load">%1$d</xliff:g> vairāk</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Konts \"<xliff:g id="account">%s</xliff:g>\" sarucis no <xliff:g id="oldSize">%s</xliff:g> līdz <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Saspiest kontu \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">Iztukšot kontu \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Atjaunot kontu \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="account_size_changed">Konts \"<xliff:g id="account">%1$s</xliff:g>\" sarucis no <xliff:g id="oldSize">%2$s</xliff:g> līdz <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Saspiest kontu \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">Iztukšot kontu \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Atjaunot kontu \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="notification_new_title">Jauna vēstule</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="zero"><xliff:g id="new_message_count">%d</xliff:g> nav jaunu vēstuļu</item>
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> jauna vēstule</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> jaunas vēstules</item>
+    <item quantity="zero"><xliff:g id="new_message_count">%1$d</xliff:g> nav jaunu vēstuļu</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> jauna vēstule</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> jaunas vēstules</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> Nelasītas (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> Nelasītas (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> vairāk <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Atbildēt</string>
   <string name="notification_action_mark_as_read">Atzīmēt kā izlasītu</string>
@@ -180,13 +180,13 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="notification_action_archive">Arhīvs</string>
   <string name="notification_action_archive_all">Arhivēt visu</string>
   <string name="notification_action_spam">Surogātpasts</string>
-  <string name="notification_certificate_error_title">Sertifikāta kļūda kontam <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Sertifikāta kļūda kontam <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Pārbaudiet sava servera iestatījumus</string>
   <string name="notification_authentication_error_title">Identitātes pārbaude neizdevās</string>
-  <string name="notification_authentication_error_text">Identifikācijas pārbaude kontam <xliff:g id="account">%s</xliff:g> neizdevās. Atjaunojiet servera iestatījumus!</string>
-  <string name="notification_bg_sync_ticker">Pārbauda pastu: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Identifikācijas pārbaude kontam <xliff:g id="account">%1$s</xliff:g> neizdevās. Atjaunojiet servera iestatījumus!</string>
+  <string name="notification_bg_sync_ticker">Pārbauda pastu: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Pārbauda pastu</string>
-  <string name="notification_bg_send_ticker">Sūta pastu: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Sūta pastu: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Sūta pastu</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Iesūtne</string>
@@ -196,19 +196,19 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="special_mailbox_name_sent">Nosūtīts</string>
   <string name="special_mailbox_name_archive">Arhīvs</string>
   <string name="special_mailbox_name_spam">Surogātpasts</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Melnraksti)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Miskaste)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Nosūtīts)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Arhīvs)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Surogātpasts)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Melnraksti)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Miskaste)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Nosūtīts)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Arhīvs)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Surogātpasts)</string>
   <string name="send_failure_subject">Neizdevās nosūtīt dažas vēstules</string>
-  <string name="debug_version_fmt">Versija: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Versija: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Iestatīt programmas kļūdu reģistrēšanu</string>
   <string name="debug_enable_debug_logging_summary">Reģistrēt papildus diagnostisko informāciju</string>
   <string name="debug_enable_sensitive_logging_title">Reģistrēt slepeno informāciju</string>
   <string name="debug_enable_sensitive_logging_summary">Drīkst reģistros rādīt paroles.</string>
   <string name="message_list_load_more_messages_action">Ielādēt vairāk vēstuļu</string>
-  <string name="message_to_fmt">Kam:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">Kam:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Temats</string>
   <string name="message_compose_content_hint">Vēstules teksts</string>
   <string name="message_compose_signature_hint">Paraksts</string>
@@ -218,7 +218,7 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="message_compose_quote_header_from">No:</string>
   <string name="message_compose_quote_header_to">Kam:</string>
   <string name="message_compose_quote_header_cc">Cc:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> rakstīja:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> rakstīja:</string>
   <string name="message_compose_reply_header_fmt_with_date">Šajā datumā <xliff:g id="sent_date">%1$s</xliff:g>, <xliff:g id="sender">%2$s</xliff:g> rakstīja:</string>
   <string name="message_compose_error_no_recipients">Jāpievieno vismaz viens saņēmējs</string>
   <string name="compose_error_incomplete_recipient">Saņēmēja lauks ir nepilnīgs!</string>
@@ -226,7 +226,7 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="message_compose_attachments_skipped_toast">Dažus pielikumus nevar pārsūtīt, jo tie nav lejupielādēti.</string>
   <string name="message_compose_description_delete_quoted_text">Noņemt citēto tekstu</string>
   <string name="message_compose_description_edit_quoted_text">Redigēt citēto tekstu</string>
-  <string name="message_view_from_format">No: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">No: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Kam:</string>
   <string name="message_view_cc_label">Cc:</string>
   <string name="message_view_bcc_label">Neredzamais:</string>
@@ -235,7 +235,7 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="message_view_status_attachment_not_saved">Nevar saglabāt pielikumu uz SD kartes.</string>
   <string name="message_view_status_no_space">Pielikumu nevar saglabāt, jo nav brīvas vietas</string>
   <string name="message_view_show_pictures_action">Rādīt bildes</string>
-  <string name="message_view_no_viewer">Nevar atrast programmu, lai atvērtu <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Nevar atrast programmu, lai atvērtu <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">lejupielādēt pilnu vēstuli</string>
   <string name="message_view_toast_unable_to_display_message">Nevar parādīt vēstuli</string>
   <string name="message_view_sender_label">caur %1$s</string>
@@ -381,7 +381,7 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="account_setup_outgoing_password_label">Parole</string>
   <string name="account_setup_outgoing_authentication_label">Identitātes pārbaude</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" nav derīgs ar \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
-  <string name="account_setup_bad_uri">Nederīgi iestatījumi: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Nederīgi iestatījumi: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Konta iespējas</string>
   <string name="compact_action">Kompakts konts</string>
   <string name="clear_action">Izmest vēstules (bīstami!)</string>
@@ -428,9 +428,9 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="account_setup_options_mail_display_count_all">visas vēstules</string>
   <string name="move_copy_cannot_copy_unsynced_message">Nevar nokopēt vai pārvietot vēstuli, kura nav sinhronizēta ar serveri</string>
   <string name="account_setup_failed_dlg_title">Iestatījumus nevar pabeigt</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Nepareizs lietotāja vārds vai parole.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">Serveris norādīja nederīgu SSL sertifikātu. Dažreiz tas ir servera nepareizas konfigurācijas dēļ. Citreiz to izraisījis mēģinājums uzlaust Jūsu e-pasta serveri. Ja nav pārliecības, kas par vainu, nospiediet "Noraidīt" un sazinieties ar sava e-pasta severa uzturētājiem.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Nevar savienoties ar serveri.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Nepareizs lietotāja vārds vai parole.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">Serveris norādīja nederīgu SSL sertifikātu. Dažreiz tas ir servera nepareizas konfigurācijas dēļ. Citreiz to izraisījis mēģinājums uzlaust Jūsu e-pasta serveri. Ja nav pārliecības, kas par vainu, nospiediet "Noraidīt" un sazinieties ar sava e-pasta severa uzturētājiem.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Nevar savienoties ar serveri.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Rediģēt informāciju</string>
   <string name="account_setup_failed_dlg_continue_action">Turpināt</string>
   <string name="account_settings_push_advanced_title">Papildus</string>
@@ -707,7 +707,7 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="count_search_summary">Izslēgt, lai ātrāk attēlotu</string>
   <string name="hide_special_accounts_title">Paslēpt īpašos kontus</string>
   <string name="hide_special_accounts_summary">Paslēpt apvienoto pastkasti un visas vēstules kontos</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier">- ar zvaigznīti</string>
   <string name="unread_modifier">- nelasīts</string>
   <string name="search_all_messages_title">Visas vēstules</string>
@@ -743,7 +743,7 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="font_size_message_view_subject">Temats</string>
   <string name="font_size_message_view_date">Laiks un datums</string>
   <string name="font_size_message_view_content">Vēstules pamatteksts</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Vēstules rakstīšana</string>
   <string name="font_size_message_compose_input">Teksta ievades lauki</string>
@@ -757,7 +757,7 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="font_size_larger">Lielāks</string>
   <string name="miscellaneous_preferences">Dažādi</string>
   <string name="error_activity_not_found">Šai darbībai nav atrasta atbilstoša aplikācija.</string>
-  <string name="send_failed_reason">Sūtīšana neizdevās: %s</string>
+  <string name="send_failed_reason">Sūtīšana neizdevās:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Saglabāt vēstuli melnrakstos?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Saglabāt vai izmest šo vēstuli?</string>
   <string name="confirm_discard_draft_message_title">Izmest vēstuli?</string>
@@ -799,30 +799,30 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="settings_exporting">Eksportē iestatījumus…</string>
   <string name="settings_importing">Importē iestatījumus…</string>
   <string name="settings_import_scanning_file">Skenē datni…</string>
-  <string name="settings_export_success">Eksportētie iestatījumi saglabāti <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Eksportētie iestatījumi saglabāti <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Iestatījumi eksportēti veiksmīgi </string>
-  <string name="settings_import_global_settings_success">Importēti vispārīgie iestatījumi no <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Importēts <xliff:g id="accounts">%s</xliff:g> no <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Importēti vispārīgie iestatījumi no <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Importēts <xliff:g id="accounts">%1$s</xliff:g> no <xliff:g id="filename">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
-    <item quantity="zero"><xliff:g id="numAccounts">%s</xliff:g> konti</item>
+    <item quantity="zero"><xliff:g id="numAccounts">%1$s</xliff:g> konti</item>
     <item quantity="one">s</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> konti</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> konti</item>
   </plurals>
   <string name="settings_export_failure">Neizdevās eksportēt iestatījumus</string>
-  <string name="settings_import_failure">Neizdevās importēt iestatījumus no <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Neizdevās importēt iestatījumus no <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Eksports izdevies</string>
   <string name="settings_export_failed_header">Eksports neizdevās</string>
   <string name="settings_import_success_header">Imports izdevies</string>
   <string name="settings_import_failed_header">Imports neizdevās</string>
   <string name="settings_import_activate_account_header">Aktivizēt kontu</string>
-  <string name="settings_import_activate_account_intro">Lai varētu izmantot šo kontu \"<xliff:g id="account">%s</xliff:g>\", jānorāda <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">Lai varētu izmantot šo kontu \"<xliff:g id="account">%1$s</xliff:g>\", jānorāda <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="zero">servera paroles</item>
     <item quantity="one">servera parole</item>
     <item quantity="other">servera paroles</item>
   </plurals>
-  <string name="settings_import_incoming_server">ienākošais serveris (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Izejošais serveris (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">ienākošais serveris (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Izejošais serveris (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="zero">Uzliek paroli…</item>
     <item quantity="one">f</item>
@@ -830,7 +830,7 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   </plurals>
   <string name="settings_import_use_incoming_server_password">Izmantot ienākošā servera paroli</string>
   <string name="activate_account_action">Aktivizēt</string>
-  <string name="account_unavailable">Konts \"<xliff:g id="account">%s</xliff:g>\" nav pieejams; jāpārbauda krātuve</string>
+  <string name="account_unavailable">Konts \"<xliff:g id="account">%1$s</xliff:g>\" nav pieejams; jāpārbauda krātuve</string>
   <string name="settings_attachment_default_path">Saglabāt pielikumus…</string>
   <string name="attachment_save_title">Saglabāt pielikumu</string>
   <string name="attachment_save_desc">Datņu pārlūks nav atrasts. Kur saglabāt šo pielikumu?</string>
@@ -859,7 +859,7 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="webview_contextmenu_email_save_action">Saglabāt kontaktos</string>
   <string name="webview_contextmenu_email_copy_action">Kopēt adresi uz starpliktuvi</string>
   <string name="webview_contextmenu_email_clipboard_label">E-pasta adrese</string>
-  <string name="image_saved_as">Saglabāja bildi kā \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Saglabāja bildi kā \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">Bildes saglabāšana neizdevās.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Visu</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -870,12 +870,12 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Meklēšanas ierobežojums serverī</string>
-  <string name="account_settings_remote_search_num_summary">Meklēšana beigsies pēc <xliff:g id="num_results">%s</xliff:g> rezultātiem.</string>
+  <string name="account_settings_remote_search_num_summary">Meklēšana beigsies pēc <xliff:g id="num_results">%1$s</xliff:g> rezultātiem.</string>
   <string name="remote_search_sending_query">Sūta uz serveri pieprasījumu</string>
   <plurals name="remote_search_downloading">
-    <item quantity="zero">Saņem %d rezultātu</item>
-    <item quantity="one">Saņem %d rezultātu</item>
-    <item quantity="other">Saņem %d rezultātus</item>
+    <item quantity="zero">Saņem%1$d rezultātu</item>
+    <item quantity="one">Saņem%1$d rezultātu</item>
+    <item quantity="other">Saņem%1$d rezultātus</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="zero">Saņem %1$d no %2$d rezultāta/-iem</item>
@@ -896,7 +896,7 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="global_settings_threaded_view_summary">Grupēt vēstules pa sarunām</string>
   <string name="upgrade_databases_title">Datubāžu atjaunināšana</string>
   <string name="upgrade_databases_unspecified">Atjaunina datubāzes</string>
-  <string name="upgrade_database_format">Atjaunina datubāzi kontam \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="upgrade_database_format">Atjaunina datubāzi kontam \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="message_list_loading">Ielādē…</string>
   <string name="global_settings_splitview_mode_label">Rādīt dalītu ekrānu</string>
   <string name="global_settings_splitview_always">Vienmēr</string>
@@ -905,9 +905,9 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="message_view_empty">Lūdzu, izvēlieties vēstuli pa kreisi</string>
   <string name="global_settings_show_contact_picture_label">Rādīt kontakta bildes</string>
   <string name="global_settings_show_contact_picture_summary">Rādīt kontakta bildes vēstuļu sarakstā</string>
-  <string name="last_refresh_time_format">Atsvaidzināts <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Atsvaidzināts <xliff:g id="time_with_preposition">%s</xliff:g> (lejupielādēšana aktīva)</string>
-  <string name="preposition_for_date"><xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Atsvaidzināts <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Atsvaidzināts <xliff:g id="time_with_preposition">%1$s</xliff:g> (lejupielādēšana aktīva)</string>
+  <string name="preposition_for_date"><xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Atzīmēt visu kā izlasītu</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Iekrāsot kontaktu bildes</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Iekrāsot trūkstošo kontaktu bildes</string>
@@ -922,7 +922,7 @@ pat <xliff:g id="messages_to_load">%d</xliff:g> vairāk</string>
   <string name="account_setup_basics_client_certificate">Izmantot klienta sertifikātu</string>
   <string name="client_certificate_spinner_empty">Nav klienta sertifikāta</string>
   <string name="client_certificate_spinner_delete">Noņemt atzīmi klienta sertifikātam</string>
-  <string name="client_certificate_retrieval_failure">Neizdevās saņemt klienta sertifikātu aizstājvārdam \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">Neizdevās saņemt klienta sertifikātu aizstājvārdam \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Papildus iespējas</string>
   <string name="client_certificate_expired">Klienta sertifikātam \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" beidzies derīguma termiņš vai arī tas vēl nav derīgs (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

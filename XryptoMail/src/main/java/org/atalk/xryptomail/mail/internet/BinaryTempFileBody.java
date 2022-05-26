@@ -1,11 +1,8 @@
 package org.atalk.xryptomail.mail.internet;
 
-import android.util.Log;
-
-import org.apache.commons.io.IOUtils;
 import org.apache.james.mime4j.codec.QuotedPrintableOutputStream;
 import org.apache.james.mime4j.util.MimeUtil;
-import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.helper.FileBackend;
 import org.atalk.xryptomail.mail.MessagingException;
 import org.atalk.xryptomail.mail.filter.Base64OutputStream;
 
@@ -16,6 +13,7 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 import timber.log.Timber;
 
 /**
@@ -56,8 +54,7 @@ public class BinaryTempFileBody implements RawDataBody, SizeAware {
 
         try {
             File newFile = File.createTempFile("body", null, mTempDirectory);
-            final OutputStream out = new FileOutputStream(newFile);
-            try {
+            try (OutputStream out = new FileOutputStream(newFile)) {
                 OutputStream wrappedOut;
                 if (MimeUtil.ENC_QUOTED_PRINTABLE.equals(encoding)) {
                     wrappedOut = new QuotedPrintableOutputStream(out, false);
@@ -66,16 +63,11 @@ public class BinaryTempFileBody implements RawDataBody, SizeAware {
                 } else {
                     throw new RuntimeException("Target encoding not supported: " + encoding);
                 }
-
-                InputStream in = getInputStream();
-                try {
-                    IOUtils.copy(in, wrappedOut);
+                try (InputStream in = getInputStream()) {
+                    FileBackend.copy(in, wrappedOut);
                 } finally {
-                    IOUtils.closeQuietly(in);
-                    IOUtils.closeQuietly(wrappedOut);
+                    wrappedOut.close();
                 }
-            } finally {
-                IOUtils.closeQuietly(out);
             }
 
             mFile = newFile;
@@ -107,11 +99,8 @@ public class BinaryTempFileBody implements RawDataBody, SizeAware {
     }
 
     public void writeTo(OutputStream out) throws IOException, MessagingException {
-        InputStream in = getInputStream();
-        try {
-            IOUtils.copy(in, out);
-        } finally {
-            IOUtils.closeQuietly(in);
+        try (InputStream inputStream = getInputStream()) {
+            FileBackend.copy(inputStream, out);
         }
     }
 

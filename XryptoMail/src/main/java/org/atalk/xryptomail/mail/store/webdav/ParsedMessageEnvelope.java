@@ -29,8 +29,8 @@ class ParsedMessageEnvelope {
 
     private boolean mReadStatus = false;
     private String mUid = "";
-    private Map<String, String> mMessageHeaders = new HashMap<>();
-    private List<String> mHeaders = new ArrayList<>();
+    private final Map<String, String> mMessageHeaders = new HashMap<>();
+    private final List<String> mHeaders = new ArrayList<>();
 
     public void addHeader(String field, String value) {
         String headerName = HEADER_MAPPINGS.get(field);

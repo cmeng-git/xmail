@@ -77,8 +77,8 @@ import static org.atalk.xryptomail.mail.ServerSettings.Type.WebDAV;
 
 public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oauth2PromptRequestHandler
 {
-    private Context context;
-    private Preferences preferences;
+    private final Context context;
+    private final Preferences preferences;
 
     private ServerSettings incomingSettings;
     private ServerSettings outgoingSettings;
@@ -107,8 +107,8 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         ACCOUNT_NAMES,
     }
 
-    private View view;
-    private AsyncTask findProviderTask;
+    private final View view;
+    private AsyncTask<?, ?, ?> findProviderTask;
     private CheckDirection currentDirection;
     private CheckDirection direction;
 
@@ -125,7 +125,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     private Stage stage;
     private boolean restoring;
     private AccountConfig accountConfig;
-    private Handler handler;
+    private final Handler handler;
     private boolean canceled;
     private boolean destroyed;
 
@@ -437,61 +437,49 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     {
         direction = CheckDirection.BOTH;
         currentDirection = CheckDirection.INCOMING;
-        new CheckIncomingTask(accountConfig, new CheckSettingsSuccessCallback()
-        {
-            @Override
-            public void onCheckSuccess()
-            {
-                checkOutgoing();
-            }
-        }).execute();
+        new CheckIncomingTask(accountConfig, this::checkOutgoing).execute();
     }
 
     private void checkIncoming()
     {
         direction = CheckDirection.INCOMING;
         currentDirection = CheckDirection.INCOMING;
-        new CheckIncomingTask(accountConfig, new CheckSettingsSuccessCallback()
-        {
-            @Override
-            public void onCheckSuccess()
-            {
-                if (editSettings) {
-                    updateAccount();
-                    view.end();
+        new CheckIncomingTask(accountConfig, () -> {
+            if (editSettings) {
+                updateAccount();
+                view.end();
+            }
+            else {
+                if (outgoingReady) {
+                    accountConfig.setDescription(accountConfig.getEmail());
+                    view.goToAccountNames();
+                    return;
                 }
-                else {
-                    if (outgoingReady) {
-                        accountConfig.setDescription(accountConfig.getEmail());
-                        view.goToAccountNames();
-                        return;
+                try {
+                    String password = null;
+                    String clientCertificateAlias = null;
+                    if (AuthType.EXTERNAL == incomingSettings.authenticationType) {
+                        clientCertificateAlias = incomingSettings.clientCertificateAlias;
                     }
-                    try {
-                        String password = null;
-                        String clientCertificateAlias = null;
-                        if (AuthType.EXTERNAL == incomingSettings.authenticationType) {
-                            clientCertificateAlias = incomingSettings.clientCertificateAlias;
-                        }
-                        else {
-                            password = incomingSettings.password;
-                        }
-
-                        URI oldUri = new URI(accountConfig.getTransportUri());
-                        ServerSettings transportServer = new ServerSettings(Type.SMTP,
-                                oldUri.getHost(), oldUri.getPort(),
-                                ConnectionSecurity.SSL_TLS_REQUIRED, currentIncomingAuthType,
-                                incomingSettings.username, password, clientCertificateAlias);
-                        String transportUri = TransportUris.createTransportUri(transportServer);
-                        accountConfig.setTransportUri(transportUri);
-                    } catch (URISyntaxException use) {
-                    /*
-                     * If we can't set up the URL we just continue. It's only for
-                     * convenience.
-                     */
+                    else {
+                        password = incomingSettings.password;
                     }
 
-                    view.goToOutgoing();
+                    URI oldUri = new URI(accountConfig.getTransportUri());
+                    ServerSettings transportServer = new ServerSettings(Type.SMTP,
+                            oldUri.getHost(), oldUri.getPort(),
+                            ConnectionSecurity.SSL_TLS_REQUIRED, currentIncomingAuthType,
+                            incomingSettings.username, password, clientCertificateAlias);
+                    String transportUri = TransportUris.createTransportUri(transportServer);
+                    accountConfig.setTransportUri(transportUri);
+                } catch (URISyntaxException use) {
+                /*
+                 * If we can't set up the URL we just continue. It's only for
+                 * convenience.
+                 */
                 }
+
+                view.goToOutgoing();
             }
         }).execute();
     }
@@ -501,21 +489,16 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         direction = CheckDirection.OUTGOING;
         currentDirection = CheckDirection.OUTGOING;
 
-        new CheckOutgoingTask(accountConfig, new CheckSettingsSuccessCallback()
-        {
-            @Override
-            public void onCheckSuccess()
-            {
-                if (!editSettings) {
-                    //We've successfully checked outgoing as well.
-                    accountConfig.setDescription(accountConfig.getEmail());
-                    view.goToAccountNames();
-                }
-                else {
-                    updateAccount();
+        new CheckOutgoingTask(accountConfig, () -> {
+            if (!editSettings) {
+                //We've successfully checked outgoing as well.
+                accountConfig.setDescription(accountConfig.getEmail());
+                view.goToAccountNames();
+            }
+            else {
+                updateAccount();
 
-                    view.end();
-                }
+                view.end();
             }
         }).execute();
     }
@@ -629,7 +612,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     private abstract class CheckAccountTask extends AsyncTask<CheckDirection, Integer, Boolean>
     {
         private final AccountConfig accountConfig;
-        private CheckSettingsSuccessCallback callback;
+        private final CheckSettingsSuccessCallback callback;
 
         private CheckAccountTask(AccountConfig accountConfig)
         {
@@ -655,7 +638,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
             } catch (OAuth2NeedUserPromptException ignored) {
             } catch (final AuthenticationFailedException afe) {
                 Timber.e(afe, "Error while testing settings");
-                if (afe.getMessage().equals(AuthenticationFailedException.OAUTH2_ERROR_INVALID_REFRESH_TOKEN)) {
+                if (AuthenticationFailedException.OAUTH2_ERROR_INVALID_REFRESH_TOKEN.equals(afe.getMessage())) {
                     Globals.getOAuth2TokenProvider().disconnectEmailWithXMail(accountConfig.getEmail());
                     replayChecking();
                 }
@@ -1012,9 +995,8 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
                             //TODO: localize this string
                             altNamesText.append("Subject(alt): ").append(name).append(",...\n");
                         }
-                        else if (name.startsWith("*.") && (
-                                (incomingSettings != null && incomingSettings.host.endsWith(name.substring(2))) ||
-                                        (outgoingSettings != null && outgoingSettings.host.endsWith(name.substring(2))))) {
+                        else if (name.startsWith("*.")
+                                && (incomingSettings.host.endsWith(name.substring(2)) || outgoingSettings.host.endsWith(name.substring(2)))) {
                             //TODO: localize this string
                             altNamesText.append("Subject(alt): ").append(name).append(",...\n");
                         }
@@ -1421,12 +1403,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     @Override
     public void onInputChangedInNames(String name, String description)
     {
-        if (Utility.requiredFieldValid(name)) {
-            view.setDoneButtonInNamesEnabled(true);
-        }
-        else {
-            view.setDoneButtonInNamesEnabled(false);
-        }
+        view.setDoneButtonInNamesEnabled(Utility.requiredFieldValid(name));
     }
 
     @Override
@@ -1989,22 +1966,22 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
 
     static class AccountSetupStatus
     {
-        private ConnectionSecurity incomingSecurityType;
-        private AuthType incomingAuthType;
-        private String incomingPort;
+        private final ConnectionSecurity incomingSecurityType;
+        private final AuthType incomingAuthType;
+        private final String incomingPort;
 
-        private ConnectionSecurity outgoingSecurityType;
-        private AuthType outgoingAuthType;
-        private String outgoingPort;
+        private final ConnectionSecurity outgoingSecurityType;
+        private final AuthType outgoingAuthType;
+        private final String outgoingPort;
 
-        private boolean notifyNewMail;
-        private boolean showOngoing;
-        private int automaticCheckIntervalMinutes;
-        private int displayCount;
-        private Account.FolderMode folderPushMode;
+        private final boolean notifyNewMail;
+        private final boolean showOngoing;
+        private final int automaticCheckIntervalMinutes;
+        private final int displayCount;
+        private final Account.FolderMode folderPushMode;
 
-        private String name;
-        private String description;
+        private final String name;
+        private final String description;
 
         AccountSetupStatus(ConnectionSecurity incomingSecurityType, AuthType incomingAuthType,
                 String incomingPort, ConnectionSecurity outgoingSecurityType, AuthType outgoingAuthType,

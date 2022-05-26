@@ -4,7 +4,7 @@
     <Button
         android:id="@+id/client_certificate_spinner_button"
         style="?android:attr/spinnerStyle"
-        android:layout_width="0dip"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/client_certificate_spinner_empty"

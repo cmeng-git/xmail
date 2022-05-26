@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Mae\'n galluogi\'r aplen hon i reoli gweithredoedd a gosodiadau XryptoMail Mail.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Hawlfraint 2008-<xliff:g>%s</xliff:g> The XryptoMail. Hawlfraint Cyfrannau 2006-<xliff:g>%s</xliff:g> Android Open Source Project.</string>
+  <string name="app_copyright_fmt">Hawlfraint 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Hawlfraint Cyfrannau 2006-<xliff:g>%2$s</xliff:g> Android Open Source Project.</string>
   <string name="app_license">Trwyddedir dan yr Apache License, Fersiwn 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Croeso i XryptoMail Mail</string>
@@ -45,25 +45,25 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <!--Default signature-->
   <string name="default_signature">-- \nAnfonwyd gyda XryptoMail Mail ar Android\n - yr ap ebost cyntaf yn y Gymraeg.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">Caiff y cyfrif \"<xliff:g id="account">%s</xliff:g>\" ei dynnu o XryptoMail Mail.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Caiff yr holl ddata lleol ar gyfer \"<xliff:g id="account">%s</xliff:g>\" ei dynnu. Caiff gosodiadau\'r cyfrif eu cadw.</string>
-  <string name="account_clear_dlg_instructions_fmt">Caiff copïau lleol o negeseuon yn \"<xliff:g id="account">%s</xliff:g>\" eu tynnu. Caiff gosodiadau\'r cyfrif eu cadw.</string>
+  <string name="account_delete_dlg_instructions_fmt">Caiff y cyfrif \"<xliff:g id="account">%1$s</xliff:g>\" ei dynnu o XryptoMail Mail.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Caiff yr holl ddata lleol ar gyfer \"<xliff:g id="account">%1$s</xliff:g>\" ei dynnu. Caiff gosodiadau\'r cyfrif eu cadw.</string>
+  <string name="account_clear_dlg_instructions_fmt">Caiff copïau lleol o negeseuon yn \"<xliff:g id="account">%1$s</xliff:g>\" eu tynnu. Caiff gosodiadau\'r cyfrif eu cadw.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Rhaid gosod rheolwr ffeiliau er mwyn parhau gyda\'r mewnforio.</string>
   <string name="open_market">Agor Play Store</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Awduron: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Gwybodaeth Adolygu: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Rydym yn defnyddio\'r llyfrgelloedd trydydd parti canlynol: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Awduron: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Gwybodaeth Adolygu: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Rydym yn defnyddio\'r llyfrgelloedd trydydd parti canlynol: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Darllen E-bost</string>
   <string name="read_messages_desc">Galluogi\'r ap hwn i ddarllen dy e-bost.</string>
   <string name="delete_messages_label">Dileu E-bost</string>
   <string name="delete_messages_desc">Galluogi\'r ap hwn i ddileu dy negeseuon e-bost.</string>
-  <string name="about_title_fmt">Ynghylch <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">Ynghylch <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Cyfrifon</string>
   <string name="folders_title">Ffolderi</string>
   <string name="advanced">Uwch</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">Ysgrifennu</string>
   <string name="compose_title_reply">Ateb</string>
   <string name="compose_title_reply_all">Ateb i bawb</string>
@@ -71,18 +71,18 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="compose_title_forward_as_attachment">Anfon ymlaen fel atodiad</string>
   <string name="choose_account_title">Dewis cyfrif</string>
   <string name="choose_folder_title">Dewis ffolder</string>
-  <string name="status_loading_account_folder">Yn gwirio <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Yn nôl penynnau <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Yn anfon <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Proc <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Gwiriad nesaf <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Yn gwirio <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Yn nôl penynnau <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Yn anfon <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Proc <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Gwiriad nesaf <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Analluogwyd cysoni - Dim rhwydwaith</string>
   <string name="status_no_background">Analluogwyd cysoni - Dim gweithred cefndir</string>
   <string name="status_poll_and_push_disabled">Analluogwyd gwirio a gwthio</string>
   <string name="status_syncing_blocked">Cysoni wedi ei rwystro</string>
   <string name="status_syncing_off">Cysoni wedi ei analluogi</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> wedi\'i dewis</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> wedi\'i dewis</string>
   <string name="next_action">Nesaf</string>
   <string name="previous_action">Blaenorol</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -158,23 +158,23 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="status_loading_error">Gwall llwytho neges</string>
   <string name="status_loading_more_failed">Ail-geisio llwytho rhagor o negeseuon</string>
   <string name="load_more_messages_fmt">Llwytho
-    hyd at <xliff:g id="messages_to_load">%d</xliff:g> arall</string>
+    hyd at <xliff:g id="messages_to_load">%1$d</xliff:g> arall</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Lleihawyd cyfrif \"<xliff:g id="account">%s</xliff:g>\" o <xliff:g id="oldSize">%s</xliff:g> i <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Yn lleihau\'r cyfrif \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">Yn clirio\'r cyfrif \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Yn ail-greu\'r cyfrif \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="account_size_changed">Lleihawyd cyfrif \"<xliff:g id="account">%1$s</xliff:g> \" o <xliff:g id="oldSize">%2$s</xliff:g> i <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Yn lleihau\'r cyfrif \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">Yn clirio\'r cyfrif \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Yn ail-greu\'r cyfrif \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="notification_new_title">Neges newydd</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> neges newydd</item>
-    <item quantity="two"><xliff:g id="new_message_count">%d</xliff:g> neges newydd</item>
-    <item quantity="many"><xliff:g id="new_message_count">%d</xliff:g> neges newydd</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> neges newydd</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> neges newydd</item>
+    <item quantity="two"><xliff:g id="new_message_count">%1$d</xliff:g> neges newydd</item>
+    <item quantity="many"><xliff:g id="new_message_count">%1$d</xliff:g> neges newydd</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> neges newydd</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> Heb eu darllen (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> Heb eu darllen (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> yn rhagor ar <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Ateb</string>
   <string name="notification_action_mark_as_read">Nodi wedi ei Darllen</string>
@@ -184,13 +184,13 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="notification_action_archive">Archifo</string>
   <string name="notification_action_archive_all">Archifo\'r Cwbl</string>
   <string name="notification_action_spam">Sbam</string>
-  <string name="notification_certificate_error_title">Gwall tystysgrif ar gyfer <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Gwall tystysgrif ar gyfer <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Gwiriwch gosodiadau\'ch gweinydd</string>
   <string name="notification_authentication_error_title">Methwyd a dilysu</string>
-  <string name="notification_authentication_error_text">Methodd y dilysiad ar gyfer <xliff:g id="account">%s</xliff:g>. Diweddara dy osodiadau gweinydd.</string>
-  <string name="notification_bg_sync_ticker">Yn gwirio am negeseuon: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Methodd y dilysiad ar gyfer <xliff:g id="account">%1$s</xliff:g>. Diweddara dy osodiadau gweinydd.</string>
+  <string name="notification_bg_sync_ticker">Yn gwirio am negeseuon: <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Yn gwirio am negeseuon</string>
-  <string name="notification_bg_send_ticker">Yn anfon negeseuon: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Yn anfon negeseuon: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Yn anfon neges</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Blwch Derbyn</string>
@@ -200,19 +200,19 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="special_mailbox_name_sent">Anfonwyd</string>
   <string name="special_mailbox_name_archive">Archif</string>
   <string name="special_mailbox_name_spam">Sbam</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Drafftiau)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Sbwriel)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Anfonwyd)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Archif)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Sbam)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Drafftiau)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Sbwriel)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Anfonwyd)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Archif)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Sbam)</string>
   <string name="send_failure_subject">Methwyd ag anfon rhai negeseuon</string>
-  <string name="debug_version_fmt">Fersiwn: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Fersiwn: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Galluogi logio dadfygio</string>
   <string name="debug_enable_debug_logging_summary">Logio gwybodaeth ddiagnostig ychwanegol</string>
   <string name="debug_enable_sensitive_logging_title">Logio gwybodaeth sensitif</string>
   <string name="debug_enable_sensitive_logging_summary">Gall dangos cyfrineiriau mewn logiau.</string>
   <string name="message_list_load_more_messages_action">Llwytho rhagor o negeseuon</string>
-  <string name="message_to_fmt">At:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">At:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Pwnc</string>
   <string name="message_compose_content_hint">Testun neges</string>
   <string name="message_compose_signature_hint">Llofnod</string>
@@ -222,8 +222,8 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="message_compose_quote_header_from">Oddi wrth:</string>
   <string name="message_compose_quote_header_to">At:</string>
   <string name="message_compose_quote_header_cc">Cc:</string>
-  <string name="message_compose_reply_header_fmt">Ysgrifennodd <xliff:g id="sender">%s</xliff:g>:</string>
-  <string name="message_compose_reply_header_fmt_with_date">Ar <xliff:g id="sent_date">%1$s</xliff:g>, ysgrifennodd <xliff:g id="sender">%2$s</xliff:g>:</string>
+  <string name="message_compose_reply_header_fmt">Ysgrifennodd <xliff:g id="sender">%1$s</xliff:g></string>
+  <string name="message_compose_reply_header_fmt_with_date">Ar <xliff:g id="sent_date">%1$s</xliff:g>, ysgrifennodd <xliff:g id="sender">%2$s</xliff:g></string>
   <string name="message_compose_error_no_recipients">Rhaid rhoi rhywun i dderbyn y neges.</string>
   <string name="compose_error_incomplete_recipient">Mae rhywbeth yn anghywir ym maes y derbyniwr</string>
   <string name="error_contact_address_not_found">Methwyd canfod cyfeiriad e-bost ar gyfer y cyswllt hon.</string>
@@ -232,7 +232,7 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="message_compose_show_quoted_text_action">Cynnwys neges wedi\'i dyfynnu</string>
   <string name="message_compose_description_delete_quoted_text">Tynnu\'r testun wedi ei ddyfynnu</string>
   <string name="message_compose_description_edit_quoted_text">Golygu\'r testun wedi ei ddyfynnu</string>
-  <string name="message_view_from_format">Oddi wrth: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">Oddi wrth: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">At:</string>
   <string name="message_view_cc_label">Cc:</string>
   <string name="message_view_bcc_label">Bcc:</string>
@@ -241,7 +241,7 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="message_view_status_attachment_not_saved">Methu cadw atodiad i gerdyn SD.</string>
   <string name="message_view_status_no_space">Methwyd cadw\'r atodiad gan nad oes digon o le.</string>
   <string name="message_view_show_pictures_action">Dangos delweddau</string>
-  <string name="message_view_no_viewer">Methwyd cael hyd i ap er mwyn darllen <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Methwyd cael hyd i ap er mwyn darllen <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Lawrlwytho\'r neges cyfan</string>
   <string name="message_view_toast_unable_to_display_message">Methu dangos y neges</string>
   <string name="message_view_sender_label">trwy %1$s</string>
@@ -249,7 +249,7 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="message_no_additional_headers_available">Mae\'r holl benynnau wedi eu lawrlwytho, ond does dim penynnau eraill i\'w dangos.</string>
   <string name="message_additional_headers_retrieval_failed">Methwyd nôl penynnau ychwanegol o\'r gronfa ddata neu methodd y gweinydd.</string>
   <string name="from_same_sender">Rhagor gan yr anfonwr hwn</string>
-  <string name="search_from_format">Oddi wrth <xliff:g id="sender">%s</xliff:g></string>
+  <string name="search_from_format">Oddi wrth <xliff:g id="sender">%1$s</xliff:g></string>
   <string name="debug_delete_local_body">Dadfygio / Clirio corff y neges</string>
   <string name="message_discarded_toast">Dileuwyd y neges</string>
   <string name="message_saved_toast">Neges wedi ei chadw fel drafft</string>
@@ -390,7 +390,7 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="account_setup_outgoing_password_label">Cyfrinair</string>
   <string name="account_setup_outgoing_authentication_label">Dilysiad</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">Dyw \"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" ddim yn dilys gyda \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
-  <string name="account_setup_bad_uri">Gosodiad annilys: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Gosodiad annilys: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Dewisiadau cyfrif</string>
   <string name="compact_action">Cywasgu\'r cyfrif</string>
   <string name="clear_action">Clirio negeseuon (pergyl!)</string>
@@ -437,9 +437,9 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="account_setup_options_mail_display_count_all">pob neges</string>
   <string name="move_copy_cannot_copy_unsynced_message">Methu copïo na symud neges na sydd wedi\'i chysoni ar y gweinydd</string>
   <string name="account_setup_failed_dlg_title">Methodd cwblhau\'r gosod</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Enw defnyddiwr neu gyfrinair anghywir.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">Cyflwynodd y gweinydd tystysgrif SSL annilys. Weithiau mae hyn oherwydd camffurfweddiad y gweinydd. Weithiau mae o ganlyniad i rywun yn ceisio ymosod arnat ti neu dy weinydd e-bost. Os nad wyt yn siŵr be sy\'n digwydd, clicia "Gwrthod" a chysylltu\'r pobol sy\'n rheoli gweinydd dy e-bost.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Methwyd cysylltu gyda\'r gweinydd.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Enw defnyddiwr neu gyfrinair anghywir.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">Cyflwynodd y gweinydd tystysgrif SSL annilys. Weithiau mae hyn oherwydd camffurfweddiad y gweinydd. Weithiau mae o ganlyniad i rywun yn ceisio ymosod arnat ti neu dy weinydd e-bost. Os nad wyt yn siŵr be sy\'n digwydd, clicia "Gwrthod" a chysylltu\'r pobol sy\'n rheoli gweinydd dy e-bost.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Methwyd cysylltu gyda\'r gweinydd.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Golygu manylion</string>
   <string name="account_setup_failed_dlg_continue_action">Parhau</string>
   <string name="account_settings_push_advanced_title">Uwch</string>
@@ -719,7 +719,7 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="count_search_summary">Bydd galluogi hyn yn arafu\'r ap.</string>
   <string name="hide_special_accounts_title">Cuddio cyfrifon arbennig</string>
   <string name="hide_special_accounts_summary">Cuddio\'r mewnflwch unedig a gwahanol gyfrifon negeseuon</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier">- Serennog</string>
   <string name="unread_modifier">- Heb eu darllen</string>
   <string name="search_all_messages_title">Pob neges</string>
@@ -755,7 +755,7 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="font_size_message_view_subject">Pwnc</string>
   <string name="font_size_message_view_date">Amser a dyddiad</string>
   <string name="font_size_message_view_content">Corff neges</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Ysgrifennu neges</string>
   <string name="font_size_message_compose_input">Meysydd mewnbwn testun</string>
@@ -769,7 +769,7 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="font_size_larger">Mwyaf</string>
   <string name="miscellaneous_preferences">Amrywiol</string>
   <string name="error_activity_not_found">Methwyd dod o hyd i ap addas ar gyfer y weithred hon.</string>
-  <string name="send_failed_reason">Methwyd anfon: %s</string>
+  <string name="send_failed_reason">Methwyd anfon:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Cadw neges fel drafft?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Cadw neu ddileu\'r neges hon?</string>
   <string name="confirm_discard_draft_message_title">Dileu\'r neges?</string>
@@ -813,33 +813,33 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="settings_exporting">Yn allforio gosodiadau…</string>
   <string name="settings_importing">Yn mewnforio gosodiadau…</string>
   <string name="settings_import_scanning_file">Yn sganio\'r ffeil…</string>
-  <string name="settings_export_success">Cadwyd y gosodiadau a allforiwyd i <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Cadwyd y gosodiadau a allforiwyd i <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Allforiwyd y gosodiadau yn llwyddiannus</string>
-  <string name="settings_import_global_settings_success">Wedi mewnforio gosodiadau ap cyfan o <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Wedi mewnforio <xliff:g id="accounts">%s</xliff:g> o <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_account_imported_as">Mewnforiwyd <xliff:g id="original_account_name">%s</xliff:g> fel <xliff:g id="account_name_after_import">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Wedi mewnforio gosodiadau ap cyfan o <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Wedi mewnforio <xliff:g id="accounts">%1$s</xliff:g> o <xliff:g id="filename">%2$s</xliff:g></string>
+  <string name="settings_import_account_imported_as">Mewnforiwyd <xliff:g id="original_account_name">%1$s</xliff:g> fel <xliff:g id="account_name_after_import">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 cyfrif</item>
-    <item quantity="two"><xliff:g id="numAccounts">%s</xliff:g> gyfrif</item>
-    <item quantity="many"><xliff:g id="numAccounts">%s</xliff:g> cyfrif</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> cyfrif</item>
+    <item quantity="two"><xliff:g id="numAccounts">%1$s</xliff:g> gyfrif</item>
+    <item quantity="many"><xliff:g id="numAccounts">%1$s</xliff:g> cyfrif</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> cyfrif</item>
   </plurals>
   <string name="settings_export_failure">Methwyd ag allforio\'r gosodiadau</string>
-  <string name="settings_import_failure">Methwyd mewnforio unrhyw osodiadau o <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Methwyd mewnforio unrhyw osodiadau o <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Llwyddodd yr allforio</string>
   <string name="settings_export_failed_header">Methodd yr allforio</string>
   <string name="settings_import_success_header">Llwyddodd y mewnforio</string>
   <string name="settings_import_failed_header">Methodd y mewnforio</string>
   <string name="settings_import_activate_account_header">Actifadu cyfrif</string>
-  <string name="settings_import_activate_account_intro">Er mwyn medru defnyddio\'r cyfrif \"<xliff:g id="account">%s</xliff:g>\" rhaid rhoi\'r <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">Er mwyn medru defnyddio\'r cyfrif \"<xliff:g id="account">%1$s</xliff:g>\" rhaid rhoi\'r <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">cyfrinair y gweinydd</item>
     <item quantity="two">gyfrinair gweinydd</item>
     <item quantity="many">cyfrinair gweinydd</item>
     <item quantity="other">cyfrinair gweinydd</item>
   </plurals>
-  <string name="settings_import_incoming_server">Gweinydd derbyn (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Gweinydd anfon (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Gweinydd derbyn (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Gweinydd anfon (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Yn gosod y cyfrinair…</item>
     <item quantity="two">Yn gosod y cyfrineiriau…</item>
@@ -848,7 +848,7 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   </plurals>
   <string name="settings_import_use_incoming_server_password">Defnyddio cyfrinair y gweinydd derbyn</string>
   <string name="activate_account_action">Actifadu</string>
-  <string name="account_unavailable">Dyw\'r cyfrif \"<xliff:g id="account">%s</xliff:g>\" ddim ar gael; \'check storage\'</string>
+  <string name="account_unavailable">Dyw\'r cyfrif \"<xliff:g id="account">%1$s</xliff:g>\" ddim ar gael; \'check storage\'</string>
   <string name="settings_attachment_default_path">Cadw atodiadau i…</string>
   <string name="attachment_save_title">Cadw atodiad</string>
   <string name="attachment_save_desc">Ni chafwyd hyd i borwr. Ym mhle wyt ti am gadw\'r atodiad hwn?</string>
@@ -889,7 +889,7 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="webview_contextmenu_email_save_action">Cadw i Gysyllteion</string>
   <string name="webview_contextmenu_email_copy_action">Copïo\'r cyfeiriad i\'r clipfwrdd</string>
   <string name="webview_contextmenu_email_clipboard_label">Cyfeiriad ebost</string>
-  <string name="image_saved_as">Wedi cadw\'r ddelwedd fel \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Wedi cadw\'r ddelwedd fel \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">Methwyd cadw\'r ddelwedd.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Pob un</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -900,13 +900,13 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Terfyn chwiliad gweinydd</string>
-  <string name="account_settings_remote_search_num_summary">Bydd y chwilioi yn stopio ar ôl dod o hyd i <xliff:g id="num_results">%s</xliff:g> canlyniad.</string>
+  <string name="account_settings_remote_search_num_summary">Bydd y chwilioi yn stopio ar ôl dod o hyd i <xliff:g id="num_results">%1$s</xliff:g> canlyniad.</string>
   <string name="remote_search_sending_query">Yn anfon gwiriad i\'r gweinydd</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">Yn nôl %d canlyniad</item>
-    <item quantity="two">Yn nôl %d ganlyniad</item>
-    <item quantity="many">Yn nôl %d canlyniad</item>
-    <item quantity="other">Yn nôl %d canlyniad</item>
+    <item quantity="one">Yn nôl %1$d canlyniad</item>
+    <item quantity="two">Yn nôl %1$d ganlyniad</item>
+    <item quantity="many">Yn nôl %1$d canlyniad</item>
+    <item quantity="other">Yn nôl %1$d canlyniad</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="one">Yn nôl %1$d o %2$d canlyniad</item>
@@ -928,7 +928,7 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="global_settings_threaded_view_summary">Grwpio negeseuon fesul sgwrs</string>
   <string name="upgrade_databases_title">Uwchraddio cronfeydd data</string>
   <string name="upgrade_databases_unspecified">Yn uwchraddio cronfeydd data…</string>
-  <string name="upgrade_database_format">Yn uwchraddio cronfeydd data\'r cyfrif \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="upgrade_database_format">Yn uwchraddio cronfeydd data\'r cyfrif \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="message_list_loading">Yn llwytho…</string>
   <string name="global_settings_splitview_mode_label">Hollti\'r sgrin</string>
   <string name="global_settings_splitview_always">O hyd</string>
@@ -937,9 +937,9 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="message_view_empty">Dewisa neges ar y chwith</string>
   <string name="global_settings_show_contact_picture_label">Dangos lluniau cysylltiadau</string>
   <string name="global_settings_show_contact_picture_summary">Dangos lluniau cysylltiadau yn y rhestr negeseuon</string>
-  <string name="last_refresh_time_format">Gwiriwyd <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Gwiriwyd <xliff:g id="time_with_preposition">%s</xliff:g> (Gwthio\'n weithredol)</string>
-  <string name="preposition_for_date">ar <xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Gwiriwyd <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Gwiriwyd <xliff:g id="time_with_preposition">%1$s</xliff:g> (Gwthio\'n weithredol)</string>
+  <string name="preposition_for_date">ar <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Nodi\'r cwbl fel wedi eu darllen</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Dangos lliwiau cysylltiadau</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Defnyddio lliwiau ar gyfer cysylltiadau heb luniau</string>
@@ -954,7 +954,7 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="account_setup_basics_client_certificate">Defnyddio tystysgrif cleient</string>
   <string name="client_certificate_spinner_empty">Dim tystysgrif cleient</string>
   <string name="client_certificate_spinner_delete">Tynnu dewis tystysgrif cleient</string>
-  <string name="client_certificate_retrieval_failure">Methwyd cael tystysgrif cleient ar gyfer yr enw amgen \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">Methwyd cael tystysgrif cleient ar gyfer yr enw amgen \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Dewisiadau uwch</string>
   <string name="client_certificate_expired">Dyw\'r dystysgrif cleient \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" ddim yn barod neu mae wedi dod i ben (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

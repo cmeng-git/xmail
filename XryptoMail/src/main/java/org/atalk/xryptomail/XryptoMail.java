@@ -2,23 +2,33 @@ package org.atalk.xryptomail;
 
 import android.app.Application;
 import android.app.DownloadManager;
-import android.content.*;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.os.*;
+import android.os.AsyncTask;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.StrictMode;
 import android.widget.Toast;
+
 import org.atalk.xryptomail.Account.SortType;
 import org.atalk.xryptomail.account.XMailOAuth2TokenProvider;
 import org.atalk.xryptomail.activity.MessageCompose;
 import org.atalk.xryptomail.activity.UpgradeDatabases;
 import org.atalk.xryptomail.controller.MessagingController;
 import org.atalk.xryptomail.controller.SimpleMessagingListener;
-import org.atalk.xryptomail.helper.TimberLog.TimberLogImpl;
+import org.atalk.xryptomail.helper.timberlog.TimberLogImpl;
+import org.atalk.xryptomail.mail.Address;
 import org.atalk.xryptomail.mail.Message;
-import org.atalk.xryptomail.mail.*;
+import org.atalk.xryptomail.mail.XryptoMailLib;
 import org.atalk.xryptomail.mail.internet.BinaryTempFileBody;
 import org.atalk.xryptomail.mail.ssl.LocalKeyStore;
 import org.atalk.xryptomail.mailstore.LocalStore;
@@ -26,25 +36,23 @@ import org.atalk.xryptomail.power.DeviceIdleManager;
 import org.atalk.xryptomail.preferences.Storage;
 import org.atalk.xryptomail.preferences.StorageEditor;
 import org.atalk.xryptomail.provider.UnreadWidgetProvider;
-import org.atalk.xryptomail.service.*;
+import org.atalk.xryptomail.service.BootReceiver;
+import org.atalk.xryptomail.service.MailService;
+import org.atalk.xryptomail.service.ShutdownReceiver;
+import org.atalk.xryptomail.service.StorageGoneReceiver;
 import org.atalk.xryptomail.widget.list.MessageListWidgetProvider;
-import timber.log.Timber;
 
-import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 
-public class XryptoMail extends Application
-{
-    public static String mVersion;
-    public static String mVersionOnServer;
-    public static String mNewApkPathOnServer;
-    public static String mUpdateApkPath;
+import timber.log.Timber;
 
-    // Default Settings for new firmware online update
-    public static String CRYPTO_SERVER = "atalk.sytes.net";
-    public static String mCurUserID = "guest@atalk.org";
+public class XryptoMail extends Application {
+    public static String mVersion;
 
     /**
      * Components that are interested in knowing when the XryptoMail instance is
@@ -52,8 +60,7 @@ public class XryptoMail extends Application
      * components') should implement this interface and register using
      * {@link XryptoMail#registerApplicationAware(ApplicationAware)}.
      */
-    public interface ApplicationAware
-    {
+    public interface ApplicationAware {
         /**
          * Called when the Application instance is available and ready.
          *
@@ -62,12 +69,8 @@ public class XryptoMail extends Application
         void initializeComponent(Application application);
     }
 
-    public static final String FINISH_ALL_ACTIVITIES_ACTIVITY_ACTION = "org.atalk.xryptomail.FinishAllActivities";
-    public static final String NEXT_INTENT = "NEXT_INTENT";
     public static final String EXTRA_STARTUP = "startup";
-
     public static Application instance = null;
-    public static File tempDirectory;
 
     /**
      * Name of the {@link SharedPreferences} file used to store the last known version of the
@@ -100,8 +103,7 @@ public class XryptoMail extends Application
      */
     private static boolean sInitialized = false;
 
-    public enum BACKGROUND_OPS
-    {
+    public enum BACKGROUND_OPS {
         ALWAYS,
         NEVER,
         WHEN_CHECKED_AUTO_SYNC
@@ -116,13 +118,6 @@ public class XryptoMail extends Application
     private static final FontSizes fontSizes = new FontSizes();
 
     private static BACKGROUND_OPS backgroundOps = BACKGROUND_OPS.WHEN_CHECKED_AUTO_SYNC;
-    /**
-     * Some log messages can be sent to a file, so that the logs
-     * can be read using unprivileged access (eg. Terminal Emulator)
-     * on the phone, without adb.  Set to null to disable
-     */
-    public static final String logFile = null;
-    // public static final String logFile = Environment.getExternalStorageDirectory() + "/CryptoMail/debug.log";
 
     /**
      * If this is enabled, various development settings will be enabled
@@ -165,8 +160,7 @@ public class XryptoMail extends Application
     /**
      * Controls when to hide the subject in the notification area.
      */
-    public enum NotificationHideSubject
-    {
+    public enum NotificationHideSubject {
         ALWAYS,
         WHEN_LOCKED,
         NEVER
@@ -181,8 +175,7 @@ public class XryptoMail extends Application
      * Do not change the order of the items! The ordinal value (position) is used when saving the
      * settings.</p>
      */
-    public enum Theme
-    {
+    public enum Theme {
         LIGHT,
         DARK,
         USE_GLOBAL
@@ -191,8 +184,7 @@ public class XryptoMail extends Application
     /**
      * Controls behaviour of delete button in notifications.
      */
-    public enum NotificationQuickDelete
-    {
+    public enum NotificationQuickDelete {
         ALWAYS,
         FOR_SINGLE_MSG,
         NEVER
@@ -201,8 +193,7 @@ public class XryptoMail extends Application
     private static LockScreenNotificationVisibility sLockScreenNotificationVisibility =
             LockScreenNotificationVisibility.MESSAGE_COUNT;
 
-    public enum LockScreenNotificationVisibility
-    {
+    public enum LockScreenNotificationVisibility {
         EVERYTHING,
         SENDERS,
         MESSAGE_COUNT,
@@ -213,8 +204,7 @@ public class XryptoMail extends Application
     /**
      * Controls when to use the message list split view.
      */
-    public enum SplitViewMode
-    {
+    public enum SplitViewMode {
         ALWAYS,
         NEVER,
         WHEN_IN_LANDSCAPE
@@ -256,7 +246,7 @@ public class XryptoMail extends Application
     private static boolean sOpenPgpSupportSignOnly = false;
 
     private static SortType mSortType;
-    private static Map<SortType, Boolean> mSortAscending = new HashMap<>();
+    private static final Map<SortType, Boolean> mSortAscending = new HashMap<>();
 
     private static boolean sUseBackgroundAsUnreadIndicator = true;
     private static boolean sThreadedViewEnabled = true;
@@ -282,7 +272,6 @@ public class XryptoMail extends Application
      */
     public static final String FOLDER_NONE = "-NONE-";
     public static final String LOCAL_UID_PREFIX = "XryptoMailLOCAL:";
-    public static final String REMOTE_UID_PREFIX = "XryptoMailREMOTE:";
     public static final String IDENTITY_HEADER = XryptoMailLib.IDENTITY_HEADER;
 
     /**
@@ -316,14 +305,11 @@ public class XryptoMail extends Application
     public static final int WAKE_LOCK_TIMEOUT = 600000;
     public static final int MANUAL_WAKE_LOCK_TIMEOUT = 120000;
     public static final int PUSH_WAKE_LOCK_TIMEOUT = XryptoMailLib.PUSH_WAKE_LOCK_TIMEOUT;
-    public static final int MAIL_SERVICE_WAKE_LOCK_TIMEOUT = 60000;
     public static final int BOOT_RECEIVER_WAKE_LOCK_TIMEOUT = 60000;
     public static final String NO_OPENPGP_PROVIDER = "";
 
-    public static class Intents
-    {
-        public static class EmailReceived
-        {
+    public static class Intents {
+        public static class EmailReceived {
             public static final String ACTION_EMAIL_RECEIVED = BuildConfig.APPLICATION_ID + ".intent.action.EMAIL_RECEIVED";
             public static final String ACTION_EMAIL_DELETED = BuildConfig.APPLICATION_ID + ".intent.action.EMAIL_DELETED";
             public static final String ACTION_REFRESH_OBSERVER = BuildConfig.APPLICATION_ID + ".intent.action.REFRESH_OBSERVER";
@@ -338,8 +324,7 @@ public class XryptoMail extends Application
             public static final String EXTRA_FROM_SELF = BuildConfig.APPLICATION_ID + ".intent.extra.FROM_SELF";
         }
 
-        public static class Share
-        {
+        public static class Share {
             /*
              * We don't want to use EmailReceived.EXTRA_FROM ("org.atalk.xryptomail.intent.extra.FROM") because
              * of different semantics (String array vs. string with comma separated email addresses)
@@ -353,8 +338,7 @@ public class XryptoMail extends Application
      * enables or disables the Compose activity, the boot receiver and the service based on
      * whether any accounts are configured.
      */
-    public static void setServicesEnabled(Context context)
-    {
+    public static void setServicesEnabled(Context context) {
         Context appContext = context.getApplicationContext();
         int acctLength = Preferences.getPreferences(appContext).getAvailableAccounts().size();
         boolean enable = acctLength > 0;
@@ -363,19 +347,16 @@ public class XryptoMail extends Application
         updateDeviceIdleReceiver(appContext, enable);
     }
 
-    private static void updateDeviceIdleReceiver(Context context, boolean enable)
-    {
+    private static void updateDeviceIdleReceiver(Context context, boolean enable) {
         DeviceIdleManager deviceIdleManager = DeviceIdleManager.getInstance(context);
         if (enable) {
             deviceIdleManager.registerReceiver();
-        }
-        else {
+        } else {
             deviceIdleManager.unregisterReceiver();
         }
     }
 
-    private static void setServicesEnabled(Context context, boolean enabled, Integer wakeLockId)
-    {
+    private static void setServicesEnabled(Context context, boolean enabled, Integer wakeLockId) {
         PackageManager pm = context.getPackageManager();
         if (!enabled && pm.getComponentEnabledSetting(new ComponentName(context, MailService.class)) ==
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
@@ -388,7 +369,6 @@ public class XryptoMail extends Application
         Class<?>[] classes = {MessageCompose.class, BootReceiver.class, MailService.class};
 
         for (Class<?> clazz : classes) {
-
             boolean alreadyEnabled = pm.getComponentEnabledSetting(new ComponentName(context, clazz)) ==
                     PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
 
@@ -416,15 +396,14 @@ public class XryptoMail extends Application
      * would make K-9 auto-start. We don't want auto-start because the initialization
      * sequence isn't safe while some events occur (SD card unmount).
      */
-    protected void registerReceivers()
-    {
+    protected void registerReceivers() {
         final StorageGoneReceiver receiver = new StorageGoneReceiver();
         final IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_MEDIA_EJECT);
         filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
         filter.addDataScheme("file");
 
-        final BlockingQueue<Handler> queue = new SynchronousQueue<Handler>();
+        final BlockingQueue<Handler> queue = new SynchronousQueue<>();
 
         // starting a new thread to handle unmount events
         new Thread(() -> {
@@ -449,8 +428,7 @@ public class XryptoMail extends Application
         Timber.i("Registered: shutdown receiver");
     }
 
-    public static void save(StorageEditor editor)
-    {
+    public static void save(StorageEditor editor) {
         editor.putBoolean("enableDebugLogging", XryptoMail.DEBUG);
         editor.putBoolean("enableSensitiveLogging", XryptoMail.DEBUG_SENSITIVE);
         editor.putString("backgroundOperations", XryptoMail.backgroundOps.name());
@@ -502,7 +480,7 @@ public class XryptoMail extends Application
         editor.putBoolean("confirmMarkAllRead", mConfirmMarkAllRead);
 
         editor.putString("sortTypeEnum", mSortType.name());
-        editor.putBoolean("sortAscending", mSortAscending.get(mSortType));
+        editor.putBoolean("sortAscending", Boolean.TRUE.equals(mSortAscending.get(mSortType)));
 
         editor.putString("notificationHideSubject", sNotificationHideSubject.toString());
         editor.putString("notificationQuickDelete", sNotificationQuickDelete.toString());
@@ -524,8 +502,7 @@ public class XryptoMail extends Application
         fontSizes.save(editor);
     }
 
-    private void getAppVersion()
-    {
+    private void getAppVersion() {
         PackageInfo pInfo;
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -536,8 +513,7 @@ public class XryptoMail extends Application
         }
     }
 
-    private void setupStrictMode()
-    {
+    private void setupStrictMode() {
         if (XryptoMail.DEVELOPER_MODE) {
             StrictMode.enableDefaults();
         }
@@ -553,11 +529,9 @@ public class XryptoMail extends Application
     }
 
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         setupStrictMode();
         getAppVersion();
-        PRNGFixes.apply();
 
         super.onCreate();
         instance = this;
@@ -565,17 +539,14 @@ public class XryptoMail extends Application
         Globals.setOAuth2TokenProvider(new XMailOAuth2TokenProvider(this));
         TimberLogImpl.init();
 
-        XryptoMailLib.setDebugStatus(new XryptoMailLib.DebugStatus()
-        {
+        XryptoMailLib.setDebugStatus(new XryptoMailLib.DebugStatus() {
             @Override
-            public boolean enabled()
-            {
+            public boolean enabled() {
                 return DEBUG;
             }
 
             @Override
-            public boolean debugSensitive()
-            {
+            public boolean debugSensitive() {
                 return DEBUG_SENSITIVE;
             }
         });
@@ -598,10 +569,8 @@ public class XryptoMail extends Application
         setServicesEnabled(this);
         registerReceivers();
 
-        MessagingController.getInstance(this).addListener(new SimpleMessagingListener()
-        {
-            private void broadcastIntent(String action, Account account, String folder, Message message)
-            {
+        MessagingController.getInstance(this).addListener(new SimpleMessagingListener() {
+            private void broadcastIntent(String action, Account account, String folder, Message message) {
                 Uri uri = Uri.parse("email://messages/" + account.getAccountNumber() + "/" + Uri.encode(folder) + "/" + Uri.encode(message.getUid()));
                 Intent intent = new Intent(action, uri);
                 intent.putExtra(XryptoMail.Intents.EmailReceived.EXTRA_ACCOUNT, account.getDescription());
@@ -618,8 +587,7 @@ public class XryptoMail extends Application
                         action, account.getDescription(), folder, message.getUid());
             }
 
-            private void updateUnreadWidget()
-            {
+            private void updateUnreadWidget() {
                 try {
                     UnreadWidgetProvider.updateUnreadCount(XryptoMail.this);
                 } catch (Exception e) {
@@ -627,47 +595,41 @@ public class XryptoMail extends Application
                 }
             }
 
-            private void updateMailListWidget()
-            {
+            private void updateMailListWidget() {
                 try {
                     MessageListWidgetProvider.triggerMessageListWidgetUpdate(XryptoMail.this);
                 } catch (RuntimeException e) {
                     if (BuildConfig.DEBUG) {
                         throw e;
-                    }
-                    else {
+                    } else {
                         Timber.e(e, "Error while updating message list widget");
                     }
                 }
             }
 
             @Override
-            public void synchronizeMailboxRemovedMessage(Account account, String folder, Message message)
-            {
+            public void synchronizeMailboxRemovedMessage(Account account, String folder, Message message) {
                 broadcastIntent(XryptoMail.Intents.EmailReceived.ACTION_EMAIL_DELETED, account, folder, message);
                 updateUnreadWidget();
                 updateMailListWidget();
             }
 
             @Override
-            public void messageDeleted(Account account, String folder, Message message)
-            {
+            public void messageDeleted(Account account, String folder, Message message) {
                 broadcastIntent(XryptoMail.Intents.EmailReceived.ACTION_EMAIL_DELETED, account, folder, message);
                 updateUnreadWidget();
                 updateMailListWidget();
             }
 
             @Override
-            public void synchronizeMailboxNewMessage(Account account, String folder, Message message)
-            {
+            public void synchronizeMailboxNewMessage(Account account, String folder, Message message) {
                 broadcastIntent(XryptoMail.Intents.EmailReceived.ACTION_EMAIL_RECEIVED, account, folder, message);
                 updateUnreadWidget();
                 updateMailListWidget();
             }
 
             @Override
-            public void folderStatusChanged(Account account, String folderName, int unreadMessageCount)
-            {
+            public void folderStatusChanged(Account account, String folderName, int unreadMessageCount) {
                 updateUnreadWidget();
                 updateMailListWidget();
 
@@ -696,8 +658,7 @@ public class XryptoMail extends Application
      *
      * @see #areDatabasesUpToDate()
      */
-    public void checkCachedDatabaseVersion()
-    {
+    public void checkCachedDatabaseVersion() {
         sDatabaseVersionCache = getSharedPreferences(DATABASE_VERSION_CACHE, MODE_PRIVATE);
         int cachedVersion = sDatabaseVersionCache.getInt(KEY_LAST_ACCOUNT_DATABASE_VERSION, 0);
         if (cachedVersion >= LocalStore.DB_VERSION) {
@@ -713,8 +674,7 @@ public class XryptoMail extends Application
      *
      * @param prefs Preferences to load
      */
-    public static void loadPrefs(Preferences prefs)
-    {
+    public static void loadPrefs(Preferences prefs) {
         Storage storage = prefs.getStorage();
         setDebug(storage.getBoolean("enableDebugLogging", BuildConfig.DEVELOPER_MODE));
         DEBUG_SENSITIVE = storage.getBoolean("enableSensitiveLogging", false);
@@ -776,8 +736,7 @@ public class XryptoMail extends Application
             // updated. Look for the old "keyguardPrivacy" setting and map it to the new enum.
             sNotificationHideSubject = (storage.getBoolean("keyguardPrivacy", false)) ?
                     NotificationHideSubject.WHEN_LOCKED : NotificationHideSubject.NEVER;
-        }
-        else {
+        } else {
             sNotificationHideSubject = NotificationHideSubject.valueOf(notificationHideSubject);
         }
 
@@ -824,8 +783,7 @@ public class XryptoMail extends Application
         int themeValue = storage.getInt("theme", Theme.LIGHT.ordinal());
         if (themeValue == Theme.DARK.ordinal() || themeValue == android.R.style.Theme) {
             setXMTheme(Theme.DARK);
-        }
-        else {
+        } else {
             setXMTheme(Theme.LIGHT);
         }
 
@@ -841,8 +799,7 @@ public class XryptoMail extends Application
      * other components' onCreate(), here is a way to notify interested
      * component that the application is available and ready
      */
-    protected void notifyObservers()
-    {
+    protected void notifyObservers() {
         synchronized (observers) {
             for (final ApplicationAware aware : observers) {
                 Timber.v("Initializing observer: %s", aware);
@@ -863,192 +820,156 @@ public class XryptoMail extends Application
      *
      * @param component Never <code>null</code>.
      */
-    public static void registerApplicationAware(final ApplicationAware component)
-    {
+    public static void registerApplicationAware(final ApplicationAware component) {
         synchronized (observers) {
             if (sInitialized) {
                 component.initializeComponent(XryptoMail.instance);
-            }
-            else if (!observers.contains(component)) {
+            } else if (!observers.contains(component)) {
                 observers.add(component);
             }
         }
     }
 
-    public static String getXMLanguage()
-    {
+    public static String getXMLanguage() {
         return language;
     }
 
-    public static void setXMLanguage(String nlanguage)
-    {
+    public static void setXMLanguage(String nlanguage) {
         language = nlanguage;
     }
 
-    public static int getXMThemeResourceId(Theme theme)
-    {
+    public static int getXMThemeResourceId(Theme theme) {
         return (theme == Theme.LIGHT) ? R.style.Theme_XMail_Light : R.style.Theme_XMail_Dark;
     }
 
-    public static int getXMThemeResourceId()
-    {
+    public static int getXMThemeResourceId() {
         return getXMThemeResourceId(mTheme);
     }
 
-    public static Theme getXMMessageViewTheme()
-    {
+    public static Theme getXMMessageViewTheme() {
         return messageViewTheme == Theme.USE_GLOBAL ? mTheme : messageViewTheme;
     }
 
-    public static Theme getXMMessageViewThemeSetting()
-    {
+    public static Theme getXMMessageViewThemeSetting() {
         return messageViewTheme;
     }
 
-    public static Theme getXMComposerTheme()
-    {
+    public static Theme getXMComposerTheme() {
         return composerTheme == Theme.USE_GLOBAL ? mTheme : composerTheme;
     }
 
-    public static Theme getXMComposerThemeSetting()
-    {
+    public static Theme getXMComposerThemeSetting() {
         return composerTheme;
     }
 
-    public static Theme getXMTheme()
-    {
+    public static Theme getXMTheme() {
         return mTheme;
     }
 
-    public static void setXMTheme(Theme theme)
-    {
+    public static void setXMTheme(Theme theme) {
         if (theme != Theme.USE_GLOBAL) {
             mTheme = theme;
         }
     }
 
-    public static void setXMMessageViewThemeSetting(Theme nMessageViewTheme)
-    {
+    public static void setXMMessageViewThemeSetting(Theme nMessageViewTheme) {
         messageViewTheme = nMessageViewTheme;
     }
 
-    public static boolean useFixedMessageViewTheme()
-    {
+    public static boolean useFixedMessageViewTheme() {
         return useFixedMessageTheme;
     }
 
-    public static void setXMComposerThemeSetting(Theme compTheme)
-    {
+    public static void setXMComposerThemeSetting(Theme compTheme) {
         composerTheme = compTheme;
     }
 
-    public static void setUseFixedMessageViewTheme(boolean useFixed)
-    {
+    public static void setUseFixedMessageViewTheme(boolean useFixed) {
         useFixedMessageTheme = useFixed;
         if (!useFixedMessageTheme && messageViewTheme == Theme.USE_GLOBAL) {
             messageViewTheme = mTheme;
         }
     }
 
-    public static BACKGROUND_OPS getBackgroundOps()
-    {
+    public static BACKGROUND_OPS getBackgroundOps() {
         return backgroundOps;
     }
 
-    public static boolean setBackgroundOps(BACKGROUND_OPS backgroundOps)
-    {
+    public static boolean setBackgroundOps(BACKGROUND_OPS backgroundOps) {
         BACKGROUND_OPS oldBackgroundOps = XryptoMail.backgroundOps;
         XryptoMail.backgroundOps = backgroundOps;
         return backgroundOps != oldBackgroundOps;
     }
 
-    public static boolean setBackgroundOps(String nbackgroundOps)
-    {
+    public static boolean setBackgroundOps(String nbackgroundOps) {
         return setBackgroundOps(BACKGROUND_OPS.valueOf(nbackgroundOps));
     }
 
-    public static boolean gesturesEnabled()
-    {
+    public static boolean gesturesEnabled() {
         return mGesturesEnabled;
     }
 
-    public static void setGesturesEnabled(boolean gestures)
-    {
+    public static void setGesturesEnabled(boolean gestures) {
         mGesturesEnabled = gestures;
     }
 
-    public static boolean useVolumeKeysForNavigationEnabled()
-    {
+    public static boolean useVolumeKeysForNavigationEnabled() {
         return mUseVolumeKeysForNavigation;
     }
 
-    public static void setUseVolumeKeysForNavigation(boolean volume)
-    {
+    public static void setUseVolumeKeysForNavigation(boolean volume) {
         mUseVolumeKeysForNavigation = volume;
     }
 
-    public static boolean useVolumeKeysForListNavigationEnabled()
-    {
+    public static boolean useVolumeKeysForListNavigationEnabled() {
         return mUseVolumeKeysForListNavigation;
     }
 
-    public static void setUseVolumeKeysForListNavigation(boolean enabled)
-    {
+    public static void setUseVolumeKeysForListNavigation(boolean enabled) {
         mUseVolumeKeysForListNavigation = enabled;
     }
 
-    public static boolean autofitWidth()
-    {
+    public static boolean autofitWidth() {
         return mAutofitWidth;
     }
 
-    public static void setAutofitWidth(boolean autofitWidth)
-    {
+    public static void setAutofitWidth(boolean autofitWidth) {
         mAutofitWidth = autofitWidth;
     }
 
-    public static boolean getQuietTimeEnabled()
-    {
+    public static boolean getQuietTimeEnabled() {
         return mQuietTimeEnabled;
     }
 
-    public static void setQuietTimeEnabled(boolean quietTimeEnabled)
-    {
+    public static void setQuietTimeEnabled(boolean quietTimeEnabled) {
         mQuietTimeEnabled = quietTimeEnabled;
     }
 
-    public static boolean isNotificationDuringQuietTimeEnabled()
-    {
+    public static boolean isNotificationDuringQuietTimeEnabled() {
         return mNotificationDuringQuietTimeEnabled;
     }
 
-    public static void setNotificationDuringQuietTimeEnabled(boolean notificationDuringQuietTimeEnabled)
-    {
+    public static void setNotificationDuringQuietTimeEnabled(boolean notificationDuringQuietTimeEnabled) {
         mNotificationDuringQuietTimeEnabled = notificationDuringQuietTimeEnabled;
     }
 
-    public static String getQuietTimeStarts()
-    {
+    public static String getQuietTimeStarts() {
         return mQuietTimeStarts;
     }
 
-    public static void setQuietTimeStarts(String quietTimeStarts)
-    {
+    public static void setQuietTimeStarts(String quietTimeStarts) {
         mQuietTimeStarts = quietTimeStarts;
     }
 
-    public static String getQuietTimeEnds()
-    {
+    public static String getQuietTimeEnds() {
         return mQuietTimeEnds;
     }
 
-    public static void setQuietTimeEnds(String quietTimeEnds)
-    {
+    public static void setQuietTimeEnds(String quietTimeEnds) {
         mQuietTimeEnds = quietTimeEnds;
     }
 
-    public static boolean isQuietTime()
-    {
+    public static boolean isQuietTime() {
         if (!mQuietTimeEnabled) {
             return false;
         }
@@ -1057,487 +978,391 @@ public class XryptoMail extends Application
         return quietTimeChecker.isQuietTime();
     }
 
-    public static void setDebug(boolean debug)
-    {
+    public static void setDebug(boolean debug) {
         XryptoMail.DEBUG = debug;
         updateLoggingStatus();
     }
 
-    public static boolean isDebug()
-    {
+    public static boolean isDebug() {
         return DEBUG;
     }
 
-    public static boolean startIntegratedInbox()
-    {
+    public static boolean startIntegratedInbox() {
         return mStartIntegratedInbox;
     }
 
-    public static void setStartIntegratedInbox(boolean startIntegratedInbox)
-    {
+    public static void setStartIntegratedInbox(boolean startIntegratedInbox) {
         mStartIntegratedInbox = startIntegratedInbox;
     }
 
-    public static boolean showAnimations()
-    {
+    public static boolean showAnimations() {
         return mAnimations;
     }
 
-    public static void setAnimations(boolean animations)
-    {
+    public static void setAnimations(boolean animations) {
         mAnimations = animations;
     }
 
-    public static int messageListPreviewLines()
-    {
+    public static int messageListPreviewLines() {
         return mMessageListPreviewLines;
     }
 
-    public static void setMessageListPreviewLines(int lines)
-    {
+    public static void setMessageListPreviewLines(int lines) {
         mMessageListPreviewLines = lines;
     }
 
-    public static boolean messageListCheckboxes()
-    {
+    public static boolean messageListCheckboxes() {
         return mMessageListCheckboxes;
     }
 
-    public static void setMessageListCheckboxes(boolean checkboxes)
-    {
+    public static void setMessageListCheckboxes(boolean checkboxes) {
         mMessageListCheckboxes = checkboxes;
     }
 
-    public static boolean messageListStars()
-    {
+    public static boolean messageListStars() {
         return mMessageListStars;
     }
 
-    public static void setMessageListStars(boolean stars)
-    {
+    public static void setMessageListStars(boolean stars) {
         mMessageListStars = stars;
     }
 
-    public static boolean showCorrespondentNames()
-    {
+    public static boolean showCorrespondentNames() {
         return mShowCorrespondentNames;
     }
 
-    public static boolean messageListSenderAboveSubject()
-    {
+    public static boolean messageListSenderAboveSubject() {
         return mMessageListSenderAboveSubject;
     }
 
-    public static void setMessageListSenderAboveSubject(boolean sender)
-    {
+    public static void setMessageListSenderAboveSubject(boolean sender) {
         mMessageListSenderAboveSubject = sender;
     }
 
-    public static void setShowCorrespondentNames(boolean showCorrespondentNames)
-    {
+    public static void setShowCorrespondentNames(boolean showCorrespondentNames) {
         mShowCorrespondentNames = showCorrespondentNames;
     }
 
-    public static boolean showContactName()
-    {
+    public static boolean showContactName() {
         return mShowContactName;
     }
 
-    public static void setShowContactName(boolean showContactName)
-    {
+    public static void setShowContactName(boolean showContactName) {
         mShowContactName = showContactName;
     }
 
-    public static boolean changeContactNameColor()
-    {
+    public static boolean changeContactNameColor() {
         return mChangeContactNameColor;
     }
 
-    public static void setChangeContactNameColor(boolean changeContactNameColor)
-    {
+    public static void setChangeContactNameColor(boolean changeContactNameColor) {
         mChangeContactNameColor = changeContactNameColor;
     }
 
-    public static int getContactNameColor()
-    {
+    public static int getContactNameColor() {
         return mContactNameColor;
     }
 
-    public static void setContactNameColor(int contactNameColor)
-    {
+    public static void setContactNameColor(int contactNameColor) {
         mContactNameColor = contactNameColor;
     }
 
-    public static boolean messageViewFixedWidthFont()
-    {
+    public static boolean messageViewFixedWidthFont() {
         return mMessageViewFixedWidthFont;
     }
 
-    public static void setMessageViewFixedWidthFont(boolean fixed)
-    {
+    public static void setMessageViewFixedWidthFont(boolean fixed) {
         mMessageViewFixedWidthFont = fixed;
     }
 
-    public static boolean messageViewReturnToList()
-    {
+    public static boolean messageViewReturnToList() {
         return mMessageViewReturnToList;
     }
 
-    public static void setMessageViewReturnToList(boolean messageViewReturnToList)
-    {
+    public static void setMessageViewReturnToList(boolean messageViewReturnToList) {
         mMessageViewReturnToList = messageViewReturnToList;
     }
 
-    public static boolean messageViewShowNext()
-    {
+    public static boolean messageViewShowNext() {
         return mMessageViewShowNext;
     }
 
-    public static void setMessageViewShowNext(boolean messageViewShowNext)
-    {
+    public static void setMessageViewShowNext(boolean messageViewShowNext) {
         mMessageViewShowNext = messageViewShowNext;
     }
 
-    public static FontSizes getFontSizes()
-    {
+    public static FontSizes getFontSizes() {
         return fontSizes;
     }
 
-    public static boolean measureAccounts()
-    {
+    public static boolean measureAccounts() {
         return mMeasureAccounts;
     }
 
-    public static void setMeasureAccounts(boolean measureAccounts)
-    {
+    public static void setMeasureAccounts(boolean measureAccounts) {
         mMeasureAccounts = measureAccounts;
     }
 
-    public static boolean countSearchMessages()
-    {
+    public static boolean countSearchMessages() {
         return mCountSearchMessages;
     }
 
-    public static void setCountSearchMessages(boolean countSearchMessages)
-    {
+    public static void setCountSearchMessages(boolean countSearchMessages) {
         mCountSearchMessages = countSearchMessages;
     }
 
-    public static boolean isHideSpecialAccounts()
-    {
+    public static boolean isHideSpecialAccounts() {
         return mHideSpecialAccounts;
     }
 
-    public static void setHideSpecialAccounts(boolean hideSpecialAccounts)
-    {
+    public static void setHideSpecialAccounts(boolean hideSpecialAccounts) {
         mHideSpecialAccounts = hideSpecialAccounts;
     }
 
-    public static boolean confirmDelete()
-    {
+    public static boolean confirmDelete() {
         return mConfirmDelete;
     }
 
-    public static void setConfirmDelete(final boolean confirm)
-    {
+    public static void setConfirmDelete(final boolean confirm) {
         mConfirmDelete = confirm;
     }
 
-    public static boolean confirmDeleteStarred()
-    {
+    public static boolean confirmDeleteStarred() {
         return mConfirmDeleteStarred;
     }
 
-    public static void setConfirmDeleteStarred(final boolean confirm)
-    {
+    public static void setConfirmDeleteStarred(final boolean confirm) {
         mConfirmDeleteStarred = confirm;
     }
 
-    public static boolean confirmSpam()
-    {
+    public static boolean confirmSpam() {
         return mConfirmSpam;
     }
 
-    public static boolean confirmDiscardMessage()
-    {
+    public static boolean confirmDiscardMessage() {
         return mConfirmDiscardMessage;
     }
 
-    public static void setConfirmSpam(final boolean confirm)
-    {
+    public static void setConfirmSpam(final boolean confirm) {
         mConfirmSpam = confirm;
     }
 
-    public static void setConfirmDiscardMessage(final boolean confirm)
-    {
+    public static void setConfirmDiscardMessage(final boolean confirm) {
         mConfirmDiscardMessage = confirm;
     }
 
-    public static boolean confirmDeleteFromNotification()
-    {
+    public static boolean confirmDeleteFromNotification() {
         return mConfirmDeleteFromNotification;
     }
 
-    public static void setConfirmDeleteFromNotification(final boolean confirm)
-    {
+    public static void setConfirmDeleteFromNotification(final boolean confirm) {
         mConfirmDeleteFromNotification = confirm;
     }
 
-    public static boolean confirmMarkAllRead()
-    {
+    public static boolean confirmMarkAllRead() {
         return mConfirmMarkAllRead;
     }
 
-    public static void setConfirmMarkAllRead(final boolean confirm)
-    {
+    public static void setConfirmMarkAllRead(final boolean confirm) {
         mConfirmMarkAllRead = confirm;
     }
 
-    public static NotificationHideSubject getNotificationHideSubject()
-    {
+    public static NotificationHideSubject getNotificationHideSubject() {
         return sNotificationHideSubject;
     }
 
-    public static void setNotificationHideSubject(final NotificationHideSubject mode)
-    {
+    public static void setNotificationHideSubject(final NotificationHideSubject mode) {
         sNotificationHideSubject = mode;
     }
 
-    public static NotificationQuickDelete getNotificationQuickDeleteBehaviour()
-    {
+    public static NotificationQuickDelete getNotificationQuickDeleteBehaviour() {
         return sNotificationQuickDelete;
     }
 
-    public static void setNotificationQuickDeleteBehaviour(final NotificationQuickDelete mode)
-    {
+    public static void setNotificationQuickDeleteBehaviour(final NotificationQuickDelete mode) {
         sNotificationQuickDelete = mode;
     }
 
-    public static LockScreenNotificationVisibility getLockScreenNotificationVisibility()
-    {
+    public static LockScreenNotificationVisibility getLockScreenNotificationVisibility() {
         return sLockScreenNotificationVisibility;
     }
 
-    public static void setLockScreenNotificationVisibility(final LockScreenNotificationVisibility visibility)
-    {
+    public static void setLockScreenNotificationVisibility(final LockScreenNotificationVisibility visibility) {
         sLockScreenNotificationVisibility = visibility;
     }
 
-    public static boolean wrapFolderNames()
-    {
+    public static boolean wrapFolderNames() {
         return mWrapFolderNames;
     }
 
-    public static void setWrapFolderNames(final boolean state)
-    {
+    public static void setWrapFolderNames(final boolean state) {
         mWrapFolderNames = state;
     }
 
-    public static boolean hideUserAgent()
-    {
+    public static boolean hideUserAgent() {
         return mHideUserAgent;
     }
 
-    public static void setHideUserAgent(final boolean state)
-    {
+    public static void setHideUserAgent(final boolean state) {
         mHideUserAgent = state;
     }
 
-    public static boolean hideTimeZone()
-    {
+    public static boolean hideTimeZone() {
         return mHideTimeZone;
     }
 
-    public static void setHideTimeZone(final boolean state)
-    {
+    public static void setHideTimeZone(final boolean state) {
         mHideTimeZone = state;
     }
 
-    public static boolean hideHostnameWhenConnecting()
-    {
+    public static boolean hideHostnameWhenConnecting() {
         return hideHostnameWhenConnecting;
     }
 
-    public static void setHideHostnameWhenConnecting(final boolean state)
-    {
+    public static void setHideHostnameWhenConnecting(final boolean state) {
         hideHostnameWhenConnecting = state;
     }
 
-    public static boolean isOpenPgpProviderConfigured()
-    {
+    public static boolean isOpenPgpProviderConfigured() {
         return !NO_OPENPGP_PROVIDER.equals(sOpenPgpProvider);
     }
 
-    public static String getOpenPgpProvider()
-    {
+    public static String getOpenPgpProvider() {
         return sOpenPgpProvider;
     }
 
-    public static void setOpenPgpProvider(String openPgpProvider)
-    {
+    public static void setOpenPgpProvider(String openPgpProvider) {
         sOpenPgpProvider = openPgpProvider;
     }
 
-    public static boolean getOpenPgpSupportSignOnly()
-    {
+    public static boolean getOpenPgpSupportSignOnly() {
         return sOpenPgpSupportSignOnly;
     }
 
-    public static void setOpenPgpSupportSignOnly(boolean supportSignOnly)
-    {
+    public static void setOpenPgpSupportSignOnly(boolean supportSignOnly) {
         sOpenPgpSupportSignOnly = supportSignOnly;
     }
 
-    public static String getAttachmentDefaultPath()
-    {
+    public static String getAttachmentDefaultPath() {
         return mAttachmentDefaultPath;
     }
 
-    public static void setAttachmentDefaultPath(String attachmentDefaultPath)
-    {
+    public static void setAttachmentDefaultPath(String attachmentDefaultPath) {
         XryptoMail.mAttachmentDefaultPath = attachmentDefaultPath;
     }
 
-    public static synchronized SortType getSortType()
-    {
+    public static synchronized SortType getSortType() {
         return mSortType;
     }
 
-    public static synchronized void setSortType(SortType sortType)
-    {
+    public static synchronized void setSortType(SortType sortType) {
         mSortType = sortType;
     }
 
-    public static synchronized boolean isSortAscending(SortType sortType)
-    {
+    public static synchronized boolean isSortAscending(SortType sortType) {
         if (mSortAscending.get(sortType) == null) {
             mSortAscending.put(sortType, sortType.isDefaultAscending());
         }
-        return mSortAscending.get(sortType);
+        return Boolean.TRUE.equals(mSortAscending.get(sortType));
     }
 
-    public static synchronized void setSortAscending(SortType sortType, boolean sortAscending)
-    {
+    public static synchronized void setSortAscending(SortType sortType, boolean sortAscending) {
         mSortAscending.put(sortType, sortAscending);
     }
 
-    public static synchronized boolean useBackgroundAsUnreadIndicator()
-    {
+    public static synchronized boolean useBackgroundAsUnreadIndicator() {
         return sUseBackgroundAsUnreadIndicator;
     }
 
-    public static synchronized void setUseBackgroundAsUnreadIndicator(boolean enabled)
-    {
+    public static synchronized void setUseBackgroundAsUnreadIndicator(boolean enabled) {
         sUseBackgroundAsUnreadIndicator = enabled;
     }
 
-    public static synchronized boolean isThreadedViewEnabled()
-    {
+    public static synchronized boolean isThreadedViewEnabled() {
         return sThreadedViewEnabled;
     }
 
-    public static synchronized void setThreadedViewEnabled(boolean enable)
-    {
+    public static synchronized void setThreadedViewEnabled(boolean enable) {
         sThreadedViewEnabled = enable;
     }
 
-    public static synchronized SplitViewMode getSplitViewMode()
-    {
+    public static synchronized SplitViewMode getSplitViewMode() {
         return sSplitViewMode;
     }
 
-    public static synchronized void setSplitViewMode(SplitViewMode mode)
-    {
+    public static synchronized void setSplitViewMode(SplitViewMode mode) {
         sSplitViewMode = mode;
     }
 
-    public static boolean showContactPicture()
-    {
+    public static boolean showContactPicture() {
         return sShowContactPicture;
     }
 
-    public static void setShowContactPicture(boolean show)
-    {
+    public static void setShowContactPicture(boolean show) {
         sShowContactPicture = show;
     }
 
-    public static boolean isColorizeMissingContactPictures()
-    {
+    public static boolean isColorizeMissingContactPictures() {
         return sColorizeMissingContactPictures;
     }
 
-    public static void setColorizeMissingContactPictures(boolean enabled)
-    {
+    public static void setColorizeMissingContactPictures(boolean enabled) {
         sColorizeMissingContactPictures = enabled;
     }
 
-    public static boolean isMessageViewArchiveActionVisible()
-    {
+    public static boolean isMessageViewArchiveActionVisible() {
         return sMessageViewArchiveActionVisible;
     }
 
-    public static void setMessageViewArchiveActionVisible(boolean visible)
-    {
+    public static void setMessageViewArchiveActionVisible(boolean visible) {
         sMessageViewArchiveActionVisible = visible;
     }
 
-    public static boolean isMessageViewDeleteActionVisible()
-    {
+    public static boolean isMessageViewDeleteActionVisible() {
         return sMessageViewDeleteActionVisible;
     }
 
-    public static void setMessageViewDeleteActionVisible(boolean visible)
-    {
+    public static void setMessageViewDeleteActionVisible(boolean visible) {
         sMessageViewDeleteActionVisible = visible;
     }
 
-    public static boolean isMessageViewMoveActionVisible()
-    {
+    public static boolean isMessageViewMoveActionVisible() {
         return sMessageViewMoveActionVisible;
     }
 
-    public static void setMessageViewMoveActionVisible(boolean visible)
-    {
+    public static void setMessageViewMoveActionVisible(boolean visible) {
         sMessageViewMoveActionVisible = visible;
     }
 
-    public static boolean isMessageViewCopyActionVisible()
-    {
+    public static boolean isMessageViewCopyActionVisible() {
         return sMessageViewCopyActionVisible;
     }
 
-    public static void setMessageViewCopyActionVisible(boolean visible)
-    {
+    public static void setMessageViewCopyActionVisible(boolean visible) {
         sMessageViewCopyActionVisible = visible;
     }
 
-    public static boolean isMessageViewSpamActionVisible()
-    {
+    public static boolean isMessageViewSpamActionVisible() {
         return sMessageViewSpamActionVisible;
     }
 
-    public static void setMessageViewSpamActionVisible(boolean visible)
-    {
+    public static void setMessageViewSpamActionVisible(boolean visible) {
         sMessageViewSpamActionVisible = visible;
     }
 
-    public static int getPgpInlineDialogCounter()
-    {
+    public static int getPgpInlineDialogCounter() {
         return sPgpInlineDialogCounter;
     }
 
-    public static void setPgpInlineDialogCounter(int pgpInlineDialogCounter)
-    {
+    public static void setPgpInlineDialogCounter(int pgpInlineDialogCounter) {
         XryptoMail.sPgpInlineDialogCounter = pgpInlineDialogCounter;
     }
 
-    public static int getPgpSignOnlyDialogCounter()
-    {
+    public static int getPgpSignOnlyDialogCounter() {
         return sPgpSignOnlyDialogCounter;
     }
 
-    public static void setPgpSignOnlyDialogCounter(int pgpSignOnlyDialogCounter)
-    {
+    public static void setPgpSignOnlyDialogCounter(int pgpSignOnlyDialogCounter) {
         XryptoMail.sPgpSignOnlyDialogCounter = pgpSignOnlyDialogCounter;
     }
 
@@ -1552,8 +1377,7 @@ public class XryptoMail extends Application
      * @return {@code true}, if we know that all databases are using the current database schema.
      * {@code false}, otherwise.
      */
-    public static synchronized boolean areDatabasesUpToDate()
-    {
+    public static synchronized boolean areDatabasesUpToDate() {
         return sDatabasesUpToDate;
     }
 
@@ -1564,8 +1388,7 @@ public class XryptoMail extends Application
      * {@code SharedPreferences} {@link #DATABASE_VERSION_CACHE}.
      * @see #areDatabasesUpToDate()
      */
-    public static synchronized void setDatabasesUpToDate(boolean save)
-    {
+    public static synchronized void setDatabasesUpToDate(boolean save) {
         sDatabasesUpToDate = true;
         if (save) {
             Editor editor = sDatabaseVersionCache.edit();
@@ -1574,8 +1397,7 @@ public class XryptoMail extends Application
         }
     }
 
-    private static void updateLoggingStatus()
-    {
+    private static void updateLoggingStatus() {
         Timber.uprootAll();
         boolean enableDebugLogging = BuildConfig.DEBUG || DEBUG;
         if (enableDebugLogging) {
@@ -1583,13 +1405,10 @@ public class XryptoMail extends Application
         }
     }
 
-    public static void saveSettingsAsync()
-    {
-        new AsyncTask<Void, Void, Void>()
-        {
+    public static void saveSettingsAsync() {
+        new AsyncTask<Void, Void, Void>() {
             @Override
-            protected Void doInBackground(Void... voids)
-            {
+            protected Void doInBackground(Void... voids) {
                 Preferences prefs = Preferences.getPreferences(instance);
                 StorageEditor editor = prefs.getStorage().edit();
                 save(editor);
@@ -1605,8 +1424,7 @@ public class XryptoMail extends Application
      *
      * @return Returns global application <tt>Context</tt>.
      */
-    public static Context getGlobalContext()
-    {
+    public static Context getGlobalContext() {
         return instance.getApplicationContext();
     }
 
@@ -1615,8 +1433,7 @@ public class XryptoMail extends Application
      *
      * @return application <tt>Resources</tt> object.
      */
-    public static Resources getAppResources()
-    {
+    public static Resources getAppResources() {
         return instance.getResources();
     }
 
@@ -1626,8 +1443,7 @@ public class XryptoMail extends Application
      * @param id the string identifier.
      * @return Android string resource for given <tt>id</tt>.
      */
-    public static String getResString(int id)
-    {
+    public static String getResString(int id) {
         return getAppResources().getString(id);
     }
 
@@ -1638,13 +1454,11 @@ public class XryptoMail extends Application
      * @param arg the format arguments that will be used for substitution.
      * @return Android string resource for given <tt>id</tt> and format arguments.
      */
-    public static String getResString(int id, Object... arg)
-    {
+    public static String getResString(int id, Object... arg) {
         return getAppResources().getString(id, arg);
     }
 
-    public static String getResStringByName(String aString)
-    {
+    public static String getResStringByName(String aString) {
         String packageName = instance.getPackageName();
         int resId = instance.getResources().getIdentifier(aString, "string", packageName);
         return instance.getString(resId);
@@ -1655,33 +1469,24 @@ public class XryptoMail extends Application
      *
      * @param message the string message to display.
      */
-    public static void showToastMessage(final String message)
-    {
+    public static void showToastMessage(final String message) {
         new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(instance, message, Toast.LENGTH_LONG).show());
     }
 
-    public static void showToastMessage(int id)
-    {
+    public static void showToastMessage(int id) {
         showToastMessage(getResString(id));
     }
 
-    public static void showToastMessage(int id, Object... arg)
-    {
+    public static void showToastMessage(int id, Object... arg) {
         showToastMessage(getAppResources().getString(id, arg));
     }
-
-//    public static void showToastMessageOnUI(final int id, final Object... arg)
-//    {
-//        instance.runOnUiThread((Runnable) () -> showToastMessage(getAppResources().getString(id, arg)));
-//    }
 
     /**
      * Retrieves <tt>DownloadManager</tt> instance using application context.
      *
      * @return <tt>DownloadManager</tt> service instance.
      */
-    public static DownloadManager getDownloadManager()
-    {
+    public static DownloadManager getDownloadManager() {
         return (DownloadManager) getGlobalContext().getSystemService(Context.DOWNLOAD_SERVICE);
     }
 }

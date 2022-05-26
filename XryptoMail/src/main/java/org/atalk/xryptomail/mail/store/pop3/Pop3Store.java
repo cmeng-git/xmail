@@ -2,31 +2,66 @@
 package org.atalk.xryptomail.mail.store.pop3;
 
 
-import android.annotation.SuppressLint;
+import static org.atalk.xryptomail.helper.UrlEncodingHelper.decodeUtf8;
+import static org.atalk.xryptomail.helper.UrlEncodingHelper.encodeUtf8;
+import static org.atalk.xryptomail.mail.CertificateValidationException.Reason.MissingCapability;
+import static org.atalk.xryptomail.mail.XryptoMailLib.DEBUG_PROTOCOL_POP3;
+
 import android.net.TrafficStats;
 
+import androidx.annotation.NonNull;
+
 import org.atalk.xryptomail.XryptoMail;
-import org.atalk.xryptomail.mail.*;
+import org.atalk.xryptomail.mail.AuthType;
+import org.atalk.xryptomail.mail.Authentication;
+import org.atalk.xryptomail.mail.AuthenticationFailedException;
+import org.atalk.xryptomail.mail.CertificateValidationException;
+import org.atalk.xryptomail.mail.ConnectionSecurity;
+import org.atalk.xryptomail.mail.FetchProfile;
+import org.atalk.xryptomail.mail.Flag;
+import org.atalk.xryptomail.mail.Folder;
+import org.atalk.xryptomail.mail.Message;
+import org.atalk.xryptomail.mail.MessageRetrievalListener;
+import org.atalk.xryptomail.mail.MessagingException;
+import org.atalk.xryptomail.mail.ServerSettings;
 import org.atalk.xryptomail.mail.ServerSettings.Type;
-import org.atalk.xryptomail.mail.filter.*;
+import org.atalk.xryptomail.mail.XryptoMailLib;
 import org.atalk.xryptomail.mail.filter.Base64;
+import org.atalk.xryptomail.mail.filter.Hex;
 import org.atalk.xryptomail.mail.internet.MimeMessage;
 import org.atalk.xryptomail.mail.ssl.TrustedSocketFactory;
-import org.atalk.xryptomail.mail.store.*;
+import org.atalk.xryptomail.mail.store.RemoteStore;
+import org.atalk.xryptomail.mail.store.StoreConfig;
 
-import java.io.*;
-import java.net.*;
-import java.security.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.security.GeneralSecurityException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import javax.net.ssl.SSLException;
 
 import timber.log.Timber;
-
-import static org.atalk.xryptomail.helper.UrlEncodingHelper.*;
-import static org.atalk.xryptomail.mail.CertificateValidationException.Reason.MissingCapability;
-import static org.atalk.xryptomail.mail.XryptoMailLib.DEBUG_PROTOCOL_POP3;
 
 public class Pop3Store extends RemoteStore {
     private static final String STLS_COMMAND = "STLS";
@@ -50,7 +85,7 @@ public class Pop3Store extends RemoteStore {
     private static final String AUTH_CRAM_MD5_CAPABILITY = "CRAM-MD5";
     private static final String AUTH_EXTERNAL_CAPABILITY = "EXTERNAL";
 
-	/**
+    /**
      * Decodes a Pop3Store URI.
      *
      * <p>Possible forms:</p>
@@ -62,7 +97,7 @@ public class Pop3Store extends RemoteStore {
      * pop3+ssl+://authType:user:password@server:port
      *      ConnectionSecurity.SSL_TLS_REQUIRED
      * </pre>
-     * 
+     *
      * e.g.
      * <pre>pop3://PLAIN:admin:pass123@example.org:12345</pre>
      */
@@ -117,20 +152,20 @@ public class Pop3Store extends RemoteStore {
             int userIndex = 0, passwordIndex = 1;
             String userinfo = pop3Uri.getUserInfo();
             String[] userInfoParts = userinfo.split(":");
-            if (userInfoParts.length > 2 || userinfo.endsWith(":") ) {
+            if (userInfoParts.length > 2 || userinfo.endsWith(":")) {
                 // If 'userinfo' ends with ":" the password is empty. This can only happen
                 // after an account was imported (so authType and username are present).
                 userIndex++;
                 passwordIndex++;
                 authType = AuthType.valueOf(userInfoParts[0]);
             }
-        	username = decodeUtf8(userInfoParts[userIndex]);
+            username = decodeUtf8(userInfoParts[userIndex]);
             if (userInfoParts.length > passwordIndex) {
-	            if (authType == AuthType.EXTERNAL) {
-	                clientCertificateAlias = decodeUtf8(userInfoParts[passwordIndex]);
-	            } else {
-	                password = decodeUtf8(userInfoParts[passwordIndex]);
-	            }
+                if (authType == AuthType.EXTERNAL) {
+                    clientCertificateAlias = decodeUtf8(userInfoParts[passwordIndex]);
+                } else {
+                    password = decodeUtf8(userInfoParts[passwordIndex]);
+                }
             }
         }
         return new ServerSettings(ServerSettings.Type.POP3, host, port, connectionSecurity, authType, username,
@@ -140,20 +175,17 @@ public class Pop3Store extends RemoteStore {
     /**
      * Creates a Pop3Store URI with the supplied settings.
      *
-     * @param server
-     *         The {@link ServerSettings} object that holds the server settings.
-     *
+     * @param server The {@link ServerSettings} object that holds the server settings.
      * @return A Pop3Store URI that holds the same information as the {@code server} parameter.
-     *
      * @see StoreConfig#getStoreUri()
      * @see Pop3Store#decodeUri(String)
      */
     public static String createUri(ServerSettings server) {
         String userEnc = encodeUtf8(server.username);
         String passwordEnc = (server.password != null) ?
-        	encodeUtf8(server.password) : "";
+                encodeUtf8(server.password) : "";
         String clientCertificateAliasEnc = (server.clientCertificateAlias != null) ?
-        	encodeUtf8(server.clientCertificateAlias) : "";
+                encodeUtf8(server.clientCertificateAlias) : "";
 
         String scheme;
         switch (server.connectionSecurity) {
@@ -184,14 +216,14 @@ public class Pop3Store extends RemoteStore {
         }
     }
 
-    private String mHost;
-    private int mPort;
-    private String mUsername;
-    private String mPassword;
-    private String mClientCertificateAlias;
-    private AuthType mAuthType;
-    private ConnectionSecurity mConnectionSecurity;
-    private Map<String, Folder> mFolders = new HashMap<>();
+    private final String mHost;
+    private final int mPort;
+    private final String mUsername;
+    private final String mPassword;
+    private final String mClientCertificateAlias;
+    private final AuthType mAuthType;
+    private final ConnectionSecurity mConnectionSecurity;
+    private final Map<String, Folder> mFolders = new HashMap<>();
     private Pop3Capabilities mCapabilities;
 
     /**
@@ -234,8 +266,8 @@ public class Pop3Store extends RemoteStore {
     }
 
     @Override
-    public List <? extends Folder > getPersonalNamespaces(boolean forceListAll) throws MessagingException {
-        List<Folder> folders = new LinkedList<Folder>();
+    public List<? extends Folder> getPersonalNamespaces(boolean forceListAll) throws MessagingException {
+        List<Folder> folders = new LinkedList<>();
         folders.add(getFolder(mStoreConfig.getInboxFolder()));
         return folders;
     }
@@ -244,19 +276,19 @@ public class Pop3Store extends RemoteStore {
     public void checkSettings() throws MessagingException {
         Pop3Folder folder = new Pop3Folder(mStoreConfig.getInboxFolder());
         try {
-	        folder.open(Folder.OPEN_MODE_RW);
-	        if (!mCapabilities.uidl) {
-	            /*
-	             * Run an additional test to see if UIDL is supported on the server. If it's not we
-	             * can't service this account.
-	             */
-	
-	            /*
-	             * If the server doesn't support UIDL it will return a - response, which causes
-	             * executeSimpleCommand to throw a MessagingException, exiting this method.
-	             */
-	            folder.executeSimpleCommand(UIDL_COMMAND);
-	        }
+            folder.open(Folder.OPEN_MODE_RW);
+            if (!mCapabilities.uidl) {
+                /*
+                 * Run an additional test to see if UIDL is supported on the server. If it's not we
+                 * can't service this account.
+                 */
+
+                /*
+                 * If the server doesn't support UIDL it will return a - response, which causes
+                 * executeSimpleCommand to throw a MessagingException, exiting this method.
+                 */
+                folder.executeSimpleCommand(UIDL_COMMAND);
+            }
         } finally {
             folder.close();
         }
@@ -271,10 +303,9 @@ public class Pop3Store extends RemoteStore {
         private Socket mSocket;
         private InputStream mIn;
         private OutputStream mOut;
-        private Map<String, Pop3Message> mUidToMsgMap = new HashMap<String, Pop3Message>();
-        @SuppressLint("UseSparseArrays")
-        private Map<Integer, Pop3Message> mMsgNumToMsgMap = new HashMap<Integer, Pop3Message>();
-        private Map<String, Integer> mUidToMsgNumMap = new HashMap<String, Integer>();
+        private final Map<String, Pop3Message> mUidToMsgMap = new HashMap<>();
+        private final Map<Integer, Pop3Message> mMsgNumToMsgMap = new HashMap<>();
+        private final Map<String, Integer> mUidToMsgNumMap = new HashMap<>();
         private String mName;
         private int mMessageCount;
 
@@ -306,7 +337,8 @@ public class Pop3Store extends RemoteStore {
                 }
 
                 TrafficStats.setThreadStatsTag(XryptoMail.THREAD_ID);
-                mSocket.connect(socketAddress, SOCKET_CONNECT_TIMEOUT);
+                if (!mSocket.isConnected())
+                    mSocket.connect(socketAddress, SOCKET_CONNECT_TIMEOUT);
                 mIn = new BufferedInputStream(mSocket.getInputStream(), 1024);
                 mOut = new BufferedOutputStream(mSocket.getOutputStream(), 512);
 
@@ -349,34 +381,34 @@ public class Pop3Store extends RemoteStore {
                 }
 
                 switch (mAuthType) {
-                case PLAIN:
-                    if (mCapabilities.authPlain) {
-                        authPlain();
-                    } else {
-                        login();
-                    }
-                    break;
+                    case PLAIN:
+                        if (mCapabilities.authPlain) {
+                            authPlain();
+                        } else {
+                            login();
+                        }
+                        break;
 
-                case CRAM_MD5:
-                    if (mCapabilities.cramMD5) {
-                        authCramMD5();
-                    } else {
-                        authAPOP(serverGreeting);
-                    }
-                    break;
+                    case CRAM_MD5:
+                        if (mCapabilities.cramMD5) {
+                            authCramMD5();
+                        } else {
+                            authAPOP(serverGreeting);
+                        }
+                        break;
 
-                case EXTERNAL:
-                    if (mCapabilities.external) {
-                        authExternal();
-                    } else {
-                        // Provide notification to user of a problem authenticating using client certificates
-                        throw new CertificateValidationException(MissingCapability);
-                    }
-                    break;
+                    case EXTERNAL:
+                        if (mCapabilities.external) {
+                            authExternal();
+                        } else {
+                            // Provide notification to user of a problem authenticating using client certificates
+                            throw new CertificateValidationException(MissingCapability);
+                        }
+                        break;
 
-                default:
-                    throw new MessagingException(
-                            "Unhandled authentication method found in the server settings (bug).");
+                    default:
+                        throw new MessagingException(
+                                "Unhandled authentication method found in the server settings (bug).");
                 }
             } catch (SSLException e) {
                 if (e.getCause() instanceof CertificateException) {
@@ -386,7 +418,7 @@ public class Pop3Store extends RemoteStore {
                 }
             } catch (GeneralSecurityException gse) {
                 throw new MessagingException(
-                    "Unable to open connection to POP server due to security error.", gse);
+                        "Unable to open connection to POP server due to security error.", gse);
             } catch (IOException ioe) {
                 throw new MessagingException("Unable to open connection to POP server.", ioe);
             }
@@ -423,7 +455,7 @@ public class Pop3Store extends RemoteStore {
         private void authAPOP(String serverGreeting) throws MessagingException {
             // regex based on RFC 2449 (3.) "Greeting"
             String timestamp = serverGreeting.replaceFirst(
-                    "^\\+OK *(?:\\[[^\\]]+\\])?[^<]*(<[^>]*>)?[^<]*$", "$1");
+                    "^\\+OK *(?:\\[[^]]+])?[^<]*(<[^>]*>)?[^<]*$", "$1");
             if ("".equals(timestamp)) {
                 throw new MessagingException(
                         "APOP authentication is not supported");
@@ -554,6 +586,7 @@ public class Pop3Store extends RemoteStore {
         public int getUnreadMessageCount() throws MessagingException {
             return -1;
         }
+
         @Override
         public int getFlaggedMessageCount() throws MessagingException {
             return -1;
@@ -570,10 +603,10 @@ public class Pop3Store extends RemoteStore {
 
         @Override
         public List<Pop3Message> getMessages(int start, int end, Date earliestDate, MessageRetrievalListener<Pop3Message> listener)
-        throws MessagingException {
+                throws MessagingException {
             if (start < 1 || end < 1 || end < start) {
                 throw new MessagingException(String.format(Locale.US, "Invalid message set %d %d",
-                                             start, end));
+                        start, end));
             }
             try {
                 indexMsgNums(start, end);
@@ -613,13 +646,14 @@ public class Pop3Store extends RemoteStore {
         /**
          * Ensures that the given message set (from start to end inclusive)
          * has been queried so that uids are available in the local cache.
+         *
          * @param start
          * @param end
          * @throws MessagingException
          * @throws IOException
          */
         private void indexMsgNums(int start, int end)
-        throws MessagingException, IOException {
+                throws MessagingException, IOException {
             int unindexedMessageCount = 0;
             for (int msgNum = start; msgNum <= end; msgNum++) {
                 if (mMsgNumToMsgMap.get(msgNum) == null) {
@@ -680,7 +714,7 @@ public class Pop3Store extends RemoteStore {
                         uidParts[1] = uidParts[2];
                     }
                     if (uidParts.length >= 2) {
-                        Integer msgNum = Integer.valueOf(uidParts[0]);
+                        int msgNum = Integer.parseInt(uidParts[0]);
                         String msgUid = uidParts[1];
                         if (msgNum >= start && msgNum <= end) {
                             Pop3Message message = mMsgNumToMsgMap.get(msgNum);
@@ -695,7 +729,7 @@ public class Pop3Store extends RemoteStore {
         }
 
         private void indexUids(List<String> uids)
-        throws MessagingException, IOException {
+                throws MessagingException, IOException {
             Set<String> unindexedUids = new HashSet<String>();
             for (String uid : uids) {
                 if (mUidToMsgMap.get(uid) == null) {
@@ -722,7 +756,7 @@ public class Pop3Store extends RemoteStore {
 
                 // Ignore messages without a unique-id
                 if (uidParts.length >= 2) {
-                    Integer msgNum = Integer.valueOf(uidParts[0]);
+                    int msgNum = Integer.parseInt(uidParts[0]);
                     String msgUid = uidParts[1];
                     if (unindexedUids.contains(msgUid)) {
                         if (XryptoMailLib.isDebug() && DEBUG_PROTOCOL_POP3) {
@@ -747,16 +781,18 @@ public class Pop3Store extends RemoteStore {
             mUidToMsgMap.put(message.getUid(), message);
             mUidToMsgNumMap.put(message.getUid(), msgNum);
         }
+
         /**
          * Fetch the items contained in the FetchProfile into the given set of
          * Messages in as efficient a manner as possible.
+         *
          * @param messages
          * @param fp
          * @throws MessagingException
          */
         @Override
         public void fetch(List<Pop3Message> messages, FetchProfile fp, MessageRetrievalListener<Pop3Message> listener)
-        throws MessagingException {
+                throws MessagingException {
             if (messages == null || messages.isEmpty()) {
                 return;
             }
@@ -797,7 +833,7 @@ public class Pop3Store extends RemoteStore {
                          */
                         if (mStoreConfig.getMaximumAutoDownloadMessageSize() > 0) {
                             fetchBody(pop3Message,
-                                      (mStoreConfig.getMaximumAutoDownloadMessageSize() / 76));
+                                    (mStoreConfig.getMaximumAutoDownloadMessageSize() / 76));
                         } else {
                             fetchBody(pop3Message, -1);
                         }
@@ -818,7 +854,7 @@ public class Pop3Store extends RemoteStore {
         }
 
         private void fetchEnvelope(List<Pop3Message> messages,
-                                   MessageRetrievalListener<Pop3Message> listener)  throws IOException, MessagingException {
+                MessageRetrievalListener<Pop3Message> listener) throws IOException, MessagingException {
             int unsizedMessages = 0;
             for (Message message : messages) {
                 if (message.getSize() == -1) {
@@ -839,7 +875,7 @@ public class Pop3Store extends RemoteStore {
                         listener.messageStarted(message.getUid(), i, count);
                     }
                     String response = executeSimpleCommand(String.format(Locale.US, LIST_COMMAND + " %d",
-                                                           mUidToMsgNumMap.get(message.getUid())));
+                            mUidToMsgNumMap.get(message.getUid())));
                     String[] listParts = response.split(" ");
                     //int msgNum = Integer.parseInt(listParts[1]);
                     int msgSize = Integer.parseInt(listParts[2]);
@@ -897,7 +933,7 @@ public class Pop3Store extends RemoteStore {
                     }
 
                     response = executeSimpleCommand(String.format(Locale.US, TOP_COMMAND + " %d %d",
-                                                    mUidToMsgNumMap.get(message.getUid()), lines));
+                            mUidToMsgNumMap.get(message.getUid()), lines));
 
                     // TOP command is supported. Remember this for the next time.
                     mCapabilities.top = true;
@@ -917,7 +953,7 @@ public class Pop3Store extends RemoteStore {
 
             if (response == null) {
                 executeSimpleCommand(String.format(Locale.US, RETR_COMMAND + " %d",
-                                     mUidToMsgNumMap.get(message.getUid())));
+                        mUidToMsgNumMap.get(message.getUid())));
             }
 
             try {
@@ -964,7 +1000,7 @@ public class Pop3Store extends RemoteStore {
 
         @Override
         public void setFlags(List<? extends Message> messages, final Set<Flag> flags, boolean value)
-        throws MessagingException {
+                throws MessagingException {
             if (!value || !flags.contains(Flag.DELETED)) {
                 /*
                  * The only flagging we support is setting the Deleted flag.
@@ -1001,12 +1037,12 @@ public class Pop3Store extends RemoteStore {
                 throw new IOException("End of stream reached while trying to read line.");
             }
             do {
-                if (((char)d) == '\r') {
+                if (((char) d) == '\r') {
                     continue;
-                } else if (((char)d) == '\n') {
+                } else if (((char) d) == '\n') {
                     break;
                 } else {
-                    sb.append((char)d);
+                    sb.append((char) d);
                 }
             } while ((d = mIn.read()) != -1);
             String ret = sb.toString();
@@ -1043,12 +1079,16 @@ public class Pop3Store extends RemoteStore {
                         break;
                     }
                     response = response.toUpperCase(Locale.US);
-                    if (response.equals(AUTH_PLAIN_CAPABILITY)) {
-                        capabilities.authPlain = true;
-                    } else if (response.equals(AUTH_CRAM_MD5_CAPABILITY)) {
-                        capabilities.cramMD5 = true;
-                    } else if (response.equals(AUTH_EXTERNAL_CAPABILITY)) {
-                        capabilities.external = true;
+                    switch (response) {
+                        case AUTH_PLAIN_CAPABILITY:
+                            capabilities.authPlain = true;
+                            break;
+                        case AUTH_CRAM_MD5_CAPABILITY:
+                            capabilities.cramMD5 = true;
+                            break;
+                        case AUTH_EXTERNAL_CAPABILITY:
+                            capabilities.external = true;
+                            break;
                     }
                 }
             } catch (MessagingException e) {
@@ -1192,20 +1232,21 @@ public class Pop3Store extends RemoteStore {
         public boolean uidl;
         public boolean external;
 
+        @NonNull
         @Override
         public String toString() {
             return String.format("CRAM-MD5 %b, PLAIN %b, STLS %b, TOP %b, UIDL %b, EXTERNAL %b",
-                                 cramMD5,
-                                 authPlain,
-                                 stls,
-                                 top,
-                                 uidl,
-                                 external);
+                    cramMD5,
+                    authPlain,
+                    stls,
+                    top,
+                    uidl,
+                    external);
         }
     }
 
     static class Pop3ResponseInputStream extends InputStream {
-        private InputStream mIn;
+        private final InputStream mIn;
         private boolean mStartOfLine = true;
         private boolean mFinished;
 

@@ -12,9 +12,8 @@ public class XMailOAuth2TokenProvider extends OAuth2TokenProvider {
     private static final String GOOGLE_ACCOUNT_TYPE = "com.google";
 
     private AccountManager accountManager;
-    private AndroidAccountOAuth2TokenStore gmailTokenProviderWithAccountSystem;
-    private XMailOAuth2AuthorizationCodeFlowTokenProvider authorizationCodeFlowTokenProvider;
-    private Oauth2PromptRequestHandler promptRequestHandler;
+    private final AndroidAccountOAuth2TokenStore gmailTokenProviderWithAccountSystem;
+    private final XMailOAuth2AuthorizationCodeFlowTokenProvider authorizationCodeFlowTokenProvider;
 
     public XMailOAuth2TokenProvider(Context context) {
         accountManager = AccountManager.get(context);
@@ -70,7 +69,6 @@ public class XMailOAuth2TokenProvider extends OAuth2TokenProvider {
     }
 
     public void setPromptRequestHandler(Oauth2PromptRequestHandler promptRequestHandler) {
-        this.promptRequestHandler = promptRequestHandler;
         gmailTokenProviderWithAccountSystem.setPromptRequestHandler(promptRequestHandler);
         authorizationCodeFlowTokenProvider.setPromptRequestHandler(promptRequestHandler);
     }

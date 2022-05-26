@@ -27,7 +27,6 @@ class IdentitySettings {
          * When adding new settings here, be sure to increment {@link Settings.VERSION}
          * and use that for whatever you add here.
          */
-
         s.put("signature", Settings.versions(
                 new V(1, new SignatureSetting())
             ));
@@ -60,7 +59,7 @@ class IdentitySettings {
     static Map<String, String> getIdentitySettings(Storage storage, String uuid, int identityIndex) {
         Map<String, String> result = new HashMap<>();
         String prefix = uuid + ".";
-        String suffix = "." + Integer.toString(identityIndex);
+        String suffix = "." + identityIndex;
         for (String key : SETTINGS.keySet()) {
             String value = storage.getString(prefix + key + suffix, null);
             if (value != null) {
@@ -98,7 +97,7 @@ class IdentitySettings {
      * An optional email address setting.
      */
     private static class OptionalEmailAddressSetting extends SettingsDescription<String> {
-        private EmailAddressValidator mValidator;
+        private final EmailAddressValidator mValidator;
 
         OptionalEmailAddressSetting() {
             super(null);
@@ -115,7 +114,7 @@ class IdentitySettings {
 
         @Override
         public String toString(String value) {
-            return (value != null) ? value : null;
+            return value;
         }
 
         @Override

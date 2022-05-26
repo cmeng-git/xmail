@@ -204,7 +204,7 @@ public class PgpMessageBuilder extends MessageBuilder
         for (Address bccAddress : bccAddresses) {
             recipientAddresses.remove(bccAddress.getAddress());
         }
-        return recipientAddresses.toArray(new String[recipientAddresses.size()]);
+        return recipientAddresses.toArray(new String[0]);
     }
 
     private void addAutocryptGossipHeadersToPart(MimeBodyPart bodyPart, String[] addresses)
@@ -346,7 +346,7 @@ public class PgpMessageBuilder extends MessageBuilder
                     if (writeBodyContentOnly) {
                         Body body = bodyPart.getBody();
                         InputStream inputStream = body.getInputStream();
-                        IOUtils.copy(inputStream, os);
+                        FileBackend.copy(inputStream, os);
                     } else {
                         bodyPart.writeTo(os);
                     }

@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Bheir seo cead dhan aplacaid seo gnìomhan is roghainnean puist XryptoMail a stiùireadh.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, luchd-coiseachd nan con XryptoMail</string>
-  <string name="app_copyright_fmt">Còir-lethbhreac 2008-<xliff:g>%s</xliff:g> Luchd-coiseachd nan con XryptoMail. Cuid dhen chòir-lethbhreac 2006-<xliff:g>%s</xliff:g> Android Open Source Project.</string>
+  <string name="app_copyright_fmt">Còir-lethbhreac 2008-<xliff:g>%1$s</xliff:g> Luchd-coiseachd nan con XryptoMail. Cuid dhen chòir-lethbhreac 2006-<xliff:g>%2$s</xliff:g> Android Open Source Project.</string>
   <string name="app_license">Fo cheadachas Apache, tionndadh 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Fàilte gu post XryptoMail</string>
@@ -47,42 +47,42 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <!--Default signature-->
   <string name="default_signature">-- \nAir a chur on uidheam Android agam slighe post XryptoMail.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">Thèid an cunntas “<xliff:g id="account">%s</xliff:g>” a thoirt air falbh o phost XryptoMail.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Thèid dàta an sgeama ionadail aig “<xliff:g id="account">%s</xliff:g>” a thoirt air falbh. Thèid roghainnean a’ chunntais a ghlèidheadh.</string>
-  <string name="account_clear_dlg_instructions_fmt">Thèid lethbhreacan ionadail de theachdaireachdan ann an “<xliff:g id="account">%s</xliff:g>” a thoirt air falbh. Thèid roghainnean a’ chunntais a ghlèidheadh.</string>
+  <string name="account_delete_dlg_instructions_fmt">Thèid an cunntas “<xliff:g id="account">%1$s</xliff:g>” a thoirt air falbh o phost XryptoMail.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Thèid dàta an sgeama ionadail aig “<xliff:g id="account">%1$s</xliff:g>” a thoirt air falbh. Thèid roghainnean a’ chunntais a ghlèidheadh.</string>
+  <string name="account_clear_dlg_instructions_fmt">Thèid lethbhreacan ionadail de theachdaireachdan ann an “<xliff:g id="account">%1$s</xliff:g>” a thoirt air falbh. Thèid roghainnean a’ chunntais a ghlèidheadh.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Stàlaich manaidsear fhaidhlichean mus lean thu air adhart leis an ion-phortadh seo.</string>
   <string name="open_market">Fosgail Play Store</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Na h-ùghdaran: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Fiosrachadh mun lèireamhas: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Tha sinn a’ cleachdadh na leabhar-lannan a leanas a tha le treas-phàrtaidhean: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Na h-ùghdaran: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Fiosrachadh mun lèireamhas: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Tha sinn a’ cleachdadh na leabhar-lannan a leanas a tha le treas-phàrtaidhean: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Puist-d a leughadh</string>
   <string name="read_messages_desc">Leig leis an aplacaid seo na puist-d agad a leughadh.</string>
   <string name="delete_messages_label">Puist-d a sguabadh às</string>
   <string name="delete_messages_desc">Leig leis an aplacaid seo na puist-d agad a sguabadh às.</string>
-  <string name="about_title_fmt">Mu dhèidhinn <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">Mu dhèidhinn <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Cunntasan</string>
   <string name="folders_title">Pasganan</string>
   <string name="advanced">Adhartach</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">Sgrìobh</string>
   <string name="compose_title_reply">Freagair</string>
   <string name="compose_title_reply_all">Freagair na h-uile</string>
   <string name="compose_title_forward">Sìn air adhart</string>
   <string name="choose_folder_title">Tagh pasgan</string>
-  <string name="status_loading_account_folder">Ceasnaich <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">A’ faighinn nam bannan-cinn <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">A’ cur <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Proc <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">An ath-cheasnachadh <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Ceasnaich <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">A’ faighinn nam bannan-cinn <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">A’ cur <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Proc <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">An ath-cheasnachadh <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Sioncronachadh à comas, chan eil lìonra ann</string>
   <string name="status_no_background">Sioncronachadh à comas, chan eil gnìomhachd sa chùlaibh</string>
   <string name="status_poll_and_push_disabled">Tha ceasnachadh is push-igeadh à comas</string>
   <string name="status_syncing_blocked">Chaidh an sioncronachadh a bhacadh</string>
   <string name="status_syncing_off">Chaidh an sioncronachadh a chur à comas</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> air a thaghadh</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> air a thaghadh</string>
   <string name="next_action">Air adhart</string>
   <string name="previous_action">Ais ais</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -157,24 +157,24 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="status_loading_error">Mearachd a’ luchdadh na teachdaireachd</string>
   <string name="status_loading_more_failed">Feuch ri luchdadh a’ chorr dhe na teachdaireachdan a-rithist</string>
   <string name="load_more_messages_fmt">Luchdaich suas ri
-    to <xliff:g id="messages_to_load">%d</xliff:g> a bharrachd</string>
+    to <xliff:g id="messages_to_load">%1$d</xliff:g> a bharrachd</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Bha an cunntas “<xliff:g id="account">%s</xliff:g>” <xliff:g id="oldSize">%s</xliff:g> is tha e <xliff:g id="newSize">%s</xliff:g> a-nis</string>
-  <string name="compacting_account">A’ dùmhlachadh a’ chunntais “<xliff:g id="account">%s</xliff:g>”</string>
-  <string name="clearing_account">A’ falamhachadh a’ chunntais “<xliff:g id="account">%s</xliff:g>”</string>
-  <string name="recreating_account">Ag ath-chruthachadh a’ chunntais “<xliff:g id="account">%s</xliff:g>”</string>
+  <string name="account_size_changed">Bha an cunntas “<xliff:g id="account">%1$s </xliff:g>” <xliff:g id="oldSize">%2$s </xliff:g> is tha e <xliff:g id="newSize">%3$s</xliff:g> a-nis</string>
+  <string name="compacting_account">A’ dùmhlachadh a’ chunntais “<xliff:g id="account">%1$s</xliff:g>”</string>
+  <string name="clearing_account">A’ falamhachadh a’ chunntais “<xliff:g id="account">%1$s</xliff:g>”</string>
+  <string name="recreating_account">Ag ath-chruthachadh a’ chunntais “<xliff:g id="account">%1$s</xliff:g>”</string>
   <string name="notification_new_title">Post ùr</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> teachdaireachd ùr</item>
-    <item quantity="two"><xliff:g id="new_message_count">%d</xliff:g> theachdaireachd ùr</item>
-    <item quantity="few"><xliff:g id="new_message_count">%d</xliff:g> teachdaireachdan ùra</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> teachdaireachd ùr</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> teachdaireachd ùr</item>
+    <item quantity="two"><xliff:g id="new_message_count">%1$d</xliff:g> theachdaireachd ùr</item>
+    <item quantity="few"><xliff:g id="new_message_count">%1$d</xliff:g> teachdaireachdan ùra</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> teachdaireachd ùr</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> gun leughadh (<xliff:g id="account">%s</xliff:g>)</string>
-  <string name="notification_additional_messages">⁊ <xliff:g id="additional_messages">%1$d</xliff:g> a bharrachd air <xliff:g id="account">%2$s</xliff:g></string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d </xliff:g> gun leughadh (<xliff:g id="account">%2$s</xliff:g>)</string>
+  <string name="notification_additional_messages">⁊ <xliff:g id="additional_messages">%1$d </xliff:g> a bharrachd air <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Freagair</string>
   <string name="notification_action_mark_as_read">Comharraich gun deach a leughadh</string>
   <string name="notification_action_mark_all_as_read">Comharraich gun deach iad uile a leughadh</string>
@@ -183,13 +183,13 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="notification_action_archive">Tasglannaich</string>
   <string name="notification_action_archive_all">Tasglannaich na h-uile</string>
   <string name="notification_action_spam">Spama</string>
-  <string name="notification_certificate_error_title">Mearachd an teisteanais aig <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Mearachd an teisteanais aig <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Thoir sùil air roghainnean an fhrithealaiche agad</string>
   <string name="notification_authentication_error_title">Dh’fhàillig an dearbhadh</string>
-  <string name="notification_authentication_error_text">Dh’fhàillig dearbhadh a’ chunntais <xliff:g id="account">%s</xliff:g>. Ùraich roghainnean an fhrithealaiche agad.</string>
-  <string name="notification_bg_sync_ticker">A’ toirt sùil airson post: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Dh’fhàillig dearbhadh a’ chunntais <xliff:g id="account">%1$s</xliff:g>. Ùraich roghainnean an fhrithealaiche agad.</string>
+  <string name="notification_bg_sync_ticker">A’ toirt sùil airson post: <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">A’ toirt sùil airson post</string>
-  <string name="notification_bg_send_ticker">A’ cur a’ phuist: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">A’ cur a’ phuist: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">A’ cur a’ phuist</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">A-steach</string>
@@ -199,19 +199,19 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="special_mailbox_name_sent">Air a chur</string>
   <string name="special_mailbox_name_archive">Tasg-lann</string>
   <string name="special_mailbox_name_spam">Spama</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Dreachdan)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Sgudal)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Air a chur)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Tasg-lann)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Spama)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Dreachdan)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Sgudal)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Air a chur)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Tasg-lann)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Spama)</string>
   <string name="send_failure_subject">Cha deach cuid dhe na teachdaireachdan a chur</string>
-  <string name="debug_version_fmt">Tionndadh: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Tionndadh: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Cuir an comas logadh airson dì-bhugachadh</string>
   <string name="debug_enable_debug_logging_summary">Logaich fiosrachadh diagnosachd a bharrachd</string>
   <string name="debug_enable_sensitive_logging_title">Logaich fiosrachadh dìomhair</string>
   <string name="debug_enable_sensitive_logging_summary">Dh’fhaoidte gun leig seo ris faclan-faire sna logaichean.</string>
   <string name="message_list_load_more_messages_action">Luchdaich barrachd theachdaireachdan</string>
-  <string name="message_to_fmt">Gu:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">Gu:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Cuspair</string>
   <string name="message_compose_content_hint">Teacsa na teachdaireachd</string>
   <string name="message_compose_signature_hint">An t-earr-sgrìobhadh</string>
@@ -221,15 +221,15 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="message_compose_quote_header_from">O:</string>
   <string name="message_compose_quote_header_to">Gu:</string>
   <string name="message_compose_quote_header_cc">Cc:</string>
-  <string name="message_compose_reply_header_fmt">Sgrìobh <xliff:g id="sender">%s</xliff:g>:</string>
-  <string name="message_compose_reply_header_fmt_with_date">Sgrìobh <xliff:g id="sender">%2$s</xliff:g> <xliff:g id="sent_date">%1$s</xliff:g>:</string>
+  <string name="message_compose_reply_header_fmt">Sgrìobh <xliff:g id="sender">%1$s</xliff:g></string>
+  <string name="message_compose_reply_header_fmt_with_date">Sgrìobh <xliff:g id="sender">%1$s </xliff:g> <xliff:g id="sent_date">%2$s</xliff:g></string>
   <string name="message_compose_error_no_recipients">Feumaidh tu co-dhiù aon neach a chur ris a gheibh e.</string>
   <string name="compose_error_incomplete_recipient">Tha rud ann an raon nan daoine a gheibh e a tha leth-chrìochnaichte!</string>
   <string name="error_contact_address_not_found">Cha b’ urrainn dhuinn seòladh puist-d a lorg dhan neach-aithne seo.</string>
   <string name="message_compose_attachments_skipped_toast">Chan urrainn dhuinn cuid dhe na ceanglachain a shìneadh air adhart oir cha deach an luchdadh a-nuas.</string>
   <string name="message_compose_description_delete_quoted_text">Thoir an luaidh air falbh</string>
   <string name="message_compose_description_edit_quoted_text">Crìoch na na luaidhe</string>
-  <string name="message_view_from_format">O: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">O: <xliff:g id="name">%1$s </xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Gu:</string>
   <string name="message_view_cc_label">Cc:</string>
   <string name="message_view_bcc_label">Bcc:</string>
@@ -238,7 +238,7 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="message_view_status_attachment_not_saved">Cha ghabh an ceanglachan a shàbhaladh air a’ chairt SD.</string>
   <string name="message_view_status_no_space">Cha b’ urrainn dhuinn an ceanglachan a shàbhaladh a chionn ’s nach eil àite gu leòr ann.</string>
   <string name="message_view_show_pictures_action">Seall na dealbhan</string>
-  <string name="message_view_no_viewer">Chan urrainn dhuinn aplacaid a lorg a sheallas <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Chan urrainn dhuinn aplacaid a lorg a sheallas <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Luchdaich a-nuas an teachdaireachd shlàn</string>
   <string name="message_view_toast_unable_to_display_message">Chan urrainn dhuinn an teachdaireachd a shealltainn</string>
   <string name="message_view_sender_label">slighe %1$s</string>
@@ -384,7 +384,7 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="account_setup_outgoing_password_label">Facal-faire</string>
   <string name="account_setup_outgoing_authentication_label">Dearbhadh</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">Chan eil “<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>” dligheach mu choinneamh “<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>”</string>
-  <string name="account_setup_bad_uri">Suidheachadh mì-dhligheach: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Suidheachadh mì-dhligheach: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Roghainnean a’ chunntais</string>
   <string name="compact_action">Dùmhlaich an cunntas</string>
   <string name="clear_action">Falamhaich na teachdaireachdan (cunnartach!)</string>
@@ -431,9 +431,9 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="account_setup_options_mail_display_count_all">na h-uile teachdaireachd</string>
   <string name="move_copy_cannot_copy_unsynced_message">Chan urrainn dhut lethbhreac a dhèanamh de theachdaireachd, no a ghluasad, mur eil e sioncronaichte leis an fhrithealaiche</string>
   <string name="account_setup_failed_dlg_title">Cha b’ urrainn dhuinn an suidheachadh a choileanadh</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Tha an t-ainm-cleachdaiche no facal-faire cearr.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">Nochd am frithealaiche teisteanas SSL nach eil dligheachd. Tachraidh seo uaireannan ma chaidh am frithealaiche a dhroch-rèiteachadh. Air neo dh’fhaoidte gu bheil cuideigin airson briseadh a-steach ort no air frithealaiche a’ phuist agad. Mur eil thu cinnteach dè tha a’ tachairt, thoir gnogag air “Diùlt” is cuir fios gu na daoine a stiùireas frithealaiche a’ phuist agad.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Chan urrainn dhuinn ceangal ris an fhrithealaiche.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Tha an t-ainm-cleachdaiche no facal-faire cearr.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">Nochd am frithealaiche teisteanas SSL nach eil dligheachd. Tachraidh seo uaireannan ma chaidh am frithealaiche a dhroch-rèiteachadh. Air neo dh’fhaoidte gu bheil cuideigin airson briseadh a-steach ort no air frithealaiche a’ phuist agad. Mur eil thu cinnteach dè tha a’ tachairt, thoir gnogag air “Diùlt” is cuir fios gu na daoine a stiùireas frithealaiche a’ phuist agad.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Chan urrainn dhuinn ceangal ris an fhrithealaiche.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Deasaich am fiosrachadh</string>
   <string name="account_setup_failed_dlg_continue_action">Lean air adhart</string>
   <string name="account_settings_push_advanced_title">Adhartach</string>
@@ -706,7 +706,7 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="count_search_summary">Cuir dheth airson taisbeanadh nas luaithe</string>
   <string name="hide_special_accounts_title">Falaich cunntasan sònraichte</string>
   <string name="hide_special_accounts_summary">Falaich am bogsa a-steach co-aonaichte ’s gach cunntas theachdaireachdan</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier">- le rionnag</string>
   <string name="unread_modifier">- gun leughadh</string>
   <string name="search_all_messages_title">Na h-uile teachdaireachd</string>
@@ -742,7 +742,7 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="font_size_message_view_subject">Cuspair</string>
   <string name="font_size_message_view_date">Ceann-là ’s àm</string>
   <string name="font_size_message_view_content">Bodhaig na teachdaireachd</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Sgrìobhadh theachdaireachdan</string>
   <string name="font_size_message_compose_input">Raointean ion-chur teacsa</string>
@@ -756,7 +756,7 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="font_size_larger">Nas motha</string>
   <string name="miscellaneous_preferences">An corr</string>
   <string name="error_activity_not_found">Cha deach aplacaid iomchaidh a lorg dhan ghnìomh seo.</string>
-  <string name="send_failed_reason">Dh’fhàillig a chur: %s</string>
+  <string name="send_failed_reason">Dh’fhàillig a chur:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">A bheil thu airson dreachd na teachdaireachd a shàbhaladh?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">A bheil thu airson an teachdaireachd seo a shàbhaladh no a thilgeil air falbh?</string>
   <string name="confirm_discard_draft_message_title">A bheil thu airson an teachdaireachd seo a thilgeil air falbh?</string>
@@ -788,26 +788,26 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="settings_exporting">Ag às-phortadh nan roghainnean…</string>
   <string name="settings_importing">Ag ion-phortadh nan roghainnean…</string>
   <string name="settings_import_scanning_file">A’ sganadh an fhaidhle…</string>
-  <string name="settings_export_success">Chaidh na roghainnean a shàbhaladh ann an: <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Chaidh na roghainnean a shàbhaladh ann an: <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Chaidh na roghainnean às-phortadh</string>
-  <string name="settings_import_global_settings_success">Chaidh na roghainnean uile-choitcheann ion-phortadh o: <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Chaidh <xliff:g id="accounts">%s</xliff:g> ion-phortadh o: <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Chaidh na roghainnean uile-choitcheann ion-phortadh o: <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Chaidh <xliff:g id="accounts">%1$s</xliff:g> ion-phortadh o: <xliff:g id="filename">%2$s</xliff:g></string>
   <string name="settings_export_failure">Cha b’ urrainn dhuinn na roghainnean às-phortadh</string>
-  <string name="settings_import_failure">Cha b’ urrainn dhuinn roghainn sam bith ion-phortadh o: <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Cha b’ urrainn dhuinn roghainn sam bith ion-phortadh o: <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Chaidh às-phortadh</string>
   <string name="settings_export_failed_header">Dh’fhàillig an t-às-phortadh</string>
   <string name="settings_import_success_header">Chaidh ion-phortadh</string>
   <string name="settings_import_failed_header">Dh’fhàillig an t-ion-phortadh</string>
   <string name="settings_import_activate_account_header">Cuir an cunntas an gnìomh</string>
-  <string name="settings_import_activate_account_intro">Mus urrainn dhut an cunntas “<xliff:g id="account">%s</xliff:g>” a chleachdadh, feumaidh tu <xliff:g id="server_passwords">%s</xliff:g> a thoirt seachad.</string>
+  <string name="settings_import_activate_account_intro">Mus urrainn dhut an cunntas “<xliff:g id="account">%1$s</xliff:g>” a chleachdadh, feumaidh tu <xliff:g id="server_passwords">%2$s</xliff:g> a thoirt seachad.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">faclan-faire an fhrithealaiche</item>
     <item quantity="two">faclan-faire an fhrithealaiche</item>
     <item quantity="few">faclan-faire an fhrithealaiche</item>
     <item quantity="other">faclan-faire an fhrithealaiche</item>
   </plurals>
-  <string name="settings_import_incoming_server">Am frithealaiche a-steach (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Am frithealaiche a-mach (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Am frithealaiche a-steach (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Am frithealaiche a-mach (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Faclan-faire nan roghainnean...</item>
     <item quantity="two">Faclan-faire nan roghainnean...</item>
@@ -816,7 +816,7 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   </plurals>
   <string name="settings_import_use_incoming_server_password">Cleachd facal-faire an fhrithealaiche a-steach</string>
   <string name="activate_account_action">Cuir an gnìomh</string>
-  <string name="account_unavailable">Cha ruig sinn an cunntas “<xliff:g id="account">%s</xliff:g>”, thoir sùil air an stòras</string>
+  <string name="account_unavailable">Cha ruig sinn an cunntas “<xliff:g id="account">%1$s</xliff:g>”, thoir sùil air an stòras</string>
   <string name="settings_attachment_default_path">Sàbhail na ceanglachain an-seo…</string>
   <string name="attachment_save_title">Sàbhail an ceanglachan</string>
   <string name="attachment_save_desc">Cha deach brabhsair fhaidhlichean a lorg. Càit an sàbhail sinn an ceanglachan seo dhut?</string>
@@ -845,7 +845,7 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="webview_contextmenu_email_save_action">Sàbhail san luchd-aithne</string>
   <string name="webview_contextmenu_email_copy_action">Cuir lethbhreac dhen t-seòladh air an stòr-bhòrd</string>
   <string name="webview_contextmenu_email_clipboard_label">Seòladh puist-d</string>
-  <string name="image_saved_as">Chaidh an dealbh a shàbhaladh mar “<xliff:g id="filename">%s</xliff:g>”</string>
+  <string name="image_saved_as">Chaidh an dealbh a shàbhaladh mar “<xliff:g id="filename">%1$s</xliff:g>”</string>
   <string name="image_saving_failed">Dh’fhàillig sàbhaladh an deilbh.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Na h-uile</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -856,13 +856,13 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1,000</string>
   <string name="account_settings_remote_search_num_label">Crìoch lorg an fhrithealaiche</string>
-  <string name="account_settings_remote_search_num_summary">Sguiridh an lorg nuair a ruigeas e <xliff:g id="num_results">%s</xliff:g> toradh.</string>
+  <string name="account_settings_remote_search_num_summary">Sguiridh an lorg nuair a ruigeas e <xliff:g id="num_results">%1$s</xliff:g> toradh.</string>
   <string name="remote_search_sending_query">A’ cur na ceiste dhan fhrithealaiche</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">A’ faighinn %d toradh</item>
-    <item quantity="two">A’ faighinn %d thoradh</item>
-    <item quantity="few">A’ faighinn %d toraidhean</item>
-    <item quantity="other">A’ faighinn %d toradh</item>
+    <item quantity="one">A’ faighinn%1$d toradh</item>
+    <item quantity="two">A’ faighinn%1$d thoradh</item>
+    <item quantity="few">A’ faighinn%1$d toraidhean</item>
+    <item quantity="other">A’ faighinn%1$d toradh</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="one">A’ faighinn %1$d à %2$d toradh</item>
@@ -884,7 +884,7 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="global_settings_threaded_view_summary">Buidhnich teachdaireachdan ann an còmhraidhean</string>
   <string name="upgrade_databases_title">Ag àrdachadh nan stòr-dàta</string>
   <string name="upgrade_databases_unspecified">Ag àrdachadh nan stòr-dàta…</string>
-  <string name="upgrade_database_format">Ag àrdachadh nan stòr-dàta aig a’ chunntas “<xliff:g id="account">%s</xliff:g>”</string>
+  <string name="upgrade_database_format">Ag àrdachadh nan stòr-dàta aig a’ chunntas “<xliff:g id="account">%1$s</xliff:g>”</string>
   <string name="message_list_loading">’Ga luchdadh…</string>
   <string name="global_settings_splitview_mode_label">Seall air sgrìn sgoilte</string>
   <string name="global_settings_splitview_always">An-còmhnaidh</string>
@@ -893,9 +893,9 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="message_view_empty">Tagh teachdaireachd air an taobh chlì</string>
   <string name="global_settings_show_contact_picture_label">Seall dealbhan an luchd-aithne</string>
   <string name="global_settings_show_contact_picture_summary">Seall dealbhan an luchd-aithne ann an liosta nan teachdaireachd</string>
-  <string name="last_refresh_time_format">Chaidh <xliff:g id="formatted_time">%s</xliff:g> ath-nuadhachadh</string>
-  <string name="last_refresh_time_format_with_push">Chaidh <xliff:g id="time_with_preposition">%s</xliff:g> ath-nuadhachadh (Push an gnìomh)</string>
-  <string name="preposition_for_date"><xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Chaidh <xliff:g id="formatted_time">%1$s</xliff:g> ath-nuadhachadh</string>
+  <string name="last_refresh_time_format_with_push">Chaidh <xliff:g id="time_with_preposition">%1$s</xliff:g> ath-nuadhachadh (Push an gnìomh)</string>
+  <string name="preposition_for_date"><xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Comharraich gun deach iad uile a leughadh</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Cuir dathan air dealbhan an luchd-aithne</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Cuir dathan air dealbhan an luchd-aithne a tha a dhìth</string>
@@ -910,7 +910,7 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="account_setup_basics_client_certificate">Cleachd teisteanas a’ chliant</string>
   <string name="client_certificate_spinner_empty">Chan eil teisteanas aig a’ chliant</string>
   <string name="client_certificate_spinner_delete">Thoir air falbh taghadh teisteanas a’ chliant</string>
-  <string name="client_certificate_retrieval_failure">Cha b’ urrainn dhuinn teisteanas a’ chliant fhaighinn dhan alias “<xliff:g id="alias">%s</xliff:g>”</string>
+  <string name="client_certificate_retrieval_failure">Cha b’ urrainn dhuinn teisteanas a’ chliant fhaighinn dhan alias “<xliff:g id="alias">%1$s</xliff:g>”</string>
   <string name="client_certificate_advanced_options">Roghainnean adhartach</string>
   <string name="client_certificate_expired">Dh’fhalbh an ùine air teisteanas a’ chliant “<xliff:g id="certificate_alias">%1$s</xliff:g>” no chan eil e dligheachd fhathast (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

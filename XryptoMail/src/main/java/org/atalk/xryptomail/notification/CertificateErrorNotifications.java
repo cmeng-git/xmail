@@ -3,6 +3,8 @@ package org.atalk.xryptomail.notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -59,7 +61,8 @@ class CertificateErrorNotifications {
                 AccountSetupActivity.intentActionEditOutgoingSettings(context, account);
 
         return PendingIntent.getActivity(context, account.getAccountNumber(), editServerSettingsIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private int getCertificateErrorNotificationIcon() {

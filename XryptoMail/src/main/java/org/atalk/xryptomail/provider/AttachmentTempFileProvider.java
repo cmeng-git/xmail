@@ -11,9 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 import androidx.core.content.FileProvider;
 
-import org.apache.commons.io.IOUtils;
 import org.atalk.xryptomail.BuildConfig;
 import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.helper.FileBackend;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -77,10 +77,10 @@ public class AttachmentTempFileProvider extends FileProvider
             if (inputStream == null) {
                 throw new IOException("Failed to resolve content at uri: " + uri);
             }
-            IOUtils.copy(inputStream, outputStream);
 
+            FileBackend.copy(inputStream, outputStream);
             outputStream.close();
-            IOUtils.closeQuietly(inputStream);
+            inputStream.close();
         }
     }
 

@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Povolit této aplikaci ovládat aktivity a nastavení pošty XryptoMail Mail.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%s</xliff:g> The XryptoMail. Portions Copyright 2006-<xliff:g>%s</xliff:g> the Android Open Source Project.</string>
+  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Portions Copyright 2006-<xliff:g>%2$s</xliff:g> the Android Open Source Project.</string>
   <string name="app_license">Licencované pod Apache Licencí, Version 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Vítejte v XryptoMail Mail</string>
@@ -46,25 +46,25 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <!--Default signature-->
   <string name="default_signature">-- \nOdesláno aplikací XryptoMail Mail ze systému Android. Omluvte prosím moji stručnost.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">Účet \"<xliff:g id="account">%s</xliff:g>\" bude odstraněn z XryptoMail Mail.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Všechna místní data účtu \"<xliff:g id="account">%s</xliff:g>\" budou z XryptoMail Mail odstraněna, ale nastavení účtu bude zachováno.</string>
-  <string name="account_clear_dlg_instructions_fmt">Místní zprávy v účtu \"<xliff:g id="account">%s</xliff:g>\" budou z XryptoMail Mail odstraněny, ale nastavení účtu bude zachováno.</string>
+  <string name="account_delete_dlg_instructions_fmt">Účet \"<xliff:g id="account">%1$s</xliff:g>\" bude odstraněn z XryptoMail Mail.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Všechna místní data účtu \"<xliff:g id="account">%1$s</xliff:g>\" budou z XryptoMail Mail odstraněna, ale nastavení účtu bude zachováno.</string>
+  <string name="account_clear_dlg_instructions_fmt">Místní zprávy v účtu \"<xliff:g id="account">%1$s</xliff:g>\" budou z XryptoMail Mail odstraněny, ale nastavení účtu bude zachováno.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Prosím nainstalujte nějaký file manager pro pokračování v importu.</string>
   <string name="open_market">Otevřít obchod Google Play</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Autoři: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Informace o revizi: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Používáme tyto knihovny třetích stran: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Autoři: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Informace o revizi: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Používáme tyto knihovny třetích stran: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Číst zprávy</string>
   <string name="read_messages_desc">Povolit této aplikaci číst vaši poštu.</string>
   <string name="delete_messages_label">Mazat zprávy</string>
   <string name="delete_messages_desc">Povolit této aplikaci mazat e-maily.</string>
-  <string name="about_title_fmt">O aplikaci <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">O aplikaci <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Účty</string>
   <string name="folders_title">Složky</string>
   <string name="advanced">Pokročilé</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Nová</string>
   <string name="compose_title_reply">Odpovědět</string>
   <string name="compose_title_reply_all">Odpovědět všem</string>
@@ -72,18 +72,18 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="compose_title_forward_as_attachment">Přeposlat jako přílohu</string>
   <string name="choose_account_title">Zvolte účet</string>
   <string name="choose_folder_title">Výběr složky</string>
-  <string name="status_loading_account_folder">Dotazování <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Stahování záhlaví <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Odesílání <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Zpracování <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Příští dotaz <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Dotazování <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Stahování záhlaví <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Odesílání <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Zpracování <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Příští dotaz <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Synchronizace vypnutá – žádná síť</string>
   <string name="status_no_background">Synchronizace vypnutá – žádná aktivita na pozadí</string>
   <string name="status_poll_and_push_disabled">Dotazování a odesílání vypnuto</string>
   <string name="status_syncing_blocked">Synchronizace blokována</string>
   <string name="status_syncing_off">Synchronizace vypnuta</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> vybraných</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> vybraných</string>
   <string name="next_action">Další</string>
   <string name="previous_action">Předchozí</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -158,22 +158,22 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="status_loading_error">Chyba při načítání zprávy</string>
   <string name="status_loading_more_failed">Opakujte načtení více zpráv</string>
   <string name="load_more_messages_fmt">Načti až
-    o <xliff:g id="messages_to_load">%d</xliff:g> více</string>
+    o <xliff:g id="messages_to_load">%1$d</xliff:g> více</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Účet \"<xliff:g id="account">%s</xliff:g>\" byl oříznut z <xliff:g id="oldSize">%s</xliff:g> na <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Komprimuje se účet \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">Čistím účet \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Obnovuji účet \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="account_size_changed">Účet \"<xliff:g id="account">%1$s</xliff:g>\" byl oříznut z <xliff:g id="oldSize">%2$s</xliff:g> na <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Komprimuje se účet \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">Čistím účet \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Obnovuji účet \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="notification_new_title">Nová zpráva</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> nová zpráva</item>
-    <item quantity="few"><xliff:g id="new_message_count">%d</xliff:g> nové zprávy</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> nových zpráv</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> nová zpráva</item>
+    <item quantity="few"><xliff:g id="new_message_count">%1$d</xliff:g> nové zprávy</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> nových zpráv</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> Nepřečteno (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> Nepřečteno (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> více na <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Odpovědět</string>
   <string name="notification_action_mark_as_read">Přečteno</string>
@@ -183,13 +183,13 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="notification_action_archive">Archivovat</string>
   <string name="notification_action_archive_all">Archivovat vše</string>
   <string name="notification_action_spam">Nevyžádaná</string>
-  <string name="notification_certificate_error_title">Chyba certifikátu pro <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Chyba certifikátu pro <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Zkontrolujte nastavení serveru</string>
   <string name="notification_authentication_error_title">Přihlášení se nezdařilo</string>
-  <string name="notification_authentication_error_text">Přihlášení k <xliff:g id="account">%s</xliff:g> se nezdařilo. Aktualizujte svá nastavení pro server.</string>
-  <string name="notification_bg_sync_ticker">Zjišťování pošty: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Přihlášení k <xliff:g id="account">%1$s</xliff:g> se nezdařilo. Aktualizujte svá nastavení pro server.</string>
+  <string name="notification_bg_sync_ticker">Zjišťování pošty: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Zjišťování pošty</string>
-  <string name="notification_bg_send_ticker">Odesílání pošty: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Odesílání pošty: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Odesílání pošty</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Doručená</string>
@@ -199,19 +199,19 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="special_mailbox_name_sent">Odeslaná</string>
   <string name="special_mailbox_name_archive">Archív</string>
   <string name="special_mailbox_name_spam">Nevyžádaná</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Koncepty)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Koš)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Odeslaná)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Archív)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Nevyžádaná)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Koncepty)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Koš)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Odeslaná)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Archív)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Nevyžádaná)</string>
   <string name="send_failure_subject">Selhalo odeslání některých zpráv</string>
-  <string name="debug_version_fmt">Verze: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Verze: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Povolit ladící záznam</string>
   <string name="debug_enable_debug_logging_summary">Zaznamenávat rozšířené diagnostické informace</string>
   <string name="debug_enable_sensitive_logging_title">Záznamenávat citlivé informace</string>
   <string name="debug_enable_sensitive_logging_summary">V záznamech mohou být zobrazena hesla</string>
   <string name="message_list_load_more_messages_action">Načti více zpráv</string>
-  <string name="message_to_fmt">Komu:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">Komu:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Předmět</string>
   <string name="message_compose_content_hint">Text zprávy</string>
   <string name="message_compose_signature_hint">Podpis</string>
@@ -221,7 +221,7 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="message_compose_quote_header_from">Odesílatel:</string>
   <string name="message_compose_quote_header_to">Komu:</string>
   <string name="message_compose_quote_header_cc">Kopie:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> napsal(a):</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> napsal(a):</string>
   <string name="message_compose_reply_header_fmt_with_date"><xliff:g id="sent_date">%1$s</xliff:g>, <xliff:g id="sender">%2$s</xliff:g> napsal:</string>
   <string name="message_compose_error_no_recipients">Musíte přidat alespoň jednoho příjemce.</string>
   <string name="compose_error_incomplete_recipient">Kolonka příjemce neobsahuje úplnou informaci!</string>
@@ -231,7 +231,7 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="message_compose_show_quoted_text_action">Zahrnout citovanou zprávu</string>
   <string name="message_compose_description_delete_quoted_text">Odstranit citovaný text</string>
   <string name="message_compose_description_edit_quoted_text">Upravit citovaný text</string>
-  <string name="message_view_from_format">Odesílatel: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">Odesílatel: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Komu:</string>
   <string name="message_view_cc_label">Kopie:</string>
   <string name="message_view_bcc_label">Skrytá kopie (Bcc):</string>
@@ -240,7 +240,7 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="message_view_status_attachment_not_saved">Nelze uložit přílohu na SD kartu.</string>
   <string name="message_view_status_no_space">Příloha nebyla uložena protože není dostatek místa.</string>
   <string name="message_view_show_pictures_action">Zobrazovat obrázky</string>
-  <string name="message_view_no_viewer">Nelze nalézt prohlížeč pro <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Nelze nalézt prohlížeč pro <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Stáhnout úplnou zprávu</string>
   <string name="message_view_toast_unable_to_display_message">Nelze zobrazit zprávu</string>
   <string name="message_view_sender_label">přes %1$s</string>
@@ -248,7 +248,7 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="message_no_additional_headers_available">Všechna záhlaví byla stažena, ale nejsou dostupná žádná další k zobrazení.</string>
   <string name="message_additional_headers_retrieval_failed">Načtení dalších záhlaví z databáze nebo poštovního serveru selhalo.</string>
   <string name="from_same_sender">Více od tohoto odesílatele</string>
-  <string name="search_from_format">Od <xliff:g id="sender">%s</xliff:g></string>
+  <string name="search_from_format">Od <xliff:g id="sender">%1$s</xliff:g></string>
   <string name="debug_delete_local_body">Ladící/čisté tělo zprávy</string>
   <string name="message_discarded_toast">Zpráva byla zrušena</string>
   <string name="message_saved_toast">Zpráva byla uložena jako koncept</string>
@@ -389,7 +389,7 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="account_setup_outgoing_password_label">Heslo</string>
   <string name="account_setup_outgoing_authentication_label">Typ ověření</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" není platný s \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
-  <string name="account_setup_bad_uri">Neplatné nastavení: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Neplatné nastavení: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Možnosti účtu</string>
   <string name="compact_action">Stlačit účet</string>
   <string name="clear_action">Vyčistit zprávy (nebezpečné!)</string>
@@ -436,9 +436,9 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="account_setup_options_mail_display_count_all">všechny zprávy</string>
   <string name="move_copy_cannot_copy_unsynced_message">Nelze kopírovat nebo přesunovat zprávu, která není synchronizována se serverem</string>
   <string name="account_setup_failed_dlg_title">Konfiguraci nastavení nelze dokončit</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Uživatelské jméno nebo heslo není správné.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">Server nabízí špatný SSL certifikát. Někdy může jít o chybu konfigurace, někdy o pokus útoku na Vás nebo mailový server. Pokud nevíte o co jde, zmáčkněte Odmítnout a kontaktujte lidi kteří spravují Váš mailový server.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Nelze se připojit k serveru. (<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Uživatelské jméno nebo heslo není správné.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">Server nabízí špatný SSL certifikát. Někdy může jít o chybu konfigurace, někdy o pokus útoku na Vás nebo mailový server. Pokud nevíte o co jde, zmáčkněte Odmítnout a kontaktujte lidi kteří spravují Váš mailový server.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Nelze se připojit k serveru. (<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Upravit podrobnosti</string>
   <string name="account_setup_failed_dlg_continue_action">Pokračovat</string>
   <string name="account_settings_push_advanced_title">Rozšířené</string>
@@ -718,7 +718,7 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="count_search_summary">Vypněte pro rychlejší zobrazování</string>
   <string name="hide_special_accounts_title">Skrýt speciální účty</string>
   <string name="hide_special_accounts_summary">Skrýt integrovanou doručenou složku a složku všech zpráv</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier"> - S \u2605</string>
   <string name="unread_modifier"> - Nepřečtené</string>
   <string name="search_all_messages_title">Všechny zprávy</string>
@@ -754,7 +754,7 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="font_size_message_view_subject">Předmět</string>
   <string name="font_size_message_view_date">Datum a čas</string>
   <string name="font_size_message_view_content">Tělo</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Psaní zprávy</string>
   <string name="font_size_message_compose_input">Pole zadávaní textu</string>
@@ -768,7 +768,7 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="font_size_larger">Největší</string>
   <string name="miscellaneous_preferences">Různé</string>
   <string name="error_activity_not_found">Pro tuto akci nebyla nalezena žádná vhodná aplikace.</string>
-  <string name="send_failed_reason">Odeslání selhalo: %s</string>
+  <string name="send_failed_reason">Odeslání selhalo:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Uložit koncept zprávy?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Uložit nebo zahodit tuto zprávu?</string>
   <string name="confirm_discard_draft_message_title">Zahodit zprávu?</string>
@@ -810,31 +810,31 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="settings_exporting">Exportování nastavení…</string>
   <string name="settings_importing">Importování nastavení…</string>
   <string name="settings_import_scanning_file">Skenuji soubor…</string>
-  <string name="settings_export_success">Export nastavení uložen do <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Export nastavení uložen do <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Nastavení úspěšně exportována</string>
-  <string name="settings_import_global_settings_success">Importováno globální nastaveni z <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Importováno <xliff:g id="accounts">%s</xliff:g> z <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_account_imported_as">Importováno <xliff:g id="original_account_name">%s</xliff:g> jako <xliff:g id="account_name_after_import">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Importováno globální nastaveni z <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Importováno <xliff:g id="accounts">%1$s</xliff:g> z <xliff:g id="filename">%2$s</xliff:g></string>
+  <string name="settings_import_account_imported_as">Importováno <xliff:g id="original_account_name">%1$s</xliff:g> jako <xliff:g id="account_name_after_import">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 účet</item>
-    <item quantity="few"><xliff:g id="numAccounts">%s</xliff:g> účty</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> účtů</item>
+    <item quantity="few"><xliff:g id="numAccounts">%1$s</xliff:g> účty</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> účtů</item>
   </plurals>
   <string name="settings_export_failure">Export nastavení se nezdařil</string>
-  <string name="settings_import_failure">Nepodařilo se importovat jakékoli nastavení z <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Nepodařilo se importovat jakékoli nastavení z <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Export úspěšný</string>
   <string name="settings_export_failed_header">Export selhal</string>
   <string name="settings_import_success_header">Import úspěšný</string>
   <string name="settings_import_failed_header">Import selhal</string>
   <string name="settings_import_activate_account_header">Aktivovat účet</string>
-  <string name="settings_import_activate_account_intro">Pro používání účtu \"<xliff:g id="account">%s</xliff:g>\" potřebujete zadat <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">Pro používání účtu \"<xliff:g id="account">%1$s</xliff:g>\" potřebujete zadat <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">heslo</item>
     <item quantity="few">hesla</item>
     <item quantity="other">hesel</item>
   </plurals>
-  <string name="settings_import_incoming_server">Příchozí server (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Odchozí server (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Příchozí server (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Odchozí server (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Nastavuji heslo…</item>
     <item quantity="few">Nastavuji hesla…</item>
@@ -842,7 +842,7 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   </plurals>
   <string name="settings_import_use_incoming_server_password">Použít heslo pro příchozí server</string>
   <string name="activate_account_action">Aktivovat</string>
-  <string name="account_unavailable">Účet \"<xliff:g id="account">%s</xliff:g>\" je nedostupný; zkontrolujte úložiště</string>
+  <string name="account_unavailable">Účet \"<xliff:g id="account">%1$s</xliff:g>\" je nedostupný; zkontrolujte úložiště</string>
   <string name="settings_attachment_default_path">Ukládat přílohy do…</string>
   <string name="attachment_save_title">Uložit přílohu</string>
   <string name="attachment_save_desc">Nebyl nalezen prohlížeč souborů. Kam chcete uložit tuto přílohu?</string>
@@ -883,7 +883,7 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="webview_contextmenu_email_save_action">Uložit do kontaktů</string>
   <string name="webview_contextmenu_email_copy_action">Zkopírovat e-mailovou adresu do schránky</string>
   <string name="webview_contextmenu_email_clipboard_label">E-mailová adresa</string>
-  <string name="image_saved_as">Obrázek uložen jako \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Obrázek uložen jako \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">Uložení obrázku se nezdařilo.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Vše</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -894,12 +894,12 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Limit počtu výsledků prohledávání serveru</string>
-  <string name="account_settings_remote_search_num_summary">Vyhledávání bude zastaveno po dosažení <xliff:g id="num_results">%s</xliff:g> výsledků.</string>
+  <string name="account_settings_remote_search_num_summary">Vyhledávání bude zastaveno po dosažení <xliff:g id="num_results">%1$s</xliff:g> výsledků.</string>
   <string name="remote_search_sending_query">Odeslání dotazu na server</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">Načítání %d výsledku</item>
-    <item quantity="few">Načítání %d výsledků</item>
-    <item quantity="other">Načítání %d výsledků</item>
+    <item quantity="one">Načítání%1$d výsledku</item>
+    <item quantity="few">Načítání%1$d výsledků</item>
+    <item quantity="other">Načítání%1$d výsledků</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="one">Stahování %1$d z %2$d výsledků</item>
@@ -920,7 +920,7 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="global_settings_threaded_view_summary">Sjednotit zprávy patřící ke stejnému vláknu</string>
   <string name="upgrade_databases_title">Aktualizace databází</string>
   <string name="upgrade_databases_unspecified">Aktualizuji databáze…</string>
-  <string name="upgrade_database_format">Aktualizuji databázi pro účet \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="upgrade_database_format">Aktualizuji databázi pro účet \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="message_list_loading">Nahrávám…</string>
   <string name="global_settings_splitview_mode_label">Zobraz rozdělení obrazovky</string>
   <string name="global_settings_splitview_always">Vždy</string>
@@ -929,9 +929,9 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="message_view_empty">Prosím zvolte zprávu vlevo</string>
   <string name="global_settings_show_contact_picture_label">Zobraz obrázky u kontaktů</string>
   <string name="global_settings_show_contact_picture_summary">Zobraz obrázky u kontaktů v seznamu zpráv</string>
-  <string name="last_refresh_time_format">Poslední obnova <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Poslední obnova <xliff:g id="time_with_preposition">%s</xliff:g> (Push)</string>
-  <string name="preposition_for_date">v <xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Poslední obnova <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Poslední obnova <xliff:g id="time_with_preposition">%1$s</xliff:g> (Push)</string>
+  <string name="preposition_for_date">v <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Označ vše jako přečtené</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Obarvit obrázky kontaktů</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Obarví chybějící obrázky u kontaktů</string>
@@ -946,7 +946,7 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="account_setup_basics_client_certificate">Použít klientský certifikát</string>
   <string name="client_certificate_spinner_empty">Žádný klientský certifikát</string>
   <string name="client_certificate_spinner_delete">Odstranit výběr klientského certifikátu</string>
-  <string name="client_certificate_retrieval_failure">Chyba při získání klientského certifikátu pro alias \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">Chyba při získání klientského certifikátu pro alias \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Pokročilé možnosti</string>
   <string name="client_certificate_expired">Klientský certifikát \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" vypršel nebo ještě není platný (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

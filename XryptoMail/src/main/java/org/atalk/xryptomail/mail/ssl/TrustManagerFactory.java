@@ -23,7 +23,7 @@ public final class TrustManagerFactory {
 
     private static class SecureX509TrustManager implements X509TrustManager {
         private static final Map<String, SecureX509TrustManager> mTrustManager =
-            new HashMap<String, SecureX509TrustManager>();
+                new HashMap<>();
 
         private final String mHost;
         private final int mPort;
@@ -53,11 +53,10 @@ public final class TrustManagerFactory {
 
         public void checkServerTrusted(X509Certificate[] chain, String authType)
                 throws CertificateException {
-            String message = null;
+            String message;
             X509Certificate certificate = chain[0];
 
-            Throwable cause = null;
-
+            Throwable cause;
             try {
                 defaultTrustManager.checkServerTrusted(chain, authType);
                 new StrictHostnameVerifier().verify(mHost, certificate);

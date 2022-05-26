@@ -18,12 +18,11 @@ public class GmailOAuth2TokenStore extends AndroidSpecificOAuth2TokenProvider
             "redirect_uri=" + REDIRECT_URI + "&" +
             "client_id=" + CLIENT_ID;
 
-    private Retrofit retrofit;
-    private GoogleAPIService service;
+    private final GoogleAPIService service;
 
     public GmailOAuth2TokenStore()
     {
-        retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GOOGLE_API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

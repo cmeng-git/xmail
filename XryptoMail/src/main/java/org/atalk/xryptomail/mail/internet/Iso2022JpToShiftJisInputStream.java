@@ -9,7 +9,7 @@ class Iso2022JpToShiftJisInputStream extends InputStream {
         ASCII, JISX0201, JISX0208,
     }
 
-    private InputStream mIn;
+    private final InputStream mIn;
     private Charset charset = Charset.ASCII;
     private int out;
     private boolean hasOut = false;

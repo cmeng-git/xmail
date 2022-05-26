@@ -71,21 +71,19 @@ public class WebDavStore extends RemoteStore
         return WebDavStoreUriCreator.create(server);
     }
 
-    private ConnectionSecurity mConnectionSecurity;
-    private String mUsername; /* Stores the username for authentications */
-    private String mAlias; /* Stores the alias for the user's mailbox */
-    private String mPassword; /* Stores the password for authentications */
-    private String mBaseUrl; /* Stores the base URL for the server */
-    private String mHostName; /* Stores the host name for the server */
-    private int mPort;
-    private String mPath; /* Stores the path for the server */
+    private final ConnectionSecurity mConnectionSecurity;
+    private final String mUsername; /* Stores the username for authentications */
+    private final String mAlias; /* Stores the alias for the user's mailbox */
+    private final String mPassword; /* Stores the password for authentications */
+    private final String mBaseUrl; /* Stores the base URL for the server */
+    private final String mHostName; /* Stores the host name for the server */
+    private final int mPort;
     private String mFormBasedAuthPath; /* Stores the path off of the server to post data to for form based authentication */
-    private String mMailboxPath; /* Stores the user specified path to the mailbox */
 
     private final WebDavHttpClient.WebDavHttpClientFactory mHttpClientFactory;
     private WebDavHttpClient mHttpClient = null;
     private HttpContext mHttpContext = null;
-    private String mAuthString;
+    private final String mAuthString;
     private CookieStore mAuthCookies = null;
     private short mAuthenticationType = WebDavConstants.AUTH_TYPE_NONE;
     private String mCachedLoginUrl;
@@ -115,9 +113,11 @@ public class WebDavStore extends RemoteStore
         mPassword = serverSettings.password;
         mAlias = serverSettings.alias;
 
-        mPath = serverSettings.path;
+        /* Stores the path for the server */
+        String mPath = serverSettings.path;
         mFormBasedAuthPath = serverSettings.authPath;
-        mMailboxPath = serverSettings.mailboxPath;
+        /* Stores the user specified path to the mailbox */
+        String mMailboxPath = serverSettings.mailboxPath;
 
 
         if (mPath == null || mPath.equals("")) {

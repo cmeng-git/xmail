@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Дозвољава овој апликацији да управља активностима и поставкама К-9 Поште.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Гугл, К-9 Шетачи паса.</string>
-  <string name="app_copyright_fmt">Ауторска права 2008-<xliff:g>%s</xliff:g> „XryptoMail“. Део ауторских права 2006-<xliff:g>%s</xliff:g> Андроид пројекат отвореног ко̂да.</string>
+  <string name="app_copyright_fmt">Ауторска права 2008-<xliff:g>%1$s</xliff:g> „XryptoMail“. Део ауторских права 2006-<xliff:g>%2$s</xliff:g> Андроид пројекат отвореног ко̂да.</string>
   <string name="app_license">Лиценцирано под Апачи лиценцом, издање 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Добро дошли у К-9 Пошту</string>
@@ -46,43 +46,43 @@
   <!--Default signature-->
   <string name="default_signature">-- \nПослато К-9 Поштом са мог Андроид уређаја. Извините због сажетости.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">Налог „<xliff:g id="account">%s</xliff:g>“ ће бити уклоњен из К-9 Поште.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Сви локални подаци за „<xliff:g id="account">%s</xliff:g>“ ће бити уклоњени. Поставке налога ће остати.</string>
-  <string name="account_clear_dlg_instructions_fmt">Локалне копије порука у „<xliff:g id="account">%s</xliff:g>“ ће бити уклоњене. Поставке налога ће остати.</string>
+  <string name="account_delete_dlg_instructions_fmt">Налог „<xliff:g id="account">%1$s</xliff:g>“ ће бити уклоњен из К-9 Поште.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Сви локални подаци за „<xliff:g id="account">%1$s</xliff:g>“ ће бити уклоњени. Поставке налога ће остати.</string>
+  <string name="account_clear_dlg_instructions_fmt">Локалне копије порука у „<xliff:g id="account">%1$s</xliff:g>“ ће бити уклоњене. Поставке налога ће остати.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Инсталирајте менаџер фајлова да бисте наставили овај увоз.</string>
   <string name="open_market">Отвори Плеј продавницу</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Аутори: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Подаци о ревизији: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Користимо следеће библиотеке треће стране: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Аутори: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Подаци о ревизији: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Користимо следеће библиотеке треће стране: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">читање е-порука</string>
   <string name="read_messages_desc">Дозвољава овој апликацији читање ваших е-порука.</string>
   <string name="delete_messages_label">брисање е-порука</string>
   <string name="delete_messages_desc">Дозвољава овој апликацији брисање ваших е-порука.</string>
-  <string name="about_title_fmt">О <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">О <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Налози</string>
   <string name="folders_title">Фасцикле</string>
   <string name="advanced">Напредно</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Састави</string>
   <string name="compose_title_reply">Одговори</string>
   <string name="compose_title_reply_all">Одговори свима</string>
   <string name="compose_title_forward">Проследи</string>
   <string name="choose_account_title">Избор налога</string>
   <string name="choose_folder_title">Одредите фасциклу</string>
-  <string name="status_loading_account_folder">Проверавам <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Добављам заглавља <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Шаљем <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Обрађујем <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Следећа провера <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Проверавам <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Добављам заглавља <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Шаљем <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Обрађујем <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Следећа провера <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Синхронизација искључена — нема мреже</string>
   <string name="status_no_background">Синхронизација искључена — нема позадинске активности</string>
   <string name="status_poll_and_push_disabled">Проверавање и гурање искључено</string>
   <string name="status_syncing_blocked">Синхронизација блокирана</string>
   <string name="status_syncing_off">Синхронизација онемогућена</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> изабрано</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> изабрано</string>
   <string name="next_action">Следеће</string>
   <string name="previous_action">Претходно</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -156,22 +156,22 @@
   <string name="status_loading_error">Грешка учитавања поруке</string>
   <string name="status_loading_more_failed">Поново покушај учитати још порука</string>
   <string name="load_more_messages_fmt">Учитај још
-    <xliff:g id="messages_to_load">%d</xliff:g> порука</string>
+    <xliff:g id="messages_to_load">%1$d</xliff:g> порука</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Налог „<xliff:g id="account">%s</xliff:g>“ смањен са <xliff:g id="oldSize">%s</xliff:g> на <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Сажимање налога „<xliff:g id="account">%s</xliff:g>“</string>
-  <string name="clearing_account">Чишћење налога „<xliff:g id="account">%s</xliff:g>“</string>
-  <string name="recreating_account">Поновно прављење налога „<xliff:g id="account">%s</xliff:g>“</string>
+  <string name="account_size_changed">Налог „<xliff:g id="account">%1$s</xliff:g>“ смањен са <xliff:g id="oldSize">%2$s</xliff:g> на <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Сажимање налога „<xliff:g id="account">%1$s</xliff:g>“</string>
+  <string name="clearing_account">Чишћење налога „<xliff:g id="account">%1$s</xliff:g>“</string>
+  <string name="recreating_account">Поновно прављење налога „<xliff:g id="account">%1$s</xliff:g>“</string>
   <string name="notification_new_title">Нова пошта</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> нова порука</item>
-    <item quantity="few"><xliff:g id="new_message_count">%d</xliff:g> нове поруке</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> нових порука</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> нова порука</item>
+    <item quantity="few"><xliff:g id="new_message_count">%1$d</xliff:g> нове поруке</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> нових порука</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> непрочитаних (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> непрочитаних (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> још на <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Одговори</string>
   <string name="notification_action_mark_as_read">Означи прочитаним</string>
@@ -181,13 +181,13 @@
   <string name="notification_action_archive">Архивирај</string>
   <string name="notification_action_archive_all">Архивирај све</string>
   <string name="notification_action_spam">Нежељена</string>
-  <string name="notification_certificate_error_title">Грешка сертификата за <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Грешка сертификата за <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Проверите поставке за сервер</string>
   <string name="notification_authentication_error_title">Аутентификација није успела</string>
-  <string name="notification_authentication_error_text">Аутентификација није успела за <xliff:g id="account">%s</xliff:g>. Ажурирајте поставке за сервер.</string>
-  <string name="notification_bg_sync_ticker">Проверавам пошту: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Аутентификација није успела за <xliff:g id="account">%1$s</xliff:g>. Ажурирајте поставке за сервер.</string>
+  <string name="notification_bg_sync_ticker">Проверавам пошту: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Проверавам пошту</string>
-  <string name="notification_bg_send_ticker">Шаљем пошту: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Шаљем пошту: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Шаљем пошту</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Долазне</string>
@@ -197,19 +197,19 @@
   <string name="special_mailbox_name_sent">Послате</string>
   <string name="special_mailbox_name_archive">Архива</string>
   <string name="special_mailbox_name_spam">Нежељене</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Нацрти)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Смеће)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Послате)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Архива)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Нежељене)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Нацрти)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Смеће)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Послате)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Архива)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Нежељене)</string>
   <string name="send_failure_subject">Неуспех слања неких порука</string>
-  <string name="debug_version_fmt">Издање: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Издање: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Укључи бележење за отклањање грешака</string>
   <string name="debug_enable_debug_logging_summary">Бележи додатне дијагностичке податке</string>
   <string name="debug_enable_sensitive_logging_title">Бележи осетљиве податке</string>
   <string name="debug_enable_sensitive_logging_summary">Лозинке се могу видети у записнику.</string>
   <string name="message_list_load_more_messages_action">Учитај још порука</string>
-  <string name="message_to_fmt">За:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">За:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Предмет</string>
   <string name="message_compose_content_hint">Текст поруке</string>
   <string name="message_compose_signature_hint">Потпис</string>
@@ -219,7 +219,7 @@
   <string name="message_compose_quote_header_from">Од:</string>
   <string name="message_compose_quote_header_to">За:</string>
   <string name="message_compose_quote_header_cc">Цц:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> написа:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> написа:</string>
   <string name="message_compose_reply_header_fmt_with_date">Дана <xliff:g id="sent_date">%1$s</xliff:g>, <xliff:g id="sender">%2$s</xliff:g> написа:</string>
   <string name="message_compose_error_no_recipients">Морате додати бар једног примаоца.</string>
   <string name="compose_error_incomplete_recipient">Поље примаоца садржи непотпун унос!</string>
@@ -227,7 +227,7 @@
   <string name="message_compose_attachments_skipped_toast">Неки прилози не могу бити прослеђени јер нису преузети.</string>
   <string name="message_compose_description_delete_quoted_text">Уклони цитирани текст</string>
   <string name="message_compose_description_edit_quoted_text">Уреди цитирани текст</string>
-  <string name="message_view_from_format">Од: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">Од: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">За:</string>
   <string name="message_view_cc_label">Цц:</string>
   <string name="message_view_bcc_label">Бцц:</string>
@@ -236,7 +236,7 @@
   <string name="message_view_status_attachment_not_saved">Не могу да сачувам прилог на СД картицу.</string>
   <string name="message_view_status_no_space">Прилог није могао бити сачуван јер нема довољно простора.</string>
   <string name="message_view_show_pictures_action">Прикажи слике</string>
-  <string name="message_view_no_viewer">Не могу да нађем прегледач за <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Не могу да нађем прегледач за <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Преузми читаву поруку</string>
   <string name="message_view_toast_unable_to_display_message">Не могу да прикажем поруку</string>
   <string name="message_view_sender_label">преко %1$s</string>
@@ -382,7 +382,7 @@
   <string name="account_setup_outgoing_password_label">Лозинка</string>
   <string name="account_setup_outgoing_authentication_label">Аутентификација</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">„<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>“ није исправно са „<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>“</string>
-  <string name="account_setup_bad_uri">Неисправна постава: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Неисправна постава: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Опције налога</string>
   <string name="compact_action">Сажми налог</string>
   <string name="clear_action">Очисти поруке (пажња!)</string>
@@ -429,9 +429,9 @@
   <string name="account_setup_options_mail_display_count_all">све поруке</string>
   <string name="move_copy_cannot_copy_unsynced_message">Не могу да копирам или померим поруку ако није синхронизована са сервером</string>
   <string name="account_setup_failed_dlg_title">Постава није завршена</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Неисправно корисничко име или лозинка.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">Сервер је представио неисправан ССЛ сертификат. Понекад се ово дешава због лоше поставе. Понекад зато што неко покушава да нападне вас или ваш сервер поште. Ако нисте сигурни шта се дешава, кликните на Одбиј и контактирајте људе који управљају вашим сервером поште.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Не могу да се повежем са сервером.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Неисправно корисничко име или лозинка.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">Сервер је представио неисправан ССЛ сертификат. Понекад се ово дешава због лоше поставе. Понекад зато што неко покушава да нападне вас или ваш сервер поште. Ако нисте сигурни шта се дешава, кликните на Одбиј и контактирајте људе који управљају вашим сервером поште.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Не могу да се повежем са сервером.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Уреди детаље</string>
   <string name="account_setup_failed_dlg_continue_action">Настави</string>
   <string name="account_settings_push_advanced_title">Напредно</string>
@@ -710,7 +710,7 @@
   <string name="count_search_summary">Искључите за бржи приказ</string>
   <string name="hide_special_accounts_title">Сакриј посебне налоге</string>
   <string name="hide_special_accounts_summary">Сакриј налоге „Обједињено пријемно сандуче“ и „Све поруке“</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier"> - са звездицом</string>
   <string name="unread_modifier"> - непрочитане</string>
   <string name="search_all_messages_title">Све поруке</string>
@@ -746,7 +746,7 @@
   <string name="font_size_message_view_subject">Предмет</string>
   <string name="font_size_message_view_date">Време и датум</string>
   <string name="font_size_message_view_content">Тело поруке</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Састављање поруке</string>
   <string name="font_size_message_compose_input">Поља за унос текста</string>
@@ -760,7 +760,7 @@
   <string name="font_size_larger">Већи</string>
   <string name="miscellaneous_preferences">Разно</string>
   <string name="error_activity_not_found">Нема подесне апликације за ову радњу.</string>
-  <string name="send_failed_reason">Слање није успело: %s</string>
+  <string name="send_failed_reason">Слање није успело:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Сачувати нацрт поруке?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Да сачувам или одбацим ову поруку?</string>
   <string name="confirm_discard_draft_message_title">Одбацити поруку?</string>
@@ -802,30 +802,30 @@
   <string name="settings_exporting">Извозим поставке…</string>
   <string name="settings_importing">Увозим поставке…</string>
   <string name="settings_import_scanning_file">Очитавам фајл…</string>
-  <string name="settings_export_success">Извезене поставке сачуване у <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Извезене поставке сачуване у <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Поставке успешно извезене</string>
-  <string name="settings_import_global_settings_success">Увезене опште поставке из <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Увезено <xliff:g id="accounts">%s</xliff:g> из <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Увезене опште поставке из <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Увезено <xliff:g id="accounts">%1$s</xliff:g> из <xliff:g id="filename">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 налог</item>
-    <item quantity="few"><xliff:g id="numAccounts">%s</xliff:g> налога</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> налога</item>
+    <item quantity="few"><xliff:g id="numAccounts">%1$s</xliff:g> налога</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> налога</item>
   </plurals>
   <string name="settings_export_failure">Неуспех извоза поставки</string>
-  <string name="settings_import_failure">Неуспех увоза поставки из <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Неуспех увоза поставки из <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Извоз је успео</string>
   <string name="settings_export_failed_header">Извоз није успео</string>
   <string name="settings_import_success_header">Увоз је успео</string>
   <string name="settings_import_failed_header">Увоз није успео</string>
   <string name="settings_import_activate_account_header">Активирање налога</string>
-  <string name="settings_import_activate_account_intro">Да бисте могли да користите налог „<xliff:g id="account">%s</xliff:g>“ морате да унесете <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">Да бисте могли да користите налог „<xliff:g id="account">%1$s</xliff:g>“ морате да унесете <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">лозинку сервера</item>
     <item quantity="few">лозинке сервера</item>
     <item quantity="other">лозинке сервера</item>
   </plurals>
-  <string name="settings_import_incoming_server">Долазни сервер (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Одлазни сервер (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Долазни сервер (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Одлазни сервер (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Постављам лозинку…</item>
     <item quantity="few">Постављам лозинке…</item>
@@ -833,7 +833,7 @@
   </plurals>
   <string name="settings_import_use_incoming_server_password">Користи лозинку долазног сервера</string>
   <string name="activate_account_action">Активирај</string>
-  <string name="account_unavailable">Налог „<xliff:g id="account">%s</xliff:g>“ је недоступан; проверите складиште</string>
+  <string name="account_unavailable">Налог „<xliff:g id="account">%1$s</xliff:g>“ је недоступан; проверите складиште</string>
   <string name="settings_attachment_default_path">Сачувај прилоге у…</string>
   <string name="attachment_save_title">Упис прилога</string>
   <string name="attachment_save_desc">Нема прегледача фајлова. Где желите да сачувате овај прилог?</string>
@@ -871,7 +871,7 @@
   <string name="webview_contextmenu_email_save_action">Сачувај у контакте</string>
   <string name="webview_contextmenu_email_copy_action">Копирај адресу у клипборд</string>
   <string name="webview_contextmenu_email_clipboard_label">Адреса е-поште</string>
-  <string name="image_saved_as">Порука сачувана као „<xliff:g id="filename">%s</xliff:g>“</string>
+  <string name="image_saved_as">Порука сачувана као „<xliff:g id="filename">%1$s</xliff:g>“</string>
   <string name="image_saving_failed">Упис слике није успео.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Све</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -882,12 +882,12 @@
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Ограничење претраге сервера</string>
-  <string name="account_settings_remote_search_num_summary">Тражење ће стати након <xliff:g id="num_results">%s</xliff:g> нађених ставки.</string>
+  <string name="account_settings_remote_search_num_summary">Тражење ће стати након <xliff:g id="num_results">%1$s</xliff:g> нађених ставки.</string>
   <string name="remote_search_sending_query">Шаљем упит серверу</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">Добављам %d резултат</item>
-    <item quantity="few">Добављам %d резултата</item>
-    <item quantity="other">Добављам %d резултата</item>
+    <item quantity="one">Добављам%1$d резултат</item>
+    <item quantity="few">Добављам%1$d резултата</item>
+    <item quantity="other">Добављам%1$d резултата</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="one">Добављам %1$d од %2$d резултата</item>
@@ -908,7 +908,7 @@
   <string name="global_settings_threaded_view_summary">Груписање порука по препискама</string>
   <string name="upgrade_databases_title">Надоградња база података</string>
   <string name="upgrade_databases_unspecified">Надограђујем базе података…</string>
-  <string name="upgrade_database_format">Надограђујем базе података за налог „<xliff:g id="account">%s</xliff:g>“</string>
+  <string name="upgrade_database_format">Надограђујем базе података за налог „<xliff:g id="account">%1$s</xliff:g>“</string>
   <string name="message_list_loading">Учитавам…</string>
   <string name="global_settings_splitview_mode_label">Подељени приказ</string>
   <string name="global_settings_splitview_always">Увек</string>
@@ -917,9 +917,9 @@
   <string name="message_view_empty">Изаберите поруку с лева</string>
   <string name="global_settings_show_contact_picture_label">Прикажи слике контаката</string>
   <string name="global_settings_show_contact_picture_summary">Прикажи слике контаката у списку порука</string>
-  <string name="last_refresh_time_format">Освежена <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Освежена <xliff:g id="time_with_preposition">%s</xliff:g> (активно гурање)</string>
-  <string name="preposition_for_date">у <xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Освежена <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Освежена <xliff:g id="time_with_preposition">%1$s</xliff:g> (активно гурање)</string>
+  <string name="preposition_for_date">у <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Означи све као прочитано</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Обоји слике контаката</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Обоји недостајуће слике контаката</string>
@@ -934,7 +934,7 @@
   <string name="account_setup_basics_client_certificate">Користи сертификат клијента</string>
   <string name="client_certificate_spinner_empty">Нема сертификата клијента</string>
   <string name="client_certificate_spinner_delete">Уклони избор сертификата клијента</string>
-  <string name="client_certificate_retrieval_failure">Неуспех добављања сертификата клијента за псеудоним „<xliff:g id="alias">%s</xliff:g>“</string>
+  <string name="client_certificate_retrieval_failure">Неуспех добављања сертификата клијента за псеудоним „<xliff:g id="alias">%1$s</xliff:g>“</string>
   <string name="client_certificate_advanced_options">Напредне поставке</string>
   <string name="client_certificate_expired">Сертификат клијента „<xliff:g id="certificate_alias">%1$s</xliff:g>“ је истекао или још није важећи (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

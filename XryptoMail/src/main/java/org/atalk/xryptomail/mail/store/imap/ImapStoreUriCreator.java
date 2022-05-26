@@ -1,6 +1,7 @@
 package org.atalk.xryptomail.mail.store.imap;
 
-import org.atalk.xryptomail.helper.UrlEncodingHelper;
+import static org.atalk.xryptomail.helper.UrlEncodingHelper.encodeUtf8;
+
 import org.atalk.xryptomail.mail.AuthType;
 import org.atalk.xryptomail.mail.ServerSettings;
 
@@ -8,16 +9,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-import static org.atalk.xryptomail.helper.UrlEncodingHelper.encodeUtf8;
 class ImapStoreUriCreator {
     /**
      * Creates an ImapStore URI with the supplied settings.
      *
-     * @param server
-     *         The {@link ServerSettings} object that holds the server settings.
-     *
+     * @param server The {@link ServerSettings} object that holds the server settings.
      * @return An ImapStore URI that holds the same information as the {@code server} parameter.
-     *
      * @see org.atalk.xryptomail.mail.store.StoreConfig#getStoreUri()
      * @see ImapStore#decodeUri(String)
      */
@@ -25,7 +22,7 @@ class ImapStoreUriCreator {
         String userEnc = encodeUtf8(server.username);
         String passwordEnc = (server.password != null) ? encodeUtf8(server.password) : "";
         String clientCertificateAliasEnc = (server.clientCertificateAlias != null) ?
-        	encodeUtf8(server.clientCertificateAlias) : "";
+                encodeUtf8(server.clientCertificateAlias) : "";
 
         String scheme;
         switch (server.connectionSecurity) {

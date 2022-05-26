@@ -43,7 +43,7 @@ public class MessageViewInfo {
     static MessageViewInfo createWithExtractedContent(Message message, Part rootPart, boolean isMessageIncomplete,
             String text, List<AttachmentViewInfo> attachments, AttachmentResolver attachmentResolver) {
         return new MessageViewInfo(message, isMessageIncomplete, rootPart, null, false, text, attachments, null,
-                attachmentResolver, null, Collections.<AttachmentViewInfo>emptyList());
+                attachmentResolver, null, Collections.emptyList());
     }
 
     public static MessageViewInfo createWithErrorState(Message message, boolean isMessageIncomplete) {

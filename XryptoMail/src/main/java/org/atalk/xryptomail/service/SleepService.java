@@ -22,9 +22,9 @@ public class SleepService extends JobIntentService
     private static final String ALARM_FIRED = "org.atalk.xryptomail.service.SleepService.ALARM_FIRED";
     private static final String LATCH_ID = "org.atalk.xryptomail.service.SleepService.LATCH_ID_EXTRA";
 
-    private static ConcurrentHashMap<Integer, SleepDatum> sleepData = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Integer, SleepDatum> sleepData = new ConcurrentHashMap<>();
 
-    private static AtomicInteger latchId = new AtomicInteger();
+    private static final AtomicInteger latchId = new AtomicInteger();
 
     /**
      * Unique job ID for this service.

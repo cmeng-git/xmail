@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.*;
 import android.os.Bundle;
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -26,6 +28,7 @@ public class PgpEnabledErrorDialog extends HighlightDialogFragment
         return dialog;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {

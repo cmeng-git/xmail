@@ -10,7 +10,7 @@
   <string name="remote_control_desc">XryptoMail Mail のアクティビティ・設定の制御を許可</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%s</xliff:g> The XryptoMail. Portions Copyright 2006-<xliff:g>%s</xliff:g> the Android Open Source Project.</string>
+  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Portions Copyright 2006-<xliff:g>%2$s</xliff:g> the Android Open Source Project.</string>
   <string name="app_license">Licensed under the Apache License, Version 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">XryptoMail Mailへようこそ</string>
@@ -47,25 +47,25 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <!--Default signature-->
   <string name="default_signature">-- \nXryptoMail Mail で Android デバイスから送信しました。簡単で申し訳ありません。</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">アカウント \"<xliff:g id="account">%s</xliff:g>\" はK-9 Mailから削除されます。</string>
-  <string name="account_recreate_dlg_instructions_fmt">アカウント \"<xliff:g id="account">%s</xliff:g>\" のローカルのデータはK-9 Mailから削除されますが、アカウントの設定は残ります。</string>
-  <string name="account_clear_dlg_instructions_fmt">アカウント \"<xliff:g id="account">%s</xliff:g>\" のローカルにコピーしたメッセージはK-9 Mailから削除されますが、アカウントの設定は残ります。</string>
+  <string name="account_delete_dlg_instructions_fmt">アカウント \"<xliff:g id="account">%1$s</xliff:g>\" はK-9 Mailから削除されます。</string>
+  <string name="account_recreate_dlg_instructions_fmt">アカウント \"<xliff:g id="account">%1$s</xliff:g>\" のローカルのデータはK-9 Mailから削除されますが、アカウントの設定は残ります。</string>
+  <string name="account_clear_dlg_instructions_fmt">アカウント \"<xliff:g id="account">%1$s</xliff:g>\" のローカルにコピーしたメッセージはK-9 Mailから削除されますが、アカウントの設定は残ります。</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">設定をインポートするにはファイルマネージャをインストールしてください。</string>
   <string name="open_market">マーケット</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Authors: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Revision Information: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">以下のライブラリを利用しています: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Authors: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Revision Information: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">以下のライブラリを利用しています: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">メールを読む</string>
   <string name="read_messages_desc">このアプリケーションがメールを読むことを許可する</string>
   <string name="delete_messages_label">メールを削除</string>
   <string name="delete_messages_desc">このアプリケーションがメールを削除することを許可する</string>
-  <string name="about_title_fmt">About <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">About <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">アカウント一覧</string>
   <string name="folders_title">フォルダ一覧</string>
   <string name="advanced">拡張機能</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">作成</string>
   <string name="compose_title_reply">返信</string>
   <string name="compose_title_reply_all">全員に返信</string>
@@ -73,18 +73,18 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="compose_title_forward_as_attachment">添付として転送</string>
   <string name="choose_account_title">アカウントの選択</string>
   <string name="choose_folder_title">フォルダ選択</string>
-  <string name="status_loading_account_folder">受信 <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">ヘッダ取込 <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">送信 <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">処理 <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">次回受信 <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">受信 <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">ヘッダ取込 <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">送信 <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">処理 <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">次回受信 <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">同期停止 - ネットワーク接続なし</string>
   <string name="status_no_background">同期停止 - バックグラウンドの活動なし</string>
   <string name="status_poll_and_push_disabled">ポーリングとプッシュは無効です</string>
   <string name="status_syncing_blocked">同期はブロックされました</string>
   <string name="status_syncing_off">同期停止</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g>件選択しました</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g>件選択しました</string>
   <string name="next_action">次へ</string>
   <string name="previous_action">前へ</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -156,20 +156,20 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="status_invalid_id_error">メッセージが見つかりません</string>
   <string name="status_loading_error">メール取込エラー</string>
   <string name="status_loading_more_failed">メール取込の再実行</string>
-  <string name="load_more_messages_fmt"><xliff:g id="messages_to_load">%d</xliff:g> 件 読込</string>
+  <string name="load_more_messages_fmt"><xliff:g id="messages_to_load">%1$d</xliff:g> 件 読込</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">アカウント \"<xliff:g id="account">%s</xliff:g>\" 現在 <xliff:g id="oldSize">%s</xliff:g> から <xliff:g id="newSize">%s</xliff:g> へ</string>
-  <string name="compacting_account">アカウント \"<xliff:g id="account">%s</xliff:g>\" を最適化しています</string>
-  <string name="clearing_account">アカウント \"<xliff:g id="account">%s</xliff:g>\" をクリアしています</string>
-  <string name="recreating_account">アカウント \"<xliff:g id="account">%s</xliff:g>\" を再作成しています</string>
+  <string name="account_size_changed">アカウント \"<xliff:g id="account">%1$s</xliff:g>\" 現在 <xliff:g id="oldSize">%2$s</xliff:g> から <xliff:g id="newSize">%3$s</xliff:g> へ</string>
+  <string name="compacting_account">アカウント \"<xliff:g id="account">%1$s</xliff:g>\" を最適化しています</string>
+  <string name="clearing_account">アカウント \"<xliff:g id="account">%1$s</xliff:g>\" をクリアしています</string>
+  <string name="recreating_account">アカウント \"<xliff:g id="account">%1$s</xliff:g>\" を再作成しています</string>
   <string name="notification_new_title">新着メール</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> 件の新着ﾒｯｾｰｼﾞ</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> 件の新着ﾒｯｾｰｼﾞ</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> 未読 (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> 未読 (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> 続く <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">返信</string>
   <string name="notification_action_mark_as_read">既読</string>
@@ -179,13 +179,13 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="notification_action_archive">アーカイブ</string>
   <string name="notification_action_archive_all">すべてアーカイブする</string>
   <string name="notification_action_spam">迷惑メール</string>
-  <string name="notification_certificate_error_title"><xliff:g id="account">%s</xliff:g>の証明書エラー</string>
+  <string name="notification_certificate_error_title"><xliff:g id="account">%1$s</xliff:g>の証明書エラー</string>
   <string name="notification_certificate_error_text">サーバの設定を確認してください</string>
   <string name="notification_authentication_error_title">認証に失敗しました</string>
-  <string name="notification_authentication_error_text"><xliff:g id="account">%s</xliff:g> の認証に失敗しました。サーバの設定を更新してください。</string>
-  <string name="notification_bg_sync_ticker">メール確認中: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text"><xliff:g id="account">%1$s</xliff:g> の認証に失敗しました。サーバの設定を更新してください。</string>
+  <string name="notification_bg_sync_ticker">メール確認中: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">メール確認中</string>
-  <string name="notification_bg_send_ticker">メール送信中: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">メール送信中: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">メール送信中</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">受信トレイ</string>
@@ -195,19 +195,19 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="special_mailbox_name_sent">送信済み</string>
   <string name="special_mailbox_name_archive">アーカイブ</string>
   <string name="special_mailbox_name_spam">迷惑メール</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (下書き)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (ゴミ箱)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (送信済み)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (アーカイブ)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (迷惑メール)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (下書き)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (ゴミ箱)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (送信済み)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (アーカイブ)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (迷惑メール)</string>
   <string name="send_failure_subject">メール送信に失敗しました</string>
-  <string name="debug_version_fmt">Version: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Version: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">拡張デバッグログ</string>
   <string name="debug_enable_debug_logging_summary">追加診断情報ログ</string>
   <string name="debug_enable_sensitive_logging_title">詳細情報ログ</string>
   <string name="debug_enable_sensitive_logging_summary">ログにパスワードが表示される</string>
   <string name="message_list_load_more_messages_action">他メールを読込</string>
-  <string name="message_to_fmt">宛先:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">宛先:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">件名</string>
   <string name="message_compose_content_hint">本文</string>
   <string name="message_compose_signature_hint">署名</string>
@@ -217,7 +217,7 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="message_compose_quote_header_from">送信者:</string>
   <string name="message_compose_quote_header_to">宛先:</string>
   <string name="message_compose_quote_header_cc">CC:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> wrote:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> wrote:</string>
   <string name="message_compose_reply_header_fmt_with_date">On <xliff:g id="sent_date">%1$s</xliff:g>, <xliff:g id="sender">%2$s</xliff:g> wrote:</string>
   <string name="message_compose_error_no_recipients">少なくとも1つの受信者を追加する必要があります</string>
   <string name="compose_error_incomplete_recipient">受信者の入力が不完全です!</string>
@@ -227,7 +227,7 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="message_compose_show_quoted_text_action">引用文を含める</string>
   <string name="message_compose_description_delete_quoted_text">引用文を削除します</string>
   <string name="message_compose_description_edit_quoted_text">引用文を編集します</string>
-  <string name="message_view_from_format">送信者: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">送信者: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">宛先:</string>
   <string name="message_view_cc_label">Cc:</string>
   <string name="message_view_bcc_label">Bcc:</string>
@@ -236,7 +236,7 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="message_view_status_attachment_not_saved">SDカードに添付ファイルを保存できません</string>
   <string name="message_view_status_no_space">十分な空き容量がないため、添付ファイルを保存できませんでした。</string>
   <string name="message_view_show_pictures_action">画像表示</string>
-  <string name="message_view_no_viewer"><xliff:g id="mimetype">%s</xliff:g>のビューワーが見つかりません</string>
+  <string name="message_view_no_viewer"><xliff:g id="mimetype">%1$s</xliff:g>のビューワーが見つかりません</string>
   <string name="message_view_download_remainder">すべてダウンロード</string>
   <string name="message_view_toast_unable_to_display_message">メッセージを表示できません</string>
   <string name="message_view_sender_label">%1$s 経由</string>
@@ -244,7 +244,7 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="message_no_additional_headers_available">すべてのヘッダをダウンロードしましたが、表示すべき追加ヘッダはありませんでした。</string>
   <string name="message_additional_headers_retrieval_failed">追加ヘッダをデータベースまたはメールサーバから取得できませんでした。</string>
   <string name="from_same_sender">この送信者からのメールを検索</string>
-  <string name="search_from_format">送信者 <xliff:g id="sender">%s</xliff:g></string>
+  <string name="search_from_format">送信者 <xliff:g id="sender">%1$s</xliff:g></string>
   <string name="debug_delete_local_body">デバッグ / メッセージ本文をクリア</string>
   <string name="message_discarded_toast">メールを破棄しました</string>
   <string name="message_saved_toast">下書きに保存しました</string>
@@ -385,7 +385,7 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="account_setup_outgoing_password_label">パスワード</string>
   <string name="account_setup_outgoing_authentication_label">セキュリティ設定</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" は \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\" で無効です</string>
-  <string name="account_setup_bad_uri">無効な設定: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">無効な設定: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">アカウントオプション</string>
   <string name="compact_action">アカウント最適化</string>
   <string name="clear_action">アカウントクリア (危険！)</string>
@@ -432,9 +432,9 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="account_setup_options_mail_display_count_all">すべて</string>
   <string name="move_copy_cannot_copy_unsynced_message">サーバーと同期されていないメールをコピーまたは移動できません</string>
   <string name="account_setup_failed_dlg_title">設定エラー</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">サーバー名またはパスワードが不正です\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">サーバが無効なSSL証明書を発行しました。これはサーバの設定ミスが原因で起こることがあります。あるいは誰かがあなたやあなたのメールサーバに攻撃を試みることによって起こることもあります。何が起こっているのかがよくわからないのであれば、「拒否」をクリックし、メールサーバを管理している人たちに連絡をとってください。\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">サーバーに接続できません\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">サーバー名またはパスワードが不正です\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">サーバが無効なSSL証明書を発行しました。これはサーバの設定ミスが原因で起こることがあります。あるいは誰かがあなたやあなたのメールサーバに攻撃を試みることによって起こることもあります。何が起こっているのかがよくわからないのであれば、「拒否」をクリックし、メールサーバを管理している人たちに連絡をとってください。\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">サーバーに接続できません\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">詳細再編集</string>
   <string name="account_setup_failed_dlg_continue_action">続行</string>
   <string name="account_settings_push_advanced_title">プッシュ接続の拡張設定</string>
@@ -714,7 +714,7 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="count_search_summary">表示を速くしたい場合はチェックしない</string>
   <string name="hide_special_accounts_title">特殊なアカウントを隠す</string>
   <string name="hide_special_accounts_summary">統合フォルダと全メッセージを隠す</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier"> - スター</string>
   <string name="unread_modifier"> - 未読</string>
   <string name="search_all_messages_title">全メッセージ</string>
@@ -750,7 +750,7 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="font_size_message_view_subject">件名</string>
   <string name="font_size_message_view_date">日時</string>
   <string name="font_size_message_view_content">本文</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">メッセージ作成</string>
   <string name="font_size_message_compose_input">入力テキスト</string>
@@ -764,7 +764,7 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="font_size_larger">極大</string>
   <string name="miscellaneous_preferences">その他</string>
   <string name="error_activity_not_found">この操作のためのアプリケーションが見つかりません</string>
-  <string name="send_failed_reason">送信失敗: %s</string>
+  <string name="send_failed_reason">送信失敗:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">メッセージの下書き保存</string>
   <string name="save_or_discard_draft_message_instructions_fmt">メッセージを保存しますか？</string>
   <string name="confirm_discard_draft_message_title">メッセージ破棄？</string>
@@ -803,33 +803,33 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="settings_exporting">設定をエクスポートしています…</string>
   <string name="settings_importing">設定をインポートしています…</string>
   <string name="settings_import_scanning_file">ファイルを調べています…</string>
-  <string name="settings_export_success">設定を <xliff:g id="filename">%s</xliff:g> に保存しました。</string>
+  <string name="settings_export_success">設定を <xliff:g id="filename">%1$s</xliff:g> に保存しました。</string>
   <string name="settings_export_success_generic">設定を正常にエクスポートしました</string>
-  <string name="settings_import_global_settings_success">グローバル設定を <xliff:g id="filename">%s</xliff:g> からインポートしました。</string>
-  <string name="settings_import_success"><xliff:g id="accounts">%s</xliff:g> の設定を <xliff:g id="filename">%s</xliff:g> からインポートしました。</string>
-  <string name="settings_import_account_imported_as"><xliff:g id="original_account_name">%s</xliff:g> を <xliff:g id="account_name_after_import">%s</xliff:g> としてインポートしました</string>
+  <string name="settings_import_global_settings_success">グローバル設定を <xliff:g id="filename">%1$s</xliff:g> からインポートしました。</string>
+  <string name="settings_import_success"><xliff:g id="accounts">%1$s</xliff:g> の設定を <xliff:g id="filename">%2$s</xliff:g> からインポートしました。</string>
+  <string name="settings_import_account_imported_as"><xliff:g id="original_account_name">%1$s</xliff:g> を <xliff:g id="account_name_after_import">%2$s</xliff:g> としてインポートしました</string>
   <plurals name="settings_import_accounts">
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> アカウント</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> アカウント</item>
   </plurals>
   <string name="settings_export_failure">設定のエクスポートが失敗しました。</string>
-  <string name="settings_import_failure"><xliff:g id="filename">%s</xliff:g> からのインポートに失敗しました。</string>
+  <string name="settings_import_failure"><xliff:g id="filename">%1$s</xliff:g> からのインポートに失敗しました。</string>
   <string name="settings_export_success_header">エクスポート成功</string>
   <string name="settings_export_failed_header">エクスポート失敗</string>
   <string name="settings_import_success_header">インポート成功</string>
   <string name="settings_import_failed_header">インポート失敗</string>
   <string name="settings_import_activate_account_header">アカウントを有効化</string>
-  <string name="settings_import_activate_account_intro">アカウント \"<xliff:g id="account">%s</xliff:g>\" を有効にするために、<xliff:g id="server_passwords">%s</xliff:g> を入力してください</string>
+  <string name="settings_import_activate_account_intro">アカウント \"<xliff:g id="account">%1$s</xliff:g>\" を有効にするために、<xliff:g id="server_passwords">%2$s</xliff:g> を入力してください</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="other">サーバのパスワード</item>
   </plurals>
-  <string name="settings_import_incoming_server">受信メールサーバ (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">送信メールサーバ (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">受信メールサーバ (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">送信メールサーバ (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="other">サーバのパスワード</item>
   </plurals>
   <string name="settings_import_use_incoming_server_password">受信メールサーバパスワードを利用</string>
   <string name="activate_account_action">有効</string>
-  <string name="account_unavailable">アカウント \"<xliff:g id="account">%s</xliff:g>\" は利用できません。ストレージを確認してください。</string>
+  <string name="account_unavailable">アカウント \"<xliff:g id="account">%1$s</xliff:g>\" は利用できません。ストレージを確認してください。</string>
   <string name="settings_attachment_default_path">添付ファイルの保存先</string>
   <string name="attachment_save_title">添付ファイルの保存先</string>
   <string name="attachment_save_desc">ファイルブラウザがインストールされていません。添付ファイルの保存場所を直接入力してください。</string>
@@ -870,7 +870,7 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="webview_contextmenu_email_save_action">連絡先に保存</string>
   <string name="webview_contextmenu_email_copy_action">メールアドレスをコピー</string>
   <string name="webview_contextmenu_email_clipboard_label">メールアドレス</string>
-  <string name="image_saved_as">\"<xliff:g id="filename">%s</xliff:g>\"に保存しました</string>
+  <string name="image_saved_as">\"<xliff:g id="filename">%1$s</xliff:g>\"に保存しました</string>
   <string name="image_saving_failed">画像の保存に失敗しました</string>
   <string name="account_settings_remote_search_num_results_entries_all">すべて</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -881,10 +881,10 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">サーバ検索結果の上限</string>
-  <string name="account_settings_remote_search_num_summary"><xliff:g id="num_results">%s</xliff:g>件見つけた後に停止する</string>
+  <string name="account_settings_remote_search_num_summary"><xliff:g id="num_results">%1$s</xliff:g>件見つけた後に停止する</string>
   <string name="remote_search_sending_query">サーバにて検索中</string>
   <plurals name="remote_search_downloading">
-    <item quantity="other">%d件の結果を取得中</item>
+    <item quantity="other">%1$d件の結果を取得中</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="other">%2$d件中%1$d件の結果を取得中</item>
@@ -903,7 +903,7 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="global_settings_threaded_view_summary">会話をグループにまとめる</string>
   <string name="upgrade_databases_title">Upgrading databases</string>
   <string name="upgrade_databases_unspecified">Upgrading databases…</string>
-  <string name="upgrade_database_format">Upgrading database of account \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="upgrade_database_format">Upgrading database of account \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="message_list_loading">Loading…</string>
   <string name="global_settings_splitview_mode_label">画面分割</string>
   <string name="global_settings_splitview_always">常に分割</string>
@@ -912,9 +912,9 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="message_view_empty">左側のメッセージを選択してください</string>
   <string name="global_settings_show_contact_picture_label">連絡先の写真を表示</string>
   <string name="global_settings_show_contact_picture_summary">メッセージ一覧で連絡先の写真を表示する</string>
-  <string name="last_refresh_time_format">最終更新 <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">最終更新 <xliff:g id="time_with_preposition">%s</xliff:g> (Push)</string>
-  <string name="preposition_for_date"><xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">最終更新 <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">最終更新 <xliff:g id="time_with_preposition">%1$s</xliff:g> (Push)</string>
+  <string name="preposition_for_date"><xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">すべて既読にする</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">頭文字の画像に色を付ける</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">連絡先に写真がない場合に頭文字の画像に色を付ける</string>
@@ -929,7 +929,7 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="account_setup_basics_client_certificate">ｸﾗｲｱﾝﾄ証明書を使う</string>
   <string name="client_certificate_spinner_empty">ｸﾗｲｱﾝﾄ証明書なし</string>
   <string name="client_certificate_spinner_delete">ｸﾗｲｱﾝﾄ証明書を削除します</string>
-  <string name="client_certificate_retrieval_failure">別名 \"<xliff:g id="alias">%s</xliff:g>\" の為のｸﾗｲｱﾝﾄ証明書の取得に失敗しました</string>
+  <string name="client_certificate_retrieval_failure">別名 \"<xliff:g id="alias">%1$s</xliff:g>\" の為のｸﾗｲｱﾝﾄ証明書の取得に失敗しました</string>
   <string name="client_certificate_advanced_options">拡張設定</string>
   <string name="client_certificate_expired">ｸﾗｲｱﾝﾄ証明書 \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" が、期限切れまたは不正です (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

@@ -25,7 +25,7 @@ object UriMatcher {
         return URI_SCHEME.findAll(text).map { matchResult ->
             val matchGroup = matchResult.groups[1]!!
             val startIndex = matchGroup.range.start
-            val scheme = matchGroup.value.toLowerCase(Locale.ROOT)
+            val scheme = matchGroup.value.lowercase(Locale.ROOT)
             val parser = SUPPORTED_URIS[scheme] ?: throw AssertionError("Scheme not found: $scheme")
 
             parser.parseUri(text, startIndex)

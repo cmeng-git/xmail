@@ -25,11 +25,12 @@ public class MessageListHandler extends Handler {
     private static final int ACTION_RESTORE_LIST_POSITION = 6;
     private static final int ACTION_OPEN_MESSAGE = 7;
 
-    private WeakReference<MessageListFragment> mFragment;
+    private final WeakReference<MessageListFragment> mFragment;
 
     public MessageListHandler(MessageListFragment fragment) {
         mFragment = new WeakReference<>(fragment);
     }
+
     public void folderLoading(String folder, boolean loading) {
         android.os.Message msg = android.os.Message.obtain(this, ACTION_FOLDER_LOADING,
                 (loading) ? 1 : 0, 0, folder);
@@ -90,11 +91,9 @@ public class MessageListHandler extends Handler {
         }
 
         // The following messages don't need an attached activity.
-        switch (msg.what) {
-            case ACTION_REMOTE_SEARCH_FINISHED: {
-                fragment.remoteSearchFinished();
-                return;
-            }
+        if (msg.what == ACTION_REMOTE_SEARCH_FINISHED) {
+            fragment.remoteSearchFinished();
+            return;
         }
 
         // Discard messages if the fragment isn't attached to an activity anymore.

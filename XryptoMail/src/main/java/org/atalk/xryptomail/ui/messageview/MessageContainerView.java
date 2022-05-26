@@ -63,14 +63,13 @@ public class MessageContainerView extends LinearLayout implements OnCreateContex
     private View unsignedTextContainer;
     private View unsignedTextDivider;
     private TextView unsignedText;
-    private View mAttachmentsContainer;
     private boolean showingPictures;
     private LayoutInflater mInflater;
     private AttachmentViewCallback attachmentCallback;
     private ClipboardManager mClipboardManager;
-    private Context mContext;
-    private Map<AttachmentViewInfo, AttachmentView> attachmentViewMap = new HashMap<>();
-    private Map<Uri, AttachmentViewInfo> attachments = new HashMap<>();
+    private final Context mContext;
+    private final Map<AttachmentViewInfo, AttachmentView> attachmentViewMap = new HashMap<>();
+    private final Map<Uri, AttachmentViewInfo> attachments = new HashMap<>();
     private boolean hasHiddenExternalImages;
     private String currentHtmlText;
     private AttachmentResolver currentAttachmentResolver;
@@ -93,7 +92,7 @@ public class MessageContainerView extends LinearLayout implements OnCreateContex
         mMessageContentView.setOnCreateContextMenuListener(this);
         mMessageContentView.setVisibility(View.VISIBLE);
 
-        mAttachmentsContainer = findViewById(R.id.attachments_container);
+        View mAttachmentsContainer = findViewById(R.id.attachments_container);
         mAttachments = findViewById(R.id.attachments);
         unsignedTextContainer = findViewById(R.id.message_unsigned_container);
         unsignedTextDivider = findViewById(R.id.message_unsigned_divider);

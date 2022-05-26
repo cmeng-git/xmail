@@ -1,4 +1,19 @@
 XryptoMail Release Notes:
+
+=============================
+Version:		5.0.3
+Upload Date:	05/27/2022
+- Update DefaultTrustedSocketFactory, avoid using setHostnameViaReflection#setHostname that causes not such method exception.
+- Realign android OS support API-21~32; update to use build:gradle:7.1.3
+- Fix application icon badge number for android-O and above (enforce in API-31 and throw exception)
+  Must include PendingIntent.FLAG_IMMUTABLE in all PendingIntent init action
+- ShortcutBadger.applyCount() works for all android OS i.e. >= Build.VERSION_CODES.O)
+- Must check for Socket.isConnected is false before making connection; else exception is thrown.
+- Fix strictmode-java-lang-throwable-untagged-socket-detected with TrafficStats.setThreadStatsTag(THREAD_ID); needed for UpdateService
+- LongClick on Help#History_Logs button triggers check for development version.
+- update all XryptoMail used third party libraries to latest version if allow
+- MessageWebView extends WebView; Remove unused class RigicWebView; not required for (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+
 =============================
 Version:		5.0.2
 Upload Date:	11/17/2020

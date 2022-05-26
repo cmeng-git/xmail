@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Разрешить удалённое управление настройками и действиями XryptoMail Mail</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail</string>
-  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%s</xliff:g> The XryptoMail. Portions Copyright 2006-<xliff:g>%s</xliff:g> the Android Open Source Project</string>
+  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Portions Copyright 2006-<xliff:g>%2$s</xliff:g> the Android Open Source Project</string>
   <string name="app_license">Под лицензией Apache 2.0</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Добро пожаловать!</string>
@@ -46,25 +46,25 @@ XryptoMail Mail — почтовый клиент для Android.
   <!--Default signature-->
   <string name="default_signature">-- \nПростите за краткость, создано в XryptoMail Mail.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">Ящик \"<xliff:g id="account">%s</xliff:g>\" будет удалён из приложения</string>
-  <string name="account_recreate_dlg_instructions_fmt">Все данные ящика \"<xliff:g id="account">%s</xliff:g>\" будут удалены, настройки сохранятся</string>
-  <string name="account_clear_dlg_instructions_fmt">Локальные сообщения \"<xliff:g id="account">%s</xliff:g>\" будут удалены, настройки сохранятся</string>
+  <string name="account_delete_dlg_instructions_fmt">Ящик \"<xliff:g id="account">%1$s</xliff:g>\" будет удалён из приложения</string>
+  <string name="account_recreate_dlg_instructions_fmt">Все данные ящика \"<xliff:g id="account">%1$s</xliff:g>\" будут удалены, настройки сохранятся</string>
+  <string name="account_clear_dlg_instructions_fmt">Локальные сообщения \"<xliff:g id="account">%1$s</xliff:g>\" будут удалены, настройки сохранятся</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Для импорта необходим менеджер файлов</string>
   <string name="open_market">Google Play</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Авторы: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Изменения: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Сторонние компоненты: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Авторы: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Изменения: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Сторонние компоненты: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Чтение почты</string>
   <string name="read_messages_desc">Разрешить программе чтение почты</string>
   <string name="delete_messages_label">Удаление почты</string>
   <string name="delete_messages_desc">Разрешить программе удаление почты</string>
-  <string name="about_title_fmt">XryptoMail Mail Team <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">XryptoMail Mail Team <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Ящики</string>
   <string name="folders_title">Папки</string>
   <string name="advanced">Дополнительно</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Новое</string>
   <string name="compose_title_reply">Ответ</string>
   <string name="compose_title_reply_all">Ответить всем</string>
@@ -72,18 +72,18 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="compose_title_forward_as_attachment">Переслать вложением</string>
   <string name="choose_account_title">Выберите ящик</string>
   <string name="choose_folder_title">Выбор папки</string>
-  <string name="status_loading_account_folder">проверка <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">просмотр <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">отправка <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">обработка <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">проверка <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">проверка <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">просмотр <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">отправка <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">обработка <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">проверка <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Сбой синхронизации – нет подключения</string>
   <string name="status_no_background">Нет фоновых задач – синхронизация отключена</string>
   <string name="status_poll_and_push_disabled">Проверка и отправка отключены</string>
   <string name="status_syncing_blocked">Синхронизация заблокирована</string>
   <string name="status_syncing_off">синхронизация откл.</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> выбрано</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> выбрано</string>
   <string name="next_action">Далее</string>
   <string name="previous_action">Назад</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -158,23 +158,23 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="status_invalid_id_error">Сообщение не найдено</string>
   <string name="status_loading_error">Сбой загрузки сообщения</string>
   <string name="status_loading_more_failed">Повторите загрузку</string>
-  <string name="load_more_messages_fmt">Получить до <xliff:g id="messages_to_load">%d</xliff:g> следующих</string>
+  <string name="load_more_messages_fmt">Получить до <xliff:g id="messages_to_load">%1$d</xliff:g> следующих</string>
   <string name="abbrev_gigabytes">ГБ</string>
   <string name="abbrev_megabytes">МБ</string>
   <string name="abbrev_kilobytes">КБ</string>
   <string name="abbrev_bytes">Б</string>
-  <string name="account_size_changed">Ящик \"<xliff:g id="account">%s</xliff:g>\" изменился с <xliff:g id="oldSize">%s</xliff:g> до <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Сжатие ящика \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">Очистка ящика \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Пересоздание ящика \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="account_size_changed">Ящик \"<xliff:g id="account">%1$s</xliff:g>\" изменился с <xliff:g id="oldSize">%2$s</xliff:g> до <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Сжатие ящика \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">Очистка ящика \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Пересоздание ящика \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="notification_new_title">Новая почта</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> новое письмо</item>
-    <item quantity="few"><xliff:g id="new_message_count">%d</xliff:g> новых писем</item>
-    <item quantity="many"><xliff:g id="new_message_count">%d</xliff:g> новых писем</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> новых сообщений</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> новое письмо</item>
+    <item quantity="few"><xliff:g id="new_message_count">%1$d</xliff:g> новых писем</item>
+    <item quantity="many"><xliff:g id="new_message_count">%1$d</xliff:g> новых писем</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> новых сообщений</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> новых (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> новых (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ ещё <xliff:g id="additional_messages">%1$d</xliff:g> в <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Ответить</string>
   <string name="notification_action_mark_as_read">Прочитано</string>
@@ -184,13 +184,13 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="notification_action_archive">Архив</string>
   <string name="notification_action_archive_all">В архив все</string>
   <string name="notification_action_spam">Спам</string>
-  <string name="notification_certificate_error_title">Ошибка сертификата <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Ошибка сертификата <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Проверьте настройки сервера</string>
   <string name="notification_authentication_error_title">Ошибка аутентификации</string>
-  <string name="notification_authentication_error_text">Ошибка аутентификации для <xliff:g id="account">%s</xliff:g>. Измените настройки сервера</string>
-  <string name="notification_bg_sync_ticker">Проверка <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Ошибка аутентификации для <xliff:g id="account">%1$s</xliff:g>. Измените настройки сервера</string>
+  <string name="notification_bg_sync_ticker">Проверка <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Проверка почты</string>
-  <string name="notification_bg_send_ticker">Отправка <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Отправка <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Отправка почты</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Входящие</string>
@@ -200,19 +200,19 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="special_mailbox_name_sent">Отправленные</string>
   <string name="special_mailbox_name_archive">Архив</string>
   <string name="special_mailbox_name_spam">Спам</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g></string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g></string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g></string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g></string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g></string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g></string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g></string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g></string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g></string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g></string>
   <string name="send_failure_subject">Сбой отправки почты</string>
-  <string name="debug_version_fmt">Версия: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Версия: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Журнал отладки</string>
   <string name="debug_enable_debug_logging_summary">Запись диагностических сообщений</string>
   <string name="debug_enable_sensitive_logging_title">Личные данные</string>
   <string name="debug_enable_sensitive_logging_summary">Разрешить запись паролей в журнал</string>
   <string name="message_list_load_more_messages_action">Получить новые сообщения</string>
-  <string name="message_to_fmt">кому:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">кому:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">тема</string>
   <string name="message_compose_content_hint">сообщение</string>
   <string name="message_compose_signature_hint">подпись</string>
@@ -222,7 +222,7 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="message_compose_quote_header_from">От:</string>
   <string name="message_compose_quote_header_to">Кому:</string>
   <string name="message_compose_quote_header_cc">Копия:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> пишет:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> пишет:</string>
   <string name="message_compose_reply_header_fmt_with_date"><xliff:g id="sent_date">%1$s</xliff:g>, <xliff:g id="sender">%2$s</xliff:g> пишет:</string>
   <string name="message_compose_error_no_recipients">Укажите адресата</string>
   <string name="compose_error_incomplete_recipient">Поле адресата заполнено неполностью!</string>
@@ -232,7 +232,7 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="message_compose_show_quoted_text_action">Включить цитируемое сообщение</string>
   <string name="message_compose_description_delete_quoted_text">Удалить цитату</string>
   <string name="message_compose_description_edit_quoted_text">Правка цитаты</string>
-  <string name="message_view_from_format">от: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">от: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">кому:</string>
   <string name="message_view_cc_label">копия:</string>
   <string name="message_view_bcc_label">Скрытая:</string>
@@ -241,7 +241,7 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="message_view_status_attachment_not_saved">Сбой сохранения вложений</string>
   <string name="message_view_status_no_space">Вложение не может быть сохранено, недостаточно свободного места</string>
   <string name="message_view_show_pictures_action">Изображения</string>
-  <string name="message_view_no_viewer">Отсутствует просмотрщик <xliff:g id="mimetype">%s</xliff:g></string>
+  <string name="message_view_no_viewer">Отсутствует просмотрщик <xliff:g id="mimetype">%1$s</xliff:g></string>
   <string name="message_view_download_remainder">Загрузить полностью</string>
   <string name="message_view_toast_unable_to_display_message">Невозможно отобразить сообщение</string>
   <string name="message_view_sender_label">от %1$s</string>
@@ -249,7 +249,7 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="message_no_additional_headers_available">Все дополнительные заголовки уже загружены</string>
   <string name="message_additional_headers_retrieval_failed">Сбой загрузки дополнительных заголовков</string>
   <string name="from_same_sender">Вся переписка</string>
-  <string name="search_from_format">От <xliff:g id="sender">%s</xliff:g></string>
+  <string name="search_from_format">От <xliff:g id="sender">%1$s</xliff:g></string>
   <string name="debug_delete_local_body">Отладка / Очистка тела сообщения</string>
   <string name="message_discarded_toast">Сообщение отменено</string>
   <string name="message_saved_toast">Черновик сохранён</string>
@@ -390,7 +390,7 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="account_setup_outgoing_password_label">Пароль</string>
   <string name="account_setup_outgoing_authentication_label">Аутентификация</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" недействителен для \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
-  <string name="account_setup_bad_uri">Неверная настройка: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Неверная настройка: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Настройки ящика</string>
   <string name="compact_action">Сжать ящик</string>
   <string name="clear_action">Стереть сообщения (!)</string>
@@ -437,9 +437,9 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="account_setup_options_mail_display_count_all">Все</string>
   <string name="move_copy_cannot_copy_unsynced_message">Нельзя скопировать или переместить сообщение, не синхронизированное с сервером</string>
   <string name="account_setup_failed_dlg_title">Настройка не завершена</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Неверные логин или пароль.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">Сервер предоставляет неверный сертификат SSL. Иногда это обусловлено неправильной настройкой. Или кто-то пытается атаковать Ваш почтовый сервер или Ваш компьютер. Если Вы не уверены в причинах, нажмите Отклонить и свяжитесь с персоналом, обслуживающим почтовый сервер.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Не удаётся подключиться к серверу.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Неверные логин или пароль.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">Сервер предоставляет неверный сертификат SSL. Иногда это обусловлено неправильной настройкой. Или кто-то пытается атаковать Ваш почтовый сервер или Ваш компьютер. Если Вы не уверены в причинах, нажмите Отклонить и свяжитесь с персоналом, обслуживающим почтовый сервер.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Не удаётся подключиться к серверу.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Правка</string>
   <string name="account_setup_failed_dlg_continue_action">Продолжить</string>
   <string name="account_settings_push_advanced_title">Дополнительно</string>
@@ -719,7 +719,7 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="count_search_summary">Отключите для ускорения работы</string>
   <string name="hide_special_accounts_title">Скрыть виртуальные</string>
   <string name="hide_special_accounts_summary">Скрыть общие \"Входящие\" и \"Вся почта\"</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier">– важные</string>
   <string name="unread_modifier">– не прочитано</string>
   <string name="search_all_messages_title">Вся почта</string>
@@ -755,7 +755,7 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="font_size_message_view_subject">Тема</string>
   <string name="font_size_message_view_date">Дата и время</string>
   <string name="font_size_message_view_content">Тело сообщения</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Редактор сообщения</string>
   <string name="font_size_message_compose_input">Формы ввода</string>
@@ -769,7 +769,7 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="font_size_larger">Гигантский</string>
   <string name="miscellaneous_preferences">Разное</string>
   <string name="error_activity_not_found">Подходящее приложение не найдено</string>
-  <string name="send_failed_reason">Сбой отправки: %s</string>
+  <string name="send_failed_reason">Сбой отправки:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Выберите действие</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Сохранить черновик или отменить сообщение?</string>
   <string name="confirm_discard_draft_message_title">Удаление</string>
@@ -813,33 +813,33 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="settings_exporting">Экспорт настроек…</string>
   <string name="settings_importing">Импорт настроек…</string>
   <string name="settings_import_scanning_file">Проверка файла…</string>
-  <string name="settings_export_success">Настройки сохранены в <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Настройки сохранены в <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Настройки успешно экспортированы</string>
-  <string name="settings_import_global_settings_success">Настройки XryptoMail импортированы из <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Импортировано: <xliff:g id="accounts">%s</xliff:g> из <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_account_imported_as">Ящик <xliff:g id="original_account_name">%s</xliff:g> импортирован как <xliff:g id="account_name_after_import">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Настройки XryptoMail импортированы из <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Импортировано: <xliff:g id="accounts">%1$s</xliff:g> из <xliff:g id="filename">%2$s</xliff:g></string>
+  <string name="settings_import_account_imported_as">Ящик <xliff:g id="original_account_name">%1$s</xliff:g> импортирован как <xliff:g id="account_name_after_import">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 ящик</item>
-    <item quantity="few"><xliff:g id="numAccounts">%s</xliff:g> ящика</item>
-    <item quantity="many"><xliff:g id="numAccounts">%s</xliff:g> ящиков</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> ящиков</item>
+    <item quantity="few"><xliff:g id="numAccounts">%1$s</xliff:g> ящика</item>
+    <item quantity="many"><xliff:g id="numAccounts">%1$s</xliff:g> ящиков</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> ящиков</item>
   </plurals>
   <string name="settings_export_failure">Сбой экспорта настроек</string>
-  <string name="settings_import_failure">Сбой импорта настроек из <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Сбой импорта настроек из <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Экспорт выполнен</string>
   <string name="settings_export_failed_header">Сбой экспорта</string>
   <string name="settings_import_success_header">Импорт выполнен</string>
   <string name="settings_import_failed_header">Сбой импорта</string>
   <string name="settings_import_activate_account_header">Включение ящика</string>
-  <string name="settings_import_activate_account_intro">Для включения ящика \"<xliff:g id="account">%s</xliff:g>\" необходимо ввести <xliff:g id="server_passwords">%s</xliff:g></string>
+  <string name="settings_import_activate_account_intro">Для включения ящика \"<xliff:g id="account">%1$s</xliff:g>\" необходимо ввести <xliff:g id="server_passwords">%2$s</xliff:g></string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">пароль</item>
     <item quantity="few">пароли</item>
     <item quantity="many">пароли</item>
     <item quantity="other">пароли</item>
   </plurals>
-  <string name="settings_import_incoming_server">Сервер входящей почты (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Сервер исходящей почты (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Сервер входящей почты (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Сервер исходящей почты (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Проверка пароля…</item>
     <item quantity="few">Проверка паролей…</item>
@@ -848,7 +848,7 @@ XryptoMail Mail — почтовый клиент для Android.
   </plurals>
   <string name="settings_import_use_incoming_server_password">Как для входящей</string>
   <string name="activate_account_action">Включить</string>
-  <string name="account_unavailable">Ящик \"<xliff:g id="account">%s</xliff:g>\" недоступен, проверьте накопитель</string>
+  <string name="account_unavailable">Ящик \"<xliff:g id="account">%1$s</xliff:g>\" недоступен, проверьте накопитель</string>
   <string name="settings_attachment_default_path">Сохранение вложений</string>
   <string name="attachment_save_title">Сохранение вложений</string>
   <string name="attachment_save_desc">Менеджер файлов не найден. Введите путь для сохранения</string>
@@ -889,7 +889,7 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="webview_contextmenu_email_save_action">В контакты</string>
   <string name="webview_contextmenu_email_copy_action">В буфер</string>
   <string name="webview_contextmenu_email_clipboard_label">Адрес email</string>
-  <string name="image_saved_as">Изображение сохранено в \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Изображение сохранено в \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">Сбой сохранения изображения</string>
   <string name="account_settings_remote_search_num_results_entries_all">Все</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -900,13 +900,13 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Лимит поиска на сервере</string>
-  <string name="account_settings_remote_search_num_summary">Остановить поиск после <xliff:g id="num_results">%s</xliff:g> совпадений</string>
+  <string name="account_settings_remote_search_num_summary">Остановить поиск после <xliff:g id="num_results">%1$s</xliff:g> совпадений</string>
   <string name="remote_search_sending_query">Отправка запроса на сервер</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">Получение %d результата </item>
-    <item quantity="few">Получение %d результатов</item>
-    <item quantity="many">Получение %d результатов</item>
-    <item quantity="other">Получение %d результатов</item>
+    <item quantity="one">Получение%1$d результата </item>
+    <item quantity="few">Получение%1$d результатов</item>
+    <item quantity="many">Получение%1$d результатов</item>
+    <item quantity="other">Получение%1$d результатов</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="one">Получение %1$d из %2$d результатов</item>
@@ -928,7 +928,7 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="global_settings_threaded_view_summary">Объединить сообщения, показав счётчик</string>
   <string name="upgrade_databases_title">Обновление данных</string>
   <string name="upgrade_databases_unspecified">Обновление данных…</string>
-  <string name="upgrade_database_format">Обновление ящика \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="upgrade_database_format">Обновление ящика \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="message_list_loading">Загрузка…</string>
   <string name="global_settings_splitview_mode_label">Разделить экран</string>
   <string name="global_settings_splitview_always">Всегда</string>
@@ -937,9 +937,9 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="message_view_empty">Выберите сообщение</string>
   <string name="global_settings_show_contact_picture_label">Фото контактов</string>
   <string name="global_settings_show_contact_picture_summary">Показать фото контактов в списке сообщений</string>
-  <string name="last_refresh_time_format">обновлено <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">обновлено <xliff:g id="time_with_preposition">%s</xliff:g>, push вкл.</string>
-  <string name="preposition_for_date">в <xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">обновлено <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">обновлено <xliff:g id="time_with_preposition">%1$s</xliff:g>, push вкл.</string>
+  <string name="preposition_for_date">в <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Прочитаны все</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Цветные места для фото</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Инициалы контактов на цветном фоне при отсутствии фото</string>
@@ -954,7 +954,7 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="account_setup_basics_client_certificate">Использовать сертификат клиента</string>
   <string name="client_certificate_spinner_empty">Не использовать сертификат клиента</string>
   <string name="client_certificate_spinner_delete">Отключить выбор сертификата клиента</string>
-  <string name="client_certificate_retrieval_failure">Не найден сертификат клиента для алиаса \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">Не найден сертификат клиента для алиаса \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Дополнительно</string>
   <string name="client_certificate_expired">Срок действия сертификата клиента \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" истёк или ещё не наступил (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

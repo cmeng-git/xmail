@@ -6,5 +6,5 @@ package org.atalk.xryptomail.remotecontrol;
  * the accounts configured in K-9 Mail.  Should be passed to fetchAccounts(Context, XryptoMailAccountReceptor)
  */
 public interface XryptoMailAccountReceptor {
-    public void accounts(String[] uuids, String[] descriptions);
+    void accounts(String[] uuids, String[] descriptions);
 }

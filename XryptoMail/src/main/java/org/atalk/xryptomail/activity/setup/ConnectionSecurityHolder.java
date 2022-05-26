@@ -2,6 +2,8 @@ package org.atalk.xryptomail.activity.setup;
 
 import android.content.res.Resources;
 
+import androidx.annotation.NonNull;
+
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.mail.ConnectionSecurity;
 
@@ -14,6 +16,7 @@ public class ConnectionSecurityHolder {
         this.resources = resources;
     }
 
+    @NonNull
     public String toString() {
         final int resourceId = resourceId();
         if (resourceId == 0) {

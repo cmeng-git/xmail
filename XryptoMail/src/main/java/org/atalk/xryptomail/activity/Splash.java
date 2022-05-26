@@ -35,12 +35,9 @@ import org.atalk.xryptomail.helper.androidupdate.UpdateService;
  */
 public class Splash extends FragmentActivity
 {
-    private final static int ONLINE_UPDATE = 10;
-
     // in unit of milliseconds
     private static final int SPLASH_SCREEN_SHOW_TIME = 1000;
     private static boolean mFirstRun = true;
-    private Intent nextIntent = null;
 
     // Show the splash screen if first launch and wait for it to complete before continue
     public void onCreate(Bundle savedInstanceState)

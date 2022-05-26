@@ -1,22 +1,29 @@
 package org.atalk.xryptomail.activity.misc;
 
-
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.Rect;
 import android.net.Uri;
-import androidx.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
-import com.bumptech.glide.*;
+import androidx.annotation.VisibleForTesting;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.ResourceDecoder;
 import com.bumptech.glide.load.data.DataFetcher;
-import com.bumptech.glide.load.engine.*;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.Resource;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.model.ModelLoader;
-import com.bumptech.glide.load.resource.bitmap.*;
+import com.bumptech.glide.load.resource.bitmap.BitmapEncoder;
+import com.bumptech.glide.load.resource.bitmap.BitmapResource;
+import com.bumptech.glide.load.resource.bitmap.StreamBitmapDecoder;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.load.resource.file.FileToStreamDecoder;
 import com.bumptech.glide.load.resource.transcode.BitmapToGlideDrawableTranscoder;
@@ -29,7 +36,9 @@ import org.atalk.xryptomail.view.RecipientSelectView.Recipient;
 
 import java.io.IOException;
 import java.util.Locale;
-import java.util.regex.*;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ContactPictureLoader {
     /**
@@ -47,27 +56,24 @@ public class ContactPictureLoader {
      */
     private static final String FALLBACK_CONTACT_LETTER = "?";
 
-
-    private Resources mResources;
-    private Contacts mContactsHelper;
-    private int mPictureSizeInPx;
-
-    private int mDefaultBackgroundColor;
+    private final Contacts mContactsHelper;
+    private final int mPictureSizeInPx;
+    private final int mDefaultBackgroundColor;
 
     /**
      * @see <a href="http://developer.android.com/design/style/color.html">Color palette used</a>
      */
-    private final static int CONTACT_DUMMY_COLORS_ARGB[] = {
-        0xff33B5E5,
-        0xffAA66CC,
-        0xff99CC00,
-        0xffFFBB33,
-        0xffFF4444,
-        0xff0099CC,
-        0xff9933CC,
-        0xff669900,
-        0xffFF8800,
-        0xffCC0000
+    private final static int[] CONTACT_DUMMY_COLORS_ARGB = {
+            0xff33B5E5,
+            0xffAA66CC,
+            0xff99CC00,
+            0xffFFBB33,
+            0xffFF4444,
+            0xff0099CC,
+            0xff9933CC,
+            0xff669900,
+            0xffFF8800,
+            0xffCC0000
     };
 
     @VisibleForTesting
@@ -77,7 +83,7 @@ public class ContactPictureLoader {
         String str = (personal != null) ? personal : address.getAddress();
         Matcher m = EXTRACT_LETTER_PATTERN.matcher(str);
         if (m.find()) {
-            letter = m.group(0).toUpperCase(Locale.US);
+            letter = Objects.requireNonNull(m.group(0)).toUpperCase(Locale.US);
         }
 
         return (TextUtils.isEmpty(letter)) ?
@@ -87,15 +93,13 @@ public class ContactPictureLoader {
     /**
      * Constructor.
      *
-     * @param context
-     *         A {@link Context} instance.
-     * @param defaultBackgroundColor
-     *         The ARGB value to be used as background color for the fallback picture. {@code 0} to
-     *         use a dynamically calculated background color.
+     * @param context A {@link Context} instance.
+     * @param defaultBackgroundColor The ARGB value to be used as background color for the fallback picture. {@code 0} to
+     * use a dynamically calculated background color.
      */
     public ContactPictureLoader(Context context, int defaultBackgroundColor) {
         Context appContext = context.getApplicationContext();
-        mResources = appContext.getResources();
+        Resources mResources = appContext.getResources();
         mContactsHelper = Contacts.getInstance(appContext);
 
         float scale = mResources.getDisplayMetrics().density;
@@ -224,7 +228,7 @@ public class ContactPictureLoader {
         }
     }
 
-    private class FallbackGlideParams {
+    private static class FallbackGlideParams {
         final Address address;
 
         FallbackGlideParams(Address address) {
@@ -236,7 +240,7 @@ public class ContactPictureLoader {
         }
     }
 
-    private class FallbackGlideModelLoader implements ModelLoader<FallbackGlideParams, FallbackGlideParams> {
+    private static class FallbackGlideModelLoader implements ModelLoader<FallbackGlideParams, FallbackGlideParams> {
         @Override
         public DataFetcher<FallbackGlideParams> getResourceFetcher(final FallbackGlideParams model, int width,
                 int height) {
@@ -244,7 +248,7 @@ public class ContactPictureLoader {
             return new DataFetcher<FallbackGlideParams>() {
 
                 @Override
-                public FallbackGlideParams loadData(Priority priority) throws Exception {
+                public FallbackGlideParams loadData(Priority priority) {
                     return model;
                 }
 

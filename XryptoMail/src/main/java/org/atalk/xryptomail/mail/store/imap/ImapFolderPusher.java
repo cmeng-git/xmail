@@ -514,7 +514,7 @@ class ImapFolderPusher extends ImapFolder
 
                         for (long msgSeqNum : msgSeqs) {
                             if (XryptoMailLib.isDebug()) {
-                                Timber.v("Comparing EXPUNGEd msgSeq %d to %d", msgSeq, msgSeqNum);
+                                Timber.v("Comparing EXPUNGE msgSeq %d to %d", msgSeq, msgSeqNum);
                             }
 
                             if (msgSeqNum == msgSeq) {

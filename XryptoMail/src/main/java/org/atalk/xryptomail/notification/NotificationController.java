@@ -1,11 +1,13 @@
 package org.atalk.xryptomail.notification;
 
+import static org.atalk.xryptomail.XryptoMail.getGlobalContext;
+
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
+import android.text.TextUtils;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import android.text.TextUtils;
 
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.XryptoMail;
@@ -17,11 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
+import timber.log.Timber;
 
-import static org.atalk.xryptomail.XryptoMail.getGlobalContext;
-
-public class NotificationController
-{
+public class NotificationController {
     private static final int NOTIFICATION_LED_ON_TIME = 500;
     private static final int NOTIFICATION_LED_OFF_TIME = 2000;
     private static final int NOTIFICATION_LED_FAST_ON_TIME = 100;
@@ -42,8 +42,7 @@ public class NotificationController
 
     private static NotificationController mNotificationController;
 
-    public static NotificationController newInstance(Context context)
-    {
+    public static NotificationController newInstance(Context context) {
         if (mNotificationController == null) {
             Context appContext = context.getApplicationContext();
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(appContext);
@@ -52,18 +51,7 @@ public class NotificationController
         return mNotificationController;
     }
 
-    public static boolean platformSupportsExtendedNotifications()
-    {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
-    }
-
-    public static boolean platformSupportsLockScreenNotifications()
-    {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-    }
-
-    NotificationController(Context context, NotificationManagerCompat notificationManager)
-    {
+    NotificationController(Context context, NotificationManagerCompat notificationManager) {
         this.context = context;
         this.notificationManager = notificationManager;
 
@@ -75,74 +63,60 @@ public class NotificationController
         newMailNotifications = NewMailNotifications.newInstance(this, actionBuilder);
     }
 
-    public void showCertificateErrorNotification(Account account, boolean incoming)
-    {
+    public void showCertificateErrorNotification(Account account, boolean incoming) {
         certificateErrorNotifications.showCertificateErrorNotification(account, incoming);
     }
 
-    public void clearCertificateErrorNotifications(Account account, boolean incoming)
-    {
+    public void clearCertificateErrorNotifications(Account account, boolean incoming) {
         certificateErrorNotifications.clearCertificateErrorNotifications(account, incoming);
     }
 
-    public void showAuthenticationErrorNotification(Account account, boolean incoming)
-    {
+    public void showAuthenticationErrorNotification(Account account, boolean incoming) {
         authenticationErrorNotifications.showAuthenticationErrorNotification(account, incoming);
     }
 
-    public void clearAuthenticationErrorNotification(Account account, boolean incoming)
-    {
+    public void clearAuthenticationErrorNotification(Account account, boolean incoming) {
         authenticationErrorNotifications.clearAuthenticationErrorNotification(account, incoming);
     }
 
-    public void showSendingNotification(Account account)
-    {
+    public void showSendingNotification(Account account) {
         syncNotifications.showSendingNotification(account);
     }
 
-    public void clearSendingNotification(Account account)
-    {
+    public void clearSendingNotification(Account account) {
         syncNotifications.clearSendingNotification(account);
     }
 
-    public void showSendFailedNotification(Account account, Exception exception)
-    {
+    public void showSendFailedNotification(Account account, Exception exception) {
         sendFailedNotifications.showSendFailedNotification(account, exception);
     }
 
-    public void clearSendFailedNotification(Account account)
-    {
+    public void clearSendFailedNotification(Account account) {
         sendFailedNotifications.clearSendFailedNotification(account);
     }
 
-    public void showFetchingMailNotification(Account account, Folder<?> folder)
-    {
+    public void showFetchingMailNotification(Account account, Folder<?> folder) {
         syncNotifications.showFetchingMailNotification(account, folder);
     }
 
-    public void clearFetchingMailNotification(Account account)
-    {
+    public void clearFetchingMailNotification(Account account) {
         syncNotifications.clearFetchingMailNotification(account);
     }
 
-    public void addNewMailNotification(Account account, LocalMessage message, int previousUnreadMessageCount)
-    {
+    public void addNewMailNotification(Account account, LocalMessage message, int previousUnreadMessageCount) {
         newMailNotifications.addNewMailNotification(account, message, previousUnreadMessageCount);
     }
 
-    public void removeNewMailNotification(Account account, MessageReference messageReference)
-    {
+    public void removeNewMailNotification(Account account, MessageReference messageReference) {
         newMailNotifications.removeNewMailNotification(account, messageReference);
     }
 
-    public void clearNewMailNotifications(Account account)
-    {
+    public void clearNewMailNotifications(Account account) {
         newMailNotifications.clearNewMailNotifications(account);
     }
 
     void configureNotification(NotificationCompat.Builder builder, String ringtone, long[] vibrationPattern,
-            Integer ledColor, int ledSpeed, boolean ringAndVibrate)
-    {
+            Integer ledColor, int ledSpeed, boolean ringAndVibrate) {
         if (XryptoMail.isQuietTime()) {
             return;
         }
@@ -169,8 +143,7 @@ public class NotificationController
             if (ledSpeed == NOTIFICATION_LED_BLINK_SLOW) {
                 ledOnMS = NOTIFICATION_LED_ON_TIME;
                 ledOffMS = NOTIFICATION_LED_OFF_TIME;
-            }
-            else {
+            } else {
                 ledOnMS = NOTIFICATION_LED_FAST_ON_TIME;
                 ledOffMS = NOTIFICATION_LED_FAST_OFF_TIME;
             }
@@ -178,24 +151,20 @@ public class NotificationController
         }
     }
 
-    String getAccountName(Account account)
-    {
+    String getAccountName(Account account) {
         String accountDescription = account.getDescription();
         return TextUtils.isEmpty(accountDescription) ? account.getEmail() : accountDescription;
     }
 
-    Context getContext()
-    {
+    Context getContext() {
         return context;
     }
 
-    NotificationManagerCompat getNotificationManager()
-    {
+    NotificationManagerCompat getNotificationManager() {
         return notificationManager;
     }
 
-    NotificationCompat.Builder createNotificationBuilder(String channelId)
-    {
+    NotificationCompat.Builder createNotificationBuilder(String channelId) {
         return new NotificationCompat.Builder(context, channelId);
     }
 
@@ -209,8 +178,7 @@ public class NotificationController
      * @param updateBadge update the badge number if true, for < android-O
      * @return the total number of unread messages for all the account for badge update
      */
-    public int updateBadgeNumber(Account account, int msgCount, boolean updateBadge)
-    {
+    public int updateBadgeNumber(Account account, int msgCount, boolean updateBadge) {
         int prevUnreadCount = -1;
         if (accountUnreadCount.containsKey(account)) {
             prevUnreadCount = accountUnreadCount.get(account);
@@ -223,23 +191,13 @@ public class NotificationController
             totalMsgCount += entry.getValue();
         }
 
-        // Timber.w(new Exception(), "Update launcher badge number to %s(%s) for account: %s = %s",
-        //        msgCount, prevUnreadCount, account, totalMsgCount);
-
+        // Update badge number is now working for android-O and above
+        // Timber.d("Update badge unread count: %s; %s (%s)", totalMsgCount, prevUnreadCount, msgCount);
         if (prevUnreadCount != msgCount) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                if (totalMsgCount > 0)
-                    ShortcutBadger.applyCount(getGlobalContext(), totalMsgCount);
-                else
-                    ShortcutBadger.removeCount(getGlobalContext());
-            }
-            /*
-             * Update badge number without showing notification for android-O
-             * cmeng: android-O setNumber is not working and keep the badge count for the hidden notifications
-             */
-//            else if (updateBadge) {
-//                newMailNotifications.updateBadgeNumber(account, totalMsgCount);
-//            }
+            if (totalMsgCount > 0)
+                ShortcutBadger.applyCount(getGlobalContext(), totalMsgCount);
+            else
+                ShortcutBadger.removeCount(getGlobalContext());
         }
         return totalMsgCount;
     }

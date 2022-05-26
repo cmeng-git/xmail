@@ -1,7 +1,5 @@
 package org.atalk.xryptomail.helper;
 
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -51,7 +49,7 @@ public class RetainFragment<T> extends Fragment {
         data = null;
         cleared = true;
 
-        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1 && fm.isDestroyed()) {
+        if (fm.isDestroyed()) {
             return;
         }
 

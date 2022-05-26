@@ -193,9 +193,9 @@ public class QuotedMessagePresenter {
         }
 
         int bodyLength = k9identity.get(IdentityField.LENGTH) != null ?
-                Integer.valueOf(k9identity.get(IdentityField.LENGTH)) : UNKNOWN_LENGTH;
+                Integer.parseInt(k9identity.get(IdentityField.LENGTH)) : UNKNOWN_LENGTH;
         int bodyOffset = k9identity.get(IdentityField.OFFSET) != null ?
-                Integer.valueOf(k9identity.get(IdentityField.OFFSET)) : UNKNOWN_LENGTH;
+                Integer.parseInt(k9identity.get(IdentityField.OFFSET)) : UNKNOWN_LENGTH;
         Integer bodyFooterOffset = k9identity.get(IdentityField.FOOTER_OFFSET) != null ?
                 Integer.valueOf(k9identity.get(IdentityField.FOOTER_OFFSET)) : null;
         Integer bodyPlainLength = k9identity.get(IdentityField.PLAIN_LENGTH) != null ?

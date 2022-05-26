@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import org.atalk.xryptomail.fragment.MessageListFragment;
 import org.atalk.xryptomail.mail.Message;
 import org.atalk.xryptomail.mailstore.LocalMessage;
 import org.atalk.xryptomail.provider.EmailProvider;
@@ -20,7 +21,7 @@ public class EmailProviderCache {
     public static final String ACTION_CACHE_UPDATED = "EmailProviderCache.ACTION_CACHE_UPDATED";
 
     private static Context sContext;
-    private static Map<String, EmailProviderCache> sInstances = new HashMap<>();
+    private static final Map<String, EmailProviderCache> sInstances = new HashMap<>();
 
     public static synchronized EmailProviderCache getCache(String accountUuid, Context context) {
 
@@ -38,7 +39,7 @@ public class EmailProviderCache {
     }
 
 
-    private String mAccountUuid;
+    private final String mAccountUuid;
     private final Map<Long, Map<String, String>> mMessageCache = new HashMap<>();
     private final Map<Long, Map<String, String>> mThreadCache = new HashMap<>();
     private final Map<Long, Long> mHiddenMessageCache = new HashMap<>();

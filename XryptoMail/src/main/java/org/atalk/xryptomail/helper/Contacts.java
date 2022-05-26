@@ -33,7 +33,7 @@ public class Contacts {
     /**
      * Array of columns to load from the database.
      */
-    protected static final String PROJECTION[] = {
+    protected static final String[] PROJECTION = {
             ContactsContract.CommonDataKinds.Email._ID,
             ContactsContract.Contacts.DISPLAY_NAME,
             ContactsContract.CommonDataKinds.Email.CONTACT_ID,

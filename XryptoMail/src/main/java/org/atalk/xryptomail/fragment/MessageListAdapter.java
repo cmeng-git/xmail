@@ -1,6 +1,7 @@
 package org.atalk.xryptomail.fragment;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -42,23 +43,28 @@ import static org.atalk.xryptomail.fragment.MLFProjectionInfo.THREAD_COUNT_COLUM
 import static org.atalk.xryptomail.fragment.MLFProjectionInfo.TO_LIST_COLUMN;
 import static org.atalk.xryptomail.fragment.MLFProjectionInfo.UID_COLUMN;
 
+import androidx.core.content.res.ResourcesCompat;
+
+import java.util.Locale;
+
 public class MessageListAdapter extends CursorAdapter
 {
     private final MessageListFragment fragment;
-    private Drawable mAttachmentIcon;
-    private Drawable mForwardedIcon;
-    private Drawable mAnsweredIcon;
-    private Drawable mForwardedAnsweredIcon;
-    private FontSizes fontSizes = XryptoMail.getFontSizes();
+    private final Drawable mAttachmentIcon;
+    private final Drawable mForwardedIcon;
+    private final Drawable mAnsweredIcon;
+    private final Drawable mForwardedAnsweredIcon;
+    private final FontSizes fontSizes = XryptoMail.getFontSizes();
 
     MessageListAdapter(MessageListFragment fragment)
     {
         super(fragment.getActivity(), null, 0);
         this.fragment = fragment;
-        mAttachmentIcon = fragment.getResources().getDrawable(R.drawable.ic_email_attachment_small);
-        mAnsweredIcon = fragment.getResources().getDrawable(R.drawable.ic_email_answered_small);
-        mForwardedIcon = fragment.getResources().getDrawable(R.drawable.ic_email_forwarded_small);
-        mForwardedAnsweredIcon = fragment.getResources().getDrawable(R.drawable.ic_email_forwarded_answered_small);
+        Resources res = fragment.getResources();
+        mAttachmentIcon = ResourcesCompat.getDrawable(res, R.drawable.ic_email_attachment_small, null);
+        mAnsweredIcon = ResourcesCompat.getDrawable(res, R.drawable.ic_email_answered_small, null);
+        mForwardedIcon = ResourcesCompat.getDrawable(res, R.drawable.ic_email_forwarded_small, null);
+        mForwardedAnsweredIcon = ResourcesCompat.getDrawable(res, R.drawable.ic_email_forwarded_answered_small, null);
     }
 
     private String recipientSigil(boolean toMe, boolean ccMe)
@@ -366,7 +372,7 @@ public class MessageListAdapter extends CursorAdapter
     private void updateWithThreadCount(MessageViewHolder holder, int threadCount)
     {
         if (threadCount > 1) {
-            holder.threadCount.setText(String.format("%d", threadCount));
+            holder.threadCount.setText(String.format(Locale.US, "%d", threadCount));
             holder.threadCount.setVisibility(View.VISIBLE);
         }
         else {

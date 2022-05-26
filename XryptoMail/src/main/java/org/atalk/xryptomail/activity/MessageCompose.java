@@ -11,6 +11,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import android.text.TextUtils;
@@ -211,7 +213,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     private EolConvertingEditText mSignatureView;
     private EolConvertingEditText mMessageContentView;
     private LinearLayout attachmentsView;
-    private FontSizes mFontSizes = XryptoMail.getFontSizes();
+    private final FontSizes mFontSizes = XryptoMail.getFontSizes();
 
     private String referencedMessageIds;
     private String repliedToMessageId;
@@ -591,7 +593,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
      * Quoted text,
      */
     @Override
-    protected void onSaveInstanceState(Bundle outState)
+    protected void onSaveInstanceState(@NonNull Bundle outState)
     {
         super.onSaveInstanceState(outState);
 
@@ -960,10 +962,8 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     @Override
     public void onClick(View view)
     {
-        switch (view.getId()) {
-            case R.id.identity:
-                showDialog(DIALOG_CHOOSE_IDENTITY);
-                break;
+        if (view.getId() == R.id.identity) {
+            showDialog(DIALOG_CHOOSE_IDENTITY);
         }
     }
 
@@ -1807,7 +1807,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
 
     AttachmentMvpView attachmentMvpView = new AttachmentMvpView()
     {
-        private HashMap<Uri, View> attachmentViews = new HashMap<>();
+        private final HashMap<Uri, View> attachmentViews = new HashMap<>();
 
         @Override
         public void showWaitingForAttachmentDialog(WaitingAction waitingAction)

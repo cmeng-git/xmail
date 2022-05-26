@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Tillater denne applikasjonen å kontrollere aktiviteter og innstillinger for XryptoMail e-post.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Opphavsrett 2008-<xliff:g>%s</xliff:g> The XryptoMail. Kopirett for noen deler 2006-<xliff:g>%s</xliff:g> Android Open Source Project.</string>
+  <string name="app_copyright_fmt">Opphavsrett 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Kopirett for noen deler 2006-<xliff:g>%2$s</xliff:g> Android Open Source Project.</string>
   <string name="app_license">Utgitt med Apache-lisens, versjon 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Velkommen til XryptoMail e-post</string>
@@ -47,25 +47,25 @@ Send feilmeldinger, bidra med nye funksjoner og still spørsmål her:
   <!--Default signature-->
   <string name="default_signature">-- \nSendt fra min Android-enhet med XryptoMail e-post. Unnskyld min kortfattethet.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">Kontoen \"<xliff:g id="account">%s</xliff:g>\" vil bli fjernet fra XryptoMail e-post</string>
-  <string name="account_recreate_dlg_instructions_fmt">Alle lokale data for «<xliff:g id="account">%s</xliff:g>» vil bli fjernet. Kontoinnstillinger vil beholdes.</string>
-  <string name="account_clear_dlg_instructions_fmt">Lokale kopier av meldinger i «<xliff:g id="account">%s</xliff:g>» vil bli fjernet. Kontoinnstillinger vil beholdes.</string>
+  <string name="account_delete_dlg_instructions_fmt">Kontoen \"<xliff:g id="account">%1$s</xliff:g>\" vil bli fjernet fra XryptoMail e-post</string>
+  <string name="account_recreate_dlg_instructions_fmt">Alle lokale data for «<xliff:g id="account">%1$s</xliff:g>» vil bli fjernet. Kontoinnstillinger vil beholdes.</string>
+  <string name="account_clear_dlg_instructions_fmt">Lokale kopier av meldinger i «<xliff:g id="account">%1$s</xliff:g>» vil bli fjernet. Kontoinnstillinger vil beholdes.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Installer en filbehandler for å fortsette importeringen.</string>
   <string name="open_market">Åpne Play-butikken</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Utviklere: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Revisjonsinformasjon: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Vi bruker følgende tredjepartsbiblioteker: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Utviklere: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Revisjonsinformasjon: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Vi bruker følgende tredjepartsbiblioteker: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Les e-poster</string>
   <string name="read_messages_desc">Tillater denne applikasjonen å lese dine e-poster.</string>
   <string name="delete_messages_label">Slett e-poster</string>
   <string name="delete_messages_desc">Tillater dette programmet å slette dine e-poster.</string>
-  <string name="about_title_fmt">Om <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">Om <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Kontoer</string>
   <string name="folders_title">Mapper</string>
   <string name="advanced">Avansert</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Skriv</string>
   <string name="compose_title_reply">Svar</string>
   <string name="compose_title_reply_all">Svar alle</string>
@@ -73,18 +73,18 @@ Send feilmeldinger, bidra med nye funksjoner og still spørsmål her:
   <string name="compose_title_forward_as_attachment">Videresend som vedlegg</string>
   <string name="choose_account_title">Velg konto</string>
   <string name="choose_folder_title">Velg mappe</string>
-  <string name="status_loading_account_folder">Sjekker <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Henter overskrifter <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Sender <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Prosesserer <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Neste sjekk <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Sjekker <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Henter overskrifter <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Sender <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Prosesserer <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Neste sjekk <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Synkronisering avskrudd - Mangler nettverk</string>
   <string name="status_no_background">Synkronisering avskrudd - Ingen bakgrunnsaktivitet</string>
   <string name="status_poll_and_push_disabled">Henting og avlevering avskrudd</string>
   <string name="status_syncing_blocked">Synkronisering blokkert</string>
   <string name="status_syncing_off">Synkronisering avskrudd</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> valgt</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> valgt</string>
   <string name="next_action">Neste</string>
   <string name="previous_action">Forrige</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -158,21 +158,21 @@ Send feilmeldinger, bidra med nye funksjoner og still spørsmål her:
   <string name="status_loading_error">Lasting av melding feilet</string>
   <string name="status_loading_more_failed">Prøv igjen å laste flere meldinger</string>
   <string name="load_more_messages_fmt">Last opp
-til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
+til <xliff:g id="messages_to_load">%1$d</xliff:g> flere</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Konto \"<xliff:g id="account">%s</xliff:g>\" krympet fra <xliff:g id="oldSize">%s</xliff:g> til <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Komprimerer konto \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">Renser konto \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Gjenskaper konto \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="account_size_changed">Konto \"<xliff:g id="account">%1$s</xliff:g>\" krympet fra <xliff:g id="oldSize">%2$s</xliff:g> til <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Komprimerer konto \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">Renser konto \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Gjenskaper konto \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="notification_new_title">Ny e-post</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> ny melding</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> nye meldinger</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> ny melding</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> nye meldinger</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> Ulest(e) (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> Ulest(e) (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> flere på <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Svar</string>
   <string name="notification_action_mark_as_read">Merk som lest</string>
@@ -182,13 +182,13 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="notification_action_archive">Arkiver</string>
   <string name="notification_action_archive_all">Arkiver alle</string>
   <string name="notification_action_spam">Søppelpost</string>
-  <string name="notification_certificate_error_title">Sertifikatfeil for <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Sertifikatfeil for <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Sjekk dine tjenerinnstillinger</string>
   <string name="notification_authentication_error_title">Autentisering feilet</string>
-  <string name="notification_authentication_error_text">Autentisering feilet for <xliff:g id="account">%s</xliff:g>. Oppdater serverinnstillingene dine.</string>
-  <string name="notification_bg_sync_ticker">Sjekker e-post: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Autentisering feilet for <xliff:g id="account">%1$s</xliff:g>. Oppdater serverinnstillingene dine.</string>
+  <string name="notification_bg_sync_ticker">Sjekker e-post: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Sjekker e-post</string>
-  <string name="notification_bg_send_ticker">Sender e-post: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Sender e-post: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Sender e-post</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Innboks</string>
@@ -198,19 +198,19 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="special_mailbox_name_sent">Sendt</string>
   <string name="special_mailbox_name_archive">Arkiv</string>
   <string name="special_mailbox_name_spam">Søppelpost</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Utkast)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Søppel)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Sendt)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Arkiv)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Søppel)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Utkast)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Søppel)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Sendt)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Arkiv)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Søppel)</string>
   <string name="send_failure_subject">Mislyktes i å sende noen meldinger</string>
-  <string name="debug_version_fmt">Versjon: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Versjon: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Aktiver feilsøkingslogg</string>
   <string name="debug_enable_debug_logging_summary">Logg ekstra diagnostisk informasjon</string>
   <string name="debug_enable_sensitive_logging_title">Logg sensitiv informasjon</string>
   <string name="debug_enable_sensitive_logging_summary">Passord kan vises i logger.</string>
   <string name="message_list_load_more_messages_action">Last flere meldinger</string>
-  <string name="message_to_fmt">Til:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">Til:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Emne</string>
   <string name="message_compose_content_hint">Meldingstekst</string>
   <string name="message_compose_signature_hint">Signatur</string>
@@ -220,8 +220,8 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="message_compose_quote_header_from">Fra:</string>
   <string name="message_compose_quote_header_to">Til:</string>
   <string name="message_compose_quote_header_cc">Kopi:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> skrev:</string>
-  <string name="message_compose_reply_header_fmt_with_date">Den <xliff:g id="sent_date">%1$s</xliff:g>, skrev <xliff:g id="sender">%2$s</xliff:g>:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> skrev:</string>
+  <string name="message_compose_reply_header_fmt_with_date">Den <xliff:g id="sent_date">%1$s</xliff:g>, skrev <xliff:g id="sender">%2$s</xliff:g></string>
   <string name="message_compose_error_no_recipients">Du må legge til minst én mottaker</string>
   <string name="compose_error_incomplete_recipient">Mottakerfelt inneholder mangelfull inndata!</string>
   <string name="error_contact_address_not_found">Ingen e-postadresse ble funnet for denne kontakten.</string>
@@ -229,7 +229,7 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="message_compose_attachments_forward_toast">Meldingen kan ikke videresendes fordi noen av vedleggene ikke har blitt lastet ned enda.</string>
   <string name="message_compose_description_delete_quoted_text">Fjern sitert tekst</string>
   <string name="message_compose_description_edit_quoted_text">Rediger sitert tekst</string>
-  <string name="message_view_from_format">Fra: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">Fra: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Til:</string>
   <string name="message_view_cc_label">Kopi:</string>
   <string name="message_view_bcc_label">Blindkopi:</string>
@@ -238,7 +238,7 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="message_view_status_attachment_not_saved">Kunne ikke lagre vedlegget til SD-kort.</string>
   <string name="message_view_status_no_space">Plassmangel forhindret lagring av vedlegg</string>
   <string name="message_view_show_pictures_action">Vis bilder</string>
-  <string name="message_view_no_viewer">Finner ikke visningsprogram for <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Finner ikke visningsprogram for <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Last ned komplett melding</string>
   <string name="message_view_toast_unable_to_display_message">Kunne ikke vise meldingen</string>
   <string name="message_view_sender_label">via %1$s</string>
@@ -246,7 +246,7 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="message_no_additional_headers_available">Alle meldingshoder har blitt lastet ned, men det er ingen flere meldingshoder å vise.</string>
   <string name="message_additional_headers_retrieval_failed">Hentingen av flere meldigshoder fra databasen eller e-posttjeneren mislyktes.</string>
   <string name="from_same_sender">Mer fra denne avsenderen</string>
-  <string name="search_from_format">Fra <xliff:g id="sender">%s</xliff:g></string>
+  <string name="search_from_format">Fra <xliff:g id="sender">%1$s</xliff:g></string>
   <string name="debug_delete_local_body">Feilretting / tøm brødtekst</string>
   <string name="message_discarded_toast">Melding forkastet</string>
   <string name="message_saved_toast">Melding lagret som utkast</string>
@@ -387,7 +387,7 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="account_setup_outgoing_password_label">Passord</string>
   <string name="account_setup_outgoing_authentication_label">Autentisering </string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" er ikke gyldig med \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
-  <string name="account_setup_bad_uri">Ugyldig oppsett: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Ugyldig oppsett: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Kontoinnstillinger</string>
   <string name="compact_action">Komprimer konto</string>
   <string name="clear_action">Tøm meldinger (fare!)</string>
@@ -434,9 +434,9 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="account_setup_options_mail_display_count_all">alle meldinger</string>
   <string name="move_copy_cannot_copy_unsynced_message">Kan ikke kopiere eller flytte en melding som ikke er synkronisert med tjeneren</string>
   <string name="account_setup_failed_dlg_title">Oppsett kunne ikke fullføres</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Brukernavn eller passord er feil.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">Tjeneren presenterte et ugyldig SSL-sertifikat. Noen ganger skjer det fordi tjeneren er feiloppsatt. Andre ganger fordi noen prøver å angripe deg eller din e-post-tjener. Hvis du ikke er sikker på hva som skjer: klikk avvis, og kontakt dem som administrerer din e-posttjener.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Kan ikke koble til tjener.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Brukernavn eller passord er feil.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">Tjeneren presenterte et ugyldig SSL-sertifikat. Noen ganger skjer det fordi tjeneren er feiloppsatt. Andre ganger fordi noen prøver å angripe deg eller din e-post-tjener. Hvis du ikke er sikker på hva som skjer: klikk avvis, og kontakt dem som administrerer din e-posttjener.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Kan ikke koble til tjener.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Endre detaljer</string>
   <string name="account_setup_failed_dlg_continue_action">Fortsett</string>
   <string name="account_settings_push_advanced_title">Avansert</string>
@@ -716,7 +716,7 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="count_search_summary">Slå av for raskere visning</string>
   <string name="hide_special_accounts_title">Skjul spesialkontoer</string>
   <string name="hide_special_accounts_summary">Skjul den samlede innboksen og alle meldingskontoer</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier">- Stjernede</string>
   <string name="unread_modifier">- Uleste</string>
   <string name="search_all_messages_title">Alle meldinger</string>
@@ -752,7 +752,7 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="font_size_message_view_subject">Emne</string>
   <string name="font_size_message_view_date">Tid og dato</string>
   <string name="font_size_message_view_content">Meldingstekst</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Skrive melding</string>
   <string name="font_size_message_compose_input">Tekstskrivingsfelt</string>
@@ -766,7 +766,7 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="font_size_larger">Større</string>
   <string name="miscellaneous_preferences">Diverse</string>
   <string name="error_activity_not_found">Ingen egnede program ble funnet for denne handlingen.</string>
-  <string name="send_failed_reason">Forsendelse mislyktes: %s</string>
+  <string name="send_failed_reason">Forsendelse mislyktes:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Lagre utkast?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Lagre eller Forkast denne meldingen?</string>
   <string name="confirm_discard_draft_message_title">Forkast melding?</string>
@@ -806,36 +806,36 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="settings_exporting">Eksporterer innstillnger …</string>
   <string name="settings_importing">Importerer innstillinger …</string>
   <string name="settings_import_scanning_file">Skanner fil …</string>
-  <string name="settings_export_success">Lagret eksporterte innstillinger til <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Lagret eksporterte innstillinger til <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Nye innstillinger i bruk</string>
-  <string name="settings_import_global_settings_success">Importerte globale innstillinger fra <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Importerte <xliff:g id="accounts">%s</xliff:g> fra <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_account_imported_as">Importerte <xliff:g id="original_account_name">%s</xliff:g> som <xliff:g id="account_name_after_import">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Importerte globale innstillinger fra <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Importerte <xliff:g id="accounts">%1$s</xliff:g> fra <xliff:g id="filename">%2$s</xliff:g></string>
+  <string name="settings_import_account_imported_as">Importerte <xliff:g id="original_account_name">%1$s</xliff:g> som <xliff:g id="account_name_after_import">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 konto</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> kontoer</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> kontoer</item>
   </plurals>
   <string name="settings_export_failure">Eksportering av innstillinger mislyktes</string>
-  <string name="settings_import_failure">Klarte ikke å importere innstillinger fra <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Klarte ikke å importere innstillinger fra <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Eksportering fullført</string>
   <string name="settings_export_failed_header">Eksportering mislyktes</string>
   <string name="settings_import_success_header">Importering fullført</string>
   <string name="settings_import_failed_header">Importering mislyktes</string>
   <string name="settings_import_activate_account_header">Aktiver konto</string>
-  <string name="settings_import_activate_account_intro">For å kunne bruke kontoen \"<xliff:g id="account">%s</xliff:g>\" må du oppgi <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">For å kunne bruke kontoen \"<xliff:g id="account">%1$s</xliff:g>\" må du oppgi <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">tjenerpassord</item>
     <item quantity="other">tjenerpassord</item>
   </plurals>
-  <string name="settings_import_incoming_server">Innkommende tjener (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Utgående tjener (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Innkommende tjener (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Utgående tjener (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Setter passord …</item>
     <item quantity="other">Setter passord …</item>
   </plurals>
   <string name="settings_import_use_incoming_server_password">Bruk innkommende tjenerpassord</string>
   <string name="activate_account_action">Aktiver</string>
-  <string name="account_unavailable">Konto «<xliff:g id="account">%s</xliff:g>» er utilgjengelig; kontroller lagring</string>
+  <string name="account_unavailable">Konto «<xliff:g id="account">%1$s</xliff:g>» er utilgjengelig; kontroller lagring</string>
   <string name="settings_attachment_default_path">Lagre vedlegg til …</string>
   <string name="attachment_save_title">Lagre vedlegg</string>
   <string name="attachment_save_desc">Ingen filbehandler ble funnet. Hvor ønsker du å lagre dette vedlegget?</string>
@@ -876,7 +876,7 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="webview_contextmenu_email_save_action">Lagre til \"Kontakter\"</string>
   <string name="webview_contextmenu_email_copy_action">Kopier adresse til utklippstavlen</string>
   <string name="webview_contextmenu_email_clipboard_label">E-postadresse</string>
-  <string name="image_saved_as">Lagre bilde som «<xliff:g id="filename">%s</xliff:g>»</string>
+  <string name="image_saved_as">Lagre bilde som «<xliff:g id="filename">%1$s</xliff:g>»</string>
   <string name="image_saving_failed">Lagring av bildet mislyktes.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Alle</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -887,11 +887,11 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Begrensning for søk på tjener</string>
-  <string name="account_settings_remote_search_num_summary">Søk vil stoppe etter å ha funnet <xliff:g id="num_results">%s</xliff:g> resultater.</string>
+  <string name="account_settings_remote_search_num_summary">Søk vil stoppe etter å ha funnet <xliff:g id="num_results">%1$s</xliff:g> resultater.</string>
   <string name="remote_search_sending_query">Sender forespørsel til tjener</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">Henter %d resultat</item>
-    <item quantity="other">Henter %d resultater</item>
+    <item quantity="one">Henter %1$d resultat</item>
+    <item quantity="other">Henter %1$d resultater</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="one">Henter %1$d av %2$d resultater</item>
@@ -911,7 +911,7 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="global_settings_threaded_view_summary">Grupper meldinger etter samtale</string>
   <string name="upgrade_databases_title">Oppgraderer databaser</string>
   <string name="upgrade_databases_unspecified">Oppgraderer databaser …</string>
-  <string name="upgrade_database_format">Oppgraderer database for konto «<xliff:g id="account">%s</xliff:g>»</string>
+  <string name="upgrade_database_format">Oppgraderer database for konto «<xliff:g id="account">%1$s</xliff:g>»</string>
   <string name="message_list_loading">Laster …</string>
   <string name="global_settings_splitview_mode_label">Vis delt skjerm</string>
   <string name="global_settings_splitview_always">Alltid</string>
@@ -920,9 +920,9 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="message_view_empty">Velg en melding til venstre</string>
   <string name="global_settings_show_contact_picture_label">Vis kontaktbilder</string>
   <string name="global_settings_show_contact_picture_summary">Vis kontaktbilder i meldingslisten</string>
-  <string name="last_refresh_time_format">Oppfrisket <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Oppdatert <xliff:g id="time_with_preposition">%s</xliff:g> (Push aktivert)</string>
-  <string name="preposition_for_date">den <xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Oppfrisket <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Oppdatert <xliff:g id="time_with_preposition">%1$s</xliff:g> (Push aktivert)</string>
+  <string name="preposition_for_date">den <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Merk alle som lest</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Fargelegg kontaktbilder</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Fargelegg manglende kontaktbilder</string>
@@ -937,7 +937,7 @@ til <xliff:g id="messages_to_load">%d</xliff:g> flere</string>
   <string name="account_setup_basics_client_certificate">Bruk klientsertifikat</string>
   <string name="client_certificate_spinner_empty">Ingen klientsertifikat</string>
   <string name="client_certificate_spinner_delete">Fjern klientsertifikatvalg</string>
-  <string name="client_certificate_retrieval_failure">Klarte ikke å hente klientsertifikat for alias \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">Klarte ikke å hente klientsertifikat for alias \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Avanserte valg</string>
   <string name="client_certificate_expired">Klientsertifikatet, \"<xliff:g id="certificate_alias">%1$s</xliff:g>\", er utgått eller er ikke gyldig ennå (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

@@ -1,6 +1,11 @@
 package org.atalk.xryptomail.activity;
 
-import android.app.*;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Application;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -94,8 +99,7 @@ import java.util.concurrent.ConcurrentMap;
 import de.cketti.library.changelog.ChangeLog;
 import timber.log.Timber;
 
-public class Accounts extends XMListActivity implements OnItemClickListener
-{
+public class Accounts extends XMListActivity implements OnItemClickListener {
     /*
      * URL used to open Android Market application
      */
@@ -113,18 +117,18 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     /*
      * Must be serializable hence implementation class used for declaration.
      */
-    private ConcurrentHashMap<String, AccountStats> accountStats = new ConcurrentHashMap<>();
-    private ConcurrentMap<BaseAccount, String> pendingWork = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, AccountStats> accountStats = new ConcurrentHashMap<>();
+    private final ConcurrentMap<BaseAccount, String> pendingWork = new ConcurrentHashMap<>();
 
     private BaseAccount mSelectedContextAccount;
     private static Boolean mPrefChange = false;
     private int mUnreadMessageCount = 0;
 
-    private AccountsHandler mHandler = new AccountsHandler();
+    private final AccountsHandler mHandler = new AccountsHandler();
     private AccountsAdapter mAdapter;
     private SearchAccount mAllMessagesAccount = null;
     private SearchAccount mUnifiedInboxAccount = null;
-    private FontSizes mFontSizes = XryptoMail.getFontSizes();
+    private final FontSizes mFontSizes = XryptoMail.getFontSizes();
 
     private MenuItem mRefreshMenuItem;
     private ActionBar mActionBar;
@@ -146,16 +150,13 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     private static final int ACTIVITY_REQUEST_PICK_SETTINGS_FILE = 1;
     private static final int ACTIVITY_REQUEST_SAVE_SETTINGS_FILE = 2;
 
-    class AccountsHandler extends Handler
-    {
-        private void setViewTitle()
-        {
+    class AccountsHandler extends Handler {
+        private void setViewTitle() {
             mActionBarTitle.setText(getString(R.string.accounts_title));
 
             if (mUnreadMessageCount == 0) {
                 mActionBarUnread.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 mActionBarUnread.setText(String.format(Locale.US, "%d", mUnreadMessageCount));
                 mActionBarUnread.setVisibility(View.VISIBLE);
             }
@@ -164,20 +165,17 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             operation = operation.trim();
             if (operation.length() < 1) {
                 mActionBarSubTitle.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 mActionBarSubTitle.setVisibility(View.VISIBLE);
                 mActionBarSubTitle.setText(operation);
             }
         }
 
-        public void refreshTitle()
-        {
+        public void refreshTitle() {
             runOnUiThread(this::setViewTitle);
         }
 
-        public void dataChanged()
-        {
+        public void dataChanged() {
             runOnUiThread(() -> {
                 if (mAdapter != null) {
                     mAdapter.notifyDataSetChanged();
@@ -185,8 +183,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             });
         }
 
-        public void workingAccount(final Account account, final int res)
-        {
+        public void workingAccount(final Account account, final int res) {
             runOnUiThread(() -> {
                 String toastText = getString(res, account.getDescription());
                 Toast toast = Toast.makeText(getApplication(), toastText, Toast.LENGTH_SHORT);
@@ -194,8 +191,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             });
         }
 
-        public void accountSizeChanged(final Account account, final long oldSize, final long newSize)
-        {
+        public void accountSizeChanged(final Account account, final long oldSize, final long newSize) {
             runOnUiThread(() -> {
                 AccountStats stats = accountStats.get(account.getUuid());
                 if (newSize != -1 && stats != null && XryptoMail.measureAccounts()) {
@@ -212,8 +208,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             });
         }
 
-        public void progress(final boolean progress)
-        {
+        public void progress(final boolean progress) {
             // Make sure we don't try this before the menu is initialized
             // this could happen while the activity is initialized.
             if (mRefreshMenuItem == null) {
@@ -222,49 +217,41 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             runOnUiThread(() -> showProgressIndicator(progress));
         }
 
-        public void progress(final int progress)
-        {
+        public void progress(final int progress) {
             runOnUiThread(() -> getWindow().setFeatureInt(Window.FEATURE_PROGRESS, progress));
         }
     }
 
-    public void setProgress(boolean progress)
-    {
+    public void setProgress(boolean progress) {
         mHandler.progress(progress);
     }
 
-    public void showProgressIndicator(boolean enable)
-    {
+    public void showProgressIndicator(boolean enable) {
         ProgressBar mActionBarProgress = findViewById(R.id.actionbar_progress);
 
         if (mRefreshMenuItem != null && mRefreshMenuItem.isVisible()) {
             mActionBarProgress.setVisibility(ProgressBar.GONE);
             if (enable) {
                 mRefreshMenuItem.setActionView(R.layout.actionbar_indeterminate_progress_actionview);
-            }
-            else {
+            } else {
                 mRefreshMenuItem.setActionView(null);
             }
         }
     }
 
-    ActivityListener mListener = new ActivityListener()
-    {
+    ActivityListener mListener = new ActivityListener() {
         @Override
-        public void informUserOfStatus()
-        {
+        public void informUserOfStatus() {
             mHandler.refreshTitle();
         }
 
         @Override
-        public void folderStatusChanged(Account account, String folderName, int unreadMessageCount)
-        {
+        public void folderStatusChanged(Account account, String folderName, int unreadMessageCount) {
             try {
                 AccountStats stats = account.getStats(Accounts.this);
                 if (stats == null) {
                     Timber.w("Unable to get account stats");
-                }
-                else {
+                } else {
                     accountStatusChanged(account, stats);
                 }
             } catch (Exception e) {
@@ -273,8 +260,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
 
         @Override
-        public void accountStatusChanged(BaseAccount account, AccountStats stats)
-        {
+        public void accountStatusChanged(BaseAccount account, AccountStats stats) {
             int oldUnreadMessageCount = 0;
             AccountStats oldStats = accountStats.get(account.getUuid());
             if (oldStats != null) {
@@ -306,37 +292,32 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             if (pendingWork.isEmpty()) {
                 mHandler.progress(Window.PROGRESS_END);
                 mHandler.refreshTitle();
-            }
-            else {
+            } else {
                 int level = (Window.PROGRESS_END / mAdapter.getCount()) * (mAdapter.getCount() - pendingWork.size());
                 mHandler.progress(level);
             }
         }
 
         @Override
-        public void accountSizeChanged(Account account, long oldSize, long newSize)
-        {
+        public void accountSizeChanged(Account account, long oldSize, long newSize) {
             mHandler.accountSizeChanged(account, oldSize, newSize);
         }
 
         @Override
-        public void synchronizeMailboxFinished(Account account, String folder, int totalMessagesInMailbox, int numNewMessages)
-        {
+        public void synchronizeMailboxFinished(Account account, String folder, int totalMessagesInMailbox, int numNewMessages) {
             MessagingController.getInstance(getApplication()).getAccountStats(Accounts.this, account, mListener);
             super.synchronizeMailboxFinished(account, folder, totalMessagesInMailbox, numNewMessages);
             mHandler.progress(false);
         }
 
         @Override
-        public void synchronizeMailboxStarted(Account account, String folder)
-        {
+        public void synchronizeMailboxStarted(Account account, String folder) {
             super.synchronizeMailboxStarted(account, folder);
             mHandler.progress(true);
         }
 
         @Override
-        public void synchronizeMailboxFailed(Account account, String folder, String message)
-        {
+        public void synchronizeMailboxFailed(Account account, String folder, String message) {
             super.synchronizeMailboxFailed(account, folder, message);
             mHandler.progress(false);
         }
@@ -351,8 +332,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     public static final String EXTRA_STARTUP = "startup";
     public static final String ACTION_IMPORT_SETTINGS = "importSettings";
 
-    public static void listAccounts(Context context)
-    {
+    public static void listAccounts(Context context) {
         Intent intent = new Intent(context, Accounts.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -360,23 +340,20 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         context.startActivity(intent);
     }
 
-    public static void importSettings(Context context)
-    {
+    public static void importSettings(Context context) {
         Intent intent = new Intent(context, Accounts.class);
         intent.setAction(ACTION_IMPORT_SETTINGS);
         context.startActivity(intent);
     }
 
-    public static LocalSearch createUnreadSearch(Context context, BaseAccount account)
-    {
+    public static LocalSearch createUnreadSearch(Context context, BaseAccount account) {
         String searchTitle = context.getString(R.string.search_title, account.getDescription(),
                 context.getString(R.string.unread_modifier));
         LocalSearch search;
         if (account instanceof SearchAccount) {
             search = ((SearchAccount) account).getRelatedSearch().clone();
             search.setName(searchTitle);
-        }
-        else {
+        } else {
             search = new LocalSearch(searchTitle);
             search.addAccountUuid(account.getUuid());
 
@@ -389,8 +366,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     }
 
     @Override
-    public void onCreate(Bundle icicle)
-    {
+    public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         if (!XryptoMail.isHideSpecialAccounts()) {
             createSpecialAccounts();
@@ -406,8 +382,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         // see if we should show the welcome message
         if (ACTION_IMPORT_SETTINGS.equals(intent.getAction())) {
             onImport();
-        }
-        else if (accounts.size() < 1) {
+        } else if (accounts.size() < 1) {
             WelcomeMessage.showWelcomeMessage(this);
             finish();
             return;
@@ -469,8 +444,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         });
     }
 
-    private void initializeActionBar()
-    {
+    private void initializeActionBar() {
         mActionBar.setDisplayShowCustomEnabled(true);
         mActionBar.setCustomView(R.layout.actionbar_custom);
 
@@ -485,15 +459,13 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     /**
      * Creates and initializes the special accounts ('Unified Inbox' and 'All Messages')
      */
-    private void createSpecialAccounts()
-    {
+    private void createSpecialAccounts() {
         mUnifiedInboxAccount = SearchAccount.createUnifiedInboxAccount(this);
         mAllMessagesAccount = SearchAccount.createAllMessagesAccount(this);
     }
 
     @SuppressWarnings("unchecked")
-    private void restoreAccountStats(Bundle icicle)
-    {
+    private void restoreAccountStats(Bundle icicle) {
         if (icicle != null) {
             Map<String, AccountStats> oldStats = (Map<String, AccountStats>) icicle.get(ACCOUNT_STATS);
             if (oldStats != null) {
@@ -504,8 +476,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mSelectedContextAccount != null) {
             outState.putString(SELECTED_CONTEXT_ACCOUNT, mSelectedContextAccount.getUuid());
@@ -518,32 +489,27 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle state)
-    {
+    protected void onRestoreInstanceState(Bundle state) {
         super.onRestoreInstanceState(state);
 
         exportGlobalSettings = state.getBoolean(STATE_EXPORT_GLOBAL_SETTINGS, false);
         exportAccountUuids = state.getStringArrayList(STATE_EXPORT_ACCOUNTS);
     }
 
-    private StorageManager.StorageListener storageListener = new StorageManager.StorageListener()
-    {
+    private final StorageManager.StorageListener storageListener = new StorageManager.StorageListener() {
         @Override
-        public void onUnmount(String providerId)
-        {
+        public void onUnmount(String providerId) {
             refresh();
         }
 
         @Override
-        public void onMount(String providerId)
-        {
+        public void onMount(String providerId) {
             refresh();
         }
     };
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
 
         if (mPrefChange) {
@@ -558,8 +524,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
         MessagingController.getInstance(getApplication()).removeListener(mListener);
         StorageManager.getInstance(getApplication()).removeListener(storageListener);
@@ -570,8 +535,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
      * Save the reference to a currently displayed dialog or a running AsyncTask (if available).
      */
     @Override
-    public Object onRetainNonConfigurationInstance()
-    {
+    public Object onRetainNonConfigurationInstance() {
         Object retain = null;
         if (mNonConfigurationInstance != null && mNonConfigurationInstance.retain()) {
             retain = mNonConfigurationInstance;
@@ -579,15 +543,13 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         return retain;
     }
 
-    private List<BaseAccount> accounts = new ArrayList<>();
+    private final List<BaseAccount> accounts = new ArrayList<>();
 
-    private enum ACCOUNT_LOCATION
-    {
+    private enum ACCOUNT_LOCATION {
         TOP, MIDDLE, BOTTOM
     }
 
-    private EnumSet<ACCOUNT_LOCATION> accountLocation(BaseAccount account)
-    {
+    private EnumSet<ACCOUNT_LOCATION> accountLocation(BaseAccount account) {
         EnumSet<ACCOUNT_LOCATION> accountLocation = EnumSet.of(ACCOUNT_LOCATION.MIDDLE);
         if (accounts.size() > 0) {
             if (accounts.get(0).equals(account)) {
@@ -602,8 +564,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         return accountLocation;
     }
 
-    private void refresh()
-    {
+    private void refresh() {
         accounts.clear();
         accounts.addAll(Preferences.getPreferences(this).getAccounts());
 
@@ -616,8 +577,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             newAccounts = new ArrayList<>(accounts.size() + SPECIAL_ACCOUNTS_COUNT);
             newAccounts.add(mUnifiedInboxAccount);
             newAccounts.add(mAllMessagesAccount);
-        }
-        else {
+        } else {
             newAccounts = new ArrayList<>(accounts.size());
         }
 
@@ -636,21 +596,18 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             if (account instanceof Account) {
                 Account realAccount = (Account) account;
                 controller.getAccountStats(this, realAccount, mListener);
-            }
-            else if (XryptoMail.countSearchMessages() && account instanceof SearchAccount) {
+            } else if (XryptoMail.countSearchMessages() && account instanceof SearchAccount) {
                 final SearchAccount searchAccount = (SearchAccount) account;
                 controller.getSearchAccountStats(searchAccount, mListener);
             }
         }
     }
 
-    private void onAddNewAccount()
-    {
+    private void onAddNewAccount() {
         AccountSetupActivity.actionNewAccount(this);
     }
 
-    private void onEditPrefs()
-    {
+    private void onEditPrefs() {
         Prefs.actionPrefs(this);
         mPrefChange = true;
     }
@@ -658,29 +615,24 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     /*
      * This method is called to check mail for all registered accounts
      */
-    private void onCheckMail()
-    {
+    private void onCheckMail() {
         MessagingController.getInstance(getApplication()).checkMail(this, null, true, true, null);
         MessagingController.getInstance(getApplication()).sendPendingMessages(null);
     }
 
-    private void onClearCommands(Account account)
-    {
+    private void onClearCommands(Account account) {
         MessagingController.getInstance(getApplication()).clearAllPending(account);
     }
 
-    private void onEmptyTrash(Account account)
-    {
+    private void onEmptyTrash(Account account) {
         MessagingController.getInstance(getApplication()).emptyTrash(account, null);
     }
 
-    private void onCompose()
-    {
+    private void onCompose() {
         Account defaultAccount = Preferences.getPreferences(this).getDefaultAccount();
         if (defaultAccount != null) {
             MessageActions.actionCompose(this, defaultAccount);
-        }
-        else {
+        } else {
             onAddNewAccount();
         }
     }
@@ -692,19 +644,16 @@ public class Accounts extends XMListActivity implements OnItemClickListener
      * @param account the account to open ({@link SearchAccount} or {@link Account})
      * @return false if unsuccessful
      */
-    private boolean onOpenAccount(BaseAccount account)
-    {
+    private boolean onOpenAccount(BaseAccount account) {
         if (account instanceof SearchAccount) {
             SearchAccount searchAccount = (SearchAccount) account;
             MessageList.actionDisplaySearch(this, searchAccount.getRelatedSearch(), false, false);
-        }
-        else {
+        } else {
             Account realAccount = (Account) account;
             if (!realAccount.isEnabled()) {
                 onActivateAccount(realAccount);
                 return false;
-            }
-            else if (!realAccount.isAvailable(this)) {
+            } else if (!realAccount.isAvailable(this)) {
                 String toastText = getString(R.string.account_unavailable, account.getDescription());
                 Toast toast = Toast.makeText(getApplication(), toastText, Toast.LENGTH_SHORT);
                 toast.show();
@@ -714,8 +663,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             }
             if (XryptoMail.FOLDER_NONE.equals(realAccount.getAutoExpandFolder())) {
                 FolderList.actionHandleAccount(this, realAccount);
-            }
-            else {
+            } else {
                 LocalSearch search = new LocalSearch(realAccount.getAutoExpandFolder());
                 search.addAllowedFolder(realAccount.getAutoExpandFolder());
                 search.addAccountUuid(realAccount.getUuid());
@@ -725,8 +673,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         return true;
     }
 
-    private void onActivateAccount(Account account)
-    {
+    private void onActivateAccount(Account account) {
         List<Account> disabledAccounts = new ArrayList<>();
         disabledAccounts.add(account);
         promptForServerPasswords(disabledAccounts);
@@ -739,8 +686,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
      * {@code null}.
      * <p><strong>Note:</strong> Calling this method will modify the supplied list.</p>
      */
-    private void promptForServerPasswords(final List<Account> disabledAccounts)
-    {
+    private void promptForServerPasswords(final List<Account> disabledAccounts) {
         Account account = disabledAccounts.remove(0);
         PasswordPromptDialog dialog = new PasswordPromptDialog(account, disabledAccounts);
         setNonConfigurationInstance(dialog);
@@ -750,15 +696,14 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     /**
      * Ask the user for the incoming/outgoing server passwords.
      */
-    private static class PasswordPromptDialog implements NonConfigurationInstance, TextWatcher
-    {
+    private static class PasswordPromptDialog implements NonConfigurationInstance, TextWatcher {
         private AlertDialog mDialog;
         private EditText mIncomingPasswordView;
         private EditText mOutgoingPasswordView;
         private CheckBox mUseIncomingView;
 
-        private Account mAccount;
-        private List<Account> mRemainingAccounts;
+        private final Account mAccount;
+        private final List<Account> mRemainingAccounts;
         private String mIncomingPassword;
         private String mOutgoingPassword;
         private boolean mUseIncoming;
@@ -770,21 +715,18 @@ public class Accounts extends XMListActivity implements OnItemClickListener
          * @param accounts The (possibly empty) list of remaining accounts to ask passwords for. Never
          * {@code null}.
          */
-        PasswordPromptDialog(Account account, List<Account> accounts)
-        {
+        PasswordPromptDialog(Account account, List<Account> accounts) {
             mAccount = account;
             mRemainingAccounts = accounts;
         }
 
         @Override
-        public void restore(Activity activity)
-        {
+        public void restore(Activity activity) {
             show((Accounts) activity, true);
         }
 
         @Override
-        public boolean retain()
-        {
+        public boolean retain() {
             if (mDialog != null) {
                 // Retain entered passwords and checkbox state
                 if (mIncomingPasswordView != null) {
@@ -806,13 +748,11 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             return false;
         }
 
-        public void show(Accounts activity)
-        {
+        public void show(Accounts activity) {
             show(activity, false);
         }
 
-        private void show(final Accounts activity, boolean restore)
-        {
+        private void show(final Accounts activity, boolean restore) {
             ServerSettings incoming = RemoteStore.decodeStoreUri(mAccount.getStoreUri());
             ServerSettings outgoing = TransportUris.decodeTransportUri(mAccount.getTransportUri());
 
@@ -880,8 +820,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
 
                 mIncomingPasswordView = layout.findViewById(R.id.incoming_server_password);
                 mIncomingPasswordView.addTextChangedListener(this);
-            }
-            else {
+            } else {
                 layout.findViewById(R.id.incoming_server_prompt).setVisibility(View.GONE);
             }
 
@@ -899,20 +838,17 @@ public class Accounts extends XMListActivity implements OnItemClickListener
                         if (isChecked) {
                             mOutgoingPasswordView.setText(null);
                             mOutgoingPasswordView.setEnabled(false);
-                        }
-                        else {
+                        } else {
                             mOutgoingPasswordView.setText(mIncomingPasswordView.getText());
                             mOutgoingPasswordView.setEnabled(true);
                         }
                     });
-                }
-                else {
+                } else {
                     mUseIncomingView.setChecked(false);
                     mUseIncomingView.setVisibility(View.GONE);
                     mOutgoingPasswordView.setEnabled(true);
                 }
-            }
-            else {
+            } else {
                 layout.findViewById(R.id.outgoing_server_prompt).setVisibility(View.GONE);
             }
 
@@ -929,8 +865,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
                     mOutgoingPasswordView.setText(mOutgoingPassword);
                     mUseIncomingView.setChecked(mUseIncoming);
                 }
-            }
-            else {
+            } else {
                 // Trigger afterTextChanged() being called
                 // Work around this bug: https://code.google.com/p/android/issues/detail?id=6360
                 if (configureIncomingServer) {
@@ -943,8 +878,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
 
         @Override
-        public void afterTextChanged(Editable arg0)
-        {
+        public void afterTextChanged(Editable arg0) {
             boolean enable = false;
             // Is the password box for the incoming server password empty?
             if (mIncomingPasswordView != null) {
@@ -960,8 +894,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
                         enable = true;
                     }
                 }
-            }
-            else {
+            } else {
                 enable = mOutgoingPasswordView.getText().length() > 0;
             }
 
@@ -970,14 +903,12 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after)
-        {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             // Not used
         }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count)
-        {
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
             // Not used
         }
     }
@@ -985,17 +916,15 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     /**
      * Set the incoming/outgoing server password in the background.
      */
-    private static class SetPasswordsAsyncTask extends ExtendedAsyncTask<Void, Void, Void>
-    {
-        private Account mAccount;
-        private String mIncomingPassword;
-        private String mOutgoingPassword;
-        private List<Account> mRemainingAccounts;
-        private Application mApplication;
+    private static class SetPasswordsAsyncTask extends ExtendedAsyncTask<Void, Void, Void> {
+        private final Account mAccount;
+        private final String mIncomingPassword;
+        private final String mOutgoingPassword;
+        private final List<Account> mRemainingAccounts;
+        private final Application mApplication;
 
         protected SetPasswordsAsyncTask(Activity activity, Account account,
-                String incomingPassword, String outgoingPassword, List<Account> remainingAccounts)
-        {
+                String incomingPassword, String outgoingPassword, List<Account> remainingAccounts) {
             super(activity);
             mAccount = account;
             mIncomingPassword = incomingPassword;
@@ -1005,8 +934,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
 
         @Override
-        protected void showProgressDialog()
-        {
+        protected void showProgressDialog() {
             String title = mActivity.getString(R.string.settings_import_activate_account_header);
             int passwordCount = (mOutgoingPassword == null) ? 1 : 2;
             String message = mActivity.getResources().getQuantityString(
@@ -1015,8 +943,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
 
         @Override
-        protected Void doInBackground(Void... params)
-        {
+        protected Void doInBackground(Void... params) {
             try {
                 if (mIncomingPassword != null) {
                     // Set incoming server password
@@ -1054,8 +981,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
 
         @Override
-        protected void onPostExecute(Void result)
-        {
+        protected void onPostExecute(Void result) {
             Accounts activity = (Accounts) mActivity;
 
             // Let the activity know that the background task is complete
@@ -1066,34 +992,29 @@ public class Accounts extends XMListActivity implements OnItemClickListener
 
             if (mRemainingAccounts.size() > 0) {
                 activity.promptForServerPasswords(mRemainingAccounts);
-            }
-            else {
+            } else {
                 System.exit(0);
             }
         }
     }
 
-    public void onClick(View view)
-    {
+    public void onClick(View view) {
         if (view.getId() == R.id.next) {
             onAddNewAccount();
         }
     }
 
-    private void onDeleteAccount(Account account)
-    {
+    private void onDeleteAccount(Account account) {
         mSelectedContextAccount = account;
         showDialog(DIALOG_REMOVE_ACCOUNT);
     }
 
-    private void onEditAccount(Account account)
-    {
+    private void onEditAccount(Account account) {
         AccountSettings.actionSettings(this, account);
     }
 
     @Override
-    public Dialog onCreateDialog(int id)
-    {
+    public Dialog onCreateDialog(int id) {
         // Android recreates our dialogs on configuration changes even when they have been
         // dismissed. Make sure we have all information necessary before creating a new dialog.
         switch (id) {
@@ -1172,8 +1093,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     }
 
     @Override
-    public void onPrepareDialog(int id, Dialog d)
-    {
+    public void onPrepareDialog(int id, Dialog d) {
         AlertDialog alert = (AlertDialog) d;
         switch (id) {
             case DIALOG_REMOVE_ACCOUNT: {
@@ -1196,8 +1116,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     }
 
     @Override
-    public boolean onContextItemSelected(android.view.MenuItem item)
-    {
+    public boolean onContextItemSelected(android.view.MenuItem item) {
         AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
         // sub-menus don't actually set the menuInfo, so the "advanced" submenu wouldn't work.
         if (menuInfo != null) {
@@ -1241,32 +1160,27 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         return true;
     }
 
-    private void onClear()
-    {
+    private void onClear() {
         showDialog(DIALOG_CLEAR_ACCOUNT);
     }
 
-    private void onRecreate()
-    {
+    private void onRecreate() {
         showDialog(DIALOG_RECREATE_ACCOUNT);
     }
 
-    private void onMove(final Account account, final boolean up)
-    {
+    private void onMove(final Account account, final boolean up) {
         MoveAccountAsyncTask asyncTask = new MoveAccountAsyncTask(this, account, up);
         setNonConfigurationInstance(asyncTask);
         asyncTask.execute();
     }
 
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-    {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         BaseAccount account = (BaseAccount) parent.getItemAtPosition(position);
         onOpenAccount(account);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_new_account:
                 onAddNewAccount();
@@ -1313,8 +1227,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
      *
      * @param activityClass the activity class
      */
-    protected void switchActivity(Class<?> activityClass)
-    {
+    protected void switchActivity(Class<?> activityClass) {
         Intent intent = new Intent(Accounts.this, About.class);
         startActivity(intent);
     }
@@ -1324,15 +1237,13 @@ public class Accounts extends XMListActivity implements OnItemClickListener
      *
      * @param activityClass the activity class
      */
-    protected void startActivity(Class<?> activityClass)
-    {
+    protected void startActivity(Class<?> activityClass) {
         Intent intent = new Intent(this, activityClass);
         startActivity(intent);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.accounts_option, menu);
         mRefreshMenuItem = menu.findItem(R.id.check_mail);
@@ -1349,8 +1260,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
-    {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.setHeaderTitle(R.string.accounts_context_menu_title);
 
@@ -1359,8 +1269,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
 
         if ((account instanceof Account) && !((Account) account).isEnabled()) {
             getMenuInflater().inflate(R.menu.disabled_accounts_context, menu);
-        }
-        else {
+        } else {
             getMenuInflater().inflate(R.menu.accounts_context, menu);
         }
 
@@ -1369,35 +1278,25 @@ public class Accounts extends XMListActivity implements OnItemClickListener
                 android.view.MenuItem item = menu.getItem(i);
                 item.setVisible(false);
             }
-        }
-        else {
+        } else {
             EnumSet<ACCOUNT_LOCATION> accountLocation = accountLocation(account);
             if (accountLocation.contains(ACCOUNT_LOCATION.TOP)) {
                 menu.findItem(R.id.move_up).setEnabled(false);
-            }
-            else {
+            } else {
                 menu.findItem(R.id.move_up).setEnabled(true);
             }
             if (accountLocation.contains(ACCOUNT_LOCATION.BOTTOM)) {
                 menu.findItem(R.id.move_down).setEnabled(false);
-            }
-            else {
+            } else {
                 menu.findItem(R.id.move_down).setEnabled(true);
             }
         }
     }
 
-    private void onImport()
-    {
+    private void onImport() {
         Intent intent;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            intent = new Intent();
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-        }
-        else {
-            // intent to choose a file via the system's file browser.
-            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        }
+        // intent to choose a file via the system's file browser.
+        intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 
         // Filter to only show results that can be "opened", such as a file (as opposed to a
         // list of contacts or timezones)
@@ -1410,15 +1309,13 @@ public class Accounts extends XMListActivity implements OnItemClickListener
 
         if (infos.size() > 0) {
             startActivityForResult(Intent.createChooser(intent, null), ACTIVITY_REQUEST_PICK_SETTINGS_FILE);
-        }
-        else {
+        } else {
             showDialog(DIALOG_NO_FILE_MANAGER);
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Timber.i("onActivityResult requestCode = %d, resultCode = %s, data = %s", requestCode, resultCode, data);
         if (resultCode != RESULT_OK)
             return;
@@ -1430,21 +1327,20 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             case ACTIVITY_REQUEST_PICK_SETTINGS_FILE:
                 onImport(data.getData());
                 break;
+
             case ACTIVITY_REQUEST_SAVE_SETTINGS_FILE:
                 onExport(data);
                 break;
         }
     }
 
-    private void onImport(Uri uri)
-    {
+    private void onImport(Uri uri) {
         ListImportContentsAsyncTask asyncTask = new ListImportContentsAsyncTask(this, uri);
         setNonConfigurationInstance(asyncTask);
         asyncTask.execute();
     }
 
-    private void showSimpleDialog(int headerRes, int messageRes, Object... args)
-    {
+    private void showSimpleDialog(int headerRes, int messageRes, Object... args) {
         SimpleDialog dialog = new SimpleDialog(headerRes, messageRes, args);
         dialog.show(this);
         setNonConfigurationInstance(dialog);
@@ -1453,29 +1349,25 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     /**
      * A simple dialog.
      */
-    private static class SimpleDialog implements NonConfigurationInstance
-    {
+    private static class SimpleDialog implements NonConfigurationInstance {
         private final int mHeaderRes;
         private final int mMessageRes;
         private Object[] mArguments;
         private Dialog mDialog;
 
-        SimpleDialog(int headerRes, int messageRes, Object... args)
-        {
+        SimpleDialog(int headerRes, int messageRes, Object... args) {
             this.mHeaderRes = headerRes;
             this.mMessageRes = messageRes;
             this.mArguments = args;
         }
 
         @Override
-        public void restore(Activity activity)
-        {
+        public void restore(Activity activity) {
             show((Accounts) activity);
         }
 
         @Override
-        public boolean retain()
-        {
+        public boolean retain() {
             if (mDialog != null) {
                 mDialog.dismiss();
                 mDialog = null;
@@ -1484,8 +1376,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             return false;
         }
 
-        public void show(final Accounts activity)
-        {
+        public void show(final Accounts activity) {
             final String message = generateMessage(activity);
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -1505,8 +1396,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
          * @param activity The {@code Activity} this dialog belongs to.
          * @return The message the dialog should display
          */
-        protected String generateMessage(Accounts activity)
-        {
+        protected String generateMessage(Accounts activity) {
             return activity.getString(mMessageRes, mArguments);
         }
 
@@ -1515,8 +1405,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
          *
          * @param activity The {@code Activity} this dialog belongs to.
          */
-        protected void okayAction(Accounts activity)
-        {
+        protected void okayAction(Accounts activity) {
             // Do nothing
         }
     }
@@ -1527,8 +1416,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
      * @param importResults The {@link ImportResults} instance returned by the {@link SettingsImporter}.
      * @param filename The name of the settings file that was imported.
      */
-    private void showAccountsImportedDialog(ImportResults importResults, String filename)
-    {
+    private void showAccountsImportedDialog(ImportResults importResults, String filename) {
         AccountsImportedDialog dialog = new AccountsImportedDialog(importResults, filename);
         dialog.show(this);
         setNonConfigurationInstance(dialog);
@@ -1537,21 +1425,18 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     /**
      * A dialog that displays how many accounts were successfully imported.
      */
-    private static class AccountsImportedDialog extends SimpleDialog
-    {
-        private ImportResults mImportResults;
-        private String mFilename;
+    private static class AccountsImportedDialog extends SimpleDialog {
+        private final ImportResults mImportResults;
+        private final String mFilename;
 
-        AccountsImportedDialog(ImportResults importResults, String filename)
-        {
+        AccountsImportedDialog(ImportResults importResults, String filename) {
             super(R.string.settings_import_success_header, R.string.settings_import_success);
             mImportResults = importResults;
             mFilename = filename;
         }
 
         @Override
-        protected String generateMessage(Accounts activity)
-        {
+        protected String generateMessage(Accounts activity) {
             StringBuilder result = new StringBuilder();
             for (AccountDescriptionPair account : mImportResults.importedAccounts) {
                 result.append(activity.getString(R.string.settings_import_account_imported_as,
@@ -1568,8 +1453,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
 
         @Override
-        protected void okayAction(Accounts activity)
-        {
+        protected void okayAction(Accounts activity) {
             Context context = activity.getApplicationContext();
             Preferences preferences = Preferences.getPreferences(context);
             List<Account> disabledAccounts = new ArrayList<>();
@@ -1581,8 +1465,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             }
             if (disabledAccounts.size() > 0) {
                 activity.promptForServerPasswords(disabledAccounts);
-            }
-            else {
+            } else {
                 activity.setNonConfigurationInstance(null);
             }
         }
@@ -1595,8 +1478,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
      * {@link SettingsImporter#getImportStreamContents(InputStream)}
      * @param uri The (content) URI of the settings file.
      */
-    private void showImportSelectionDialog(ImportContents importContents, Uri uri)
-    {
+    private void showImportSelectionDialog(ImportContents importContents, Uri uri) {
         ImportSelectionDialog dialog = new ImportSelectionDialog(importContents, uri);
         dialog.show(this);
         setNonConfigurationInstance(dialog);
@@ -1605,28 +1487,24 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     /**
      * A dialog that lets the user select which accounts to import from the settings file.
      */
-    private static class ImportSelectionDialog implements NonConfigurationInstance
-    {
-        private ImportContents mImportContents;
-        private Uri mUri;
+    private static class ImportSelectionDialog implements NonConfigurationInstance {
+        private final ImportContents mImportContents;
+        private final Uri mUri;
         private AlertDialog mDialog;
         private SparseBooleanArray mSelection;
 
-        ImportSelectionDialog(ImportContents importContents, Uri uri)
-        {
+        ImportSelectionDialog(ImportContents importContents, Uri uri) {
             mImportContents = importContents;
             mUri = uri;
         }
 
         @Override
-        public void restore(Activity activity)
-        {
+        public void restore(Activity activity) {
             show((Accounts) activity, mSelection);
         }
 
         @Override
-        public boolean retain()
-        {
+        public boolean retain() {
             if (mDialog != null) {
                 // Save the selection state of each list item
                 mSelection = mDialog.getListView().getCheckedItemPositions();
@@ -1638,13 +1516,11 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             return false;
         }
 
-        public void show(Accounts activity)
-        {
+        public void show(Accounts activity) {
             show(activity, null);
         }
 
-        public void show(final Accounts activity, SparseBooleanArray selection)
-        {
+        public void show(final Accounts activity, SparseBooleanArray selection) {
             List<String> contents = new ArrayList<>();
 
             if (mImportContents.globalSettings) {
@@ -1661,8 +1537,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
                 for (int i = 0; i < count; i++) {
                     checkedItems[i] = selection.get(i);
                 }
-            }
-            else {
+            } else {
                 for (int i = 0; i < count; i++) {
                     checkedItems[i] = true;
                 }
@@ -1721,27 +1596,22 @@ public class Accounts extends XMListActivity implements OnItemClickListener
      * @param inst The {@link NonConfigurationInstance} that should be retained
      * when {@link Accounts#onRetainNonConfigurationInstance()} is called.
      */
-    private void setNonConfigurationInstance(NonConfigurationInstance inst)
-    {
+    private void setNonConfigurationInstance(NonConfigurationInstance inst) {
         mNonConfigurationInstance = inst;
     }
 
-    class AccountsAdapter extends ArrayAdapter<BaseAccount>
-    {
-        public AccountsAdapter(List<BaseAccount> accounts)
-        {
+    class AccountsAdapter extends ArrayAdapter<BaseAccount> {
+        public AccountsAdapter(List<BaseAccount> accounts) {
             super(Accounts.this, 0, accounts);
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
+        public View getView(int position, View convertView, ViewGroup parent) {
             final BaseAccount account = getItem(position);
             View view;
             if (convertView != null) {
                 view = convertView;
-            }
-            else {
+            } else {
                 view = getLayoutInflater().inflate(R.layout.accounts_item, parent, false);
             }
             AccountViewHolder holder = (AccountViewHolder) view.getTag();
@@ -1768,12 +1638,10 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             if (stats != null && account instanceof Account && stats.size >= 0) {
                 holder.email.setText(SizeFormatter.formatSize(Accounts.this, stats.size));
                 holder.email.setVisibility(View.VISIBLE);
-            }
-            else {
+            } else {
                 if (account.getEmail().equals(account.getDescription())) {
                     holder.email.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                     holder.email.setVisibility(View.VISIBLE);
                     holder.email.setText(account.getEmail());
                 }
@@ -1786,7 +1654,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
 
             holder.description.setText(description);
 
-            Integer unreadMessageCount = null;
+            int unreadMessageCount;
             if (stats != null) {
                 unreadMessageCount = stats.unreadMessageCount;
                 holder.newMessageCount.setText(String.format(Locale.US, "%d", unreadMessageCount));
@@ -1803,8 +1671,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
 
                 holder.activeIcons.setOnClickListener(v ->
                         Toast.makeText(getApplication(), getString(R.string.tap_hint), Toast.LENGTH_SHORT).show());
-            }
-            else {
+            } else {
                 holder.newMessageCountWrapper.setVisibility(View.GONE);
                 holder.flaggedMessageCountWrapper.setVisibility(View.GONE);
             }
@@ -1813,14 +1680,13 @@ public class Accounts extends XMListActivity implements OnItemClickListener
 
                 holder.chip.setBackgroundColor(realAccount.getChipColor());
 
-                holder.flaggedMessageCountIcon.setBackgroundDrawable(realAccount.generateColorChip(false, true).drawable());
-                holder.newMessageCountIcon.setBackgroundDrawable(realAccount.generateColorChip(false, false).drawable());
+                holder.flaggedMessageCountIcon.setBackground(realAccount.generateColorChip(false, true).drawable());
+                holder.newMessageCountIcon.setBackground(realAccount.generateColorChip(false, false).drawable());
 
-            }
-            else {
+            } else {
                 holder.chip.setBackgroundColor(0xff999999);
-                holder.newMessageCountIcon.setBackgroundDrawable(new ColorChip(0xff999999, false, ColorChip.CIRCULAR).drawable());
-                holder.flaggedMessageCountIcon.setBackgroundDrawable(new ColorChip(0xff999999, false, ColorChip.STAR).drawable());
+                holder.newMessageCountIcon.setBackground(new ColorChip(0xff999999, false, ColorChip.CIRCULAR).drawable());
+                holder.flaggedMessageCountIcon.setBackground(new ColorChip(0xff999999, false, ColorChip.STAR).drawable());
             }
 
             mFontSizes.setViewTextSize(holder.description, mFontSizes.getAccountName());
@@ -1828,24 +1694,21 @@ public class Accounts extends XMListActivity implements OnItemClickListener
 
             if (account instanceof SearchAccount) {
                 holder.folders.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 holder.folders.setVisibility(View.VISIBLE);
                 holder.folders.setOnClickListener(v -> FolderList.actionHandleAccount(Accounts.this, (Account) account));
             }
             return view;
         }
 
-        private OnClickListener createFlaggedSearchListener(BaseAccount account)
-        {
+        private OnClickListener createFlaggedSearchListener(BaseAccount account) {
             String searchTitle = getString(R.string.search_title, account.getDescription(),
                     getString(R.string.flagged_modifier));
             LocalSearch search;
             if (account instanceof SearchAccount) {
                 search = ((SearchAccount) account).getRelatedSearch().clone();
                 search.setName(searchTitle);
-            }
-            else {
+            } else {
                 search = new LocalSearch(searchTitle);
                 search.addAccountUuid(account.getUuid());
 
@@ -1857,14 +1720,12 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             return new AccountClickListener(search);
         }
 
-        private OnClickListener createUnreadSearchListener(BaseAccount account)
-        {
+        private OnClickListener createUnreadSearchListener(BaseAccount account) {
             LocalSearch search = createUnreadSearch(Accounts.this, account);
             return new AccountClickListener(search);
         }
 
-        class AccountViewHolder
-        {
+        class AccountViewHolder {
             public TextView description;
             public TextView email;
             public TextView newMessageCount;
@@ -1880,24 +1741,20 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
     }
 
-    private class AccountClickListener implements OnClickListener
-    {
+    private class AccountClickListener implements OnClickListener {
         final LocalSearch search;
 
-        AccountClickListener(LocalSearch search)
-        {
+        AccountClickListener(LocalSearch search) {
             this.search = search;
         }
 
         @Override
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
             MessageList.actionDisplaySearch(Accounts.this, search, true, false);
         }
     }
 
-    public void onExport(final boolean includeGlobals, final Account account)
-    {
+    public void onExport(final boolean includeGlobals, final Account account) {
         // TODO, prompt to allow a user to choose which accounts to export
         ArrayList<String> accountUuids = null;
         if (account != null) {
@@ -1905,29 +1762,22 @@ public class Accounts extends XMListActivity implements OnItemClickListener
             accountUuids.add(account.getUuid());
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            exportGlobalSettings = includeGlobals;
-            exportAccountUuids = accountUuids;
+        exportGlobalSettings = includeGlobals;
+        exportAccountUuids = accountUuids;
 
-            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-            intent.setType("application/octet-stream");
-            intent.putExtra(Intent.EXTRA_TITLE, SettingsExporter.generateDatedExportFileName());
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            startActivityForResult(intent, ACTIVITY_REQUEST_SAVE_SETTINGS_FILE);
-        }
-        else {
-            startExport(includeGlobals, accountUuids, null);
-        }
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.setType("application/octet-stream");
+        intent.putExtra(Intent.EXTRA_TITLE, SettingsExporter.generateDatedExportFileName());
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, ACTIVITY_REQUEST_SAVE_SETTINGS_FILE);
     }
 
-    public void onExport(Intent intent)
-    {
+    public void onExport(Intent intent) {
         Uri documentsUri = intent.getData();
         startExport(exportGlobalSettings, exportAccountUuids, documentsUri);
     }
 
-    private void startExport(boolean exportGlobalSettings, ArrayList<String> exportAccountUuids, Uri documentsUri)
-    {
+    private void startExport(boolean exportGlobalSettings, ArrayList<String> exportAccountUuids, Uri documentsUri) {
         ExportAsyncTask asyncTask = new ExportAsyncTask(this, exportGlobalSettings, exportAccountUuids, documentsUri);
         setNonConfigurationInstance(asyncTask);
         asyncTask.execute();
@@ -1936,15 +1786,13 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     /**
      * Handles exporting of global settings and/or accounts in a background thread.
      */
-    private static class ExportAsyncTask extends ExtendedAsyncTask<Void, Void, Boolean>
-    {
-        private boolean mIncludeGlobals;
+    private static class ExportAsyncTask extends ExtendedAsyncTask<Void, Void, Boolean> {
+        private final boolean mIncludeGlobals;
         private Set<String> mAccountUuids;
         private String mFileName;
-        private Uri mUri;
+        private final Uri mUri;
 
-        private ExportAsyncTask(Accounts activity, boolean includeGlobals, List<String> accountUuids, Uri uri)
-        {
+        private ExportAsyncTask(Accounts activity, boolean includeGlobals, List<String> accountUuids, Uri uri) {
             super(activity);
             mIncludeGlobals = includeGlobals;
             mUri = uri;
@@ -1954,21 +1802,18 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
 
         @Override
-        protected void showProgressDialog()
-        {
+        protected void showProgressDialog() {
             String title = mContext.getString(R.string.settings_export_dialog_title);
             String message = mContext.getString(R.string.settings_exporting);
             mProgressDialog = ProgressDialog.show(mActivity, title, message, true);
         }
 
         @Override
-        protected Boolean doInBackground(Void... params)
-        {
+        protected Boolean doInBackground(Void... params) {
             try {
                 if (mUri == null) {
                     mFileName = SettingsExporter.exportToFile(mContext, mIncludeGlobals, mAccountUuids);
-                }
-                else {
+                } else {
                     SettingsExporter.exportToUri(mContext, mIncludeGlobals, mAccountUuids, mUri);
                 }
             } catch (SettingsImportExportException e) {
@@ -1979,8 +1824,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
 
         @Override
-        protected void onPostExecute(Boolean success)
-        {
+        protected void onPostExecute(Boolean success) {
             Accounts activity = (Accounts) mActivity;
 
             // Let the activity know that the background task is complete
@@ -1991,13 +1835,11 @@ public class Accounts extends XMListActivity implements OnItemClickListener
                 if (mFileName != null) {
                     activity.showSimpleDialog(R.string.settings_export_success_header,
                             R.string.settings_export_success, mFileName);
-                }
-                else {
+                } else {
                     activity.showSimpleDialog(R.string.settings_export_success_header,
                             R.string.settings_export_success_generic);
                 }
-            }
-            else {
+            } else {
                 //TODO: better error messages
                 activity.showSimpleDialog(R.string.settings_export_failed_header,
                         R.string.settings_export_failure);
@@ -2008,17 +1850,15 @@ public class Accounts extends XMListActivity implements OnItemClickListener
     /**
      * Handles importing of global settings and/or accounts in a background thread.
      */
-    private static class ImportAsyncTask extends ExtendedAsyncTask<Void, Void, Boolean>
-    {
-        private boolean mIncludeGlobals;
-        private List<String> mAccountUuids;
-        private boolean mOverwrite;
-        private Uri mUri;
+    private static class ImportAsyncTask extends ExtendedAsyncTask<Void, Void, Boolean> {
+        private final boolean mIncludeGlobals;
+        private final List<String> mAccountUuids;
+        private final boolean mOverwrite;
+        private final Uri mUri;
         private ImportResults mImportResults;
 
         private ImportAsyncTask(Accounts activity, boolean includeGlobals,
-                List<String> accountUuids, boolean overwrite, Uri uri)
-        {
+                List<String> accountUuids, boolean overwrite, Uri uri) {
             super(activity);
             mIncludeGlobals = includeGlobals;
             mAccountUuids = accountUuids;
@@ -2027,16 +1867,14 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
 
         @Override
-        protected void showProgressDialog()
-        {
+        protected void showProgressDialog() {
             String title = mContext.getString(R.string.settings_import_dialog_title);
             String message = mContext.getString(R.string.settings_importing);
             mProgressDialog = ProgressDialog.show(mActivity, title, message, true);
         }
 
         @Override
-        protected Boolean doInBackground(Void... params)
-        {
+        protected Boolean doInBackground(Void... params) {
             try {
                 try (InputStream is = mContext.getContentResolver().openInputStream(mUri)) {
                     mImportResults
@@ -2056,8 +1894,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
 
         @Override
-        protected void onPostExecute(Boolean success)
-        {
+        protected void onPostExecute(Boolean success) {
             Accounts activity = (Accounts) mActivity;
 
             // Let the activity know that the background task is complete
@@ -2072,14 +1909,12 @@ public class Accounts extends XMListActivity implements OnItemClickListener
                 if (imported == 0) {
                     activity.showSimpleDialog(R.string.settings_import_success_header,
                             R.string.settings_import_global_settings_success, filename);
-                }
-                else {
+                } else {
                     activity.showAccountsImportedDialog(mImportResults, filename);
                 }
 
                 activity.refresh();
-            }
-            else {
+            } else {
                 // TODO: better error messages
                 activity.showSimpleDialog(R.string.settings_import_failed_header,
                         R.string.settings_import_failure, filename);
@@ -2087,28 +1922,24 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
     }
 
-    private static class ListImportContentsAsyncTask extends ExtendedAsyncTask<Void, Void, Boolean>
-    {
-        private Uri mUri;
+    private static class ListImportContentsAsyncTask extends ExtendedAsyncTask<Void, Void, Boolean> {
+        private final Uri mUri;
         private ImportContents mImportContents;
 
-        private ListImportContentsAsyncTask(Accounts activity, Uri uri)
-        {
+        private ListImportContentsAsyncTask(Accounts activity, Uri uri) {
             super(activity);
             mUri = uri;
         }
 
         @Override
-        protected void showProgressDialog()
-        {
+        protected void showProgressDialog() {
             String title = mContext.getString(R.string.settings_import_dialog_title);
             String message = mContext.getString(R.string.settings_import_scanning_file);
             mProgressDialog = ProgressDialog.show(mActivity, title, message, true);
         }
 
         @Override
-        protected Boolean doInBackground(Void... params)
-        {
+        protected Boolean doInBackground(Void... params) {
             try {
                 ContentResolver resolver = mContext.getContentResolver();
                 InputStream is = resolver.openInputStream(mUri);
@@ -2133,8 +1964,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
 
         @Override
-        protected void onPostExecute(Boolean success)
-        {
+        protected void onPostExecute(Boolean success) {
             Accounts activity = (Accounts) mActivity;
             // Let the activity know that the background task is complete
             activity.setNonConfigurationInstance(null);
@@ -2142,8 +1972,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
 
             if (success) {
                 activity.showImportSelectionDialog(mImportContents, mUri);
-            }
-            else {
+            } else {
                 String filename = mUri.getLastPathSegment();
                 // TODO: better error messages
                 activity.showSimpleDialog(R.string.settings_import_failed_header,
@@ -2152,35 +1981,30 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
     }
 
-    private static class MoveAccountAsyncTask extends ExtendedAsyncTask<Void, Void, Void>
-    {
-        private Account mAccount;
-        private boolean mUp;
+    private static class MoveAccountAsyncTask extends ExtendedAsyncTask<Void, Void, Void> {
+        private final Account mAccount;
+        private final boolean mUp;
 
-        protected MoveAccountAsyncTask(Activity activity, Account account, boolean up)
-        {
+        protected MoveAccountAsyncTask(Activity activity, Account account, boolean up) {
             super(activity);
             mAccount = account;
             mUp = up;
         }
 
         @Override
-        protected void showProgressDialog()
-        {
+        protected void showProgressDialog() {
             String message = mActivity.getString(R.string.manage_accounts_moving_message);
             mProgressDialog = ProgressDialog.show(mActivity, null, message, true);
         }
 
         @Override
-        protected Void doInBackground(Void... args)
-        {
+        protected Void doInBackground(Void... args) {
             mAccount.move(Preferences.getPreferences(mContext), mUp);
             return null;
         }
 
         @Override
-        protected void onPostExecute(Void arg)
-        {
+        protected void onPostExecute(Void arg) {
             Accounts activity = (Accounts) mActivity;
 
             // Let the activity know that the background task is complete
@@ -2191,8 +2015,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
     }
 
-    private static void exportDB()
-    {
+    private static void exportDB() {
         String database = "databases";
         String sharedPrefs = "shared_prefs";
 
@@ -2202,7 +2025,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         File appDBDir = new File(appRootDir, database);
         File appSPDir = new File(appRootDir, sharedPrefs);
 
-        File xmailDLDir = FileBackend.getxMailStore(FileBackend.EXPROT_DB);
+        File xmailDLDir = FileBackend.getxMailStore(FileBackend.EXPROT_DB, true);
         try {
             FileBackend.deleteRecursive(xmailDLDir);
             if (!xmailDLDir.mkdirs()) {
@@ -2220,14 +2043,12 @@ public class Accounts extends XMListActivity implements OnItemClickListener
         }
     }
 
-    public void openNotificationSettings()
-    {
+    public void openNotificationSettings() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
             intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
             startActivity(intent);
-        }
-        else {
+        } else {
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             intent.setData(Uri.parse("package:" + getPackageName()));
             startActivity(intent);

@@ -3,7 +3,10 @@ package org.atalk.xryptomail.search;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -64,21 +67,20 @@ public class LocalSearch implements SearchSpecification {
         this(name);
         mConditions = searchConditions;
         mPredefined = predefined;
-        mLeafSet = new HashSet<ConditionsTreeNode>();
+        mLeafSet = new HashSet<>();
         if (mConditions != null) {
             mLeafSet.addAll(mConditions.getLeafSet());
         }
 
         // initialize accounts
         if (accounts != null) {
-            for (String account : accounts.split(",")) {
-                mAccountUuids.add(account);
-            }
+            Collections.addAll(mAccountUuids, accounts.split(","));
         } else {
             // impossible but still not unrecoverable
         }
     }
 
+    @NonNull
     @Override
     public LocalSearch clone() {
         ConditionsTreeNode conditions = (mConditions == null) ? null : mConditions.cloneTree();
@@ -249,7 +251,7 @@ public class LocalSearch implements SearchSpecification {
      * real searches because of possible extra conditions to a folder requirement.
      */
     public List<String> getFolderNames() {
-        List<String> results = new ArrayList<String>();
+        List<String> results = new ArrayList<>();
         for (ConditionsTreeNode node : mLeafSet) {
             if (node.mCondition.field == SearchField.FOLDER &&
                     node.mCondition.attribute == Attribute.EQUALS) {
@@ -366,7 +368,7 @@ public class LocalSearch implements SearchSpecification {
         dest.writeString(mName);
         dest.writeByte((byte) (mPredefined ? 1 : 0));
         dest.writeByte((byte) (mManualSearch ? 1 : 0));
-        dest.writeStringList(new ArrayList<String>(mAccountUuids));
+        dest.writeStringList(new ArrayList<>(mAccountUuids));
         dest.writeParcelable(mConditions, flags);
     }
 

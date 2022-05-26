@@ -77,7 +77,7 @@ public class RecipientPresenter implements PermissionPingCallback {
     private final ComposePgpInlineDecider composePgpInlineDecider;
     private final AutocryptStatusInteractor autocryptStatusInteractor;
     private final RecipientsChangedListener listener;
-    private ReplyToParser replyToParser;
+    private final ReplyToParser replyToParser;
     private Account account;
     private String openPgpProvider;
     private Boolean hasContactPicker;
@@ -336,7 +336,7 @@ public class RecipientPresenter implements PermissionPingCallback {
         for (String addressStr : addresses) {
             Collections.addAll(result, Address.parseUnencoded(addressStr));
         }
-        return result.toArray(new Address[result.size()]);
+        return result.toArray(new Address[0]);
     }
 
     void onClickToLabel() {
@@ -511,7 +511,7 @@ public class RecipientPresenter implements PermissionPingCallback {
         new RecipientLoader(context, openPgpProvider, addresses) {
             @Override
             public void deliverResult(List<Recipient> result) {
-                Recipient[] recipientArray = result.toArray(new Recipient[result.size()]);
+                Recipient[] recipientArray = result.toArray(new Recipient[0]);
                 recipientMvpView.addRecipients(recipientType, recipientArray);
                 stopLoading();
                 abandon();

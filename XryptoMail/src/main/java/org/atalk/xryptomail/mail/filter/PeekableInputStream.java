@@ -1,6 +1,8 @@
 
 package org.atalk.xryptomail.mail.filter;
 
+import androidx.annotation.NonNull;
+
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,6 +60,7 @@ public class PeekableInputStream extends FilterInputStream {
         return read(buffer, 0, buffer.length);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return String.format(Locale.US, "PeekableInputStream(in=%s, peeked=%b, peekedByte=%d)",

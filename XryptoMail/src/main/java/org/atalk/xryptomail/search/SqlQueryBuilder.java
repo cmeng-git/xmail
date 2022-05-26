@@ -1,9 +1,6 @@
 package org.atalk.xryptomail.search;
 
-import timber.log.Timber;
-
 import org.atalk.xryptomail.Account;
-import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.mail.Folder;
 import org.atalk.xryptomail.mail.MessagingException;
 import org.atalk.xryptomail.mailstore.LocalFolder;
@@ -13,6 +10,8 @@ import org.atalk.xryptomail.search.SearchSpecification.SearchCondition;
 import org.atalk.xryptomail.search.SearchSpecification.SearchField;
 
 import java.util.List;
+
+import timber.log.Timber;
 
 public class SqlQueryBuilder {
     public static void buildWhereClause(Account account, ConditionsTreeNode node,
@@ -281,7 +280,7 @@ public class SqlQueryBuilder {
     public static String addPrefixToSelection(String[] columnNames, String prefix, String selection) {
         String result = selection;
         for (String columnName : columnNames) {
-            result = result.replaceAll("(?<=^|[^\\.])\\b" + columnName + "\\b", prefix + columnName);
+            result = result.replaceAll("(?<=^|[^.])\\b" + columnName + "\\b", prefix + columnName);
         }
         return result;
     }

@@ -36,7 +36,7 @@ public class ActivityListener extends SimpleMessagingListener
     @GuardedBy("lock")
     private String mProcessingCommandTitle = null;
 
-    private BroadcastReceiver mTickReceiver = new BroadcastReceiver()
+    private final BroadcastReceiver mTickReceiver = new BroadcastReceiver()
     {
         @Override
         public void onReceive(Context context, Intent intent)

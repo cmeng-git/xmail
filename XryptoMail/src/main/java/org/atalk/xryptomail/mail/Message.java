@@ -225,9 +225,7 @@ public abstract class Message implements Part, Body
             writeTo(eolOut);
             eolOut.flush();
             return out.getCount();
-        } catch (IOException e) {
-            Timber.e(e, "Failed to calculate a message size");
-        } catch (MessagingException e) {
+        } catch (IOException | MessagingException e) {
             Timber.e(e, "Failed to calculate a message size");
         }
         return 0;

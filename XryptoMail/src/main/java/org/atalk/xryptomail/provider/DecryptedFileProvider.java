@@ -1,6 +1,5 @@
 package org.atalk.xryptomail.provider;
 
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -43,17 +42,10 @@ public class DecryptedFileProvider extends FileProvider
     public static FileFactory getFileFactory(Context context)
     {
         final Context applicationContext = context.getApplicationContext();
-
-        return new FileFactory()
-        {
-            @Override
-            public File createFile()
-                    throws IOException
-            {
-                registerFileCleanupReceiver(applicationContext);
-                File decryptedTempDirectory = getDecryptedTempDirectory(applicationContext);
-                return File.createTempFile("decrypted-", null, decryptedTempDirectory);
-            }
+        return () -> {
+            registerFileCleanupReceiver(applicationContext);
+            File decryptedTempDirectory = getDecryptedTempDirectory(applicationContext);
+            return File.createTempFile("decrypted-", null, decryptedTempDirectory);
         };
     }
 
@@ -121,13 +113,13 @@ public class DecryptedFileProvider extends FileProvider
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs)
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs)
     {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ParcelFileDescriptor openFile(Uri uri, String mode)
+    public ParcelFileDescriptor openFile(@NonNull Uri uri, @NonNull String mode)
             throws FileNotFoundException
     {
         ParcelFileDescriptor pfd = super.openFile(uri, "r");

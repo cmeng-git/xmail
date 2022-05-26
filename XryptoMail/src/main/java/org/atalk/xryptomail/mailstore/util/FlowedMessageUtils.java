@@ -43,8 +43,8 @@ public final class FlowedMessageUtils {
      */
     public static String deflow(String text, boolean delSp) {
         String[] lines = text.split("\r\n|\n", -1);
-        StringBuffer result = null;
-        StringBuffer resultLine = new StringBuffer();
+        StringBuilder result = null;
+        StringBuilder resultLine = new StringBuilder();
         int resultLineQuoteDepth = 0;
         boolean resultLineFlowed = false;
         // One more cycle, to close the last line
@@ -83,10 +83,10 @@ public final class FlowedMessageUtils {
             if (!resultLineFlowed && i > 0) {
                 if (resultLineQuoteDepth > 0) resultLine.insert(0, RFC2646_SPACE);
                 for (int j = 0; j < resultLineQuoteDepth; j++) resultLine.insert(0, RFC2646_QUOTE);
-                if (result == null) result = new StringBuffer();
+                if (result == null) result = new StringBuilder();
                 else result.append(RFC2646_CRLF);
                 result.append(resultLine.toString());
-                resultLine = new StringBuffer();
+                resultLine = new StringBuilder();
                 resultLineFlowed = false;
             }
             resultLineQuoteDepth = actualQuoteDepth;

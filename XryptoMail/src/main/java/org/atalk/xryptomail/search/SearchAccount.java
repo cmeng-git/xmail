@@ -42,10 +42,10 @@ public class SearchAccount implements BaseAccount {
                 context.getString(R.string.integrated_inbox_detail));
     }
 
-    private String mId;
+    private final String mId;
     private String mEmail;
     private String mDescription;
-    private LocalSearch mSearch;
+    private final LocalSearch mSearch;
 
     public SearchAccount(String id, LocalSearch search, String description, String email)
             throws IllegalArgumentException {

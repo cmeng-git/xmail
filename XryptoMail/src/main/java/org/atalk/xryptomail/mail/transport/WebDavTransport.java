@@ -15,7 +15,7 @@ import timber.log.Timber;
 
 public class WebDavTransport extends Transport
 {
-    private WebDavStore store;
+    private final WebDavStore store;
 
     public WebDavTransport(StoreConfig storeConfig)
             throws MessagingException

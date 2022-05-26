@@ -446,7 +446,7 @@ public class MessageViewInfoExtractor
         if (date != null) {
             text.append(resourceProvider.getString(R.string.message_compose_quote_header_send_date));
             text.append(' ');
-            text.append(date.toString());
+            text.append(date);
             text.append("\r\n");
         }
 

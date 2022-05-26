@@ -1,6 +1,5 @@
 package org.atalk.xryptomail.mailstore;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.james.mime4j.MimeException;
 import org.apache.james.mime4j.io.EOLConvertingInputStream;
 import org.apache.james.mime4j.parser.ContentHandler;
@@ -8,6 +7,7 @@ import org.apache.james.mime4j.parser.MimeStreamParser;
 import org.apache.james.mime4j.stream.BodyDescriptor;
 import org.apache.james.mime4j.stream.Field;
 import org.apache.james.mime4j.stream.MimeConfig;
+import org.atalk.xryptomail.helper.FileBackend;
 import org.atalk.xryptomail.mail.Body;
 import org.atalk.xryptomail.mail.BodyPart;
 import org.atalk.xryptomail.mail.Message;
@@ -55,18 +55,15 @@ public class MimePartStreamParser
             FileFactory fileFactory) throws IOException
     {
         DeferredFileBody body = new DeferredFileBody(fileFactory, transferEncoding);
-        OutputStream outputStream = body.getOutputStream();
-        try {
-            IOUtils.copy(inputStream, outputStream);
-        } finally {
-            outputStream.close();
+        try (OutputStream outputStream = body.getOutputStream()) {
+            FileBackend.copy(inputStream, outputStream);
         }
         return body;
     }
 
     private static class PartBuilder implements ContentHandler
     {
-        private MimeStreamParser parser;
+        private final MimeStreamParser parser;
         private final FileFactory fileFactory;
         private final MimeBodyPart decryptedRootPart;
         private final Stack<Object> stack = new Stack<>();
@@ -163,7 +160,7 @@ public class MimePartStreamParser
         {
             expect(MimeMultipart.class);
             ByteArrayOutputStream preamble = new ByteArrayOutputStream();
-            IOUtils.copy(is, preamble);
+            FileBackend.copy(is, preamble);
             ((MimeMultipart) stack.peek()).setPreamble(preamble.toByteArray());
         }
 
@@ -172,7 +169,7 @@ public class MimePartStreamParser
         {
             expect(MimeMultipart.class);
             ByteArrayOutputStream epilogue = new ByteArrayOutputStream();
-            IOUtils.copy(is, epilogue);
+            FileBackend.copy(is, epilogue);
             ((MimeMultipart) stack.peek()).setEpilogue(epilogue.toByteArray());
         }
 

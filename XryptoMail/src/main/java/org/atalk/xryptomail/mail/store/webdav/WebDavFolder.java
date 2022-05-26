@@ -12,6 +12,7 @@ import timber.log.Timber;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static org.atalk.xryptomail.helper.UrlEncodingHelper.encodeUtf8;
@@ -22,12 +23,12 @@ import static org.atalk.xryptomail.mail.XryptoMailLib.DEBUG_PROTOCOL_WEBDAV;
  */
 class WebDavFolder extends Folder<WebDavMessage>
 {
-    private String mName;
+    private final String mName;
     private String mFolderUrl;
     private boolean mIsOpen = false;
     private int mMessageCount = 0;
     private int mUnreadMessageCount = 0;
-    private WebDavStore store;
+    private final WebDavStore store;
 
     protected WebDavStore getStore()
     {
@@ -422,7 +423,7 @@ class WebDavFolder extends Folder<WebDavMessage>
                             IOUtils.closeQuietly(istream);
 
                             resultText = buffer.toString();
-                            istream = new ByteArrayInputStream(resultText.getBytes("UTF-8"));
+                            istream = new ByteArrayInputStream(resultText.getBytes(StandardCharsets.UTF_8));
                         }
                         //Parse either the entire message stream, or a stream of the given lines
                         wdMessage.parse(istream);

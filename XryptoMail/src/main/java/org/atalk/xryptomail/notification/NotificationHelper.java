@@ -138,7 +138,6 @@ public class NotificationHelper extends ContextWrapper
      * @param id The ID of the notification
      * @param notification The notification object
      */
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void notify(int id, Notification.Builder notification)
     {
         getManager().notify(id, notification.build());

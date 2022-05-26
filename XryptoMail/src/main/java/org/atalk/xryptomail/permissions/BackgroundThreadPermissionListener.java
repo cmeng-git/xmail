@@ -29,8 +29,7 @@ import com.karumi.dexter.listener.PermissionRequest;
  */
 public class BackgroundThreadPermissionListener extends AppPermissionListener
 {
-
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     public BackgroundThreadPermissionListener(PermissionsActivity activity)
     {

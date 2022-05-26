@@ -2,6 +2,8 @@ package org.atalk.xryptomail.activity.setup;
 
 import android.content.res.Resources;
 
+import androidx.annotation.NonNull;
+
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.mail.AuthType;
 
@@ -19,6 +21,7 @@ public class AuthTypeHolder {
         this.insecure = insecure;
     }
 
+    @NonNull
     @Override
     public String toString() {
         final int resourceId = resourceId();

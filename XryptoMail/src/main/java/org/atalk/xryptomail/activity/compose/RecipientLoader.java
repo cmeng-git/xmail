@@ -90,18 +90,15 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>>
     private static final int CRYPTO_PROVIDER_STATUS_UNTRUSTED = 1;
     private static final int CRYPTO_PROVIDER_STATUS_TRUSTED = 2;
 
-    private static final Comparator<Recipient> RECIPIENT_COMPARATOR = new Comparator<Recipient>() {
-        @Override
-        public int compare(Recipient lhs, Recipient rhs) {
-            int timesContactedDiff = rhs.timesContacted - lhs.timesContacted;
-            if (timesContactedDiff != 0) {
-                return timesContactedDiff;
-            }
-            if (lhs.sortKey == null || rhs.sortKey == null) {
-                return 0;
-            }
-            return lhs.sortKey.compareTo(rhs.sortKey);
+    private static final Comparator<Recipient> RECIPIENT_COMPARATOR = (lhs, rhs) -> {
+        int timesContactedDiff = rhs.timesContacted - lhs.timesContacted;
+        if (timesContactedDiff != 0) {
+            return timesContactedDiff;
         }
+        if (lhs.sortKey == null || rhs.sortKey == null) {
+            return 0;
+        }
+        return lhs.sortKey.compareTo(rhs.sortKey);
     };
 
     private final String query;
@@ -367,7 +364,7 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>>
             return recipients;
         }
 
-        fillContactDataFromCursor(cursor, recipients, new HashMap<String, Recipient>(), null, maxRecipients);
+        fillContactDataFromCursor(cursor, recipients, new HashMap<>(), null, maxRecipients);
 
         return recipients;
     }
@@ -458,7 +455,7 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>>
 
     private void fillCryptoStatusData(Map<String, Recipient> recipientMap) {
         List<String> recipientList = new ArrayList<>(recipientMap.keySet());
-        String[] recipientAddresses = recipientList.toArray(new String[recipientList.size()]);
+        String[] recipientAddresses = recipientList.toArray(new String[0]);
 
         Cursor cursor;
         Uri queryUri = Uri.parse("content://" + cryptoProvider + ".provider.exported/autocrypt_status");
@@ -480,7 +477,7 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>>
             int uidStatus = cursor.getInt(INDEX_EMAIL_STATUS);
             int autocryptStatus = cursor.getInt(INDEX_AUTOCRYPT_STATUS);
 
-            int effectiveStatus = uidStatus > autocryptStatus ? uidStatus : autocryptStatus;
+            int effectiveStatus = Math.max(uidStatus, autocryptStatus);
 
             for (Address address : Address.parseUnencoded(email)) {
                 String emailAddress = address.getAddress();

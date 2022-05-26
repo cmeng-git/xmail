@@ -1,6 +1,6 @@
 package org.atalk.xryptomail.mailstore;
 
-import org.apache.commons.io.IOUtils;
+import org.atalk.xryptomail.helper.FileBackend;
 import org.atalk.xryptomail.mail.Body;
 import org.atalk.xryptomail.mail.MessagingException;
 import org.atalk.xryptomail.mail.internet.RawDataBody;
@@ -39,11 +39,8 @@ public class FileBackedBody implements Body, SizeAware, RawDataBody {
 
     @Override
     public void writeTo(OutputStream out) throws IOException, MessagingException {
-        InputStream in = getInputStream();
-        try {
-            IOUtils.copy(in, out);
-        } finally {
-            in.close();
+        try (InputStream in = getInputStream()) {
+            FileBackend.copy(in, out);
         }
     }
 

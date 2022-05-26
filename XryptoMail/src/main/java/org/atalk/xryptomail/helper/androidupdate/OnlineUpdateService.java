@@ -1,6 +1,6 @@
 /*
  * XryptoMail, android mail client
- * Copyright 2011 Eng Chong Meng
+ * Copyright 2011-2022 Eng Chong Meng
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,13 @@
 
 package org.atalk.xryptomail.helper.androidupdate;
 
-import android.app.*;
-import android.content.*;
+import android.app.AlarmManager;
+import android.app.IntentService;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
@@ -32,8 +37,7 @@ import java.util.Calendar;
  *
  * @author Eng Chong Meng
  */
-public class OnlineUpdateService extends IntentService
-{
+public class OnlineUpdateService extends IntentService {
     public static final String ACTION_AUTO_UPDATE_APP = "org.atalk.android.ACTION_AUTO_UPDATE_APP";
     public static final String ACTION_AUTO_UPDATE_START = "org.atalk.android.ACTION_AUTO_UPDATE_START";
     public static final String ACTION_AUTO_UPDATE_STOP = "org.atalk.android.ACTION_AUTO_UPDATE_STOP";
@@ -49,21 +53,18 @@ public class OnlineUpdateService extends IntentService
 
     private NotificationManager mNotificationMgr;
 
-    public OnlineUpdateService()
-    {
+    public OnlineUpdateService() {
         super(ONLINE_UPDATE_SERVICE);
     }
 
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         super.onCreate();
         mNotificationMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     }
 
     @Override
-    protected void onHandleIntent(Intent intent)
-    {
+    protected void onHandleIntent(Intent intent) {
         if (intent != null) {
             String action = intent.getAction();
             if (action != null) {
@@ -85,8 +86,7 @@ public class OnlineUpdateService extends IntentService
         }
     }
 
-    private void checkAppUpdate()
-    {
+    private void checkAppUpdate() {
         UpdateService updateService = UpdateService.getInstance();
         boolean isLatest = updateService.isLatestVersion();
 
@@ -104,19 +104,22 @@ public class OnlineUpdateService extends IntentService
 
             Intent intent = new Intent(this.getApplicationContext(), OnlineUpdateService.class);
             intent.setAction(ACTION_UPDATE_AVAILABLE);
-            PendingIntent pending = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pending = PendingIntent.getService(this, 0, intent,
+                    Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT
+                            : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
             nBuilder.setContentIntent(pending);
             mNotificationMgr.notify(UPDATE_AVAIL_TAG, UPDATE_AVAIL_NOTIFY_ID, nBuilder.build());
         }
         setNextAlarm(CHECK_NEW_VERSION_INTERVAL);
     }
 
-    private void setNextAlarm(int nextAlarmTime)
-    {
+    private void setNextAlarm(int nextAlarmTime) {
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this.getApplicationContext(), OnlineUpdateService.class);
         intent.setAction(ACTION_AUTO_UPDATE_APP);
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent,
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
         cal.add(Calendar.SECOND, nextAlarmTime);
@@ -124,12 +127,13 @@ public class OnlineUpdateService extends IntentService
         alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
     }
 
-    private void stopAlarm()
-    {
+    private void stopAlarm() {
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this.getApplicationContext(), OnlineUpdateService.class);
         intent.setAction(ACTION_AUTO_UPDATE_APP);
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent,
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.cancel(pendingIntent);
     }
 }

@@ -1,5 +1,7 @@
 package org.atalk.xryptomail.mail.store.imap;
 
+import androidx.annotation.NonNull;
+
 /**
  * Represents a single response from the IMAP server.
  *
@@ -52,6 +54,7 @@ class ImapResponse extends ImapList {
         this.callback = callback;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "#" + (commandContinuationRequested ? "+" : tag) + "# " + super.toString();

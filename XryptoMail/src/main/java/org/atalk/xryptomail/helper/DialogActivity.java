@@ -21,6 +21,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -99,7 +100,7 @@ public class DialogActivity extends FragmentActivity
     /**
      * Static map holds listeners for currently displayed dialogs.
      */
-    private static Map<Long, DialogListener> listenersMap = new HashMap<>();
+    private static final Map<Long, DialogListener> listenersMap = new HashMap<>();
 
     /**
      * Static list holds existing dialog instances (since onCreate() until onDestroy()). Only
@@ -122,7 +123,7 @@ public class DialogActivity extends FragmentActivity
      */
     private boolean confirmed;
 
-    private static LocalBroadcastManager localBroadcastManager
+    private static final LocalBroadcastManager localBroadcastManager
             = LocalBroadcastManager.getInstance(XryptoMail.getGlobalContext());
 
     /**
@@ -134,13 +135,13 @@ public class DialogActivity extends FragmentActivity
      * Name of the action which can be used to close dialog with given id supplied in
      * {@link #EXTRA_DIALOG_ID}.
      */
-    public static final String ACTION_CLOSE_DIALOG = "org.atalk.gui.close_dialog";
+    public static final String ACTION_CLOSE_DIALOG = "org.xmail.gui.close_dialog";
 
     /**
      * Name of the action which can be used to focus dialog with given id supplied in
      * {@link #EXTRA_DIALOG_ID}.
      */
-    public static final String ACTION_FOCUS_DIALOG = "org.atalk.gui.focus_dialog";
+    public static final String ACTION_FOCUS_DIALOG = "org.xmail.gui.focus_dialog";
 
     private boolean cancelable;
     private View mContent;
@@ -169,7 +170,7 @@ public class DialogActivity extends FragmentActivity
             if (savedInstanceState == null) {
                 try {
                     // Instantiate content fragment
-                    Class contentClass = Class.forName(contentFragment);
+                    Class<?> contentClass = Class.forName(contentFragment);
                     Fragment fragment = (Fragment) contentClass.newInstance();
 
                     // Set fragment arguments
@@ -252,7 +253,6 @@ public class DialogActivity extends FragmentActivity
      *
      * @param v the confirm button view.
      */
-    @SuppressWarnings("unused")
     public void onOkClicked(View v)
     {
         if (listener != null) {
@@ -269,7 +269,6 @@ public class DialogActivity extends FragmentActivity
      *
      * @param v the cancel button view.
      */
-    @SuppressWarnings("unused")
     public void onCancelClicked(View v)
     {
         finish();
@@ -370,19 +369,6 @@ public class DialogActivity extends FragmentActivity
     }
 
     /**
-     * Show simple alert that will be disposed when user presses OK button.
-     *
-     * @param ctx Android context.
-     * @param title the dialog title that will be used.
-     * @param message the dialog message that will be used.
-     */
-    public static void showDialog(Context ctx, String title, String message)
-    {
-        Intent alert = getDialogIntent(ctx, title, message);
-        ctx.startActivity(alert);
-    }
-
-    /**
      * Creates an <tt>Intent</tt> that will display a dialog with given <tt>title</tt> and content <tt>message</tt>.
      *
      * @param ctx Android context.
@@ -397,6 +383,34 @@ public class DialogActivity extends FragmentActivity
         alert.putExtra(EXTRA_MESSAGE, message);
         alert.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return alert;
+    }
+
+    /**
+     * Show simple alert that will be disposed when user presses OK button.
+     *
+     * @param ctx Android context.
+     * @param title the dialog title that will be used.
+     * @param message the dialog message that will be used.
+     */
+    public static void showDialog(Context ctx, String title, String message)
+    {
+        Intent alert = getDialogIntent(ctx, title, message);
+        ctx.startActivity(alert);
+    }
+
+    /**
+     * Shows a dialog for the given context and a title given by <tt>titleId</tt> and
+     * message given by <tt>messageId</tt> with its optional arg.
+     *
+     * @param ctx the android <tt>Context</tt>
+     * @param titleId the title identifier in the resources
+     * @param messageId the message identifier in the resources
+     * @param arg optional arg for the message expansion.
+     */
+    public static void showDialog(Context ctx, int titleId, int messageId, Object... arg)
+    {
+        Intent alert = getDialogIntent(ctx, ctx.getString(titleId), ctx.getString(messageId, arg));
+        ctx.startActivity(alert);
     }
 
     /**
@@ -425,6 +439,24 @@ public class DialogActivity extends FragmentActivity
 
         alert.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(alert);
+    }
+
+    /**
+     * Shows confirm dialog allowing to handle confirm action using supplied <tt>listener</tt>.
+     *
+     * @param context the android context.
+     * @param title dialog title Res that will be used
+     * @param message the message identifier in the resources
+     * @param confirmTxt confirm button label Res.
+     * @param listener the <tt>DialogInterface.DialogListener</tt> to attach to the confirm button
+     * @param arg optional arg for the message resource arg.
+     */
+    public static void showConfirmDialog(Context context, int title, int message,
+            int confirmTxt, DialogListener listener, Object... arg)
+    {
+        Resources res = XryptoMail.getAppResources();
+        showConfirmDialog(context, res.getString(title), res.getString(message, arg),
+                res.getString(confirmTxt), listener);
     }
 
     /**

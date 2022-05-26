@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Permite acestei aplicații să controleze activitățile și setările XryptoMail Mail.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%s</xliff:g> The XryptoMail. Anumite porțiuni Copyright 2006-<xliff:g>%s</xliff:g> Proiectul Open Source Android.</string>
+  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Anumite porțiuni Copyright 2006-<xliff:g>%2$s</xliff:g> Proiectul Open Source Android.</string>
   <string name="app_license">Licențiat sub licența Apache, versiunea 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Bun venit la XryptoMail Mail</string>
@@ -46,25 +46,25 @@ Vă rugăm să ne raportați defecte, să contribuiți cu funcționalități noi
   <!--Default signature-->
   <string name="default_signature">-- \nTrimis de pe dispozitiv Android cu XryptoMail Mail. Rog scuzați mesajul scurt.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">Contul \"<xliff:g id="account">%s</xliff:g>\" va fi șters din XryptoMail Mail.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Toate datele locale pentru \"<xliff:g id="account">%s</xliff:g>\" vor fi șterse. Preferințele contului vor fi păstrate.</string>
-  <string name="account_clear_dlg_instructions_fmt">Copiile locale ale mesajelor din \"<xliff:g id="account">%s</xliff:g>\" vor fi șterse. Preferințele contului vor fi păstrate.</string>
+  <string name="account_delete_dlg_instructions_fmt">Contul \"<xliff:g id="account">%1$s</xliff:g>\" va fi șters din XryptoMail Mail.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Toate datele locale pentru \"<xliff:g id="account">%1$s</xliff:g>\" vor fi șterse. Preferințele contului vor fi păstrate.</string>
+  <string name="account_clear_dlg_instructions_fmt">Copiile locale ale mesajelor din \"<xliff:g id="account">%1$s</xliff:g>\" vor fi șterse. Preferințele contului vor fi păstrate.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Vă rugăm să instalați un manager de fișiere pentru a continua cu acest import.</string>
   <string name="open_market">Deschide magazinul Play</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Autori: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Informații despre versiune: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Folosim următoarele biblioteci externe: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Autori: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Informații despre versiune: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Folosim următoarele biblioteci externe: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Citire emailuri</string>
   <string name="read_messages_desc">Permiteți acestei aplicații să vă citească emailurile.</string>
   <string name="delete_messages_label">Ștergere emailuri</string>
   <string name="delete_messages_desc">Permiteți acestei aplicații să vă șteargă emailurile.</string>
-  <string name="about_title_fmt">Despre <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">Despre <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Conturi</string>
   <string name="folders_title">Dosare</string>
   <string name="advanced">Avansat</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Scrieți</string>
   <string name="compose_title_reply">Răspundeți</string>
   <string name="compose_title_reply_all">Răspundeți tuturor</string>
@@ -72,18 +72,18 @@ Vă rugăm să ne raportați defecte, să contribuiți cu funcționalități noi
   <string name="compose_title_forward_as_attachment">Trimite atașat</string>
   <string name="choose_account_title">Alege contul</string>
   <string name="choose_folder_title">Alegeți dosar</string>
-  <string name="status_loading_account_folder">Interogare <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Se obțin antetele <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Se trimite <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Proc <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Următoarea interogare <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Interogare <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Se obțin antetele <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Se trimite <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Proc <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Următoarea interogare <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Sincronizare dezactivată - Fără rețea</string>
   <string name="status_no_background">Sincronizare dezactivată - Fără activitate în fundal</string>
   <string name="status_poll_and_push_disabled">Sincronizare dezactivată</string>
   <string name="status_syncing_blocked">Sincronizare blocată</string>
   <string name="status_syncing_off">Sincronizare dezactivată</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> selectate</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> selectate</string>
   <string name="next_action">Înainte</string>
   <string name="previous_action">Înapoi</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -158,22 +158,22 @@ Vă rugăm să ne raportați defecte, să contribuiți cu funcționalități noi
   <string name="status_loading_error">Eroare la încărcarea mesajului</string>
   <string name="status_loading_more_failed">Reîncearcă încărcarea de mesaje</string>
   <string name="load_more_messages_fmt">Încarcă
-cel mult încă <xliff:g id="messages_to_load">%d</xliff:g></string>
+cel mult încă <xliff:g id="messages_to_load">%1$d</xliff:g></string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Contul \"<xliff:g id="account">%s</xliff:g>\" a fost redus de la <xliff:g id="oldSize">%s</xliff:g> la <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Se compactează \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">Se curăță contul \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Se recreează contul \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="account_size_changed">Contul \"<xliff:g id="account">%1$s</xliff:g>\" a fost redus de la <xliff:g id="oldSize">%2$s</xliff:g> la <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Se compactează \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">Se curăță contul \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Se recreează contul \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="notification_new_title">Email nou</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> mesaj nou</item>
-    <item quantity="few"><xliff:g id="new_message_count">%d</xliff:g> mesaje noi</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> mesaje noi</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> mesaj nou</item>
+    <item quantity="few"><xliff:g id="new_message_count">%1$d</xliff:g> mesaje noi</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> mesaje noi</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> necitite (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> necitite (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> mai multe <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Răspunde</string>
   <string name="notification_action_mark_as_read">Marchează ca citit</string>
@@ -183,13 +183,13 @@ cel mult încă <xliff:g id="messages_to_load">%d</xliff:g></string>
   <string name="notification_action_archive">Arhivă</string>
   <string name="notification_action_archive_all">Arhivează tot</string>
   <string name="notification_action_spam">Spam</string>
-  <string name="notification_certificate_error_title">Eroare de certificat pentru <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Eroare de certificat pentru <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Verificați setările serverului</string>
   <string name="notification_authentication_error_title">Autentificarea a eșuat</string>
-  <string name="notification_authentication_error_text">Authentificare eșuată pentru <xliff:g id="account">%s</xliff:g>. Actualizați setările serverului.</string>
-  <string name="notification_bg_sync_ticker">Se verifică emailul: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Authentificare eșuată pentru <xliff:g id="account">%1$s</xliff:g>. Actualizați setările serverului.</string>
+  <string name="notification_bg_sync_ticker">Se verifică emailul: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Se verifică emailul</string>
-  <string name="notification_bg_send_ticker">Se trimite emailul: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Se trimite emailul: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Se trimite emailul</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Mesaje primite</string>
@@ -199,19 +199,19 @@ cel mult încă <xliff:g id="messages_to_load">%d</xliff:g></string>
   <string name="special_mailbox_name_sent">Trimise</string>
   <string name="special_mailbox_name_archive">Arhivă</string>
   <string name="special_mailbox_name_spam">Spam</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Salvate)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Gunoi)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Trimise)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Arhivă)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Spam)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Salvate)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Gunoi)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Trimise)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Arhivă)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Spam)</string>
   <string name="send_failure_subject">Nu a reușit să trimită niște mesaje</string>
-  <string name="debug_version_fmt">Versiune: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Versiune: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Activați jurnalul depanării</string>
   <string name="debug_enable_debug_logging_summary">Jurnal informații suplimentare diagnostic</string>
   <string name="debug_enable_sensitive_logging_title">Jurnal informații sensibile</string>
   <string name="debug_enable_sensitive_logging_summary">Poate include parole în jurnal.</string>
   <string name="message_list_load_more_messages_action">Încarcă mai multe mesaje</string>
-  <string name="message_to_fmt">Către:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">Către:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Subiect</string>
   <string name="message_compose_content_hint">Text mesaj</string>
   <string name="message_compose_signature_hint">Semnatură</string>
@@ -221,7 +221,7 @@ cel mult încă <xliff:g id="messages_to_load">%d</xliff:g></string>
   <string name="message_compose_quote_header_from">De la:</string>
   <string name="message_compose_quote_header_to">La:</string>
   <string name="message_compose_quote_header_cc">Cc</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> a scris:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> a scris:</string>
   <string name="message_compose_reply_header_fmt_with_date">În <xliff:g id="sent_date">%1$s</xliff:g>, <xliff:g id="sender">%2$s</xliff:g> a scris:</string>
   <string name="message_compose_error_no_recipients">Trebuie să adăugați cel puțin un destinatar.</string>
   <string name="compose_error_incomplete_recipient">Câmpul Destinatar conține date incomplete!</string>
@@ -230,7 +230,7 @@ cel mult încă <xliff:g id="messages_to_load">%d</xliff:g></string>
   <string name="message_compose_attachments_forward_toast">Mesajul nu poate fi redirecționat pentru că unele documente atașate nu au fost descărcate</string>
   <string name="message_compose_description_delete_quoted_text">Eliminați textul citat</string>
   <string name="message_compose_description_edit_quoted_text">Editați textul citat</string>
-  <string name="message_view_from_format">De la: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">De la: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">La:</string>
   <string name="message_view_cc_label">Cc:</string>
   <string name="message_view_bcc_label">Bcc:</string>
@@ -239,7 +239,7 @@ cel mult încă <xliff:g id="messages_to_load">%d</xliff:g></string>
   <string name="message_view_status_attachment_not_saved">Nu se poate salva anexa pe cardul SD.</string>
   <string name="message_view_status_no_space">Anexa nu a putut fi salvată din cauza lipsei de spațiu.</string>
   <string name="message_view_show_pictures_action">Arată pozele</string>
-  <string name="message_view_no_viewer">Imposibil de a găsi vizualizator pentru <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Imposibil de a găsi vizualizator pentru <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Descarcă mesaj complet</string>
   <string name="message_view_toast_unable_to_display_message">Nu se poate afișa mesajul</string>
   <string name="message_view_sender_label">via %1$s</string>
@@ -247,7 +247,7 @@ cel mult încă <xliff:g id="messages_to_load">%d</xliff:g></string>
   <string name="message_no_additional_headers_available">Toate antetele au fost descărcate, dar nu există antete suplimentare pentru a arăta.</string>
   <string name="message_additional_headers_retrieval_failed">Recuperarea antete suplimentare de la serverul de baze de date sau e-mail nu a reușit.</string>
   <string name="from_same_sender">Mai multe de la acest expeditor</string>
-  <string name="search_from_format">De la <xliff:g id="sender">%s</xliff:g></string>
+  <string name="search_from_format">De la <xliff:g id="sender">%1$s</xliff:g></string>
   <string name="debug_delete_local_body">Depanează / Șterge corpul mesajului</string>
   <string name="message_discarded_toast">Mesaj aruncat</string>
   <string name="message_saved_toast">Mesaj salvat ca ciornă</string>
@@ -386,7 +386,7 @@ cel mult încă <xliff:g id="messages_to_load">%d</xliff:g></string>
   <string name="account_setup_outgoing_password_label">Parola</string>
   <string name="account_setup_outgoing_authentication_label">Autentificare</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" nu este valabil cu \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g></string>
-  <string name="account_setup_bad_uri">Configurare greşită : <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Configurare greşită : <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Opţiuni cont</string>
   <string name="compact_action">Cont compact</string>
   <string name="clear_action">Curăţă mesajele (pericol!)</string>
@@ -433,11 +433,11 @@ cel mult încă <xliff:g id="messages_to_load">%d</xliff:g></string>
   <string name="account_setup_options_mail_display_count_all">toate mesajele</string>
   <string name="move_copy_cannot_copy_unsynced_message">Nu se poate copia sau muta un mesaj care nu e sincronizat cu serverul</string>
   <string name="account_setup_failed_dlg_title">Setarea nu s-a putut finaliza</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Utilizator sau parolă incorecte.(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Utilizator sau parolă incorecte.(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_certificate_message_fmt">Serverul a prezentat un certificat SSL invalid.
 Uneori acest lucru se întâmplă din cauza unei erori de configurare pe sever.
-Uneori datorită faptului că cineva încearcă să te atace pe tine sau serverul tău de mail. Dacă nu ești sigur ce se întâmplă, apasă Respinge și contactează-i pe cei care iți administrează serverul de mail.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Nu se poate contacta serverul.\n(<xliff:g id="error">%s</xliff:g>)</string>
+Uneori datorită faptului că cineva încearcă să te atace pe tine sau serverul tău de mail. Dacă nu ești sigur ce se întâmplă, apasă Respinge și contactează-i pe cei care iți administrează serverul de mail.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Nu se poate contacta serverul.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Modifică detalii</string>
   <string name="account_setup_failed_dlg_continue_action">Continuă</string>
   <string name="account_settings_push_advanced_title">Avansat</string>
@@ -717,7 +717,7 @@ Uneori datorită faptului că cineva încearcă să te atace pe tine sau serveru
   <string name="count_search_summary">Dezactivați pentru afișaj mai rapid</string>
   <string name="hide_special_accounts_title">Ascunde conturile speciale</string>
   <string name="hide_special_accounts_summary">Ascunde Căsuța poștală unificată și toate conturile de mesaje</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier">- Cu stea</string>
   <string name="unread_modifier"> - Necitite</string>
   <string name="search_all_messages_title">Toate mesajele</string>
@@ -753,7 +753,7 @@ Uneori datorită faptului că cineva încearcă să te atace pe tine sau serveru
   <string name="font_size_message_view_subject">Subiect</string>
   <string name="font_size_message_view_date">Timp și dată</string>
   <string name="font_size_message_view_content">Conținut mesaj</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Compunere mesaj</string>
   <string name="font_size_message_compose_input">Câmpuri introducere text</string>
@@ -767,7 +767,7 @@ Uneori datorită faptului că cineva încearcă să te atace pe tine sau serveru
   <string name="font_size_larger">Mai mare</string>
   <string name="miscellaneous_preferences">Diverse</string>
   <string name="error_activity_not_found">Nu s-a găsit o aplicație potrivită pentru această acțiune.</string>
-  <string name="send_failed_reason">Trimitere eșuată: %s</string>
+  <string name="send_failed_reason">Trimitere eșuată:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Salvați ca ciornă?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Salvați sau renunțați la mesaj?</string>
   <string name="confirm_discard_draft_message_title">Renunți la mesaj?</string>
@@ -809,31 +809,31 @@ Uneori datorită faptului că cineva încearcă să te atace pe tine sau serveru
   <string name="settings_exporting">Se exportă setările…</string>
   <string name="settings_importing">Se importă setările…</string>
   <string name="settings_import_scanning_file">Se scanează fișierul…</string>
-  <string name="settings_export_success">S-au salvat setările exportate în <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">S-au salvat setările exportate în <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Setările au fost exportate cu succes</string>
-  <string name="settings_import_global_settings_success">S-au importat setările globale din <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">S-a importat <xliff:g id="accounts">%s</xliff:g> din <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_account_imported_as">Importat <xliff:g id="original_account_name">%s</xliff:g> ca <xliff:g id="account_name_after_import">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">S-au importat setările globale din <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">S-a importat <xliff:g id="accounts">%1$s</xliff:g> din <xliff:g id="filename">%2$s</xliff:g></string>
+  <string name="settings_import_account_imported_as">Importat <xliff:g id="original_account_name">%1$s</xliff:g> ca <xliff:g id="account_name_after_import">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 cont</item>
-    <item quantity="few"><xliff:g id="numAccounts">%s</xliff:g> conturi</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> conturi</item>
+    <item quantity="few"><xliff:g id="numAccounts">%1$s</xliff:g> conturi</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> conturi</item>
   </plurals>
   <string name="settings_export_failure">Export setări eșuat</string>
-  <string name="settings_import_failure">Eșuare importare setări din <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Eșuare importare setări din <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Export reușit</string>
   <string name="settings_export_failed_header">Export eșuat</string>
   <string name="settings_import_success_header">Import reușit</string>
   <string name="settings_import_failed_header">Importare eșuată</string>
   <string name="settings_import_activate_account_header">Activează contul</string>
-  <string name="settings_import_activate_account_intro">Pentru a putea folosi contul \"<xliff:g id="account">%s</xliff:g>\" trebuie să specificați <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">Pentru a putea folosi contul \"<xliff:g id="account">%1$s</xliff:g>\" trebuie să specificați <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">parola serverului</item>
     <item quantity="few">parolele serverului</item>
     <item quantity="other">parolele serverului</item>
   </plurals>
-  <string name="settings_import_incoming_server">Server primire (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Server trimitere (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Server primire (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Server trimitere (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Setare parolă...</item>
     <item quantity="few">Setare parole...</item>
@@ -841,7 +841,7 @@ Uneori datorită faptului că cineva încearcă să te atace pe tine sau serveru
   </plurals>
   <string name="settings_import_use_incoming_server_password">Folosește parola serverului de primire</string>
   <string name="activate_account_action">Activează</string>
-  <string name="account_unavailable">Contul \"<xliff:g id="account">%s</xliff:g>\" este indisponibil ; verificați stocarea</string>
+  <string name="account_unavailable">Contul \"<xliff:g id="account">%1$s</xliff:g>\" este indisponibil ; verificați stocarea</string>
   <string name="settings_attachment_default_path">Salvează anexe în…</string>
   <string name="attachment_save_title">Salvează anexa</string>
   <string name="attachment_save_desc">Nu s-a găsit un explorator de fișiere. Unde doriți salvarea anexei?</string>
@@ -882,7 +882,7 @@ Uneori datorită faptului că cineva încearcă să te atace pe tine sau serveru
   <string name="webview_contextmenu_email_save_action">Salvează în Contacte</string>
   <string name="webview_contextmenu_email_copy_action">Copiază adresa în clipboard</string>
   <string name="webview_contextmenu_email_clipboard_label">Adresă email</string>
-  <string name="image_saved_as">Imagine salvată ca \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Imagine salvată ca \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">Salvare imagine eșuată.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Toate</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -893,12 +893,12 @@ Uneori datorită faptului că cineva încearcă să te atace pe tine sau serveru
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Limită căutare server</string>
-  <string name="account_settings_remote_search_num_summary">Căutarea se va opri după găsirea a <xliff:g id="num_results">%s</xliff:g> rezultate.</string>
+  <string name="account_settings_remote_search_num_summary">Căutarea se va opri după găsirea a <xliff:g id="num_results">%1$s</xliff:g> rezultate.</string>
   <string name="remote_search_sending_query">Se trimite cererea la server</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">Preluare %d rezultat</item>
-    <item quantity="few">Preluare %d rezultate</item>
-    <item quantity="other">Preluare %d rezultate</item>
+    <item quantity="one">Preluare%1$d rezultat</item>
+    <item quantity="few">Preluare%1$d rezultate</item>
+    <item quantity="other">Preluare%1$d rezultate</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="one">Preluare %1$d din %2$d rezultate</item>
@@ -919,7 +919,7 @@ Uneori datorită faptului că cineva încearcă să te atace pe tine sau serveru
   <string name="global_settings_threaded_view_summary">Grupează mesajele în conversații</string>
   <string name="upgrade_databases_title">Se actualizează bazele de date</string>
   <string name="upgrade_databases_unspecified">Se actualizează bazele de date…</string>
-  <string name="upgrade_database_format">Se actualizează baza de date a contului \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="upgrade_database_format">Se actualizează baza de date a contului \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="message_list_loading">Se încarcă…</string>
   <string name="global_settings_splitview_mode_label">Arată ecranul împărțit</string>
   <string name="global_settings_splitview_always">Întotdeauna</string>
@@ -928,9 +928,9 @@ Uneori datorită faptului că cineva încearcă să te atace pe tine sau serveru
   <string name="message_view_empty">Alegeți un mesaj din stânga</string>
   <string name="global_settings_show_contact_picture_label">Arată pozele contactelor</string>
   <string name="global_settings_show_contact_picture_summary">Arată pozele contactelor în lista de mesaje</string>
-  <string name="last_refresh_time_format">Verificat <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Verificat <xliff:g id="time_with_preposition">%s</xliff:g> (Push activ)</string>
-  <string name="preposition_for_date">la <xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Verificat <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Verificat <xliff:g id="time_with_preposition">%1$s</xliff:g> (Push activ)</string>
+  <string name="preposition_for_date">la <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Marchează toate ca citite</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Colorează pozele contactelor</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Colorează pozele contactelor lipsă</string>
@@ -945,7 +945,7 @@ Uneori datorită faptului că cineva încearcă să te atace pe tine sau serveru
   <string name="account_setup_basics_client_certificate">Folosește certificat client</string>
   <string name="client_certificate_spinner_empty">Fără certificat client</string>
   <string name="client_certificate_spinner_delete">Elimină selecția certificatului client</string>
-  <string name="client_certificate_retrieval_failure">Eșuare recuperare certificat client pentru aliasul \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">Eșuare recuperare certificat client pentru aliasul \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Opțiuni avansate</string>
   <string name="client_certificate_expired">Certificatul client \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" a expirat sau nu este încă valid (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

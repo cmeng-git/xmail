@@ -68,7 +68,7 @@ public class XMActivityCommon
         void setupGestureDetector(OnSwipeGestureListener listener);
     }
 
-    private Activity mActivity;
+    private final Activity mActivity;
     private GestureDetector mGestureDetector;
 
     private XMActivityCommon(Activity activity)

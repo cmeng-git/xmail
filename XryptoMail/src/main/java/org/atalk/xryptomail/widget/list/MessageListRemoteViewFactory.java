@@ -161,7 +161,7 @@ public class MessageListRemoteViewFactory implements RemoteViewsService.RemoteVi
     }
 
     private boolean toBoolean(String value) {
-        return Boolean.valueOf(value);
+        return Boolean.parseBoolean(value);
     }
 
     private class MailItem {

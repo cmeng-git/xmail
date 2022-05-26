@@ -19,29 +19,38 @@ package org.atalk.xryptomail.permissions;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.*;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.*;
-import com.karumi.dexter.listener.multi.*;
-import com.karumi.dexter.listener.single.*;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener;
+import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener;
+import com.karumi.dexter.listener.single.CompositePermissionListener;
+import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.XryptoMail;
@@ -51,14 +60,15 @@ import org.atalk.xryptomail.activity.Splash;
 import java.util.LinkedList;
 import java.util.List;
 
-import butterknife.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 /**
  * Sample activity showing the permission request process with Dexter.
  */
-public class PermissionsActivity extends FragmentActivity
-{
+public class PermissionsActivity extends FragmentActivity {
     private static final int REQUEST_BATTERY_OP = 100;
 
     @BindView(R.id.contacts_permission_feedback)
@@ -95,12 +105,9 @@ public class PermissionsActivity extends FragmentActivity
     // Flag indicates this the xMail first launch
     private static boolean permissionFirstRequest = true;
 
-    AlertDialog.Builder alertDialog;
-
     @TargetApi(Build.VERSION_CODES.M)
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Always request permission on first apk launch for android.M
@@ -127,34 +134,29 @@ public class PermissionsActivity extends FragmentActivity
             if ((!permissionRequest) && !showBatteryOptimizationDialog) {
                 startLauncher();
             }
-        }
-        else
+        } else
             startLauncher();
     }
 
-    private void startLauncher()
-    {
+    private void startLauncher() {
         Intent i = new Intent(this, Accounts.class);
         startActivity(i);
         finish();
     }
 
     @OnClick(R.id.button_done)
-    public void onDoneButtonClicked()
-    {
+    public void onDoneButtonClicked() {
         startLauncher();
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         super.onBackPressed();
         startLauncher();
     }
 
-    public void onAllPermissionsCheck()
-    {
-        Dexter.withActivity(this)
+    public void onAllPermissionsCheck() {
+        Dexter.withContext(this)
                 .withPermissions(
                         Manifest.permission.READ_CONTACTS,
                         Manifest.permission.WRITE_CONTACTS,
@@ -169,13 +171,12 @@ public class PermissionsActivity extends FragmentActivity
     }
 
     @OnClick(R.id.all_permissions_button)
-    public void onAllPermissionsButtonClicked()
-    {
+    public void onAllPermissionsButtonClicked() {
         button_app_info.setVisibility(View.INVISIBLE);
         grantedPermissionResponses.clear();
         deniedPermissionResponses.clear();
 
-        Dexter.withActivity(this)
+        Dexter.withContext(this)
                 .withPermissions(
                         Manifest.permission.READ_CONTACTS,
                         Manifest.permission.WRITE_CONTACTS,
@@ -190,16 +191,15 @@ public class PermissionsActivity extends FragmentActivity
     }
 
     @OnClick(R.id.contacts_permission_button)
-    public void onContactsPermissionButtonClicked()
-    {
+    public void onContactsPermissionButtonClicked() {
         // Must request for both for API-28
-        Dexter.withActivity(this)
+        Dexter.withContext(this)
                 .withPermission(Manifest.permission.READ_CONTACTS)
                 .withListener(contactsPermissionListener)
                 .withErrorListener(errorListener)
                 .check();
 
-        Dexter.withActivity(this)
+        Dexter.withContext(this)
                 .withPermission(Manifest.permission.WRITE_CONTACTS)
                 .withListener(contactsPermissionListener)
                 .withErrorListener(errorListener)
@@ -207,9 +207,8 @@ public class PermissionsActivity extends FragmentActivity
     }
 
     @OnClick(R.id.storage_permission_button)
-    public void onStoragePermissionButtonClicked()
-    {
-        Dexter.withActivity(this)
+    public void onStoragePermissionButtonClicked() {
+        Dexter.withContext(this)
                 .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(storagePermissionListener)
                 .withErrorListener(errorListener)
@@ -217,9 +216,8 @@ public class PermissionsActivity extends FragmentActivity
     }
 
     @OnClick(R.id.delete_mail_permission_button)
-    public void onDeleteMailPermissionButtonClicked()
-    {
-        Dexter.withActivity(this)
+    public void onDeleteMailPermissionButtonClicked() {
+        Dexter.withContext(this)
                 .withPermission(permission_DELETE_MESSAGES)
                 .withListener(deleteMailPermissionListener)
                 .withErrorListener(errorListener)
@@ -227,9 +225,8 @@ public class PermissionsActivity extends FragmentActivity
     }
 
     @OnClick(R.id.read_mail_permission_button)
-    public void onReadMailPermissionButtonClicked()
-    {
-        Dexter.withActivity(this)
+    public void onReadMailPermissionButtonClicked() {
+        Dexter.withContext(this)
                 .withPermission(permission_READ_MESSAGES)
                 .withListener(readMailPermissionListener)
                 .withErrorListener(errorListener)
@@ -237,9 +234,8 @@ public class PermissionsActivity extends FragmentActivity
     }
 
     @OnClick(R.id.remote_control_permission_button)
-    public void onLocationPermissionButtonClicked()
-    {
-        Dexter.withActivity(this)
+    public void onLocationPermissionButtonClicked() {
+        Dexter.withContext(this)
                 .withPermission(permission_REMOTE_CONTROL)
                 .withListener(remoteControlPermissionListener)
                 .withErrorListener(errorListener)
@@ -247,8 +243,7 @@ public class PermissionsActivity extends FragmentActivity
     }
 
     @OnClick(R.id.app_info_permissions_button)
-    public void onInfoButtonClicked()
-    {
+    public void onInfoButtonClicked() {
         Intent myAppSettings = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                 Uri.parse("package:" + this.getPackageName()));
         myAppSettings.addCategory(Intent.CATEGORY_DEFAULT);
@@ -256,9 +251,7 @@ public class PermissionsActivity extends FragmentActivity
         startActivity(myAppSettings);
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void showPermissionRationale(final PermissionToken token)
-    {
+    public void showPermissionRationale(final PermissionToken token) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.permission_rationale_title)
                 .setMessage(R.string.permission_rationale_message)
@@ -278,8 +271,7 @@ public class PermissionsActivity extends FragmentActivity
      * Retrieve the package current default permissions status on create;
      * only if both the arrays are empty. Non-empty -> orientation change
      */
-    private boolean getPackagePermissionsStatus()
-    {
+    private boolean getPackagePermissionsStatus() {
         if (grantedPermissionResponses.isEmpty() && deniedPermissionResponses.isEmpty()) {
             PackageManager pm = getPackageManager();
             try {
@@ -296,8 +288,7 @@ public class PermissionsActivity extends FragmentActivity
                         //denied
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, requestedPermission)) {
                             deniedPermissionResponses.add(new PermissionDeniedResponse(pr, false));
-                        }
-                        else {
+                        } else {
                             //allowed
                             if (ActivityCompat.checkSelfPermission(this,
                                     requestedPermission) == PackageManager.PERMISSION_GRANTED) {
@@ -325,18 +316,14 @@ public class PermissionsActivity extends FragmentActivity
          * All permission must be granted to XryptoMail - otherwise will not work in almost cases;
          * Bug user and request for it anyway, otherwise XryptoMail will not work properly.
          */
-        if (grantedPermissionResponses.size() < 5) {
-            return true;
-        }
         // Do not disturb user, if he has chosen partially granted the permissions.
-        return false;
+        return grantedPermissionResponses.size() < 5;
     }
 
     /**
      * Update the permissions status with the default application permissions on entry
      */
-    private void permissionsStatusUpdate()
-    {
+    private void permissionsStatusUpdate() {
         // if (grantedPermissionResponses.isEmpty() && deniedPermissionResponses
         for (PermissionGrantedResponse response : grantedPermissionResponses) {
             showPermissionGranted(response.getPermissionName());
@@ -351,8 +338,7 @@ public class PermissionsActivity extends FragmentActivity
      *
      * @param permission permission view to be updated
      */
-    public void showPermissionGranted(String permission)
-    {
+    public void showPermissionGranted(String permission) {
         TextView feedbackView = getFeedbackViewForPermission(permission);
         if (feedbackView != null) {
             feedbackView.setText(R.string.permission_granted_feedback);
@@ -365,8 +351,7 @@ public class PermissionsActivity extends FragmentActivity
      *
      * @param permission permission view to be updated
      */
-    public void showPermissionDenied(String permission, boolean isPermanentlyDenied)
-    {
+    public void showPermissionDenied(String permission, boolean isPermanentlyDenied) {
         TextView feedbackView = getFeedbackViewForPermission(permission);
         if (feedbackView != null) {
             feedbackView.setText(isPermanentlyDenied
@@ -381,8 +366,7 @@ public class PermissionsActivity extends FragmentActivity
     /**
      * Initialize all the permission listener required actions
      */
-    private void createPermissionListeners()
-    {
+    private void createPermissionListeners() {
         PermissionListener dialogOnDeniedPermissionListener;
         PermissionListener feedbackViewPermissionListener = new AppPermissionListener(this);
         MultiplePermissionsListener feedbackViewMultiplePermissionListener = new MultiplePermissionListener(this);
@@ -463,8 +447,7 @@ public class PermissionsActivity extends FragmentActivity
      * @param name permission name
      * @return the textView for the request permission
      */
-    private TextView getFeedbackViewForPermission(String name)
-    {
+    private TextView getFeedbackViewForPermission(String name) {
         TextView feedbackView;
         switch (name) {
             case Manifest.permission.READ_CONTACTS:
@@ -493,8 +476,7 @@ public class PermissionsActivity extends FragmentActivity
      * Android Battery Usage Optimization Request
      ************************************************/
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private boolean openBatteryOptimizationDialogIfNeeded()
-    {
+    private boolean openBatteryOptimizationDialogIfNeeded() {
         // Will always request for battery optimization disable for XryptoMail if not so on XryptoMail new launch
         if (isOptimizingBattery()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -517,22 +499,19 @@ public class PermissionsActivity extends FragmentActivity
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    protected boolean isOptimizingBattery()
-    {
+    protected boolean isOptimizingBattery() {
         final PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
         return (pm != null) && !pm.isIgnoringBatteryOptimizations(getPackageName());
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, final Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // RESULT_OK is returned if disable optimization is alloed
         if (requestCode == REQUEST_BATTERY_OP) {
@@ -542,8 +521,7 @@ public class PermissionsActivity extends FragmentActivity
         }
     }
 
-    private String getBatteryOptimizationPreferenceKey()
-    {
+    private String getBatteryOptimizationPreferenceKey() {
         @SuppressLint("HardwareIds")
         String device = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         return "pref_key_show_battery_optimization_" + (device == null ? "" : device);

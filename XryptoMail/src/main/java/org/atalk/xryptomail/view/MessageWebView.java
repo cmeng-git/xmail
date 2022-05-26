@@ -16,7 +16,7 @@ import org.atalk.xryptomail.mailstore.AttachmentResolver;
 
 import timber.log.Timber;
 
-public class MessageWebView extends RigidWebView {
+public class MessageWebView extends WebView {
 
     public MessageWebView(Context context) {
         super(context);

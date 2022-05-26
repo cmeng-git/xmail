@@ -19,6 +19,7 @@ import org.atalk.xryptomail.mail.internet.Viewable.Textual;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -67,9 +68,9 @@ public class MessageExtractor
                 throw new MessagingException("Provided invalid part");
             }
         } catch (IOException e) {
-            Timber.e(e, "Unable to getTextFromPart");
+            Timber.e(e, "Unable to getTextFromPart: %s", e.getMessage());
         } catch (MessagingException e) {
-            Timber.e("Unable to getTextFromPart");
+            Timber.e("Unable to getTextFromPart: %s", e.getMessage());
         }
         return null;
     }
@@ -89,7 +90,7 @@ public class MessageExtractor
             try {
                 byte[] buf = new byte[256];
                 in.read(buf, 0, buf.length);
-                String str = new String(buf, "US-ASCII");
+                String str = new String(buf, StandardCharsets.US_ASCII);
 
                 if (str.isEmpty()) {
                     return "";
@@ -254,7 +255,7 @@ public class MessageExtractor
     {
         try {
             List<Part> attachments = new ArrayList<>();
-            findViewablesAndAttachments(message, new ArrayList<Viewable>(), attachments);
+            findViewablesAndAttachments(message, new ArrayList<>(), attachments);
             return attachments;
         } catch (Exception e) {
             throw new MessagingException("Couldn't collect attachment parts", e);

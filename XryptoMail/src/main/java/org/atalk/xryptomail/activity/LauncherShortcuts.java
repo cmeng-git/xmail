@@ -27,8 +27,7 @@ public class LauncherShortcuts extends AccountList {
 
     @Override
     protected void onAccountSelected(BaseAccount account) {
-        Intent shortcutIntent = null;
-
+        Intent shortcutIntent;
         if (account instanceof SearchAccount) {
             SearchAccount searchAccount = (SearchAccount) account;
             shortcutIntent = MessageList.shortcutIntent(this, searchAccount.getId());

@@ -32,9 +32,6 @@ abstract class XMWebViewClient extends WebViewClient {
     private final AttachmentResolver attachmentResolver;
 
     public static XMWebViewClient newInstance(@Nullable AttachmentResolver attachmentResolver) {
-        if (Build.VERSION.SDK_INT < 21) {
-            return new PreLollipopWebViewClient(attachmentResolver);
-        }
         return new LollipopWebViewClient(attachmentResolver);
     }
 
@@ -142,7 +139,6 @@ abstract class XMWebViewClient extends WebViewClient {
         }
     }
 
-    @TargetApi(VERSION_CODES.LOLLIPOP)
     private static class LollipopWebViewClient extends XMWebViewClient
     {
         protected LollipopWebViewClient(AttachmentResolver attachmentResolver) {

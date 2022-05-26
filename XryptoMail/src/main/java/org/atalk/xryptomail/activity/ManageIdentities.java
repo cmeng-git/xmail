@@ -49,13 +49,11 @@ public class ManageIdentities extends ChooseIdentity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.new_identity:
+		if (item.getItemId() == R.id.new_identity) {
 			Intent intent = new Intent(ManageIdentities.this, EditIdentity.class);
 			intent.putExtra(EditIdentity.EXTRA_ACCOUNT, mAccount.getUuid());
 			startActivityForResult(intent, ACTIVITY_EDIT_IDENTITY);
-			break;
-		default:
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
 		return true;

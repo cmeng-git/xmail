@@ -1,5 +1,7 @@
 package org.atalk.xryptomail.mail.filter;
 
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
@@ -64,6 +66,7 @@ public class FixedLengthInputStream extends InputStream {
         return d;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return String.format(Locale.US, "FixedLengthInputStream(in=%s, length=%d)", mIn.toString(), mLength);

@@ -3,6 +3,7 @@ package org.atalk.xryptomail.mail.store.imap;
 import android.text.TextUtils;
 
 import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.helper.timberlog.TimberLog;
 import org.atalk.xryptomail.mail.Body;
 import org.atalk.xryptomail.mail.BodyFactory;
 import org.atalk.xryptomail.mail.FetchProfile;
@@ -54,7 +55,7 @@ class ImapFolder extends Folder<ImapMessage>
     protected volatile int mMessageCount = -1;
     protected volatile long uidNext = -1L;
     protected volatile ImapConnection mConnection;
-    protected ImapStore mStore = null;
+    protected ImapStore mStore;
     protected Map<Long, String> msgSeqUidMap = new ConcurrentHashMap<>();
     private final FolderNameCodec folderNameCodec;
     private final String mName;
@@ -82,7 +83,7 @@ class ImapFolder extends Folder<ImapMessage>
         String prefixedName = "";
 
         if (!mStore.getStoreConfig().getInboxFolder().equalsIgnoreCase(mName)) {
-            ImapConnection connection = null;
+            ImapConnection connection;
             synchronized (this) {
                 if (mConnection == null) {
                     connection = mStore.getConnection();
@@ -758,7 +759,7 @@ class ImapFolder extends Folder<ImapMessage>
                         if (uid != null) {
                             try {
                                 msgSeqUidMap.put(msgSeq, uid);
-                                if (XryptoMailLib.isDebug()) {
+                                if (TimberLog.isTraceEnable) {
                                     Timber.v("Stored uid '%s' for msgSeq %d into map", uid, msgSeq);
                                 }
                             } catch (Exception e) {

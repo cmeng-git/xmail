@@ -8,10 +8,10 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
+import java.nio.charset.StandardCharsets;
 
 class FolderNameCodec {
     private final Charset modifiedUtf7Charset;
-    private final Charset asciiCharset;
 
     public static FolderNameCodec newInstance() {
         return new FolderNameCodec();
@@ -19,7 +19,6 @@ class FolderNameCodec {
 
     private FolderNameCodec() {
         modifiedUtf7Charset = new CharsetProvider().charsetForName("X-RFC-3501");
-        asciiCharset = Charset.forName("US-ASCII");
     }
 
     public String encode(String folderName) {
@@ -27,12 +26,12 @@ class FolderNameCodec {
         byte[] bytes = new byte[byteBuffer.limit()];
         byteBuffer.get(bytes);
 
-        return new String(bytes, asciiCharset);
+        return new String(bytes, StandardCharsets.US_ASCII);
     }
 
     public String decode(String encodedFolderName) throws CharacterCodingException {
         CharsetDecoder decoder = modifiedUtf7Charset.newDecoder().onMalformedInput(CodingErrorAction.REPORT);
-        ByteBuffer byteBuffer = ByteBuffer.wrap(encodedFolderName.getBytes(asciiCharset));
+        ByteBuffer byteBuffer = ByteBuffer.wrap(encodedFolderName.getBytes(StandardCharsets.US_ASCII));
         CharBuffer charBuffer = decoder.decode(byteBuffer);
 
         return charBuffer.toString();

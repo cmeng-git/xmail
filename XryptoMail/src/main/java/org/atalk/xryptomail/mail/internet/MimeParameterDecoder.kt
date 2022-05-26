@@ -69,7 +69,7 @@ object MimeParameterDecoder {
             do {
                 parser.expect(SEMICOLON)
 
-                val parameterName = parser.readToken().toLowerCase(Locale.ROOT)
+                val parameterName = parser.readToken().lowercase(Locale.ROOT)
 
                 parser.skipCFWS()
                 parser.expect(EQUALS_SIGN)

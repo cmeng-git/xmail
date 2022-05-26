@@ -1,23 +1,21 @@
 package org.atalk.xryptomail.preferences;
 
-import android.util.Log;
-
-import org.atalk.xryptomail.XryptoMail;
-
-import java.util.*;
-import java.util.Map.Entry;
-
 import android.os.SystemClock;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import timber.log.Timber;
 
 public class StorageEditor {
-    private Storage storage;
-    private Map<String, String> changes = new HashMap<String, String>();
-    private List<String> removals = new ArrayList<String>();
+    private final Storage storage;
+    private final Map<String, String> changes = new HashMap<>();
+    private final List<String> removals = new ArrayList<>();
 
-    Map<String, String> snapshot = new HashMap<String, String>();
-
+    Map<String, String> snapshot = new HashMap<>();
 
     StorageEditor(Storage storage) {
         this.storage = storage;
@@ -25,8 +23,8 @@ public class StorageEditor {
     }
 
     public void copy(android.content.SharedPreferences input) {
-        Map < String, ? > oldVals = input.getAll();
-        for (Entry < String, ? > entry : oldVals.entrySet()) {
+        Map<String, ?> oldVals = input.getAll();
+        for (Entry<String, ?> entry : oldVals.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
             if (key != null && value != null) {
@@ -55,7 +53,7 @@ public class StorageEditor {
             for (String removeKey : removals) {
                 storage.remove(removeKey);
             }
-            Map<String, String> insertables = new HashMap<String, String>();
+            Map<String, String> insertables = new HashMap<>();
             for (Entry<String, String> entry : changes.entrySet()) {
                 String key = entry.getKey();
                 String newValue = entry.getValue();

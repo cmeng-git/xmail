@@ -56,12 +56,10 @@ abstract class AndroidSpecificOAuth2TokenProvider extends SpecificOAuth2TokenPro
                 try {
                     String errorBody = response.errorBody().string();
                     OAuth2Error oAuth2Error = new Gson().fromJson(errorBody, OAuth2Error.class);
-                    switch (oAuth2Error.error) {
-                        case "invalid_grant":
-                            throw new AuthenticationFailedException(AuthenticationFailedException.OAUTH2_ERROR_INVALID_REFRESH_TOKEN);
-                        default:
-                            throw new AuthenticationFailedException(AuthenticationFailedException.OAUTH2_ERROR_UNKNOWN);
+                    if ("invalid_grant".equals(oAuth2Error.error)) {
+                        throw new AuthenticationFailedException(AuthenticationFailedException.OAUTH2_ERROR_INVALID_REFRESH_TOKEN);
                     }
+                    throw new AuthenticationFailedException(AuthenticationFailedException.OAUTH2_ERROR_UNKNOWN);
                 } catch (IOException e) {
                     throw new AuthenticationFailedException(AuthenticationFailedException.OAUTH2_ERROR_UNKNOWN);
                 }

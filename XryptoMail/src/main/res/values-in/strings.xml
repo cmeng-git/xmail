@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Izinkan aplikasi ini mengendalikan aktivitas dan pengaturan XryptoMail Mail.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Hak Cipta 2008-<xliff:g>%s</xliff:g> The XryptoMail. Hak Cipta Sebagian 2006-<xliff:g>%s</xliff:g> the Android Open Source Project.</string>
+  <string name="app_copyright_fmt">Hak Cipta 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Hak Cipta Sebagian 2006-<xliff:g>%2$s</xliff:g> the Android Open Source Project.</string>
   <string name="app_license">Dilisensikan dibawah Apache License, Versi 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Selamat datang di XryptoMail Mail</string>
@@ -47,25 +47,25 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <!--Default signature-->
   <string name="default_signature">-- \nDikirim dari perangkat Android saya menggunakan XryptoMail Mail.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">Akun \"<xliff:g id="account">%s</xliff:g>\" akan dibuang dari XryptoMail Mail.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Semua data lokal \"<xliff:g id="account">%s</xliff:g>\" akan dibuang. Pengaturan akun akan dipertahankan.</string>
-  <string name="account_clear_dlg_instructions_fmt">Salinan lokal pesan di dalam \"<xliff:g id="account">%s</xliff:g>\" akan dibuang. Pengaturan akun akan dipertahankan.</string>
+  <string name="account_delete_dlg_instructions_fmt">Akun \"<xliff:g id="account">%1$s</xliff:g>\" akan dibuang dari XryptoMail Mail.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Semua data lokal \"<xliff:g id="account">%1$s</xliff:g>\" akan dibuang. Pengaturan akun akan dipertahankan.</string>
+  <string name="account_clear_dlg_instructions_fmt">Salinan lokal pesan di dalam \"<xliff:g id="account">%1$s</xliff:g>\" akan dibuang. Pengaturan akun akan dipertahankan.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Mohon pasang pengelola berkas untuk melanjutkan mengimpor.</string>
   <string name="open_market">Buka Play Store</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Pengembang: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Informasi Revisi: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Kami menggunakan pustaka pihak ketiga berikut: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Pengembang: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Informasi Revisi: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Kami menggunakan pustaka pihak ketiga berikut: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Baca Email</string>
   <string name="read_messages_desc">Izinkan aplikasi ini membaca Email Anda.</string>
   <string name="delete_messages_label">Hapus Email</string>
   <string name="delete_messages_desc">Izinkan aplikasi ini menghapus Email Anda.</string>
-  <string name="about_title_fmt">Tentang <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">Tentang <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Akun</string>
   <string name="folders_title">Folder</string>
   <string name="advanced">Lanjutan</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Menyusun</string>
   <string name="compose_title_reply">Balas</string>
   <string name="compose_title_reply_all">Balas semua</string>
@@ -73,18 +73,18 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="compose_title_forward_as_attachment">Teruskan sebagai Lampiran</string>
   <string name="choose_account_title">Pilih akun</string>
   <string name="choose_folder_title">Pilih Folder</string>
-  <string name="status_loading_account_folder">Menarik <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Mengunduh tajuk <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Mengirimkan <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Memproses <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Penarikan berikutnya <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Menarik <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Mengunduh tajuk <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Mengirimkan <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Memproses <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Penarikan berikutnya <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Sinkronisasi di non fungsikan - Tidak ada jaringan</string>
   <string name="status_no_background">Sinkronisasi di non fungsikan - Tidak ada aktivitas di belakang</string>
   <string name="status_poll_and_push_disabled">Menarik dan mendorong nonaktif</string>
   <string name="status_syncing_blocked">Sinkronisasi di non fungsikan</string>
   <string name="status_syncing_off">Sinkronisasi dinonfungsikan</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> dipilih</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> dipilih</string>
   <string name="next_action">Selanjutnya</string>
   <string name="previous_action">Sebelumnya</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -157,20 +157,20 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="status_loading_error">Kesalahan pemuatan pesan</string>
   <string name="status_loading_more_failed">Ulangi memuat lebih banyak pesan</string>
   <string name="load_more_messages_fmt">Muat sampai
-    dengan <xliff:g id="messages_to_load">%d</xliff:g> lagi</string>
+    dengan <xliff:g id="messages_to_load">%1$d</xliff:g> lagi</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Akun \"<xliff:g id="account">%s</xliff:g>\" dimampatkan dari <xliff:g id="oldSize">%s</xliff:g> ke <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Memampatkan akun \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">Membersihkan akun \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Membuat ulang akun \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="account_size_changed">Akun \"<xliff:g id="account">%1$s</xliff:g>\" dimampatkan dari <xliff:g id="oldSize">%2$s</xliff:g> ke <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Memampatkan akun \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">Membersihkan akun \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Membuat ulang akun \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="notification_new_title">Pesan baru</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> pesan baru</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> pesan baru</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> Belum dibaca (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> Belum dibaca (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> lagi pada <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Balas</string>
   <string name="notification_action_mark_as_read">Tandai Sudah Dibaca</string>
@@ -180,13 +180,13 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="notification_action_archive">Arsipkan</string>
   <string name="notification_action_archive_all">Arsipkan Semua</string>
   <string name="notification_action_spam">Spam</string>
-  <string name="notification_certificate_error_title">Galat sertifikat untuk <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Galat sertifikat untuk <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Periksa pengaturan server Anda</string>
   <string name="notification_authentication_error_title">Otentikasi gagal</string>
-  <string name="notification_authentication_error_text">Otentikasi gagal untuk <xliff:g id="account">%s</xliff:g>. Perbarui pengaturan server Anda.</string>
-  <string name="notification_bg_sync_ticker">Memeriksa pesan: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Otentikasi gagal untuk <xliff:g id="account">%1$s</xliff:g>. Perbarui pengaturan server Anda.</string>
+  <string name="notification_bg_sync_ticker">Memeriksa pesan: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Memeriksa pesan</string>
-  <string name="notification_bg_send_ticker">Mengirimkan pesan: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Mengirimkan pesan: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Mengirimkan pesan</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Kotak Masuk</string>
@@ -196,19 +196,19 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="special_mailbox_name_sent">Terkirim</string>
   <string name="special_mailbox_name_archive">Arsip</string>
   <string name="special_mailbox_name_spam">Spam</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Draf)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Tong Sampah)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Terkirim)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Arsip)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Spam)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Draf)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Tong Sampah)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Terkirim)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Arsip)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Spam)</string>
   <string name="send_failure_subject">Gagal mengirim beberapa pesan</string>
-  <string name="debug_version_fmt">Versi: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Versi: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Fungsikan pencatatan awakutu</string>
   <string name="debug_enable_debug_logging_summary">Catat informasi diagnostik tambahan</string>
   <string name="debug_enable_sensitive_logging_title">Catat informasi sensitif</string>
   <string name="debug_enable_sensitive_logging_summary">Mungkin menampilkan sandi di catatan log.</string>
   <string name="message_list_load_more_messages_action">Muat lebih banyak pesan</string>
-  <string name="message_to_fmt">Kepada:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">Kepada:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Subyek</string>
   <string name="message_compose_content_hint">Teks pesan</string>
   <string name="message_compose_signature_hint">Tanda tangan</string>
@@ -218,7 +218,7 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="message_compose_quote_header_from">Dari:</string>
   <string name="message_compose_quote_header_to">Kepada:</string>
   <string name="message_compose_quote_header_cc">Cc:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> menulis:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> menulis:</string>
   <string name="message_compose_reply_header_fmt_with_date">Pada <xliff:g id="sent_date">%1$s</xliff:g>, <xliff:g id="sender">%2$s</xliff:g> menulis:</string>
   <string name="message_compose_error_no_recipients">Anda harus menambahkan minimal satu penerima.</string>
   <string name="compose_error_incomplete_recipient">Bidang penerima berisi masukan yang tidak lengkap!</string>
@@ -228,7 +228,7 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="message_compose_show_quoted_text_action">Sertakan pesan yang dikutip</string>
   <string name="message_compose_description_delete_quoted_text">Buang teks kutipan</string>
   <string name="message_compose_description_edit_quoted_text">Sunting teks kutipan</string>
-  <string name="message_view_from_format">Dari: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">Dari: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Kepada:</string>
   <string name="message_view_cc_label">Cc:</string>
   <string name="message_view_bcc_label">Bcc:</string>
@@ -237,7 +237,7 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="message_view_status_attachment_not_saved">Tidak bisa menyimpan lampiran ke kartu SD.</string>
   <string name="message_view_status_no_space">Lampiran tidak dapat disimpan karena tidak ada cukup ruang.</string>
   <string name="message_view_show_pictures_action">Tampilkan gambar</string>
-  <string name="message_view_no_viewer">Tidak bisa menemukan penampil untuk <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Tidak bisa menemukan penampil untuk <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Unduh seluruh pesan</string>
   <string name="message_view_toast_unable_to_display_message">Tidak dapat menampilkan pesan</string>
   <string name="message_view_sender_label">melalui %1$s</string>
@@ -245,7 +245,7 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="message_no_additional_headers_available">Semua tajuk telah diunduh, tetapi tidak ada tajuk lagi untuk ditampilkan.</string>
   <string name="message_additional_headers_retrieval_failed">Gagal mengambil tajuk tambahan dari basis data atau server surat.</string>
   <string name="from_same_sender">Lebih banyak dari pengirim ini</string>
-  <string name="search_from_format">Dari <xliff:g id="sender">%s</xliff:g></string>
+  <string name="search_from_format">Dari <xliff:g id="sender">%1$s</xliff:g></string>
   <string name="debug_delete_local_body">Debug / Kosongkan isi pesan</string>
   <string name="message_discarded_toast">Pesan dibuang</string>
   <string name="message_saved_toast">Pesan disimpan sebagai draf</string>
@@ -386,7 +386,7 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="account_setup_outgoing_password_label">Sandi</string>
   <string name="account_setup_outgoing_authentication_label">Otentikasi</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" tidak valid dengan \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
-  <string name="account_setup_bad_uri">Salah pengaturan: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Salah pengaturan: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Opsi akun</string>
   <string name="compact_action">Akun ringkas</string>
   <string name="clear_action">Bersihkan pesan (bahaya!)</string>
@@ -433,9 +433,9 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="account_setup_options_mail_display_count_all">semua pesan</string>
   <string name="move_copy_cannot_copy_unsynced_message">Tidak dapat menyalin atau memindahkan pesan yang tidak disinkronkan dengan server</string>
   <string name="account_setup_failed_dlg_title">Setup tidak bisa selesai</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Nama pengguna atau kata kunci salah.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">Server menyajikan sertifikat SSL yang tidak valid. Terkadang, ini karena miskonfigurasi server. Terkadang itu karena seseorang sedang mencoba menyerang Anda atau server surat Anda. Jika Anda tidak yakin apa yang terjadi, klik Tolak dan hubungi orang-orang yang mengelola server surat Anda.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Tidak dapat terhubung ke server.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Nama pengguna atau kata kunci salah.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">Server menyajikan sertifikat SSL yang tidak valid. Terkadang, ini karena miskonfigurasi server. Terkadang itu karena seseorang sedang mencoba menyerang Anda atau server surat Anda. Jika Anda tidak yakin apa yang terjadi, klik Tolak dan hubungi orang-orang yang mengelola server surat Anda.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Tidak dapat terhubung ke server.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Sunting rincian</string>
   <string name="account_setup_failed_dlg_continue_action">Lanjutkan</string>
   <string name="account_settings_push_advanced_title">Lanjutan</string>
@@ -715,7 +715,7 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="count_search_summary">Matikan untuk tampilan lebih cepat</string>
   <string name="hide_special_accounts_title">Sembunyikan akun spesial</string>
   <string name="hide_special_accounts_summary">Sembunyikan kotak masuk terpadu dan semua akun pesan</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier">- Terandai bintang</string>
   <string name="unread_modifier">- Belum dibaca</string>
   <string name="search_all_messages_title">Semua pesan</string>
@@ -751,7 +751,7 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="font_size_message_view_subject">Subyek</string>
   <string name="font_size_message_view_date">Tanggal dan waktu</string>
   <string name="font_size_message_view_content">Isi pesan</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Susunan pesan</string>
   <string name="font_size_message_compose_input">Kolom input teks</string>
@@ -765,7 +765,7 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="font_size_larger">Lebih besar</string>
   <string name="miscellaneous_preferences">Lain-lain</string>
   <string name="error_activity_not_found">Tidak ada aplikasi yang sesuai untuk tindakan ini yang ditemukan.</string>
-  <string name="send_failed_reason">Gagal mengirim: %s</string>
+  <string name="send_failed_reason">Gagal mengirim:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Simpan draf pesan?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Simpan atau Buang pesan ini?</string>
   <string name="confirm_discard_draft_message_title">Buang pesan?</string>
@@ -803,33 +803,33 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="settings_exporting">Mengekspor pengaturan...</string>
   <string name="settings_importing">Mengimpor pengaturan...</string>
   <string name="settings_import_scanning_file">Memindai file...</string>
-  <string name="settings_export_success">Menyimpan ekspor pengaturan ke <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Menyimpan ekspor pengaturan ke <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Pengaturan berhasil diekspor</string>
-  <string name="settings_import_global_settings_success">Impor pengaturan global dari <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Terimpor <xliff:g id="accounts">%s</xliff:g> from <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_account_imported_as">Terimpor <xliff:g id="original_account_name">%s</xliff:g> sebagai <xliff:g id="account_name_after_import">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Impor pengaturan global dari <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Terimpor <xliff:g id="accounts">%1$s</xliff:g> from <xliff:g id="filename">%2$s</xliff:g></string>
+  <string name="settings_import_account_imported_as">Terimpor <xliff:g id="original_account_name">%1$s</xliff:g> sebagai <xliff:g id="account_name_after_import">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> akun</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> akun</item>
   </plurals>
   <string name="settings_export_failure">Gagal mengekspor pengaturan</string>
-  <string name="settings_import_failure">Gagal mengimpor pengaturan dari <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Gagal mengimpor pengaturan dari <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Ekspor berhasil</string>
   <string name="settings_export_failed_header">Ekspor gagal</string>
   <string name="settings_import_success_header">Impor berhasil</string>
   <string name="settings_import_failed_header">Impor gagal</string>
   <string name="settings_import_activate_account_header">Aktifkan akun</string>
-  <string name="settings_import_activate_account_intro">Untuk dapat menggunakan akun \"<xliff:g id="account">%s</xliff:g>\" anda butuh menyediakan <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">Untuk dapat menggunakan akun \"<xliff:g id="account">%1$s</xliff:g>\" anda butuh menyediakan <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="other">Kata kunci server</item>
   </plurals>
-  <string name="settings_import_incoming_server">Server masuk (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Server keluar (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Server masuk (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Server keluar (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="other">Menetapkan kata sandi ...</item>
   </plurals>
   <string name="settings_import_use_incoming_server_password">Gunakan kata kunci server masuk</string>
   <string name="activate_account_action">Aktifkan</string>
-  <string name="account_unavailable">Akun \"<xliff:g id="account">%s</xliff:g>\" tidak tersedia; cek penyimpanan</string>
+  <string name="account_unavailable">Akun \"<xliff:g id="account">%1$s</xliff:g>\" tidak tersedia; cek penyimpanan</string>
   <string name="settings_attachment_default_path">Simpan lampiran ke...</string>
   <string name="attachment_save_title">Simpan lampiran</string>
   <string name="attachment_save_desc">Tidak ditemukan browser file. Di mana Anda ingin menyimpan lampiran ini?</string>
@@ -870,7 +870,7 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="webview_contextmenu_email_save_action">Simpan ke kontak</string>
   <string name="webview_contextmenu_email_copy_action">Salin alamat ke clipboard</string>
   <string name="webview_contextmenu_email_clipboard_label">Alamat surel</string>
-  <string name="image_saved_as">Simpan gambar sebagai \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Simpan gambar sebagai \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">Gagal menyimpan gambar</string>
   <string name="account_settings_remote_search_num_results_entries_all">Semua</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -881,10 +881,10 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Batas pencarian server</string>
-  <string name="account_settings_remote_search_num_summary">Pencarian akan berhenti setelah menemukan <xliff:g id="num_results">%s</xliff:g> hasil.</string>
+  <string name="account_settings_remote_search_num_summary">Pencarian akan berhenti setelah menemukan <xliff:g id="num_results">%1$s</xliff:g> hasil.</string>
   <string name="remote_search_sending_query">Mengirim kueri ke server</string>
   <plurals name="remote_search_downloading">
-    <item quantity="other">Mengambil %d hasil</item>
+    <item quantity="other">Mengambil%1$d hasil</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="other">Mengambil %1$d dari %2$d hasil</item>
@@ -903,7 +903,7 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="global_settings_threaded_view_summary">Kelompokkan pesan menurut percakapan</string>
   <string name="upgrade_databases_title">Mengupgrade database</string>
   <string name="upgrade_databases_unspecified">Mengupgrade database...</string>
-  <string name="upgrade_database_format">Mengupgrade database untuk akun \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="upgrade_database_format">Mengupgrade database untuk akun \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="message_list_loading">Memuat...</string>
   <string name="global_settings_splitview_mode_label">Tampilkan layar terpisah</string>
   <string name="global_settings_splitview_always">Selalu</string>
@@ -912,9 +912,9 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="message_view_empty">Silahkan pilih pesan di sebelah kiri</string>
   <string name="global_settings_show_contact_picture_label">Perlihatkan gambar kontak</string>
   <string name="global_settings_show_contact_picture_summary">Tampilkan gambar kontak dalam daftar pesan</string>
-  <string name="last_refresh_time_format">Disegarkan <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Disegarkan <xliff:g id="time_with_preposition">%s</xliff:g> (Dorong aktif)</string>
-  <string name="preposition_for_date">pada <xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Disegarkan <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Disegarkan <xliff:g id="time_with_preposition">%1$s</xliff:g> (Dorong aktif)</string>
+  <string name="preposition_for_date">pada <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Tandai semua telah dibaca</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Warnai gambar kontak</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Warnai gambar kontak yang hilang</string>
@@ -929,7 +929,7 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="account_setup_basics_client_certificate">Gunakan sertifikat klien</string>
   <string name="client_certificate_spinner_empty">Tidak ada sertifikan klien</string>
   <string name="client_certificate_spinner_delete">Hapus pilihan sertifikat klien</string>
-  <string name="client_certificate_retrieval_failure">Gagal mengambil sertifikat klien alias \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">Gagal mengambil sertifikat klien alias \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Opsi lanjutan</string>
   <string name="client_certificate_expired">Sertifikat klien \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" telah kedaluwarsa atau belum berlaku (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

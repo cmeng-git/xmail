@@ -38,7 +38,7 @@ class MimeHeaderParser(private val input: String) {
             val c = read()
             when {
                 c == '%' -> output.writeByte(readPercentEncoded())
-                c.isAttributeChar() -> output.writeByte(c.toInt())
+                c.isAttributeChar() -> output.writeByte(c.code)
                 else -> return
             }
         }
@@ -66,8 +66,7 @@ class MimeHeaderParser(private val input: String) {
 
         val text = buildString {
             while (!endReached() && peek() != '\"') {
-                val c = read()
-                when (c) {
+                when (val c = read()) {
                     CR -> Unit
                     LF -> Unit
                     '\\' -> append(read())
@@ -112,7 +111,7 @@ class MimeHeaderParser(private val input: String) {
         if (!endReached() && peek() == character) {
             currentIndex++
         } else {
-            throw MimeHeaderParserException("Expected '$character' (${character.toInt()})", currentIndex)
+            throw MimeHeaderParserException("Expected '$character' (${character.code})", currentIndex)
         }
     }
 
@@ -148,7 +147,7 @@ class MimeHeaderParser(private val input: String) {
                 character.isVChar() -> Unit
                 else -> {
                     currentIndex--
-                    throw MimeHeaderParserException("Unexpected '$character' (${character.toInt()}) in comment",
+                    throw MimeHeaderParserException("Unexpected '$character' (${character.code}) in comment",
                             errorIndex = currentIndex)
                 }
             }

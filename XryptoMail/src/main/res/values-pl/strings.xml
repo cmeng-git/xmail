@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Zezwalaj tej aplikacji na sterowanie XryptoMail Mail i jego ustawieniami.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%s</xliff:g> The XryptoMail. Portions Copyright 2006-<xliff:g>%s</xliff:g> the Android Open Source Project.</string>
+  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Portions Copyright 2006-<xliff:g>%2$s</xliff:g> the Android Open Source Project.</string>
   <string name="app_license">Wszelkie prawa zastrzeżone</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Witaj w XryptoMail Mail</string>
@@ -47,43 +47,43 @@ Wszelkie zgłoszenia usterek, zapytania oraz pomysły na nowe funkcje prosimy pr
   <string name="default_signature">-- 
 Wysłane za pomocą XryptoMail Mail.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">Konto \"<xliff:g id="account">%s</xliff:g>\" zostanie usunięte z XryptoMail.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Ustawienia konta \"<xliff:g id="account">%s</xliff:g>\" pozostaną bez zmian, niemniej wszystkie dane zostaną usunięte z bazy programu.</string>
-  <string name="account_clear_dlg_instructions_fmt">Ustawienia konta \"<xliff:g id="account">%s</xliff:g>\" pozostaną bez zmian, niemniej wszystkie wiadomości zostaną usunięte z bazy programu.</string>
+  <string name="account_delete_dlg_instructions_fmt">Konto \"<xliff:g id="account">%1$s</xliff:g>\" zostanie usunięte z XryptoMail.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Ustawienia konta \"<xliff:g id="account">%1$s</xliff:g>\" pozostaną bez zmian, niemniej wszystkie dane zostaną usunięte z bazy programu.</string>
+  <string name="account_clear_dlg_instructions_fmt">Ustawienia konta \"<xliff:g id="account">%1$s</xliff:g>\" pozostaną bez zmian, niemniej wszystkie wiadomości zostaną usunięte z bazy programu.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Brak aplikacji do obsługi plików importu. Zainastaluj jakąś aplikację z Google Play.</string>
   <string name="open_market">Otwórz Google Play</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Autorzy: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Historia zmian: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">XryptoMail mail zawiera kod źródłowy: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Autorzy: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Historia zmian: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">XryptoMail mail zawiera kod źródłowy: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Czytaj pocztę</string>
   <string name="read_messages_desc">Zezwalaj tej aplikacji na czytanie Twoich wiadomości</string>
   <string name="delete_messages_label">Usuń wiadomości</string>
   <string name="delete_messages_desc">Zezwalaj tej aplikacji na usuwanie Twoich wiadomości.</string>
-  <string name="about_title_fmt"><xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt"><xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Konta</string>
   <string name="folders_title">Foldery</string>
   <string name="advanced">Zaawansowane</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Nowa wiadomość</string>
   <string name="compose_title_reply">Odpowiedz</string>
   <string name="compose_title_reply_all">Odpowiedz wszystkim</string>
   <string name="compose_title_forward">Przekaż</string>
   <string name="choose_account_title">Wybierz konto</string>
   <string name="choose_folder_title">Wybierz folder</string>
-  <string name="status_loading_account_folder">Sprawdzam <xliff:g id="account">%s</xliff:g>: <xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Nagłówki: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Wysyłam: <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Przetwarzam: <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Sprawdzę <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Sprawdzam <xliff:g id="account">%1$s</xliff:g>: <xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Nagłówki: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Wysyłam: <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Przetwarzam: <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Sprawdzę <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Synchronizacja wyłączona - Brak sieci</string>
   <string name="status_no_background">Synchronizacja wyłączona - Wyłączono ssynchronizację w tle</string>
   <string name="status_poll_and_push_disabled">Pobieranie i wysyłanie wyłączone</string>
   <string name="status_syncing_blocked">Synchronizacja wstrzymana</string>
   <string name="status_syncing_off">Synchronizacja wyłączona</string>
-  <string name="actionbar_selected">Wybrano <xliff:g id="selection_count">%d</xliff:g></string>
+  <string name="actionbar_selected">Wybrano <xliff:g id="selection_count">%1$d</xliff:g></string>
   <string name="next_action">Dalej</string>
   <string name="previous_action">Cofnij</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -157,23 +157,23 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="status_invalid_id_error">Nie znaleziono wiadomości</string>
   <string name="status_loading_error">Błąd ładowania wiadomości</string>
   <string name="status_loading_more_failed">Spróbuj wczytać wiadomości ponownie</string>
-  <string name="load_more_messages_fmt">Pobierz kolejne <xliff:g id="messages_to_load">%d</xliff:g> wiadomości</string>
+  <string name="load_more_messages_fmt">Pobierz kolejne <xliff:g id="messages_to_load">%1$d</xliff:g> wiadomości</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Objętość konta \"<xliff:g id="account">%s</xliff:g>\" zmniejszyła się z <xliff:g id="oldSize">%s</xliff:g> do <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Kompaktuję konto \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">Czyszczę konto \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Odtwarzam konto \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="account_size_changed">Objętość konta \"<xliff:g id="account">%1$s</xliff:g>\" zmniejszyła się z <xliff:g id="oldSize">%2$s</xliff:g> do <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Kompaktuję konto \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">Czyszczę konto \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Odtwarzam konto \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="notification_new_title">Nowa wiadomość</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> nowa wiadomość</item>
-    <item quantity="few"><xliff:g id="new_message_count">%d</xliff:g> nowe wiadomości</item>
-    <item quantity="many"><xliff:g id="new_message_count">%d</xliff:g> nowych wiadomości</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> nowych wiadomości</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> nowa wiadomość</item>
+    <item quantity="few"><xliff:g id="new_message_count">%1$d</xliff:g> nowe wiadomości</item>
+    <item quantity="many"><xliff:g id="new_message_count">%1$d</xliff:g> nowych wiadomości</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> nowych wiadomości</item>
   </plurals>
-  <string name="notification_new_one_account_fmt">Nowe: <xliff:g id="unread_message_count">%d</xliff:g> (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt">Nowe: <xliff:g id="unread_message_count">%1$d</xliff:g> (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> więcej na <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Odpowiedz</string>
   <string name="notification_action_mark_as_read">Oznacz jako przeczytane</string>
@@ -183,13 +183,13 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="notification_action_archive">Archiwizuj</string>
   <string name="notification_action_archive_all">Archiwizuj wszystkie</string>
   <string name="notification_action_spam">Spam</string>
-  <string name="notification_certificate_error_title">Błąd certyfikatu dla <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Błąd certyfikatu dla <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Sprawdź ustawienia serwera</string>
   <string name="notification_authentication_error_title">Uwierzytelnianie nie powiodło się</string>
-  <string name="notification_authentication_error_text">Uwierzytelnianie dla <xliff:g id="account">%s</xliff:g> nie powiodło się. Zaktualizuj ustawienia serwera.</string>
-  <string name="notification_bg_sync_ticker">Sprawdzam: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Uwierzytelnianie dla <xliff:g id="account">%1$s</xliff:g> nie powiodło się. Zaktualizuj ustawienia serwera.</string>
+  <string name="notification_bg_sync_ticker">Sprawdzam: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Sprawdzam</string>
-  <string name="notification_bg_send_ticker">Wysyłam: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Wysyłam: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Wysyłam</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Odebrane</string>
@@ -199,19 +199,19 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="special_mailbox_name_sent">Wysłane</string>
   <string name="special_mailbox_name_archive">Archiwizuj</string>
   <string name="special_mailbox_name_spam">Spam</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Szkice)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Usunięte)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Wysłane)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Archiwum)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Spam)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Szkice)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Usunięte)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Wysłane)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Archiwum)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Spam)</string>
   <string name="send_failure_subject">Niektóre wiadomości nie zostały wysłane</string>
-  <string name="debug_version_fmt">Wersja <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Wersja <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Włącz logowanie</string>
   <string name="debug_enable_debug_logging_summary">Loguj dodatkowe informacje diagnostyczne</string>
   <string name="debug_enable_sensitive_logging_title">Loguj poufne informacje</string>
   <string name="debug_enable_sensitive_logging_summary">Logi mogą zawierać Twoje hasła</string>
   <string name="message_list_load_more_messages_action">Pobierz więcej wiadomości</string>
-  <string name="message_to_fmt">Do:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">Do:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Temat</string>
   <string name="message_compose_content_hint">Treść wiadomości</string>
   <string name="message_compose_signature_hint">Podpis</string>
@@ -221,7 +221,7 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="message_compose_quote_header_from">Od:</string>
   <string name="message_compose_quote_header_to">Do:</string>
   <string name="message_compose_quote_header_cc">DW:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> napisał:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> napisał:</string>
   <string name="message_compose_reply_header_fmt_with_date">Dnia <xliff:g id="sent_date">%1$s</xliff:g>, <xliff:g id="sender">%2$s</xliff:g> napisał(a):</string>
   <string name="message_compose_error_no_recipients">Musisz dodać co najmniej jednego odbiorcę.</string>
   <string name="compose_error_incomplete_recipient">Pole Odbiorca jest niekompletne!</string>
@@ -229,7 +229,7 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="message_compose_attachments_skipped_toast">Niektóre załączniki nie mogą być przesłane dalej ponieważ nie zostały wcześniej pobrane.</string>
   <string name="message_compose_description_delete_quoted_text">Usuń cytowany tekst</string>
   <string name="message_compose_description_edit_quoted_text">Edytuj cytowany tekst</string>
-  <string name="message_view_from_format">Od: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">Od: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Do:</string>
   <string name="message_view_cc_label">DW:</string>
   <string name="message_view_bcc_label">Udw:</string>
@@ -238,7 +238,7 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="message_view_status_attachment_not_saved">Zapisywanie załącznika na karcie SD nie powiodło się.</string>
   <string name="message_view_status_no_space">Załącznik nie mógł zostać zapisany. Brak miejsca.</string>
   <string name="message_view_show_pictures_action">Wyświetl grafikę</string>
-  <string name="message_view_no_viewer">Nie moge znaleźć programu do wyświetlenia pliku <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Nie moge znaleźć programu do wyświetlenia pliku <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Pobierz całą wiadomość</string>
   <string name="message_view_toast_unable_to_display_message">Nie można wyświetlić wiadomości</string>
   <string name="message_view_sender_label">przez %1$s</string>
@@ -384,7 +384,7 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="account_setup_outgoing_password_label">Hasło</string>
   <string name="account_setup_outgoing_authentication_label">Rodzaj uwierzytelnienia</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" nie jest ważny z \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
-  <string name="account_setup_bad_uri">Nieprawidłowe ustawienia: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Nieprawidłowe ustawienia: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Opcje konta</string>
   <string name="compact_action">Kompaktuj</string>
   <string name="clear_action">Usuń wszystkie dane (niebezpieczne!)</string>
@@ -431,9 +431,9 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="account_setup_options_mail_display_count_all">Wszystkie wiadomości</string>
   <string name="move_copy_cannot_copy_unsynced_message">Nie można skopiować ani przenieść wiadomości, która nie jest zsynchronizowana z serwerem</string>
   <string name="account_setup_failed_dlg_title">Wystąpił błąd</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Nieprawidłowa nazwa użytkownika lub hasło.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">Serwer przedstawił nieprawidłowy certyfikat SSL. Czasami przyczyną jest błędna konfiguracja. Czasami dzieje się tak, ponieważ ktoś próbuje wykonać atak na Ciebie lub Twój serwer pocztowy. Jeśli nie masz pewności, co się dzieje, kliknij Odrzuć i skontaktuj się osobami zarządzającymi Twoim serwerem pocztowym.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Nie można uzyskać połączenia z serwerem.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Nieprawidłowa nazwa użytkownika lub hasło.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">Serwer przedstawił nieprawidłowy certyfikat SSL. Czasami przyczyną jest błędna konfiguracja. Czasami dzieje się tak, ponieważ ktoś próbuje wykonać atak na Ciebie lub Twój serwer pocztowy. Jeśli nie masz pewności, co się dzieje, kliknij Odrzuć i skontaktuj się osobami zarządzającymi Twoim serwerem pocztowym.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Nie można uzyskać połączenia z serwerem.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Popraw ustawienia</string>
   <string name="account_setup_failed_dlg_continue_action">Kontynuuj</string>
   <string name="account_settings_push_advanced_title">Zaawansowane</string>
@@ -710,7 +710,7 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="count_search_summary">Wyłącz, aby przyspieszyć wyświetlanie</string>
   <string name="hide_special_accounts_title">Ukryj konta specjalne</string>
   <string name="hide_special_accounts_summary">Ukryj zunifikowaną odbiorczą i wszystkie wiadomości</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier"> - Z gwiazdką</string>
   <string name="unread_modifier"> - Nieprzeczytane</string>
   <string name="search_all_messages_title">Wszystkie wiadomości</string>
@@ -746,7 +746,7 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="font_size_message_view_subject">Temat</string>
   <string name="font_size_message_view_date">Czas i data</string>
   <string name="font_size_message_view_content">Treść wiadomości</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Kompozycja wiadomości</string>
   <string name="font_size_message_compose_input">Pole wprawadzania tekstu</string>
@@ -760,7 +760,7 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="font_size_larger">Wielka</string>
   <string name="miscellaneous_preferences">Różne</string>
   <string name="error_activity_not_found">Nie znaleiono odpowiedniej aplikacji.</string>
-  <string name="send_failed_reason">Wysyłanie nieudane: %s</string>
+  <string name="send_failed_reason">Wysyłanie nieudane:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Zapisać szkic?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Zapisać czy porzucić wiadomość?</string>
   <string name="confirm_discard_draft_message_title">Usunąć wiadomość?</string>
@@ -804,32 +804,32 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="settings_exporting">Eksportowanie ustawień…</string>
   <string name="settings_importing">Importowanie ustawień…</string>
   <string name="settings_import_scanning_file">Skanowanie pliku…</string>
-  <string name="settings_export_success">Zapisano ustawienia do <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Zapisano ustawienia do <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Eksport ustawień zakończony sukcesem</string>
-  <string name="settings_import_global_settings_success">Importowano ustawienia z <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Importowano <xliff:g id="accounts">%s</xliff:g> z <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Importowano ustawienia z <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Importowano <xliff:g id="accounts">%1$s</xliff:g> z <xliff:g id="filename">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 konto</item>
-    <item quantity="few"><xliff:g id="numAccounts">%s</xliff:g> konta</item>
-    <item quantity="many"><xliff:g id="numAccounts">%s</xliff:g> kont</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> kont</item>
+    <item quantity="few"><xliff:g id="numAccounts">%1$s</xliff:g> konta</item>
+    <item quantity="many"><xliff:g id="numAccounts">%1$s</xliff:g> kont</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> kont</item>
   </plurals>
   <string name="settings_export_failure">Błąd eksportu</string>
-  <string name="settings_import_failure">Błąd importu z <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Błąd importu z <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Eksport udany</string>
   <string name="settings_export_failed_header">Eksport nieudany</string>
   <string name="settings_import_success_header">Import udany</string>
   <string name="settings_import_failed_header">Import nieudany</string>
   <string name="settings_import_activate_account_header">Aktywuj konto</string>
-  <string name="settings_import_activate_account_intro">Żeby użwyać konta \"<xliff:g id="account">%s</xliff:g>\" musisz zapewnić <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">Żeby użwyać konta \"<xliff:g id="account">%1$s</xliff:g>\" musisz zapewnić <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">hasło serwera</item>
     <item quantity="few">hasła serwera</item>
     <item quantity="many">hasła serwera</item>
     <item quantity="other">hasła serwera</item>
   </plurals>
-  <string name="settings_import_incoming_server">Serwer przychodzący (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Serwer wychodzący (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Serwer przychodzący (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Serwer wychodzący (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Ustawianie hasła…</item>
     <item quantity="few">Ustawianie haseł…</item>
@@ -838,7 +838,7 @@ Wysłane za pomocą XryptoMail Mail.</string>
   </plurals>
   <string name="settings_import_use_incoming_server_password">Użyj hasła serwera przychodzącego</string>
   <string name="activate_account_action">Aktywuj</string>
-  <string name="account_unavailable">Konto \"<xliff:g id="account">%s</xliff:g>\" jest niedostępne; sprawdź dostępną pamięć</string>
+  <string name="account_unavailable">Konto \"<xliff:g id="account">%1$s</xliff:g>\" jest niedostępne; sprawdź dostępną pamięć</string>
   <string name="settings_attachment_default_path">Zapisuj załączniki do…</string>
   <string name="attachment_save_title">Zapisz załączniki</string>
   <string name="attachment_save_desc">Brak przeglądarki plików. Chcesz zapisać ten załącznik?</string>
@@ -877,7 +877,7 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="webview_contextmenu_email_save_action">Zapisz do kontaktów</string>
   <string name="webview_contextmenu_email_copy_action">Kopiuj adres email do schowka</string>
   <string name="webview_contextmenu_email_clipboard_label">Adres email</string>
-  <string name="image_saved_as">Obraz zapisany jako \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Obraz zapisany jako \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">Błąd zapisu obrazu.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Wszystkie</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -888,13 +888,13 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Maksymalna ilość wyników</string>
-  <string name="account_settings_remote_search_num_summary">Wyszukiwanie zostanie zatrzymane po odnalezieniu <xliff:g id="num_results">%s</xliff:g> wyników.</string>
+  <string name="account_settings_remote_search_num_summary">Wyszukiwanie zostanie zatrzymane po odnalezieniu <xliff:g id="num_results">%1$s</xliff:g> wyników.</string>
   <string name="remote_search_sending_query">Wysyłam żądanie do serwera</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">Pobieram wyniki: %d</item>
-    <item quantity="few">Pobieram wyniki: %d</item>
-    <item quantity="many">Pobieram wyniki: %d</item>
-    <item quantity="other">Pobieram wyniki: %d</item>
+    <item quantity="one">Pobieram wyniki:%1$d</item>
+    <item quantity="few">Pobieram wyniki:%1$d</item>
+    <item quantity="many">Pobieram wyniki:%1$d</item>
+    <item quantity="other">Pobieram wyniki:%1$d</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="one">Pobieram wynik %1$d/%2$d</item>
@@ -916,7 +916,7 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="global_settings_threaded_view_summary">Grupuj wiadomości według wątków</string>
   <string name="upgrade_databases_title">Aktualizacja baz</string>
   <string name="upgrade_databases_unspecified">Aktualizacja baz…</string>
-  <string name="upgrade_database_format">Aktualizacja bazy konta \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="upgrade_database_format">Aktualizacja bazy konta \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="message_list_loading">Ładowanie…</string>
   <string name="global_settings_splitview_mode_label">Użyj widoku podzielonego ekranu</string>
   <string name="global_settings_splitview_always">Zawsze</string>
@@ -925,9 +925,9 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="message_view_empty">Wybierz wiadomość z listy po lewej</string>
   <string name="global_settings_show_contact_picture_label">Wyświetl zdjęcie kontaktu</string>
   <string name="global_settings_show_contact_picture_summary">Wyświetla zdjęcia konktaktów w widoku listy wiadomości</string>
-  <string name="last_refresh_time_format">Odświeżone o <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Odświeżone <xliff:g id="time_with_preposition">%s</xliff:g> (tryb Push aktywny)</string>
-  <string name="preposition_for_date"><xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Odświeżone o <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Odświeżone <xliff:g id="time_with_preposition">%1$s</xliff:g> (tryb Push aktywny)</string>
+  <string name="preposition_for_date"><xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Oznacz wszystkie jako przeczytane</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Pokoloruj zdjęcia kontaktów</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Używa kolorów gdy brakuje zdjęć kontaktów</string>
@@ -942,7 +942,7 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="account_setup_basics_client_certificate">Użyj certyfikatu klienta</string>
   <string name="client_certificate_spinner_empty">Brak certyfikatu klienta</string>
   <string name="client_certificate_spinner_delete">Usuń wybór certyfikatu klienta</string>
-  <string name="client_certificate_retrieval_failure">Nieudane pobranie certyfikatu klienta dla aliasu \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">Nieudane pobranie certyfikatu klienta dla aliasu \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Zaawansowane ustawienia</string>
   <string name="client_certificate_expired">Certyfikat klienta \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" wygasł lub nie jest jeszcze ważny (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

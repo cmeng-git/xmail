@@ -1,8 +1,8 @@
 package org.atalk.xryptomail.mailstore;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.james.mime4j.codec.QuotedPrintableOutputStream;
 import org.apache.james.mime4j.util.MimeUtil;
+import org.atalk.xryptomail.helper.FileBackend;
 import org.atalk.xryptomail.mail.Body;
 import org.atalk.xryptomail.mail.MessagingException;
 import org.atalk.xryptomail.mail.filter.Base64OutputStream;
@@ -23,26 +23,23 @@ abstract class BinaryAttachmentBody implements Body {
 
     @Override
     public void writeTo(OutputStream out) throws IOException, MessagingException {
-        InputStream in = getInputStream();
-        try {
+        try (InputStream in = getInputStream()) {
             boolean closeStream = false;
             if (MimeUtil.isBase64Encoding(mEncoding)) {
                 out = new Base64OutputStream(out);
                 closeStream = true;
-            } else if (MimeUtil.isQuotedPrintableEncoded(mEncoding)){
+            } else if (MimeUtil.isQuotedPrintableEncoded(mEncoding)) {
                 out = new QuotedPrintableOutputStream(out, false);
                 closeStream = true;
             }
 
             try {
-                IOUtils.copy(in, out);
+                FileBackend.copy(in, out);
             } finally {
                 if (closeStream) {
                     out.close();
                 }
             }
-        } finally {
-            in.close();
         }
     }
 

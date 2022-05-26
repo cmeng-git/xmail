@@ -33,7 +33,7 @@ internal fun Char.isTSpecial() = this in TSPECIALS
 internal fun Char.isTokenChar() = isVChar() && !isTSpecial()
 
 // RFC 5234: VCHAR = %x21-7E
-internal fun Char.isVChar() = toInt() in 33..126
+internal fun Char.isVChar() = code in 33..126
 
 // RFC 5234: WSP =  SP / HTAB
 internal fun Char.isWsp() = this == SPACE || this == HTAB

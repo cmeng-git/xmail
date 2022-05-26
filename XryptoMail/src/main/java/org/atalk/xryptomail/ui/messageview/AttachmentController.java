@@ -7,17 +7,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import androidx.annotation.WorkerThread;
-
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import org.apache.commons.io.IOUtils;
+import androidx.annotation.WorkerThread;
+
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.Preferences;
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.controller.MessagingController;
 import org.atalk.xryptomail.controller.SimpleMessagingListener;
+import org.atalk.xryptomail.helper.FileBackend;
 import org.atalk.xryptomail.mail.Message;
 import org.atalk.xryptomail.mail.Part;
 import org.atalk.xryptomail.mail.internet.MimeUtility;
@@ -33,66 +33,55 @@ import java.util.List;
 
 import timber.log.Timber;
 
-public class AttachmentController
-{
+public class AttachmentController {
     private final Context context;
     private final MessagingController controller;
     private final MessageViewFragment messageViewFragment;
     private final AttachmentViewInfo attachment;
 
-    AttachmentController(MessagingController controller, MessageViewFragment messageViewFragment, AttachmentViewInfo attachment)
-    {
+    AttachmentController(MessagingController controller, MessageViewFragment messageViewFragment, AttachmentViewInfo attachment) {
         this.context = messageViewFragment.getApplicationContext();
         this.controller = controller;
         this.messageViewFragment = messageViewFragment;
         this.attachment = attachment;
     }
 
-    public void viewAttachment()
-    {
+    public void viewAttachment() {
         if (!attachment.isContentAvailable()) {
             downloadAndViewAttachment((LocalPart) attachment.part);
-        }
-        else {
+        } else {
             viewLocalAttachment();
         }
     }
 
-    public void saveAttachmentTo(Uri documentUri)
-    {
+    public void saveAttachmentTo(Uri documentUri) {
         if (!attachment.isContentAvailable()) {
             downloadAndSaveAttachmentTo((LocalPart) attachment.part, documentUri);
-        }
-        else {
+        } else {
             saveLocalAttachmentTo(documentUri);
         }
     }
 
-    private void downloadAndViewAttachment(LocalPart localPart)
-    {
-        downloadAttachment(localPart, () -> viewLocalAttachment());
+    private void downloadAndViewAttachment(LocalPart localPart) {
+        downloadAttachment(localPart, this::viewLocalAttachment);
     }
 
-    private void downloadAndSaveAttachmentTo(LocalPart localPart, final Uri documentUri)
-    {
+    private void downloadAndSaveAttachmentTo(LocalPart localPart, final Uri documentUri) {
         downloadAttachment(localPart, () -> {
             messageViewFragment.refreshAttachmentThumbnail(attachment);
             saveLocalAttachmentTo(documentUri);
         });
     }
 
-    private void downloadAttachment(LocalPart localPart, final Runnable attachmentDownloadedCallback)
-    {
+    private void downloadAttachment(LocalPart localPart, final Runnable attachmentDownloadedCallback) {
         String accountUuid = localPart.getAccountUuid();
         Account account = Preferences.getPreferences(context).getAccount(accountUuid);
         LocalMessage message = localPart.getMessage();
 
         messageViewFragment.showAttachmentLoadingDialog();
-        controller.loadAttachment(account, message, attachment.part, new SimpleMessagingListener()
-        {
+        controller.loadAttachment(account, message, attachment.part, new SimpleMessagingListener() {
             @Override
-            public void loadAttachmentFinished(Account account, Message message, Part part)
-            {
+            public void loadAttachmentFinished(Account account, Message message, Part part) {
                 attachment.setContentAvailable();
                 messageViewFragment.hideAttachmentLoadingDialogOnMainThread();
                 messageViewFragment.runOnMainThread(attachmentDownloadedCallback);
@@ -100,39 +89,34 @@ public class AttachmentController
 
             @Override
             public void loadAttachmentFailed(Account account, Message message,
-                    Part part, String reason)
-            {
+                    Part part, String reason) {
                 messageViewFragment.hideAttachmentLoadingDialogOnMainThread();
             }
         });
     }
 
-    private void viewLocalAttachment()
-    {
+    private void viewLocalAttachment() {
         new ViewAttachmentAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private void saveLocalAttachmentTo(Uri documentUri)
-    {
+    private void saveLocalAttachmentTo(Uri documentUri) {
         new SaveAttachmentAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, documentUri);
     }
 
     private void writeAttachment(Uri documentUri)
-            throws IOException
-    {
+            throws IOException {
         ContentResolver contentResolver = context.getContentResolver();
         try (InputStream in = contentResolver.openInputStream(attachment.internalUri);
              OutputStream out = contentResolver.openOutputStream(documentUri)) {
             if (in != null && out != null) {
-                IOUtils.copy(in, out);
+                FileBackend.copy(in, out);
                 out.flush();
             }
         }
     }
 
     @WorkerThread
-    private Intent getBestViewIntent()
-    {
+    private Intent getBestViewIntent() {
         Uri intentDataUri;
         try {
             intentDataUri = AttachmentTempFileProvider.createTempUriForContentUri(context, attachment.internalUri);
@@ -148,8 +132,7 @@ public class AttachmentController
         String mimeType = attachment.mimeType;
         if (MimeUtility.isDefaultMimeType(mimeType)) {
             resolvedIntentInfo = getViewIntentForMimeType(intentDataUri, inferredMimeType);
-        }
-        else {
+        } else {
             resolvedIntentInfo = getViewIntentForMimeType(intentDataUri, mimeType);
             if (!resolvedIntentInfo.hasResolvedActivities() && !inferredMimeType.equals(mimeType)) {
                 resolvedIntentInfo = getViewIntentForMimeType(intentDataUri, inferredMimeType);
@@ -161,16 +144,14 @@ public class AttachmentController
         return resolvedIntentInfo.getIntent();
     }
 
-    private IntentAndResolvedActivitiesCount getViewIntentForMimeType(Uri contentUri, String mimeType)
-    {
+    private IntentAndResolvedActivitiesCount getViewIntentForMimeType(Uri contentUri, String mimeType) {
         Intent contentUriIntent = createViewIntentForAttachmentProviderUri(contentUri, mimeType);
         int contentUriActivitiesCount = getResolvedIntentActivitiesCount(contentUriIntent);
 
         return new IntentAndResolvedActivitiesCount(contentUriIntent, contentUriActivitiesCount);
     }
 
-    private Intent createViewIntentForAttachmentProviderUri(Uri contentUri, String mimeType)
-    {
+    private Intent createViewIntentForAttachmentProviderUri(Uri contentUri, String mimeType) {
         Uri uri = AttachmentTempFileProvider.getMimeTypeUri(contentUri, mimeType);
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -181,13 +162,11 @@ public class AttachmentController
         return intent;
     }
 
-    private void addUiIntentFlags(Intent intent)
-    {
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    private void addUiIntentFlags(Intent intent) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
     }
 
-    private int getResolvedIntentActivitiesCount(Intent intent)
-    {
+    private int getResolvedIntentActivitiesCount(Intent intent) {
         PackageManager packageManager = context.getPackageManager();
         List<ResolveInfo> resolveInfos =
                 packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
@@ -195,62 +174,51 @@ public class AttachmentController
         return resolveInfos.size();
     }
 
-    private void displayAttachmentNotSavedMessage()
-    {
+    private void displayAttachmentNotSavedMessage() {
         String message = context.getString(R.string.message_view_status_attachment_not_saved);
         displayMessageToUser(message);
     }
 
-    private void displayMessageToUser(String message)
-    {
+    private void displayMessageToUser(String message) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
-    private static class IntentAndResolvedActivitiesCount
-    {
-        private Intent intent;
-        private int activitiesCount;
+    private static class IntentAndResolvedActivitiesCount {
+        private final Intent intent;
+        private final int activitiesCount;
 
-        IntentAndResolvedActivitiesCount(Intent intent, int activitiesCount)
-        {
+        IntentAndResolvedActivitiesCount(Intent intent, int activitiesCount) {
             this.intent = intent;
             this.activitiesCount = activitiesCount;
         }
 
-        public Intent getIntent()
-        {
+        public Intent getIntent() {
             return intent;
         }
 
-        public boolean hasResolvedActivities()
-        {
+        public boolean hasResolvedActivities() {
             return activitiesCount > 0;
         }
     }
 
-    private class ViewAttachmentAsyncTask extends AsyncTask<Void, Void, Intent>
-    {
+    private class ViewAttachmentAsyncTask extends AsyncTask<Void, Void, Intent> {
         @Override
-        protected void onPreExecute()
-        {
+        protected void onPreExecute() {
             messageViewFragment.disableAttachmentButtons(attachment);
         }
 
         @Override
-        protected Intent doInBackground(Void... params)
-        {
+        protected Intent doInBackground(Void... params) {
             return getBestViewIntent();
         }
 
         @Override
-        protected void onPostExecute(Intent intent)
-        {
+        protected void onPostExecute(Intent intent) {
             viewAttachment(intent);
             messageViewFragment.enableAttachmentButtons(attachment);
         }
 
-        private void viewAttachment(Intent intent)
-        {
+        private void viewAttachment(Intent intent) {
             try {
                 context.startActivity(intent);
             } catch (ActivityNotFoundException e) {
@@ -262,17 +230,14 @@ public class AttachmentController
         }
     }
 
-    private class SaveAttachmentAsyncTask extends AsyncTask<Uri, Void, Boolean>
-    {
+    private class SaveAttachmentAsyncTask extends AsyncTask<Uri, Void, Boolean> {
         @Override
-        protected void onPreExecute()
-        {
+        protected void onPreExecute() {
             messageViewFragment.disableAttachmentButtons(attachment);
         }
 
         @Override
-        protected Boolean doInBackground(Uri... params)
-        {
+        protected Boolean doInBackground(Uri... params) {
             try {
                 Uri documentUri = params[0];
                 writeAttachment(documentUri);
@@ -284,8 +249,7 @@ public class AttachmentController
         }
 
         @Override
-        protected void onPostExecute(Boolean success)
-        {
+        protected void onPostExecute(Boolean success) {
             messageViewFragment.enableAttachmentButtons(attachment);
             if (!success) {
                 displayAttachmentNotSavedMessage();

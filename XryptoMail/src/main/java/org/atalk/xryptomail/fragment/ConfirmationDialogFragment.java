@@ -1,13 +1,15 @@
 package org.atalk.xryptomail.fragment;
 
-//import android.app.*;
-import android.app.*;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.*;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentActivity;
 
 import timber.log.Timber;
 
@@ -42,10 +44,13 @@ public class ConfirmationDialogFragment extends DialogFragment implements OnClic
 
     public interface ConfirmationDialogFragmentListener {
         void doPositiveClick(int dialogId);
+
         void doNegativeClick(int dialogId);
+
         void dialogCancelled(int dialogId);
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle args = getArguments();
@@ -65,7 +70,6 @@ public class ConfirmationDialogFragment extends DialogFragment implements OnClic
         } else {
             throw new RuntimeException("Set at least cancelText!");
         }
-
         return builder.create();
     }
 
@@ -88,7 +92,7 @@ public class ConfirmationDialogFragment extends DialogFragment implements OnClic
     }
 
     @Override
-    public void onCancel(DialogInterface dialog) {
+    public void onCancel(@NonNull DialogInterface dialog) {
         super.onCancel(dialog);
         getListener().dialogCancelled(getDialogId());
     }
@@ -98,12 +102,12 @@ public class ConfirmationDialogFragment extends DialogFragment implements OnClic
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (ConfirmationDialogFragmentListener) activity;
+            mListener = (ConfirmationDialogFragmentListener) context;
         } catch (ClassCastException e) {
-            Timber.d("%s did not implement ConfirmationDialogFragmentListener", activity);
+            Timber.d("%s did not implement ConfirmationDialogFragmentListener", context);
         }
     }
 
@@ -116,8 +120,7 @@ public class ConfirmationDialogFragment extends DialogFragment implements OnClic
         try {
             return (ConfirmationDialogFragmentListener) getTargetFragment();
         } catch (ClassCastException e) {
-            throw new ClassCastException(getTargetFragment().getClass() +
-                    " must implement ConfirmationDialogFragmentListener");
+            throw new ClassCastException(getTargetFragment().getClass() + " must implement ConfirmationDialogFragmentListener");
         }
     }
 }

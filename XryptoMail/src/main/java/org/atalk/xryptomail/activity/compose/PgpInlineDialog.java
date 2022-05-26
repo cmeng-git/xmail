@@ -6,6 +6,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -15,7 +17,6 @@ import org.atalk.xryptomail.view.HighlightDialogFragment;
 public class PgpInlineDialog extends HighlightDialogFragment
 {
     public static final String ARG_FIRST_TIME = "first_time";
-
 
     public static PgpInlineDialog newInstance(boolean firstTime, @IdRes int showcaseView)
     {
@@ -29,6 +30,7 @@ public class PgpInlineDialog extends HighlightDialogFragment
         return dialog;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {

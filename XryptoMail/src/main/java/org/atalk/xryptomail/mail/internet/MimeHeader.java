@@ -83,6 +83,7 @@ public class MimeHeader implements Cloneable {
         mFields.removeAll(removeFields);
     }
 
+    @NonNull
     public String toString() {
         StringBuilder builder = new StringBuilder();
         for (Field field : mFields) {
@@ -205,6 +206,7 @@ public class MimeHeader implements Cloneable {
             return raw != null;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return (hasRawData()) ? getRaw() : getName() + ": " + getValue();
@@ -215,6 +217,7 @@ public class MimeHeader implements Cloneable {
         mCharset = charset;
     }
 
+    @NonNull
     @Override
     public MimeHeader clone() {
         try {

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.atalk.xryptomail.notification.NotificationController.NOTIFICATION_LED_BLINK_SLOW;
-import static org.atalk.xryptomail.notification.NotificationController.platformSupportsExtendedNotifications;
 
 class DeviceNotifications extends BaseNotifications
 {
@@ -43,7 +42,7 @@ class DeviceNotifications extends BaseNotifications
 
         NotificationCompat.Builder builder;
         // Build custom badge number if not natively supported by android OS
-        if (isPrivacyModeActive() || !platformSupportsExtendedNotifications()) {
+        if (isPrivacyModeActive()) {
             builder = createSimpleSummaryNotification(account, unreadMessageCount, NotificationHelper.EMAIL_GROUP);
         }
         else if (notificationData.isSingleMessageNotification()) {

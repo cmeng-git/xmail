@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 public class ProgressDialogFragment extends DialogFragment
@@ -23,6 +24,7 @@ public class ProgressDialogFragment extends DialogFragment
         return fragment;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle args = getArguments();
@@ -37,9 +39,9 @@ public class ProgressDialogFragment extends DialogFragment
     }
 
     @Override
-    public void onCancel(DialogInterface dialog) {
+    public void onCancel(@NonNull DialogInterface dialog) {
         Activity activity = getActivity();
-        if (activity != null && activity instanceof CancelListener) {
+        if (activity instanceof CancelListener) {
             CancelListener listener = (CancelListener) activity;
             listener.onProgressCancel(this);
         }

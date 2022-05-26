@@ -137,10 +137,10 @@ public class LockableDatabase
      *
      * @see #execute(boolean, DbCallback)
      */
-    private ThreadLocal<Boolean> inTransaction = new ThreadLocal<>();
-    private SchemaDefinition mSchemaDefinition;
-    private Context mContext;
-    private String uUid;
+    private final ThreadLocal<Boolean> inTransaction = new ThreadLocal<>();
+    private final SchemaDefinition mSchemaDefinition;
+    private final Context mContext;
+    private final String uUid;
 
     /**
      * @param context Never <code>null</code>.
@@ -509,17 +509,10 @@ public class LockableDatabase
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void deleteDatabase(File database)
     {
         boolean deleted;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            deleted = SQLiteDatabase.deleteDatabase(database);
-        }
-        else {
-            deleted = database.delete();
-            deleted |= new File(database.getPath() + "-journal").delete();
-        }
+        deleted = SQLiteDatabase.deleteDatabase(database);
         if (!deleted) {
             Timber.i("LockableDatabase: deleteDatabase(): No files deleted.");
         }

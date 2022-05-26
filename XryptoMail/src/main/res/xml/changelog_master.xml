@@ -8,6 +8,15 @@
      They are automatically updated with "ant bump-version".
 -->
 <changelog>
+    <release version="5.0.3 (05/27/2022)" versioncode="19030">
+        <change>Update Default TrustedSocketFactory, avoid using setHostnameViaReflection that causes not such method exception</change>
+        <change>Realign XryptoMail OS support to android API 21-32. Update source to compliance with OS</change>
+        <change>Fix application icon badge number for android-O and above</change>
+        <change>Must check for Socket.isConnected is false before making connection; else exception is thrown</change>
+        <change>update all XryptoMail third party libraries used to latest version if allowed</change>
+        <change>Bug fixes and other enhancements</change>
+    </release>
+
     <release version="5.0.2 (11/17/2020)" versioncode="19020">
         <change>Enhance LED notification support for android OS >= android 8.0(O), devices with LED indicators;
             The LED light color is Color.BLUE, not customizable</change>

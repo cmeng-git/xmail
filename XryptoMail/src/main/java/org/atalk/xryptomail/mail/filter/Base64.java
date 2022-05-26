@@ -19,6 +19,7 @@ package org.atalk.xryptomail.mail.filter;
 
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Provides Base64 encoding and decoding as defined by RFC 2045.
@@ -241,7 +242,7 @@ public class Base64 {
         }
         this.decodeSize = encodeSize - 1;
         if (containsBase64Byte(lineSeparator)) {
-            String sep = new String(lineSeparator, Charset.forName("UTF-8"));
+            String sep = new String(lineSeparator, StandardCharsets.UTF_8);
 
             throw new IllegalArgumentException("lineSeperator must not contain base64 characters: [" + sep + "]");
         }
@@ -580,7 +581,7 @@ public class Base64 {
         }
         Base64 b64 = isChunked ? new Base64() : new Base64(0);
 
-        long len = (binaryData.length * 4) / 3;
+        long len = (binaryData.length * 4L) / 3;
         long mod = len % 4;
         if (mod != 0) {
             len += 4 - mod;
@@ -617,7 +618,7 @@ public class Base64 {
         }
         Base64 b64 = new Base64();
 
-        long len = (base64Data.length * 3) / 4;
+        long len = (base64Data.length * 3L) / 4;
         byte[] buf = new byte[(int) len];
         b64.setInitialBuffer(buf, 0, buf.length);
         b64.decode(base64Data, 0, base64Data.length);
@@ -657,7 +658,7 @@ public class Base64 {
      * @return The data, less non-base64 characters (see RFC 2045).
      */
     static byte[] discardNonBase64(byte[] data) {
-        byte groomedData[] = new byte[data.length];
+        byte[] groomedData = new byte[data.length];
         int bytesCopied = 0;
 
         for (byte element : data) {
@@ -666,7 +667,7 @@ public class Base64 {
             }
         }
 
-        byte packedData[] = new byte[bytesCopied];
+        byte[] packedData = new byte[bytesCopied];
 
         System.arraycopy(groomedData, 0, packedData, 0, bytesCopied);
 

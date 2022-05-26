@@ -889,7 +889,7 @@ public class MimeUtility
         if (s == null) {
             return null;
         }
-        return s.replaceAll("\r|\n", "");
+        return s.replaceAll("[\r\n]", "");
     }
 
     private static String decode(String s, Message message)

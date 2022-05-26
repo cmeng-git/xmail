@@ -20,7 +20,7 @@ public class PollService extends JobIntentService
     private static final String START_SERVICE = "org.atalk.xryptomail.service.PollService.startService";
     private static final String STOP_SERVICE = "org.atalk.xryptomail.service.PollService.stopService";
 
-    private Listener mListener = new Listener();
+    private final Listener mListener = new Listener();
 
     public static void startService(Context context)
     {
@@ -69,7 +69,6 @@ public class PollService extends JobIntentService
     class Listener extends SimpleMessagingListener
     {
         Map<String, Integer> accountsChecked = new HashMap<>();
-        private TracingWakeLock wakeLock = null;
 
         @Override
         public void checkMailStarted(Context context, Account account)

@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -47,7 +48,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider
 
         int appWidgetId = properties.getAppWidgetId();
         Intent clickIntent = null;
-        int unreadCount = 0;
+        int unreadCount;
 
         try {
             clickIntent = properties.getClickIntent(context);
@@ -61,7 +62,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider
                 remoteViews.setViewVisibility(R.id.unread_count, View.VISIBLE);
 
                 String displayCount = (unreadCount <= MAX_COUNT) ?
-                        String.valueOf(unreadCount) : String.valueOf(MAX_COUNT) + "+";
+                        String.valueOf(unreadCount) : MAX_COUNT + "+";
                 remoteViews.setTextViewText(R.id.unread_count, displayCount);
             }
             remoteViews.setTextViewText(R.id.title, properties.getTitle(context));
@@ -78,8 +79,9 @@ public class UnreadWidgetProvider extends AppWidgetProvider
         }
         clickIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId,
-                clickIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, clickIntent,
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT
+                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT);
 
         remoteViews.setOnClickPendingIntent(R.id.unread_widget_layout, pendingIntent);
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);

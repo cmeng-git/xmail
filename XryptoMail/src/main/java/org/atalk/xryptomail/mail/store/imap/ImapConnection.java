@@ -1,12 +1,17 @@
 package org.atalk.xryptomail.mail.store.imap;
 
-import android.net.*;
+import static org.atalk.xryptomail.mail.XryptoMailLib.DEBUG_PROTOCOL_IMAP;
+
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.TrafficStats;
 
 import com.jcraft.jzlib.JZlib;
 import com.jcraft.jzlib.ZOutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.helper.timberlog.TimberLog;
 import org.atalk.xryptomail.mail.Authentication;
 import org.atalk.xryptomail.mail.AuthenticationFailedException;
 import org.atalk.xryptomail.mail.CertificateValidationException;
@@ -52,13 +57,10 @@ import javax.net.ssl.SSLException;
 
 import timber.log.Timber;
 
-import static org.atalk.xryptomail.mail.XryptoMailLib.DEBUG_PROTOCOL_IMAP;
-
 /**
  * A cacheable class that stores the details for a single IMAP connection.
  */
-class ImapConnection
-{
+class ImapConnection {
     public static final int THREAD_ID = 18800;
     private static final int BUFFER_SIZE = 1024;
 
@@ -86,15 +88,13 @@ class ImapConnection
     private ImapResponseParser mResponseParser;
     private int mNextCommandTag;
     private Set<String> capabilities = new HashSet<>();
-    private ImapSettings mSettings;
+    private final ImapSettings mSettings;
     private Exception stacktraceForClose;
     private boolean mOpen = false;
     private boolean retryXoauth2WithNewToken = true;
-    private int lineLengthLimit;
 
     public ImapConnection(ImapSettings settings, TrustedSocketFactory socketFactory,
-            ConnectivityManager connectivityManager, OAuth2TokenProvider oauthTokenProvider)
-    {
+            ConnectivityManager connectivityManager, OAuth2TokenProvider oauthTokenProvider) {
         mSettings = settings;
         mSocketFactory = socketFactory;
         mConnectivityManager = connectivityManager;
@@ -105,8 +105,7 @@ class ImapConnection
     }
 
     ImapConnection(ImapSettings settings, TrustedSocketFactory socketFactory, ConnectivityManager connectivityManager,
-            OAuth2TokenProvider oauthTokenProvider, int socketConnectTimeout, int socketReadTimeout)
-    {
+            OAuth2TokenProvider oauthTokenProvider, int socketConnectTimeout, int socketReadTimeout) {
         mSettings = settings;
         mSocketFactory = socketFactory;
         mConnectivityManager = connectivityManager;
@@ -117,12 +116,10 @@ class ImapConnection
     }
 
     public void open()
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         if (mOpen) {
             return;
-        }
-        else if (stacktraceForClose != null) {
+        } else if (stacktraceForClose != null) {
             throw new IllegalStateException("open() called after close(). " +
                     "Check wrapped exception to see where close() was called.", stacktraceForClose);
         }
@@ -161,39 +158,33 @@ class ImapConnection
     }
 
     private void handleSslException(SSLException e)
-            throws CertificateValidationException, SSLException
-    {
+            throws CertificateValidationException, SSLException {
         if (e.getCause() instanceof CertificateException) {
             throw new CertificateValidationException(e.getMessage(), e);
-        }
-        else {
+        } else {
             throw e;
         }
     }
 
     private void handleConnectException(ConnectException e)
-            throws ConnectException
-    {
+            throws ConnectException {
         String message = e.getMessage();
         String[] tokens = message.split("-");
 
         if (tokens.length > 1 && tokens[1] != null) {
             Timber.e(e, "Stripping host/port from ConnectionException for %s", getLogId());
             throw new ConnectException(tokens[1].trim());
-        }
-        else {
+        } else {
             throw e;
         }
     }
 
-    public boolean isConnected()
-    {
+    public boolean isConnected() {
         return ((mInputStream != null) && (mOutputStream != null) && (mSocket != null) &&
                 mSocket.isConnected() && !mSocket.isClosed());
     }
 
-    private void adjustDNSCacheTTL()
-    {
+    private void adjustDNSCacheTTL() {
         try {
             Security.setProperty("networkaddress.cache.ttl", "0");
         } catch (Exception e) {
@@ -208,8 +199,7 @@ class ImapConnection
     }
 
     private Socket connect()
-            throws GeneralSecurityException, MessagingException, IOException
-    {
+            throws GeneralSecurityException, MessagingException, IOException {
         Exception connectException = null;
         InetAddress[] inetAddresses = InetAddress.getAllByName(mSettings.getHost());
         for (InetAddress address : inetAddresses) {
@@ -219,14 +209,14 @@ class ImapConnection
                 // Just give status update, leave exception stack printing to final attempt if failed
                 Timber.w("Attempt failed for connection to %s", address);
                 connectException = e;
+                Timber.e("Attempt failed for connection to host on all given IP's: %s; %s", inetAddresses, e.getMessage());
             }
         }
         throw new MessagingException("Attempt failed for connection to host on all given IP's", connectException);
     }
 
     private Socket connectToAddress(InetAddress address)
-            throws NoSuchAlgorithmException, KeyManagementException, MessagingException, IOException
-    {
+            throws NoSuchAlgorithmException, KeyManagementException, MessagingException, IOException {
         String host = mSettings.getHost();
         int port = mSettings.getPort();
         String clientCertificateAlias = mSettings.getClientCertificateAlias();
@@ -239,37 +229,33 @@ class ImapConnection
         Socket socket;
         if (mSettings.getConnectionSecurity() == ConnectionSecurity.SSL_TLS_REQUIRED) {
             socket = mSocketFactory.createSocket(null, host, port, clientCertificateAlias);
-        }
-        else {
+        } else {
             socket = new Socket();
         }
         TrafficStats.setThreadStatsTag(XryptoMail.THREAD_ID);
-        socket.connect(socketAddress, socketConnectTimeout);
+        if (!socket.isConnected())
+            socket.connect(socketAddress, socketConnectTimeout);
         return socket;
     }
 
     private void configureSocket()
-            throws SocketException
-    {
+            throws SocketException {
         mSocket.setSoTimeout(socketReadTimeout);
     }
 
     private void setUpStreamsAndParserFromSocket()
-            throws IOException
-    {
+            throws IOException {
         setUpStreamsAndParser(mSocket.getInputStream(), mSocket.getOutputStream());
     }
 
-    private void setUpStreamsAndParser(InputStream input, OutputStream output)
-    {
+    private void setUpStreamsAndParser(InputStream input, OutputStream output) {
         mInputStream = new PeekableInputStream(new BufferedInputStream(input, BUFFER_SIZE));
         mResponseParser = new ImapResponseParser(mInputStream);
         mOutputStream = new BufferedOutputStream(output, BUFFER_SIZE);
     }
 
     private void readInitialResponse()
-            throws IOException
-    {
+            throws IOException {
         ImapResponse initialResponse = mResponseParser.readResponse();
         if (XryptoMailLib.isDebug() && DEBUG_PROTOCOL_IMAP) {
             Timber.v("%s <<< %s", getLogId(), initialResponse);
@@ -277,8 +263,7 @@ class ImapConnection
         extractCapabilities(Collections.singletonList(initialResponse));
     }
 
-    private List<ImapResponse> extractCapabilities(List<ImapResponse> responses)
-    {
+    private List<ImapResponse> extractCapabilities(List<ImapResponse> responses) {
         CapabilityResponse capabilityResponse = CapabilityResponse.parse(responses);
         if (capabilityResponse != null) {
             Set<String> receivedCapabilities = capabilityResponse.getCapabilities();
@@ -291,15 +276,13 @@ class ImapConnection
     }
 
     private List<ImapResponse> extractOrRequestCapabilities(List<ImapResponse> responses)
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         CapabilityResponse capabilityResponse = CapabilityResponse.parse(responses);
         if (capabilityResponse != null) {
             Set<String> receivedCapabilities = capabilityResponse.getCapabilities();
             Timber.d("Saving %s capabilities for %s", receivedCapabilities, getLogId());
             capabilities = receivedCapabilities;
-        }
-        else {
+        } else {
             Timber.i("Did not get capabilities in post-auth banner, requesting CAPABILITY for %s", getLogId());
             requestCapabilities();
         }
@@ -307,8 +290,7 @@ class ImapConnection
     }
 
     private void requestCapabilitiesIfNecessary()
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         if (!capabilities.isEmpty()) {
             return;
         }
@@ -319,8 +301,7 @@ class ImapConnection
     }
 
     private void requestCapabilities()
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         List<ImapResponse> responses = extractCapabilities(executeSimpleCommand(Commands.CAPABILITY));
         if (responses.size() != 2) {
             throw new MessagingException("Invalid CAPABILITY response received");
@@ -328,16 +309,14 @@ class ImapConnection
     }
 
     private void upgradeToTlsIfNecessary()
-            throws IOException, MessagingException, GeneralSecurityException
-    {
+            throws IOException, MessagingException, GeneralSecurityException {
         if (mSettings.getConnectionSecurity() == ConnectionSecurity.STARTTLS_REQUIRED) {
             upgradeToTls();
         }
     }
 
     private void upgradeToTls()
-            throws IOException, MessagingException, GeneralSecurityException
-    {
+            throws IOException, MessagingException, GeneralSecurityException {
         if (!hasCapability(Capabilities.STARTTLS)) {
             /*
              * This exception triggers a "Certificate error"
@@ -352,8 +331,7 @@ class ImapConnection
     }
 
     private void startTLS()
-            throws IOException, MessagingException, GeneralSecurityException
-    {
+            throws IOException, MessagingException, GeneralSecurityException {
         executeSimpleCommand(Commands.STARTTLS);
         String host = mSettings.getHost();
         int port = mSettings.getPort();
@@ -371,35 +349,29 @@ class ImapConnection
     }
 
     private List<ImapResponse> authenticate()
-            throws MessagingException, IOException
-    {
+            throws MessagingException, IOException {
         switch (mSettings.getAuthType()) {
             case XOAUTH2:
                 if (oauthTokenProvider == null) {
                     throw new MessagingException("No OAuthToken Provider available.");
-                }
-                else if (hasCapability(Capabilities.AUTH_XOAUTH2) && hasCapability(Capabilities.SASL_IR)) {
+                } else if (hasCapability(Capabilities.AUTH_XOAUTH2) && hasCapability(Capabilities.SASL_IR)) {
                     return authXoauth2withSASLIR();
-                }
-                else {
+                } else {
                     throw new MessagingException("Server doesn't support SASL XOAUTH2.");
                 }
             case CRAM_MD5: {
                 if (hasCapability(Capabilities.AUTH_CRAM_MD5)) {
                     return authCramMD5();
-                }
-                else {
+                } else {
                     throw new MessagingException("Server doesn't support encrypted passwords using CRAM-MD5.");
                 }
             }
             case PLAIN: {
                 if (hasCapability(Capabilities.AUTH_PLAIN)) {
                     return saslAuthPlainWithLoginFallback();
-                }
-                else if (!hasCapability(Capabilities.LOGINDISABLED)) {
+                } else if (!hasCapability(Capabilities.LOGINDISABLED)) {
                     return login();
-                }
-                else {
+                } else {
                     throw new MessagingException("Server doesn't support unencrypted passwords using AUTH=PLAIN " +
                             "and LOGIN is disabled.");
                 }
@@ -407,8 +379,7 @@ class ImapConnection
             case EXTERNAL: {
                 if (hasCapability(Capabilities.AUTH_EXTERNAL)) {
                     return saslAuthExternal();
-                }
-                else {
+                } else {
                     // Provide notification to user of a problem authenticating using client certificates
                     throw new CertificateValidationException(CertificateValidationException.Reason.MissingCapability);
                 }
@@ -420,8 +391,7 @@ class ImapConnection
     }
 
     private List<ImapResponse> authXoauth2withSASLIR()
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         retryXoauth2WithNewToken = true;
         try {
             return attemptXOAuth2();
@@ -431,22 +401,19 @@ class ImapConnection
 
             if (!retryXoauth2WithNewToken) {
                 throw handlePermanentXoauth2Failure(e);
-            }
-            else {
+            } else {
                 return handleTemporaryXoauth2Failure(e);
             }
         }
     }
 
-    private AuthenticationFailedException handlePermanentXoauth2Failure(NegativeImapResponseException e)
-    {
+    private AuthenticationFailedException handlePermanentXoauth2Failure(NegativeImapResponseException e) {
         Timber.v(e, "Permanent failure during XOAUTH2");
         return new AuthenticationFailedException(e.getMessage(), e);
     }
 
     private List<ImapResponse> handleTemporaryXoauth2Failure(NegativeImapResponseException e)
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         // We got a response indicating a retry might succeed after token refresh. We could avoid this if we had
         // a reasonable chance of knowing if a token was invalid before use (e.g. due to expiry). But we don't
         // This is the intended behaviour per AccountManager
@@ -463,27 +430,17 @@ class ImapConnection
     }
 
     private List<ImapResponse> attemptXOAuth2()
-            throws MessagingException, IOException
-    {
+            throws MessagingException, IOException {
         String token = oauthTokenProvider.getToken(mSettings.getUsername(), OAuth2AuthorizationCodeFlowTokenProvider.OAUTH2_TIMEOUT);
         String authString = Authentication.computeXoauth(mSettings.getUsername(), token);
         String tag = sendSaslIrCommand(Commands.AUTHENTICATE_XOAUTH2, authString, true);
 
         return mResponseParser.readStatusResponse(tag, Commands.AUTHENTICATE_XOAUTH2, getLogId(),
-                new UntaggedHandler()
-                {
-                    @Override
-                    public void handleAsyncUntaggedResponse(ImapResponse response)
-                            throws IOException
-                    {
-                        handleXOAuthUntaggedResponse(response);
-                    }
-                });
+                this::handleXOAuthUntaggedResponse);
     }
 
     private void handleXOAuthUntaggedResponse(ImapResponse response)
-            throws IOException
-    {
+            throws IOException {
         if (response.isString(0) && !Commands.CAPABILITY.equals(response.get(0))) {
             retryXoauth2WithNewToken = XOAuth2ChallengeParser.shouldRetry(response.getString(0), mSettings.getHost());
         }
@@ -494,8 +451,7 @@ class ImapConnection
     }
 
     private List<ImapResponse> authCramMD5()
-            throws MessagingException, IOException
-    {
+            throws MessagingException, IOException {
         String command = Commands.AUTHENTICATE_CRAM_MD5;
         String tag = sendCommand(command, false);
 
@@ -520,8 +476,7 @@ class ImapConnection
     }
 
     private List<ImapResponse> saslAuthPlainWithLoginFallback()
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         try {
             return saslAuthPlain();
         } catch (AuthenticationFailedException e) {
@@ -533,8 +488,7 @@ class ImapConnection
     }
 
     private List<ImapResponse> saslAuthPlain()
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         String command = Commands.AUTHENTICATE_PLAIN;
         String tag = sendCommand(command, false);
 
@@ -555,8 +509,7 @@ class ImapConnection
     }
 
     private List<ImapResponse> login()
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         /*
          * Use quoted strings which permit spaces and quotes. (Using IMAP
          * string literals would be better, but some servers are broken
@@ -578,8 +531,7 @@ class ImapConnection
     }
 
     private List<ImapResponse> saslAuthExternal()
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         try {
             String command = Commands.AUTHENTICATE_EXTERNAL + " " + Base64.encode(mSettings.getUsername());
             return executeSimpleCommand(command, false);
@@ -595,8 +547,7 @@ class ImapConnection
         }
     }
 
-    private MessagingException handleAuthenticationFailure(NegativeImapResponseException e)
-    {
+    private MessagingException handleAuthenticationFailure(NegativeImapResponseException e) {
         ImapResponse lastResponse = e.getLastResponse();
         String responseCode = ResponseCodeExtractor.getResponseCode(lastResponse);
 
@@ -606,23 +557,20 @@ class ImapConnection
                 close();
             }
             return new AuthenticationFailedException(e.getMessage());
-        }
-        else {
+        } else {
             close();
             return e;
         }
     }
 
     private void enableCompressionIfRequested()
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         if (hasCapability(Capabilities.COMPRESS_DEFLATE) && shouldEnableCompression()) {
             enableCompression();
         }
     }
 
-    private boolean shouldEnableCompression()
-    {
+    private boolean shouldEnableCompression() {
         boolean useCompression = true;
         NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
         if (networkInfo != null) {
@@ -641,8 +589,7 @@ class ImapConnection
     }
 
     private void enableCompression()
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         try {
             executeSimpleCommand(Commands.COMPRESS_DEFLATE);
         } catch (NegativeImapResponseException e) {
@@ -666,8 +613,7 @@ class ImapConnection
     }
 
     private void retrievePathPrefixIfNecessary()
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         if (mSettings.getPathPrefix() != null) {
             return;
         }
@@ -677,8 +623,7 @@ class ImapConnection
                 Timber.i("pathPrefix is unset and server has NAMESPACE capability");
             }
             handleNamespace();
-        }
-        else {
+        } else {
             if (XryptoMailLib.isDebug()) {
                 Timber.i("pathPrefix is unset but server does not have NAMESPACE capability");
             }
@@ -687,8 +632,7 @@ class ImapConnection
     }
 
     private void handleNamespace()
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         List<ImapResponse> responses = executeSimpleCommand(Commands.NAMESPACE);
 
         NamespaceResponse namespaceResponse = NamespaceResponse.parse(responses);
@@ -707,16 +651,14 @@ class ImapConnection
     }
 
     private void retrievePathDelimiterIfNecessary()
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         if (mSettings.getPathDelimiter() == null) {
             retrievePathDelimiter();
         }
     }
 
     private void retrievePathDelimiter()
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         List<ImapResponse> listResponses;
         try {
             listResponses = executeSimpleCommand(Commands.LIST + " \"\" \"\"");
@@ -739,8 +681,7 @@ class ImapConnection
         }
     }
 
-    private boolean isListResponse(ImapResponse response)
-    {
+    private boolean isListResponse(ImapResponse response) {
         boolean responseTooShort = response.size() < 4;
         if (responseTooShort) {
             return false;
@@ -751,31 +692,26 @@ class ImapConnection
         return isListResponse && hierarchyDelimiterValid;
     }
 
-    protected boolean hasCapability(String capability)
-    {
+    protected boolean hasCapability(String capability) {
         return capabilities.contains(capability.toUpperCase(Locale.US));
     }
 
-    public boolean isCondstoreCapable()
-    {
+    public boolean isCondstoreCapable() {
         return hasCapability(Capabilities.CONDSTORE);
     }
 
-    protected boolean isIdleCapable()
-    {
+    protected boolean isIdleCapable() {
         if (XryptoMailLib.isDebug()) {
             Timber.v("Connection %s has %d capabilities", getLogId(), capabilities.size());
         }
         return capabilities.contains(Capabilities.IDLE);
     }
 
-    boolean isUidPlusCapable()
-    {
+    boolean isUidPlusCapable() {
         return capabilities.contains(Capabilities.UID_PLUS);
     }
 
-    public void close()
-    {
+    public void close() {
         if (!mOpen) {
             return;
         }
@@ -790,25 +726,21 @@ class ImapConnection
         mSocket = null;
     }
 
-    public OutputStream getOutputStream()
-    {
+    public OutputStream getOutputStream() {
         return mOutputStream;
     }
 
-    protected String getLogId()
-    {
+    protected String getLogId() {
         return "conn" + hashCode();
     }
 
     public List<ImapResponse> executeSimpleCommand(String command)
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         return executeSimpleCommand(command, false);
     }
 
     public List<ImapResponse> executeSimpleCommand(String command, boolean sensitive)
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         String commandToLog = command;
 
         if (sensitive && !XryptoMailLib.isDebugSensitive()) {
@@ -826,8 +758,7 @@ class ImapConnection
     }
 
     List<ImapResponse> executeCommandWithIdSet(String commandPrefix, String commandSuffix, Set<Long> ids)
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         IdGrouper.GroupedIds groupedIds = IdGrouper.groupIds(ids);
         List<String> splitCommands
                 = ImapCommandSplitter.splitCommand(commandPrefix, commandSuffix, groupedIds, getLineLengthLimit());
@@ -840,14 +771,12 @@ class ImapConnection
     }
 
     public List<ImapResponse> readStatusResponse(String tag, String commandToLog, UntaggedHandler untaggedHandler)
-            throws IOException, NegativeImapResponseException
-    {
+            throws IOException, NegativeImapResponseException {
         return mResponseParser.readStatusResponse(tag, commandToLog, getLogId(), untaggedHandler);
     }
 
     public String sendSaslIrCommand(String command, String initialClientResponse, boolean sensitive)
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         try {
             open();
             String tag = Integer.toString(mNextCommandTag++);
@@ -858,8 +787,7 @@ class ImapConnection
             if (XryptoMailLib.isDebug() && DEBUG_PROTOCOL_IMAP) {
                 if (sensitive && !XryptoMailLib.isDebugSensitive()) {
                     Timber.v("%s>>> [Command Hidden, Enable Sensitive Debug Logging To Show]", getLogId());
-                }
-                else {
+                } else {
                     Timber.v("%s>>> %s %s %s", getLogId(), tag, command, initialClientResponse);
                 }
             }
@@ -871,8 +799,7 @@ class ImapConnection
     }
 
     public String sendCommand(String command, boolean sensitive)
-            throws MessagingException, IOException
-    {
+            throws MessagingException, IOException {
         try {
             open();
             String tag = Integer.toString(mNextCommandTag++);
@@ -883,8 +810,7 @@ class ImapConnection
             if (XryptoMailLib.isDebug() && DEBUG_PROTOCOL_IMAP) {
                 if (sensitive && !XryptoMailLib.isDebugSensitive()) {
                     Timber.v("%s>>> [Command Hidden, Enable Sensitive Debug Logging To Show]", getLogId());
-                }
-                else {
+                } else {
                     Timber.v("%s>>> %s %s", getLogId(), tag, command);
                 }
             }
@@ -896,8 +822,7 @@ class ImapConnection
     }
 
     public void sendContinuation(String continuation)
-            throws IOException
-    {
+            throws IOException {
         mOutputStream.write(continuation.getBytes());
         mOutputStream.write('\r');
         mOutputStream.write('\n');
@@ -909,18 +834,16 @@ class ImapConnection
     }
 
     public ImapResponse readResponse()
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         return readResponse(null);
     }
 
     public ImapResponse readResponse(ImapResponseCallback callback)
-            throws IOException
-    {
+            throws IOException {
         try {
             ImapResponse response = mResponseParser.readResponse(callback);
 
-            if (XryptoMailLib.isDebug() && DEBUG_PROTOCOL_IMAP) {
+            if (TimberLog.isTraceEnable && DEBUG_PROTOCOL_IMAP) {
                 Timber.v("%s<<<%s", getLogId(), response);
             }
             return response;
@@ -931,8 +854,7 @@ class ImapConnection
     }
 
     protected void setReadTimeout(int millis)
-            throws SocketException
-    {
+            throws SocketException {
         Socket sock = mSocket;
         if (sock != null) {
             sock.setSoTimeout(millis);
@@ -940,8 +862,7 @@ class ImapConnection
     }
 
     private ImapResponse readContinuationResponse(String tag)
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         ImapResponse response;
         do {
             response = readResponse();
@@ -949,8 +870,7 @@ class ImapConnection
             if (responseTag != null) {
                 if (responseTag.equalsIgnoreCase(tag)) {
                     throw new MessagingException("Command continuation aborted: " + response);
-                }
-                else {
+                } else {
                     Timber.w("After sending tag %s, got tag response from previous command %s for %s",
                             tag, response, getLogId());
                 }
@@ -959,8 +879,7 @@ class ImapConnection
         return response;
     }
 
-    int getLineLengthLimit()
-    {
+    int getLineLengthLimit() {
         return isCondstoreCapable() ? LENGTH_LIMIT_WITH_CONDSTORE : LENGTH_LIMIT_WITHOUT_CONDSTORE;
     }
 }

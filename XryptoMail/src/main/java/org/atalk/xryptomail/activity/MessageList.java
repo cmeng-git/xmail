@@ -9,7 +9,6 @@ import android.content.IntentSender;
 import android.content.IntentSender.SendIntentException;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.KeyEvent;
@@ -24,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -68,8 +68,7 @@ import timber.log.Timber;
  * From this Activity the user can perform all standard message operations.
  */
 public class MessageList extends XMActivity implements MessageListFragmentListener,
-        MessageViewFragmentListener, FragmentManager.OnBackStackChangedListener, OnSwipeGestureListener, OnSwitchCompleteListener
-{
+        MessageViewFragmentListener, FragmentManager.OnBackStackChangedListener, OnSwipeGestureListener, OnSwitchCompleteListener {
     private static final String EXTRA_SEARCH = "search_bytes";
     private static final String EXTRA_NO_THREADING = "no_threading";
     private static final String ACTION_SHORTCUT = "shortcut";
@@ -90,20 +89,17 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     public static final int REQUEST_MASK_PENDING_INTENT = 1 << 15;
 
     public static void actionDisplaySearch(Context context, SearchSpecification search,
-            boolean noThreading, boolean newTask)
-    {
+            boolean noThreading, boolean newTask) {
         actionDisplaySearch(context, search, noThreading, newTask, true);
     }
 
     public static void actionDisplaySearch(Context context, SearchSpecification search,
-            boolean noThreading, boolean newTask, boolean clearTop)
-    {
+            boolean noThreading, boolean newTask, boolean clearTop) {
         context.startActivity(intentDisplaySearch(context, search, noThreading, newTask, clearTop));
     }
 
     public static Intent intentDisplaySearch(Context context, SearchSpecification search,
-            boolean noThreading, boolean newTask, boolean clearTop)
-    {
+            boolean noThreading, boolean newTask, boolean clearTop) {
         Intent intent = new Intent(context, MessageList.class);
         intent.putExtra(EXTRA_SEARCH, ParcelableUtil.marshall(search));
         intent.putExtra(EXTRA_NO_THREADING, noThreading);
@@ -117,8 +113,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
         return intent;
     }
 
-    public static Intent shortcutIntent(Context context, String specialFolder)
-    {
+    public static Intent shortcutIntent(Context context, String specialFolder) {
         Intent intent = new Intent(context, MessageList.class);
         intent.setAction(ACTION_SHORTCUT);
         intent.putExtra(EXTRA_SPECIAL_FOLDER, specialFolder);
@@ -127,22 +122,20 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
         return intent;
     }
 
-    public static Intent actionDisplayMessageIntent(Context context, MessageReference messageReference)
-    {
+    public static Intent actionDisplayMessageIntent(Context context, MessageReference messageReference) {
         Intent intent = new Intent(context, MessageList.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(EXTRA_MESSAGE_REFERENCE, messageReference.toIdentityString());
         return intent;
     }
 
-    private enum DisplayMode
-    {
+    private enum DisplayMode {
         MESSAGE_LIST,
         MESSAGE_VIEW,
         SPLIT_VIEW
     }
 
-    private StorageManager.StorageListener mStorageListener = new StorageListenerImplementation();
+    private final StorageManager.StorageListener mStorageListener = new StorageListenerImplementation();
 
     private ActionBar mActionBar;
     private View mActionBarMessageList;
@@ -190,8 +183,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     private ViewSwitcher mViewSwitcher;
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (UpgradeDatabases.actionUpgradeDatabases(this, getIntent())) {
             finish();
@@ -200,8 +192,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
 
         if (useSplitView()) {
             setContentView(R.layout.split_message_list);
-        }
-        else {
+        } else {
             setContentView(R.layout.message_list);
             mViewSwitcher = findViewById(R.id.container);
             mViewSwitcher.setFirstInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_left));
@@ -232,8 +223,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public void onNewIntent(Intent intent)
-    {
+    public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (isFinishing()) {
             return;
@@ -261,8 +251,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     /**
      * Get references to existing fragments if the activity was restarted.
      */
-    private void findFragments()
-    {
+    private void findFragments() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         mMessageListFragment = (MessageListFragment) fragmentManager.findFragmentById(R.id.message_list_container);
         mMessageViewFragment = (MessageViewFragment) fragmentManager.findFragmentById(R.id.message_view_container);
@@ -273,8 +262,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
      *
      * @see #findFragments()
      */
-    private void initializeFragments()
-    {
+    private void initializeFragments() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
 
@@ -305,8 +293,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
      * @param savedInstanceState The saved instance state that was passed to the activity as argument to
      * {@link #onCreate(Bundle)}. May be {@code null}.
      */
-    private void initializeDisplayMode(Bundle savedInstanceState)
-    {
+    private void initializeDisplayMode(Bundle savedInstanceState) {
         if (useSplitView()) {
             mDisplayMode = DisplayMode.SPLIT_VIEW;
             return;
@@ -322,14 +309,12 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
 
         if ((mMessageViewFragment != null) || (mMessageReference != null)) {
             mDisplayMode = DisplayMode.MESSAGE_VIEW;
-        }
-        else {
+        } else {
             mDisplayMode = DisplayMode.MESSAGE_LIST;
         }
     }
 
-    private boolean useSplitView()
-    {
+    private boolean useSplitView() {
         SplitViewMode splitViewMode = XryptoMail.getSplitViewMode();
         int orientation = getResources().getConfiguration().orientation;
 
@@ -337,16 +322,14 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
                 (splitViewMode == SplitViewMode.WHEN_IN_LANDSCAPE && orientation == Configuration.ORIENTATION_LANDSCAPE));
     }
 
-    private void initializeLayout()
-    {
+    private void initializeLayout() {
         mMessageViewContainer = findViewById(R.id.message_view_container);
 
         LayoutInflater layoutInflater = getLayoutInflater();
         mMessageViewPlaceHolder = layoutInflater.inflate(R.layout.empty_message_view, mMessageViewContainer, false);
     }
 
-    private void displayViews()
-    {
+    private void displayViews() {
         switch (mDisplayMode) {
             case MESSAGE_LIST: {
                 showMessageList();
@@ -360,8 +343,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
                 mMessageListWasDisplayed = true;
                 if (mMessageViewFragment == null) {
                     showMessageViewPlaceHolder();
-                }
-                else {
+                } else {
                     MessageReference activeMessage = mMessageViewFragment.getMessageReference();
                     if (activeMessage != null) {
                         mMessageListFragment.setActiveMessage(activeMessage);
@@ -372,8 +354,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
         }
     }
 
-    private boolean decodeExtras(Intent intent)
-    {
+    private boolean decodeExtras(Intent intent) {
         String action = intent.getAction();
         if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null) {
             Uri uri = intent.getData();
@@ -389,18 +370,15 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
                     break;
                 }
             }
-        }
-        else if (ACTION_SHORTCUT.equals(action)) {
+        } else if (ACTION_SHORTCUT.equals(action)) {
             // Handle shortcut intents
             String specialFolder = intent.getStringExtra(EXTRA_SPECIAL_FOLDER);
             if (SearchAccount.UNIFIED_INBOX.equals(specialFolder)) {
                 mSearch = SearchAccount.createUnifiedInboxAccount(this).getRelatedSearch();
-            }
-            else if (SearchAccount.ALL_MESSAGES.equals(specialFolder)) {
+            } else if (SearchAccount.ALL_MESSAGES.equals(specialFolder)) {
                 mSearch = SearchAccount.createAllMessagesAccount(this).getRelatedSearch();
             }
-        }
-        else if (intent.getStringExtra(SearchManager.QUERY) != null) {
+        } else if (intent.getStringExtra(SearchManager.QUERY) != null) {
             // check if this intent comes from the system search ( remote )
             if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
                 //Query was received from Search Dialog
@@ -421,13 +399,11 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
                     if (appData.getString(EXTRA_SEARCH_FOLDER) != null) {
                         mSearch.addAllowedFolder(appData.getString(EXTRA_SEARCH_FOLDER));
                     }
-                }
-                else {
+                } else {
                     mSearch.addAccountUuid(LocalSearch.ALL_ACCOUNTS);
                 }
             }
-        }
-        else {
+        } else {
             // regular LocalSearch object was passed
             mSearch = intent.hasExtra(EXTRA_SEARCH) ?
                     ParcelableUtil.unmarshall(intent.getByteArrayExtra(EXTRA_SEARCH), LocalSearch.CREATOR) : null;
@@ -466,8 +442,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
             if (mSingleAccountMode) {
                 mAccount = accounts.get(0);
             }
-        }
-        else {
+        } else {
             mSingleAccountMode = (accountUuids.length == 1);
             if (mSingleAccountMode) {
                 mAccount = prefs.getAccount(accountUuids[0]);
@@ -491,15 +466,13 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
         StorageManager.getInstance(getApplication()).removeListener(mStorageListener);
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         if (!(this instanceof Search)) {
             //necessary b/c no guarantee Search.onStop will be called before MessageList.onResume
@@ -515,8 +488,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putSerializable(STATE_DISPLAY_MODE, mDisplayMode);
@@ -525,15 +497,13 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState)
-    {
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mMessageListWasDisplayed = savedInstanceState.getBoolean(STATE_MESSAGE_LIST_WAS_DISPLAYED);
         mFirstBackStackId = savedInstanceState.getInt(STATE_FIRST_BACK_STACK_ID);
     }
 
-    private void initializeActionBar()
-    {
+    private void initializeActionBar() {
         mActionBar = getActionBar();
         mActionBar.setDisplayShowCustomEnabled(true);
         mActionBar.setCustomView(R.layout.actionbar_custom);
@@ -551,14 +521,12 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @SuppressLint("InflateParams")
-    private View getActionButtonIndeterminateProgress()
-    {
+    private View getActionButtonIndeterminateProgress() {
         return getLayoutInflater().inflate(R.layout.actionbar_indeterminate_progress_actionview, null);
     }
 
     @Override
-    public boolean dispatchKeyEvent(KeyEvent event)
-    {
+    public boolean dispatchKeyEvent(KeyEvent event) {
         boolean ret = false;
         if (KeyEvent.ACTION_DOWN == event.getAction()) {
             ret = onCustomKeyDown(event.getKeyCode(), event);
@@ -570,12 +538,10 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         if (mDisplayMode == DisplayMode.MESSAGE_VIEW && mMessageListWasDisplayed) {
             showMessageList();
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -592,16 +558,14 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
      * @param event Description of the key event.
      * @return {@code true} if this event was consumed.
      */
-    public boolean onCustomKeyDown(final int keyCode, final KeyEvent event)
-    {
+    public boolean onCustomKeyDown(final int keyCode, final KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP: {
                 if (mMessageViewFragment != null && mDisplayMode != DisplayMode.MESSAGE_LIST
                         && XryptoMail.useVolumeKeysForNavigationEnabled()) {
                     showPreviousMessage();
                     return true;
-                }
-                else if (mDisplayMode != DisplayMode.MESSAGE_VIEW &&
+                } else if (mDisplayMode != DisplayMode.MESSAGE_VIEW &&
                         XryptoMail.useVolumeKeysForListNavigationEnabled()) {
                     mMessageListFragment.onMoveUp();
                     return true;
@@ -613,8 +577,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
                         && XryptoMail.useVolumeKeysForNavigationEnabled()) {
                     showNextMessage();
                     return true;
-                }
-                else if (mDisplayMode != DisplayMode.MESSAGE_VIEW
+                } else if (mDisplayMode != DisplayMode.MESSAGE_VIEW
                         && XryptoMail.useVolumeKeysForListNavigationEnabled()) {
                     mMessageListFragment.onMoveDown();
                     return true;
@@ -643,8 +606,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
             case KeyEvent.KEYCODE_D: {
                 if (mDisplayMode == DisplayMode.MESSAGE_LIST) {
                     mMessageListFragment.onDelete();
-                }
-                else if (mMessageViewFragment != null) {
+                } else if (mMessageViewFragment != null) {
                     mMessageViewFragment.onDelete();
                 }
                 return true;
@@ -656,8 +618,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
             case KeyEvent.KEYCODE_G: {
                 if (mDisplayMode == DisplayMode.MESSAGE_LIST) {
                     mMessageListFragment.onToggleFlagged();
-                }
-                else if (mMessageViewFragment != null) {
+                } else if (mMessageViewFragment != null) {
                     mMessageViewFragment.onToggleFlagged();
                 }
                 return true;
@@ -665,8 +626,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
             case KeyEvent.KEYCODE_M: {
                 if (mDisplayMode == DisplayMode.MESSAGE_LIST) {
                     mMessageListFragment.onMove();
-                }
-                else if (mMessageViewFragment != null) {
+                } else if (mMessageViewFragment != null) {
                     mMessageViewFragment.onMove();
                 }
                 return true;
@@ -674,8 +634,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
             case KeyEvent.KEYCODE_V: {
                 if (mDisplayMode == DisplayMode.MESSAGE_LIST) {
                     mMessageListFragment.onArchive();
-                }
-                else if (mMessageViewFragment != null) {
+                } else if (mMessageViewFragment != null) {
                     mMessageViewFragment.onArchive();
                 }
                 return true;
@@ -683,8 +642,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
             case KeyEvent.KEYCODE_Y: {
                 if (mDisplayMode == DisplayMode.MESSAGE_LIST) {
                     mMessageListFragment.onCopy();
-                }
-                else if (mMessageViewFragment != null) {
+                } else if (mMessageViewFragment != null) {
                     mMessageViewFragment.onCopy();
                 }
                 return true;
@@ -692,8 +650,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
             case KeyEvent.KEYCODE_Z: {
                 if (mDisplayMode == DisplayMode.MESSAGE_LIST) {
                     mMessageListFragment.onToggleRead();
-                }
-                else if (mMessageViewFragment != null) {
+                } else if (mMessageViewFragment != null) {
                     mMessageViewFragment.onToggleRead();
                 }
                 return true;
@@ -739,8 +696,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
                 Toast toast;
                 if (mDisplayMode == DisplayMode.MESSAGE_LIST) {
                     toast = Toast.makeText(this, R.string.message_list_help_key, Toast.LENGTH_LONG);
-                }
-                else {
+                } else {
                     toast = Toast.makeText(this, R.string.message_view_help_key, Toast.LENGTH_LONG);
                 }
                 toast.show();
@@ -759,8 +715,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event)
-    {
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
         // Swallow these events too to avoid the audible notification of a volume change
         if (XryptoMail.useVolumeKeysForListNavigationEnabled()) {
             if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP) || (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
@@ -771,37 +726,31 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
         return super.onKeyUp(keyCode, event);
     }
 
-    private void onAccounts()
-    {
+    private void onAccounts() {
         Accounts.listAccounts(this);
         finish();
     }
 
-    private void onShowFolderList()
-    {
+    private void onShowFolderList() {
         FolderList.actionHandleAccount(this, mAccount);
         finish();
     }
 
-    private void onEditPrefs()
-    {
+    private void onEditPrefs() {
         Prefs.actionPrefs(this);
     }
 
-    private void onEditAccount()
-    {
+    private void onEditAccount() {
         AccountSettings.actionSettings(this, mAccount);
     }
 
     @Override
-    public boolean onSearchRequested()
-    {
+    public boolean onSearchRequested() {
         return mMessageListFragment.onSearchRequested();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         switch (itemId) {
             case android.R.id.home: {
@@ -980,8 +929,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.message_list_option, menu);
         mMenu = menu;
         mMenuButtonCheckMail = menu.findItem(R.id.check_mail);
@@ -989,8 +937,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         configureMenu(menu);
         return true;
@@ -1007,8 +954,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
      * @param menu The {@link Menu} instance that should be modified. May be {@code null}; in that case
      * the method does nothing and immediately returns.
      */
-    private void configureMenu(Menu menu)
-    {
+    private void configureMenu(Menu menu) {
         if (menu == null) {
             return;
         }
@@ -1017,15 +963,14 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
         if (mMessageListFragment == null) {
             menu.findItem(R.id.account_settings).setVisible(false);
             menu.findItem(R.id.folder_settings).setVisible(false);
-        }
-        else {
+        } else {
             menu.findItem(R.id.account_settings).setVisible(mMessageListFragment.isSingleAccountMode());
             menu.findItem(R.id.folder_settings).setVisible(mMessageListFragment.isSingleFolderMode());
         }
 
-		/*
-		 * Set visibility of menu items related to the message view
-		 */
+        /*
+         * Set visibility of menu items related to the message view
+         */
         if ((mDisplayMode == DisplayMode.MESSAGE_LIST)
                 || (mMessageViewFragment == null) || (!mMessageViewFragment.isInitialized())) {
             menu.findItem(R.id.next_message).setVisible(false);
@@ -1043,14 +988,12 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
             menu.findItem(R.id.toggle_message_view_theme).setVisible(false);
             menu.findItem(R.id.show_headers).setVisible(false);
             menu.findItem(R.id.hide_headers).setVisible(false);
-        }
-        else {
+        } else {
             // hide prev/next buttons in split mode
             if (mDisplayMode != DisplayMode.MESSAGE_VIEW) {
                 menu.findItem(R.id.next_message).setVisible(false);
                 menu.findItem(R.id.previous_message).setVisible(false);
-            }
-            else {
+            } else {
                 MessageReference ref = mMessageViewFragment.getMessageReference();
                 boolean initialized = (mMessageListFragment != null
                         && mMessageListFragment.isLoadFinished());
@@ -1071,13 +1014,11 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
             MenuItem toggleTheme = menu.findItem(R.id.toggle_message_view_theme);
             if (XryptoMail.useFixedMessageViewTheme()) {
                 toggleTheme.setVisible(false);
-            }
-            else {
+            } else {
                 // Set title of menu item to switch to dark/light theme
                 if (XryptoMail.getXMMessageViewTheme() == XryptoMail.Theme.DARK) {
                     toggleTheme.setTitle(R.string.message_view_theme_action_light);
-                }
-                else {
+                } else {
                     toggleTheme.setTitle(R.string.message_view_theme_action_dark);
                 }
                 toggleTheme.setVisible(true);
@@ -1086,23 +1027,21 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
             // Set title of menu item to toggle the read state of the currently displayed message
             if (mMessageViewFragment.isMessageRead()) {
                 menu.findItem(R.id.toggle_unread).setTitle(R.string.mark_as_unread_action);
-            }
-            else {
+            } else {
                 menu.findItem(R.id.toggle_unread).setTitle(R.string.mark_as_read_action);
             }
 
             // Jellybean has built-in long press selection support
-            menu.findItem(R.id.select_text).setVisible(Build.VERSION.SDK_INT < 16);
+            menu.findItem(R.id.select_text).setVisible(false);
             menu.findItem(R.id.delete).setVisible(XryptoMail.isMessageViewDeleteActionVisible());
 
-			/*
-			 * Set visibility of copy, move, archive, spam in action bar and refile submenu
-			 */
+            /*
+             * Set visibility of copy, move, archive, spam in action bar and refile submenu
+             */
             if (mMessageViewFragment.isCopyCapable()) {
                 menu.findItem(R.id.copy).setVisible(XryptoMail.isMessageViewCopyActionVisible());
                 menu.findItem(R.id.refile_copy).setVisible(true);
-            }
-            else {
+            } else {
                 menu.findItem(R.id.copy).setVisible(false);
                 menu.findItem(R.id.refile_copy).setVisible(false);
             }
@@ -1120,8 +1059,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
                 menu.findItem(R.id.refile_move).setVisible(true);
                 menu.findItem(R.id.refile_archive).setVisible(canMessageBeArchived);
                 menu.findItem(R.id.refile_spam).setVisible(canMessageBeMovedToSpam);
-            }
-            else {
+            } else {
                 menu.findItem(R.id.move).setVisible(false);
                 menu.findItem(R.id.archive).setVisible(false);
                 menu.findItem(R.id.spam).setVisible(false);
@@ -1130,15 +1068,14 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
 
             if (mMessageViewFragment.allHeadersVisible()) {
                 menu.findItem(R.id.show_headers).setVisible(false);
-            }
-            else {
+            } else {
                 menu.findItem(R.id.hide_headers).setVisible(false);
             }
         }
 
-		/*
-		 * Set visibility of menu items related to the message list
-		 */
+        /*
+         * Set visibility of menu items related to the message list
+         */
 
         // Hide both search menu items by default and enable one when appropriate
         menu.findItem(R.id.search).setVisible(false);
@@ -1153,8 +1090,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
             menu.findItem(R.id.expunge).setVisible(false);
             menu.findItem(R.id.mark_all_as_read).setVisible(false);
             menu.findItem(R.id.show_folder_list).setVisible(false);
-        }
-        else {
+        } else {
             menu.findItem(R.id.set_sort).setVisible(true);
             menu.findItem(R.id.select_all).setVisible(true);
             menu.findItem(R.id.compose).setVisible(true);
@@ -1164,8 +1100,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
                 menu.findItem(R.id.expunge).setVisible(false);
                 menu.findItem(R.id.send_messages).setVisible(false);
                 menu.findItem(R.id.show_folder_list).setVisible(false);
-            }
-            else {
+            } else {
                 menu.findItem(R.id.send_messages).setVisible(mMessageListFragment.isOutbox());
                 menu.findItem(R.id.expunge).setVisible(mMessageListFragment.isRemoteFolder()
                         && mMessageListFragment.isAccountExpungeCapable());
@@ -1177,76 +1112,64 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
             // If this is an explicit local search, show the option to search on the server
             if (!mMessageListFragment.isRemoteSearch() && mMessageListFragment.isRemoteSearchAllowed()) {
                 menu.findItem(R.id.search_remote).setVisible(true);
-            }
-            else if (!mMessageListFragment.isManualSearch()) {
+            } else if (!mMessageListFragment.isManualSearch()) {
                 menu.findItem(R.id.search).setVisible(true);
             }
         }
     }
 
-    protected void onAccountUnavailable()
-    {
+    protected void onAccountUnavailable() {
         finish();
         // TODO inform user about account unavailability using Toast
         Accounts.listAccounts(this);
     }
 
-    public void setActionBarTitle(String title)
-    {
+    public void setActionBarTitle(String title) {
         mActionBarTitle.setText(title);
     }
 
-    public void setActionBarSubTitle(String subTitle)
-    {
+    public void setActionBarSubTitle(String subTitle) {
         mActionBarSubTitle.setText(subTitle);
     }
 
-    public void setActionBarUnread(int unread)
-    {
+    public void setActionBarUnread(int unread) {
         if (unread == 0) {
             mActionBarUnread.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             mActionBarUnread.setVisibility(View.VISIBLE);
             mActionBarUnread.setText(String.format(Locale.getDefault(), "%d", unread));
         }
     }
 
     @Override
-    public void setMessageListTitle(String title)
-    {
+    public void setMessageListTitle(String title) {
         setActionBarTitle(title);
     }
 
     @Override
-    public void setMessageListSubTitle(String subTitle)
-    {
+    public void setMessageListSubTitle(String subTitle) {
         setActionBarSubTitle(subTitle);
     }
 
     @Override
-    public void setUnreadCount(int unread)
-    {
+    public void setUnreadCount(int unread) {
         setActionBarUnread(unread);
     }
 
     @Override
-    public void setMessageListProgress(int progress)
-    {
+    public void setMessageListProgress(int progress) {
         setProgress(progress);
     }
 
     @Override
-    public void openMessage(MessageReference messageReference)
-    {
+    public void openMessage(MessageReference messageReference) {
         Preferences prefs = Preferences.getPreferences(getApplicationContext());
         Account account = prefs.getAccount(messageReference.getAccountUuid());
         String folderName = messageReference.getFolderServerId();
 
         if (folderName.equals(account.getDraftsFolderName())) {
             MessageActions.actionEditDraft(this, messageReference);
-        }
-        else {
+        } else {
             mMessageViewContainer.removeView(mMessageViewPlaceHolder);
 
             if (mMessageListFragment != null) {
@@ -1266,26 +1189,22 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public void onResendMessage(MessageReference messageReference)
-    {
+    public void onResendMessage(MessageReference messageReference) {
         onResendMessage(messageReference, null);
     }
 
     @Override
-    public void onResendMessage(MessageReference messageReference, Parcelable decryptionResultForReply)
-    {
+    public void onResendMessage(MessageReference messageReference, Parcelable decryptionResultForReply) {
         MessageActions.actionEditDraft(this, messageReference, decryptionResultForReply);
     }
 
     @Override
-    public void onForward(MessageReference messageReference)
-    {
+    public void onForward(MessageReference messageReference) {
         onForward(messageReference, null);
     }
 
     @Override
-    public void onForward(MessageReference messageReference, Parcelable decryptionResultForReply)
-    {
+    public void onForward(MessageReference messageReference, Parcelable decryptionResultForReply) {
         MessageActions.actionForward(this, messageReference, decryptionResultForReply);
     }
 
@@ -1300,38 +1219,32 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public void onReply(MessageReference messageReference)
-    {
+    public void onReply(MessageReference messageReference) {
         onReply(messageReference, null);
     }
 
     @Override
-    public void onReply(MessageReference messageReference, Parcelable decryptionResultForReply)
-    {
+    public void onReply(MessageReference messageReference, Parcelable decryptionResultForReply) {
         MessageActions.actionReply(this, messageReference, false, decryptionResultForReply);
     }
 
     @Override
-    public void onReplyAll(MessageReference messageReference)
-    {
+    public void onReplyAll(MessageReference messageReference) {
         onReplyAll(messageReference, null);
     }
 
     @Override
-    public void onReplyAll(MessageReference messageReference, Parcelable decryptionResultForReply)
-    {
+    public void onReplyAll(MessageReference messageReference, Parcelable decryptionResultForReply) {
         MessageActions.actionReply(this, messageReference, true, decryptionResultForReply);
     }
 
     @Override
-    public void onCompose(Account account)
-    {
+    public void onCompose(Account account) {
         MessageActions.actionCompose(this, account);
     }
 
     @Override
-    public void showMoreFromSameSender(String senderAddress)
-    {
+    public void showMoreFromSameSender(String senderAddress) {
         LocalSearch tmpSearch = new LocalSearch(getString(R.string.search_from_format, senderAddress));
         tmpSearch.addAccountUuids(mSearch.getAccountUuids());
         tmpSearch.and(SearchField.SENDER, senderAddress, Attribute.CONTAINS);
@@ -1341,8 +1254,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public void onBackStackChanged()
-    {
+    public void onBackStackChanged() {
         findFragments();
         if (mDisplayMode == DisplayMode.SPLIT_VIEW) {
             showMessageViewPlaceHolder();
@@ -1351,40 +1263,34 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public void onSwipeRightToLeft(MotionEvent e1, MotionEvent e2)
-    {
+    public void onSwipeRightToLeft(MotionEvent e1, MotionEvent e2) {
         if (mMessageListFragment != null && mDisplayMode != DisplayMode.MESSAGE_VIEW) {
             mMessageListFragment.onSwipeRightToLeft(e1, e2);
         }
     }
 
     @Override
-    public void onSwipeLeftToRight(MotionEvent e1, MotionEvent e2)
-    {
+    public void onSwipeLeftToRight(MotionEvent e1, MotionEvent e2) {
         if (mMessageListFragment != null && mDisplayMode != DisplayMode.MESSAGE_VIEW) {
             mMessageListFragment.onSwipeLeftToRight(e1, e2);
         }
     }
 
-    private final class StorageListenerImplementation implements StorageManager.StorageListener
-    {
+    private final class StorageListenerImplementation implements StorageManager.StorageListener {
         @Override
-        public void onUnmount(String providerId)
-        {
+        public void onUnmount(String providerId) {
             if (mAccount != null && providerId.equals(mAccount.getLocalStorageProviderId())) {
-                runOnUiThread(() -> onAccountUnavailable());
+                runOnUiThread(MessageList.this::onAccountUnavailable);
             }
         }
 
         @Override
-        public void onMount(String providerId)
-        {
+        public void onMount(String providerId) {
             // no-op
         }
     }
 
-    private void addMessageListFragment(MessageListFragment fragment, boolean addToBackStack)
-    {
+    private void addMessageListFragment(MessageListFragment fragment, boolean addToBackStack) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.message_list_container, fragment);
         if (addToBackStack)
@@ -1398,8 +1304,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public boolean startSearch(Account account, String folderName)
-    {
+    public boolean startSearch(Account account, String folderName) {
         // If this search was started from a MessageList of a single folder, pass along that folder info
         // so that we can enable remote search.
         if (account != null && folderName != null) {
@@ -1407,8 +1312,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
             appData.putString(EXTRA_SEARCH_ACCOUNT, account.getUuid());
             appData.putString(EXTRA_SEARCH_FOLDER, folderName);
             startSearch(null, false, appData, false);
-        }
-        else {
+        } else {
             // TODO Handle the case where we're searching from within a search result.
             startSearch(null, false, null, false);
         }
@@ -1416,8 +1320,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public void showThread(Account account, String folderName, long threadRootId)
-    {
+    public void showThread(Account account, String folderName, long threadRootId) {
         showMessageViewPlaceHolder();
 
         LocalSearch tmpSearch = new LocalSearch();
@@ -1428,8 +1331,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
         addMessageListFragment(fragment, true);
     }
 
-    private void showMessageViewPlaceHolder()
-    {
+    private void showMessageViewPlaceHolder() {
         removeMessageViewFragment();
 
         // Add placeholder view if necessary
@@ -1442,8 +1344,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     /**
      * Remove MessageViewFragment if necessary.
      */
-    private void removeMessageViewFragment()
-    {
+    private void removeMessageViewFragment() {
         if (mMessageViewFragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.remove(mMessageViewFragment);
@@ -1453,8 +1354,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
         }
     }
 
-    private void removeMessageListFragment()
-    {
+    private void removeMessageListFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.remove(mMessageListFragment);
         mMessageListFragment = null;
@@ -1462,76 +1362,62 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public void remoteSearchStarted()
-    {
+    public void remoteSearchStarted() {
         // Remove action button for remote search
         configureMenu(mMenu);
     }
 
     @Override
-    public void goBack()
-    {
+    public void goBack() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (mDisplayMode == DisplayMode.MESSAGE_VIEW) {
             showMessageList();
-        }
-        else if (fragmentManager.getBackStackEntryCount() > 0) {
+        } else if (fragmentManager.getBackStackEntryCount() > 0) {
             fragmentManager.popBackStack();
-        }
-        else if (mMessageListFragment.isManualSearch()) {
+        } else if (mMessageListFragment.isManualSearch()) {
             finish();
-        }
-        else if (!mSingleFolderMode) {
+        } else if (!mSingleFolderMode) {
             onAccounts();
-        }
-        else {
+        } else {
             onShowFolderList();
         }
     }
 
     @Override
-    public void enableActionBarProgress(boolean enable)
-    {
+    public void enableActionBarProgress(boolean enable) {
         if (mMenuButtonCheckMail != null && mMenuButtonCheckMail.isVisible()) {
             mActionBarProgress.setVisibility(ProgressBar.GONE);
             if (enable) {
                 mMenuButtonCheckMail.setActionView(mActionButtonIndeterminateProgress);
-            }
-            else {
+            } else {
                 mMenuButtonCheckMail.setActionView(null);
             }
-        }
-        else {
+        } else {
             if (mMenuButtonCheckMail != null)
                 mMenuButtonCheckMail.setActionView(null);
             if (enable) {
                 mActionBarProgress.setVisibility(ProgressBar.VISIBLE);
-            }
-            else {
+            } else {
                 mActionBarProgress.setVisibility(ProgressBar.GONE);
             }
         }
     }
 
     @Override
-    public void displayMessageSubject(String subject)
-    {
+    public void displayMessageSubject(String subject) {
         if (mDisplayMode == DisplayMode.MESSAGE_VIEW) {
             mActionBarSubject.setText(subject);
-        }
-        else {
+        } else {
             mActionBarSubject.showSubjectInMessageHeader();
         }
     }
 
     @Override
-    public void showNextMessageOrReturn()
-    {
+    public void showNextMessageOrReturn() {
         if (XryptoMail.messageViewReturnToList() || !showLogicalNextMessage()) {
             if (mDisplayMode == DisplayMode.SPLIT_VIEW) {
                 showMessageViewPlaceHolder();
-            }
-            else {
+            } else {
                 showMessageList();
             }
         }
@@ -1542,13 +1428,11 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
      *
      * @return {@code true}
      */
-    private boolean showLogicalNextMessage()
-    {
+    private boolean showLogicalNextMessage() {
         boolean result = false;
         if (mLastDirection == NEXT) {
             result = showNextMessage();
-        }
-        else if (mLastDirection == PREVIOUS) {
+        } else if (mLastDirection == PREVIOUS) {
             result = showPreviousMessage();
         }
 
@@ -1559,19 +1443,16 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public void setProgress(boolean enable)
-    {
+    public void setProgress(boolean enable) {
         setProgressBarIndeterminateVisibility(enable);
     }
 
     @Override
-    public void messageHeaderViewAvailable(MessageHeader header)
-    {
+    public void messageHeaderViewAvailable(MessageHeader header) {
         mActionBarSubject.setMessageHeader(header);
     }
 
-    private boolean showNextMessage()
-    {
+    private boolean showNextMessage() {
         MessageReference ref = mMessageViewFragment.getMessageReference();
         if (ref != null) {
             if (mMessageListFragment.openNext(ref)) {
@@ -1582,8 +1463,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
         return false;
     }
 
-    private boolean showPreviousMessage()
-    {
+    private boolean showPreviousMessage() {
         MessageReference ref = mMessageViewFragment.getMessageReference();
         if (ref != null) {
             if (mMessageListFragment.openPrevious(ref)) {
@@ -1595,8 +1475,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public void showMessageList()
-    {
+    public void showMessageList() {
         mMessageListWasDisplayed = true;
         mDisplayMode = DisplayMode.MESSAGE_LIST;
         mViewSwitcher.showFirstView();
@@ -1606,8 +1485,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
         configureMenu(mMenu);
     }
 
-    private void showMessageView()
-    {
+    private void showMessageView() {
         mDisplayMode = DisplayMode.MESSAGE_VIEW;
 
         if (!mMessageListWasDisplayed) {
@@ -1620,23 +1498,19 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public void updateMenu()
-    {
+    public void updateMenu() {
         invalidateOptionsMenu();
     }
 
     @Override
-    public void disableDeleteAction()
-    {
+    public void disableDeleteAction() {
         mMenu.findItem(R.id.delete).setEnabled(false);
     }
 
-    private void onToggleTheme()
-    {
+    private void onToggleTheme() {
         if (XryptoMail.getXMMessageViewTheme() == XryptoMail.Theme.DARK) {
             XryptoMail.setXMMessageViewThemeSetting(XryptoMail.Theme.LIGHT);
-        }
-        else {
+        } else {
             XryptoMail.setXMMessageViewThemeSetting(XryptoMail.Theme.DARK);
         }
         new Thread(() -> {
@@ -1649,8 +1523,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
         recreate();
     }
 
-    private void showDefaultTitleView()
-    {
+    private void showDefaultTitleView() {
         mActionBarMessageView.setVisibility(View.GONE);
         mActionBarMessageList.setVisibility(View.VISIBLE);
 
@@ -1660,8 +1533,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
         mActionBarSubject.setMessageHeader(null);
     }
 
-    private void showMessageTitleView()
-    {
+    private void showMessageTitleView() {
         mActionBarMessageList.setVisibility(View.GONE);
         mActionBarMessageView.setVisibility(View.VISIBLE);
 
@@ -1672,8 +1544,7 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     }
 
     @Override
-    public void onSwitchComplete(int displayedChild)
-    {
+    public void onSwitchComplete(int displayedChild) {
         if (displayedChild == 0) {
             removeMessageViewFragment();
         }
@@ -1682,15 +1553,13 @@ public class MessageList extends XMActivity implements MessageListFragmentListen
     @Override
     public void startIntentSenderForResult(IntentSender intent, int requestCode, Intent fillInIntent,
             int flagsMask, int flagsValues, int extraFlags)
-            throws SendIntentException
-    {
+            throws SendIntentException {
         requestCode |= REQUEST_MASK_PENDING_INTENT;
         super.startIntentSenderForResult(intent, requestCode, fillInIntent, flagsMask, flagsValues, extraFlags);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if ((requestCode & REQUEST_MASK_PENDING_INTENT) == REQUEST_MASK_PENDING_INTENT) {

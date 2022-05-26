@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Antaa sovellukselle luvan käyttää XryptoMail Mailin toimintoja ja asetuksia.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Tekijänoikeudet 2008-<xliff:g>%s</xliff:g> The XryptoMail. Osittaiset tekijänoikeudet -<xliff:g>%s</xliff:g> Androidin avoimen lähdekoodin hanke.</string>
+  <string name="app_copyright_fmt">Tekijänoikeudet 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Osittaiset tekijänoikeudet -<xliff:g>%2$s</xliff:g> Androidin avoimen lähdekoodin hanke.</string>
   <string name="app_license">Lisensoitu Apache-lisenssin 2.0-versiolla.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Tervetuloa XryptoMail Mailiin</string>
@@ -46,25 +46,25 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <!--Default signature-->
   <string name="default_signature">-- \nLähetetty Android-laitteestani XryptoMail Maililla. Pahoittelut vähäsanaisuudestani.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">Tili \"<xliff:g id="account">%s</xliff:g>\" poistetaan XryptoMail Mailista.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Kaikki tilin \"<xliff:g id="account">%s</xliff:g>\" paikalliset tiedot poistetaan, mutta tilin asetukset säilyvät.</string>
-  <string name="account_clear_dlg_instructions_fmt">Kaikki tilin \"<xliff:g id="account">%s</xliff:g>\" paikalliset viestit poistetaan, mutta tilin asetukset säilyvät.</string>
+  <string name="account_delete_dlg_instructions_fmt">Tili \"<xliff:g id="account">%1$s</xliff:g>\" poistetaan XryptoMail Mailista.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Kaikki tilin \"<xliff:g id="account">%1$s</xliff:g>\" paikalliset tiedot poistetaan, mutta tilin asetukset säilyvät.</string>
+  <string name="account_clear_dlg_instructions_fmt">Kaikki tilin \"<xliff:g id="account">%1$s</xliff:g>\" paikalliset viestit poistetaan, mutta tilin asetukset säilyvät.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Tuontitoiminnon käsittelemiseen ei ole sopivaa sovellusta. Asenna Google Play Kaupasta jokin tiedostonhallintasovellus.</string>
   <string name="open_market">Avaa Play-kauppa</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Tekijät: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Versiotiedot: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Käytämme seuraavia kolmannen osapuolen kirjastoja: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Tekijät: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Versiotiedot: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Käytämme seuraavia kolmannen osapuolen kirjastoja: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Lue sähköpostit</string>
   <string name="read_messages_desc">Antaa sovellukselle luvan lukea sähköpostisi.</string>
   <string name="delete_messages_label">Poista sähköpostit</string>
   <string name="delete_messages_desc">Antaa sovellukselle luvan poistaa sähköposteja.</string>
-  <string name="about_title_fmt">Tietoja <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">Tietoja <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Tilit</string>
   <string name="folders_title">Kansiot</string>
   <string name="advanced">Lisäasetukset</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="compose_title_compose">Kirjoita</string>
   <string name="compose_title_reply">Vastaa</string>
   <string name="compose_title_reply_all">Vastaa kaikille</string>
@@ -72,18 +72,18 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="compose_title_forward_as_attachment">Välitä liitteenä</string>
   <string name="choose_account_title">Valitse tili</string>
   <string name="choose_folder_title">Valitse kansio</string>
-  <string name="status_loading_account_folder">Ladataan <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Haetaan otsikkotietoja <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Lähetetään <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Käsitellään <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Seuraava tarkistus <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Ladataan <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Haetaan otsikkotietoja <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Lähetetään <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Käsitellään <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Seuraava tarkistus <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Synkronointi ei käytössä - Ei verkkoyhteyttä</string>
   <string name="status_no_background">Synkronointi ei käytössä - Ei tausta-aktiivisuutta</string>
   <string name="status_poll_and_push_disabled">Viestien synkronointi ei ole käytössä</string>
   <string name="status_syncing_blocked">Synkronointi estetty</string>
   <string name="status_syncing_off">Synkronointi pois päältä</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> valittu</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> valittu</string>
   <string name="next_action">Seuraava</string>
   <string name="previous_action">Edellinen</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -156,21 +156,21 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="status_invalid_id_error">Viestiä ei löydy</string>
   <string name="status_loading_error">Viestin lataamisvirhe</string>
   <string name="status_loading_more_failed">Yritetään ladata uudelleen lisää viestejä</string>
-  <string name="load_more_messages_fmt">Lataa <xliff:g id="messages_to_load">%d</xliff:g> lisää</string>
+  <string name="load_more_messages_fmt">Lataa <xliff:g id="messages_to_load">%1$d</xliff:g> lisää</string>
   <string name="abbrev_gigabytes">Gt</string>
   <string name="abbrev_megabytes">Mt</string>
   <string name="abbrev_kilobytes">kt</string>
   <string name="abbrev_bytes">t</string>
-  <string name="account_size_changed">Tilin \"<xliff:g id="account">%s</xliff:g>\" vanha koko <xliff:g id="oldSize">%s</xliff:g> on nyt <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Tiivistetään tiliä \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">Tyhjennetään tiliä \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Luodaan uudelleen tiliä \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="account_size_changed">Tilin \"<xliff:g id="account">%1$s</xliff:g>\" vanha koko <xliff:g id="oldSize">%2$s</xliff:g> on nyt <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Tiivistetään tiliä \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">Tyhjennetään tiliä \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Luodaan uudelleen tiliä \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="notification_new_title">Uusi sähköpostiviesti</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> uusi viesti</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> uutta viestiä</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> uusi viesti</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> uutta viestiä</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> lukematonta (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> lukematonta (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> lisää tilillä <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Vastaa</string>
   <string name="notification_action_mark_as_read">Lue</string>
@@ -180,13 +180,13 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="notification_action_archive">Arkistoi</string>
   <string name="notification_action_archive_all">Arkistoi kaikki</string>
   <string name="notification_action_spam">Roskaposti</string>
-  <string name="notification_certificate_error_title">Varmennevirhe tilissä <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Varmennevirhe tilissä <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Tarkista palvelinasetuksesi</string>
   <string name="notification_authentication_error_title">Tunnistautuminen epäonnistui</string>
-  <string name="notification_authentication_error_text">Tilin <xliff:g id="account">%s</xliff:g> tunnistautuminen epäonnistui. Päivitä palvelinasetuksesi.</string>
-  <string name="notification_bg_sync_ticker">Tarkistetaan viestejä: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Tilin <xliff:g id="account">%1$s</xliff:g> tunnistautuminen epäonnistui. Päivitä palvelinasetuksesi.</string>
+  <string name="notification_bg_sync_ticker">Tarkistetaan viestejä: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Tarkistetaan viestejä</string>
-  <string name="notification_bg_send_ticker">Lähetetään viestejä: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Lähetetään viestejä: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Lähetetään viestejä</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Saapuneet</string>
@@ -196,19 +196,19 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="special_mailbox_name_sent">Lähetetyt</string>
   <string name="special_mailbox_name_archive">Arkisto</string>
   <string name="special_mailbox_name_spam">Roskaposti</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Luonnokset)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Roskakori)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Lähetetyt)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Arkisto)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Roskaposti)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Luonnokset)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Roskakori)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Lähetetyt)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Arkisto)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Roskaposti)</string>
   <string name="send_failure_subject">Joidenkin viestien lähettäminen epäonnistui</string>
-  <string name="debug_version_fmt">Versio: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Versio: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Käytä virheenkorjaustietojen  lokiinkirjausta</string>
   <string name="debug_enable_debug_logging_summary">Kirjoita lokiin laajempi kuvaus ongelmista</string>
   <string name="debug_enable_sensitive_logging_title">Kirjaa lokiin arkaluontoisia tietoja</string>
   <string name="debug_enable_sensitive_logging_summary">Salasanat saattavat näkyä lokeissa.</string>
   <string name="message_list_load_more_messages_action">Lataa lisää viestejä</string>
-  <string name="message_to_fmt">Vastaanottaja: <xliff:g id="counterParty"> %s </xliff:g></string>
+  <string name="message_to_fmt">Vastaanottaja: <xliff:g id="counterParty">%1$s </xliff:g></string>
   <string name="message_compose_subject_hint">Aihe</string>
   <string name="message_compose_content_hint">Viesti</string>
   <string name="message_compose_signature_hint">Allekirjoitus</string>
@@ -218,7 +218,7 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="message_compose_quote_header_from">Lähettäjä:</string>
   <string name="message_compose_quote_header_to">Vastaanottaja:</string>
   <string name="message_compose_quote_header_cc">Kopio:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> kirjoitti:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> kirjoitti:</string>
   <string name="message_compose_reply_header_fmt_with_date"><xliff:g id="sent_date">%1$s</xliff:g> <xliff:g id="sender">%2$s</xliff:g> kirjoitti:</string>
   <string name="message_compose_error_no_recipients">Valitse vähintään yksi vastaanottaja.</string>
   <string name="compose_error_incomplete_recipient">Vastaanottajakenttä sisältää virheellistä syötettä!</string>
@@ -228,7 +228,7 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="message_compose_show_quoted_text_action">Sisällytä lainattu viesti</string>
   <string name="message_compose_description_delete_quoted_text">Poista lainattu teksti</string>
   <string name="message_compose_description_edit_quoted_text">Muokkaa lainattua tekstiä</string>
-  <string name="message_view_from_format">Lähettäjä: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">Lähettäjä: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Vast.ottaja:</string>
   <string name="message_view_cc_label">Kopio:</string>
   <string name="message_view_bcc_label">Piilokopio:</string>
@@ -237,7 +237,7 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="message_view_status_attachment_not_saved">Liitteen tallennus SD-kortille epäonnistui.</string>
   <string name="message_view_status_no_space">Liitettä ei voitu tallentaa, koska tilaa ei ole riittävästi.</string>
   <string name="message_view_show_pictures_action">Näytä kuvat</string>
-  <string name="message_view_no_viewer">Tiedostotyypille <xliff:g id="mimetype">%s</xliff:g> ei löydy katseluohjelmaa.</string>
+  <string name="message_view_no_viewer">Tiedostotyypille <xliff:g id="mimetype">%1$s</xliff:g> ei löydy katseluohjelmaa.</string>
   <string name="message_view_download_remainder">Lataa koko viesti</string>
   <string name="message_view_toast_unable_to_display_message">Viestin näyttäminen ei onnistu</string>
   <string name="message_view_sender_label">%1$s kautta</string>
@@ -245,7 +245,7 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="message_no_additional_headers_available">Kaikki otsikkotiedot on ladattu, mutta näytettäviä ei ole enempää.</string>
   <string name="message_additional_headers_retrieval_failed">Lisäotsikkotietojen haku tietokannasta tai postipalvelimelta epäonnistui.</string>
   <string name="from_same_sender">Lisää samalta lähettäjältä</string>
-  <string name="search_from_format">Lähettäjä <xliff:g id="sender">%s</xliff:g></string>
+  <string name="search_from_format">Lähettäjä <xliff:g id="sender">%1$s</xliff:g></string>
   <string name="debug_delete_local_body">Vianjäljitys / Tyhjennä viestin sisältö</string>
   <string name="message_discarded_toast">Viesti peruutettu</string>
   <string name="message_saved_toast">Viesti tallennettu luonnoksena</string>
@@ -386,7 +386,7 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="account_setup_outgoing_password_label">Salasana</string>
   <string name="account_setup_outgoing_authentication_label">Todennustapa</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" ei ole kelvollinen asetuksen \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\" kanssa</string>
-  <string name="account_setup_bad_uri">Virheellinen asetus: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Virheellinen asetus: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Tilin asetukset</string>
   <string name="compact_action">Tiivistä</string>
   <string name="clear_action">Tyhjennä viestit (vaarallinen!)</string>
@@ -433,9 +433,9 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="account_setup_options_mail_display_count_all">Kaikki viestit</string>
   <string name="move_copy_cannot_copy_unsynced_message">Viestiä ei voi kopioida tai siirtää, koska sitä ei ole synkronoitu palvelimelle</string>
   <string name="account_setup_failed_dlg_title">Asennus ei onnistunut</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Käyttäjätunnus tai salasana väärin.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">Palvelin esitti virheellisen SSL-varmenteen. Joskus tämä johtuu palvelimen vääristä asetuksista. Toisinaan syynä on se, että joku koettaa hyökätä sinua tai sähköpostipalvelinta vastaan. Jos et ole varma mistä on kyse, napsauta Hylkää ja ole yhteydessä sähköpostipalvelinta hallinoivaan tahoon.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Yhteys palvelimeen ei onnistu.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Käyttäjätunnus tai salasana väärin.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">Palvelin esitti virheellisen SSL-varmenteen. Joskus tämä johtuu palvelimen vääristä asetuksista. Toisinaan syynä on se, että joku koettaa hyökätä sinua tai sähköpostipalvelinta vastaan. Jos et ole varma mistä on kyse, napsauta Hylkää ja ole yhteydessä sähköpostipalvelinta hallinoivaan tahoon.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Yhteys palvelimeen ei onnistu.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Muokkaa tietoja</string>
   <string name="account_setup_failed_dlg_continue_action">Jatka</string>
   <string name="account_settings_push_advanced_title">Lisäasetukset</string>
@@ -712,7 +712,7 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="count_search_summary">Poista käytöstä suorituskyvyn parantamiseksi</string>
   <string name="hide_special_accounts_title">Piilota erikoistilit</string>
   <string name="hide_special_accounts_summary">Piilota yhdistetty Saapuneet-kansio ja kaikki viestit -tili</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier"> - Tähdet</string>
   <string name="unread_modifier"> - Lukemattomat</string>
   <string name="search_all_messages_title">Kaikki viestit</string>
@@ -748,7 +748,7 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="font_size_message_view_subject">Viestin aihe</string>
   <string name="font_size_message_view_date">Aika ja päivämäärä</string>
   <string name="font_size_message_view_content">Viestin sisältö</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Viestin kirjoitus</string>
   <string name="font_size_message_compose_input">Tekstinsyöttökentät</string>
@@ -762,7 +762,7 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="font_size_larger">Suurin</string>
   <string name="miscellaneous_preferences">Muut</string>
   <string name="error_activity_not_found">Toiminnolle ei löytynyt sopivaa ohjelmaa.</string>
-  <string name="send_failed_reason">Lähetys epäonnistui: %s</string>
+  <string name="send_failed_reason">Lähetys epäonnistui:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Tallennetaanko luonnos?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Tallennetaanko vai hylätäänkö tämä viesti?</string>
   <string name="confirm_discard_draft_message_title">Hylkää viesti?</string>
@@ -802,36 +802,36 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="settings_exporting">Viedään asetuksia…</string>
   <string name="settings_importing">Tuodaan asetuksia…</string>
   <string name="settings_import_scanning_file">Tarkistetaan tiedostoa…</string>
-  <string name="settings_export_success">Viedyt asetukset tallennettu tiedostoon <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Viedyt asetukset tallennettu tiedostoon <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Asetukset vietiin onnistuneesti</string>
-  <string name="settings_import_global_settings_success">Yleiset asetukset tuotu tiedostosta <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">Tuotu <xliff:g id="accounts">%s</xliff:g> tiedostosta <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_account_imported_as">Tuotiin <xliff:g id="original_account_name">%s</xliff:g> nimellä <xliff:g id="account_name_after_import">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Yleiset asetukset tuotu tiedostosta <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success">Tuotu <xliff:g id="accounts">%1$s</xliff:g> tiedostosta <xliff:g id="filename">%2$s</xliff:g></string>
+  <string name="settings_import_account_imported_as">Tuotiin <xliff:g id="original_account_name">%1$s</xliff:g> nimellä <xliff:g id="account_name_after_import">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 tili</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> tiliä</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> tiliä</item>
   </plurals>
   <string name="settings_export_failure">Asetusten vienti epäonnistui</string>
-  <string name="settings_import_failure">Asetusten tuonti epäonnistui tiedostosta <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Asetusten tuonti epäonnistui tiedostosta <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Vienti onnistui</string>
   <string name="settings_export_failed_header">Vienti epäonnistui</string>
   <string name="settings_import_success_header">Tuonti onnistui</string>
   <string name="settings_import_failed_header">Tuonti epäonnistui</string>
   <string name="settings_import_activate_account_header">Aktivoi tili</string>
-  <string name="settings_import_activate_account_intro">Sinun on annettava <xliff:g id="server_passwords">%s</xliff:g> voidaksesi käyttää <xliff:g id="account">%s</xliff:g>-tiliä.</string>
+  <string name="settings_import_activate_account_intro">Sinun on annettava <xliff:g id="server_passwords">%1$s</xliff:g> voidaksesi käyttää <xliff:g id="account">%2$s</xliff:g>-tiliä.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">palvelimen salasana</item>
     <item quantity="other">palvelimen salasanat</item>
   </plurals>
-  <string name="settings_import_incoming_server">Saapuvan postin palvelin (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Lähtevän postin palvelin (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Saapuvan postin palvelin (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Lähtevän postin palvelin (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Määritetään salasanaa …</item>
     <item quantity="other">Määritetään salasanoja…</item>
   </plurals>
   <string name="settings_import_use_incoming_server_password">Käytä saapuvan postin palvelimen salasanaa</string>
   <string name="activate_account_action">Aktivoi</string>
-  <string name="account_unavailable">Tili <xliff:g id="account">%s</xliff:g> ei ole käytettävissä. Tarkista SD-kortti.</string>
+  <string name="account_unavailable">Tili <xliff:g id="account">%1$s</xliff:g> ei ole käytettävissä. Tarkista SD-kortti.</string>
   <string name="settings_attachment_default_path">Hakemisto, johon liitteet tallennetaan…</string>
   <string name="attachment_save_title">Tallenna liite</string>
   <string name="attachment_save_desc">Tiedostoselainta ei löydy. Minne haluat tallentaa tämän liitteen?</string>
@@ -872,7 +872,7 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="webview_contextmenu_email_save_action">Tallenna yhteystietoihin</string>
   <string name="webview_contextmenu_email_copy_action">Kopioi sähköpostiosoite leikepöydälle</string>
   <string name="webview_contextmenu_email_clipboard_label">Sähköpostiosoite</string>
-  <string name="image_saved_as">Kuva tallennettu nimellä <xliff:g id="filename">%s</xliff:g>.</string>
+  <string name="image_saved_as">Kuva tallennettu nimellä <xliff:g id="filename">%1$s</xliff:g>.</string>
   <string name="image_saving_failed">Kuvan tallennus epäonnistui.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Kaikki</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -883,11 +883,11 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Etähaun tulosten rajoitus</string>
-  <string name="account_settings_remote_search_num_summary">Haku päättyy, kun <xliff:g id="num_results">%s</xliff:g> tulosta on löytynyt.</string>
+  <string name="account_settings_remote_search_num_summary">Haku päättyy, kun <xliff:g id="num_results">%1$s</xliff:g> tulosta on löytynyt.</string>
   <string name="remote_search_sending_query">Lähetetään pyyntöä palvelimelle</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">Noudetaan %d tulos</item>
-    <item quantity="other">Noudetaan %d tulosta</item>
+    <item quantity="one">Noudetaan %1$d tulos</item>
+    <item quantity="other">Noudetaan %1$d tulosta</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="one">Noudetaan %1$d / %2$d tulos</item>
@@ -907,7 +907,7 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="global_settings_threaded_view_summary">Kutista samaan ketjuun kuuluvat viestit</string>
   <string name="upgrade_databases_title">Päivitetään tietokantoja</string>
   <string name="upgrade_databases_unspecified">Päivitetään tietokantoja…</string>
-  <string name="upgrade_database_format">Päivitetään tilin \"<xliff:g id="account">%s</xliff:g>\" tietokantaa</string>
+  <string name="upgrade_database_format">Päivitetään tilin \"<xliff:g id="account">%1$s</xliff:g>\" tietokantaa</string>
   <string name="message_list_loading">Ladataan…</string>
   <string name="global_settings_splitview_mode_label">Näytä jaettu näyttö</string>
   <string name="global_settings_splitview_always">Aina</string>
@@ -916,9 +916,9 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="message_view_empty">Valitse viesti vasemmalta</string>
   <string name="global_settings_show_contact_picture_label">Näytä yhteystietojen kuvat</string>
   <string name="global_settings_show_contact_picture_summary">Näytä yhteystietojen kuvat viestilistassa</string>
-  <string name="last_refresh_time_format">Päivitetty <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Päivitetty <xliff:g id="time_with_preposition">%s</xliff:g> (push-tilassa)</string>
-  <string name="preposition_for_date"><xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Päivitetty <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Päivitetty <xliff:g id="time_with_preposition">%1$s</xliff:g> (push-tilassa)</string>
+  <string name="preposition_for_date"><xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Merkitse kaikki luetuiksi</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Väritä yhteystietojen kuvat</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Väritä yhteystietojen puuttuvat kuvat</string>
@@ -933,7 +933,7 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="account_setup_basics_client_certificate">Käytä asiakasvarmennetta</string>
   <string name="client_certificate_spinner_empty">Ei asiakasvarmennetta</string>
   <string name="client_certificate_spinner_delete">Poista asiakasvarmenteen valinta</string>
-  <string name="client_certificate_retrieval_failure">Asiakasvarmenteen noutaminen epäonnistui aliakselle \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">Asiakasvarmenteen noutaminen epäonnistui aliakselle \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Lisäasetukset</string>
   <string name="client_certificate_expired">Asiakasvarmenne \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" on vanhentunut tai ei ole vielä voimassa (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

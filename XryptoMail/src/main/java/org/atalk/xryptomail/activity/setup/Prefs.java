@@ -1,34 +1,47 @@
 package org.atalk.xryptomail.activity.setup;
 
+import static org.atalk.xryptomail.XryptoMail.NotificationHideSubject;
+import static org.atalk.xryptomail.XryptoMail.NotificationQuickDelete;
+import static org.atalk.xryptomail.XryptoMail.SplitViewMode;
+import static org.atalk.xryptomail.XryptoMail.confirmMarkAllRead;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.*;
+import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceScreen;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import org.atalk.xryptomail.*;
-import org.atalk.xryptomail.XryptoMail.*;
+import org.atalk.xryptomail.BuildConfig;
+import org.atalk.xryptomail.Preferences;
+import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.activity.ColorPickerDialog;
 import org.atalk.xryptomail.activity.XMPreferenceActivity;
 import org.atalk.xryptomail.helper.FileBrowserHelper;
 import org.atalk.xryptomail.helper.FileBrowserHelper.FileBrowserFailOverCallback;
-import org.atalk.xryptomail.notification.NotificationController;
-import org.atalk.xryptomail.preferences.*;
+import org.atalk.xryptomail.preferences.CheckBoxListPreference;
+import org.atalk.xryptomail.preferences.Storage;
+import org.atalk.xryptomail.preferences.StorageEditor;
+import org.atalk.xryptomail.preferences.TimePickerPreference;
 import org.atalk.xryptomail.service.MailService;
 import org.atalk.xryptomail.ui.dialog.ApgDeprecationWarningDialog;
 import org.openintents.openpgp.util.OpenPgpAppPreference;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import static org.atalk.xryptomail.XryptoMail.*;
-
-public class Prefs extends XMPreferenceActivity
-{
+public class Prefs extends XMPreferenceActivity {
     /**
      * Immutable empty {@link CharSequence} array
      */
@@ -155,15 +168,13 @@ public class Prefs extends XMPreferenceActivity
     private ListPreference mSplitViewMode;
 
 
-    public static void actionPrefs(Context context)
-    {
+    public static void actionPrefs(Context context) {
         Intent i = new Intent(context, Prefs.class);
         context.startActivity(i);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         getActionBar().setTitle(R.string.prefs_title);
@@ -212,8 +223,7 @@ public class Prefs extends XMPreferenceActivity
         mStartIntegratedInbox.setChecked(XryptoMail.startIntegratedInbox());
 
         mConfirmActions = (CheckBoxListPreference) findPreference(PREFERENCE_CONFIRM_ACTIONS);
-        boolean canDeleteFromNotification = NotificationController.platformSupportsExtendedNotifications();
-        CharSequence[] confirmActionEntries = new CharSequence[canDeleteFromNotification ? 6 : 5];
+        CharSequence[] confirmActionEntries = new CharSequence[6];
         boolean[] confirmActionValues = new boolean[confirmActionEntries.length];
 
         int index = 0;
@@ -221,10 +231,8 @@ public class Prefs extends XMPreferenceActivity
         confirmActionValues[index++] = XryptoMail.confirmDelete();
         confirmActionEntries[index] = getString(R.string.global_settings_confirm_action_delete_starred);
         confirmActionValues[index++] = XryptoMail.confirmDeleteStarred();
-        if (canDeleteFromNotification) {
-            confirmActionEntries[index] = getString(R.string.global_settings_confirm_action_delete_notif);
-            confirmActionValues[index++] = XryptoMail.confirmDeleteFromNotification();
-        }
+        confirmActionEntries[index] = getString(R.string.global_settings_confirm_action_delete_notif);
+        confirmActionValues[index++] = XryptoMail.confirmDeleteFromNotification();
         confirmActionEntries[index] = getString(R.string.global_settings_confirm_action_spam);
         confirmActionValues[index++] = XryptoMail.confirmSpam();
         confirmActionEntries[index] = getString(R.string.global_settings_confirm_menu_discard);
@@ -279,8 +287,7 @@ public class Prefs extends XMPreferenceActivity
 
         if (XryptoMail.changeContactNameColor()) {
             mChangeContactNameColor.setSummary(R.string.global_settings_registered_name_color_changed);
-        }
-        else {
+        } else {
             mChangeContactNameColor.setSummary(R.string.global_settings_registered_name_color_default);
         }
 
@@ -289,8 +296,7 @@ public class Prefs extends XMPreferenceActivity
             if (checked) {
                 onChooseContactNameColor();
                 mChangeContactNameColor.setSummary(R.string.global_settings_registered_name_color_changed);
-            }
-            else {
+            } else {
                 mChangeContactNameColor.setSummary(R.string.global_settings_registered_name_color_default);
             }
             mChangeContactNameColor.setChecked(checked);
@@ -336,20 +342,9 @@ public class Prefs extends XMPreferenceActivity
 
         mNotificationQuickDelete = setupListPreference(PREFERENCE_NOTIF_QUICK_DELETE,
                 XryptoMail.getNotificationQuickDeleteBehaviour().toString());
-        if (!NotificationController.platformSupportsExtendedNotifications()) {
-            PreferenceScreen prefs = (PreferenceScreen) findPreference("notification_preferences");
-            prefs.removePreference(mNotificationQuickDelete);
-            mNotificationQuickDelete = null;
-        }
 
         mLockScreenNotificationVisibility = setupListPreference(PREFERENCE_LOCK_SCREEN_NOTIFICATION_VISIBILITY,
                 XryptoMail.getLockScreenNotificationVisibility().toString());
-        if (!NotificationController.platformSupportsLockScreenNotifications()) {
-            ((PreferenceScreen) findPreference("notification_preferences"))
-                    .removePreference(mLockScreenNotificationVisibility);
-            mLockScreenNotificationVisibility = null;
-        }
-
         mBackgroundOps = setupListPreference(PREFERENCE_BACKGROUND_OPS, XryptoMail.getBackgroundOps().name());
 
         // cmeng - hide debug option from released version
@@ -358,8 +353,7 @@ public class Prefs extends XMPreferenceActivity
         if (BuildConfig.DEBUG) {
             mDebugLogging.setChecked(XryptoMail.isDebug());
             mSensitiveLogging.setChecked(XryptoMail.DEBUG_SENSITIVE);
-        }
-        else {
+        } else {
             PreferenceScreen mPsDebug = getPreferenceScreen();
             Preference prefDebug = getPreferenceManager().findPreference("debug_preferences");
             mPsDebug.removePreference(prefDebug);
@@ -383,8 +377,7 @@ public class Prefs extends XMPreferenceActivity
             if (APG_PROVIDER_PLACEHOLDER.equals(value)) {
                 mOpenPgpProvider.setValue("");
                 showDialog(DIALOG_APG_DEPRECATION_WARNING);
-            }
-            else {
+            } else {
                 mOpenPgpProvider.setValue(value);
             }
             return false;
@@ -395,11 +388,9 @@ public class Prefs extends XMPreferenceActivity
 
         mAttachmentPathPreference = findPreference(PREFERENCE_ATTACHMENT_DEF_PATH);
         mAttachmentPathPreference.setSummary(XryptoMail.getAttachmentDefaultPath());
-        mAttachmentPathPreference.setOnPreferenceClickListener(new OnPreferenceClickListener()
-        {
+        mAttachmentPathPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceClick(Preference preference)
-            {
+            public boolean onPreferenceClick(Preference preference) {
                 FileBrowserHelper.getInstance().showFileBrowserActivity(
                         Prefs.this,
                         new File(XryptoMail.getAttachmentDefaultPath()),
@@ -407,18 +398,15 @@ public class Prefs extends XMPreferenceActivity
                 return true;
             }
 
-            FileBrowserFailOverCallback callback = new FileBrowserFailOverCallback()
-            {
+            FileBrowserFailOverCallback callback = new FileBrowserFailOverCallback() {
                 @Override
-                public void onPathEntered(String path)
-                {
+                public void onPathEntered(String path) {
                     mAttachmentPathPreference.setSummary(path);
                     XryptoMail.setAttachmentDefaultPath(path);
                 }
 
                 @Override
-                public void onCancel()
-                {
+                public void onCancel() {
                     // canceled, do nothing
                 }
             };
@@ -450,8 +438,7 @@ public class Prefs extends XMPreferenceActivity
                 mSplitViewMode.getEntries(), mSplitViewMode.getEntryValues());
     }
 
-    private static String themeIdToName(XryptoMail.Theme theme)
-    {
+    private static String themeIdToName(XryptoMail.Theme theme) {
         switch (theme) {
             case DARK:
                 return "dark";
@@ -462,21 +449,17 @@ public class Prefs extends XMPreferenceActivity
         }
     }
 
-    private static XryptoMail.Theme themeNameToId(String theme)
-    {
+    private static XryptoMail.Theme themeNameToId(String theme) {
         if (TextUtils.equals(theme, "dark")) {
             return XryptoMail.Theme.DARK;
-        }
-        else if (TextUtils.equals(theme, "global")) {
+        } else if (TextUtils.equals(theme, "global")) {
             return XryptoMail.Theme.USE_GLOBAL;
-        }
-        else {
+        } else {
             return XryptoMail.Theme.LIGHT;
         }
     }
 
-    private void saveSettings()
-    {
+    private void saveSettings() {
         Storage storage = Preferences.getPreferences(this).getStorage();
 
         XryptoMail.setXMLanguage(mLanguage.getValue());
@@ -494,9 +477,7 @@ public class Prefs extends XMPreferenceActivity
         int index = 0;
         XryptoMail.setConfirmDelete(mConfirmActions.getCheckedItems()[index++]);
         XryptoMail.setConfirmDeleteStarred(mConfirmActions.getCheckedItems()[index++]);
-        if (NotificationController.platformSupportsExtendedNotifications()) {
-            XryptoMail.setConfirmDeleteFromNotification(mConfirmActions.getCheckedItems()[index++]);
-        }
+        XryptoMail.setConfirmDeleteFromNotification(mConfirmActions.getCheckedItems()[index++]);
         XryptoMail.setConfirmSpam(mConfirmActions.getCheckedItems()[index++]);
         XryptoMail.setConfirmDiscardMessage(mConfirmActions.getCheckedItems()[index++]);
         XryptoMail.setConfirmMarkAllRead(mConfirmActions.getCheckedItems()[index]);
@@ -570,25 +551,21 @@ public class Prefs extends XMPreferenceActivity
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         saveSettings();
         super.onPause();
     }
 
-    private void onFontSizeSettings()
-    {
+    private void onFontSizeSettings() {
         FontSizeSettings.actionEditSettings(this);
     }
 
-    private void onChooseContactNameColor()
-    {
+    private void onChooseContactNameColor() {
         new ColorPickerDialog(this, XryptoMail::setContactNameColor, XryptoMail.getContactNameColor()).show();
     }
 
     @Override
-    protected Dialog onCreateDialog(int id)
-    {
+    protected Dialog onCreateDialog(int id) {
         Dialog dialog = null;
         switch (id) {
             case DIALOG_APG_DEPRECATION_WARNING: {
@@ -602,8 +579,7 @@ public class Prefs extends XMPreferenceActivity
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case ACTIVITY_CHOOSE_FOLDER:
                 if (resultCode == RESULT_OK && data != null) {

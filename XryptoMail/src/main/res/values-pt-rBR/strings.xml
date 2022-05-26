@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Permitir que esta aplicação controle atividades e configurações do XryptoMail Mail.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%s</xliff:g> The XryptoMail. Partes do Copyright 2006-<xliff:g>%s</xliff:g> the Android Open Source Project.</string>
+  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Partes do Copyright 2006-<xliff:g>%2$s</xliff:g> the Android Open Source Project.</string>
   <string name="app_license">Licenciado sob a Apache License, Versão 2.0.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Bem-vindo ao XryptoMail Mail</string>
@@ -46,43 +46,43 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <!--Default signature-->
   <string name="default_signature">-- \nEnviado de meu dispositivo Android com XryptoMail mail. Desculpe-me pela brevidade.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">A conta \"<xliff:g id="account">%s</xliff:g>\" será removida do XryptoMail Mail.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Todos os dados locais de \"<xliff:g id="account">%s</xliff:g>\" serão removidos do XryptoMail Mail, mas as configurações da conta serão mantidas.</string>
-  <string name="account_clear_dlg_instructions_fmt">As cópias locais das mensagens de \"<xliff:g id="account">%s</xliff:g>\" serão removidas, mas as configurações da conta serão mantidas.</string>
+  <string name="account_delete_dlg_instructions_fmt">A conta \"<xliff:g id="account">%1$s</xliff:g>\" será removida do XryptoMail Mail.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Todos os dados locais de \"<xliff:g id="account">%1$s</xliff:g>\" serão removidos do XryptoMail Mail, mas as configurações da conta serão mantidas.</string>
+  <string name="account_clear_dlg_instructions_fmt">As cópias locais das mensagens de \"<xliff:g id="account">%1$s</xliff:g>\" serão removidas, mas as configurações da conta serão mantidas.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Por favor, instale um gerenciador de arquivos para continuar com essa importação.</string>
   <string name="open_market">Abrir a Play Store</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Autores: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Informações da revisão: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Estamos usando as seguintes bibliotecas de terceiros: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Autores: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Informações da revisão: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Estamos usando as seguintes bibliotecas de terceiros: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Ler e-mails</string>
   <string name="read_messages_desc">Permite que esta aplicação leia seus e-mails.</string>
   <string name="delete_messages_label">Excluir e-mails</string>
   <string name="delete_messages_desc">Permite que o XryptoMail exclua seus e-mails.</string>
-  <string name="about_title_fmt">Sobre <xliff:g id="app_name">%s</xliff:g></string>
+  <string name="about_title_fmt">Sobre <xliff:g id="app_name">%1$s</xliff:g></string>
   <string name="accounts_title">Contas</string>
   <string name="folders_title">Pastas</string>
   <string name="advanced">Avançado</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Escrever</string>
   <string name="compose_title_reply">Responder</string>
   <string name="compose_title_reply_all">Responder a todos</string>
   <string name="compose_title_forward">Encaminhar</string>
   <string name="choose_account_title">Selecionar conta</string>
   <string name="choose_folder_title">Escolher a pasta</string>
-  <string name="status_loading_account_folder">Verificar <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Buscando os cabeçalhos <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Enviando <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Proc <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Próxima verificação <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder">Verificar <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Buscando os cabeçalhos <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Enviando <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Proc <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Próxima verificação <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Sincronização desabilitada - Sem rede</string>
   <string name="status_no_background">Sincronização desabilitada - Sem atividade em segundo plano</string>
   <string name="status_poll_and_push_disabled">Verificação e sincronização desabilitadas</string>
   <string name="status_syncing_blocked">Sincronização bloqueada</string>
   <string name="status_syncing_off">Sincronização desabilitada</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> selecionadas</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> selecionadas</string>
   <string name="next_action">Próxima</string>
   <string name="previous_action">Anterior</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -154,21 +154,21 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="status_invalid_id_error">Mensagem não encontrada</string>
   <string name="status_loading_error">Erro no carregamento da mensagem</string>
   <string name="status_loading_more_failed">Tentar novamente a carga de mais mensagens</string>
-  <string name="load_more_messages_fmt">Toque para ver mais <xliff:g id="messages_to_load">%d</xliff:g> msgs.</string>
+  <string name="load_more_messages_fmt">Toque para ver mais <xliff:g id="messages_to_load">%1$d</xliff:g> msgs.</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">A conta \"<xliff:g id="account">%s</xliff:g>\" reduziu de <xliff:g id="oldSize">%s</xliff:g> para <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Compactando a conta \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">Limpando a conta \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">Recriando a conta \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="account_size_changed">A conta \"<xliff:g id="account">%1$s</xliff:g>\" reduziu de <xliff:g id="oldSize">%2$s</xliff:g> para <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Compactando a conta \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">Limpando a conta \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">Recriando a conta \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="notification_new_title">Nova mensagem</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> nova mensagem</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> novas mensagens</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> nova mensagem</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> novas mensagens</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> não lidas (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> não lidas (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> a mais em <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Responder</string>
   <string name="notification_action_mark_as_read">Marcar como lida</string>
@@ -178,13 +178,13 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="notification_action_archive">Arquivar</string>
   <string name="notification_action_archive_all">Arquivar todas</string>
   <string name="notification_action_spam">Spam</string>
-  <string name="notification_certificate_error_title">Erro no certificado de <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Erro no certificado de <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Verifique suas configurações de servidor</string>
   <string name="notification_authentication_error_title">Falha na autenticação</string>
-  <string name="notification_authentication_error_text">Falha na autenticação de <xliff:g id="account">%s</xliff:g>. Atualize suas configurações de servidor.</string>
-  <string name="notification_bg_sync_ticker">Verificando email: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Falha na autenticação de <xliff:g id="account">%1$s</xliff:g>. Atualize suas configurações de servidor.</string>
+  <string name="notification_bg_sync_ticker">Verificando email: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Verificando email</string>
-  <string name="notification_bg_send_ticker">Enviando mensagem: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Enviando mensagem: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Enviando mensagem</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Caixa de entrada</string>
@@ -194,19 +194,19 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="special_mailbox_name_sent">Enviadas</string>
   <string name="special_mailbox_name_archive">Arquivadas</string>
   <string name="special_mailbox_name_spam">Spam</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Rascunhos)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Lixeira)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Enviadas)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Arquivadas)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Spam)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Rascunhos)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Lixeira)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Enviadas)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Arquivadas)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Spam)</string>
   <string name="send_failure_subject">Algumas mensagens não foram enviadas</string>
-  <string name="debug_version_fmt">Versão: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Versão: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Habilitar relatório de depuração</string>
   <string name="debug_enable_debug_logging_summary">Relatar informações de diagnósticos extras</string>
   <string name="debug_enable_sensitive_logging_title">Relatar informações confidencias</string>
   <string name="debug_enable_sensitive_logging_summary">Pode exibir senhas nos relatórios</string>
   <string name="message_list_load_more_messages_action">Carregar mais mensagens</string>
-  <string name="message_to_fmt">Para:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">Para:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Assunto</string>
   <string name="message_compose_content_hint">Texto da mensagem</string>
   <string name="message_compose_signature_hint">Assinatura</string>
@@ -216,7 +216,7 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="message_compose_quote_header_from">De:</string>
   <string name="message_compose_quote_header_to">Para:</string>
   <string name="message_compose_quote_header_cc">CC:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> escreveu:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> escreveu:</string>
   <string name="message_compose_reply_header_fmt_with_date">Em <xliff:g id="sent_date">%1$s</xliff:g>, <xliff:g id="sender">%2$s</xliff:g> escreveu:</string>
   <string name="message_compose_error_no_recipients">Você deve incluir ao menos um destinatário.</string>
   <string name="compose_error_incomplete_recipient">O campo destinatário está incompleto!</string>
@@ -224,7 +224,7 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="message_compose_attachments_skipped_toast">Alguns anexos não puderam ser encaminhados porque não foram baixados.</string>
   <string name="message_compose_description_delete_quoted_text">Remover o texto citado</string>
   <string name="message_compose_description_edit_quoted_text">Editar o texto citado</string>
-  <string name="message_view_from_format">De: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">De: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Para:</string>
   <string name="message_view_cc_label">CC:</string>
   <string name="message_view_bcc_label">Cco:</string>
@@ -233,7 +233,7 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="message_view_status_attachment_not_saved">Não foi possível salvar o anexo no cartão SD.</string>
   <string name="message_view_status_no_space">Não foi possível salvar o anexo porque não existe espaço disponível.</string>
   <string name="message_view_show_pictures_action">Exibir imagens</string>
-  <string name="message_view_no_viewer">Não foi possível encontrar um visualizador para <xliff:g id="mimetype">%s</xliff:g>.</string>
+  <string name="message_view_no_viewer">Não foi possível encontrar um visualizador para <xliff:g id="mimetype">%1$s</xliff:g>.</string>
   <string name="message_view_download_remainder">Baixar a mensagem completa</string>
   <string name="message_view_toast_unable_to_display_message">Não é possível exibir a mensagem</string>
   <string name="message_view_sender_label">via %1$s</string>
@@ -241,7 +241,7 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="message_no_additional_headers_available">Todos os cabeçalhos foram baixados, mas não há cabeçalhos adicionais a serem exibidos.</string>
   <string name="message_additional_headers_retrieval_failed">Não foi possível recuperar os cabeçalhos adicionais do banco de dados ou do servidor de e-mail.</string>
   <string name="from_same_sender">Mais deste remetente</string>
-  <string name="search_from_format">De <xliff:g id="sender">%s</xliff:g></string>
+  <string name="search_from_format">De <xliff:g id="sender">%1$s</xliff:g></string>
   <string name="debug_delete_local_body">Depurar / Limpar o corpo da mensagem</string>
   <string name="message_discarded_toast">Mensagem descartada</string>
   <string name="message_saved_toast">Mensagem salva como rascunho</string>
@@ -380,7 +380,7 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="account_setup_outgoing_password_label">Senha</string>
   <string name="account_setup_outgoing_authentication_label">Autenticação</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" não é válido com \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
-  <string name="account_setup_bad_uri">Configuração inválida: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Configuração inválida: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Opções da conta</string>
   <string name="compact_action">Compactar conta</string>
   <string name="clear_action">Limpar mensagens (perigoso!)</string>
@@ -427,9 +427,9 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="account_setup_options_mail_display_count_all">todas as Mensagens</string>
   <string name="move_copy_cannot_copy_unsynced_message">Não é possível copiar ou mover uma mensagem que não foi sincronizada com o servidor</string>
   <string name="account_setup_failed_dlg_title">Não foi possível concluir a configuração</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Usuário ou senha incorretos.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">O servidor apresentou um certificado SSL inválido. Isto pode ocorrer por problemas de configuração do servidor, ou porque alguém está tentando atacar você ou o seu servidor de e-mails. Se você não tem certeza do que está acontecendo clique em Rejeitar e entre em contato com o administrador do seu servidor de e-mails.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Não é possível conectar-se ao servidor.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Usuário ou senha incorretos.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">O servidor apresentou um certificado SSL inválido. Isto pode ocorrer por problemas de configuração do servidor, ou porque alguém está tentando atacar você ou o seu servidor de e-mails. Se você não tem certeza do que está acontecendo clique em Rejeitar e entre em contato com o administrador do seu servidor de e-mails.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Não é possível conectar-se ao servidor.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Editar detalhes</string>
   <string name="account_setup_failed_dlg_continue_action">Continuar</string>
   <string name="account_settings_push_advanced_title">Avançado</string>
@@ -708,7 +708,7 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="count_search_summary">Desligue para exibição mais rápida</string>
   <string name="hide_special_accounts_title">Esconder contas especiais</string>
   <string name="hide_special_accounts_summary">Esconde a Caixa de Entrada Unificada e todas as contas de mensagens</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier"> - Sinalizada</string>
   <string name="unread_modifier"> - Não lido</string>
   <string name="search_all_messages_title">Todas as mensagens</string>
@@ -744,7 +744,7 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="font_size_message_view_subject">Assunto</string>
   <string name="font_size_message_view_date">Data e hora</string>
   <string name="font_size_message_view_content">Corpo da mensagem</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Composição de mensagem</string>
   <string name="font_size_message_compose_input">Campos de entrada de texto</string>
@@ -758,7 +758,7 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="font_size_larger">Maior</string>
   <string name="miscellaneous_preferences">Diversos</string>
   <string name="error_activity_not_found">Não foi encontrado nenhum aplicativo adequado a esta ação.</string>
-  <string name="send_failed_reason">Falha no envio: %s</string>
+  <string name="send_failed_reason">Falha no envio:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Salvar mensagem de rascunho?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Salvar ou descartar esta mensagem?</string>
   <string name="confirm_discard_draft_message_title">Descartar a mensagem?</string>
@@ -798,36 +798,36 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="settings_exporting">Exportando configurações…</string>
   <string name="settings_importing">Importando configurações…</string>
   <string name="settings_import_scanning_file">Vasculhando arquivo…</string>
-  <string name="settings_export_success">As configurações exportadas foram salvas em <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">As configurações exportadas foram salvas em <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">As configurações foram exportadas com sucesso</string>
-  <string name="settings_import_global_settings_success">Configurações globais importadas de <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success"><xliff:g id="accounts">%s</xliff:g> importada de <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_account_imported_as">Importado <xliff:g id="original_account_name">%s</xliff:g> como <xliff:g id="account_name_after_import">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Configurações globais importadas de <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success"><xliff:g id="accounts">%1$s</xliff:g> importada de <xliff:g id="filename">%2$s</xliff:g></string>
+  <string name="settings_import_account_imported_as">Importado <xliff:g id="original_account_name">%1$s</xliff:g> como <xliff:g id="account_name_after_import">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 conta</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> contas</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> contas</item>
   </plurals>
   <string name="settings_export_failure">Não foi possível exportar as configurações</string>
-  <string name="settings_import_failure">Não foi possível importar nenhuma configuração de <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Não foi possível importar nenhuma configuração de <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Exportação concluída</string>
   <string name="settings_export_failed_header">Não foi possível exportar</string>
   <string name="settings_import_success_header">Importação concluída</string>
   <string name="settings_import_failed_header">Não foi possível importar</string>
   <string name="settings_import_activate_account_header">Ativar conta</string>
-  <string name="settings_import_activate_account_intro">Para poder usar a conta \"<xliff:g id="account">%s</xliff:g>\" você deve fornecer <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">Para poder usar a conta \"<xliff:g id="account">%1$s</xliff:g>\" você deve fornecer <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">a senha do servidor</item>
     <item quantity="other">as senhas do servidor</item>
   </plurals>
-  <string name="settings_import_incoming_server">Servidor de entrada (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Servidor de saída (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Servidor de entrada (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Servidor de saída (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Definindo a senha…</item>
     <item quantity="other">Definindo as senhas…</item>
   </plurals>
   <string name="settings_import_use_incoming_server_password">Usar a senha do servidor de entrada</string>
   <string name="activate_account_action">Ativar</string>
-  <string name="account_unavailable">A conta \"<xliff:g id="account">%s</xliff:g>\" está indisponível; verifique o armazenamento</string>
+  <string name="account_unavailable">A conta \"<xliff:g id="account">%1$s</xliff:g>\" está indisponível; verifique o armazenamento</string>
   <string name="settings_attachment_default_path">Salvar anexos em…</string>
   <string name="attachment_save_title">Salvar anexo</string>
   <string name="attachment_save_desc">Não foi encontrado nenhum gerenciador de arquivos. Onde deseja salvar esse anexo?</string>
@@ -868,7 +868,7 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="webview_contextmenu_email_save_action">Salvar nos Contatos</string>
   <string name="webview_contextmenu_email_copy_action">Copiar endereço para a área de transferência</string>
   <string name="webview_contextmenu_email_clipboard_label">Endereço de e-mail</string>
-  <string name="image_saved_as">Imagem salva como \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Imagem salva como \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">Não foi possível salvar a imagem.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Todas</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -879,11 +879,11 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Limite da pesquisa no servidor</string>
-  <string name="account_settings_remote_search_num_summary">A pesquisa será interrompida após <xliff:g id="num_results">%s</xliff:g> resultados.</string>
+  <string name="account_settings_remote_search_num_summary">A pesquisa será interrompida após <xliff:g id="num_results">%1$s</xliff:g> resultados.</string>
   <string name="remote_search_sending_query">Enviando a consulta ao servidor</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">Buscando %d resultado</item>
-    <item quantity="other">Buscando %d resultados</item>
+    <item quantity="one">Buscando%1$d resultado</item>
+    <item quantity="other">Buscando%1$d resultados</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="one">Buscando %1$d de %2$d resultado</item>
@@ -903,7 +903,7 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="global_settings_threaded_view_summary">Agrupa mensagens pela conversa</string>
   <string name="upgrade_databases_title">Atualizando bancos de dados</string>
   <string name="upgrade_databases_unspecified">Atualizando bancos de dados…</string>
-  <string name="upgrade_database_format">Atualizando bancos de dados da conta \"<xliff:g id="account">%s</xliff:g>\"</string>
+  <string name="upgrade_database_format">Atualizando bancos de dados da conta \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="message_list_loading">Carregando…</string>
   <string name="global_settings_splitview_mode_label">Exibir tela dividida</string>
   <string name="global_settings_splitview_always">Sempre</string>
@@ -912,9 +912,9 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="message_view_empty">Por favor, selecione uma mensagem à esquerda</string>
   <string name="global_settings_show_contact_picture_label">Exibir imagens dos contatos</string>
   <string name="global_settings_show_contact_picture_summary">Exibe imagens dos contatos na lista de mensagens</string>
-  <string name="last_refresh_time_format">Atualizado em <xliff:g id="formatted_time">%s</xliff:g></string>
-  <string name="last_refresh_time_format_with_push">Atualizado <xliff:g id="time_with_preposition">%s</xliff:g> (sincronização ativa)</string>
-  <string name="preposition_for_date">em <xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format">Atualizado em <xliff:g id="formatted_time">%1$s</xliff:g></string>
+  <string name="last_refresh_time_format_with_push">Atualizado <xliff:g id="time_with_preposition">%1$s</xliff:g> (sincronização ativa)</string>
+  <string name="preposition_for_date">em <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Marcar todas como lidas</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Colorir contatos sem imagem</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Usa cores em contatos que não tiverem imagem</string>
@@ -929,7 +929,7 @@ Por favor encaminhe relatórios de bugs, contribua com novos recursos e tire dú
   <string name="account_setup_basics_client_certificate">Usar certificado do cliente</string>
   <string name="client_certificate_spinner_empty">Nenhum certificado do cliente</string>
   <string name="client_certificate_spinner_delete">Remover seleção do certificado do cliente</string>
-  <string name="client_certificate_retrieval_failure">Não foi possível recuperar o certificado do cliente para o apelido \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">Não foi possível recuperar o certificado do cliente para o apelido \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Opções avançadas</string>
   <string name="client_certificate_expired">Certificado do cliente \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" expirou ou não é mais válido (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

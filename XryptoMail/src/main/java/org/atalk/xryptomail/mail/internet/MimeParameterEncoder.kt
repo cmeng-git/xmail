@@ -121,7 +121,7 @@ object MimeParameterEncoder {
 
     private fun String.rfc2231Encoded() = buildString {
         this@rfc2231Encoded.encodeUtf8 { byte ->
-            val c = byte.toChar()
+            val c = byte.toInt().toChar()
             if (c.isAttributeChar()) {
                 append(c)
             } else {
@@ -134,7 +134,7 @@ object MimeParameterEncoder {
     private fun String.rfc2231EncodedLength(): Int {
         var length = 0
         encodeUtf8 { byte ->
-            length += if (byte.toChar().isAttributeChar()) 1 else 3
+            length += if (byte.toInt().toChar().isAttributeChar()) 1 else 3
         }
         return length
     }
@@ -187,7 +187,7 @@ object MimeParameterEncoder {
     }
 
     // RFC 5322: qtext = %d33 / %d35-91 / %d93-126 / obs-qtext
-    private fun Char.isQText() = when (toInt()) {
+    private fun Char.isQText() = when (code) {
         33 -> true
         in 35..91 -> true
         in 93..126 -> true

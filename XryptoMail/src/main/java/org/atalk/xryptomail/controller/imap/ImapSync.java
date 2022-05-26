@@ -1,46 +1,69 @@
 package org.atalk.xryptomail.controller.imap;
 
-import android.content.Context;
-import org.atalk.xryptomail.*;
-import org.atalk.xryptomail.Account.Expunge;
-import org.atalk.xryptomail.activity.MessageReference;
-import org.atalk.xryptomail.controller.*;
-import org.atalk.xryptomail.mail.*;
-import org.atalk.xryptomail.mail.Folder.FolderType;
-import org.atalk.xryptomail.mail.internet.MessageExtractor;
-import org.atalk.xryptomail.mailstore.*;
-import org.atalk.xryptomail.mailstore.LocalFolder.MoreMessages;
-import org.atalk.xryptomail.notification.NotificationController;
-import timber.log.Timber;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import static org.atalk.xryptomail.helper.ExceptionHelper.getRootCauseMessage;
 
-class ImapSync
-{
+import android.content.Context;
+
+import org.atalk.xryptomail.Account;
+import org.atalk.xryptomail.Account.Expunge;
+import org.atalk.xryptomail.AccountStats;
+import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.activity.MessageReference;
+import org.atalk.xryptomail.controller.MessagingController;
+import org.atalk.xryptomail.controller.MessagingListener;
+import org.atalk.xryptomail.controller.UidReverseComparator;
+import org.atalk.xryptomail.helper.timberlog.TimberLog;
+import org.atalk.xryptomail.mail.AuthenticationFailedException;
+import org.atalk.xryptomail.mail.BodyFactory;
+import org.atalk.xryptomail.mail.DefaultBodyFactory;
+import org.atalk.xryptomail.mail.FetchProfile;
+import org.atalk.xryptomail.mail.Flag;
+import org.atalk.xryptomail.mail.Folder;
+import org.atalk.xryptomail.mail.Folder.FolderType;
+import org.atalk.xryptomail.mail.Message;
+import org.atalk.xryptomail.mail.MessageRetrievalListener;
+import org.atalk.xryptomail.mail.MessagingException;
+import org.atalk.xryptomail.mail.Part;
+import org.atalk.xryptomail.mail.Store;
+import org.atalk.xryptomail.mail.internet.MessageExtractor;
+import org.atalk.xryptomail.mailstore.LocalFolder;
+import org.atalk.xryptomail.mailstore.LocalFolder.MoreMessages;
+import org.atalk.xryptomail.mailstore.LocalMessage;
+import org.atalk.xryptomail.mailstore.LocalStore;
+import org.atalk.xryptomail.mailstore.MessageRemovalListener;
+import org.atalk.xryptomail.notification.NotificationController;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import timber.log.Timber;
+
+class ImapSync {
     private final NotificationController notificationController;
     private final MessagingController controller;
     private final Context context;
 
     // TODO: Replace all of these dependencies with one or more interfaces
-    ImapSync(NotificationController notificationController, MessagingController controller, Context context)
-    {
+    ImapSync(NotificationController notificationController, MessagingController controller, Context context) {
         this.notificationController = notificationController;
         this.controller = controller;
         this.context = context;
     }
 
-    void sync(Account account, String folder, MessagingListener listener, Folder providedRemoteFolder)
-    {
+    void sync(Account account, String folder, MessagingListener listener, Folder providedRemoteFolder) {
         synchronizeMailboxSynchronous(account, folder, listener, providedRemoteFolder);
     }
 
     void synchronizeMailboxSynchronous(final Account account, final String folder, final MessagingListener listener,
-            Folder providedRemoteFolder)
-    {
+            Folder providedRemoteFolder) {
         Folder remoteFolder = null;
         LocalFolder tLocalFolder = null;
 
@@ -82,8 +105,7 @@ class ImapSync
             if (providedRemoteFolder != null) {
                 Timber.v("SYNC: using providedRemoteFolder %s", folder);
                 remoteFolder = providedRemoteFolder;
-            }
-            else {
+            } else {
                 Store remoteStore = account.getRemoteStore();
 
                 Timber.v("SYNC: About to get remote folder %s", folder);
@@ -174,8 +196,7 @@ class ImapSync
                 for (MessagingListener l : getListeners(listener)) {
                     l.synchronizeMailboxHeadersFinished(account, folder, headerProgress.get(), remoteUidMap.size());
                 }
-            }
-            else if (remoteMessageCount < 0) {
+            } else if (remoteMessageCount < 0) {
                 throw new Exception("Message count " + remoteMessageCount + " for folder " + folder);
             }
 
@@ -281,8 +302,7 @@ class ImapSync
      */
     private boolean verifyOrCreateRemoteSpecialFolder(Account account, String folder, Folder remoteFolder,
             MessagingListener listener)
-            throws MessagingException
-    {
+            throws MessagingException {
         if (folder.equals(account.getTrashFolder())
                 || folder.equals(account.getSentFolder())
                 || folder.equals(account.getDraftsFolderName())) {
@@ -314,8 +334,7 @@ class ImapSync
      */
     int downloadMessages(final Account account, final Folder remoteFolder, final LocalFolder localFolder,
             List<Message> inputMessages, boolean flagSyncOnly, boolean purgeToVisibleLimit)
-            throws MessagingException
-    {
+            throws MessagingException {
         final Date earliestDate = account.getEarliestPollDate();
         Date downloadStarted = new Date();
 
@@ -412,11 +431,9 @@ class ImapSync
         Timber.d("SYNC: Synced remote messages for folder %s, %d new messages", folder, newMessages.get());
 
         if (purgeToVisibleLimit) {
-            localFolder.purgeToVisibleLimit(new MessageRemovalListener()
-            {
+            localFolder.purgeToVisibleLimit(new MessageRemovalListener() {
                 @Override
-                public void messageRemoved(Message message)
-                {
+                public void messageRemoved(Message message) {
                     for (MessagingListener l : getListeners()) {
                         l.synchronizeMailboxRemovedMessage(account, folder, message);
                     }
@@ -430,8 +447,7 @@ class ImapSync
     private void evaluateMessageForDownload(final Message message, final String folder, final LocalFolder localFolder,
             final Folder remoteFolder, final Account account, final List<Message> unsyncedMessages,
             final List<Message> syncFlagMessages, boolean flagSyncOnly)
-            throws MessagingException
-    {
+            throws MessagingException {
         if (message.isSet(Flag.DELETED)) {
             Timber.v("Message with uid %s is marked as deleted", message.getUid());
             syncFlagMessages.add(message);
@@ -444,8 +460,7 @@ class ImapSync
                 if (!message.isSet(Flag.X_DOWNLOADED_FULL) && !message.isSet(Flag.X_DOWNLOADED_PARTIAL)) {
                     Timber.v("Message with uid %s has not yet been downloaded", message.getUid());
                     unsyncedMessages.add(message);
-                }
-                else {
+                } else {
                     Timber.v("Message with uid %s is partially or fully downloaded", message.getUid());
 
                     // Store the updated message locally
@@ -461,24 +476,22 @@ class ImapSync
                     }
                 }
             }
-        }
-        else if (!localMessage.isSet(Flag.DELETED)) {
-            Timber.v("Message with uid %s is present in the local store", message.getUid());
+        } else if (!localMessage.isSet(Flag.DELETED)) {
+            if (TimberLog.isTraceEnable)
+                Timber.d("Message with uid %s is present in the local store", message.getUid());
 
             if (!localMessage.isSet(Flag.X_DOWNLOADED_FULL) && !localMessage.isSet(Flag.X_DOWNLOADED_PARTIAL)) {
                 Timber.v("Message with uid %s is not downloaded, even partially; trying again", message.getUid());
 
                 unsyncedMessages.add(message);
-            }
-            else {
+            } else {
                 String newPushState = remoteFolder.getNewPushState(localFolder.getPushState(), message);
                 if (newPushState != null) {
                     localFolder.setPushState(newPushState);
                 }
                 syncFlagMessages.add(message);
             }
-        }
-        else {
+        } else {
             Timber.v("Local copy of message with uid %s is marked as deleted", message.getUid());
         }
     }
@@ -486,24 +499,20 @@ class ImapSync
     private <T extends Message> void fetchUnsyncedMessages(final Account account, final Folder<T> remoteFolder,
             List<T> unsyncedMessages, final List<Message> smallMessages, final List<Message> largeMessages,
             final AtomicInteger progress, final int todo, FetchProfile fp)
-            throws MessagingException
-    {
+            throws MessagingException {
         final String folder = remoteFolder.getServerId();
         final Date earliestDate = account.getEarliestPollDate();
         remoteFolder.fetch(unsyncedMessages, fp,
-                new MessageRetrievalListener<T>()
-                {
+                new MessageRetrievalListener<T>() {
                     @Override
-                    public void messageFinished(T message, int number, int ofTotal)
-                    {
+                    public void messageFinished(T message, int number, int ofTotal) {
                         try {
                             if (message.isSet(Flag.DELETED) || message.olderThan(earliestDate)) {
                                 if (XryptoMail.isDebug()) {
                                     if (message.isSet(Flag.DELETED)) {
                                         Timber.v("Newly downloaded message %s:%s:%s was marked deleted on server, skipping",
                                                 account, folder, message.getUid());
-                                    }
-                                    else {
+                                    } else {
                                         Timber.d("Newly downloaded message %s is older than %s, skipping",
                                                 message.getUid(), earliestDate);
                                     }
@@ -519,8 +528,7 @@ class ImapSync
                             if (account.getMaximumAutoDownloadMessageSize() > 0
                                     && message.getSize() > account.getMaximumAutoDownloadMessageSize()) {
                                 largeMessages.add(message);
-                            }
-                            else {
+                            } else {
                                 smallMessages.add(message);
                             }
                         } catch (Exception e) {
@@ -529,13 +537,11 @@ class ImapSync
                     }
 
                     @Override
-                    public void messageStarted(String uid, int number, int ofTotal)
-                    {
+                    public void messageStarted(String uid, int number, int ofTotal) {
                     }
 
                     @Override
-                    public void messagesFinished(int total)
-                    {
+                    public void messagesFinished(int total) {
                         // FIXME this method is almost never invoked by various Stores! Don't rely on it unless fixed!!
                     }
                 });
@@ -544,70 +550,63 @@ class ImapSync
     private <T extends Message> void downloadSmallMessages(final Account account, final Folder<T> remoteFolder,
             final LocalFolder localFolder, List<T> smallMessages, final AtomicInteger progress,
             final int unreadBeforeStart, final AtomicInteger newMessages, final int todo, FetchProfile fp)
-            throws MessagingException
-    {
+            throws MessagingException {
         final String folder = remoteFolder.getServerId();
         final Date earliestDate = account.getEarliestPollDate();
 
         Timber.d("SYNC: Fetching %d small messages for folder %s", smallMessages.size(), folder);
-        remoteFolder.fetch(smallMessages,
-                fp, new MessageRetrievalListener<T>()
-                {
-                    @Override
-                    public void messageFinished(final T message, int number, int ofTotal)
-                    {
-                        try {
-                            if (!shouldImportMessage(message, earliestDate)) {
-                                progress.incrementAndGet();
-                                return;
-                            }
+        remoteFolder.fetch(smallMessages, fp, new MessageRetrievalListener<T>() {
+            @Override
+            public void messageFinished(final T message, int number, int ofTotal) {
+                try {
+                    if (!shouldImportMessage(message, earliestDate)) {
+                        progress.incrementAndGet();
+                        return;
+                    }
 
-                            // Store the updated message locally
-                            final LocalMessage localMessage = localFolder.storeSmallMessage(message, progress::incrementAndGet);
+                    // Store the updated message locally
+                    final LocalMessage localMessage = localFolder.storeSmallMessage(message, progress::incrementAndGet);
 
-                            // Increment the number of "new messages" if the newly downloaded message is
-                            // not marked as read.
-                            if (!localMessage.isSet(Flag.SEEN)) {
-                                newMessages.incrementAndGet();
-                            }
-                            Timber.v("About to notify listeners that we got a new small message %s:%s:%s",
-                                    account, folder, message.getUid());
+                    // Increment the number of "new messages" if the newly downloaded message is
+                    // not marked as read.
+                    if (!localMessage.isSet(Flag.SEEN)) {
+                        newMessages.incrementAndGet();
+                    }
+                    Timber.v("About to notify listeners that we got a new small message %s:%s:%s",
+                            account, folder, message.getUid());
 
-                            // Update the listener with what we've found
-                            for (MessagingListener l : getListeners()) {
-                                l.synchronizeMailboxProgress(account, folder, progress.get(), todo);
-                                if (!localMessage.isSet(Flag.SEEN)) {
-                                    l.synchronizeMailboxNewMessage(account, folder, localMessage);
-                                }
-                            }
-                            // Send a notification of this message
-                            if (shouldNotifyForMessage(account, localFolder, message)) {
-                                // Notify with the localMessage so that we don't have to recalculate the content preview.
-                                notificationController.addNewMailNotification(account, localMessage, unreadBeforeStart);
-                            }
-                        } catch (MessagingException me) {
-                            Timber.e(me, "SYNC: fetch small messages");
+                    // Update the listener with what we've found
+                    for (MessagingListener l : getListeners()) {
+                        l.synchronizeMailboxProgress(account, folder, progress.get(), todo);
+                        if (!localMessage.isSet(Flag.SEEN)) {
+                            l.synchronizeMailboxNewMessage(account, folder, localMessage);
                         }
                     }
-
-                    @Override
-                    public void messageStarted(String uid, int number, int ofTotal)
-                    {
+                    // Send a notification of this message
+                    if (shouldNotifyForMessage(account, localFolder, message)) {
+                        // Notify with the localMessage so that we don't have to recalculate the content preview.
+                        notificationController.addNewMailNotification(account, localMessage, unreadBeforeStart);
                     }
+                } catch (MessagingException me) {
+                    Timber.e(me, "SYNC: fetch small messages");
+                }
+            }
 
-                    @Override
-                    public void messagesFinished(int total)
-                    {
-                    }
-                });
+            @Override
+            public void messageStarted(String uid, int number, int ofTotal) {
+            }
+
+            @Override
+            public void messagesFinished(int total) {
+            }
+        });
         Timber.d("SYNC: Done fetching small messages for folder %s", folder);
     }
 
     private <T extends Message> void downloadLargeMessages(final Account account, final Folder<T> remoteFolder,
             final LocalFolder localFolder, List<T> largeMessages, final AtomicInteger progress,
             final int unreadBeforeStart, final AtomicInteger newMessages, final int todo, FetchProfile fp)
-            throws MessagingException
-    {
+            throws MessagingException {
         final String folder = remoteFolder.getServerId();
         final Date earliestDate = account.getEarliestPollDate();
 
@@ -621,8 +620,7 @@ class ImapSync
 
             if (message.getBody() == null) {
                 downloadSaneBody(account, remoteFolder, localFolder, message);
-            }
-            else {
+            } else {
                 downloadPartial(remoteFolder, localFolder, message);
             }
             Timber.v("About to notify listeners that we got a new large message %s:%s:%s",
@@ -654,8 +652,7 @@ class ImapSync
 
     private void refreshLocalMessageFlags(final Account account, final Folder remoteFolder,
             final LocalFolder localFolder, List<Message> syncFlagMessages, final AtomicInteger progress, final int todo)
-            throws MessagingException
-    {
+            throws MessagingException {
         final String folder = remoteFolder.getServerId();
         Timber.d("SYNC: About to sync flags for %d remote messages for folder %s", syncFlagMessages.size(), folder);
 
@@ -679,8 +676,7 @@ class ImapSync
                     for (MessagingListener l : getListeners()) {
                         l.synchronizeMailboxRemovedMessage(account, folder, localMessage);
                     }
-                }
-                else {
+                } else {
                     if (shouldNotifyForMessage(account, localFolder, localMessage)) {
                         shouldBeNotifiedOf = true;
                     }
@@ -700,8 +696,7 @@ class ImapSync
     }
 
     private void downloadSaneBody(Account account, Folder remoteFolder, LocalFolder localFolder, Message message)
-            throws MessagingException
-    {
+            throws MessagingException {
         /*
          * The provider was unable to get the structure of the message, so
          * we'll download a reasonable portion of the messge and mark it as
@@ -723,9 +718,8 @@ class ImapSync
         Message localMessage = localFolder.getMessage(message.getUid());
     }
 
-    private void downloadPartial(Folder remoteFolder, LocalFolder localFolder, Message message)
-            throws MessagingException
-    {
+    private void downloadPartial(Folder<?> remoteFolder, LocalFolder localFolder, Message message)
+            throws MessagingException {
         /*
          * We have a structure to deal with, from which
          * we can pull down the parts we want to actually store.
@@ -750,8 +744,7 @@ class ImapSync
     }
 
     private boolean syncFlags(LocalMessage localMessage, Message remoteMessage)
-            throws MessagingException
-    {
+            throws MessagingException {
         boolean messageChanged = false;
         if (localMessage == null || localMessage.isSet(Flag.DELETED)) {
             return false;
@@ -761,8 +754,7 @@ class ImapSync
                 localMessage.setFlag(Flag.DELETED, true);
                 messageChanged = true;
             }
-        }
-        else {
+        } else {
             for (Flag flag : MessagingController.SYNC_FLAGS) {
                 if (remoteMessage.isSet(flag) != localMessage.isSet(flag)) {
                     localMessage.setFlag(flag, remoteMessage.isSet(flag));
@@ -773,8 +765,7 @@ class ImapSync
         return messageChanged;
     }
 
-    private boolean shouldImportMessage(Message message, Date earliestDate)
-    {
+    private boolean shouldImportMessage(Message message, Date earliestDate) {
         if (message.olderThan(earliestDate)) {
             Timber.d("Message %s is older than %s, hence not saving", message.getUid(), earliestDate);
             return false;
@@ -782,8 +773,7 @@ class ImapSync
         return true;
     }
 
-    private static void closeFolder(Folder folder)
-    {
+    private static void closeFolder(Folder<?> folder) {
         if (folder != null) {
             folder.close();
         }
@@ -796,44 +786,36 @@ class ImapSync
      */
 
     private void processPendingCommandsSynchronous(Account account)
-            throws MessagingException
-    {
+            throws MessagingException {
         controller.processPendingCommandsSynchronous(account);
     }
 
-    private Set<MessagingListener> getListeners()
-    {
+    private Set<MessagingListener> getListeners() {
         return controller.getListeners();
     }
 
-    private Set<MessagingListener> getListeners(MessagingListener listener)
-    {
+    private Set<MessagingListener> getListeners(MessagingListener listener) {
         return controller.getListeners(listener);
     }
 
-    private void updateMoreMessages(Folder remoteFolder, LocalFolder localFolder, Date earliestDate, int remoteStart)
-            throws IOException, MessagingException
-    {
+    private void updateMoreMessages(Folder<?> remoteFolder, LocalFolder localFolder, Date earliestDate, int remoteStart)
+            throws IOException, MessagingException {
         controller.updateMoreMessages(remoteFolder, localFolder, earliestDate, remoteStart);
     }
 
-    private void handleAuthenticationFailure(Account account, boolean incoming)
-    {
+    private void handleAuthenticationFailure(Account account, boolean incoming) {
         controller.handleAuthenticationFailure(account, incoming);
     }
 
-    private void notifyUserIfCertificateProblem(Account account, Exception exception, boolean incoming)
-    {
+    private void notifyUserIfCertificateProblem(Account account, Exception exception, boolean incoming) {
         controller.notifyUserIfCertificateProblem(account, exception, incoming);
     }
 
-    private boolean shouldNotifyForMessage(Account account, LocalFolder localFolder, Message message)
-    {
+    private boolean shouldNotifyForMessage(Account account, LocalFolder localFolder, Message message) {
         return controller.shouldNotifyForMessage(account, localFolder, message);
     }
 
-    private boolean isMessageSuppressed(LocalMessage message)
-    {
+    private boolean isMessageSuppressed(LocalMessage message) {
         return controller.isMessageSuppressed(message);
     }
 }

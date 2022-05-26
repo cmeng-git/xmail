@@ -7,10 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 
-import org.apache.commons.io.IOUtils;
 import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.autocrypt.AutocryptOperations;
 import org.atalk.xryptomail.crypto.MessageCryptoStructureDetector;
+import org.atalk.xryptomail.helper.FileBackend;
 import org.atalk.xryptomail.mail.*;
 import org.atalk.xryptomail.mail.internet.*;
 import org.atalk.xryptomail.mailstore.*;
@@ -57,7 +57,7 @@ public class MessageCryptoHelper {
 
     private OpenPgpApi openPgpApi;
     private OpenPgpServiceConnection openPgpServiceConnection;
-    private OpenPgpApiFactory openPgpApiFactory;
+    private final OpenPgpApiFactory openPgpApiFactory;
 
     public MessageCryptoHelper(Context context, OpenPgpApiFactory openPgpApiFactory, AutocryptOperations autocryptOperations) {
         mContext = context.getApplicationContext();
@@ -319,19 +319,16 @@ public class MessageCryptoHelper {
     }
 
     private OpenPgpDataSink<MimeBodyPart> getDataSinkForDecryptedInlineData() {
-        return new OpenPgpDataSink<MimeBodyPart>() {
-            @Override
-            public MimeBodyPart processData(InputStream is) throws IOException {
-                try {
-                    ByteArrayOutputStream decryptedByteOutputStream = new ByteArrayOutputStream();
-                    IOUtils.copy(is, decryptedByteOutputStream);
-                    TextBody body = new TextBody(new String(decryptedByteOutputStream.toByteArray()));
-                    return new MimeBodyPart(body, "text/plain");
-                } catch (MessagingException e) {
-                    Timber.e(e, "MessagingException");
-                }
-                return null;
+        return is -> {
+            try {
+                ByteArrayOutputStream decryptedByteOutputStream = new ByteArrayOutputStream();
+                FileBackend.copy(is, decryptedByteOutputStream);
+                TextBody body = new TextBody(decryptedByteOutputStream.toString());
+                return new MimeBodyPart(body, "text/plain");
+            } catch (MessagingException e) {
+                Timber.e(e, "MessagingException");
             }
+            return null;
         };
     }
 
@@ -442,18 +439,14 @@ public class MessageCryptoHelper {
     }
 
     private OpenPgpDataSink<MimeBodyPart> getDataSinkForDecryptedData() {
-        return new OpenPgpDataSink<MimeBodyPart>() {
-            @Override
-            @WorkerThread
-            public MimeBodyPart processData(InputStream is) throws IOException {
-                try {
-                    FileFactory fileFactory = DecryptedFileProvider.getFileFactory(mContext);
-                    return MimePartStreamParser.parse(fileFactory, is);
-                } catch (MessagingException e) {
-                    Timber.e(e, "Something went wrong while parsing the decrypted MIME part");
-                    //TODO: pass error to main thread and display error message to user
-                    return null;
-                }
+        return is -> {
+            try {
+                FileFactory fileFactory = DecryptedFileProvider.getFileFactory(mContext);
+                return MimePartStreamParser.parse(fileFactory, is);
+            } catch (MessagingException e) {
+                Timber.e(e, "Something went wrong while parsing the decrypted MIME part");
+                //TODO: pass error to main thread and display error message to user
+                return null;
             }
         };
     }
@@ -540,12 +533,7 @@ public class MessageCryptoHelper {
         if (hasInlineKeyData) {
             Timber.d("Passing autocrypt data from plain mail to OpenPGP API");
             // We don't care about the result here, so we just call this fire-and-forget wait to minimize delay
-            openPgpApi.executeApiAsync(intent, null, null, new IOpenPgpCallback() {
-                @Override
-                public void onReturn(Intent result) {
-                    Timber.d("Autocrypt update OK!");
-                }
-            });
+            openPgpApi.executeApiAsync(intent, null, null, result -> Timber.d("Autocrypt update OK!"));
         }
     }
 

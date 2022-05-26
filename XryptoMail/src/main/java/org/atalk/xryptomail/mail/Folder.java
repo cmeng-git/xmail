@@ -1,5 +1,7 @@
 package org.atalk.xryptomail.mail;
 
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -194,6 +196,7 @@ public abstract class Folder<T extends Message>
         return true;
     }
 
+    @NonNull
     @Override
     public String toString()
     {

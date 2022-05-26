@@ -1,14 +1,15 @@
 package org.atalk.xryptomail.message;
 
 import android.text.TextUtils;
-import timber.log.Timber;
 
-import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.helper.timberlog.TimberLog;
 import org.atalk.xryptomail.mail.Body;
 import org.atalk.xryptomail.mail.filter.Base64;
 import org.atalk.xryptomail.mail.internet.TextBody;
 import org.atalk.xryptomail.message.html.HtmlConverter;
 import org.atalk.xryptomail.message.quote.InsertableHtmlContent;
+
+import timber.log.Timber;
 
 class TextBodyBuilder {
     private boolean mIncludeQuotedText = true;
@@ -16,9 +17,9 @@ class TextBodyBuilder {
     private boolean mSignatureBeforeQuotedText = false;
     private boolean mInsertSeparator = false;
     private boolean mAppendSignature = true;
-    private boolean mStealthMode = false;
+    private boolean mStealthMode;
 
-    private String mMessageContent;
+    private final String mMessageContent;
     private String mSignature;
     private String mQuotedText;
     private InsertableHtmlContent mQuotedTextHtml;
@@ -32,7 +33,7 @@ class TextBodyBuilder {
      * Build the {@link Body} that will contain the text of the message.
      *
      * @return {@link org.atalk.xryptomail.mail.internet.TextBody} instance that contains the entered text and
-     *         possibly the quoted original message.
+     * possibly the quoted original message.
      */
     public TextBody buildTextHtml(boolean isDraft) {
         // The length of the formatted version of the user-supplied text/reply
@@ -48,9 +49,8 @@ class TextBodyBuilder {
         if (mIncludeQuotedText) {
             InsertableHtmlContent quotedHtmlContent = getQuotedTextHtml();
 
-            if (XryptoMail.isDebug()) {
+            if (TimberLog.isTraceEnable)
                 Timber.d("insertable: %s", quotedHtmlContent.toDebugString());
-            }
 
             if (mAppendSignature) {
                 // Append signature to the reply
@@ -120,7 +120,7 @@ class TextBodyBuilder {
      * Build the {@link Body} that will contain the text of the message.
      *
      * @return {@link TextBody} instance that contains the entered text and
-     *         possibly the quoted original message.
+     * possibly the quoted original message.
      */
     public TextBody buildTextPlain(boolean isDraft) {
         // The length of the formatted version of the user-supplied text/reply
@@ -168,7 +168,7 @@ class TextBodyBuilder {
             }
         }
 
-        if (mStealthMode  && !isDraft)
+        if (mStealthMode && !isDraft)
             text = Base64.encode(text);
 
         TextBody body = new TextBody(text);

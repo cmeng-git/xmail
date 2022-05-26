@@ -83,13 +83,13 @@ public class MessageProvider extends ContentProvider
      * URI matcher used for
      * {@link #query(Uri, String[], String, String[], String)}
      */
-    private UriMatcher mUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+    private final UriMatcher mUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     /**
      * Handlers registered to respond to
      * {@link #query(Uri, String[], String, String[], String)}
      */
-    private List<QueryHandler> mQueryHandlers = new ArrayList<>();
+    private final List<QueryHandler> mQueryHandlers = new ArrayList<>();
 
     private MessageHelper mMessageHelper;
 
@@ -389,7 +389,7 @@ public class MessageProvider extends ContentProvider
          * @param sortOrder
          * @return
          * @throws Exception
-         * @see {@link ContentProvider#query(Uri, String[], String, String[], String)}
+         * {@link ContentProvider#query(Uri, String[], String, String[], String)}
          */
         Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
                 throws Exception;
@@ -605,7 +605,7 @@ public class MessageProvider extends ContentProvider
         protected MatrixCursor getMessages(String[] projection)
                 throws InterruptedException
         {
-            BlockingQueue<List<MessageInfoHolder>> queue = new SynchronousQueue<List<MessageInfoHolder>>();
+            BlockingQueue<List<MessageInfoHolder>> queue = new SynchronousQueue<>();
 
             // new code for integrated inbox, only execute this once as it will be processed
             // afterwards via the listener
@@ -652,7 +652,7 @@ public class MessageProvider extends ContentProvider
         resolveMessageExtractors(final String[] projection, int count)
         {
             LinkedHashMap<String, FieldExtractor<MessageInfoHolder, ?>> extractors
-                    = new LinkedHashMap<String, FieldExtractor<MessageInfoHolder, ?>>();
+                    = new LinkedHashMap<>();
 
             for (String field : projection) {
                 if (extractors.containsKey(field)) {
@@ -662,7 +662,7 @@ public class MessageProvider extends ContentProvider
                     extractors.put(field, new IdExtractor());
                 }
                 else if (MessageColumns._COUNT.equals(field)) {
-                    extractors.put(field, new CountExtractor<MessageInfoHolder>(count));
+                    extractors.put(field, new CountExtractor<>(count));
                 }
                 else if (MessageColumns.SUBJECT.equals(field)) {
                     extractors.put(field, new SubjectExtractor());
@@ -826,7 +826,7 @@ public class MessageProvider extends ContentProvider
                             values[1] = myAccountStats.unreadMessageCount;
                         }
                     } catch (MessagingException e) {
-                        Timber.e(e.getMessage());
+                        Timber.e(e);
                         values[0] = "Unknown";
                         values[1] = 0;
                     }
@@ -852,9 +852,9 @@ public class MessageProvider extends ContentProvider
         /**
          * Whether {@link #close()} was invoked
          */
-        private AtomicBoolean mClosed = new AtomicBoolean(false);
+        private final AtomicBoolean mClosed = new AtomicBoolean(false);
 
-        private Semaphore mSemaphore;
+        private final Semaphore mSemaphore;
 
         /**
          * @param cursor Never <code>null</code>.
@@ -1210,8 +1210,7 @@ public class MessageProvider extends ContentProvider
 
     protected class ThrottlingQueryHandler implements QueryHandler
     {
-
-        private QueryHandler mDelegate;
+        private final QueryHandler mDelegate;
 
         public ThrottlingQueryHandler(QueryHandler delegate)
         {
@@ -1274,8 +1273,7 @@ public class MessageProvider extends ContentProvider
     protected class MessageInfoHolderRetrieverListener extends SimpleMessagingListener
     {
         private final BlockingQueue<List<MessageInfoHolder>> queue;
-
-        private List<MessageInfoHolder> mHolders = new ArrayList<MessageInfoHolder>();
+        private final List<MessageInfoHolder> mHolders = new ArrayList<>();
 
         /**
          * @param queue Never <code>null</code>. The synchronized channel to use

@@ -93,12 +93,10 @@ public class SignSafeOutputStream extends FilterOutputStream {
         INIT {
             @Override
             public State nextState(int b) {
-                switch (b) {
-                    case '\r':
-                        return lf_FROM;
-                    default:
-                        return INIT;
+                if (b == '\r') {
+                    return lf_FROM;
                 }
+                return INIT;
             }
         },
         lf_FROM {
@@ -183,12 +181,10 @@ public class SignSafeOutputStream extends FilterOutputStream {
         SPACE_FROM {
             @Override
             public State nextState(int b) {
-                switch (b) {
-                    case '\r':
-                        return lf_FROM;
-                    default:
-                        return INIT;
+                if (b == '\r') {
+                    return lf_FROM;
                 }
+                return INIT;
             }
 
         };

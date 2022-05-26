@@ -17,8 +17,8 @@ public class TracingPowerManager
 {
     private final static boolean TRACE = false;
     public static AtomicInteger wakeLockId = new AtomicInteger(0);
-    PowerManager pm = null;
     private static TracingPowerManager tracingPowerManager;
+    PowerManager pm;
     private Timer timer = null;
 
     public static synchronized TracingPowerManager getPowerManager(Context context)
@@ -83,7 +83,7 @@ public class TracingPowerManager
         public void acquire()
         {
             synchronized (wakeLock) {
-                wakeLock.acquire();
+                wakeLock.acquire(10*60*1000L /*10 minutes*/);
             }
             raiseNotification();
             if (XryptoMailLib.isDebug()) {

@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Aplikazio honek XryptoMail Mailen jarduerak eta ezarpenak kontrolatzea onartzen du.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%s</xliff:g> The XryptoMail. Copyright 2006-<xliff:g>%s</xliff:g> the Android Open Source Project-en zatiak.</string>
+  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Copyright 2006-<xliff:g>%2$s</xliff:g> the Android Open Source Project-en zatiak.</string>
   <string name="app_license">Lizentziaduna Apache Lizentziarekin, 2.0 Bertsioa</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Ongi etorri XryptoMail Mail-era</string>
@@ -46,25 +46,25 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <!--Default signature-->
   <string name="default_signature">-- \nNire Android gailutik bidalia, XryptoMail Mail erabiliz. Mesedez, barka ezazu nire laburtasuna.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">\"<xliff:g id="account">%s</xliff:g>\" kontua XryptoMail Mail-etik kenduko da.</string>
-  <string name="account_recreate_dlg_instructions_fmt">\"<xliff:g id="account">%s</xliff:g>\"-(r)en datu lokal guztiak kenduko dira. Kontuaren ezarpenak mantenduko dira.</string>
-  <string name="account_clear_dlg_instructions_fmt">\"<xliff:g id="account">%s</xliff:g>\"-(r)en mezuen kopia lokalak kenduko dira. Kontuaren ezarpenak mantenduko dira.</string>
+  <string name="account_delete_dlg_instructions_fmt">\"<xliff:g id="account">%1$s</xliff:g>\" kontua XryptoMail Mail-etik kenduko da.</string>
+  <string name="account_recreate_dlg_instructions_fmt">\"<xliff:g id="account">%1$s</xliff:g>\"-(r)en datu lokal guztiak kenduko dira. Kontuaren ezarpenak mantenduko dira.</string>
+  <string name="account_clear_dlg_instructions_fmt">\"<xliff:g id="account">%1$s</xliff:g>\"-(r)en mezuen kopia lokalak kenduko dira. Kontuaren ezarpenak mantenduko dira.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Inportazio honekin jarraitzeko instalatu fitxategi kudeatzaile bat, mesedez.</string>
   <string name="open_market">Ireki Play Store</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Egileak: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Berrikuspenaren Informazioa: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">Hirugarrenen liburutegi hauek erabiltzen ari gara: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Egileak: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Berrikuspenaren Informazioa: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">Hirugarrenen liburutegi hauek erabiltzen ari gara: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Irakurri posta</string>
   <string name="read_messages_desc">Aplikazio honi zure posta irakurtzea onartzen dio.</string>
   <string name="delete_messages_label">Ezabatu posta</string>
   <string name="delete_messages_desc">Aplikazio honi zure posta ezabatzea onartzen dio.</string>
-  <string name="about_title_fmt"><xliff:g id="app_name">%s</xliff:g>-(r)i buruz</string>
+  <string name="about_title_fmt"><xliff:g id="app_name">%1$s</xliff:g>-(r)i buruz</string>
   <string name="accounts_title">Kontuak</string>
   <string name="folders_title">Karpetak</string>
   <string name="advanced">Aurreratua</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Idatzi</string>
   <string name="compose_title_reply">Erantzun</string>
   <string name="compose_title_reply_all">Erantzun denei</string>
@@ -72,18 +72,18 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="compose_title_forward_as_attachment">Birbidali eranskin gisa</string>
   <string name="choose_account_title">Aukeratu Kontua</string>
   <string name="choose_folder_title">Aukeratu karpeta</string>
-  <string name="status_loading_account_folder"><xliff:g id="account">%s</xliff:g> aztertzen:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers"><xliff:g id="account">%s</xliff:g> goiburuak eskuratzen:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account"><xliff:g id="account">%s</xliff:g> bidaltzen<xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account"><xliff:g id="account">%s</xliff:g> prozesatzen:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Hurrengo azterketa <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder"><xliff:g id="account">%1$s</xliff:g> aztertzen:<xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers"><xliff:g id="account">%1$s</xliff:g> goiburuak eskuratzen:<xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account"><xliff:g id="account">%1$s</xliff:g> bidaltzen<xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account"><xliff:g id="account">%1$s</xliff:g> prozesatzen:<xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Hurrengo azterketa <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Sinkronizazioa desgaituta - Sarerik ez</string>
   <string name="status_no_background">Sinkronizazioa desgaituta - Jarduerarik ez atzeko planoan</string>
   <string name="status_poll_and_push_disabled">\"Polling\"a eta \"pushing\"a desgaituta</string>
   <string name="status_syncing_blocked">Sinkronizazioa blokeatuta</string>
   <string name="status_syncing_off">Sinkronizazioa desgaituta</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> hautatuta</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> hautatuta</string>
   <string name="next_action">Hurrengoa</string>
   <string name="previous_action">Aurrekoa</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -156,21 +156,21 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="status_invalid_id_error">Ez da mezua aurkitu</string>
   <string name="status_loading_error">Akatsa mezua kargatzean</string>
   <string name="status_loading_more_failed">Saiatu mezu gehiago kargatzen berriro</string>
-  <string name="load_more_messages_fmt"><xliff:g id="messages_to_load">%d</xliff:g> gehiago kargatu</string>
+  <string name="load_more_messages_fmt"><xliff:g id="messages_to_load">%1$d</xliff:g> gehiago kargatu</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">kB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">\"<xliff:g id="account">%s</xliff:g>\" kontua <xliff:g id="oldSize">%s</xliff:g>-(e)tik <xliff:g id="newSize">%s</xliff:g>-(e)ra txikiagotu da</string>
-  <string name="compacting_account">\"<xliff:g id="account">%s</xliff:g>\" kontua trinkotzen</string>
-  <string name="clearing_account">\"<xliff:g id="account">%s</xliff:g>\" kontua garbitzen</string>
-  <string name="recreating_account">\"<xliff:g id="account">%s</xliff:g>\" kontua birsortzen</string>
+  <string name="account_size_changed">\"<xliff:g id="account">%1$s</xliff:g>\" kontua <xliff:g id="oldSize">%2$s</xliff:g>-(e)tik <xliff:g id="newSize">%3$s</xliff:g>-(e)ra txikiagotu da</string>
+  <string name="compacting_account">\"<xliff:g id="account">%1$s</xliff:g>\" kontua trinkotzen</string>
+  <string name="clearing_account">\"<xliff:g id="account">%1$s</xliff:g>\" kontua garbitzen</string>
+  <string name="recreating_account">\"<xliff:g id="account">%1$s</xliff:g>\" kontua birsortzen</string>
   <string name="notification_new_title">Posta berria</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"> Mezu berri <xliff:g id="new_message_count">%d</xliff:g></item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> mezu berri</item>
+    <item quantity="one"> Mezu berri <xliff:g id="new_message_count">%1$d</xliff:g></item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> mezu berri</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> irakurri gabeko (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> irakurri gabeko (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> gehiago <xliff:g id="account">%2$s</xliff:g>-(e)n</string>
   <string name="notification_action_reply">Erantzun</string>
   <string name="notification_action_mark_as_read">Markatu irakurritako gisa</string>
@@ -180,13 +180,13 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="notification_action_archive">Artxibatu</string>
   <string name="notification_action_archive_all">Artxibatu denak</string>
   <string name="notification_action_spam">Spam</string>
-  <string name="notification_certificate_error_title"><xliff:g id="account">%s</xliff:g>-(r)entzako ziurtagiri errorea</string>
+  <string name="notification_certificate_error_title"><xliff:g id="account">%1$s</xliff:g>-(r)entzako ziurtagiri errorea</string>
   <string name="notification_certificate_error_text">Egiaztatu zerbitzariaren ezarpenak</string>
   <string name="notification_authentication_error_title">Autentifikazioak huts egin du</string>
-  <string name="notification_authentication_error_text">Autentifikazioak huts egin du <xliff:g id="account">%s</xliff:g>-(e)rako. Eguneratu zerbitzariaren ezarpenak.</string>
-  <string name="notification_bg_sync_ticker">Posta egiaztatzen: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Autentifikazioak huts egin du <xliff:g id="account">%1$s</xliff:g>-(e)rako. Eguneratu zerbitzariaren ezarpenak.</string>
+  <string name="notification_bg_sync_ticker">Posta egiaztatzen: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Posta egiaztatzen</string>
-  <string name="notification_bg_send_ticker">Posta bidaltzen: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_bg_send_ticker">Posta bidaltzen: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Posta bidaltzen</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Sarrerako ontzia</string>
@@ -196,19 +196,19 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="special_mailbox_name_sent">Bidalitakoak</string>
   <string name="special_mailbox_name_archive">Artxiboa</string>
   <string name="special_mailbox_name_spam">Spam</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Zirriborroak)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Zakarrontzia)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Bidalitakoak)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Artxiboa)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Spam)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Zirriborroak)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Zakarrontzia)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Bidalitakoak)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Artxiboa)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Spam)</string>
   <string name="send_failure_subject">Mezu batzuen bidaltzeak huts egin du</string>
-  <string name="debug_version_fmt">Bertsioa: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Bertsioa: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Arazketa erregistroa gaitu</string>
   <string name="debug_enable_debug_logging_summary">Diagnostikorako informazio gehigarria erregistratu</string>
   <string name="debug_enable_sensitive_logging_title">Bereziki babestutako informazioa erregistratu</string>
   <string name="debug_enable_sensitive_logging_summary">Saio hasieretan pasahitzak erakuts daitezke.</string>
   <string name="message_list_load_more_messages_action">Kargatu mezu gehiago</string>
-  <string name="message_to_fmt">Nori:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">Nori:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Gaia</string>
   <string name="message_compose_content_hint">Mezuaren testua</string>
   <string name="message_compose_signature_hint">Sinadura</string>
@@ -218,7 +218,7 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="message_compose_quote_header_from">Nork:</string>
   <string name="message_compose_quote_header_to">Nori:</string>
   <string name="message_compose_quote_header_cc">Cc:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g>-(e)k idatzi du:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g>-(e)k idatzi du:</string>
   <string name="message_compose_reply_header_fmt_with_date"><xliff:g id="sent_date">%1$s</xliff:g>-(e)an, <xliff:g id="sender">%2$s</xliff:g>-(e)k hau idatzi zuen:</string>
   <string name="message_compose_error_no_recipients">Hartzaile bat gehitu behar duzu gutxienez.</string>
   <string name="compose_error_incomplete_recipient">Hartzailearen eremua osatu gabea dago!</string>
@@ -228,7 +228,7 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="message_compose_show_quoted_text_action">Sartu aipatutako mezua</string>
   <string name="message_compose_description_delete_quoted_text">Kendu aipua</string>
   <string name="message_compose_description_edit_quoted_text">Editatu aipua</string>
-  <string name="message_view_from_format">Nondik: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">Nondik: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Nori:</string>
   <string name="message_view_cc_label">Cc:</string>
   <string name="message_view_bcc_label">Bcc:</string>
@@ -237,7 +237,7 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="message_view_status_attachment_not_saved">Ezin da eranskina SD txartelan gorde.</string>
   <string name="message_view_status_no_space">Eranskina ezin izan da gorde leku nahikorik ez dagoelako.</string>
   <string name="message_view_show_pictures_action">Erakutsi irudiak</string>
-  <string name="message_view_no_viewer">Ezin da <xliff:g id="mimetype">%s</xliff:g>-(r)entzako ikustailerik aurkitu.</string>
+  <string name="message_view_no_viewer">Ezin da <xliff:g id="mimetype">%1$s</xliff:g>-(r)entzako ikustailerik aurkitu.</string>
   <string name="message_view_download_remainder">Deskargatu mezu osoa</string>
   <string name="message_view_toast_unable_to_display_message">Ezin da mezua bistaratu</string>
   <string name="message_view_sender_label">%1$s-(r)en bidez</string>
@@ -245,7 +245,7 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="message_no_additional_headers_available">Goiburu guztiak deskargatu dira, baina ez dago erakusteko goiburu gehiago.</string>
   <string name="message_additional_headers_retrieval_failed">Datu basetik edo posta zerbitzaritik goiburu gehiago berreskuratzeak huts egin du.</string>
   <string name="from_same_sender">Bidaltzaile honengandik gehiago</string>
-  <string name="search_from_format"><xliff:g id="sender">%s</xliff:g>-(e)tik</string>
+  <string name="search_from_format"><xliff:g id="sender">%1$s</xliff:g>-(e)tik</string>
   <string name="debug_delete_local_body">Araztu / Garbitu mezuaren gorputza</string>
   <string name="message_discarded_toast">Mezu baztertua</string>
   <string name="message_saved_toast">Mezua zirriborro gisa gordeta</string>
@@ -386,7 +386,7 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="account_setup_outgoing_password_label">Pasahitza</string>
   <string name="account_setup_outgoing_authentication_label">Autentifikazioa</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" ez da baliozkoa \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"-(r)ekin</string>
-  <string name="account_setup_bad_uri">Konfigurazio baliogabea: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Konfigurazio baliogabea: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Kontu aukerak</string>
   <string name="compact_action">Kontua trinkotu</string>
   <string name="clear_action">Mezuak garbitu (kontuz!)</string>
@@ -433,9 +433,9 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="account_setup_options_mail_display_count_all">mezu guztiak</string>
   <string name="move_copy_cannot_copy_unsynced_message">Zerbitzariarekin sinkronizatuta ez dauden mezuak ezin dira kopiatu edo mugitu</string>
   <string name="account_setup_failed_dlg_title">Konfigurazioak ezin izan du amaitu</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Erabiltzaile izen edo pasahitz okerrak.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">Zerbitzariak SSL ziurtagiri baliogabe bat aurkeztu du. Batzuetan, hau zerbitzariak konfigurazio okerra duelako da. Beste batzuetan norbait zu edo zure posta zerbitzaria erasotzen saiatzen ari delako da. Ez bazaude ziur zer ari den gertatzen, klikatu Baztertu eta jarri harremanetan zure posta zerbitzaria kudeatzen duen jendearekin.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Ezin zerbitzarira konektatu.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Erabiltzaile izen edo pasahitz okerrak.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">Zerbitzariak SSL ziurtagiri baliogabe bat aurkeztu du. Batzuetan, hau zerbitzariak konfigurazio okerra duelako da. Beste batzuetan norbait zu edo zure posta zerbitzaria erasotzen saiatzen ari delako da. Ez bazaude ziur zer ari den gertatzen, klikatu Baztertu eta jarri harremanetan zure posta zerbitzaria kudeatzen duen jendearekin.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Ezin zerbitzarira konektatu.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Editatu xehetasunak</string>
   <string name="account_setup_failed_dlg_continue_action">Jarraitu</string>
   <string name="account_settings_push_advanced_title">Aurreratua</string>
@@ -715,7 +715,7 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="count_search_summary">Desaktibatu azkarrago bistaratzeko</string>
   <string name="hide_special_accounts_title">Ezkutatu kontu bereziak</string>
   <string name="hide_special_accounts_summary">Ezkutatu sarrerako ontzi bateratua eta mezu guztien kontuak</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier"> - Izardun</string>
   <string name="unread_modifier"> - Irakurri gabe</string>
   <string name="search_all_messages_title">Mezu guztiak</string>
@@ -751,7 +751,7 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="font_size_message_view_subject">Gaia</string>
   <string name="font_size_message_view_date">Ordua eta data</string>
   <string name="font_size_message_view_content">Mezuaren gorputza</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Mezua idaztean</string>
   <string name="font_size_message_compose_input">Testu sarrera eremuak</string>
@@ -765,7 +765,7 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="font_size_larger">Handiagoa</string>
   <string name="miscellaneous_preferences">Hainbat</string>
   <string name="error_activity_not_found">Ez da ekintza honetarako aplikazio egokirik aurkitu.</string>
-  <string name="send_failed_reason">Bidalketak huts egin du: %s</string>
+  <string name="send_failed_reason">Bidalketak huts egin du:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Gorde zirriborroa?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Gorde edo baztertu mezu hau?</string>
   <string name="confirm_discard_draft_message_title">Baztertu mezua?</string>
@@ -805,36 +805,36 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="settings_exporting">Ezarpenak esportatzen…</string>
   <string name="settings_importing">Ezarpenak inportatzen…</string>
   <string name="settings_import_scanning_file">Fitxategia aztertzen…</string>
-  <string name="settings_export_success">Esportatutako ezarpenak hemen gorde dira: <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Esportatutako ezarpenak hemen gorde dira: <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">Ezarpenak ondo esportatu dira</string>
-  <string name="settings_import_global_settings_success">Ezarpen orokorran hemendik inportatu dira: <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success"><xliff:g id="accounts">%s</xliff:g> inportatua <xliff:g id="filename">%s</xliff:g>-(e)tik</string>
-  <string name="settings_import_account_imported_as"><xliff:g id="original_account_name">%s</xliff:g> inportatuta <xliff:g id="account_name_after_import">%s</xliff:g> bezala</string>
+  <string name="settings_import_global_settings_success">Ezarpen orokorran hemendik inportatu dira: <xliff:g id="filename">%1$s</xliff:g></string>
+  <string name="settings_import_success"><xliff:g id="accounts">%1$s</xliff:g> inportatua <xliff:g id="filename">%2$s</xliff:g>-(e)tik</string>
+  <string name="settings_import_account_imported_as"><xliff:g id="original_account_name">%1$s</xliff:g> inportatuta <xliff:g id="account_name_after_import">%2$s</xliff:g> bezala</string>
   <plurals name="settings_import_accounts">
     <item quantity="one">Kontu 1</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> kontu</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> kontu</item>
   </plurals>
   <string name="settings_export_failure">Ezarpenak esportatzeak huts egin du</string>
-  <string name="settings_import_failure">Ez da ezarpenik inportatu hemendik: <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Ez da ezarpenik inportatu hemendik: <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Esportazioa behar bezala egin da</string>
   <string name="settings_export_failed_header">Esportazioak huts egin du</string>
   <string name="settings_import_success_header">Inportazioa behar bezala egin da</string>
   <string name="settings_import_failed_header">Inportazioak huts egin du</string>
   <string name="settings_import_activate_account_header">Aktibatu kontua</string>
-  <string name="settings_import_activate_account_intro">\"<xliff:g id="account">%s</xliff:g>\" kontua erabiltzeko <xliff:g id="server_passwords">%s</xliff:g> eman behar duzu.</string>
+  <string name="settings_import_activate_account_intro">\"<xliff:g id="account">%1$s</xliff:g>\" kontua erabiltzeko <xliff:g id="server_passwords">%2$s</xliff:g> eman behar duzu.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">zerbitzariko pasahitza</item>
     <item quantity="other">zerbitzariko pasahitzak</item>
   </plurals>
-  <string name="settings_import_incoming_server">Sarrerako zerbitzaria (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Irteerako zerbitzaria (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Sarrerako zerbitzaria (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Irteerako zerbitzaria (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Pasahitza ezartzen…</item>
     <item quantity="other">Pasahitzak ezartzen…</item>
   </plurals>
   <string name="settings_import_use_incoming_server_password">Erabili sarrerako zerbitzariko pasahitza</string>
   <string name="activate_account_action">Aktibatu</string>
-  <string name="account_unavailable">\"<xliff:g id="account">%s</xliff:g>\" kontua ez dago erabilgarri; biltegia egiaztatu</string>
+  <string name="account_unavailable">\"<xliff:g id="account">%1$s</xliff:g>\" kontua ez dago erabilgarri; biltegia egiaztatu</string>
   <string name="settings_attachment_default_path">Gorde eranskinak hemen…</string>
   <string name="attachment_save_title">Gorde eranskina</string>
   <string name="attachment_save_desc">Ez da fitxategi arakatzailerik aurkitu. Non gorde nahi duzu eranskin hau?</string>
@@ -875,7 +875,7 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="webview_contextmenu_email_save_action">Gorde Kontaktuetan</string>
   <string name="webview_contextmenu_email_copy_action">Kopiatu helbidea arbelera</string>
   <string name="webview_contextmenu_email_clipboard_label">Posta helbidea</string>
-  <string name="image_saved_as">Irudia honela gordeta: \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Irudia honela gordeta: \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">Irudia gordetzeak huts egin du.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Guztiak</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -886,11 +886,11 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Zerbitzarian bilatzeko muga</string>
-  <string name="account_settings_remote_search_num_summary"><xliff:g id="num_results">%s</xliff:g> emaitza topatzean bilatzeari utzi.</string>
+  <string name="account_settings_remote_search_num_summary"><xliff:g id="num_results">%1$s</xliff:g> emaitza topatzean bilatzeari utzi.</string>
   <string name="remote_search_sending_query">Kontsulta zerbitzarira bidaltzen</string>
   <plurals name="remote_search_downloading">
-    <item quantity="one">Emaitza %d eskuratzen</item>
-    <item quantity="other">%d emaitza eskuratzen</item>
+    <item quantity="one">Emaitza%1$d eskuratzen</item>
+    <item quantity="other">%1$d emaitza eskuratzen</item>
   </plurals>
   <plurals name="remote_search_downloading_limited">
     <item quantity="one">%1$d-(e)tik %2$d emaitza eskuratzen</item>
@@ -910,7 +910,7 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="global_settings_threaded_view_summary">Elkartu mezuak elkarrizketetan</string>
   <string name="upgrade_databases_title">Datu-baseak bertsio-berritzen</string>
   <string name="upgrade_databases_unspecified">Datu-baseak bertsio-berritzen…</string>
-  <string name="upgrade_database_format">\"<xliff:g id="account">%s</xliff:g>\" kontuaren datu-basea bertsio-berritzen</string>
+  <string name="upgrade_database_format">\"<xliff:g id="account">%1$s</xliff:g>\" kontuaren datu-basea bertsio-berritzen</string>
   <string name="message_list_loading">Kargatzen…</string>
   <string name="global_settings_splitview_mode_label">Erakutsi pantaila zatitua</string>
   <string name="global_settings_splitview_always">Beti</string>
@@ -919,9 +919,9 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="message_view_empty">Mesedez ezkerreko mezu bat hautatu</string>
   <string name="global_settings_show_contact_picture_label">Erakutsi kontaktuen irudiak</string>
   <string name="global_settings_show_contact_picture_summary">Erakutsi kontaktuen irudiak mezu zerrendan</string>
-  <string name="last_refresh_time_format"><xliff:g id="formatted_time">%s</xliff:g> freskatuta</string>
-  <string name="last_refresh_time_format_with_push"><xliff:g id="time_with_preposition">%s</xliff:g> freskatuta (Push aktibo)</string>
-  <string name="preposition_for_date"><xliff:g id="date">%s</xliff:g>-(e)an</string>
+  <string name="last_refresh_time_format"><xliff:g id="formatted_time">%1$s</xliff:g> freskatuta</string>
+  <string name="last_refresh_time_format_with_push"><xliff:g id="time_with_preposition">%1$s</xliff:g> freskatuta (Push aktibo)</string>
+  <string name="preposition_for_date"><xliff:g id="date">%1$s</xliff:g>-(e)an</string>
   <string name="mark_all_as_read">Markatu guztia irakurritako gisa</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Koloreztatu kontaktuen irudiak</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Koloreztatu existitzen ez diren kontaktuen irudiak</string>
@@ -936,7 +936,7 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="account_setup_basics_client_certificate">Erabili bezero ziurtagiria</string>
   <string name="client_certificate_spinner_empty">Ez dago bezero ziurtagiririk</string>
   <string name="client_certificate_spinner_delete">Kendu bezero ziurtagiri hautapena</string>
-  <string name="client_certificate_retrieval_failure">\"<xliff:g id="alias">%s</xliff:g>\" aliasarentzako bezero ziurtagiria berreskuratzeak huts egin du</string>
+  <string name="client_certificate_retrieval_failure">\"<xliff:g id="alias">%1$s</xliff:g>\" aliasarentzako bezero ziurtagiria berreskuratzeak huts egin du</string>
   <string name="client_certificate_advanced_options">Aukera aurreratuak</string>
   <string name="client_certificate_expired">Client certificate \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" bezero ziurtagiria iraungi da edo ez da baliozkoa oraindik (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

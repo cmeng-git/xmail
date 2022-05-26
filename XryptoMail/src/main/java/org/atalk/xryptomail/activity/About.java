@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
@@ -40,9 +41,9 @@ import de.cketti.library.changelog.ChangeLog;
 /**
  * XryptoMail About activity
  */
-public class About extends FragmentActivity implements OnClickListener
+public class About extends FragmentActivity implements OnClickListener, View.OnLongClickListener
 {
-    private static String[][] USED_LIBRARIES = new String[][]{
+    private static final String[][] USED_LIBRARIES = new String[][]{
             new String[]{"Android Support Library", "https://developer.android.com/topic/libraries/support-library"},
             new String[]{"butterknife", "https://github.com/JakeWharton/butterknife"},
             new String[]{"ckChangeLog", "https://github.com/cketti/ckChangeLog"},
@@ -93,7 +94,10 @@ public class About extends FragmentActivity implements OnClickListener
         atalkHelp.setOnClickListener(this);
 
         findViewById(R.id.ok_button).setOnClickListener(this);
-        findViewById(R.id.history_log).setOnClickListener(this);
+
+        Button btn_HistoryLog = findViewById(R.id.history_log);
+        btn_HistoryLog.setOnClickListener(this);
+        btn_HistoryLog.setOnLongClickListener(this);
 
         View btn_submitLogs = findViewById(R.id.submit_logs);
         btn_submitLogs.setOnClickListener(this);
@@ -125,32 +129,54 @@ public class About extends FragmentActivity implements OnClickListener
             case R.id.ok_button:
                 finish();
                 break;
+
             case R.id.check_new_version:
-                new Thread()
-                {
-                    @Override
-                    public void run()
-                    {
-                        UpdateService updateService = new UpdateService();
-                        updateService.checkForUpdates(true);
-                    }
-                }.start();
+                checkUpdate();
                 break;
-            //            case R.id.submit_logs:
-            //                aTalkApp.showSendLogsDialog();
-            //                break;
+
+            case R.id.submit_logs:
+                showSendLogsDialog();
+                break;
+
             case R.id.history_log:
                 ChangeLog cl = new ChangeLog(this, DEFAULT_CSS);
                 cl.getFullLogDialog().show();
                 break;
+
             case R.id.xmail_help:
             case R.id.xmail_link:
                 xmailUrlAccess();
                 break;
+
             default:
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public boolean onLongClick(View view)
+    {
+        if (view.getId() == R.id.history_log) {
+            checkUpdate();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check app new update availability
+     */
+    private void checkUpdate()
+    {
+        new Thread()
+        {
+            @Override
+            public void run()
+            {
+                UpdateService.getInstance().checkForUpdates(true);
+            }
+        }.start();
     }
 
     private void xmailUrlAccess()
@@ -198,12 +224,12 @@ public class About extends FragmentActivity implements OnClickListener
      */
     public static void showSendLogsDialog()
     {
-        //        LogUploadService logUpload = ServiceUtils.getService(AndroidGUIActivator.bundleContext,
-        //                LogUploadService.class);
-        //        String defaultEmail = getConfig().getString("org.atalk.android.LOG_REPORT_EMAIL");
-        //
-        //        logUpload.sendLogs(new String[]{defaultEmail},
-        //                getResString(R.string.service_gui_SEND_LOGS_SUBJECT),
-        //                getResString(R.string.service_gui_SEND_LOGS_TITLE));
+//        LogUploadService logUpload = ServiceUtils.getService(AndroidGUIActivator.bundleContext,
+//                LogUploadService.class);
+//        String defaultEmail = getConfig().getString("org.atalk.android.LOG_REPORT_EMAIL");
+//
+//        logUpload.sendLogs(new String[]{defaultEmail},
+//                getResString(R.string.service_gui_SEND_LOGS_SUBJECT),
+//                getResString(R.string.service_gui_SEND_LOGS_TITLE));
     }
 }

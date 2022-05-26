@@ -27,7 +27,7 @@ public class AutoconfigureMozilla implements AutoConfigure {
         providerInfo.incomingAddr = incomingHostnameElement.text();
         providerInfo.incomingType = incomingElement.attr("type").toLowerCase();
         Element incomingPortElement = incomingElement.select("port").first();
-        if (incomingPortElement != null) providerInfo.incomingPort = Integer.valueOf(incomingPortElement.text());
+        if (incomingPortElement != null) providerInfo.incomingPort = Integer.parseInt(incomingPortElement.text());
         Element incomingSocketTypeElement = incomingElement.select("socketType").first();
         String incomingSocketType = incomingSocketTypeElement != null ?
                 incomingSocketTypeElement.text().toLowerCase() :
@@ -58,7 +58,7 @@ public class AutoconfigureMozilla implements AutoConfigure {
         providerInfo.outgoingAddr = outgoingHostnameElement.text();
         providerInfo.outgoingType = outgoingElement.attr("type").toLowerCase();
         Element outgoingPortElement = outgoingElement.select("port").first();
-        if (outgoingPortElement != null) providerInfo.outgoingPort = Integer.valueOf(outgoingPortElement.text());
+        if (outgoingPortElement != null) providerInfo.outgoingPort = Integer.parseInt(outgoingPortElement.text());
         final String outgoingSocketType = outgoingElement.select("socketType").first().text().toLowerCase();
         switch (outgoingSocketType) {
             case "ssl":

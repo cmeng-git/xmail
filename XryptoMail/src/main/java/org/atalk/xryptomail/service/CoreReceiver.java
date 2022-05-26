@@ -20,8 +20,8 @@ public class CoreReceiver extends BroadcastReceiver
     public static final String WAKE_LOCK_RELEASE = "org.atalk.xryptomail.service.CoreReceiver.wakeLockRelease";
     public static final String WAKE_LOCK_ID = "org.atalk.xryptomail.service.CoreReceiver.wakeLockId";
 
-    private static ConcurrentHashMap<Integer, TracingWakeLock> wakeLocks = new ConcurrentHashMap<>();
-    private static AtomicInteger wakeLockSeq = new AtomicInteger(0);
+    private static final ConcurrentHashMap<Integer, TracingWakeLock> wakeLocks = new ConcurrentHashMap<>();
+    private static final AtomicInteger wakeLockSeq = new AtomicInteger(0);
 
     private static Integer getWakeLock(Context context)
     {

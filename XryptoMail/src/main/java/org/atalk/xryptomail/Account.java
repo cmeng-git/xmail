@@ -55,6 +55,8 @@ import timber.log.Timber;
 
 import static org.atalk.xryptomail.Preferences.getEnumStringPref;
 
+import androidx.annotation.NonNull;
+
 /**
  * Account stores all of the settings for a single account defined by the user. It is able to save
  * and delete itself given a Preferences to work with. Each account is defined by a UUID.
@@ -909,7 +911,7 @@ public class Account implements BaseAccount, AccountConfig
         SqlQueryBuilder.buildWhereClause(this, conditions, query, queryArgs);
 
         String selection = query.toString();
-        String[] selectionArgs = queryArgs.toArray(new String[queryArgs.size()]);
+        String[] selectionArgs = queryArgs.toArray(new String[0]);
 
         return cr.query(uri, projection, selection, selectionArgs, null);
     }
@@ -1352,10 +1354,7 @@ public class Account implements BaseAccount, AccountConfig
         if (syncMode == FolderMode.NONE && oldSyncMode != FolderMode.NONE) {
             return true;
         }
-        if (syncMode != FolderMode.NONE && oldSyncMode == FolderMode.NONE) {
-            return true;
-        }
-        return false;
+        return syncMode != FolderMode.NONE && oldSyncMode == FolderMode.NONE;
     }
 
     public synchronized FolderMode getFolderPushMode()
@@ -1495,6 +1494,7 @@ public class Account implements BaseAccount, AccountConfig
         return (getStoreUri().startsWith("imap"));
     }
 
+    @NonNull
     @Override
     public synchronized String toString()
     {

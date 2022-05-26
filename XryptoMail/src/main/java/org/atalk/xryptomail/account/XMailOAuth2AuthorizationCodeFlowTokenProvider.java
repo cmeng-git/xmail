@@ -7,7 +7,7 @@ import org.atalk.xryptomail.mail.oauth.OAuth2AuthorizationCodeFlowTokenProvider;
 import org.atalk.xryptomail.mail.oauth.SpecificOAuth2TokenProvider;
 
 public class XMailOAuth2AuthorizationCodeFlowTokenProvider extends OAuth2AuthorizationCodeFlowTokenProvider {
-    private Context context;
+    private final Context context;
     private static final String REFRESH_TOKEN_SP = "refresh_token";
 
     private enum TYPE {
@@ -15,8 +15,8 @@ public class XMailOAuth2AuthorizationCodeFlowTokenProvider extends OAuth2Authori
         OUTLOOK,
     }
 
-    private GmailOAuth2TokenStore gmailOAuth2TokenStore;
-    private OutlookOAuth2TokenStore outlookOAuth2TokenStore;
+    private final GmailOAuth2TokenStore gmailOAuth2TokenStore;
+    private final OutlookOAuth2TokenStore outlookOAuth2TokenStore;
 
     public XMailOAuth2AuthorizationCodeFlowTokenProvider(Context context) {
         this.context = context;

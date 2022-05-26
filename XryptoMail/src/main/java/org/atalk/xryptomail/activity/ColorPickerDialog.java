@@ -12,21 +12,21 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
 
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.view.ColorPicker;
 
+import timber.log.Timber;
+
 /**
  * Dialog displaying a color picker.
  */
-public class ColorPickerDialog extends AlertDialog
-{
-    private static final String TAG = ColorPickerDialog.class.getSimpleName();
-
+public class ColorPickerDialog extends AlertDialog {
     private static final String BUNDLE_KEY_PARENT_BUNDLE = "parent";
     private static final String BUNDLE_KEY_COLOR_OLD = "color_old";
     private static final String BUNDLE_KEY_COLOR_NEW = "color_new";
@@ -35,8 +35,7 @@ public class ColorPickerDialog extends AlertDialog
      * The interface users of {@link ColorPickerDialog} have to implement to learn the selected
      * color.
      */
-    public interface OnColorChangedListener
-    {
+    public interface OnColorChangedListener {
         /**
          * This is called after the user pressed the "OK" button of the dialog.
          *
@@ -61,15 +60,14 @@ public class ColorPickerDialog extends AlertDialog
     float sizeUiDp = 240.f;
     float sizeUiPx; // diset di constructor
 
-    public ColorPickerDialog(Context context, OnColorChangedListener listener, int color)
-    {
+    public ColorPickerDialog(Context context, OnColorChangedListener listener, int color) {
         super(context);
         mColorChangedListener = listener;
         initColor(color);
 
         onedp = context.getResources().getDimension(R.dimen.colorpicker_onedp);
         sizeUiPx = sizeUiDp * onedp;
-        Log.d(TAG, "onedp = " + onedp + ", sizeUiPx=" + sizeUiPx);  //$NON-NLS-1$//$NON-NLS-2$
+        Timber.d("onedp = %s, sizeUiPx = %s", onedp, sizeUiPx);  //$NON-NLS-1$//$NON-NLS-2$
 
         View view = LayoutInflater.from(context).inflate(R.layout.colorpicker_dialog, null);
         viewHue = view.findViewById(R.id.colorpicker_viewHue);
@@ -80,35 +78,31 @@ public class ColorPickerDialog extends AlertDialog
         viewSpyglass = view.findViewById(R.id.colorpicker_spyglass);
 
         updateView();
-        viewHue.setOnTouchListener(new View.OnTouchListener()
-        {
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                if (event.getAction() == MotionEvent.ACTION_MOVE
-                        || event.getAction() == MotionEvent.ACTION_DOWN
-                        || event.getAction() == MotionEvent.ACTION_UP) {
+        viewHue.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_MOVE
+                    || event.getAction() == MotionEvent.ACTION_DOWN
+                    || event.getAction() == MotionEvent.ACTION_UP) {
 
-                    float y = event.getY(); // dalam px, bukan dp
-                    if (y < 0.f)
-                        y = 0.f;
-                    if (y > sizeUiPx)
-                        y = sizeUiPx - 0.001f;
+                float y = event.getY(); // dalam px, bukan dp
+                if (y < 0.f)
+                    y = 0.f;
+                if (y > sizeUiPx)
+                    y = sizeUiPx - 0.001f;
 
-                    hue = 360.f - 360.f / sizeUiPx * y;
-                    if (hue == 360.f)
-                        hue = 0.f;
+                hue = 360.f - 360.f / sizeUiPx * y;
+                if (hue == 360.f)
+                    hue = 0.f;
 
-                    colorNew = calculateColor();
-                    // update view
-                    mColorPicker.setHue(hue);
-                    placeArrow();
-                    viewColorNew.setBackgroundColor(colorNew);
-                    return true;
-                }
-                return false;
+                colorNew = calculateColor();
+                // update view
+                mColorPicker.setHue(hue);
+                placeArrow();
+                viewColorNew.setBackgroundColor(colorNew);
+                return true;
             }
+            return false;
         });
+
         mColorPicker.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_MOVE
                     || event.getAction() == MotionEvent.ACTION_DOWN
@@ -147,8 +141,7 @@ public class ColorPickerDialog extends AlertDialog
         this.setButton(BUTTON_NEGATIVE, context.getString(R.string.cancel_action), (OnClickListener) null);
     }
 
-    private void updateView()
-    {
+    private void updateView() {
         placeArrow();
         placeSpyglass();
         mColorPicker.setHue(hue);
@@ -156,8 +149,7 @@ public class ColorPickerDialog extends AlertDialog
         viewColorNew.setBackgroundColor(colorNew);
     }
 
-    private void initColor(int color)
-    {
+    private void initColor(int color) {
         colorNew = color;
         colorOld = color;
 
@@ -167,15 +159,13 @@ public class ColorPickerDialog extends AlertDialog
         val = tmp01[2];
     }
 
-    public void setColor(int color)
-    {
+    public void setColor(int color) {
         initColor(color);
         updateView();
     }
 
     @Override
-    public Bundle onSaveInstanceState()
-    {
+    public Bundle onSaveInstanceState() {
         Bundle parentBundle = super.onSaveInstanceState();
 
         Bundle savedInstanceState = new Bundle();
@@ -186,8 +176,7 @@ public class ColorPickerDialog extends AlertDialog
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState)
-    {
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
         Bundle parentBundle = savedInstanceState.getBundle(BUNDLE_KEY_PARENT_BUNDLE);
         super.onRestoreInstanceState(parentBundle);
 
@@ -201,8 +190,7 @@ public class ColorPickerDialog extends AlertDialog
     }
 
     @SuppressWarnings("deprecation")
-    protected void placeArrow()
-    {
+    protected void placeArrow() {
         float y = sizeUiPx - (hue * sizeUiPx / 360.f);
         if (y == sizeUiPx)
             y = 0.f;
@@ -213,8 +201,7 @@ public class ColorPickerDialog extends AlertDialog
     }
 
     @SuppressWarnings("deprecation")
-    protected void placeSpyglass()
-    {
+    protected void placeSpyglass() {
         float x = sat * sizeUiPx;
         float y = (1.f - val) * sizeUiPx;
 
@@ -226,8 +213,7 @@ public class ColorPickerDialog extends AlertDialog
 
     float[] tmp01 = new float[3];
 
-    private int calculateColor()
-    {
+    private int calculateColor() {
         tmp01[0] = hue;
         tmp01[1] = sat;
         tmp01[2] = val;

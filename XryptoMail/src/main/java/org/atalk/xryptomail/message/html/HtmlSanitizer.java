@@ -3,14 +3,14 @@ package org.atalk.xryptomail.message.html;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Cleaner;
-import org.jsoup.safety.Whitelist;
+import org.jsoup.safety.Safelist;
 
 public class HtmlSanitizer {
     private final HeadCleaner headCleaner;
     private final Cleaner cleaner;
 
     HtmlSanitizer() {
-        Whitelist whitelist = Whitelist.relaxed()
+        Safelist whitelist = Safelist.relaxed()
                 .addTags("font", "hr", "ins", "del", "center", "map", "area")
                 .addAttributes("font", "color", "face", "size")
                 .addAttributes("table", "align", "background", "bgcolor", "border", "cellpadding", "cellspacing",

@@ -10,7 +10,7 @@
   <string name="remote_control_desc">Lehetővé teszi, hogy az alkalmazás módosítsa a XryptoMail mail beállításait.</string>
   <!--Used in the about dialog-->
   <string name="app_authors">Google, The XryptoMail.</string>
-  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%s</xliff:g> The XryptoMail. Portions Copyright 2006-<xliff:g>%s</xliff:g> the Android Open Source Project.</string>
+  <string name="app_copyright_fmt">Copyright 2008-<xliff:g>%1$s</xliff:g> The XryptoMail. Portions Copyright 2006-<xliff:g>%2$s</xliff:g> the Android Open Source Project.</string>
   <string name="app_license">Apache License, Version 2.0 alatt licencelve.</string>
   <!--Welcome message-->
   <string name="welcome_message_title">Üdvözli a XryptoMail Mail</string>
@@ -47,25 +47,25 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <!--Default signature-->
   <string name="default_signature">-- \nEzt a levelet az Android készülékemről küldtem XryptoMail Mail-el. Elnézést a tömörségemért.</string>
   <!--General strings that include the app name-->
-  <string name="account_delete_dlg_instructions_fmt">A \"<xliff:g id="account">%s</xliff:g>\" fiók törölve a XryptoMail Mail-ből.</string>
-  <string name="account_recreate_dlg_instructions_fmt">Az összes üzenet, melléklet, mappa és beállításai törlődni fognak a \"<xliff:g id="account">%s</xliff:g>\" fiókból. A fiók beállításai megmaradnak.</string>
-  <string name="account_clear_dlg_instructions_fmt">Minden levél törlődni fog a \"<xliff:g id="account">%s</xliff:g>\" fiókból, de a beállítások megmaradnak.</string>
+  <string name="account_delete_dlg_instructions_fmt">A \"<xliff:g id="account">%1$s</xliff:g>\" fiók törölve a XryptoMail Mail-ből.</string>
+  <string name="account_recreate_dlg_instructions_fmt">Az összes üzenet, melléklet, mappa és beállításai törlődni fognak a \"<xliff:g id="account">%1$s</xliff:g>\" fiókból. A fiók beállításai megmaradnak.</string>
+  <string name="account_clear_dlg_instructions_fmt">Minden levél törlődni fog a \"<xliff:g id="account">%1$s</xliff:g>\" fiókból, de a beállítások megmaradnak.</string>
   <!--=== App Store-specific strings =======================================================-->
   <string name="import_dialog_error_message">Az importálás folytatásához, telepítsen egy fájlkezelőt.</string>
   <string name="open_market">Play áruház megnyitása</string>
   <!--=== General strings ==================================================================-->
-  <string name="app_authors_fmt">Készítők: <xliff:g id="app_authors">%s</xliff:g></string>
-  <string name="app_revision_fmt">Verzió információk: <xliff:g id="app_revision_url">%s</xliff:g></string>
-  <string name="app_libraries">A következő könyvtárakat használjuk: <xliff:g id="app_libraries_list">%s</xliff:g></string>
+  <string name="app_authors_fmt">Készítők: <xliff:g id="app_authors">%1$s</xliff:g></string>
+  <string name="app_revision_fmt">Verzió információk: <xliff:g id="app_revision_url">%1$s</xliff:g></string>
+  <string name="app_libraries">A következő könyvtárakat használjuk: <xliff:g id="app_libraries_list">%1$s</xliff:g></string>
   <string name="read_messages_label">Email-ek olvasása</string>
   <string name="read_messages_desc">Engedélyezi ennek az alkalmazásnak, hogy elolvassa az email-jeit.</string>
   <string name="delete_messages_label">Email-ek törlése</string>
   <string name="delete_messages_desc">Engedélyezi ennek az alkalmazásnak, hogy törölje az email-jeit.</string>
-  <string name="about_title_fmt">A <xliff:g id="app_name">%s</xliff:g> névjegye</string>
+  <string name="about_title_fmt">A <xliff:g id="app_name">%1$s</xliff:g> névjegye</string>
   <string name="accounts_title">Fiókok</string>
   <string name="folders_title">Mappák</string>
   <string name="advanced">Haladó</string>
-  <string name="message_list_title"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
   <string name="compose_title_compose">Írás</string>
   <string name="compose_title_reply">Válasz</string>
   <string name="compose_title_reply_all">Válasz mindnekinek</string>
@@ -73,18 +73,18 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="compose_title_forward_as_attachment">Továbbítás mellékletként</string>
   <string name="choose_account_title">Fiók választás</string>
   <string name="choose_folder_title">Mappa választása</string>
-  <string name="status_loading_account_folder"><xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Letöltés <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_sending_account">Küldés <xliff:g id="account">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="status_processing_account">Feldolgozás <xliff:g id="account">%s</xliff:g>:<xliff:g id="command">%s</xliff:g><xliff:g id="progress">%s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%d</xliff:g>/<xliff:g id="total">%d</xliff:g></string>
-  <string name="status_next_poll">Frissítés <xliff:g id="nexttime">%s</xliff:g></string>
+  <string name="status_loading_account_folder"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Letöltés <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Küldés <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Feldolgozás <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_next_poll">Frissítés <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Szinkronizációs hiba - nincs hálózat</string>
   <string name="status_no_background">Szinkronizációs hiba - háttértevékenység letiltva</string>
   <string name="status_poll_and_push_disabled">Az ütemezett küldés és fogadás letiltásra került.</string>
   <string name="status_syncing_blocked">Szinkronizálás letiltva</string>
   <string name="status_syncing_off">Szinkronizálás letiltva</string>
-  <string name="actionbar_selected"><xliff:g id="selection_count">%d</xliff:g> kiválasztva</string>
+  <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> kiválasztva</string>
   <string name="next_action">Következő</string>
   <string name="previous_action">Előző</string>
   <!--Used to confirm acceptance of dialog boxes, warnings, errors, etc.-->
@@ -157,21 +157,21 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="status_invalid_id_error">Nincs ilyen üzenet</string>
   <string name="status_loading_error">Üzenetbetöltési hiba</string>
   <string name="status_loading_more_failed">Hibás letöltések újratöltése</string>
-  <string name="load_more_messages_fmt">Az utolsó <xliff:g id="messages_to_load">%d</xliff:g> levél frissítése</string>
+  <string name="load_more_messages_fmt">Az utolsó <xliff:g id="messages_to_load">%1$d</xliff:g> levél frissítése</string>
   <string name="abbrev_gigabytes">GB</string>
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">\"<xliff:g id="account">%s</xliff:g>\" fiók tömörítése <xliff:g id="oldSize">%s</xliff:g> helyett <xliff:g id="newSize">%s</xliff:g></string>
-  <string name="compacting_account">Fiók tömörítése \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="clearing_account">Fiók takarítása \"<xliff:g id="account">%s</xliff:g>\"</string>
-  <string name="recreating_account">A \"<xliff:g id="account">%s</xliff:g>\" újbóli létrehozása</string>
+  <string name="account_size_changed">\"<xliff:g id="account">%1$s</xliff:g>\" fiók tömörítése <xliff:g id="oldSize">%2$s</xliff:g> helyett <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="compacting_account">Fiók tömörítése \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="clearing_account">Fiók takarítása \"<xliff:g id="account">%1$s</xliff:g>\"</string>
+  <string name="recreating_account">A \"<xliff:g id="account">%1$s</xliff:g>\" újbóli létrehozása</string>
   <string name="notification_new_title">Új levél</string>
   <plurals name="notification_new_messages_title">
-    <item quantity="one"><xliff:g id="new_message_count">%d</xliff:g> új üzenet</item>
-    <item quantity="other"><xliff:g id="new_message_count">%d</xliff:g> új üzenet</item>
+    <item quantity="one"><xliff:g id="new_message_count">%1$d</xliff:g> új üzenet</item>
+    <item quantity="other"><xliff:g id="new_message_count">%1$d</xliff:g> új üzenet</item>
   </plurals>
-  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%d</xliff:g> Olvasatlan (<xliff:g id="account">%s</xliff:g>)</string>
+  <string name="notification_new_one_account_fmt"><xliff:g id="unread_message_count">%1$d</xliff:g> Olvasatlan (<xliff:g id="account">%2$s</xliff:g>)</string>
   <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> további ezen: <xliff:g id="account">%2$s</xliff:g></string>
   <string name="notification_action_reply">Válasz</string>
   <string name="notification_action_mark_as_read">Olvasottnak jelöl</string>
@@ -181,13 +181,13 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="notification_action_archive">Archivál</string>
   <string name="notification_action_archive_all">Összes archiválása</string>
   <string name="notification_action_spam">Spam</string>
-  <string name="notification_certificate_error_title">Hitelesítései hiba: <xliff:g id="account">%s</xliff:g></string>
+  <string name="notification_certificate_error_title">Hitelesítései hiba: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_certificate_error_text">Ellenőrizze a kiszolgáló beállításait</string>
   <string name="notification_authentication_error_title">Nem sikerült a hitelesítés</string>
-  <string name="notification_authentication_error_text">Hitelesítési hiba: <xliff:g id="account">%s</xliff:g>. Frissítsd a szerverbeállításaid!</string>
-  <string name="notification_bg_sync_ticker">Levelek ellenőrzése: <xliff:g id="account">%s</xliff:g>:<xliff:g id="folder">%s</xliff:g></string>
+  <string name="notification_authentication_error_text">Hitelesítési hiba: <xliff:g id="account">%1$s</xliff:g>. Frissítsd a szerverbeállításaid!</string>
+  <string name="notification_bg_sync_ticker">Levelek ellenőrzése: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Levelek ellenőrzése</string>
-  <string name="notification_bg_send_ticker">Küldés a <xliff:g id="account">%s</xliff:g> fiókkal</string>
+  <string name="notification_bg_send_ticker">Küldés a <xliff:g id="account">%1$s</xliff:g> fiókkal</string>
   <string name="notification_bg_send_title">Levél küldése</string>
   <string name="notification_bg_title_separator">:</string>
   <string name="special_mailbox_name_inbox">Érkezett</string>
@@ -197,19 +197,19 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="special_mailbox_name_sent">Elküldött</string>
   <string name="special_mailbox_name_archive">Archivált</string>
   <string name="special_mailbox_name_spam">Levélszemét</string>
-  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%s</xliff:g> (Piszkozat)</string>
-  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%s</xliff:g> (Lomtár)</string>
-  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%s</xliff:g> (Elküldött)</string>
-  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%s</xliff:g> (Archivált)</string>
-  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%s</xliff:g> (Levélszemét)</string>
+  <string name="special_mailbox_name_drafts_fmt"><xliff:g id="folder">%1$s</xliff:g> (Piszkozat)</string>
+  <string name="special_mailbox_name_trash_fmt"><xliff:g id="folder">%1$s</xliff:g> (Lomtár)</string>
+  <string name="special_mailbox_name_sent_fmt"><xliff:g id="folder">%1$s</xliff:g> (Elküldött)</string>
+  <string name="special_mailbox_name_archive_fmt"><xliff:g id="folder">%1$s</xliff:g> (Archivált)</string>
+  <string name="special_mailbox_name_spam_fmt"><xliff:g id="folder">%1$s</xliff:g> (Levélszemét)</string>
   <string name="send_failure_subject">Néhány üzenetet nem sikerült elküldeni</string>
-  <string name="debug_version_fmt">Verzió: <xliff:g id="version">%s</xliff:g></string>
+  <string name="debug_version_fmt">Verzió: <xliff:g id="version">%1$s</xliff:g></string>
   <string name="debug_enable_debug_logging_title">Hibakeresés</string>
   <string name="debug_enable_debug_logging_summary">Extra diagnosztikai naplózás</string>
   <string name="debug_enable_sensitive_logging_title">Személyes adatok naplózása</string>
   <string name="debug_enable_sensitive_logging_summary">Jelszavak naplózása</string>
   <string name="message_list_load_more_messages_action">Többi levél letöltése</string>
-  <string name="message_to_fmt">a:<xliff:g id="counterParty">%s</xliff:g></string>
+  <string name="message_to_fmt">a:<xliff:g id="counterParty">%1$s</xliff:g></string>
   <string name="message_compose_subject_hint">Tárgy</string>
   <string name="message_compose_content_hint">Levél szövege</string>
   <string name="message_compose_signature_hint">Aláírás</string>
@@ -219,7 +219,7 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="message_compose_quote_header_from">Feladó:</string>
   <string name="message_compose_quote_header_to">Címzett:</string>
   <string name="message_compose_quote_header_cc">Másolat:</string>
-  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%s</xliff:g> írta:</string>
+  <string name="message_compose_reply_header_fmt"><xliff:g id="sender">%1$s</xliff:g> írta:</string>
   <string name="message_compose_reply_header_fmt_with_date"><xliff:g id="sent_date">%1$s</xliff:g>, <xliff:g id="sender">%2$s</xliff:g> írta:</string>
   <string name="message_compose_error_no_recipients">Legalább egy címzetted adjon meg.</string>
   <string name="compose_error_incomplete_recipient">A CÍMZETT input mező hiányos!</string>
@@ -227,7 +227,7 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="message_compose_attachments_skipped_toast">Néhány mellékletet nem lehet továbbítani, mert nem lettek letöltve.</string>
   <string name="message_compose_description_delete_quoted_text">Idézett szöveg törlése</string>
   <string name="message_compose_description_edit_quoted_text">Idézett szöveg szerkesztése</string>
-  <string name="message_view_from_format">Feladó: <xliff:g id="name">%s</xliff:g> &lt;<xliff:g id="email">%s</xliff:g>&gt;</string>
+  <string name="message_view_from_format">Feladó: <xliff:g id="name">%1$s</xliff:g> &lt;<xliff:g id="email">%2$s</xliff:g>&gt;</string>
   <string name="message_to_label">Címzett:</string>
   <string name="message_view_cc_label">Másolat:</string>
   <string name="message_view_bcc_label">Titkos másolat:</string>
@@ -236,7 +236,7 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="message_view_status_attachment_not_saved">Nem lehet a mellékletet az SD kártyára menteni.</string>
   <string name="message_view_status_no_space">A csatolmány nem menthető helyhiány miatt.</string>
   <string name="message_view_show_pictures_action">Képek mutatása</string>
-  <string name="message_view_no_viewer">%s nincs társítva semmihez.</string>
+  <string name="message_view_no_viewer">%1$s nincs társítva semmihez.</string>
   <string name="message_view_download_remainder">Teljes üzenet letöltése</string>
   <string name="message_view_toast_unable_to_display_message">Nem sikerült megjeleníteni az üzenetet</string>
   <string name="message_view_sender_label">%1$s segítségével</string>
@@ -244,7 +244,7 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="message_no_additional_headers_available">Minden fejléc letöltve, de nincs mind megjelenítve.</string>
   <string name="message_additional_headers_retrieval_failed">Nem sikerült betölteni az összes fejlécet adatbázishiba, vagy email szerver hiba miatt.</string>
   <string name="from_same_sender">Összes ettől a feladótol</string>
-  <string name="search_from_format">Feladó <xliff:g id="sender">%s</xliff:g></string>
+  <string name="search_from_format">Feladó <xliff:g id="sender">%1$s</xliff:g></string>
   <string name="debug_delete_local_body">Üzenet törzs hibakeresés / kiürítés</string>
   <string name="message_discarded_toast">Levél eldobva</string>
   <string name="message_saved_toast">Levél mentve a piszkozatokba</string>
@@ -383,7 +383,7 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="account_setup_outgoing_password_label">Jelszó</string>
   <string name="account_setup_outgoing_authentication_label">Hitelesítés típusa</string>
   <string name="account_setup_outgoing_invalid_setting_combo_notice">\"<xliff:g id="setting_1_label">%1$s</xliff:g> = <xliff:g id="setting_1_value">%2$s</xliff:g>\" nem érvényes ezzel: \"<xliff:g id="setting_2_label">%3$s</xliff:g> = <xliff:g id="setting_2_value">%4$s</xliff:g>\"</string>
-  <string name="account_setup_bad_uri">Hibás beállítás: <xliff:g id="err_mess">%s</xliff:g></string>
+  <string name="account_setup_bad_uri">Hibás beállítás: <xliff:g id="err_mess">%1$s</xliff:g></string>
   <string name="account_setup_options_title">Fiók beállításai</string>
   <string name="compact_action">Tömörítés</string>
   <string name="clear_action">Üzenetek törlése!</string>
@@ -430,9 +430,9 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="account_setup_options_mail_display_count_all">Minden levél</string>
   <string name="move_copy_cannot_copy_unsynced_message">Ez a levél nem másolható illetve mozgatható máshova, mert nincs szinkronizálva a szerverrel.</string>
   <string name="account_setup_failed_dlg_title">A konfigurálás nem sikerült</string>
-  <string name="account_setup_failed_dlg_auth_message_fmt">Felhasználónév vagy a jelszó hibás.\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_certificate_message_fmt">A szerver érvénytelen SSL tanúsítványt használ. Néha ez a szerver hibás beállításaiból fakadhat, néha azért, mert valaki megtámadta a levelező szervered. Ha nem vagy biztos benne, mi történt, bökj a Visszautasít gombra és vedd fel a kapcsolatot a levelezőszerver üzemeltetőivel.\n\n(<xliff:g id="error">%s</xliff:g>)</string>
-  <string name="account_setup_failed_dlg_server_message_fmt">Nem lehet kapcsolódni a szerverhez.\n(<xliff:g id="error">%s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_auth_message_fmt">Felhasználónév vagy a jelszó hibás.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_certificate_message_fmt">A szerver érvénytelen SSL tanúsítványt használ. Néha ez a szerver hibás beállításaiból fakadhat, néha azért, mert valaki megtámadta a levelező szervered. Ha nem vagy biztos benne, mi történt, bökj a Visszautasít gombra és vedd fel a kapcsolatot a levelezőszerver üzemeltetőivel.\n\n(<xliff:g id="error">%1$s</xliff:g>)</string>
+  <string name="account_setup_failed_dlg_server_message_fmt">Nem lehet kapcsolódni a szerverhez.\n(<xliff:g id="error">%1$s</xliff:g>)</string>
   <string name="account_setup_failed_dlg_edit_details_action">Módosítás</string>
   <string name="account_setup_failed_dlg_continue_action">Tovább</string>
   <string name="account_settings_push_advanced_title">Haladó</string>
@@ -711,7 +711,7 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="count_search_summary">Kikapcsolva gyorsabb működés</string>
   <string name="hide_special_accounts_title">Különleges fiókok elrejtése</string>
   <string name="hide_special_accounts_summary">Egységesen elrejti a fiókok bejövő mappáit</string>
-  <string name="search_title"><xliff:g id="search_name">%s</xliff:g> <xliff:g id="modifier">%s</xliff:g></string>
+  <string name="search_title"><xliff:g id="search_name">%1$s</xliff:g> <xliff:g id="modifier">%2$s</xliff:g></string>
   <string name="flagged_modifier">- Csillagos</string>
   <string name="unread_modifier">- Olvasatlan</string>
   <string name="search_all_messages_title">Minden levél</string>
@@ -747,7 +747,7 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="font_size_message_view_subject">Tárgy</string>
   <string name="font_size_message_view_date">Idő és dátum</string>
   <string name="font_size_message_view_content">Üzenet szövege</string>
-  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%d</xliff:g>%%</string>
+  <string name="font_size_message_view_content_summary"><xliff:g id="fontsize">%1$d</xliff:g>%%</string>
   <string name="font_size_message_view_content_dialog_title"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="summary">%2$s</xliff:g></string>
   <string name="font_size_message_compose">Üzenet írása</string>
   <string name="font_size_message_compose_input">Szöveg beviteli mezők</string>
@@ -761,7 +761,7 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="font_size_larger">Nagyobb</string>
   <string name="miscellaneous_preferences">Egyéb</string>
   <string name="error_activity_not_found">Nincs megfelelő alkalmazás ehhez a művelethez.</string>
-  <string name="send_failed_reason">A levelet nem sikerült elküldeni: %s</string>
+  <string name="send_failed_reason">A levelet nem sikerült elküldeni:%1$s</string>
   <string name="save_or_discard_draft_message_dlg_title">Menti piszkozatként?</string>
   <string name="save_or_discard_draft_message_instructions_fmt">Menti vagy mégsem az üzenetet?</string>
   <string name="confirm_discard_draft_message_title">Üzenet elvetése?</string>
@@ -801,35 +801,35 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="settings_exporting">Beállítások exportálása…</string>
   <string name="settings_importing">Beállítások importálása…</string>
   <string name="settings_import_scanning_file">Fájl beolvasása…</string>
-  <string name="settings_export_success">Exportált beállítások mentve ide: <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_export_success">Exportált beállítások mentve ide: <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_generic">A beállítások exportálásra kerültek.</string>
-  <string name="settings_import_global_settings_success">Az általános beállítások importálva innen: <xliff:g id="filename">%s</xliff:g></string>
-  <string name="settings_import_success">A(z) <xliff:g id="accounts">%s</xliff:g> importálva innen: <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_global_settings_success">Az általános beállítások importálva innen: <xliff:g id="filename">%2$s</xliff:g></string>
+  <string name="settings_import_success">A(z) <xliff:g id="accounts">%1$s</xliff:g> importálva innen: <xliff:g id="filename">%2$s</xliff:g></string>
   <plurals name="settings_import_accounts">
     <item quantity="one">1 fiók</item>
-    <item quantity="other"><xliff:g id="numAccounts">%s</xliff:g> fiók</item>
+    <item quantity="other"><xliff:g id="numAccounts">%1$s</xliff:g> fiók</item>
   </plurals>
   <string name="settings_export_failure">Beállítások exportálása sikertelen</string>
-  <string name="settings_import_failure">Beállítások importálása sikertelen innen: <xliff:g id="filename">%s</xliff:g></string>
+  <string name="settings_import_failure">Beállítások importálása sikertelen innen: <xliff:g id="filename">%1$s</xliff:g></string>
   <string name="settings_export_success_header">Exportálás sikeresen befejezve</string>
   <string name="settings_export_failed_header">Exportálás sikertelen</string>
   <string name="settings_import_success_header">Importálás sikeresen befejezve</string>
   <string name="settings_import_failed_header">Importálás sikertelen</string>
   <string name="settings_import_activate_account_header">Fiók aktiválása</string>
-  <string name="settings_import_activate_account_intro">Ahhoz, hogy használja ezt a fiókot: \"<xliff:g id="account">%s</xliff:g>\",  meg kell adnia ezt: <xliff:g id="server_passwords">%s</xliff:g>.</string>
+  <string name="settings_import_activate_account_intro">Ahhoz, hogy használja ezt a fiókot: \"<xliff:g id="account">%1$s</xliff:g>\",  meg kell adnia ezt: <xliff:g id="server_passwords">%2$s</xliff:g>.</string>
   <plurals name="settings_import_server_passwords">
     <item quantity="one">szerver jelszava</item>
     <item quantity="other">szerver jelszavai</item>
   </plurals>
-  <string name="settings_import_incoming_server">Bejövő szerver (<xliff:g id="hostname">%s</xliff:g>):</string>
-  <string name="settings_import_outgoing_server">Kimenő szerver (<xliff:g id="hostname">%s</xliff:g>):</string>
+  <string name="settings_import_incoming_server">Bejövő szerver (<xliff:g id="hostname">%1$s</xliff:g>):</string>
+  <string name="settings_import_outgoing_server">Kimenő szerver (<xliff:g id="hostname">%1$s</xliff:g>):</string>
   <plurals name="settings_import_setting_passwords">
     <item quantity="one">Jelszó beállítása…</item>
     <item quantity="other">Jelszavak beállítása…</item>
   </plurals>
   <string name="settings_import_use_incoming_server_password">Bejövő kiszolgáló jelszavának használata</string>
   <string name="activate_account_action">Aktiválás</string>
-  <string name="account_unavailable">\"<xliff:g id="account">%s</xliff:g>\" fiók nem elérhető ellenőríze a tárhelyet</string>
+  <string name="account_unavailable">\"<xliff:g id="account">%1$s</xliff:g>\" fiók nem elérhető ellenőríze a tárhelyet</string>
   <string name="settings_attachment_default_path">Csatolmányok mentése ide:</string>
   <string name="attachment_save_title">Csatolmányok mentése</string>
   <string name="attachment_save_desc">Nincs fájlkezelő. Hova szeretné menteni a csatolmányt?</string>
@@ -870,7 +870,7 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="webview_contextmenu_email_save_action">Mentés a névjegyekhez</string>
   <string name="webview_contextmenu_email_copy_action">E-mail cím másolása a vágólapra</string>
   <string name="webview_contextmenu_email_clipboard_label">E-mail cím</string>
-  <string name="image_saved_as">Kép mentése: \"<xliff:g id="filename">%s</xliff:g>\"</string>
+  <string name="image_saved_as">Kép mentése: \"<xliff:g id="filename">%1$s</xliff:g>\"</string>
   <string name="image_saving_failed">A kép mentése sikertelen.</string>
   <string name="account_settings_remote_search_num_results_entries_all">Mind</string>
   <string name="account_settings_remote_search_num_results_entries_10">10</string>
@@ -881,7 +881,7 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="account_settings_remote_search_num_results_entries_500">500</string>
   <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
   <string name="account_settings_remote_search_num_label">Kiszolgáló keresési határ</string>
-  <string name="account_settings_remote_search_num_summary">A keresés <xliff:g id="num_results">%s</xliff:g> találat után véget ér.</string>
+  <string name="account_settings_remote_search_num_summary">A keresés <xliff:g id="num_results">%1$s</xliff:g> találat után véget ér.</string>
   <string name="remote_search_sending_query">Kérés küldése a szerver felé</string>
   <string name="remote_search_error">A távoli keresés sikertelen</string>
   <string name="account_settings_search">Keresés</string>
@@ -897,7 +897,7 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="global_settings_threaded_view_summary">Üzenetek beszélgetésbe csoportosítása</string>
   <string name="upgrade_databases_title">Adatbázisok frissítése</string>
   <string name="upgrade_databases_unspecified">Adatbázisok frissítése…</string>
-  <string name="upgrade_database_format">A(z) \"<xliff:g id="account">%s</xliff:g>\ fiók adatbázisának frissítése"</string>
+  <string name="upgrade_database_format">A(z) \"<xliff:g id="account">%1$s</xliff:g>\ fiók adatbázisának frissítése"</string>
   <string name="message_list_loading">Töltés…</string>
   <string name="global_settings_splitview_mode_label">Osztott képernyő megjelenítése</string>
   <string name="global_settings_splitview_always">Mindig</string>
@@ -906,9 +906,9 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="message_view_empty">Kérjük, válasszon ki egy üzenetet a bal oldalon</string>
   <string name="global_settings_show_contact_picture_label">Kapcsolatok képeinek megjelenítése</string>
   <string name="global_settings_show_contact_picture_summary">Kapcsolatok képeinek megjelenítése az üzenetlistában</string>
-  <string name="last_refresh_time_format"><xliff:g id="formatted_time">%s</xliff:g> frissítve</string>
-  <string name="last_refresh_time_format_with_push"><xliff:g id="time_with_preposition">%s</xliff:g> frissítve (Átküldés aktív)</string>
-  <string name="preposition_for_date">on <xliff:g id="date">%s</xliff:g></string>
+  <string name="last_refresh_time_format"><xliff:g id="formatted_time">%1$s</xliff:g> frissítve</string>
+  <string name="last_refresh_time_format_with_push"><xliff:g id="time_with_preposition">%1$s</xliff:g> frissítve (Átküldés aktív)</string>
+  <string name="preposition_for_date">on <xliff:g id="date">%1$s</xliff:g></string>
   <string name="mark_all_as_read">Összes megjelölése olvasottként</string>
   <string name="global_settings_colorize_missing_contact_pictures_label">Partnerek képeinek színezése</string>
   <string name="global_settings_colorize_missing_contact_pictures_summary">Hiányzó partnerképek színezése</string>
@@ -923,7 +923,7 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="account_setup_basics_client_certificate">Ügyfél tanúsítvány használata</string>
   <string name="client_certificate_spinner_empty">Ügyfél tanúsítvány nem található</string>
   <string name="client_certificate_spinner_delete">Ügyfél tanúsítvány kiválasztásának megszüntetése</string>
-  <string name="client_certificate_retrieval_failure">A klienstanúsítvány letöltése sikertelen a következő alias-nak: \"<xliff:g id="alias">%s</xliff:g>\"</string>
+  <string name="client_certificate_retrieval_failure">A klienstanúsítvány letöltése sikertelen a következő alias-nak: \"<xliff:g id="alias">%1$s</xliff:g>\"</string>
   <string name="client_certificate_advanced_options">Haladó beállítások</string>
   <string name="client_certificate_expired">A kliens tanúsítványa \"<xliff:g id="certificate_alias">%1$s</xliff:g>\" lejárt, vagy még nem érvényes (<xliff:g id="exception_message">%2$s</xliff:g>)</string>
   <!--Note: This references message_view_download_remainder-->

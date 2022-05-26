@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,8 +19,8 @@
         <org.atalk.xryptomail.ui.ContactBadge
             android:layout_width="42dp"
             android:layout_height="42dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
             android:id="@+id/alternate_contact_photo"
             tools:src="@drawable/ic_contact_picture" />
 
@@ -35,8 +36,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dip"
-                android:layout_marginStart="6dip"
+                android:layout_marginStart="6dp"
                 android:singleLine="true"
                 android:ellipsize="end"
                 tools:text="Mr. Firstname Lastname" />
@@ -47,8 +47,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dip"
-                android:layout_marginStart="6dip"
+                android:layout_marginStart="6dp"
                 android:singleLine="true"
                 android:ellipsize="end"
                 tools:text="Other" />
@@ -92,8 +91,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="6dip"
-            android:paddingRight="6dip"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
             android:singleLine="true"
             android:ellipsize="end"
             tools:text="address@example.com" />
@@ -107,15 +106,15 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
+                android:layout_gravity="start|center_vertical"
                 android:src="@drawable/status_dots"
-                android:tint="?attr/openpgp_grey" />
+                app:tint="?attr/openpgp_grey" />
 
             <ImageView
                 android:id="@+id/alternate_crypto_status_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
+                android:layout_gravity="start|center_vertical"
                 tools:src="@drawable/status_lock_dots_2"
                 tools:tint="?attr/openpgp_grey" />
         </FrameLayout>
@@ -127,9 +126,9 @@
             android:layout_margin="13dp"
             android:id="@+id/alternate_crypto_status_simple"
             android:src="@drawable/status_lock"
-            android:tint="?attr/openpgp_black"
             android:visibility="gone"
-            tools:visibility="visible" />
+            tools:visibility="visible"
+            app:tint="?attr/openpgp_black" />
 
     </LinearLayout>
 

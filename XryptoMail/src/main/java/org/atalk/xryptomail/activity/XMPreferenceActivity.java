@@ -58,11 +58,11 @@ public abstract class XMPreferenceActivity extends PreferenceActivity
      */
     private static class PreferenceChangeListener implements Preference.OnPreferenceChangeListener
     {
-        private ListPreference mPrefView;
+        private final ListPreference mPrefView;
 
         private PreferenceChangeListener(final ListPreference prefView)
         {
-            this.mPrefView = prefView;
+            mPrefView = prefView;
         }
 
         /**

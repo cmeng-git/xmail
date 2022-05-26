@@ -42,7 +42,6 @@ public class MessageTopView extends LinearLayout
     public static final int PROGRESS_STEP_DURATION = 180;
     private ToolableViewAnimator viewAnimator;
     private ProgressBar progressBar;
-    private TextView progressText;
     private MessageHeader mHeaderContainer;
     private LayoutInflater mInflater;
     private ViewGroup containerView;
@@ -53,7 +52,7 @@ public class MessageTopView extends LinearLayout
     private boolean showPicturesButtonClicked;
     private MessageCryptoPresenter messageCryptoPresenter;
     private TextView mCountDownView;
-    private Context mContext;
+    private final Context mContext;
     private XryptoMode mXryptoMode;
 
     public MessageTopView(Context context, AttributeSet attrs)
@@ -74,7 +73,7 @@ public class MessageTopView extends LinearLayout
         mCountDownView = findViewById(R.id.countDownView);
         viewAnimator = findViewById(R.id.message_layout_animator);
         progressBar = findViewById(R.id.message_progress);
-        progressText = findViewById(R.id.message_progress_text);
+        TextView progressText = findViewById(R.id.message_progress_text);
         mDownloadRemainder = findViewById(R.id.download_remainder);
         mDownloadRemainder.setVisibility(View.GONE);
 

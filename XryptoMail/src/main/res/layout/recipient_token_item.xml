@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="wrap_content"
@@ -19,8 +20,8 @@
         android:layout_weight="1"
         android:id="@android:id/text1"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:maxLines="1"
         android:ellipsize="end"
         tools:text="Name" />
@@ -31,8 +32,8 @@
         android:id="@+id/contact_crypto_status_icon_simple"
         android:src="@drawable/ic_status_corner"
         android:visibility="gone"
-        android:tint="?openpgp_black"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        app:tint="?openpgp_black" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -40,8 +41,8 @@
         android:id="@+id/contact_crypto_status_icon_simple_enabled"
         android:src="@drawable/ic_status_corner"
         android:visibility="gone"
-        android:tint="?openpgp_green"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        app:tint="?openpgp_green" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -55,34 +56,31 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="6dp"
         android:layout_marginEnd="6dp"
         android:layout_gravity="center_vertical"
         android:id="@+id/contact_crypto_status_red"
         android:src="@drawable/status_dots_1"
-        android:tint="?attr/openpgp_red"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:tint="?attr/openpgp_red" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="6dp"
         android:layout_marginEnd="6dp"
         android:layout_gravity="center_vertical"
         android:id="@+id/contact_crypto_status_orange"
         android:src="@drawable/status_dots_2"
-        android:tint="?attr/openpgp_orange"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:tint="?attr/openpgp_orange" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="6dp"
         android:layout_marginEnd="6dp"
         android:layout_gravity="center_vertical"
         android:id="@+id/contact_crypto_status_green"
         android:src="@drawable/status_dots_3"
-        android:tint="?attr/openpgp_green"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:tint="?attr/openpgp_green" />
 
 </LinearLayout>

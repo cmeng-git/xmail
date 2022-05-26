@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 
 import org.atalk.xryptomail.XryptoMail;
@@ -106,7 +107,9 @@ public class BootReceiver extends CoreReceiver
         i.putExtra(ALARMED_INTENT, alarmedIntent);
         Uri uri = Uri.parse("action://" + alarmedAction);
         i.setData(uri);
-        return PendingIntent.getBroadcast(context, 0, i, 0);
+        return PendingIntent.getBroadcast(context, 0, i,
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT
+                : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static void scheduleIntent(Context context, long atTime, Intent alarmedIntent)
@@ -148,6 +151,7 @@ public class BootReceiver extends CoreReceiver
                 // we want to match all intents
                 return true;
             }
-        }, 0));
+        }, Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT
+                : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT));
     }
 }
