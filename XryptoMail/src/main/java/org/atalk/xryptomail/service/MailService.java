@@ -294,7 +294,7 @@ public class MailService extends JobIntentService
     public static boolean hasNoConnectivity()
     {
         // cmeng - connectivity may change after service start.
-        return !Utility.hasConnectivity(XryptoMail.instance);
+        return !Utility.hasConnectivity(XryptoMail.mInstance);
     }
 
     public static boolean isSyncNoBackground()

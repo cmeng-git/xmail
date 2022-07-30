@@ -58,7 +58,7 @@ class MigrationTo51 {
 
         File attachmentDirNew, attachmentDirOld;
         Account account = migrationsHelper.getAccount();
-        attachmentDirNew = StorageManager.getInstance(XryptoMail.instance).getAttachmentDirectory(
+        attachmentDirNew = StorageManager.getInstance(XryptoMail.mInstance).getAttachmentDirectory(
                 account.getUuid(), account.getLocalStorageProviderId());
         attachmentDirOld = renameOldAttachmentDirAndCreateNew(account, attachmentDirNew);
 

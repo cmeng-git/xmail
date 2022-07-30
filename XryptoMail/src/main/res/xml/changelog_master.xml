@@ -8,6 +8,11 @@
      They are automatically updated with "ant bump-version".
 -->
 <changelog>
+    <release version="5.0.4 (07/31/2022)" versioncode="19040">
+        <change>Remove android.permission.REQUEST_INSTALL_PACKAGES from playstore release</change>
+        <change>update all XryptoMail third party libraries used to latest version if allowed</change>
+    </release>
+
     <release version="5.0.3 (05/27/2022)" versioncode="19030">
         <change>Update Default TrustedSocketFactory, avoid using setHostnameViaReflection that causes not such method exception</change>
         <change>Realign XryptoMail OS support to android API 21-32. Update source to compliance with OS</change>

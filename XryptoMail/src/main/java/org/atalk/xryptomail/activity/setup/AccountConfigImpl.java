@@ -292,7 +292,7 @@ class AccountConfigImpl implements AccountConfig, Parcelable {
 
     @Override
     public Store getRemoteStore() throws MessagingException {
-        return RemoteStore.getInstance(XryptoMail.instance, this, Globals.getOAuth2TokenProvider());
+        return RemoteStore.getInstance(XryptoMail.mInstance, this, Globals.getOAuth2TokenProvider());
     }
 
     @Override

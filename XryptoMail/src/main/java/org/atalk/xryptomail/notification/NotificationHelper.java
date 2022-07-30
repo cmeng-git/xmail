@@ -66,7 +66,7 @@ public class NotificationHelper extends ContextWrapper
      */
     public static final String SERVICE_GROUP = "service";
 
-    private List<String> notificationIds = Arrays.asList(BADGE_GROUP, EMAIL_GROUP, ERROR_GROUP, SERVICE_GROUP);
+    private final List<String> notificationIds = Arrays.asList(BADGE_GROUP, EMAIL_GROUP, ERROR_GROUP, SERVICE_GROUP);
 
     private NotificationManager manager;
 
@@ -87,6 +87,7 @@ public class NotificationHelper extends ContextWrapper
             NotificationChannel nEmail = new NotificationChannel(EMAIL_GROUP,
                     getString(R.string.noti_channel_EMAIL_GROUP), NotificationManager.IMPORTANCE_DEFAULT);
             nEmail.setLightColor(Color.BLUE);
+            nEmail.setSound(null, null);
             nEmail.enableLights(true);
             nEmail.enableVibration(true);
             nEmail.setShowBadge(true);

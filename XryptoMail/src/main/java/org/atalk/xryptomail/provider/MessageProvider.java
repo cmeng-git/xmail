@@ -137,7 +137,7 @@ public class MessageProvider extends ContentProvider
     @Override
     public String getType(Uri uri)
     {
-        if (XryptoMail.instance == null) {
+        if (XryptoMail.mInstance == null) {
             return null;
         }
 
@@ -149,7 +149,7 @@ public class MessageProvider extends ContentProvider
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
     {
-        if (XryptoMail.instance == null) {
+        if (XryptoMail.mInstance == null) {
             return null;
         }
 
@@ -176,7 +176,7 @@ public class MessageProvider extends ContentProvider
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs)
     {
-        if (XryptoMail.instance == null) {
+        if (XryptoMail.mInstance == null) {
             return 0;
         }
 
@@ -217,7 +217,7 @@ public class MessageProvider extends ContentProvider
     @Override
     public Uri insert(Uri uri, ContentValues values)
     {
-        if (XryptoMail.instance == null) {
+        if (XryptoMail.mInstance == null) {
             return null;
         }
 
@@ -229,7 +229,7 @@ public class MessageProvider extends ContentProvider
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs)
     {
-        if (XryptoMail.instance == null) {
+        if (XryptoMail.mInstance == null) {
             return 0;
         }
 

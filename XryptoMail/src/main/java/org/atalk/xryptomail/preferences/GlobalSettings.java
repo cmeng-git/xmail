@@ -21,7 +21,6 @@ public class GlobalSettings {
          * When adding new settings here, be sure to increment {@link Settings.VERSION}
          * and use that for whatever you add here.
          */
-
         s.put("animations", Settings.versions(
                 new V(1, new BooleanSetting(false))
             ));
@@ -410,7 +409,7 @@ public class GlobalSettings {
             super("");
 
             Map<String, String> mapping = new HashMap<>();
-            String[] values = XryptoMail.instance.getResources().getStringArray(R.array.settings_language_values);
+            String[] values = XryptoMail.mInstance.getResources().getStringArray(R.array.settings_language_values);
             for (String value : values) {
                 if (value.length() == 0) {
                     mapping.put("", "default");

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.atalk.xryptomail.helper.androidupdate;
+package org.atalk.xryptomail.impl.androidupdate;
 
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
@@ -54,7 +54,7 @@ import timber.log.Timber;
  *
  * @author Eng Chong Meng
  */
-public class UpdateService {
+public class UpdateServiceImpl {
     // Default update link
     private static final String[] updateLinks = {"https://atalk.sytes.net"};
 
@@ -99,11 +99,11 @@ public class UpdateService {
      */
     private static final String ENTRY_NAME = "apk_ids";
 
-    private static UpdateService mInstance = null;
+    private static UpdateServiceImpl mInstance = null;
 
-    public static UpdateService getInstance() {
+    public static UpdateServiceImpl getInstance() {
         if (mInstance == null) {
-            mInstance = new UpdateService();
+            mInstance = new UpdateServiceImpl();
         }
         return mInstance;
     }

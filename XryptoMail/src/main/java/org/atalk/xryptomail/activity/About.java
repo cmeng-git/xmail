@@ -34,7 +34,7 @@ import androidx.fragment.app.FragmentActivity;
 import org.atalk.xryptomail.BuildConfig;
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.XryptoMail;
-import org.atalk.xryptomail.helper.androidupdate.UpdateService;
+import org.atalk.xryptomail.impl.androidupdate.UpdateServiceImpl;
 
 import de.cketti.library.changelog.ChangeLog;
 
@@ -174,7 +174,7 @@ public class About extends FragmentActivity implements OnClickListener, View.OnL
             @Override
             public void run()
             {
-                UpdateService.getInstance().checkForUpdates(true);
+                UpdateServiceImpl.getInstance().checkForUpdates(true);
             }
         }.start();
     }

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.atalk.xryptomail.helper.androidupdate;
+package org.atalk.xryptomail.impl.androidupdate;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
@@ -73,7 +73,7 @@ public class OnlineUpdateService extends IntentService {
                         checkAppUpdate();
                         break;
                     case ACTION_UPDATE_AVAILABLE:
-                        UpdateService.getInstance().checkForUpdates(true);
+                        UpdateServiceImpl.getInstance().checkForUpdates(true);
                         break;
                     case ACTION_AUTO_UPDATE_START:
                         setNextAlarm(CHECK_INTERVAL_ON_LAUNCH);
@@ -87,7 +87,7 @@ public class OnlineUpdateService extends IntentService {
     }
 
     private void checkAppUpdate() {
-        UpdateService updateService = UpdateService.getInstance();
+        UpdateServiceImpl updateService = UpdateServiceImpl.getInstance();
         boolean isLatest = updateService.isLatestVersion();
 
         if (!isLatest) {

@@ -24,7 +24,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -455,7 +454,7 @@
             android:enabled="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
-            android:name=".helper.androidupdate.OnlineUpdateService"
+            android:name=".impl.androidupdate.OnlineUpdateService"
             android:enabled="true" />
         <service
             android:name=".service.DatabaseUpgradeService"

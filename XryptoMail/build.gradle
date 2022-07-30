@@ -21,14 +21,14 @@ dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
 
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
-    implementation "androidx.annotation:annotation:1.3.0"
+    implementation "androidx.annotation:annotation:1.4.0"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "com.google.android.material:material:1.6.0"
+    implementation "com.google.android.material:material:1.6.1"
 
     implementation project(':plugins:openpgp-api-lib:openpgp-api')
     // implementation 'org.sufficientlysecure:openpgp-api:11.0'
 
-    implementation 'commons-io:commons-io:2.6'
+    implementation 'commons-io:commons-io:2.10.0'
     implementation 'com.beetstra.jutf7:jutf7:1.0.0'
     implementation 'com.github.amlcurran.showcaseview:library:5.4.1'
 
@@ -36,7 +36,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:3.8.0'
 
     implementation 'com.jakewharton:butterknife:10.2.3'
-    implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.8.1'
+    implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.9.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 
     implementation 'com.jakewharton.timber:timber:5.0.1'
@@ -47,7 +47,7 @@ dependencies {
     implementation 'com.jcraft:jzlib:1.0.7'
 
     implementation 'com.squareup.moshi:moshi:1.13.0'
-    implementation 'com.squareup.okio:okio:3.0.0'
+    implementation 'com.squareup.okio:okio:3.1.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.splitwise:tokenautocomplete:2.0.8'
@@ -61,14 +61,15 @@ dependencies {
     implementation "me.leolin:ShortcutBadger:1.1.22@aar"
     implementation 'net.jcip:jcip-annotations:1.0'
 
+
     implementation 'org.apache.james:apache-mime4j-core:0.8.6'
     implementation 'org.apache.james:apache-mime4j-dom:0.8.6'
     compileOnly "org.apache.httpcomponents:httpclient:4.5.6"
     implementation 'org.apache.httpcomponents.client5:httpclient5:5.1.3'
-    implementation 'org.apache.httpcomponents:httpcore:4.4.14'
+    implementation 'org.apache.httpcomponents:httpcore:4.4.15'
 
     // implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21"
-    implementation 'org.jsoup:jsoup:1.14.3'
+    implementation 'org.jsoup:jsoup:1.15.1'
 
 //    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 //    testImplementation "com.google.truth:truth:${truthVersion}"
@@ -91,8 +92,8 @@ android {
         applicationId "org.atalk.xryptomail"
         testApplicationId "org.atalk.xryptomail.tests"
 
-        versionCode 19030
-        versionName '5.0.3'
+        versionCode 19040
+        versionName '5.0.4'
 
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.compileSdkVersion
@@ -141,16 +142,23 @@ android {
     useLibrary 'org.apache.http.legacy'
 
     sourceSets {
-        // Move the tests to tests/java, tests/res, etc...
-        androidTest.setRoot('tests')
+        main {
+            java.srcDirs = ['src/main/java']
+            resources.srcDirs = ['src']
 
-        // Move the build types to build-types/<type>
-        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
-        // This moves them out of the default location under src/<type>/... which would
-        // conflict with src/ being used by the main source set.
-        // Adding new build types or product flavors should be accompanied by a similar customization.
-        debug.setRoot('build-types/debug')
-        release.setRoot('build-types/release')
+            androidTest.setRoot('tests')
+
+            // Move the build types to build-types/<type>
+            // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
+            // This moves them out of the default location under src/<type>/... which would
+            // conflict with src/ being used by the main source set.
+            // Adding new build types or product flavors should be accompanied by a similar customization.
+            // debug.setRoot('build-types/debug')
+            // release.setRoot('build-types/release')
+        }
+
+        release { java.srcDirs = ['src/release/java'] }
+        debug { java.srcDirs = ['src/debug/java'] }
     }
 
     // Do not abort build if lint finds errors

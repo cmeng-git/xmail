@@ -84,7 +84,7 @@ class IdentitySettings {
 
         @Override
         public String getDefaultValue() {
-            return XryptoMail.instance.getResources().getString(R.string.default_signature);
+            return XryptoMail.mInstance.getResources().getString(R.string.default_signature);
         }
 
         @Override

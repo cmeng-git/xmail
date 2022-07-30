@@ -26,22 +26,24 @@ import android.widget.ImageView;
 
 import androidx.fragment.app.FragmentActivity;
 
-import org.atalk.xryptomail.*;
-import org.atalk.xryptomail.helper.androidupdate.OnlineUpdateService;
-import org.atalk.xryptomail.helper.androidupdate.UpdateService;
+import org.atalk.xryptomail.BuildConfig;
+import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.impl.androidupdate.OnlineUpdateService;
+import org.atalk.xryptomail.impl.androidupdate.UpdateServiceImpl;
+
+import timber.log.Timber;
 
 /**
  * Splash screen activity
  */
-public class Splash extends FragmentActivity
-{
+public class Splash extends FragmentActivity {
+
     // in unit of milliseconds
     private static final int SPLASH_SCREEN_SHOW_TIME = 1000;
     private static boolean mFirstRun = true;
 
     // Show the splash screen if first launch and wait for it to complete before continue
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Request indeterminate progress for splash screen
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -52,24 +54,29 @@ public class Splash extends FragmentActivity
         ImageView myImageView = findViewById(R.id.loadingImage);
         Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         myImageView.startAnimation(myFadeInAnimation);
-        mFirstRun = false;
 
+        mFirstRun = false;
+        startOnlineUpdate();
+    }
+
+    public void startOnlineUpdate() {
         // run a thread with delay SPLASH_SCREEN_SHOW_TIME before returning to defined home screen
         new Handler().postDelayed(() -> {
             // Start update service for debug version only
             if (BuildConfig.DEBUG) {
-                UpdateService.getInstance().removeOldDownloads();
+                Timber.d("Online Update service started!");
+                UpdateServiceImpl.getInstance().removeOldDownloads();
                 Intent dailyCheckupIntent = new Intent(getApplicationContext(), OnlineUpdateService.class);
                 dailyCheckupIntent.setAction(OnlineUpdateService.ACTION_AUTO_UPDATE_START);
                 startService(dailyCheckupIntent);
             }
+
             // must exit splash screen
             finish();
         }, SPLASH_SCREEN_SHOW_TIME);
     }
 
-    static public boolean isFirstRun()
-    {
+    static public boolean isFirstRun() {
         return mFirstRun;
     }
 }

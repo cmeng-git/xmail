@@ -432,7 +432,7 @@ public class Account implements BaseAccount, AccountConfig
         Storage storage = preferences.getStorage();
 
         mStoreUri = Base64.decode(storage.getString(mAccountUuid + ".storeUri", null));
-        mLocalStorageProviderId = storage.getString(mAccountUuid + ".localStorageProvider", StorageManager.getInstance(XryptoMail.instance).getDefaultProviderId());
+        mLocalStorageProviderId = storage.getString(mAccountUuid + ".localStorageProvider", StorageManager.getInstance(XryptoMail.mInstance).getDefaultProviderId());
         mTransportUri = Base64.decode(storage.getString(mAccountUuid + ".transportUri", null));
         mDescription = storage.getString(mAccountUuid + ".description", null);
         mAlwaysBcc = storage.getString(mAccountUuid + ".alwaysBcc", mAlwaysBcc);
@@ -1478,13 +1478,13 @@ public class Account implements BaseAccount, AccountConfig
     public LocalStore getLocalStore()
             throws MessagingException
     {
-        return LocalStore.getInstance(this, XryptoMail.instance);
+        return LocalStore.getInstance(this, XryptoMail.mInstance);
     }
 
     public Store getRemoteStore()
             throws MessagingException
     {
-        return RemoteStore.getInstance(XryptoMail.instance, this, Globals.getOAuth2TokenProvider());
+        return RemoteStore.getInstance(XryptoMail.mInstance, this, Globals.getOAuth2TokenProvider());
     }
 
     // It'd be great if this actually went into the store implementation to get
@@ -2222,7 +2222,7 @@ public class Account implements BaseAccount, AccountConfig
     private String getDefaultAccountName()
     {
         String name = null;
-        Account account = Preferences.getPreferences(XryptoMail.instance).getDefaultAccount();
+        Account account = Preferences.getPreferences(XryptoMail.mInstance).getDefaultAccount();
         if (account != null) {
             name = account.getName();
         }

@@ -278,7 +278,7 @@ public class AccountSettings {
             super(defaultValue);
 
             Map<Integer, String> mapping = new HashMap<>();
-            String[] values = XryptoMail.instance.getResources().getStringArray(resId);
+            String[] values = XryptoMail.mInstance.getResources().getStringArray(resId);
             for (String value : values) {
                 int intValue = Integer.parseInt(value);
                 mapping.put(intValue, value);
@@ -315,7 +315,7 @@ public class AccountSettings {
             super(defaultValue);
 
             Map<String, String> mapping = new HashMap<>();
-            String[] values = XryptoMail.instance.getResources().getStringArray(resId);
+            String[] values = XryptoMail.mInstance.getResources().getStringArray(resId);
             for (String value : values) {
                 mapping.put(value, value);
             }
@@ -361,12 +361,12 @@ public class AccountSettings {
 
         @Override
         public String getDefaultValue() {
-            return StorageManager.getInstance(XryptoMail.instance).getDefaultProviderId();
+            return StorageManager.getInstance(XryptoMail.mInstance).getDefaultProviderId();
         }
 
         @Override
         public String fromString(String value) {
-            StorageManager storageManager = StorageManager.getInstance(XryptoMail.instance);
+            StorageManager storageManager = StorageManager.getInstance(XryptoMail.mInstance);
             Map<String, String> providers = storageManager.getAvailableProviders();
             if (providers.containsKey(value)) {
                 return value;

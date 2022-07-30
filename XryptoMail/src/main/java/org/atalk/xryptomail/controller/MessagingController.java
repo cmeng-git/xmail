@@ -2509,7 +2509,7 @@ public class MessagingController
 
             Timber.i("Scanning folder '%s' (%d) for messages to send", account.getOutboxFolderName(), localFolder.getDatabaseId());
 
-            Transport transport = mTransportProvider.getTransport(XryptoMail.instance, account, Globals.getOAuth2TokenProvider());
+            Transport transport = mTransportProvider.getTransport(XryptoMail.mInstance, account, Globals.getOAuth2TokenProvider());
 
             for (LocalMessage message : localMessages) {
                 if (message.isSet(Flag.DELETED)) {

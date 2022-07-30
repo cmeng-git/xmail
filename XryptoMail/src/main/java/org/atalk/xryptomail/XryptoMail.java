@@ -70,7 +70,7 @@ public class XryptoMail extends Application {
     }
 
     public static final String EXTRA_STARTUP = "startup";
-    public static Application instance = null;
+    public static Application mInstance = null;
 
     /**
      * Name of the {@link SharedPreferences} file used to store the last known version of the
@@ -534,7 +534,7 @@ public class XryptoMail extends Application {
         getAppVersion();
 
         super.onCreate();
-        instance = this;
+        mInstance = this;
         Globals.setContext(this);
         Globals.setOAuth2TokenProvider(new XMailOAuth2TokenProvider(this));
         TimberLogImpl.init();
@@ -823,7 +823,7 @@ public class XryptoMail extends Application {
     public static void registerApplicationAware(final ApplicationAware component) {
         synchronized (observers) {
             if (sInitialized) {
-                component.initializeComponent(XryptoMail.instance);
+                component.initializeComponent(mInstance);
             } else if (!observers.contains(component)) {
                 observers.add(component);
             }
@@ -1409,7 +1409,7 @@ public class XryptoMail extends Application {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                Preferences prefs = Preferences.getPreferences(instance);
+                Preferences prefs = Preferences.getPreferences(mInstance);
                 StorageEditor editor = prefs.getStorage().edit();
                 save(editor);
                 editor.commit();
@@ -1425,7 +1425,7 @@ public class XryptoMail extends Application {
      * @return Returns global application <tt>Context</tt>.
      */
     public static Context getGlobalContext() {
-        return instance.getApplicationContext();
+        return mInstance.getApplicationContext();
     }
 
     /**
@@ -1434,7 +1434,7 @@ public class XryptoMail extends Application {
      * @return application <tt>Resources</tt> object.
      */
     public static Resources getAppResources() {
-        return instance.getResources();
+        return mInstance.getResources();
     }
 
     /**
@@ -1459,22 +1459,25 @@ public class XryptoMail extends Application {
     }
 
     public static String getResStringByName(String aString) {
-        String packageName = instance.getPackageName();
-        int resId = instance.getResources().getIdentifier(aString, "string", packageName);
-        return instance.getString(resId);
+        String packageName = mInstance.getPackageName();
+        int resId = mInstance.getResources().getIdentifier(aString, "string", packageName);
+        return mInstance.getString(resId);
     }
 
+    private static Toast toast = null;
     /**
      * Toast show message in UI thread
      *
      * @param message the string message to display.
      */
-    public static void showToastMessage(final String message) {
-        new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(instance, message, Toast.LENGTH_LONG).show());
-    }
-
-    public static void showToastMessage(int id) {
-        showToastMessage(getResString(id));
+    public static void showToastMessage(final String message)
+    {
+        new Handler(Looper.getMainLooper()).post(() -> {
+            if (toast != null)
+                toast.cancel();
+            toast = Toast.makeText(mInstance, message, Toast.LENGTH_LONG);
+            toast.show();
+        });
     }
 
     public static void showToastMessage(int id, Object... arg) {

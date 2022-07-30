@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
-import timber.log.Timber;
 
 public class NotificationController {
     private static final int NOTIFICATION_LED_ON_TIME = 500;

@@ -1,6 +1,12 @@
 XryptoMail Release Notes:
 
 =============================
+Version:		5.0.4
+Upload Date:	07/31/2022
+- Remove android.permission.REQUEST_INSTALL_PACKAGES from release package
+- update all XryptoMail used third party libraries to latest version if allow
+
+=============================
 Version:		5.0.3
 Upload Date:	05/27/2022
 - Update DefaultTrustedSocketFactory, avoid using setHostnameViaReflection#setHostname that causes not such method exception.
