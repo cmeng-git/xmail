@@ -1,6 +1,5 @@
 package org.atalk.xryptomail.activity.compose;
 
-
 import android.annotation.SuppressLint;
 import android.app.*;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import org.atalk.xryptomail.view.HighlightDialogFragment;
 public class PgpSignOnlyDialog extends HighlightDialogFragment
 {
     public static final String ARG_FIRST_TIME = "first_time";
-
 
     public static PgpSignOnlyDialog newInstance(boolean firstTime, @IdRes int showcaseView)
     {

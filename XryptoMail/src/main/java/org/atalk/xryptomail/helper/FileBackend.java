@@ -42,7 +42,7 @@ public class FileBackend {
      */
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
 
-    public static String FP_aMail = "xmail";
+    public static String FP_xMail = "xmail";
     public static String EXPROT_DB = "EXPROT_DB";
 
     public static String MEDIA = "Media";
@@ -205,14 +205,14 @@ public class FileBackend {
      * @return aTalk default directory
      */
     public static File getxMailStore(String subFolder, boolean createNew) {
-        String filePath = FP_aMail;
+        String filePath = FP_xMail;
         if (!TextUtils.isEmpty(subFolder))
             filePath += File.separator + subFolder;
 
         File atalkDLDir
                 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), filePath);
         if (createNew && !atalkDLDir.exists() && !atalkDLDir.mkdirs()) {
-            Timber.e("Could not create atalk folder: %s", atalkDLDir);
+            Timber.e("Could not create xmail folder: %s", atalkDLDir);
         }
         return atalkDLDir;
     }
@@ -222,7 +222,7 @@ public class FileBackend {
      */
     public static File getOutputMediaFile(int type) {
         File appMediaDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        File aMailMediaDir = new File(appMediaDir, FP_aMail);
+        File aMailMediaDir = new File(appMediaDir, FP_xMail);
         if (!aMailMediaDir.exists() && !aMailMediaDir.mkdirs()) {
             Timber.d("Failed to create directory");
             return null;

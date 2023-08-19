@@ -65,7 +65,7 @@
   <string name="accounts_title">Λογαριασμοί</string>
   <string name="folders_title">Φάκελοι</string>
   <string name="advanced">Προχωρημένα</string>
-  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">Σύνθεση</string>
   <string name="compose_title_reply">Απάντηση</string>
   <string name="compose_title_reply_all">Απάντηση σε όλους</string>
@@ -73,11 +73,11 @@
   <string name="compose_title_forward_as_attachment">Προώθηση σαν συνημέννο</string>
   <string name="choose_account_title">Επιλογή Λογαριασμού</string>
   <string name="choose_folder_title">Επιλογή φακέλου</string>
-  <string name="status_loading_account_folder">Έλεγχος <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Ανάγνωση επικεφαλίδων <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_sending_account">Αποστολή <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-  <string name="status_processing_account">Επεξεργασία <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_loading_account_folder">Έλεγχος <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Ανάγνωση επικεφαλίδων <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Αποστολή <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Επεξεργασία <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
   <string name="status_next_poll">Επόμενος έλεγχος στις <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Συγχρονισμός απενεργοποιημένος - Δεν υπάρχει δίκτυο</string>
   <string name="status_no_background">Συγχρονισμός απενεργοποιημένος - καμία δραστηριότητα στο παρασκήνιο</string>
@@ -162,7 +162,7 @@
   <string name="abbrev_megabytes">Mb</string>
   <string name="abbrev_kilobytes">Kb</string>
   <string name="abbrev_bytes">b</string>
-  <string name="account_size_changed">Ο λογαριασμός \'<xliff:g id="account">%1$s</xliff:g>\' συμπυκνώθηκε από <xliff:g id="oldSize">%2$s</xliff:g>    σε <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="account_size_changed">Ο λογαριασμός \'<xliff:g id="account">%1$s</xliff:g>\' συμπυκνώθηκε από <xliff:g id="oldSize">%2$s </xliff:g> σε <xliff:g id="newSize">%3$s</xliff:g></string>
   <string name="compacting_account">Συμπύκνωση λογαριασμού \'<xliff:g id="account">%1$s</xliff:g>\'</string>
   <string name="clearing_account">Καθαρισμός λογαριασμού \'<xliff:g id="account">%1$s</xliff:g>\'</string>
   <string name="recreating_account">Ανακατασκευή λογαριασμού \'<xliff:g id="account">%1$s</xliff:g>\'</string>
@@ -185,7 +185,7 @@
   <string name="notification_certificate_error_text">Ελέγξτε τις ρυθμίσεις του εξυπηρετητή</string>
   <string name="notification_authentication_error_title">Αποτυχία πιστοποίησης</string>
   <string name="notification_authentication_error_text">Αποτυχία πιστοποίησης <xliff:g id="account">%1$s</xliff:g>. Αναβαθμίστε τις ρυθμ,ίσεις του διακομιστή.</string>
-  <string name="notification_bg_sync_ticker">Έλεγχος μηνύματος: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
+  <string name="notification_bg_sync_ticker">Έλεγχος μηνύματος: <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Έλεγχος μηνύματος</string>
   <string name="notification_bg_send_ticker">Αποστολή μηνύματος: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Αποστολή μηνύματος</string>

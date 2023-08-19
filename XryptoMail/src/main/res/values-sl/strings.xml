@@ -64,7 +64,7 @@ Poročila o napakah, predloge za nove funkcije in vprašanja lahko pošljete na
   <string name="accounts_title">Računi</string>
   <string name="folders_title">Mape</string>
   <string name="advanced">Napredno</string>
-  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">Sestavi novo</string>
   <string name="compose_title_reply">Odgovori</string>
   <string name="compose_title_reply_all">Odgovori vsem</string>
@@ -72,11 +72,11 @@ Poročila o napakah, predloge za nove funkcije in vprašanja lahko pošljete na
   <string name="compose_title_forward_as_attachment">Posreduj kot prilogo</string>
   <string name="choose_account_title">Izbor računa</string>
   <string name="choose_folder_title">Izbor mape</string>
-  <string name="status_loading_account_folder">Izpraševanje <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Prejemanje glav <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_sending_account">Pošiljanje <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-  <string name="status_processing_account">Obdelava <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_loading_account_folder">Izpraševanje <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Prejemanje glav <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Pošiljanje <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Obdelava <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
   <string name="status_next_poll">Naslednje izpraševanje <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Usklajevanje je onemogočeno – ni omrežja</string>
   <string name="status_no_background">Usklajevanje je onemogočeno – ni zaznanega delovanja v ozadju</string>
@@ -189,7 +189,7 @@ dodatnih <xliff:g id="messages_to_load">%1$d</xliff:g> sporočil</string>
   <string name="notification_certificate_error_text">Preverite nastavitve strežnika</string>
   <string name="notification_authentication_error_title">Overjanje je spodletelo</string>
   <string name="notification_authentication_error_text">Overjanje je spodletelo za račun <xliff:g id="account">%1$s</xliff:g>. Posodobiti je treba nastavitve strežnika.</string>
-  <string name="notification_bg_sync_ticker">Preverjanje pošte: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
+  <string name="notification_bg_sync_ticker">Preverjanje pošte: <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Preverjanje pošte</string>
   <string name="notification_bg_send_ticker">Pošiljanje pošte: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Pošiljanje pošte</string>

@@ -1,6 +1,5 @@
 package org.atalk.xryptomail.activity;
 
-
 public class Search extends MessageList {
     protected static boolean isActive = false;
 

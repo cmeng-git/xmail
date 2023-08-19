@@ -70,7 +70,6 @@ class PermanentFlagsResponse {
                 }
             }
         }
-
         return new PermanentFlagsResponse(flags, canCreateKeywords);
     }
 

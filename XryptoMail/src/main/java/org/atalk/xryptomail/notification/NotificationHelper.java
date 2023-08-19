@@ -21,6 +21,7 @@ import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -182,5 +183,23 @@ public class NotificationHelper extends ContextWrapper
         i.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
         i.putExtra(Settings.EXTRA_CHANNEL_ID, channel);
         startActivity(i);
+    }
+
+    /**
+     * <a href="https://developer.android.com/about/versions/12/behavior-changes-12#pending-intent-mutability">Behavior changes: Apps targeting Android 12</a>
+     * Android 12 must specify the mutability of each PendingIntent object that your app creates.
+     *
+     * @return Pending Intent Flag based on API
+     */
+    public static int getPendingIntentFlag(boolean isMutable, boolean isUpdate)
+    {
+        int flag = isUpdate ? PendingIntent.FLAG_UPDATE_CURRENT : PendingIntent.FLAG_CANCEL_CURRENT;
+        if (isMutable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            flag |= PendingIntent.FLAG_MUTABLE;
+        }
+        else if (!isMutable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            flag |= PendingIntent.FLAG_IMMUTABLE;
+        }
+        return flag;
     }
 }

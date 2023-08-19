@@ -499,7 +499,7 @@ public class Prefs extends XMPreferenceActivity {
         XryptoMail.setMessageViewFixedWidthFont(mFixedWidth.isChecked());
         XryptoMail.setMessageViewReturnToList(mReturnToList.isChecked());
         XryptoMail.setMessageViewShowNext(mShowNext.isChecked());
-        XryptoMail.setAutofitWidth(mAutofitWidth.isChecked());
+        XryptoMail.setAutoFitWidth(mAutofitWidth.isChecked());
         XryptoMail.setQuietTimeEnabled(mQuietTimeEnabled.isChecked());
 
         boolean[] enabledRefileActions = mVisibleRefileActions.getCheckedItems();

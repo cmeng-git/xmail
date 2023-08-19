@@ -65,7 +65,7 @@ Per favore invia segnalazioni di errori, contribuisci con nuove funzionalità e 
   <string name="accounts_title">Account</string>
   <string name="folders_title">Cartelle</string>
   <string name="advanced">Avanzate</string>
-  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">Componi</string>
   <string name="compose_title_reply">Rispondi</string>
   <string name="compose_title_reply_all">Rispondi a tutti</string>
@@ -73,11 +73,11 @@ Per favore invia segnalazioni di errori, contribuisci con nuove funzionalità e 
   <string name="compose_title_forward_as_attachment">Inoltra come allegato</string>
   <string name="choose_account_title">Scegli account</string>
   <string name="choose_folder_title">Scegli cartella</string>
-  <string name="status_loading_account_folder">Recupero da <xliff:g id="account">%1$s</xliff:g>: <xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Recupero intestazioni <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_sending_account">Invio <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-  <string name="status_processing_account">Elab <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_loading_account_folder">Recupero da <xliff:g id="account">%1$s </xliff:g>: <xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Recupero intestazioni <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Invio <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Elab <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
   <string name="status_next_poll">Prossima verifica <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Sincronizzazione disabilitata - Nessuna rete</string>
   <string name="status_no_background">Sincronizzazione disabilitata - Nessuna attività in background</string>
@@ -186,7 +186,7 @@ Per favore invia segnalazioni di errori, contribuisci con nuove funzionalità e 
   <string name="notification_certificate_error_text">Controlla le impostazioni del server</string>
   <string name="notification_authentication_error_title">Autenticazione non riuscita</string>
   <string name="notification_authentication_error_text">Autenticazione non riuscita per <xliff:g id="account">%1$s</xliff:g>. Aggiorna le impostazioni del server.</string>
-  <string name="notification_bg_sync_ticker">Controllo posta: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
+  <string name="notification_bg_sync_ticker">Controllo posta: <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Controllo posta</string>
   <string name="notification_bg_send_ticker">Invio posta in corso: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Invio posta</string>

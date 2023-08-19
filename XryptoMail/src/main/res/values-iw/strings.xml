@@ -35,17 +35,17 @@
   <string name="accounts_title">חשבונות</string>
   <string name="folders_title">תיקיות</string>
   <string name="advanced">מתקדם</string>
-  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">חבר</string>
   <string name="compose_title_reply">השב</string>
   <string name="compose_title_reply_all">השב לכולם</string>
   <string name="compose_title_forward">העבר</string>
   <string name="choose_folder_title">בחר תיקייה</string>
-  <string name="status_loading_account_folder">דגום <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">מאחזר כותרות <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_sending_account">שולח… <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-  <string name="status_processing_account">מעבד <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_loading_account_folder">דגום <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">מאחזר כותרות <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">שולח… <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">מעבד <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
   <string name="status_next_poll">המדגם הבא <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_syncing_off">הסנכרון מושבת</string>
   <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> נבחרו</string>

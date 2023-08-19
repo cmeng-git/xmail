@@ -132,7 +132,7 @@ some quirks when talking to Microsoft Exchange.
     <string name="folders_title">Folders</string>
     <string name="advanced">Advanced</string>
 
-    <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
+    <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
     <string name="compose_title_compose">Compose</string>
     <string name="compose_title_reply">Reply</string>
     <string name="compose_title_reply_all">Reply all</string>
@@ -141,11 +141,11 @@ some quirks when talking to Microsoft Exchange.
     <string name="choose_account_title">Choose Account</string>
     <string name="choose_folder_title">Choose Folder</string>
 
-    <string name="status_loading_account_folder">Poll <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-    <string name="status_loading_account_folder_headers">Fetching headers <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-    <string name="status_sending_account">Sending <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-    <string name="status_processing_account">Process <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-    <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+    <string name="status_loading_account_folder">Poll <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+    <string name="status_loading_account_folder_headers">Fetching headers <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+    <string name="status_sending_account">Sending <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+    <string name="status_processing_account">Process <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+    <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
 
     <string name="status_next_poll">Next poll <xliff:g id="nexttime">%1$s</xliff:g></string>
     <string name="status_no_network">Sync disabled - No network</string>
@@ -275,7 +275,7 @@ some quirks when talking to Microsoft Exchange.
     <string name="notification_authentication_error_title">Authentication failed</string>
     <string name="notification_authentication_error_text">Authentication failed for <xliff:g id="account">%1$s</xliff:g>. Update your server settings.</string>
 
-    <string name="notification_bg_sync_ticker">Checking mail: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
+    <string name="notification_bg_sync_ticker">Checking mail: <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
     <string name="notification_bg_sync_title">Checking mail</string>
     <string name="notification_bg_send_ticker">Sending mail: <xliff:g id="account">%1$s</xliff:g></string>
     <string name="notification_bg_send_title">Sending mail</string>
@@ -1396,7 +1396,7 @@ some quirks when talking to Microsoft Exchange.
     <string name="ask_for_storage_permission_button">Storage</string>
     <string name="ask_for_remote_control_permission_button">Remote Control</string>
     <string name="ask_for_read_mail_permission_button">Read Message</string>
-    <string name="ask_for_delete_mail_permission_button">Delete Mesaage</string>
+    <string name="ask_for_delete_mail_permission_button">Delete Message</string>
     <string name="ask_for_all_permissions_button">Request all</string>
     <string name="app_info_permissions_button">App Info</string>
     <string name="permission_hint">For application maximum performance, you need to grant XryptoMail permissions to access to the following services. XryptoMail may have unexpected behavior if access to any of the services is denied!</string>

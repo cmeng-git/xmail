@@ -35,17 +35,17 @@
   <string name="accounts_title">Računi</string>
   <string name="folders_title">Mape</string>
   <string name="advanced">Napredno</string>
-  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="mapa">%2$s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="mapa">%2$s </xliff:g></string>
   <string name="compose_title_compose">Sastavi</string>
   <string name="compose_title_reply">Odgovori</string>
   <string name="compose_title_reply_all">Odgovori svima</string>
   <string name="compose_title_forward">Proslijedi</string>
   <string name="choose_folder_title">Odaberite Mapu</string>
-  <string name="status_loading_account_folder">Provjera <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Dobavljanje zaglavlja <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_sending_account">Šaljem <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-  <string name="status_processing_account">Obrađujem <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_loading_account_folder">Provjera <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Dobavljanje zaglavlja <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Šaljem <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Obrađujem <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
   <string name="status_next_poll">Slijedeća provjera <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_syncing_off">Sinhroniziranje je onemogućeno</string>
   <string name="actionbar_selected"><xliff:g id="selection_count">%1$d</xliff:g> odabrano</string>

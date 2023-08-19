@@ -64,7 +64,7 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="accounts_title">Tilit</string>
   <string name="folders_title">Kansiot</string>
   <string name="advanced">Lisäasetukset</string>
-  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">Kirjoita</string>
   <string name="compose_title_reply">Vastaa</string>
   <string name="compose_title_reply_all">Vastaa kaikille</string>
@@ -72,11 +72,11 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="compose_title_forward_as_attachment">Välitä liitteenä</string>
   <string name="choose_account_title">Valitse tili</string>
   <string name="choose_folder_title">Valitse kansio</string>
-  <string name="status_loading_account_folder">Ladataan <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Haetaan otsikkotietoja <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_sending_account">Lähetetään <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-  <string name="status_processing_account">Käsitellään <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_loading_account_folder">Ladataan <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Haetaan otsikkotietoja <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Lähetetään <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Käsitellään <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
   <string name="status_next_poll">Seuraava tarkistus <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Synkronointi ei käytössä - Ei verkkoyhteyttä</string>
   <string name="status_no_background">Synkronointi ei käytössä - Ei tausta-aktiivisuutta</string>

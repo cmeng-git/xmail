@@ -30,12 +30,12 @@ import android.database.Cursor;
 import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 
 import org.atalk.xryptomail.BuildConfig;
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.helper.DialogActivity;
+import org.atalk.xryptomail.helper.FileBackend;
 import org.atalk.xryptomail.helper.FilePathHelper;
 
 import java.io.File;
@@ -50,21 +50,34 @@ import java.util.Properties;
 import timber.log.Timber;
 
 /**
- * Android update service implementation. It checks for update and schedules .apk download using <tt>DownloadManager</tt>.
+ * xmail update service implementation. It checks for update and schedules .apk download using android DownloadManager.
+ * It is only activated for the debug version. Android initials the auto-update from PlayStore for release version.
  *
  * @author Eng Chong Meng
  */
 public class UpdateServiceImpl {
-    // Default update link
-    private static final String[] updateLinks = {"https://atalk.sytes.net"};
+    // Default update link; path is case-sensitive.
+    private static final String[] updateLinks = {
+            // "https://raw.githubusercontent.com/cmeng-git/xmail/master",
+            "https://atalk.sytes.net"
+    };
+
+    // "https://raw.githubusercontent.com/cmeng-git/xmail/master/releases/xryptomail-android/versionupdate.properties
+    // path is case-sensitive
+    private static final String filePath = "/releases/xryptomail-android/versionupdate.properties";
+
+    // path is case-sensitive
+    private static final String fileNameApk = String.format("/XryptoMail-%s.apk", BuildConfig.BUILD_TYPE);
 
     /**
      * Apk mime type constant.
      */
     private static final String APK_MIME_TYPE = "application/vnd.android.package-archive";
 
-    // path is case-sensitive
-    private static final String filePath = "/releases/xryptomail-android/versionupdate.properties";
+    /**
+     * The download link for the installed application
+     */
+    private String downloadLink = null;
 
     /**
      * Current installed version string / version Code
@@ -82,19 +95,15 @@ public class UpdateServiceImpl {
 
     /* DownloadManager Broadcast Receiver Handler */
     private DownloadReceiver downloadReceiver = null;
+    private HttpURLConnection mHttpConnection;
 
     /**
-     * The download link
-     */
-    private String downloadLink;
-
-    /**
-     * <tt>SharedPreferences</tt> used to store download ids.
+     * <code>SharedPreferences</code> used to store download ids.
      */
     private SharedPreferences store;
 
     /**
-     * Name of <tt>SharedPreferences</tt> entry used to store old download ids. Ids are stored in
+     * Name of <code>SharedPreferences</code> entry used to store old download ids. Ids are stored in
      * single string separated by ",".
      */
     private static final String ENTRY_NAME = "apk_ids";
@@ -109,10 +118,10 @@ public class UpdateServiceImpl {
     }
 
     /**
-     * Checks for updates and take necessary action.
+     * Checks for updates and notify user of any new version, and take necessary action.
      *
-     * @param notifyAboutNewestVersion <tt>true</tt> if the user is to be notified if they have the
-     * newest version already; otherwise, <tt>false</tt>
+     * @param notifyAboutNewestVersion <code>true</code> if the user is to be notified if they have the
+     * newest version already; otherwise, <code>false</code>
      */
     public void checkForUpdates(boolean notifyAboutNewestVersion) {
         // cmeng: reverse the logic to !isLatestVersion() for testing
@@ -120,45 +129,55 @@ public class UpdateServiceImpl {
         Timber.i("Is latest: %s\nCurrent version: %s\nLatest version: %s\nDownload link: %s",
                 mIsLatest, currentVersion, latestVersion, downloadLink);
 
-        if (!mIsLatest && (downloadLink != null)) {
-            if (checkLastDLFileAction() < DownloadManager.ERROR_UNKNOWN)
-                return;
+        if ((downloadLink != null)) {
+            if (!mIsLatest) {
+                if (checkLastDLFileAction() < DownloadManager.ERROR_UNKNOWN)
+                    return;
 
-            DialogActivity.showConfirmDialog(XryptoMail.getGlobalContext(),
-                    R.string.updatechecker_DIALOG_TITLE,
-                    R.string.updatechecker_DIALOG_MESSAGE,
-                    R.string.updatechecker_BUTTON_DOWNLOAD,
-                    new DialogActivity.DialogListener() {
-                        @Override
-                        public boolean onConfirmClicked(DialogActivity dialog) {
-                            downloadApk();
-                            return true;
-                        }
+                DialogActivity.showConfirmDialog(XryptoMail.getGlobalContext(),
+                        R.string.updatechecker_DIALOG_TITLE,
+                        R.string.updatechecker_DIALOG_MESSAGE,
+                        R.string.updatechecker_BUTTON_DOWNLOAD,
+                        new DialogActivity.DialogListener() {
+                            @Override
+                            public boolean onConfirmClicked(DialogActivity dialog) {
+                                if (XryptoMail.hasWriteStoragePermission(XryptoMail.mInstance, true)) {
+                                    downloadApk();
+                                }
+                                return true;
+                            }
 
-                        @Override
-                        public void onDialogCancelled(DialogActivity dialog) {
-                        }
-                    }, XryptoMail.getResString(R.string.app_name), latestVersion, latestVersionCode
-            );
-        } else if (notifyAboutNewestVersion) {
-            // Notify that running version is up to date
-            DialogActivity.showConfirmDialog(XryptoMail.getGlobalContext(),
-                    R.string.updatechecker_DIALOG_NOUPDATE_TITLE,
-                    R.string.updatechecker_DIALOG_NOUPDATE,
-                    R.string.updatechecker_BUTTON_DOWNLOAD,
-                    new DialogActivity.DialogListener() {
-                        @Override
-                        public boolean onConfirmClicked(DialogActivity dialog) {
-                            if (checkLastDLFileAction() >= DownloadManager.ERROR_UNKNOWN)
-                                downloadApk();
-                            return true;
-                        }
+                            @Override
+                            public void onDialogCancelled(DialogActivity dialog) {
+                            }
+                        }, XryptoMail.getResString(R.string.app_name), latestVersion, latestVersionCode
+                );
+            }
+            else if (notifyAboutNewestVersion) {
+                // Notify that running version is up to date
+                DialogActivity.showConfirmDialog(XryptoMail.getGlobalContext(),
+                        R.string.updatechecker_DIALOG_NOUPDATE_TITLE,
+                        R.string.updatechecker_DIALOG_NOUPDATE,
+                        R.string.updatechecker_BUTTON_DOWNLOAD,
+                        new DialogActivity.DialogListener() {
+                            @Override
+                            public boolean onConfirmClicked(DialogActivity dialog) {
+                                if (XryptoMail.hasWriteStoragePermission(XryptoMail.getGlobalContext(), true)) {
+                                    if (checkLastDLFileAction() >= DownloadManager.ERROR_UNKNOWN)
+                                        downloadApk();
+                                }
+                                return true;
+                            }
 
-                        @Override
-                        public void onDialogCancelled(DialogActivity dialog) {
-                        }
-                    }, currentVersion, currentVersionCode
-            );
+                            @Override
+                            public void onDialogCancelled(DialogActivity dialog) {
+                            }
+                        }, currentVersion, currentVersionCode
+                );
+            }
+        }
+        else {
+            XryptoMail.showToastMessage(R.string.updatechecker_DIALOG_NOUPDATE_TITLE);
         }
     }
 
@@ -184,13 +203,16 @@ public class UpdateServiceImpl {
                 if (isValidApkVersion(fileUri, latestVersionCode)) {
                     askInstallDownloadedApk(fileUri);
                 }
-            } else if (lastJobStatus != DownloadManager.STATUS_FAILED) {
+            }
+            else if (lastJobStatus != DownloadManager.STATUS_FAILED) {
                 // Download is in progress or scheduled for retry
                 DialogActivity.showDialog(XryptoMail.getGlobalContext(),
                         R.string.updatechecker_DIALOG_IN_PROGRESS_TITLE,
                         R.string.updatechecker_DIALOG_IN_PROGRESS);
-            } else {
-                // Download is in progress or scheduled for retry
+            }
+            else {
+                // Download id return failed status, remove failed id and retry
+                removeOldDownloads();
                 DialogActivity.showDialog(XryptoMail.getGlobalContext(),
                         R.string.updatechecker_DIALOG_TITLE, R.string.updatechecker_DOWNLOAD_FAILED);
             }
@@ -207,7 +229,7 @@ public class UpdateServiceImpl {
         DialogActivity.showConfirmDialog(XryptoMail.getGlobalContext(),
                 R.string.updatechecker_DIALOG_DOWNLOADED_TITLE,
                 R.string.updatechecker_DIALOG_DOWNLOADED,
-                mIsLatest ? R.string.updatechecker_BUTTON_REINSTALL : R.string.updatechecker_BUTTON_INSTALL ,
+                mIsLatest ? R.string.updatechecker_BUTTON_REINSTALL : R.string.updatechecker_BUTTON_INSTALL,
                 new DialogActivity.DialogListener() {
                     @Override
                     public boolean onConfirmClicked(DialogActivity dialog) {
@@ -222,7 +244,6 @@ public class UpdateServiceImpl {
                         intent.setDataAndType(fileUri, APK_MIME_TYPE);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
                         context.startActivity(intent);
                         return true;
                     }
@@ -234,9 +255,10 @@ public class UpdateServiceImpl {
     }
 
     /**
-     * Queries the <tt>DownloadManager</tt> for the status of download job identified by given <tt>id</tt>.
+     * Queries the <code>DownloadManager</code> for the status of download job identified by given <code>id</code>.
      *
      * @param id download identifier which status will be returned.
+     *
      * @return download status of the job identified by given id. If given job is not found
      * {@link DownloadManager#STATUS_FAILED} will be returned.
      */
@@ -270,7 +292,8 @@ public class UpdateServiceImpl {
         DownloadManager.Request request = new DownloadManager.Request(uri);
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setMimeType(APK_MIME_TYPE);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+        File dnFile = new File(FileBackend.getxMailStore(FileBackend.TMP, true), fileName);
+        request.setDestinationUri(Uri.fromFile(dnFile));
 
         DownloadManager downloadManager = XryptoMail.getDownloadManager();
         long jobId = downloadManager.enqueue(request);
@@ -325,7 +348,6 @@ public class UpdateServiceImpl {
      */
     public void removeOldDownloads() {
         List<Long> apkIds = getOldDownloads();
-
         DownloadManager downloadManager = XryptoMail.getDownloadManager();
         for (long id : apkIds) {
             Timber.d("Removing .apk for id %s", id);
@@ -339,6 +361,7 @@ public class UpdateServiceImpl {
      *
      * @param fileUri apk Uri
      * @param versionCode use the given versionCode to check against the apk versionCode
+     *
      * @return true if apkFile has the specified versionCode
      */
     private boolean isValidApkVersion(Uri fileUri, long versionCode) {
@@ -380,59 +403,68 @@ public class UpdateServiceImpl {
     /**
      * Determines whether we are currently running the latest version.
      *
-     * @return <tt>true</tt> if current running application is the latest version; otherwise, <tt>false</tt>
+     * @return <code>true</code> if current running application is the latest version; otherwise, <code>false</code>
      */
     public boolean isLatestVersion() {
-        Properties mProperties = null;
-        String errMsg = "";
 
         VersionService versionService = VersionService.getInstance();
         currentVersion = versionService.getCurrentVersionName();
         currentVersionCode = versionService.getCurrentVersionCode();
 
-        if (updateLinks.length == 0) {
-            Timber.d("Updates are disabled, emulates latest version.");
-        } else {
-            TrafficStats.setThreadStatsTag(XryptoMail.THREAD_ID);
-            for (String aLink : updateLinks) {
-                String urlStr = aLink.trim() + filePath;
-                try {
-                    URL mUrl = new URL(urlStr);
-                    HttpURLConnection httpConnection = (HttpURLConnection) mUrl.openConnection();
-                    httpConnection.setRequestMethod("GET");
-                    httpConnection.setRequestProperty("Content-length", "0");
-                    httpConnection.setUseCaches(false);
-                    httpConnection.setAllowUserInteraction(false);
-                    httpConnection.setConnectTimeout(100000);
-                    httpConnection.setReadTimeout(100000);
+        TrafficStats.setThreadStatsTag(XryptoMail.THREAD_ID);
+        for (String aLink : updateLinks) {
+            String urlStr = aLink.trim() + filePath;
+            try {
+                if (isValidateLink(urlStr)) {
+                    InputStream in = mHttpConnection.getInputStream();
+                    Properties mProperties = new Properties();
+                    mProperties.load(in);
 
-                    httpConnection.connect();
-                    int responseCode = httpConnection.getResponseCode();
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        InputStream in = httpConnection.getInputStream();
-                        mProperties = new Properties();
-                        mProperties.load(in);
-                        break;
-                    }
-                } catch (IOException e) {
-                    errMsg = e.getMessage();
-                }
-            }
+                    latestVersion = mProperties.getProperty("last_version");
+                    latestVersionCode = Long.parseLong(mProperties.getProperty("last_version_code"));
 
-            if (mProperties != null) {
-                latestVersion = mProperties.getProperty("last_version");
-                latestVersionCode = Long.parseLong(mProperties.getProperty("last_version_code"));
-                if (BuildConfig.DEBUG) {
-                    downloadLink = mProperties.getProperty("download_link-debug");
-                } else {
-                    downloadLink = mProperties.getProperty("download_link");
+                    String aLinkPrefix = urlStr.substring(0, urlStr.lastIndexOf("/"));
+                    downloadLink = aLinkPrefix + fileNameApk;
+
+                    // return true if current running application is already the latest
+                    return (currentVersionCode >= latestVersionCode);
                 }
-                // return true is current running application is already the latest
-                return (currentVersionCode >= latestVersionCode);
-            } else {
-                Timber.w("Could not retrieve version.properties for checking: %s", errMsg);
+            } catch (IOException e) {
+                Timber.w("Could not retrieve version.properties for checking: %s", e.getMessage());
             }
         }
+        // return true if all failed to force update.
         return true;
+    }
+
+    /**
+     * Check if the given link is accessible.
+     *
+     * @param link the link to check
+     *
+     * @return true if link is accessible
+     */
+    private boolean isValidateLink(String link) {
+        try {
+            URL mUrl = new URL(link);
+            mHttpConnection = (HttpURLConnection) mUrl.openConnection();
+            mHttpConnection.setRequestMethod("GET");
+            mHttpConnection.setRequestProperty("Content-length", "0");
+            mHttpConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+            mHttpConnection.setUseCaches(false);
+            mHttpConnection.setAllowUserInteraction(false);
+            mHttpConnection.setConnectTimeout(100000);
+            mHttpConnection.setReadTimeout(100000);
+
+            mHttpConnection.connect();
+            int responseCode = mHttpConnection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                return true;
+            }
+        } catch (IOException e) {
+            Timber.d("Invalid url: %s", e.getMessage());
+            return false;
+        }
+        return false;
     }
 }

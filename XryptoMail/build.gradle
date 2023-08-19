@@ -21,14 +21,14 @@ dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
 
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
-    implementation "androidx.annotation:annotation:1.4.0"
+    implementation "androidx.annotation:annotation:1.6.0"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "com.google.android.material:material:1.6.1"
+    implementation "com.google.android.material:material:1.9.0"
 
     implementation project(':plugins:openpgp-api-lib:openpgp-api')
     // implementation 'org.sufficientlysecure:openpgp-api:11.0'
 
-    implementation 'commons-io:commons-io:2.10.0'
+    implementation 'commons-io:commons-io:2.11.0'
     implementation 'com.beetstra.jutf7:jutf7:1.0.0'
     implementation 'com.github.amlcurran.showcaseview:library:5.4.1'
 
@@ -36,7 +36,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:3.8.0'
 
     implementation 'com.jakewharton:butterknife:10.2.3'
-    implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.9.1'
+    implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.9.8'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 
     implementation 'com.jakewharton.timber:timber:5.0.1'
@@ -62,11 +62,11 @@ dependencies {
     implementation 'net.jcip:jcip-annotations:1.0'
 
 
-    implementation 'org.apache.james:apache-mime4j-core:0.8.6'
+    implementation 'org.apache.james:apache-mime4j-core:0.8.7'
     implementation 'org.apache.james:apache-mime4j-dom:0.8.6'
     compileOnly "org.apache.httpcomponents:httpclient:4.5.6"
     implementation 'org.apache.httpcomponents.client5:httpclient5:5.1.3'
-    implementation 'org.apache.httpcomponents:httpcore:4.4.15'
+    implementation 'org.apache.httpcomponents:httpcore:4.4.16'
 
     // implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21"
     implementation 'org.jsoup:jsoup:1.15.1'
@@ -92,8 +92,8 @@ android {
         applicationId "org.atalk.xryptomail"
         testApplicationId "org.atalk.xryptomail.tests"
 
-        versionCode 19040
-        versionName '5.0.4'
+        versionCode 19050
+        versionName '5.0.5'
 
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.compileSdkVersion

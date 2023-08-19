@@ -1,5 +1,7 @@
 package org.atalk.xryptomail.provider;
 
+import static org.atalk.xryptomail.notification.NotificationHelper.getPendingIntentFlag;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -80,8 +82,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider
         clickIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, clickIntent,
-                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT
-                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT);
+                getPendingIntentFlag(false, false));
 
         remoteViews.setOnClickPendingIntent(R.id.unread_widget_layout, pendingIntent);
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);

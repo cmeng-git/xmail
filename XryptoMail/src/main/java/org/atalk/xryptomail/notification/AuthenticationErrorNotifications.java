@@ -15,6 +15,7 @@ import org.atalk.xryptomail.activity.setup.AccountSetupActivity;
 
 import static org.atalk.xryptomail.notification.NotificationController.NOTIFICATION_LED_BLINK_FAST;
 import static org.atalk.xryptomail.notification.NotificationController.NOTIFICATION_LED_FAILURE_COLOR;
+import static org.atalk.xryptomail.notification.NotificationHelper.getPendingIntentFlag;
 
 class AuthenticationErrorNotifications {
     private final NotificationController controller;
@@ -62,8 +63,7 @@ class AuthenticationErrorNotifications {
                 AccountSetupActivity.intentActionEditOutgoingSettings(context, account);
 
         return PendingIntent.getActivity(context, account.getAccountNumber(), editServerSettingsIntent,
-                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT
-                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                getPendingIntentFlag(false, true));
     }
 
     private NotificationManagerCompat getNotificationManager() {

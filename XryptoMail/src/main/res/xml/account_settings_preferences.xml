@@ -21,7 +21,6 @@
   Also note that every sub-PreferenceScreen needs an "android:key" parameter so the correct screen
   can be displayed after the device has been rotated.
 -->
-
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="main">
 

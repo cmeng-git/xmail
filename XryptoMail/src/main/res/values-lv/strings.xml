@@ -64,17 +64,17 @@ Lūdzu, iesniedziet kļūdu ziņojumus, ierosiniet jaunas iespējas un uzdodiet 
   <string name="accounts_title">Konti</string>
   <string name="folders_title">Mapes</string>
   <string name="advanced">Detalizētāk</string>
-  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">Rakstīt vēstuli</string>
   <string name="compose_title_reply">Atbildēt</string>
   <string name="compose_title_reply_all">Atbildēt visiem</string>
   <string name="compose_title_forward">Pārsūtīt</string>
   <string name="choose_folder_title">Izvēlēties mapi</string>
-  <string name="status_loading_account_folder">Pārbauda <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Saņem vēstuļu papildinformāciju <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_sending_account">Sūta <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-  <string name="status_processing_account">Proc <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_loading_account_folder">Pārbauda <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Saņem vēstuļu papildinformāciju <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Sūta <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Proc <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
   <string name="status_next_poll">Nākošā pārbaude <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Sinhronizācija atslēgta - tīkls nav pieejams</string>
   <string name="status_no_background">Sinhronizācija atslēgta - fonā nav darbību</string>
@@ -184,7 +184,7 @@ pat <xliff:g id="messages_to_load">%1$d</xliff:g> vairāk</string>
   <string name="notification_certificate_error_text">Pārbaudiet sava servera iestatījumus</string>
   <string name="notification_authentication_error_title">Identitātes pārbaude neizdevās</string>
   <string name="notification_authentication_error_text">Identifikācijas pārbaude kontam <xliff:g id="account">%1$s</xliff:g> neizdevās. Atjaunojiet servera iestatījumus!</string>
-  <string name="notification_bg_sync_ticker">Pārbauda pastu: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
+  <string name="notification_bg_sync_ticker">Pārbauda pastu: <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Pārbauda pastu</string>
   <string name="notification_bg_send_ticker">Sūta pastu: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Sūta pastu</string>

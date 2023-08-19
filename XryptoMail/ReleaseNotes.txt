@@ -1,4 +1,12 @@
 XryptoMail Release Notes:
+=============================
+Version:		5.0.5
+Upload Date:	08/19/2023
+- Built target for Android 13.0 (Tiramisu) or API-33
+- Update all XryptoMail third party libraries used to latest version if allowed
+- Fix UpdateServiceImpl to correctly define the path for versionupdate.properties, and auto generate the corresponding apk filename for download
+- Change downloaded apk path to ./xmail/tmp to auto create a new apk filename e.g. XryptoMail-debug-1.apk if exist;
+  the FilePathHelper#getFilePathWithCreate() will keep old apk file if exit-
 
 =============================
 Version:		5.0.4

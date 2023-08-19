@@ -30,8 +30,7 @@ public class ShutdownReceiver extends BroadcastReceiver {
             /*
              * TODO invoke proper shutdown methods (stop any running thread)
              *
-             * 20101111: this can't be done now as we don't have proper
-             * startup/shutdown sequences
+             * 20101111: this can't be done now as we don't have proper startup/shutdown sequences
              */
         }
     }

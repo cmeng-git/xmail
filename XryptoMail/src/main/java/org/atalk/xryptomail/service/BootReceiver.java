@@ -1,6 +1,8 @@
 
 package org.atalk.xryptomail.service;
 
+import static org.atalk.xryptomail.notification.NotificationHelper.getPendingIntentFlag;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -108,8 +110,7 @@ public class BootReceiver extends CoreReceiver
         Uri uri = Uri.parse("action://" + alarmedAction);
         i.setData(uri);
         return PendingIntent.getBroadcast(context, 0, i,
-                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT
-                : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                getPendingIntentFlag(false, true));
     }
 
     public static void scheduleIntent(Context context, long atTime, Intent alarmedIntent)
@@ -151,7 +152,6 @@ public class BootReceiver extends CoreReceiver
                 // we want to match all intents
                 return true;
             }
-        }, Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT
-                : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT));
-    }
+        }, getPendingIntentFlag(false, true)));
+   }
 }

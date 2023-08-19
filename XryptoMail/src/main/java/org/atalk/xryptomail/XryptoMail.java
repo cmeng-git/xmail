@@ -1,5 +1,7 @@
 package org.atalk.xryptomail;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Application;
 import android.app.DownloadManager;
 import android.content.ComponentName;
@@ -13,11 +15,14 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.StrictMode;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
 
 import org.atalk.xryptomail.Account.SortType;
 import org.atalk.xryptomail.account.XMailOAuth2TokenProvider;
@@ -52,6 +57,8 @@ import java.util.concurrent.SynchronousQueue;
 import timber.log.Timber;
 
 public class XryptoMail extends Application {
+    public static final int PRC_WRITE_EXTERNAL_STORAGE = 2003;
+
     public static String mVersion;
 
     /**
@@ -901,8 +908,8 @@ public class XryptoMail extends Application {
         return backgroundOps != oldBackgroundOps;
     }
 
-    public static boolean setBackgroundOps(String nbackgroundOps) {
-        return setBackgroundOps(BACKGROUND_OPS.valueOf(nbackgroundOps));
+    public static boolean setBackgroundOps(String backgroundOps) {
+        return setBackgroundOps(BACKGROUND_OPS.valueOf(backgroundOps));
     }
 
     public static boolean gesturesEnabled() {
@@ -933,8 +940,8 @@ public class XryptoMail extends Application {
         return mAutofitWidth;
     }
 
-    public static void setAutofitWidth(boolean autofitWidth) {
-        mAutofitWidth = autofitWidth;
+    public static void setAutoFitWidth(boolean autoFitWidth) {
+        mAutofitWidth = autoFitWidth;
     }
 
     public static boolean getQuietTimeEnabled() {
@@ -1458,12 +1465,6 @@ public class XryptoMail extends Application {
         return getAppResources().getString(id, arg);
     }
 
-    public static String getResStringByName(String aString) {
-        String packageName = mInstance.getPackageName();
-        int resId = mInstance.getResources().getIdentifier(aString, "string", packageName);
-        return mInstance.getString(resId);
-    }
-
     private static Toast toast = null;
     /**
      * Toast show message in UI thread
@@ -1491,5 +1492,43 @@ public class XryptoMail extends Application {
      */
     public static DownloadManager getDownloadManager() {
         return (DownloadManager) getGlobalContext().getSystemService(Context.DOWNLOAD_SERVICE);
+    }
+
+    // =========== Runtime permission handlers ==========
+
+    /**
+     * Check the WRITE_EXTERNAL_STORAGE state; proceed to request for permission if requestPermission == true.
+     * Require to support WRITE_EXTERNAL_STORAGE pending aTalk installed API version.
+     *
+     * @param callBack the requester activity to receive onRequestPermissionsResult()
+     * @param requestPermission Proceed to request for the permission if was denied; check only if false
+     *
+     * @return the current WRITE_EXTERNAL_STORAGE permission state
+     */
+    public static boolean hasWriteStoragePermission(Context callBack, boolean requestPermission) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return true;
+        }
+        return hasPermission((Activity) callBack, requestPermission, PRC_WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    public static boolean hasPermission(Activity callBack, boolean requestPermission, int requestCode, String permission) {
+        // Timber.d(new Exception(),"Callback: %s => %s (%s)", callBack, permission, requestPermission);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Do not use getInstance() as mInstances may be empty
+            if (ActivityCompat.checkSelfPermission(XryptoMail.getGlobalContext(), permission) != PackageManager.PERMISSION_GRANTED) {
+                if (requestPermission && (callBack != null)) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(callBack, permission)) {
+                        ActivityCompat.requestPermissions(callBack, new String[]{permission}, requestCode);
+                    }
+                    else {
+                        showToastMessage(R.string.storage_permission_denied_dialog_feedback);
+                    }
+                }
+                return false;
+            }
+        }
+        return true;
     }
 }

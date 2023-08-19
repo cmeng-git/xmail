@@ -65,17 +65,17 @@ XryptoMail Mail — це вільний клієнт електронної по
   <string name="accounts_title">Облікові записи</string>
   <string name="folders_title">Теки</string>
   <string name="advanced">Додатково</string>
-  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">Написати новий лист</string>
   <string name="compose_title_reply">Відповісти</string>
   <string name="compose_title_reply_all">Відповісти всім</string>
   <string name="compose_title_forward">Переслати</string>
   <string name="choose_folder_title">Вибрати теку</string>
-  <string name="status_loading_account_folder">Запит <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Отримання заголовків <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_sending_account">Надсилання <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-  <string name="status_processing_account">Опрацювання <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_loading_account_folder">Запит <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Отримання заголовків <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Надсилання <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Опрацювання <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
   <string name="status_next_poll">Наступний запит <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Синхронізацію відключено - немає зв\'язку</string>
   <string name="status_syncing_blocked">Синхронізацію заблоковано</string>
@@ -182,7 +182,7 @@ XryptoMail Mail — це вільний клієнт електронної по
   <string name="notification_certificate_error_text">Перевірте налаштування вашого серверу</string>
   <string name="notification_authentication_error_title">Помилка автентифікації</string>
   <string name="notification_authentication_error_text">Помилка автентифікації для <xliff:g id="account">%1$s</xliff:g>. Змініть налаштування сервера в обліковому записі.</string>
-  <string name="notification_bg_sync_ticker">Перевірка пошти: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
+  <string name="notification_bg_sync_ticker">Перевірка пошти: <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Перевірка пошти</string>
   <string name="notification_bg_send_ticker">Надсилання пошти: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Надсилання пошти</string>

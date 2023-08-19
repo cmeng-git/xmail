@@ -65,7 +65,7 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="accounts_title">Akun</string>
   <string name="folders_title">Folder</string>
   <string name="advanced">Lanjutan</string>
-  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">Menyusun</string>
   <string name="compose_title_reply">Balas</string>
   <string name="compose_title_reply_all">Balas semua</string>
@@ -73,11 +73,11 @@ https://github.com/k9mail/k-9/<a href="https://github.com/k9mail/k-9/">.
   <string name="compose_title_forward_as_attachment">Teruskan sebagai Lampiran</string>
   <string name="choose_account_title">Pilih akun</string>
   <string name="choose_folder_title">Pilih Folder</string>
-  <string name="status_loading_account_folder">Menarik <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Mengunduh tajuk <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_sending_account">Mengirimkan <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-  <string name="status_processing_account">Memproses <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_loading_account_folder">Menarik <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Mengunduh tajuk <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Mengirimkan <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Memproses <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
   <string name="status_next_poll">Penarikan berikutnya <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Sinkronisasi di non fungsikan - Tidak ada jaringan</string>
   <string name="status_no_background">Sinkronisasi di non fungsikan - Tidak ada aktivitas di belakang</string>

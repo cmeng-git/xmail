@@ -8,6 +8,11 @@
      They are automatically updated with "ant bump-version".
 -->
 <changelog>
+    <release version="5.0.5 (08/19/2023)" versioncode="19050">
+        <change>Built target for Android 13.0 (Tiramisu) or API-33</change>
+        <change>Update all XryptoMail third party libraries used to latest version if allowed</change>
+    </release>
+
     <release version="5.0.4 (07/31/2022)" versioncode="19040">
         <change>Remove android.permission.REQUEST_INSTALL_PACKAGES from playstore release</change>
         <change>update all XryptoMail third party libraries used to latest version if allowed</change>
@@ -18,7 +23,7 @@
         <change>Realign XryptoMail OS support to android API 21-32. Update source to compliance with OS</change>
         <change>Fix application icon badge number for android-O and above</change>
         <change>Must check for Socket.isConnected is false before making connection; else exception is thrown</change>
-        <change>update all XryptoMail third party libraries used to latest version if allowed</change>
+        <change>Update all XryptoMail third party libraries used to latest version if allowed</change>
         <change>Bug fixes and other enhancements</change>
     </release>
 

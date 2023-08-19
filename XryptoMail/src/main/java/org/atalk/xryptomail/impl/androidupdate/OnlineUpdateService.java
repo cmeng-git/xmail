@@ -17,23 +17,25 @@
 
 package org.atalk.xryptomail.impl.androidupdate;
 
+import static org.atalk.xryptomail.notification.NotificationHelper.getPendingIntentFlag;
+
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
 import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.notification.NotificationHelper;
 
 import java.util.Calendar;
 
 /**
- * Online Update Service started on first XryptoMail launched. It is set to check for an update every 24hours
+ * Online Update Service started on first XryptoMail launched. It is set to check for update every 24hours
  *
  * @author Eng Chong Meng
  */
@@ -99,14 +101,14 @@ public class OnlineUpdateService extends IntentService {
             nBuilder.setWhen(System.currentTimeMillis());
             nBuilder.setAutoCancel(true);
             nBuilder.setTicker(msgString);
-            nBuilder.setContentTitle(getString(R.string.app_name));
+            // Use HymnsApp.getResString to get locale string
+            nBuilder.setContentTitle(XryptoMail.getResString(R.string.app_name));
             nBuilder.setContentText(msgString);
 
-            Intent intent = new Intent(this.getApplicationContext(), OnlineUpdateService.class);
+            Intent intent = new Intent(getApplicationContext(), OnlineUpdateService.class);
             intent.setAction(ACTION_UPDATE_AVAILABLE);
             PendingIntent pending = PendingIntent.getService(this, 0, intent,
-                    Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT
-                            : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                    getPendingIntentFlag(false, true));
             nBuilder.setContentIntent(pending);
             mNotificationMgr.notify(UPDATE_AVAIL_TAG, UPDATE_AVAIL_NOTIFY_ID, nBuilder.build());
         }
@@ -118,8 +120,7 @@ public class OnlineUpdateService extends IntentService {
         Intent intent = new Intent(this.getApplicationContext(), OnlineUpdateService.class);
         intent.setAction(ACTION_AUTO_UPDATE_APP);
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent,
-                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT
-                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                getPendingIntentFlag(false, true));
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
         cal.add(Calendar.SECOND, nextAlarmTime);
@@ -132,8 +133,7 @@ public class OnlineUpdateService extends IntentService {
         Intent intent = new Intent(this.getApplicationContext(), OnlineUpdateService.class);
         intent.setAction(ACTION_AUTO_UPDATE_APP);
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent,
-                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT
-                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                getPendingIntentFlag(false, true));
         alarmManager.cancel(pendingIntent);
     }
 }

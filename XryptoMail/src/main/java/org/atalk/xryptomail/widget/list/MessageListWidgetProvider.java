@@ -1,5 +1,7 @@
 package org.atalk.xryptomail.widget.list;
 
+import static org.atalk.xryptomail.notification.NotificationHelper.getPendingIntentFlag;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -73,8 +75,7 @@ public class MessageListWidgetProvider extends AppWidgetProvider {
         intent.setAction(Intent.ACTION_VIEW);
 
         return PendingIntent.getActivity(context, 0, intent,
-                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT
-                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                getPendingIntentFlag(false, true));
     }
 
     private PendingIntent composeActionPendingIntent(Context context) {
@@ -82,7 +83,6 @@ public class MessageListWidgetProvider extends AppWidgetProvider {
         intent.setAction(MessageCompose.ACTION_COMPOSE);
 
         return PendingIntent.getActivity(context, 0, intent,
-                Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT
-                        : PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                getPendingIntentFlag(false, true));
     }
 }

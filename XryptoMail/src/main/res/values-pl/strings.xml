@@ -65,18 +65,18 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="accounts_title">Konta</string>
   <string name="folders_title">Foldery</string>
   <string name="advanced">Zaawansowane</string>
-  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">Nowa wiadomość</string>
   <string name="compose_title_reply">Odpowiedz</string>
   <string name="compose_title_reply_all">Odpowiedz wszystkim</string>
   <string name="compose_title_forward">Przekaż</string>
   <string name="choose_account_title">Wybierz konto</string>
   <string name="choose_folder_title">Wybierz folder</string>
-  <string name="status_loading_account_folder">Sprawdzam <xliff:g id="account">%1$s</xliff:g>: <xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Nagłówki: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_sending_account">Wysyłam: <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-  <string name="status_processing_account">Przetwarzam: <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_loading_account_folder">Sprawdzam <xliff:g id="account">%1$s </xliff:g>: <xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Nagłówki: <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Wysyłam: <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Przetwarzam: <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
   <string name="status_next_poll">Sprawdzę <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Synchronizacja wyłączona - Brak sieci</string>
   <string name="status_no_background">Synchronizacja wyłączona - Wyłączono ssynchronizację w tle</string>

@@ -6,7 +6,6 @@ import android.app.Dialog;
 
 public class ConfirmationDialog
 {
-
     /**
      * Creates a customized confirmation dialog ({@link AlertDialog}).
      *

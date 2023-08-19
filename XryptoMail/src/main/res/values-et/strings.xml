@@ -35,18 +35,18 @@
   <string name="accounts_title">Kontod</string>
   <string name="folders_title">Kaustad</string>
   <string name="advanced">Täpsemalt</string>
-  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">Koosta</string>
   <string name="compose_title_reply">Vasta</string>
   <string name="compose_title_reply_all">Vasta kõigile</string>
   <string name="compose_title_forward">Saada edasi</string>
   <string name="choose_account_title">Vali konto</string>
   <string name="choose_folder_title">Vali kaust</string>
-  <string name="status_loading_account_folder">Pollib <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Toob pealkirju <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_sending_account">Saadab <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-  <string name="status_processing_account">Töötleb <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_loading_account_folder">Pollib <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Toob pealkirju <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Saadab <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Töötleb <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
   <string name="status_next_poll">Järgmine pollimine <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Sünkroniseerimine väljas - võrk puudub</string>
   <string name="status_no_background">Sünkroniseerimine väljas - taustategevus puudub</string>
@@ -131,7 +131,7 @@
   <string name="abbrev_megabytes">MB</string>
   <string name="abbrev_kilobytes">KB</string>
   <string name="abbrev_bytes">B</string>
-  <string name="account_size_changed">Konto\"<xliff:g id="account">%1$s</xliff:g>\" kahanenud <xliff:g id="oldSize">%2$s</xliff:g> <xliff:g id="newSize">%3$s</xliff:g></string>
+  <string name="account_size_changed">Konto \"<xliff:g id="account">%1$s</xliff:g>\" kahanenud <xliff:g id="oldSize">%2$s </xliff:g><xliff:g id="newSize">%3$s</xliff:g></string>
   <string name="compacting_account">Tihendab kontot \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="clearing_account">Puhastab kontot \"<xliff:g id="account">%1$s</xliff:g>\"</string>
   <string name="recreating_account">Taasloob kontot \"<xliff:g id="account">%1$s</xliff:g>\"</string>
@@ -154,7 +154,7 @@
   <string name="notification_certificate_error_text">Kontrolli oma serveri sätteid</string>
   <string name="notification_authentication_error_title">Autentimine ebaõnnestus</string>
   <string name="notification_authentication_error_text">Autentimine ebaõnnestus konto <xliff:g id="account">%1$s</xliff:g> jaoks. Uuenda oma serveri seadeid.</string>
-  <string name="notification_bg_sync_ticker">Kontrollib emaili: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
+  <string name="notification_bg_sync_ticker">Kontrollib emaili: <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s</xliff:g></string>
   <string name="notification_bg_sync_title">Kontrollib meili</string>
   <string name="notification_bg_send_ticker">Saadab meili: <xliff:g id="account">%1$s</xliff:g></string>
   <string name="notification_bg_send_title">Saadab meilisõnumit</string>

@@ -64,7 +64,7 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="accounts_title">Ящики</string>
   <string name="folders_title">Папки</string>
   <string name="advanced">Дополнительно</string>
-  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">Новое</string>
   <string name="compose_title_reply">Ответ</string>
   <string name="compose_title_reply_all">Ответить всем</string>
@@ -72,11 +72,11 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="compose_title_forward_as_attachment">Переслать вложением</string>
   <string name="choose_account_title">Выберите ящик</string>
   <string name="choose_folder_title">Выбор папки</string>
-  <string name="status_loading_account_folder">проверка <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">просмотр <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_sending_account">отправка <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-  <string name="status_processing_account">обработка <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_loading_account_folder">проверка <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">просмотр <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">отправка <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">обработка <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
   <string name="status_next_poll">проверка <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Сбой синхронизации – нет подключения</string>
   <string name="status_no_background">Нет фоновых задач – синхронизация отключена</string>

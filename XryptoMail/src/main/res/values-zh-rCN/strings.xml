@@ -116,10 +116,10 @@ XryptoMail是Android版电子邮件客户端加密功能。
     <string name="choose_account_title">选择帐户</string>
     <string name="choose_folder_title">选择文件夹</string>
 
-    <string name="status_loading_account_folder">正在接收<xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-    <string name="status_loading_account_folder_headers">正在接收邮件标题: <xliff:g id="account">%1$s</xliff:g>: <xliff:g id="folder">%2$s</xliff:g>, <xliff:g id="account">%3$s</xliff:g></string>
-    <string name="status_sending_account">正在发送 <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-    <string name="status_processing_account">正在处理 <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+    <string name="status_loading_account_folder">正在接收<xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+    <string name="status_loading_account_folder_headers">正在接收邮件标题: <xliff:g id="account">%1$s </xliff:g>: <xliff:g id="folder">%2$s </xliff:g>, <xliff:g id="account">%3$s</xliff:g></string>
+    <string name="status_sending_account">正在发送 <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+    <string name="status_processing_account">正在处理 <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
 
     <string name="status_next_poll">下次接收 <xliff:g id="nexttime">%1$s</xliff:g></string>
     <string name="status_no_network">同步已禁用 - 无网络</string>

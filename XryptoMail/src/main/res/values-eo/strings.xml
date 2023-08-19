@@ -63,7 +63,7 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="accounts_title">Kontoj</string>
   <string name="folders_title">Mesaĝujoj</string>
   <string name="advanced">Spertaj</string>
-  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">Krei</string>
   <string name="compose_title_reply">Respondi</string>
   <string name="compose_title_reply_all">Respondi al ĉiuj</string>
@@ -71,11 +71,11 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="compose_title_forward_as_attachment">Plusendi kiel kunsendaĵon</string>
   <string name="choose_account_title">Elektu konton</string>
   <string name="choose_folder_title">Elekti mesaĝujon</string>
-  <string name="status_loading_account_folder">Kontrolado: <xliff:g id="account">%1$s</xliff:g>: <xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Ŝargado de kapoj: <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_sending_account">Sendado: <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-  <string name="status_processing_account">Pritraktado: <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_loading_account_folder">Kontrolado: <xliff:g id="account">%1$s </xliff:g>: <xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Ŝargado de kapoj: <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account">Sendado: <xliff:g id="account">%1$s </xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account">Pritraktado: <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
   <string name="status_next_poll">Sekva kontrolado: <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Samtempigo malaktiva - nekonektita</string>
   <string name="status_no_background">Samtempigo malaktiva - neniu fona aktiveco</string>

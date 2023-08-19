@@ -64,7 +64,7 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="accounts_title">Kontuak</string>
   <string name="folders_title">Karpetak</string>
   <string name="advanced">Aurreratua</string>
-  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">Idatzi</string>
   <string name="compose_title_reply">Erantzun</string>
   <string name="compose_title_reply_all">Erantzun denei</string>
@@ -72,11 +72,11 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="compose_title_forward_as_attachment">Birbidali eranskin gisa</string>
   <string name="choose_account_title">Aukeratu Kontua</string>
   <string name="choose_folder_title">Aukeratu karpeta</string>
-  <string name="status_loading_account_folder"><xliff:g id="account">%1$s</xliff:g> aztertzen:<xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_loading_account_folder_headers"><xliff:g id="account">%1$s</xliff:g> goiburuak eskuratzen:<xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_sending_account"><xliff:g id="account">%1$s</xliff:g> bidaltzen<xliff:g id="progress">%2$s</xliff:g></string>
-  <string name="status_processing_account"><xliff:g id="account">%1$s</xliff:g> prozesatzen:<xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_loading_account_folder"><xliff:g id="account">%1$s </xliff:g> aztertzen:<xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers"><xliff:g id="account">%1$s </xliff:g> goiburuak eskuratzen:<xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_sending_account"><xliff:g id="account">%1$s </xliff:g> bidaltzen<xliff:g id="progress">%2$s</xliff:g></string>
+  <string name="status_processing_account"><xliff:g id="account">%1$s </xliff:g> prozesatzen:<xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
   <string name="status_next_poll">Hurrengo azterketa <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Sinkronizazioa desgaituta - Sarerik ez</string>
   <string name="status_no_background">Sinkronizazioa desgaituta - Jarduerarik ez atzeko planoan</string>

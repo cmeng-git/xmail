@@ -17,7 +17,9 @@
 package org.atalk.xryptomail.helper;
 
 import android.annotation.SuppressLint;
-import android.content.*;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -25,7 +27,10 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import timber.log.Timber;
 
@@ -34,8 +39,7 @@ import timber.log.Timber;
  *
  * @author Eng Chong Meng
  */
-public class FilePathHelper
-{
+public class FilePathHelper {
     /**
      * Get the real local file path of the given uri if accessible;
      * Else create and copy to a new local file on failure
@@ -44,8 +48,7 @@ public class FilePathHelper
      * @param uri content:// or file:// or whatever suitable Uri you want.
      * @return real local file path of uri or newly created file
      */
-    public static String getFilePath(Context ctx, Uri uri)
-    {
+    public static String getFilePath(Context ctx, Uri uri) {
         String filePath = null;
         try {
             filePath = getUriRealPath(ctx, uri);
@@ -64,8 +67,7 @@ public class FilePathHelper
      * @param uri content:// or file:// or whatever suitable Uri you want.
      * @return file name with the guessed ext if none is given.
      */
-    private static String getFilePathWithCreate(Context ctx, Uri uri)
-    {
+    private static String getFilePathWithCreate(Context ctx, Uri uri) {
         String fileName = null;
 
         if (!TextUtils.isEmpty(uri.getPath())) {
@@ -98,8 +100,7 @@ public class FilePathHelper
      * @param srcUri content:// or file:// or whatever suitable Uri you want.
      * @param dstFile the destination file to be copied to
      */
-    public static void copy(Context context, Uri srcUri, File dstFile)
-    {
+    public static void copy(Context context, Uri srcUri, File dstFile) {
         try {
             InputStream inputStream = context.getContentResolver().openInputStream(srcUri);
             if (inputStream == null)
@@ -120,8 +121,7 @@ public class FilePathHelper
      * @param uri content:// or file:// or whatever suitable Uri you want.
      */
     private static String getUriRealPath(Context ctx, Uri uri)
-            throws Exception
-    {
+            throws Exception {
         String filePath = "";
         if (ctx != null && uri != null) {
             // Get uri authority.
@@ -130,15 +130,12 @@ public class FilePathHelper
             if (isContentUri(uri)) {
                 if (isGooglePhotoDoc(uriAuthority)) {
                     filePath = uri.getLastPathSegment();
-                }
-                else {
+                } else {
                     filePath = getRealPath(ctx.getContentResolver(), uri, null);
                 }
-            }
-            else if (isFileUri(uri)) {
+            } else if (isFileUri(uri)) {
                 filePath = uri.getPath();
-            }
-            else if (isDocumentUri(ctx, uri)) {
+            } else if (isDocumentUri(ctx, uri)) {
                 // Get uri related document id.
                 String documentId = DocumentsContract.getDocumentId(uri);
 
@@ -155,11 +152,9 @@ public class FilePathHelper
                         Uri mediaContentUri = null;
                         if ("image".equals(docType)) {
                             mediaContentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                        }
-                        else if ("video".equals(docType)) {
+                        } else if ("video".equals(docType)) {
                             mediaContentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                        }
-                        else if ("audio".equals(docType)) {
+                        } else if ("audio".equals(docType)) {
                             mediaContentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
                         }
 
@@ -169,8 +164,7 @@ public class FilePathHelper
                             filePath = getRealPath(ctx.getContentResolver(), mediaContentUri, whereClause);
                         }
                     }
-                }
-                else if (isDownloadDoc(uriAuthority)) {
+                } else if (isDownloadDoc(uriAuthority)) {
                     // Build download uri.
                     Uri downloadUri = Uri.parse("content://downloads/public_downloads");
 
@@ -178,8 +172,7 @@ public class FilePathHelper
                     Uri downloadUriAppendId = ContentUris.withAppendedId(downloadUri, Long.parseLong(documentId));
                     filePath = getRealPath(ctx.getContentResolver(), downloadUriAppendId, null);
 
-                }
-                else if (isExternalStoreDoc(uriAuthority)) {
+                } else if (isExternalStoreDoc(uriAuthority)) {
                     String[] idArr = documentId.split(":");
                     if (idArr.length == 2) {
                         String type = idArr[0];
@@ -200,8 +193,7 @@ public class FilePathHelper
      *
      * @param uri content:// or file:// or whatever suitable Uri you want.
      */
-    private static boolean isDocumentUri(Context ctx, Uri uri)
-    {
+    private static boolean isDocumentUri(Context ctx, Uri uri) {
         boolean ret = false;
         if (ctx != null && uri != null) {
             ret = DocumentsContract.isDocumentUri(ctx, uri);
@@ -214,8 +206,7 @@ public class FilePathHelper
      *
      * @param uri content uri e.g. content://media/external/images/media/1302716
      */
-    private static boolean isContentUri(Uri uri)
-    {
+    private static boolean isContentUri(Uri uri) {
         boolean ret = false;
         if (uri != null) {
             String uriSchema = uri.getScheme();
@@ -231,8 +222,7 @@ public class FilePathHelper
      *
      * @param uri file uri e.g. file:///storage/41B7-12F1/DCIM/Camera/IMG_20180211_095139.jpg
      */
-    private static boolean isFileUri(Uri uri)
-    {
+    private static boolean isFileUri(Uri uri) {
         boolean ret = false;
         if (uri != null) {
             String uriSchema = uri.getScheme();
@@ -244,26 +234,22 @@ public class FilePathHelper
     }
 
     /* Check whether this document is provided by ExternalStorageProvider. */
-    private static boolean isExternalStoreDoc(String uriAuthority)
-    {
+    private static boolean isExternalStoreDoc(String uriAuthority) {
         return "com.android.externalstorage.documents".equals(uriAuthority);
     }
 
     /* Check whether this document is provided by DownloadsProvider. */
-    private static boolean isDownloadDoc(String uriAuthority)
-    {
+    private static boolean isDownloadDoc(String uriAuthority) {
         return "com.android.providers.downloads.documents".equals(uriAuthority);
     }
 
     /* Check whether this document is provided by MediaProvider. */
-    private static boolean isMediaDoc(String uriAuthority)
-    {
+    private static boolean isMediaDoc(String uriAuthority) {
         return ("com.android.providers.media.documents".equals(uriAuthority));
     }
 
     /* Check whether this document is provided by google photo. */
-    private static boolean isGooglePhotoDoc(String uriAuthority)
-    {
+    private static boolean isGooglePhotoDoc(String uriAuthority) {
         return "com.google.android.apps.photos.content".equals(uriAuthority);
     }
 
@@ -273,8 +259,7 @@ public class FilePathHelper
      */
     @SuppressLint("Recycle")
     private static String getRealPath(ContentResolver contentResolver, Uri uri, String whereClause)
-            throws Exception
-    {
+            throws Exception {
         String filePath = "";
         boolean hasApiQ = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
         String[] projection = new String[]{MediaStore.MediaColumns.DATA};

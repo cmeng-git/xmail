@@ -1,8 +1,6 @@
 package org.atalk.xryptomail.setup;
 
-
 import org.atalk.xryptomail.mail.ServerSettings.Type;
-
 
 public class ServerNameSuggester {
     public String suggestServerName(Type serverType, String domainPart) {

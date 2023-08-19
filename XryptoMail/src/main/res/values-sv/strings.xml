@@ -64,7 +64,7 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="accounts_title">Konton</string>
   <string name="folders_title">Mappar</string>
   <string name="advanced">Avancerat</string>
-  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g> </string>
+  <string name="message_list_title"><xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s </xliff:g></string>
   <string name="compose_title_compose">Skriv</string>
   <string name="compose_title_reply">Svara</string>
   <string name="compose_title_reply_all">Svara alla</string>
@@ -72,11 +72,11 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="compose_title_forward_as_attachment">Vidarebefordra som bilaga</string>
   <string name="choose_account_title">Välj konto</string>
   <string name="choose_folder_title">Välj mapp</string>
-  <string name="status_loading_account_folder">Kontrollerar <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="status_loading_account_folder_headers">Hämtar brevhuvuden <xliff:g id="account">%1$s</xliff:g><xliff:g id="folder">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder">Kontrollerar <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="status_loading_account_folder_headers">Hämtar brevhuvuden <xliff:g id="account">%1$s </xliff:g><xliff:g id="folder">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
   <string name="status_sending_account">Skickar <xliff:g id="account">%1$s</xliff:g><xliff:g id="progress">%2$s</xliff:g></string>
-  <string name="status_processing_account">Behandlar <xliff:g id="account">%1$s</xliff:g><xliff:g id="command">%2$s</xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
-  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+  <string name="status_processing_account">Behandlar <xliff:g id="account">%1$s </xliff:g><xliff:g id="command">%2$s </xliff:g><xliff:g id="progress">%3$s</xliff:g></string>
+  <string name="folder_progress">\u0020<xliff:g id="completed">%1$d </xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
   <string name="status_next_poll">Nästa kontroll <xliff:g id="nexttime">%1$s</xliff:g></string>
   <string name="status_no_network">Synkronisering avaktiverad - Inget nätverk</string>
   <string name="status_no_background">Synkronisering avaktiverad - Ingen bakgrundsaktivitet</string>

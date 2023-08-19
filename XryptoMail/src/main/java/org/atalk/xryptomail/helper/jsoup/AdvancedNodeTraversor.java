@@ -23,12 +23,10 @@
  */
 package org.atalk.xryptomail.helper.jsoup;
 
-
 import org.atalk.xryptomail.helper.jsoup.NodeFilter.HeadFilterDecision;
 import org.atalk.xryptomail.helper.jsoup.NodeFilter.TailFilterDecision;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.NodeTraversor;
-
 
 /**
  * Depth-first node traversor.
