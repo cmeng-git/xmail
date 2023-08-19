@@ -58,7 +58,7 @@ import timber.log.Timber;
 public class UpdateServiceImpl {
     // Default update link; path is case-sensitive.
     private static final String[] updateLinks = {
-            // "https://raw.githubusercontent.com/cmeng-git/xmail/master",
+            "https://raw.githubusercontent.com/cmeng-git/xmail/master",
             "https://atalk.sytes.net"
     };
 
