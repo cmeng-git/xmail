@@ -80,4 +80,4 @@ License
     limitations under the License.
 
 
-[Privacy Policy](http://atalk.sytes.net/privacypolicy.html) 
+[Privacy Policy](https://atalk.sytes.net/xmail/privacypolicy.html) 
