@@ -80,4 +80,4 @@ License
     limitations under the License.
 
 
-[Privacy Policy](https://atalk.sytes.net/xmail/privacypolicy.html) 
+[Privacy Policy](https://cmeng-git.github.io/xmail/privacypolicy.html) 
