@@ -103,8 +103,8 @@ Bonvolu raporti erarojn, kontribui novajn eblojn kaj peti pri novaj funkcioj per
   <string name="move_action">Movi</string>
   <string name="single_message_options_action">Sendi…</string>
   <string name="refile_action">Agoj…</string>
-  <string name="done_action">Farita</string>
-  <string name="discard_action">Ignori</string>
+  <string name="done">Farita</string>
+  <string name="discard">Ignori</string>
   <string name="save_draft_action">Konservi kiel malneton</string>
   <string name="check_mail_action">Kontroli retpoŝton</string>
   <string name="send_messages_action">Sendi mesaĝojn</string>

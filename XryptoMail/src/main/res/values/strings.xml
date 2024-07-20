@@ -70,21 +70,21 @@ some quirks when talking to Microsoft Exchange.
     <string name="download_apk_error">Cannot download software from server.</string>
 
     <!-- Update checker -->
-    <string name="updatechecker_BUTTON_DOWNLOAD">Download</string>
-    <string name="updatechecker_BUTTON_INSTALL">Install</string>
-    <string name="updatechecker_BUTTON_REINSTALL">Reinstall</string>
-    <string name="updatechecker_DIALOG_DOWNLOADED_TITLE">Download finished</string>
-    <string name="updatechecker_DIALOG_DOWNLOADED">Update is downloaded (%1$s), and ready to be installed.</string>
-    <string name="updatechecker_DIALOG_IN_PROGRESS_TITLE">In progress</string>
-    <string name="updatechecker_DIALOG_IN_PROGRESS">Downloading update is in progress.</string>
-    <string name="updatechecker_DIALOG_MESSAGE">A new released version (%1$s-%2$s) for %3$s is available for download.</string>
-    <string name="updatechecker_DIALOG_NOUPDATE">Your current installed version: (%1$s-%2$s) is up to date.</string>
-    <string name="updatechecker_DIALOG_NOUPDATE_TITLE">No new version</string>
-    <string name="updatechecker_DIALOG_TITLE">Install Updates</string>
-    <string name="updatechecker_DOWNLOAD_FAILED">Failed to download new update!</string>
-    <string name="updatechecker_UPDATE_MENU_ENTRY">Check for updates</string>
-    <string name="updatechecker_VERSION_INVALID">Downloaded apk does not match; actual: %1$s (%2$s)</string>
-    <string name="updatechecker_NEW_UPDATE_DIALOG_MESSAGE">A new software version (%1$s) is available.</string>
+    <string name="download">Download</string>
+    <string name="app_update">Install</string>
+    <string name="app_reinstall">Reinstall</string>
+    <string name="download_completed">Download finished</string>
+    <string name="app_install_ready">Update is downloaded (%1$s), and ready to be installed.</string>
+    <string name="in_progress">In progress</string>
+    <string name="download_in_progress">Downloading update is in progress.</string>
+    <string name="app_version_new_available">A new released version (%1$s-%2$s) for %3$s is available. Current installed version: (%4$s-%5$s).</string>
+    <string name="app_version_current">Your current installed version: (%1$s-%2$s) is up to date. Online available version: (%3$s-%4$s).</string>
+    <string name="app_update_none">No new version</string>
+    <string name="app_update_install">Install Updates</string>
+    <string name="download_failed">Failed to download new update!</string>
+    <string name="app_check_update">Check for updates</string>
+    <string name="app_version_invalid">Downloaded apk does not match; actual: %1$s (%2$s)</string>
+    <string name="app_new_version_available">A new software version (%1$s) is available.</string>
 
     <string name="stealth_ack_fmt1">This is the return receipt for the message you sent to &lt;<xliff:g id="recipient">%1$s</xliff:g>&gt; on <xliff:g id="send_date">%2$s</xliff:g>.</string>
     <string name="stealth_ack_fmt2">This receipt confirms that the message has been read and purged on the recipient\'s device and mail server on <xliff:g id="read_date">%1$s</xliff:g>.</string>
@@ -179,8 +179,8 @@ some quirks when talking to Microsoft Exchange.
     <string name="move_action">Move</string>
     <string name="single_message_options_action">Send…</string>
     <string name="refile_action">Refile…</string>
-    <string name="done_action">Done</string>
-    <string name="discard_action">Discard</string>
+    <string name="done">Done</string>
+    <string name="discard">Discard</string>
     <string name="save_draft_action">Save as draft</string>
     <string name="check_mail_action">Check mail</string>
     <string name="send_messages_action">Send pending messages</string>
@@ -1391,26 +1391,39 @@ some quirks when talking to Microsoft Exchange.
     <string name="OAuth2_not_supported">OAuth 2.0 is not supported for this email</string>
 
     <!-- Android Permissions -->
-    <string name="app_name2">Dexter</string>
-    <string name="ask_for_contacts_permission_button">Contacts</string>
-    <string name="ask_for_storage_permission_button">Storage</string>
-    <string name="ask_for_remote_control_permission_button">Remote Control</string>
-    <string name="ask_for_read_mail_permission_button">Read Message</string>
-    <string name="ask_for_delete_mail_permission_button">Delete Message</string>
-    <string name="ask_for_all_permissions_button">Request all</string>
-    <string name="app_info_permissions_button">App Info</string>
+    <string name="app_info">App Info…</string>
+    <string name="permission_app_info">App Info</string>
+    <string name="permission_request_all">Request all</string>
+
+    <string name="permission_contacts">Contacts</string>
+    <string name="permission_music">Music &amp; Audio</string>
+    <string name="permission_notifications">Notifications</string>
+    <string name="permission_video">Photo &amp; Video</string>
+    <string name="permission_storage">Storage</string>
+    <string name="permission_remote_control">Remote Control</string>
+    <string name="permission_read_mail">Read Message</string>
+    <string name="permission_delete_mail">Delete Message</string>
     <string name="permission_hint">For application maximum performance, you need to grant XryptoMail permissions to access to the following services. XryptoMail may have unexpected behavior if access to any of the services is denied!</string>
 
-    <string name="permission_granted_feedback">GRANTED</string>
-    <string name="permission_denied_feedback">DENIED</string>
-    <string name="permission_permanently_denied_feedback">PERMANENTLY DENIED</string>
-    <string name="permission_unknown_feedback">UNKNOWN</string>
+    <string name="permission_denied">DENIED</string>
+    <string name="permission_granted">GRANTED</string>
+    <string name="permission_denied_permanently">PERMANENTLY DENIED</string>
+    <string name="permission_unknown">UNKNOWN</string>
 
     <string name="contacts_permission_denied_dialog_title">Contacts permission</string>
     <string name="contacts_permission_denied_feedback">Contacts permission is needed to update and retrieve contact status</string>
 
+    <string name="music_permission_denied_dialog_title">Music and audio permission request</string>
+    <string name="music_permission_denied_feedback">Media audio file is not accessible until you grant the permission request</string>
+
+    <string name="notifications_permission_denied_dialog_title">Notifications permission request</string>
+    <string name="notifications_permission_denied_feedback">Notifications from aTalk will be disabled until you grant the permission request</string>
+
+    <string name="video_permission_denied_dialog_title">Photo and video permission request</string>
+    <string name="video_permission_denied_feedback">Media photo and video file is not accessible until you grant the permission request</string>
+
     <string name="storage_permission_denied_dialog_title">Storage permission</string>
-    <string name="storage_permission_denied_dialog_feedback">Contents saving in external storage will fail until you grant the permission request</string>
+    <string name="storage_permission_denied_feedback">Contents saving in external storage will fail until you grant the permission request</string>
 
     <string name="remote_control_permission_denied_dialog_title">Remote control permission</string>
     <string name="remote_control_permission_denied_dialog_feedback">Control XryptoMail activities and settings will not be allowed until you grant the permission request</string>

@@ -7,8 +7,6 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,14 +16,14 @@ import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.apache.james.mime4j.util.MimeUtil;
-import org.atalk.xryptomail.mail.Address;
-import org.atalk.xryptomail.ui.ContactBadge;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.james.mime4j.util.MimeUtil;
+import org.atalk.xryptomail.mail.Address;
+import org.atalk.xryptomail.ui.ContactBadge;
 
 import timber.log.Timber;
 
@@ -78,6 +76,7 @@ public class Utility {
      *
      * @param parts
      * @param separator
+     *
      * @return new String
      */
     public static String combine(Object[] parts, char separator) {
@@ -94,6 +93,7 @@ public class Utility {
      *
      * @param parts
      * @param separator
+     *
      * @return new String
      */
     public static String combine(Iterable<?> parts, char separator) {
@@ -237,6 +237,7 @@ public class Utility {
      * @param newLineStr the string to insert for a new line, <code>null</code> uses
      * the system property line separator
      * @param wrapLongWords true if long words (such as URLs) should be wrapped
+     *
      * @return a line with newlines inserted, <code>null</code> if null input
      */
     public static String wrap(String str, int wrapLength, String newLineStr, boolean wrapLongWords) {
@@ -265,21 +266,24 @@ public class Utility {
                 wrappedLine.append(str.substring(offset, spaceToWrapAt));
                 wrappedLine.append(newLineStr);
                 offset = spaceToWrapAt + 1;
-            } else {
+            }
+            else {
                 // really long word or URL
                 if (wrapLongWords) {
                     // wrap really long word one line at a time
                     wrappedLine.append(str.substring(offset, wrapLength + offset));
                     wrappedLine.append(newLineStr);
                     offset += wrapLength;
-                } else {
+                }
+                else {
                     // do not wrap really long word, just extend beyond limit
                     spaceToWrapAt = str.indexOf(' ', wrapLength + offset);
                     if (spaceToWrapAt >= 0) {
                         wrappedLine.append(str.substring(offset, spaceToWrapAt));
                         wrappedLine.append(newLineStr);
                         offset = spaceToWrapAt + 1;
-                    } else {
+                    }
+                    else {
                         wrappedLine.append(str.substring(offset));
                         offset = inputLineLength;
                     }
@@ -302,6 +306,7 @@ public class Utility {
      * </p>
      *
      * @param subject Never <code>null</code>.
+     *
      * @return Never <code>null</code>.
      */
     public static String stripSubject(final String subject) {
@@ -348,7 +353,8 @@ public class Utility {
                         lastPrefix += tag.length();
                         tagStripped = true;
                     }
-                } else if (lastPrefix < subject.length() - 1 && subject.startsWith(tag, lastPrefix)) {
+                }
+                else if (lastPrefix < subject.length() - 1 && subject.startsWith(tag, lastPrefix)) {
                     // Re: [foo] Re: [foo] blah blah blah
                     // ^ ^
                     // ^ ^
@@ -368,7 +374,8 @@ public class Utility {
         }
         if (lastPrefix > -1 && lastPrefix < subject.length() - 1) {
             return subject.substring(lastPrefix).trim();
-        } else {
+        }
+        else {
             return subject.trim();
         }
     }
@@ -385,6 +392,7 @@ public class Utility {
      * TODO: should only return true if we're an html part
      *
      * @param message Content to evaluate
+     *
      * @return True if it has external images; false otherwise.
      */
     public static boolean hasExternalImages(final String message) {
@@ -417,6 +425,7 @@ public class Utility {
      * Check to see if we have network connectivity.
      *
      * @param context Current application (Hint: see if your base class has a getApplication() method.)
+     *
      * @return true if we have connectivity, false otherwise.
      */
     public static boolean hasConnectivity(final Context context) {
@@ -424,15 +433,10 @@ public class Utility {
 
         final ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                Network network = cm.getActiveNetwork();
-                if (network != null) {
-                    NetworkCapabilities networkCapabilities = cm.getNetworkCapabilities(network);
-                    connected = networkCapabilities != null && networkCapabilities.hasCapability(NET_CAPABILITY_INTERNET);
-                }
-            } else {
-                final NetworkInfo netInfo = cm.getActiveNetworkInfo();
-                connected = netInfo.isConnectedOrConnecting();
+            Network network = cm.getActiveNetwork();
+            if (network != null) {
+                NetworkCapabilities networkCapabilities = cm.getNetworkCapabilities(network);
+                connected = networkCapabilities != null && networkCapabilities.hasCapability(NET_CAPABILITY_INTERNET);
             }
         }
         return connected;

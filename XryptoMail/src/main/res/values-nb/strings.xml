@@ -105,8 +105,8 @@ Send feilmeldinger, bidra med nye funksjoner og still spørsmål her:
   <string name="move_action">Flytt</string>
   <string name="single_message_options_action">Send…</string>
   <string name="refile_action">Omorganiser …</string>
-  <string name="done_action">Ferdig</string>
-  <string name="discard_action">Forkast</string>
+  <string name="done">Ferdig</string>
+  <string name="discard">Forkast</string>
   <string name="save_draft_action">Lagre som utkast</string>
   <string name="check_mail_action">Sjekk e-post</string>
   <string name="send_messages_action">Send meldinger</string>

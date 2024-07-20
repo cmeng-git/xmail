@@ -9,17 +9,19 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentActivity;
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.atalk.xryptomail.Preferences;
 import org.atalk.xryptomail.R;
@@ -29,11 +31,7 @@ import org.atalk.xryptomail.ui.dialog.ApgDeprecationWarningDialog;
 import org.openintents.openpgp.util.OpenPgpApi;
 import org.openintents.openpgp.util.OpenPgpAppPreference;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class OpenPgpAppSelectDialog extends FragmentActivity
-{
+public class OpenPgpAppSelectDialog extends FragmentActivity {
     private static final String OPENKEYCHAIN_PACKAGE = "org.sufficientlysecure.keychain";
     private static final String APG_PROVIDER_PLACEHOLDER = "apg-placeholder";
     private static final String PACKAGE_NAME_APG = "org.thialfihar.android.apg";
@@ -53,8 +51,7 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setTheme(XryptoMail.getXMTheme() == XryptoMail.Theme.LIGHT
@@ -66,25 +63,21 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
         }
     }
 
-    private void showOpenPgpSelectDialogFragment()
-    {
+    private void showOpenPgpSelectDialogFragment() {
         OpenPgpAppSelectFragment fragment = new OpenPgpAppSelectFragment();
         fragment.show(getSupportFragmentManager(), FRAG_OPENPGP_SELECT);
     }
 
-    private void showApgDeprecationDialogFragment()
-    {
+    private void showApgDeprecationDialogFragment() {
         ApgDeprecationDialogFragment fragment = new ApgDeprecationDialogFragment();
         fragment.show(getSupportFragmentManager(), FRAG_APG_DEPRECATE);
     }
 
-    public static class OpenPgpAppSelectFragment extends DialogFragment
-    {
+    public static class OpenPgpAppSelectFragment extends DialogFragment {
         private final ArrayList<OpenPgpProviderEntry> openPgpProviderList = new ArrayList<>();
         private String selectedPackage;
 
-        private void populateAppList()
-        {
+        private void populateAppList() {
             openPgpProviderList.clear();
             Context context = getActivity();
 
@@ -95,27 +88,25 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
 
             if (OpenPgpAppPreference.isApgInstalled(getActivity())) {
                 openPgpProviderList.add(new OpenPgpProviderEntry(APG_PROVIDER_PLACEHOLDER,
-                        getString(R.string.apg), ResourcesCompat.getDrawable(getResources(),R.drawable.ic_apg_small, null)));
+                        getString(R.string.apg), ResourcesCompat.getDrawable(getResources(), R.drawable.ic_apg_small, null)));
             }
 
+            boolean hasNonBlacklistedChoices = false;
             // search for OpenPGP providers...
             Intent intent = new Intent(OpenPgpApi.SERVICE_INTENT_2);
             List<ResolveInfo> resInfo = getActivity().getPackageManager().queryIntentServices(intent, 0);
-            boolean hasNonBlacklistedChoices = false;
-            if (resInfo != null) {
-                for (ResolveInfo resolveInfo : resInfo) {
-                    if (resolveInfo.serviceInfo == null) {
-                        continue;
-                    }
+            for (ResolveInfo resolveInfo : resInfo) {
+                if (resolveInfo.serviceInfo == null) {
+                    continue;
+                }
 
-                    String packageName = resolveInfo.serviceInfo.packageName;
-                    String simpleName = String.valueOf(resolveInfo.serviceInfo.loadLabel(context.getPackageManager()));
-                    Drawable icon = resolveInfo.serviceInfo.loadIcon(context.getPackageManager());
+                String packageName = resolveInfo.serviceInfo.packageName;
+                String simpleName = String.valueOf(resolveInfo.serviceInfo.loadLabel(context.getPackageManager()));
+                Drawable icon = resolveInfo.serviceInfo.loadIcon(context.getPackageManager());
 
-                    if (!PROVIDER_BLACKLIST.contains(packageName)) {
-                        openPgpProviderList.add(new OpenPgpProviderEntry(packageName, simpleName, icon));
-                        hasNonBlacklistedChoices = true;
-                    }
+                if (!PROVIDER_BLACKLIST.contains(packageName)) {
+                    openPgpProviderList.add(new OpenPgpProviderEntry(packageName, simpleName, icon));
+                    hasNonBlacklistedChoices = true;
                 }
             }
 
@@ -128,8 +119,8 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
                     Drawable icon = resolveInfo.activityInfo.loadIcon(context.getPackageManager());
                     String marketName = String.valueOf(resolveInfo.activityInfo.applicationInfo
                             .loadLabel(context.getPackageManager()));
-                    String simpleName = String.format(context.getString(R.string
-                            .openpgp_install_openkeychain_via), marketName);
+                    String simpleName = String.format(
+                            context.getString(R.string.openpgp_install_openkeychain_via), marketName);
                     openPgpProviderList.add(new OpenPgpProviderEntry(OPENKEYCHAIN_PACKAGE, simpleName,
                             icon, marketIntent));
                 }
@@ -137,16 +128,14 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
         }
 
         @Override
-        public void onCreate(Bundle savedInstanceState)
-        {
+        public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             selectedPackage = XryptoMail.getOpenPgpProvider();
         }
 
         @NonNull
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState)
-        {
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.account_settings_crypto_app);
 
@@ -155,10 +144,8 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
 
             // Init ArrayAdapter with OpenPGP Providers
             ListAdapter adapter = new ArrayAdapter<OpenPgpProviderEntry>(getActivity(),
-                    android.R.layout.select_dialog_singlechoice, android.R.id.text1, openPgpProviderList)
-            {
-                public View getView(int position, View convertView, ViewGroup parent)
-                {
+                    android.R.layout.select_dialog_singlechoice, android.R.id.text1, openPgpProviderList) {
+                public View getView(int position, View convertView, ViewGroup parent) {
                     // User super class to create the View
                     View v = super.getView(position, convertView, parent);
                     TextView tv = v.findViewById(android.R.id.text1);
@@ -196,8 +183,7 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
             return builder.create();
         }
 
-        private int getIndexOfProviderList(String packageName)
-        {
+        private int getIndexOfProviderList(String packageName) {
             for (OpenPgpProviderEntry app : openPgpProviderList) {
                 if (app.packageName.equals(packageName)) {
                     return openPgpProviderList.indexOf(app);
@@ -208,32 +194,27 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
         }
 
         @Override
-        public void onDismiss(@NonNull DialogInterface dialog)
-        {
+        public void onDismiss(@NonNull DialogInterface dialog) {
             super.onDismiss(dialog);
             ((OpenPgpAppSelectDialog) getActivity()).onSelectProvider(selectedPackage);
         }
     }
 
-    public static class ApgDeprecationDialogFragment extends DialogFragment
-    {
+    public static class ApgDeprecationDialogFragment extends DialogFragment {
         @NonNull
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState)
-        {
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
             return new ApgDeprecationWarningDialog(getActivity());
         }
 
         @Override
-        public void onDismiss(@NonNull DialogInterface dialog)
-        {
+        public void onDismiss(@NonNull DialogInterface dialog) {
             super.onDismiss(dialog);
             ((OpenPgpAppSelectDialog) getActivity()).onDismissApgDialog();
         }
     }
 
-    public void onSelectProvider(String selectedPackage)
-    {
+    public void onSelectProvider(String selectedPackage) {
         if (APG_PROVIDER_PLACEHOLDER.equals(selectedPackage)) {
             showApgDeprecationDialogFragment();
             return;
@@ -242,8 +223,7 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
         finish();
     }
 
-    private void persistOpenPgpProviderSetting(String selectedPackage)
-    {
+    private void persistOpenPgpProviderSetting(String selectedPackage) {
         XryptoMail.setOpenPgpProvider(selectedPackage);
 
         StorageEditor editor = Preferences.getPreferences(this).getStorage().edit();
@@ -251,35 +231,30 @@ public class OpenPgpAppSelectDialog extends FragmentActivity
         editor.commit();
     }
 
-    public void onDismissApgDialog()
-    {
+    public void onDismissApgDialog() {
         showOpenPgpSelectDialogFragment();
     }
 
-    private static class OpenPgpProviderEntry
-    {
+    private static class OpenPgpProviderEntry {
         private final String packageName;
         private final String simpleName;
         private final Drawable icon;
         private Intent intent;
 
-        OpenPgpProviderEntry(String packageName, String simpleName, Drawable icon)
-        {
+        OpenPgpProviderEntry(String packageName, String simpleName, Drawable icon) {
             this.packageName = packageName;
             this.simpleName = simpleName;
             this.icon = icon;
         }
 
-        OpenPgpProviderEntry(String packageName, String simpleName, Drawable icon, Intent intent)
-        {
+        OpenPgpProviderEntry(String packageName, String simpleName, Drawable icon, Intent intent) {
             this(packageName, simpleName, icon);
             this.intent = intent;
         }
 
         @NonNull
         @Override
-        public String toString()
-        {
+        public String toString() {
             return simpleName;
         }
     }

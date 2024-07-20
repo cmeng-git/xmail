@@ -100,8 +100,8 @@ XryptoMail Mail — це вільний клієнт електронної по
   <string name="move_action">Перемістити</string>
   <string name="single_message_options_action">Надіслати</string>
   <string name="refile_action">Перемістити…</string>
-  <string name="done_action">Готово</string>
-  <string name="discard_action">Відкинути зміни</string>
+  <string name="done">Готово</string>
+  <string name="discard">Відкинути зміни</string>
   <string name="save_draft_action">Зберегти як чернетку</string>
   <string name="check_mail_action">Перевірити пошту</string>
   <string name="send_messages_action">Надіслати повідомлення</string>

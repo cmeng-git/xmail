@@ -1,13 +1,10 @@
 package org.atalk.xryptomail.mail.ssl;
 
+import static org.atalk.xryptomail.mail.CertificateValidationException.Reason.RetrievalFailure;
+
 import android.content.Context;
-import android.os.Build;
 import android.security.KeyChain;
 import android.security.KeyChainException;
-
-import org.atalk.xryptomail.mail.CertificateValidationException;
-import org.atalk.xryptomail.mail.CertificateValidationException.Reason;
-import org.atalk.xryptomail.mail.MessagingException;
 
 import java.net.Socket;
 import java.security.Principal;
@@ -22,9 +19,11 @@ import javax.net.ssl.SSLEngine;
 import javax.net.ssl.X509ExtendedKeyManager;
 import javax.security.auth.x500.X500Principal;
 
-import timber.log.Timber;
+import org.atalk.xryptomail.mail.CertificateValidationException;
+import org.atalk.xryptomail.mail.CertificateValidationException.Reason;
+import org.atalk.xryptomail.mail.MessagingException;
 
-import static org.atalk.xryptomail.mail.CertificateValidationException.Reason.RetrievalFailure;
+import timber.log.Timber;
 
 /**
  * For client certificate authentication! Provide private keys and certificates

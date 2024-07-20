@@ -1,5 +1,37 @@
 XryptoMail Release Notes:
 =============================
+Version:		5.1.0
+Upload Date:	07/20/2024
+- Built target for Android 14.0 (UpsideDownCake) or API-34
+- Set app minSdk to API-24; diminish support in android libraries for < API-24
+- Add new permissions required for API-34 and change UI to support.
+- Drop com.jakewharton:butterknife-compiler:10.2.3 dependency (jdk-15 max restriction);
+  use android View binding class instead.
+- Upgrade to OpenPGP-API version 12
+- Fix OpenPGP Application Provider availability check in Global Settings | Cryptography (queries settings)
+- Implement support of cleartextTraffic content loading in XMWebViewClient#shouldInterceptRequest()
+- Make UpdateServiceImpl() shows both version/code for installed and latest available debug apk.
+- Fix ContextCompat.registerReceiver flag setting: If this receiver is listening for broadcasts sent from the system
+  or from other apps—even other apps that you own: then use RECEIVER_EXPORTED flag. If instead this receiver is listening
+  only for broadcasts sent by your app, use the RECEIVER_NOT_EXPORTED flag; and broadcaster must setPackage(getPackageName()).
+  * Use RECEIVER_EXPORTED for ActivityListener, UpdateServiceImpl, AttachmentTempFileProvider, and DecryptedFileProvider
+  * Use RECEIVER_NOT_EXPORTED and required to setPackage(getPackageName()) in sendBroadcast for:
+   DeviceIdleManager, UnreadWidgetProvider, XryptoMail, XryptoMailRemoteControl, BootReceiver, CoreReceiver, and MessageListWidgetProvider
+- Update gradle build environment to with gradle 8.0.0 and above:
+  a. Use Android Studio Koala | 2024.1.1
+  b. distributionUrl=https://services.gradle.org/distributions/gradle-8.2-bin.zip; not compatible with 8.5.
+  c. classpath 'com.android.tools.build:gradle:8.2.2'
+  d. Add to buildFeatures: dataBinding, viewBinding, and buildConfig to true; aidl true for oepnpgp
+  e. Add namespace to xryptomail and openpgp modules
+  f. Must add: tasks.withType(KotlinCompile.class){ kotlinOptions { jvmTarget = "1.8" } }
+     to resolve compileDebugJavaWithJavac and kaptGenerateStubsDebugKotlin with incompatible Java version.
+  g. Update gradle.properties to include:
+     # Gradle >=8.0.0: Library project resource identifiers are not constant static final ints, just static ints.
+     android.nonFinalResIds=false
+     # Gradle >=8.0.0: Allow transitive resource identifiers use in aTalk.
+     android.nonTransitiveRClass=false
+
+=============================
 Version:		5.0.5
 Upload Date:	08/19/2023
 - Built target for Android 13.0 (Tiramisu) or API-33
@@ -191,7 +223,7 @@ Improvements:
 - Fixed crash when encountering invalid email addresses
 - Fixed display errors of plain text messages
 - Add new languages support and updated translations
-- Upgrade to OpenPGP-API version 12
+- Upgrade to OpenPGP-API version 11
 - Add mail new capabilities: CONDSTORE and UIDPLUS
 - Temporary commented out in HtmlConverter.java
   text = ASCII_PATTERN_FOR_HR.matcher(text).replaceAll("<hr>");

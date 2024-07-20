@@ -1,9 +1,12 @@
 package org.atalk.xryptomail.notification;
 
+import static org.atalk.xryptomail.notification.NotificationController.NOTIFICATION_LED_BLINK_FAST;
+import static org.atalk.xryptomail.notification.NotificationController.NOTIFICATION_LED_FAILURE_COLOR;
+import static org.atalk.xryptomail.notification.NotificationHelper.getPendingIntentFlag;
+
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -11,10 +14,6 @@ import androidx.core.app.NotificationManagerCompat;
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.activity.setup.AccountSetupActivity;
-
-import static org.atalk.xryptomail.notification.NotificationController.NOTIFICATION_LED_BLINK_FAST;
-import static org.atalk.xryptomail.notification.NotificationController.NOTIFICATION_LED_FAILURE_COLOR;
-import static org.atalk.xryptomail.notification.NotificationHelper.getPendingIntentFlag;
 
 
 class CertificateErrorNotifications {

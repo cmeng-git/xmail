@@ -38,8 +38,8 @@
         android:title="@string/export_db_action" />
 
     <item
-        android:id="@+id/notification_setting"
-        android:title="@string/notification_setting" />
+        android:id="@+id/app_info_setting"
+        android:title="@string/app_info" />
 
     <item
         android:id="@+id/import_export"

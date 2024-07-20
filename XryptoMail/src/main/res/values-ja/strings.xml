@@ -105,8 +105,8 @@ XryptoMail は大多数のメールクライアントと同様に、ほとんど
   <string name="move_action">移動</string>
   <string name="single_message_options_action">メッセージ操作…</string>
   <string name="refile_action">整理…</string>
-  <string name="done_action">完了</string>
-  <string name="discard_action">破棄</string>
+  <string name="done">完了</string>
+  <string name="discard">破棄</string>
   <string name="save_draft_action">下書きへ保存</string>
   <string name="check_mail_action">メール受信</string>
   <string name="send_messages_action">メール送信</string>

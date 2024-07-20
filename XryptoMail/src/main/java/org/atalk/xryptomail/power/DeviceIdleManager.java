@@ -1,10 +1,10 @@
 package org.atalk.xryptomail.power;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.PowerManager;
+
+import androidx.core.content.ContextCompat;
 
 import timber.log.Timber;
 
@@ -42,7 +42,6 @@ public abstract class DeviceIdleManager {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     static class RealDeviceIdleManager extends DeviceIdleManager {
         private final Context context;
         private final DeviceIdleReceiver deviceIdleReceiver;
@@ -65,7 +64,8 @@ public abstract class DeviceIdleManager {
         public void registerReceiver() {
             Timber.v("Registering DeviceIdleReceiver");
             registered = true;
-            context.registerReceiver(deviceIdleReceiver, intentFilter);
+            ContextCompat.registerReceiver(context, deviceIdleReceiver, intentFilter, ContextCompat.RECEIVER_NOT_EXPORTED);
+
         }
 
         @Override

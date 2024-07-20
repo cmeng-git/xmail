@@ -73,8 +73,8 @@
   <string name="move_action">Teisalda</string>
   <string name="single_message_options_action">Saada…</string>
   <string name="refile_action">Paiguta ümber…</string>
-  <string name="done_action">Tehtud</string>
-  <string name="discard_action">Loobu</string>
+  <string name="done">Tehtud</string>
+  <string name="discard">Loobu</string>
   <string name="save_draft_action">Salvesta mustandina</string>
   <string name="check_mail_action">Kontrolli meilisõnumeid</string>
   <string name="send_messages_action">Saada kirjad</string>

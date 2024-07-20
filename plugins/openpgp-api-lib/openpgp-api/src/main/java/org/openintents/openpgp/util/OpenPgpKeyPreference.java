@@ -33,13 +33,15 @@ import org.openintents.openpgp.IOpenPgpService2;
 import org.openintents.openpgp.OpenPgpError;
 import org.openintents.openpgp.R;
 
+import timber.log.Timber;
+
 public class OpenPgpKeyPreference extends Preference {
     private long mKeyId;
     private String mOpenPgpProvider;
     private OpenPgpServiceConnection mServiceConnection;
     private String mDefaultUserId;
 
-    public static final int REQUEST_CODE_KEY_PREFERENCE = 9999;
+    private int requestCodeKeyPreference = 9999;
 
     private static final int NO_KEY = 0;
 
@@ -70,17 +72,16 @@ public class OpenPgpKeyPreference extends Preference {
         mDefaultUserId = userId;
     }
 
-    @Override
-    protected void onClick() {
-        bindServiceAndGetSignKeyId(new Intent());
+    public int getIntentRequestCode() {
+        return requestCodeKeyPreference;
     }
 
-    private void bindServiceAndGetSignKeyId(final Intent data) {
-        if (mServiceConnection != null && mServiceConnection.isBound()) {
-            getSignKeyId(data);
-            return;
-        }
+    public void setIntentRequestCode(int requestCode) {
+        requestCodeKeyPreference = requestCode;
+    }
 
+    @Override
+    protected void onClick() {
         // bind to service
         mServiceConnection = new OpenPgpServiceConnection(
                 getContext().getApplicationContext(),
@@ -89,12 +90,12 @@ public class OpenPgpKeyPreference extends Preference {
                     @Override
                     public void onBound(IOpenPgpService2 service) {
 
-                        getSignKeyId(data);
+                        getSignKeyId(new Intent());
                     }
 
                     @Override
                     public void onError(Exception e) {
-                        Log.e(OpenPgpApi.TAG, "exception on binding!", e);
+                        Timber.e("exception on binding :%s", e.getMessage());
                     }
                 }
         );
@@ -106,7 +107,7 @@ public class OpenPgpKeyPreference extends Preference {
         data.putExtra(OpenPgpApi.EXTRA_USER_ID, mDefaultUserId);
 
         OpenPgpApi api = new OpenPgpApi(getContext(), mServiceConnection.getService());
-        api.executeApiAsync(data, null, null, new MyCallback(REQUEST_CODE_KEY_PREFERENCE));
+        api.executeApiAsync(data, null, null, new MyCallback(requestCodeKeyPreference));
     }
 
     private class MyCallback implements OpenPgpApi.IOpenPgpCallback {
@@ -135,13 +136,13 @@ public class OpenPgpKeyPreference extends Preference {
                                 act, pi.getIntentSender(),
                                 requestCode, null, 0, 0, 0);
                     } catch (IntentSender.SendIntentException e) {
-                        Log.e(OpenPgpApi.TAG, "SendIntentException", e);
+                        Timber.e("SendIntentException: %s", e.getMessage());
                     }
                     break;
                 }
                 case OpenPgpApi.RESULT_CODE_ERROR: {
                     OpenPgpError error = result.getParcelableExtra(OpenPgpApi.RESULT_ERROR);
-                    Log.e(OpenPgpApi.TAG, "RESULT_CODE_ERROR: " + error.getMessage());
+                    Timber.e("RESULT_CODE_ERROR: %s", error.getMessage());
 
                     break;
                 }
@@ -259,7 +260,7 @@ public class OpenPgpKeyPreference extends Preference {
         public SavedState(Parcel source) {
             super(source);
 
-            keyId = source.readLong();
+            keyId = source.readInt();
             openPgpProvider = source.readString();
             defaultUserId = source.readString();
         }
@@ -290,8 +291,8 @@ public class OpenPgpKeyPreference extends Preference {
     }
 
     public boolean handleOnActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_KEY_PREFERENCE && resultCode == Activity.RESULT_OK) {
-            bindServiceAndGetSignKeyId(data);
+        if (requestCode == requestCodeKeyPreference && resultCode == Activity.RESULT_OK) {
+            getSignKeyId(data);
             return true;
         } else {
             return false;

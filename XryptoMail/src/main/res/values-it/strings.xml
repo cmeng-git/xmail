@@ -105,8 +105,8 @@ Per favore invia segnalazioni di errori, contribuisci con nuove funzionalità e 
   <string name="move_action">Sposta</string>
   <string name="single_message_options_action">Opzioni invio…</string>
   <string name="refile_action">Riarchivia…</string>
-  <string name="done_action">Fatto</string>
-  <string name="discard_action">Ignora</string>
+  <string name="done">Fatto</string>
+  <string name="discard">Ignora</string>
   <string name="save_draft_action">Salva come bozza</string>
   <string name="check_mail_action">Controlla posta</string>
   <string name="send_messages_action">Invia messaggi</string>

@@ -16,14 +16,12 @@
  */
 package org.atalk.xryptomail.helper;
 
-import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.database.CharArrayBuffer;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import java.util.Comparator;
@@ -209,7 +207,6 @@ public class MergeCursor implements Cursor {
         return mActiveCursor.getWantsAllOnMoveCalls();
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void setExtras(Bundle extras) {
         mActiveCursor.setExtras(extras);

@@ -104,8 +104,8 @@ Mesedez akatsen berri emateko, ezaugarri berriak gehitzeko eta galderak egiteko
   <string name="move_action">Mugitu</string>
   <string name="single_message_options_action">Bidali…</string>
   <string name="refile_action">Artxibatu…</string>
-  <string name="done_action">Eginda</string>
-  <string name="discard_action">Baztertu</string>
+  <string name="done">Eginda</string>
+  <string name="discard">Baztertu</string>
   <string name="save_draft_action">Gorde zirriborro gisa</string>
   <string name="check_mail_action">Egiaztatu posta</string>
   <string name="send_messages_action">Bidali mezuak</string>

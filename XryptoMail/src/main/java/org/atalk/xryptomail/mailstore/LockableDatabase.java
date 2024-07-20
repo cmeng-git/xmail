@@ -1,23 +1,21 @@
 package org.atalk.xryptomail.mailstore;
 
-import android.annotation.TargetApi;
+import static java.lang.System.currentTimeMillis;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.os.Build;
-
-import org.atalk.xryptomail.XryptoMail;
-import org.atalk.xryptomail.helper.FileHelper;
-import org.atalk.xryptomail.mail.MessagingException;
 
 import java.io.File;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import timber.log.Timber;
+import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.helper.FileHelper;
+import org.atalk.xryptomail.mail.MessagingException;
 
-import static java.lang.System.currentTimeMillis;
+import timber.log.Timber;
 
 public class LockableDatabase
 {

@@ -1,28 +1,36 @@
 package org.atalk.xryptomail.view;
 
-import android.annotation.TargetApi;
-import android.content.*;
+import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Build.VERSION_CODES;
 import android.provider.Browser;
-import androidx.annotation.Nullable;
 import android.text.TextUtils;
-import android.webkit.*;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
 
-import org.atalk.xryptomail.mailstore.AttachmentResolver;
-import org.atalk.xryptomail.view.MessageWebView.OnPageFinishedListener;
+import androidx.annotation.Nullable;
 
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Collections;
 import java.util.Map;
+
+import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.mailstore.AttachmentResolver;
+import org.atalk.xryptomail.view.MessageWebView.OnPageFinishedListener;
 
 import timber.log.Timber;
 
 /**
  * {@link WebViewClient} that intercepts requests for {@code cid:} URIs to load the respective body part.
  */
-abstract class XMWebViewClient extends WebViewClient {
+public class XMWebViewClient extends WebViewClient {
     private static final String CID_SCHEME = "cid";
     private static final WebResourceResponse RESULT_DO_NOT_INTERCEPT = null;
     private static final WebResourceResponse RESULT_DUMMY_RESPONSE = new WebResourceResponse(null, null, null);
@@ -32,7 +40,7 @@ abstract class XMWebViewClient extends WebViewClient {
     private final AttachmentResolver attachmentResolver;
 
     public static XMWebViewClient newInstance(@Nullable AttachmentResolver attachmentResolver) {
-        return new LollipopWebViewClient(attachmentResolver);
+        return new XMWebViewClient(attachmentResolver);
     }
 
     private XMWebViewClient(@Nullable AttachmentResolver attachmentResolver) {
@@ -41,23 +49,29 @@ abstract class XMWebViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView webView, String url) {
-        Uri uri = Uri.parse(url);
+        return shouldOverrideUrlLoading(webView, Uri.parse(url));
+    }
+
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView webView, WebResourceRequest request) {
+        return shouldOverrideUrlLoading(webView, request.getUrl());
+    }
+
+    private boolean shouldOverrideUrlLoading(WebView webView, Uri uri) {
         if (CID_SCHEME.equals(uri.getScheme())) {
             return false;
         }
 
         Context context = webView.getContext();
         Intent intent = createBrowserViewIntent(uri, context);
-        addActivityFlags(intent);
 
-        boolean overridingUrlLoading = false;
         try {
             context.startActivity(intent);
-            overridingUrlLoading = true;
         } catch (ActivityNotFoundException ex) {
-            // If no application can handle the URL, assume that the WebView can handle it.
+            Toast.makeText(context, R.string.error_activity_not_found, Toast.LENGTH_LONG).show();
         }
-        return overridingUrlLoading;
+
+        return true;
     }
 
     private Intent createBrowserViewIntent(Uri uri, Context context) {
@@ -65,13 +79,26 @@ abstract class XMWebViewClient extends WebViewClient {
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
         intent.putExtra(Browser.EXTRA_APPLICATION_ID, context.getPackageName());
         intent.putExtra(Browser.EXTRA_CREATE_NEW_TAB, true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         return intent;
     }
 
-    protected abstract void addActivityFlags(Intent intent);
-    protected abstract void addCacheControlHeader(WebResourceResponse response);
+    @Override
+    public WebResourceResponse shouldInterceptRequest(WebView webView, WebResourceRequest request) {
+        Uri uri = request.getUrl();
+        String url = uri.toString();
+        // Intercept WebView Requests with cleartextTraffic content loading
+        if (url.startsWith("http://")) {
+            try {
+                url = url.replace("http://", "https://");
+                URL httpsUrl = new URL(url);
+                URLConnection connection = httpsUrl.openConnection();
+                return new WebResourceResponse(connection.getContentType(), connection.getContentEncoding(), connection.getInputStream());
+            } catch (Exception e) {
+                Timber.e("http to https exception: %s", e.getMessage());
+            }
+        }
 
-    protected WebResourceResponse shouldInterceptRequest(WebView webView, Uri uri) {
         if (!CID_SCHEME.equals(uri.getScheme())) {
             return RESULT_DO_NOT_INTERCEPT;
         }
@@ -79,6 +106,7 @@ abstract class XMWebViewClient extends WebViewClient {
         if (attachmentResolver == null) {
             return RESULT_DUMMY_RESPONSE;
         }
+
         String cid = uri.getSchemeSpecificPart();
         if (TextUtils.isEmpty(cid)) {
             return RESULT_DUMMY_RESPONSE;
@@ -98,10 +126,16 @@ abstract class XMWebViewClient extends WebViewClient {
             WebResourceResponse webResourceResponse = new WebResourceResponse(mimeType, null, inputStream);
             addCacheControlHeader(webResourceResponse);
             return webResourceResponse;
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             Timber.e(e, "Error while intercepting URI: %s", uri);
             return RESULT_DUMMY_RESPONSE;
         }
+    }
+
+    private void addCacheControlHeader(WebResourceResponse response) {
+        Map<String, String> headers = Collections.singletonMap("Cache-Control", "no-store");
+        response.setResponseHeaders(headers);
     }
 
     public void setOnPageFinishedListener(OnPageFinishedListener onPageFinishedListener) {
@@ -113,52 +147,6 @@ abstract class XMWebViewClient extends WebViewClient {
         super.onPageFinished(view, url);
         if (onPageFinishedListener != null) {
             onPageFinishedListener.onPageFinished();
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    private static class PreLollipopWebViewClient extends XMWebViewClient
-    {
-        protected PreLollipopWebViewClient(AttachmentResolver attachmentResolver) {
-            super(attachmentResolver);
-        }
-
-        @Override
-        public WebResourceResponse shouldInterceptRequest(WebView webView, String url) {
-            return shouldInterceptRequest(webView, Uri.parse(url));
-        }
-
-        @Override
-        protected void addActivityFlags(Intent intent) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        }
-
-        @Override
-        protected void addCacheControlHeader(WebResourceResponse response) {
-            // Sadly, adding headers is not supported prior to Lollipop
-        }
-    }
-
-    private static class LollipopWebViewClient extends XMWebViewClient
-    {
-        protected LollipopWebViewClient(AttachmentResolver attachmentResolver) {
-            super(attachmentResolver);
-        }
-
-        @Override
-        public WebResourceResponse shouldInterceptRequest(WebView webView, WebResourceRequest request) {
-            return shouldInterceptRequest(webView, request.getUrl());
-        }
-
-        @Override
-        protected void addActivityFlags(Intent intent) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-        }
-
-        @Override
-        protected void addCacheControlHeader(WebResourceResponse response) {
-            Map<String, String> headers = Collections.singletonMap("Cache-Control", "no-store");
-            response.setResponseHeaders(headers);
         }
     }
 }

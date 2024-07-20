@@ -104,8 +104,8 @@ XryptoMail Mail — почтовый клиент для Android.
   <string name="move_action">Переместить</string>
   <string name="single_message_options_action">Отправить</string>
   <string name="refile_action">Смена папки</string>
-  <string name="done_action">Готово</string>
-  <string name="discard_action">Отменить</string>
+  <string name="done">Готово</string>
+  <string name="discard">Отменить</string>
   <string name="save_draft_action">Черновик</string>
   <string name="check_mail_action">Обновить</string>
   <string name="send_messages_action">Отправить почту</string>

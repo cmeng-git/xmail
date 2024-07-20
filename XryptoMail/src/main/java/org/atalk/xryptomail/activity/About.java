@@ -34,18 +34,16 @@ import androidx.fragment.app.FragmentActivity;
 import org.atalk.xryptomail.BuildConfig;
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.XryptoMail;
-import org.atalk.xryptomail.impl.androidupdate.UpdateServiceImpl;
+import org.atalk.xryptomail.impl.appupdate.UpdateServiceImpl;
 
 import de.cketti.library.changelog.ChangeLog;
 
 /**
  * XryptoMail About activity
  */
-public class About extends FragmentActivity implements OnClickListener, View.OnLongClickListener
-{
+public class About extends FragmentActivity implements OnClickListener, View.OnLongClickListener {
     private static final String[][] USED_LIBRARIES = new String[][]{
             new String[]{"Android Support Library", "https://developer.android.com/topic/libraries/support-library"},
-            new String[]{"butterknife", "https://github.com/JakeWharton/butterknife"},
             new String[]{"ckChangeLog", "https://github.com/cketti/ckChangeLog"},
             new String[]{"Commons IO", "http://commons.apache.org/io/"},
             new String[]{"Dexter", "https://github.com/Karumi/Dexter"},
@@ -80,8 +78,7 @@ public class About extends FragmentActivity implements OnClickListener, View.OnL
                     "li { margin-left: 0px; font-size: 0.9em;}" + "\n" +
                     "ul { padding-left: 2em; }";
 
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_LEFT_ICON);
         setContentView(R.layout.about);
@@ -123,8 +120,7 @@ public class About extends FragmentActivity implements OnClickListener, View.OnL
     }
 
     @Override
-    public void onClick(View view)
-    {
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ok_button:
                 finish();
@@ -155,8 +151,7 @@ public class About extends FragmentActivity implements OnClickListener, View.OnL
     }
 
     @Override
-    public boolean onLongClick(View view)
-    {
+    public boolean onLongClick(View view) {
         if (view.getId() == R.id.history_log) {
             checkUpdate();
             return true;
@@ -167,28 +162,23 @@ public class About extends FragmentActivity implements OnClickListener, View.OnL
     /**
      * Check app new update availability
      */
-    private void checkUpdate()
-    {
-        new Thread()
-        {
+    private void checkUpdate() {
+        new Thread() {
             @Override
-            public void run()
-            {
-                UpdateServiceImpl.getInstance().checkForUpdates(true);
+            public void run() {
+                UpdateServiceImpl.getInstance().checkForUpdates();
             }
         }.start();
     }
 
-    private void xmailUrlAccess()
-    {
+    private void xmailUrlAccess() {
         String url = getString(R.string.AboutDialog_Link);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         startActivity(intent);
     }
 
-    private String getAboutInfo()
-    {
+    private String getAboutInfo() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View about = inflater.inflate(R.layout.about, null, false);
         try {
@@ -222,8 +212,7 @@ public class About extends FragmentActivity implements OnClickListener, View.OnL
     /**
      * Displays the send logs dialog.
      */
-    public static void showSendLogsDialog()
-    {
+    public static void showSendLogsDialog() {
 //        LogUploadService logUpload = ServiceUtils.getService(AndroidGUIActivator.bundleContext,
 //                LogUploadService.class);
 //        String defaultEmail = getConfig().getString("org.atalk.android.LOG_REPORT_EMAIL");

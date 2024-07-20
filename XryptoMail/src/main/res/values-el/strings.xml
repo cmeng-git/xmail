@@ -104,8 +104,8 @@
   <string name="move_action">Μετακίνηση</string>
   <string name="single_message_options_action">Επιλογές μηνύματος…</string>
   <string name="refile_action">Επαναρχειοθέτηση…</string>
-  <string name="done_action">Συμπληρώθηκε</string>
-  <string name="discard_action">Απόρριψη</string>
+  <string name="done">Συμπληρώθηκε</string>
+  <string name="discard">Απόρριψη</string>
   <string name="save_draft_action">Αποθήκευση στα Πρόχειρα</string>
   <string name="check_mail_action">Έλεγχος email</string>
   <string name="send_messages_action">Αποστολή μηνυμάτων</string>

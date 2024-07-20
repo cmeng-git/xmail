@@ -3,14 +3,11 @@ package org.atalk.xryptomail.helper;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 
 import androidx.core.content.FileProvider;
-
-import org.atalk.xryptomail.XryptoMail;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,6 +21,8 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import org.atalk.xryptomail.XryptoMail;
 
 import timber.log.Timber;
 
@@ -247,15 +246,11 @@ public class FileBackend {
      * @return the actual Uri
      */
     public static Uri getUriForFile(Context context, File file) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            try {
-                String packageId = context.getPackageName();
-                return FileProvider.getUriForFile(context, packageId + FILE_PROVIDER, file);
-            } catch (IllegalArgumentException e) {
-                throw new SecurityException(e);
-            }
-        } else {
-            return Uri.fromFile(file);
+        try {
+            String packageId = context.getPackageName();
+            return FileProvider.getUriForFile(context, packageId + FILE_PROVIDER, file);
+        } catch (IllegalArgumentException e) {
+            throw new SecurityException(e);
         }
     }
 

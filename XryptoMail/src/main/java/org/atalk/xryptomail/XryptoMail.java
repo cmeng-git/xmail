@@ -24,6 +24,13 @@ import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.SynchronousQueue;
+
 import org.atalk.xryptomail.Account.SortType;
 import org.atalk.xryptomail.account.XMailOAuth2TokenProvider;
 import org.atalk.xryptomail.activity.MessageCompose;
@@ -46,13 +53,6 @@ import org.atalk.xryptomail.service.MailService;
 import org.atalk.xryptomail.service.ShutdownReceiver;
 import org.atalk.xryptomail.service.StorageGoneReceiver;
 import org.atalk.xryptomail.widget.list.MessageListWidgetProvider;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.SynchronousQueue;
 
 import timber.log.Timber;
 
@@ -358,7 +358,8 @@ public class XryptoMail extends Application {
         DeviceIdleManager deviceIdleManager = DeviceIdleManager.getInstance(context);
         if (enable) {
             deviceIdleManager.registerReceiver();
-        } else {
+        }
+        else {
             deviceIdleManager.unregisterReceiver();
         }
     }
@@ -589,6 +590,7 @@ public class XryptoMail extends Application {
                 intent.putExtra(XryptoMail.Intents.EmailReceived.EXTRA_BCC, Address.toString(message.getRecipients(Message.RecipientType.BCC)));
                 intent.putExtra(XryptoMail.Intents.EmailReceived.EXTRA_SUBJECT, message.getSubject());
                 intent.putExtra(XryptoMail.Intents.EmailReceived.EXTRA_FROM_SELF, account.isAnIdentity(message.getFrom()));
+                intent.setPackage(getPackageName());
                 XryptoMail.this.sendBroadcast(intent);
                 Timber.d("Broadcast: action=%s account=%s folder=%s message uid=%s",
                         action, account.getDescription(), folder, message.getUid());
@@ -608,7 +610,8 @@ public class XryptoMail extends Application {
                 } catch (RuntimeException e) {
                     if (BuildConfig.DEBUG) {
                         throw e;
-                    } else {
+                    }
+                    else {
                         Timber.e(e, "Error while updating message list widget");
                     }
                 }
@@ -644,6 +647,7 @@ public class XryptoMail extends Application {
                 Intent intent = new Intent(XryptoMail.Intents.EmailReceived.ACTION_REFRESH_OBSERVER, null);
                 intent.putExtra(XryptoMail.Intents.EmailReceived.EXTRA_ACCOUNT, account.getDescription());
                 intent.putExtra(XryptoMail.Intents.EmailReceived.EXTRA_FOLDER, folderName);
+                intent.setPackage(getPackageName());
                 XryptoMail.this.sendBroadcast(intent);
             }
         });
@@ -743,7 +747,8 @@ public class XryptoMail extends Application {
             // updated. Look for the old "keyguardPrivacy" setting and map it to the new enum.
             sNotificationHideSubject = (storage.getBoolean("keyguardPrivacy", false)) ?
                     NotificationHideSubject.WHEN_LOCKED : NotificationHideSubject.NEVER;
-        } else {
+        }
+        else {
             sNotificationHideSubject = NotificationHideSubject.valueOf(notificationHideSubject);
         }
 
@@ -790,7 +795,8 @@ public class XryptoMail extends Application {
         int themeValue = storage.getInt("theme", Theme.LIGHT.ordinal());
         if (themeValue == Theme.DARK.ordinal() || themeValue == android.R.style.Theme) {
             setXMTheme(Theme.DARK);
-        } else {
+        }
+        else {
             setXMTheme(Theme.LIGHT);
         }
 
@@ -831,7 +837,8 @@ public class XryptoMail extends Application {
         synchronized (observers) {
             if (sInitialized) {
                 component.initializeComponent(mInstance);
-            } else if (!observers.contains(component)) {
+            }
+            else if (!observers.contains(component)) {
                 observers.add(component);
             }
         }
@@ -1393,6 +1400,7 @@ public class XryptoMail extends Application {
      *
      * @param save Whether or not to write the current database version to the
      * {@code SharedPreferences} {@link #DATABASE_VERSION_CACHE}.
+     *
      * @see #areDatabasesUpToDate()
      */
     public static synchronized void setDatabasesUpToDate(boolean save) {
@@ -1448,6 +1456,7 @@ public class XryptoMail extends Application {
      * Returns Android string resource for given <tt>id</tt>.
      *
      * @param id the string identifier.
+     *
      * @return Android string resource for given <tt>id</tt>.
      */
     public static String getResString(int id) {
@@ -1459,6 +1468,7 @@ public class XryptoMail extends Application {
      *
      * @param id the string identifier.
      * @param arg the format arguments that will be used for substitution.
+     *
      * @return Android string resource for given <tt>id</tt> and format arguments.
      */
     public static String getResString(int id, Object... arg) {
@@ -1466,13 +1476,13 @@ public class XryptoMail extends Application {
     }
 
     private static Toast toast = null;
+
     /**
      * Toast show message in UI thread
      *
      * @param message the string message to display.
      */
-    public static void showToastMessage(final String message)
-    {
+    public static void showToastMessage(final String message) {
         new Handler(Looper.getMainLooper()).post(() -> {
             if (toast != null)
                 toast.cancel();
@@ -1515,19 +1525,17 @@ public class XryptoMail extends Application {
 
     public static boolean hasPermission(Activity callBack, boolean requestPermission, int requestCode, String permission) {
         // Timber.d(new Exception(),"Callback: %s => %s (%s)", callBack, permission, requestPermission);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Do not use getInstance() as mInstances may be empty
-            if (ActivityCompat.checkSelfPermission(XryptoMail.getGlobalContext(), permission) != PackageManager.PERMISSION_GRANTED) {
-                if (requestPermission && (callBack != null)) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(callBack, permission)) {
-                        ActivityCompat.requestPermissions(callBack, new String[]{permission}, requestCode);
-                    }
-                    else {
-                        showToastMessage(R.string.storage_permission_denied_dialog_feedback);
-                    }
+        // Do not use getInstance() as mInstances may be empty
+        if (ActivityCompat.checkSelfPermission(XryptoMail.getGlobalContext(), permission) != PackageManager.PERMISSION_GRANTED) {
+            if (requestPermission && (callBack != null)) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(callBack, permission)) {
+                    ActivityCompat.requestPermissions(callBack, new String[]{permission}, requestCode);
                 }
-                return false;
+                else {
+                    showToastMessage(R.string.storage_permission_denied_feedback);
+                }
             }
+            return false;
         }
         return true;
     }

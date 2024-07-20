@@ -150,8 +150,8 @@ XryptoMail是Android版電子郵件客戶端加密功能。
     <string name="move_action">遷移</string>
     <string name="single_message_options_action">訊息選項…</string>
     <string name="refile_action">重新歸檔…</string>
-    <string name="done_action">完成</string>
-    <string name="discard_action">忽略</string>
+    <string name="done">完成</string>
+    <string name="discard">忽略</string>
     <string name="save_draft_action">存儲為草稿</string>
     <string name="check_mail_action">檢查新郵件</string>
     <string name="send_messages_action">發送訊息</string>
@@ -1308,26 +1308,25 @@ XryptoMail是Android版電子郵件客戶端加密功能。
     <string name="OAuth2_not_supported">此電子郵件不支持OAuth 2.0</string>
 
     <!-- Android Permissions -->
-    <string name="app_name2">Dexter</string>
-    <string name="ask_for_contacts_permission_button">聯繫人</string>
-    <string name="ask_for_storage_permission_button">存儲</string>
-    <string name="ask_for_remote_control_permission_button">遙控</string>
-    <string name="ask_for_read_mail_permission_button">閱讀訊息</string>
-    <string name="ask_for_delete_mail_permission_button">刪除訊息</string>
-    <string name="ask_for_all_permissions_button">請求全部</string>
-    <string name="app_info_permissions_button">App Info</string>
+    <string name="permission_contacts">聯繫人</string>
+    <string name="permission_storage">存儲</string>
+    <string name="permission_remote_control">遙控</string>
+    <string name="permission_read_mail">閱讀訊息</string>
+    <string name="permission_delete_mail">刪除訊息</string>
+    <string name="permission_request_all">請求全部</string>
+    <string name="permission_app_info">App Info</string>
     <string name="permission_hint">為了應用程序的最大性能，您需要授予XryptoMail訪問以下服務的權限。 如果拒絕訪問任何服務，XryptoMail可能會出現意外問題！</string>
 
-    <string name="permission_granted_feedback">授予權限</string>
-    <string name="permission_denied_feedback">拒絕許可</string>
-    <string name="permission_permanently_denied_feedback">永久拒絕</string>
-    <string name="permission_unknown_feedback">未知</string>
+    <string name="permission_granted">授予權限</string>
+    <string name="permission_denied">拒絕許可</string>
+    <string name="permission_denied_permanently">永久拒絕</string>
+    <string name="permission_unknown">未知</string>
 
     <string name="contacts_permission_denied_dialog_title">聯繫人權限</string>
     <string name="contacts_permission_denied_feedback">需要聯繫人權限才能更新和檢索聯繫人狀態</string>
 
     <string name="storage_permission_denied_dialog_title">存儲權限</string>
-    <string name="storage_permission_denied_dialog_feedback">在授予權限請求之前，保存在外部存儲器中的內容將會失敗</string>
+    <string name="storage_permission_denied_feedback">在授予權限請求之前，保存在外部存儲器中的內容將會失敗</string>
 
     <string name="remote_control_permission_denied_dialog_title">遠程控制權限</string>
     <string name="remote_control_permission_denied_dialog_feedback">在授予權限請求之前，不會允許控制XryptoMail的設置</string>

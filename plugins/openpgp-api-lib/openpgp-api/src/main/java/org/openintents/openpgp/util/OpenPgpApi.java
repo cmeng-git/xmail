@@ -16,20 +16,27 @@
 
 package org.openintents.openpgp.util;
 
-import android.content.*;
-import android.os.*;
-import android.util.Log;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.ParcelFileDescriptor;
 
-import org.openintents.openpgp.*;
-import org.openintents.openpgp.util.ParcelFileDescriptorUtil.*;
-
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@SuppressWarnings("unused")
-public class OpenPgpApi {
+import org.openintents.openpgp.IOpenPgpService2;
+import org.openintents.openpgp.OpenPgpError;
+import org.openintents.openpgp.util.ParcelFileDescriptorUtil.DataSinkTransferThread;
+import org.openintents.openpgp.util.ParcelFileDescriptorUtil.DataSourceTransferThread;
 
-    public static final String TAG = "OpenPgp API";
+import timber.log.Timber;
+
+public class OpenPgpApi {
 
     public static final String SERVICE_INTENT_2 = "org.openintents.openpgp.IOpenPgpService2";
 
@@ -181,6 +188,7 @@ public class OpenPgpApi {
      * long        EXTRA_SIGN_KEY_ID
      */
     public static final String ACTION_GET_SIGN_KEY_ID = "org.openintents.openpgp.action.GET_SIGN_KEY_ID";
+    public static final String ACTION_GET_SIGN_KEY_ID_LEGACY = "org.openintents.openpgp.action.GET_SIGN_KEY_ID_LEGACY";
 
     /**
      * Get key ids based on given user ids (=emails)
@@ -260,9 +268,16 @@ public class OpenPgpApi {
     public static final String EXTRA_ORIGINAL_FILENAME = "original_filename";
     public static final String EXTRA_ENABLE_COMPRESSION = "enable_compression";
     public static final String EXTRA_OPPORTUNISTIC_ENCRYPTION = "opportunistic";
+    public static final String EXTRA_CUSTOM_HEADERS = "custom_headers";
 
     // GET_SIGN_KEY_ID
     public static final String EXTRA_USER_ID = "user_id";
+    public static final String EXTRA_PRESELECT_KEY_ID = "preselect_key_id";
+    public static final String EXTRA_SHOW_AUTOCRYPT_HINT = "show_autocrypt_hint";
+
+    public static final String RESULT_SIGN_KEY_ID = "sign_key_id";
+    public static final String RESULT_PRIMARY_USER_ID = "primary_user_id";
+    public static final String RESULT_KEY_CREATION_TIME = "key_creation_time";
 
     // GET_KEY
     public static final String EXTRA_KEY_ID = "key_id";
@@ -272,6 +287,8 @@ public class OpenPgpApi {
 
     // BACKUP
     public static final String EXTRA_BACKUP_SECRET = "backup_secret";
+
+    public static final String ACTION_AUTOCRYPT_KEY_TRANSFER = "autocrypt_key_transfer";
 
     /* Service Intent returns */
     public static final String RESULT_CODE = "result_code";
@@ -294,6 +311,9 @@ public class OpenPgpApi {
     public static final String EXTRA_DECRYPTION_RESULT = "decryption_result";
     public static final String EXTRA_SENDER_ADDRESS = "sender_address";
     public static final String EXTRA_SUPPORT_OVERRIDE_CRYPTO_WARNING = "support_override_crpto_warning";
+    public static final String EXTRA_AUTOCRYPT_PEER_ID = "autocrypt_peer_id";
+    public static final String EXTRA_AUTOCRYPT_PEER_UPDATE = "autocrypt_peer_update";
+    public static final String EXTRA_AUTOCRYPT_PEER_GOSSIP_UPDATES = "autocrypt_peer_gossip_updates";
     public static final String RESULT_SIGNATURE = "signature";
     public static final String RESULT_DECRYPTION = "decryption";
     public static final String RESULT_METADATA = "metadata";
@@ -301,11 +321,6 @@ public class OpenPgpApi {
     public static final String RESULT_OVERRIDE_CRYPTO_WARNING = "override_crypto_warning";
     // This will be the charset which was specified in the headers of ascii armored input, if any
     public static final String RESULT_CHARSET = "charset";
-
-    // UPDATE_AUTOCRYPT_PEER
-    public static final String EXTRA_AUTOCRYPT_PEER_ID = "autocrypt_peer_id";
-    public static final String EXTRA_AUTOCRYPT_PEER_UPDATE = "autocrypt_peer_update";
-    public static final String EXTRA_AUTOCRYPT_PEER_GOSSIP_UPDATES = "autocrypt_peer_gossip_updates";
 
     // INTERNAL, must not be used
     public static final String EXTRA_CALL_UUID1 = "call_uuid1";
@@ -326,6 +341,7 @@ public class OpenPgpApi {
 
     public interface IOpenPgpSinkResultCallback<T> {
         void onProgress(int current, int max);
+
         void onReturn(final Intent result, T sinkResult);
     }
 
@@ -404,11 +420,7 @@ public class OpenPgpApi {
 
         // don't serialize async tasks!
         // http://commonsware.com/blog/2012/04/20/asynctask-threading-regression-confirmed.html
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[]) null);
-        } else {
-            task.execute((Void[]) null);
-        }
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[]) null);
 
         return task;
     }
@@ -418,11 +430,7 @@ public class OpenPgpApi {
 
         // don't serialize async tasks!
         // http://commonsware.com/blog/2012/04/20/asynctask-threading-regression-confirmed.html
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[]) null);
-        } else {
-            task.execute((Void[]) null);
-        }
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[]) null);
 
         return task;
     }
@@ -432,11 +440,7 @@ public class OpenPgpApi {
 
         // don't serialize async tasks!
         // http://commonsware.com/blog/2012/04/20/asynctask-threading-regression-confirmed.html
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[]) null);
-        } else {
-            task.execute((Void[]) null);
-        }
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[]) null);
     }
 
     public static class OpenPgpDataResult<T> {
@@ -457,7 +461,8 @@ public class OpenPgpApi {
                 Long expectedSize = dataSource.getSizeForProgress();
                 if (expectedSize != null) {
                     data.putExtra(EXTRA_DATA_LENGTH, (long) expectedSize);
-                } else {
+                }
+                else {
                     data.removeExtra(EXTRA_PROGRESS_MESSENGER);
                 }
                 input = dataSource.startPumpThread();
@@ -482,7 +487,7 @@ public class OpenPgpApi {
             pumpThread.join();
             return new OpenPgpDataResult<>(result, pumpThread.getResult());
         } catch (Exception e) {
-            Log.e(OpenPgpApi.TAG, "Exception in executeApi call", e);
+            Timber.e(e, "Exception in executeApi call");
             Intent result = new Intent();
             result.putExtra(RESULT_CODE, RESULT_CODE_ERROR);
             result.putExtra(RESULT_ERROR,
@@ -518,7 +523,7 @@ public class OpenPgpApi {
 
             return result;
         } catch (Exception e) {
-            Log.e(OpenPgpApi.TAG, "Exception in executeApi call", e);
+            Timber.e(e, "Exception in executeApi call");
             Intent result = new Intent();
             result.putExtra(RESULT_CODE, RESULT_CODE_ERROR);
             result.putExtra(RESULT_ERROR,
@@ -579,7 +584,8 @@ public class OpenPgpApi {
                 Long expectedSize = dataSource.getSizeForProgress();
                 if (expectedSize != null) {
                     data.putExtra(EXTRA_DATA_LENGTH, (long) expectedSize);
-                } else {
+                }
+                else {
                     data.removeExtra(EXTRA_PROGRESS_MESSENGER);
                 }
                 input = dataSource.startPumpThread();
@@ -603,7 +609,7 @@ public class OpenPgpApi {
 
             return result;
         } catch (Exception e) {
-            Log.e(OpenPgpApi.TAG, "Exception in executeApi call", e);
+            Timber.e(e, "Exception in executeApi call");
             Intent result = new Intent();
             result.putExtra(RESULT_CODE, RESULT_CODE_ERROR);
             result.putExtra(RESULT_ERROR,
@@ -632,7 +638,7 @@ public class OpenPgpApi {
 
             return result;
         } catch (Exception e) {
-            Log.e(OpenPgpApi.TAG, "Exception in executeApi call", e);
+            Timber.e(e, "Exception in executeApi call");
             Intent result = new Intent();
             result.putExtra(RESULT_CODE, RESULT_CODE_ERROR);
             result.putExtra(RESULT_ERROR,
@@ -649,7 +655,7 @@ public class OpenPgpApi {
             try {
                 input.close();
             } catch (IOException e) {
-                Log.e(OpenPgpApi.TAG, "IOException when closing ParcelFileDescriptor!", e);
+                Timber.e(e, "IOException when closing ParcelFileDescriptor!");
             }
         }
     }

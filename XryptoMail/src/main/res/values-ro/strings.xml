@@ -104,8 +104,8 @@ Vă rugăm să ne raportați defecte, să contribuiți cu funcționalități noi
   <string name="move_action">Mută</string>
   <string name="single_message_options_action">Trimite…</string>
   <string name="refile_action">Reîndosariază…</string>
-  <string name="done_action">Realizat</string>
-  <string name="discard_action">Renunță</string>
+  <string name="done">Realizat</string>
+  <string name="discard">Renunță</string>
   <string name="save_draft_action">Salvează ca ciornă</string>
   <string name="check_mail_action">Verifică email</string>
   <string name="send_messages_action">Trimite mesaje</string>

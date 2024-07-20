@@ -102,8 +102,8 @@ Por favor envie relatórios de falhas, contribua com novas funcionalidades e col
   <string name="move_action">Mover</string>
   <string name="single_message_options_action">Enviar…</string>
   <string name="refile_action">Relocar…</string>
-  <string name="done_action">Terminado</string>
-  <string name="discard_action">Rejeitar</string>
+  <string name="done">Terminado</string>
+  <string name="discard">Rejeitar</string>
   <string name="save_draft_action">Guardar como rascunho</string>
   <string name="check_mail_action">Verificar correio</string>
   <string name="send_messages_action">Enviar mensagens</string>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.atalk.xryptomail">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <supports-screens
         android:anyDensity="true"
@@ -16,24 +15,29 @@
         android:name="android.hardware.wifi"
         android:required="false" />
 
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission
+        android:name="android.permission.GET_ACCOUNTS"
+        android:maxSdkVersion="22" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- Needed to mark a contact as contacted -->
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28"
-        tools:ignore="ScopedStorage" />
+        android:maxSdkVersion="29" />
 
     <permission-group
         android:name="android.permission-group.MESSAGES"
@@ -69,10 +73,46 @@
 
     <queries>
         <package android:name="android.content.pm" />
+
+        <intent>
+            <!-- Used to check whether to display the "Add from Contacts" menu item in the compose screen -->
+            <action android:name="android.intent.action.PICK" />
+            <data
+                android:mimeType="*/*"
+                android:scheme="content"
+                android:host="com.android.contacts" />
+        </intent>
+
+        <intent>
+            <!-- Used by AttachmentController to find the best Intent to view an attachment -->
+            <action android:name="android.intent.action.VIEW" />
+            <data
+                android:mimeType="*/*"
+                android:scheme="content" />
+        </intent>
+
+        <intent>
+            <!-- Used by the OpenPGP API -->
+            <action android:name="org.openintents.openpgp.IOpenPgpService2" />
+        </intent>
+
+        <intent>
+            <!-- Used by OpenPgpAppSelectDialog -->
+            <action android:name="android.intent.action.VIEW" />
+            <data
+                android:mimeType="*/*"
+                android:scheme="market"
+                android:host="details" />
+        </intent>
+
+        <intent>
+            <!-- Used by OpenPgpAppSelectDialog -->
+            <action android:name="org.openintents.openpgp.IOpenPgpService" />
+        </intent>
     </queries>
 
     <application
-        android:name="XryptoMail"
+        android:name="org.atalk.xryptomail.XryptoMail"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:allowTaskReparenting="false"
@@ -83,13 +123,14 @@
         android:preserveLegacyExternalStorage="true"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.XMail.Startup"
-        tools:targetApi="s">
+        tools:ignore="DataExtractionRules"
+        tools:targetApi="tiramisu">
         <meta-data
             android:name="android.app.default_searchable"
             android:value="${applicationId}.activity.Search" />
 
         <activity
-            android:name=".activity.Accounts"
+            android:name="org.atalk.xryptomail.activity.Accounts"
             android:configChanges="locale"
             android:exported="true"
             android:launchMode="singleTop"
@@ -104,81 +145,80 @@
         </activity>
 
         <activity
-            android:name=".permissions.PermissionsActivity"
+            android:name="org.atalk.xryptomail.permissions.PermissionsActivity"
             android:configChanges="locale"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".activity.Splash"
+            android:name="org.atalk.xryptomail.activity.Splash"
             android:launchMode="standard" />
 
         <activity
-            android:name=".activity.About"
+            android:name="org.atalk.xryptomail.activity.About"
             android:label="@string/about_action"
             android:theme="@android:style/Theme.Dialog" />
         <activity
-            android:name=".activity.setup.Prefs"
+            android:name="org.atalk.xryptomail.activity.setup.Prefs"
             android:configChanges="locale"
             android:excludeFromRecents="true"
             android:label="@string/prefs_title"
             android:taskAffinity="${applicationId}.activity.setup.Prefs" />
 
         <activity
-            android:name=".activity.setup.WelcomeMessage"
+            android:name="org.atalk.xryptomail.activity.setup.WelcomeMessage"
             android:configChanges="locale"
             android:label="@string/welcome_message_title" />
         <activity
-            android:name=".activity.setup.OpenPgpAppSelectDialog"
+            android:name="org.atalk.xryptomail.activity.setup.OpenPgpAppSelectDialog"
             android:configChanges="locale"
             android:theme="@style/Theme.XMail.Transparent" />
 
         <activity
-            android:name=".activity.setup.FontSizeSettings"
+            android:name="org.atalk.xryptomail.activity.setup.FontSizeSettings"
             android:configChanges="locale"
             android:label="@string/font_size_settings_title" />
         <activity
-            android:name=".activity.setup.AccountSetupActivity"
+            android:name="org.atalk.xryptomail.activity.setup.AccountSetupActivity"
             android:configChanges="locale"
             android:theme="@style/Theme.XMail.Material.Light" />
         <activity
-            android:name=".activity.setup.AccountSetupComposition"
+            android:name="org.atalk.xryptomail.activity.setup.AccountSetupComposition"
             android:configChanges="locale"
             android:label="@string/account_settings_composition_title" />
         <activity
-            android:name=".activity.ChooseAccount"
+            android:name="org.atalk.xryptomail.activity.ChooseAccount"
             android:configChanges="locale"
             android:label="@string/choose_account_title"
             android:noHistory="true"
             android:theme="@style/Theme.XryptoMailDialog" />
 
         <activity
-            android:name=".activity.ChooseFolder"
+            android:name="org.atalk.xryptomail.activity.ChooseFolder"
             android:configChanges="locale"
             android:label="@string/choose_folder_title"
             android:noHistory="true"
             android:theme="@style/Theme.XryptoMailDialog" />
         <activity
-            android:name=".activity.ChooseIdentity"
+            android:name="org.atalk.xryptomail.activity.ChooseIdentity"
             android:configChanges="locale"
             android:label="@string/choose_identity_title"
             android:theme="@style/Theme.XryptoMailDialog" />
         <activity
-            android:name=".activity.ManageIdentities"
+            android:name="org.atalk.xryptomail.activity.ManageIdentities"
             android:configChanges="locale"
             android:label="@string/manage_identities_title" />
         <activity
-            android:name=".activity.EditIdentity"
+            android:name="org.atalk.xryptomail.activity.EditIdentity"
             android:configChanges="locale"
             android:label="@string/edit_identity_title" />
         <activity
-            android:name=".activity.NotificationDeleteConfirmation"
+            android:name="org.atalk.xryptomail.activity.NotificationDeleteConfirmation"
             android:excludeFromRecents="true"
             android:launchMode="singleTop"
             android:taskAffinity=""
@@ -189,21 +229,21 @@
              since it doesn't currently handle them correctly in code.
         -->
         <!-- activity
-            android:name=".activity.setup.AccountSetupCheckSettings"
+            android:name="org.atalk.xryptomail.activity.setup.AccountSetupCheckSettings"
             android:configChanges="keyboardHidden|orientation|locale"
             android:label="@string/account_setup_check_settings_title" / -->
         <activity
-            android:name=".activity.setup.AccountSettings"
+            android:name="org.atalk.xryptomail.activity.setup.AccountSettings"
             android:configChanges="locale"
             android:label="@string/account_settings_title_fmt" />
         <activity
-            android:name=".activity.setup.FolderSettings"
+            android:name="org.atalk.xryptomail.activity.setup.FolderSettings"
             android:configChanges="locale"
             android:label="@string/folder_settings_title"
             android:theme="@android:style/Theme.Dialog" />
 
         <activity
-            android:name=".activity.FolderList"
+            android:name="org.atalk.xryptomail.activity.FolderList"
             android:configChanges="locale"
             android:exported="true"
             android:parentActivityName="org.atalk.xryptomail.activity.Accounts"
@@ -225,7 +265,7 @@
         </activity>
 
         <activity
-            android:name=".activity.MessageList"
+            android:name="org.atalk.xryptomail.activity.MessageList"
             android:configChanges="locale"
             android:exported="true"
             android:launchMode="singleTop"
@@ -255,7 +295,7 @@
         </activity>
 
         <activity
-            android:name=".activity.MessageCompose"
+            android:name="org.atalk.xryptomail.activity.MessageCompose"
             android:configChanges="locale"
             android:enabled="false"
             android:exported="true">
@@ -289,7 +329,7 @@
 
         <!-- Search Activity - searchable -->
         <activity
-            android:name=".activity.Search"
+            android:name="org.atalk.xryptomail.activity.Search"
             android:configChanges="locale"
             android:exported="true"
             android:label="@string/search_action"
@@ -308,7 +348,7 @@
                 android:value="splitActionBarWhenNarrow" />
         </activity>
         <activity
-            android:name=".activity.LauncherShortcuts"
+            android:name="org.atalk.xryptomail.activity.LauncherShortcuts"
             android:configChanges="locale"
             android:exported="true"
             android:label="@string/shortcuts_title">
@@ -319,10 +359,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.EmailAddressList"
+            android:name="org.atalk.xryptomail.activity.EmailAddressList"
             android:configChanges="locale" />
         <activity
-            android:name=".activity.UnreadWidgetConfiguration"
+            android:name="org.atalk.xryptomail.activity.UnreadWidgetConfiguration"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
@@ -330,17 +370,17 @@
         </activity>
 
         <activity
-            android:name=".activity.UpgradeDatabases"
+            android:name="org.atalk.xryptomail.activity.UpgradeDatabases"
             android:label="@string/upgrade_databases_title" />
 
         <!-- Dialog Activity -->
         <activity
-            android:name=".helper.DialogActivity"
+            android:name="org.atalk.xryptomail.helper.DialogActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Holo.Dialog.MinWidth" />
 
         <receiver
-            android:name=".service.BootReceiver"
+            android:name="org.atalk.xryptomail.service.BootReceiver"
             android:directBootAware="true"
             android:enabled="true"
             android:exported="true"
@@ -366,7 +406,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".service.RemoteControlReceiver"
+            android:name="org.atalk.xryptomail.service.RemoteControlReceiver"
             android:enabled="true"
             android:exported="false"
             android:permission="${applicationId}.permission.REMOTE_CONTROL">
@@ -379,11 +419,11 @@
         </receiver>
 
         <receiver
-            android:name=".service.CoreReceiver"
+            android:name="org.atalk.xryptomail.service.CoreReceiver"
             android:exported="false" />
 
         <receiver
-            android:name=".service.StorageReceiver"
+            android:name="org.atalk.xryptomail.service.StorageReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -403,7 +443,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".provider.UnreadWidgetProvider"
+            android:name="org.atalk.xryptomail.provider.UnreadWidgetProvider"
             android:exported="false"
             android:icon="@drawable/ic_icon"
             android:label="@string/unread_widget_label">
@@ -417,7 +457,7 @@
         </receiver>
 
         <receiver
-            android:name=".widget.list.MessageListWidgetProvider"
+            android:name="org.atalk.xryptomail.widget.list.MessageListWidgetProvider"
             android:exported="false"
             android:icon="@drawable/message_list_widget_preview"
             android:label="@string/mail_list_widget_text">
@@ -430,44 +470,44 @@
         </receiver>
 
         <service
-            android:name=".widget.list.MessageListWidgetService"
+            android:name="org.atalk.xryptomail.widget.list.MessageListWidgetService"
             android:enabled="true"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <service
-            android:name=".service.MailService"
+            android:name="org.atalk.xryptomail.service.MailService"
             android:enabled="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <service
-            android:name=".notification.NotificationActionService"
+            android:name="org.atalk.xryptomail.notification.NotificationActionService"
             android:enabled="true" />
         <service
-            android:name=".service.PushService"
+            android:name="org.atalk.xryptomail.service.PushService"
             android:enabled="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
-            android:name=".service.PollService"
+            android:name="org.atalk.xryptomail.service.PollService"
             android:enabled="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
-            android:name=".service.RemoteControlService"
+            android:name="org.atalk.xryptomail.service.RemoteControlService"
             android:enabled="true"
             android:permission="${applicationId}.permission.REMOTE_CONTROL" />
 
         <service
-            android:name=".service.SleepService"
+            android:name="org.atalk.xryptomail.service.SleepService"
             android:enabled="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
-            android:name=".impl.androidupdate.OnlineUpdateService"
+            android:name="org.atalk.xryptomail.impl.appupdate.OnlineUpdateService"
             android:enabled="true" />
         <service
-            android:name=".service.DatabaseUpgradeService"
+            android:name="org.atalk.xryptomail.service.DatabaseUpgradeService"
             android:exported="false" />
 
         <provider
-            android:name=".provider.AttachmentProvider"
+            android:name="org.atalk.xryptomail.provider.AttachmentProvider"
             android:authorities="${applicationId}.attachmentprovider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -476,7 +516,7 @@
                 android:value="true" />
         </provider>
         <provider
-            android:name=".provider.RawMessageProvider"
+            android:name="org.atalk.xryptomail.provider.RawMessageProvider"
             android:authorities="${applicationId}.rawmessageprovider"
             android:exported="false">
 
@@ -486,7 +526,7 @@
         </provider>
 
         <provider
-            android:name=".provider.MessageProvider"
+            android:name="org.atalk.xryptomail.provider.MessageProvider"
             android:authorities="${applicationId}.messageprovider"
             android:exported="false"
             android:grantUriPermissions="true"
@@ -495,11 +535,11 @@
             android:writePermission="${applicationId}.permission.DELETE_MESSAGES" />
 
         <provider
-            android:name=".provider.EmailProvider"
+            android:name="org.atalk.xryptomail.provider.EmailProvider"
             android:authorities="${applicationId}.provider.email"
             android:exported="false" />
         <provider
-            android:name=".provider.DecryptedFileProvider"
+            android:name="org.atalk.xryptomail.provider.DecryptedFileProvider"
             android:authorities="${applicationId}.decryptedfileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -508,7 +548,7 @@
                 android:resource="@xml/decrypted_file_provider_paths" />
         </provider>
         <provider
-            android:name=".provider.AttachmentTempFileProvider"
+            android:name="org.atalk.xryptomail.provider.AttachmentTempFileProvider"
             android:authorities="${applicationId}.tempfileprovider"
             android:exported="false"
             android:grantUriPermissions="true">

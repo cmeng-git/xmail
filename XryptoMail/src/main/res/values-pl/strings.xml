@@ -103,8 +103,8 @@ Wysłane za pomocą XryptoMail Mail.</string>
   <string name="move_action">Przenieś</string>
   <string name="single_message_options_action">Wyślij…</string>
   <string name="refile_action">Operacje…</string>
-  <string name="done_action">Gotowe</string>
-  <string name="discard_action">Usuń</string>
+  <string name="done">Gotowe</string>
+  <string name="discard">Usuń</string>
   <string name="save_draft_action">Zapisz jako szkic</string>
   <string name="check_mail_action">Sprawdź pocztę</string>
   <string name="send_messages_action">Wyślij wiadomości</string>

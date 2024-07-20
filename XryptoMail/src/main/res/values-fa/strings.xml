@@ -50,8 +50,8 @@
   <string name="forward_action">بازارسال</string>
   <string name="move_action">انتقال</string>
   <string name="single_message_options_action">ارسال…</string>
-  <string name="done_action">انجام شد</string>
-  <string name="discard_action">لغو تغییرات</string>
+  <string name="done">انجام شد</string>
+  <string name="discard">لغو تغییرات</string>
   <string name="save_draft_action">ذخیره به عنوان پیش‌نویس</string>
   <string name="check_mail_action">بررسی نامه‌ها</string>
   <string name="send_messages_action">ارسال پیام‌ها</string>

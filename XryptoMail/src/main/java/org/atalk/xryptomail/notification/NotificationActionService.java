@@ -1,26 +1,28 @@
 package org.atalk.xryptomail.notification;
 
+import static org.atalk.xryptomail.activity.MessageReferenceHelper.toMessageReferenceList;
+import static org.atalk.xryptomail.activity.MessageReferenceHelper.toMessageReferenceStringList;
+
 import android.content.Context;
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
 
-import org.atalk.xryptomail.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.atalk.xryptomail.Account;
+import org.atalk.xryptomail.Preferences;
+import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.activity.MessageReference;
 import org.atalk.xryptomail.controller.MessagingController;
 import org.atalk.xryptomail.mail.Flag;
 import org.atalk.xryptomail.service.PollService;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import timber.log.Timber;
 
-import static org.atalk.xryptomail.activity.MessageReferenceHelper.toMessageReferenceList;
-import static org.atalk.xryptomail.activity.MessageReferenceHelper.toMessageReferenceStringList;
-
-public class NotificationActionService extends JobIntentService
-{
+public class NotificationActionService extends JobIntentService {
     private static final String ACTION_MARK_AS_READ = "ACTION_MARK_AS_READ";
     private static final String ACTION_DELETE = "ACTION_DELETE";
     private static final String ACTION_ARCHIVE = "ACTION_ARCHIVE";
@@ -31,8 +33,7 @@ public class NotificationActionService extends JobIntentService
     private static final String EXTRA_MESSAGE_REFERENCE = "messageReference";
     private static final String EXTRA_MESSAGE_REFERENCES = "messageReferences";
 
-    static Intent createMarkMessageAsReadIntent(Context context, MessageReference messageReference)
-    {
+    static Intent createMarkMessageAsReadIntent(Context context, MessageReference messageReference) {
         Intent intent = new Intent(context, NotificationActionService.class);
         intent.setAction(ACTION_MARK_AS_READ);
         intent.putExtra(EXTRA_ACCOUNT_UUID, messageReference.getAccountUuid());
@@ -41,8 +42,7 @@ public class NotificationActionService extends JobIntentService
     }
 
     static Intent createMarkAllAsReadIntent(Context context, String accountUuid,
-            List<MessageReference> messageReferences)
-    {
+            List<MessageReference> messageReferences) {
         Intent intent = new Intent(context, NotificationActionService.class);
         intent.setAction(ACTION_MARK_AS_READ);
         intent.putExtra(EXTRA_ACCOUNT_UUID, accountUuid);
@@ -50,8 +50,7 @@ public class NotificationActionService extends JobIntentService
         return intent;
     }
 
-    static Intent createDismissMessageIntent(Context context, MessageReference messageReference)
-    {
+    static Intent createDismissMessageIntent(Context context, MessageReference messageReference) {
         Intent intent = new Intent(context, NotificationActionService.class);
         intent.setAction(ACTION_DISMISS);
         intent.putExtra(EXTRA_ACCOUNT_UUID, messageReference.getAccountUuid());
@@ -59,16 +58,14 @@ public class NotificationActionService extends JobIntentService
         return intent;
     }
 
-    static Intent createDismissAllMessagesIntent(Context context, Account account)
-    {
+    static Intent createDismissAllMessagesIntent(Context context, Account account) {
         Intent intent = new Intent(context, NotificationActionService.class);
         intent.setAction(ACTION_DISMISS);
         intent.putExtra(EXTRA_ACCOUNT_UUID, account.getUuid());
         return intent;
     }
 
-    static Intent createDeleteMessageIntent(Context context, MessageReference messageReference)
-    {
+    static Intent createDeleteMessageIntent(Context context, MessageReference messageReference) {
         Intent intent = new Intent(context, NotificationActionService.class);
         intent.setAction(ACTION_DELETE);
         intent.putExtra(EXTRA_ACCOUNT_UUID, messageReference.getAccountUuid());
@@ -77,8 +74,7 @@ public class NotificationActionService extends JobIntentService
     }
 
     public static Intent createDeleteAllMessagesIntent(Context context, String accountUuid,
-            List<MessageReference> messageReferences)
-    {
+            List<MessageReference> messageReferences) {
         Intent intent = new Intent(context, NotificationActionService.class);
         intent.setAction(ACTION_DELETE);
         intent.putExtra(EXTRA_ACCOUNT_UUID, accountUuid);
@@ -86,8 +82,7 @@ public class NotificationActionService extends JobIntentService
         return intent;
     }
 
-    static Intent createArchiveMessageIntent(Context context, MessageReference messageReference)
-    {
+    static Intent createArchiveMessageIntent(Context context, MessageReference messageReference) {
         Intent intent = new Intent(context, NotificationActionService.class);
         intent.setAction(ACTION_ARCHIVE);
         intent.putExtra(EXTRA_ACCOUNT_UUID, messageReference.getAccountUuid());
@@ -95,8 +90,7 @@ public class NotificationActionService extends JobIntentService
         return intent;
     }
 
-    static Intent createArchiveAllIntent(Context context, Account account, List<MessageReference> messageReferences)
-    {
+    static Intent createArchiveAllIntent(Context context, Account account, List<MessageReference> messageReferences) {
         Intent intent = new Intent(context, NotificationActionService.class);
         intent.setAction(ACTION_ARCHIVE);
         intent.putExtra(EXTRA_ACCOUNT_UUID, account.getUuid());
@@ -104,8 +98,7 @@ public class NotificationActionService extends JobIntentService
         return intent;
     }
 
-    static Intent createMarkMessageAsSpamIntent(Context context, MessageReference messageReference)
-    {
+    static Intent createMarkMessageAsSpamIntent(Context context, MessageReference messageReference) {
         Intent intent = new Intent(context, NotificationActionService.class);
         intent.setAction(ACTION_SPAM);
         intent.putExtra(EXTRA_ACCOUNT_UUID, messageReference.getAccountUuid());
@@ -113,8 +106,7 @@ public class NotificationActionService extends JobIntentService
         return intent;
     }
 
-    private static ArrayList<String> createSingleItemArrayList(MessageReference messageReference)
-    {
+    private static ArrayList<String> createSingleItemArrayList(MessageReference messageReference) {
         ArrayList<String> messageReferenceStrings = new ArrayList<>(1);
         messageReferenceStrings.add(messageReference.toIdentityString());
         return messageReferenceStrings;
@@ -125,14 +117,12 @@ public class NotificationActionService extends JobIntentService
      */
     static final int JOB_ID = 1500;
 
-    public static void enqueueWork(Context context, Intent work)
-    {
+    public static void enqueueWork(Context context, Intent work) {
         enqueueWork(context, PollService.class, JOB_ID, work);
     }
 
     @Override
-    protected void onHandleWork(@NonNull Intent intent)
-    {
+    protected void onHandleWork(@NonNull Intent intent) {
         Timber.i("NotificationActionService started");
         Account account = null;
         if (intent.hasExtra(EXTRA_ACCOUNT_UUID)) {
@@ -165,8 +155,7 @@ public class NotificationActionService extends JobIntentService
         cancelNotifications(intent, account, controller);
     }
 
-    private void markMessagesAsRead(Intent intent, Account account, MessagingController controller)
-    {
+    private void markMessagesAsRead(Intent intent, Account account, MessagingController controller) {
         Timber.i("NotificationActionService marking messages as read");
         List<String> messageReferenceStrings = intent.getStringArrayListExtra(EXTRA_MESSAGE_REFERENCES);
         List<MessageReference> messageReferences = toMessageReferenceList(messageReferenceStrings);
@@ -177,16 +166,14 @@ public class NotificationActionService extends JobIntentService
         }
     }
 
-    private void deleteMessages(Intent intent, MessagingController controller)
-    {
+    private void deleteMessages(Intent intent, MessagingController controller) {
         Timber.i("NotificationActionService deleting messages");
         List<String> messageReferenceStrings = intent.getStringArrayListExtra(EXTRA_MESSAGE_REFERENCES);
         List<MessageReference> messageReferences = toMessageReferenceList(messageReferenceStrings);
         controller.deleteMessages(messageReferences, null);
     }
 
-    private void archiveMessages(Intent intent, Account account, MessagingController controller)
-    {
+    private void archiveMessages(Intent intent, Account account, MessagingController controller) {
         Timber.i("NotificationActionService archiving messages");
         String archiveFolderName = account.getArchiveFolder();
         if (archiveFolderName == null ||
@@ -206,8 +193,7 @@ public class NotificationActionService extends JobIntentService
         }
     }
 
-    private void markMessageAsSpam(Intent intent, Account account, MessagingController controller)
-    {
+    private void markMessageAsSpam(Intent intent, Account account, MessagingController controller) {
         Timber.i("NotificationActionService moving messages to spam");
         String messageReferenceString = intent.getStringExtra(EXTRA_MESSAGE_REFERENCE);
         MessageReference messageReference = MessageReference.parse(messageReferenceString);
@@ -223,8 +209,7 @@ public class NotificationActionService extends JobIntentService
         }
     }
 
-    private void cancelNotifications(Intent intent, Account account, MessagingController controller)
-    {
+    private void cancelNotifications(Intent intent, Account account, MessagingController controller) {
         if (intent.hasExtra(EXTRA_MESSAGE_REFERENCE)) {
             String messageReferenceString = intent.getStringExtra(EXTRA_MESSAGE_REFERENCE);
             MessageReference messageReference = MessageReference.parse(messageReferenceString);
@@ -248,8 +233,7 @@ public class NotificationActionService extends JobIntentService
     }
 
     private boolean isMovePossible(MessagingController controller, Account account,
-            String destinationFolderName)
-    {
+            String destinationFolderName) {
         boolean isSpecialFolderConfigured = !XryptoMail.FOLDER_NONE.equalsIgnoreCase(destinationFolderName);
         return isSpecialFolderConfigured && controller.isMoveCapable(account);
     }

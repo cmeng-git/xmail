@@ -104,8 +104,8 @@ Poročila o napakah, predloge za nove funkcije in vprašanja lahko pošljete na
   <string name="move_action">Premakni</string>
   <string name="single_message_options_action">Pošlji …</string>
   <string name="refile_action">Določi mapo …</string>
-  <string name="done_action">Končano</string>
-  <string name="discard_action">Zavrzi</string>
+  <string name="done">Končano</string>
+  <string name="discard">Zavrzi</string>
   <string name="save_draft_action">Shrani kot osnutek</string>
   <string name="check_mail_action">Preveri za nova sporočila</string>
   <string name="send_messages_action">Pošlji sporočila</string>

@@ -102,8 +102,8 @@
   <string name="move_action">Помери</string>
   <string name="single_message_options_action">Пошаљи…</string>
   <string name="refile_action">Реархивирај…</string>
-  <string name="done_action">Заврши</string>
-  <string name="discard_action">Одбаци</string>
+  <string name="done">Заврши</string>
+  <string name="discard">Одбаци</string>
   <string name="save_draft_action">Сачувај као нацрт</string>
   <string name="check_mail_action">Провери пошту</string>
   <string name="send_messages_action">Пошаљи поруке</string>

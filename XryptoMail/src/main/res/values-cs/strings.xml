@@ -104,8 +104,8 @@ Chybová hlášení prosím posílejte, přispívejte novými funkcemi a ptejte 
   <string name="move_action">Přesunout</string>
   <string name="single_message_options_action">Odeslat…</string>
   <string name="refile_action">Přesměrovat…</string>
-  <string name="done_action">Hotovo</string>
-  <string name="discard_action">Zrušit</string>
+  <string name="done">Hotovo</string>
+  <string name="discard">Zrušit</string>
   <string name="save_draft_action">Uložit jako koncept</string>
   <string name="check_mail_action">Zkontrolovat poštu</string>
   <string name="send_messages_action">Odeslat zprávy</string>

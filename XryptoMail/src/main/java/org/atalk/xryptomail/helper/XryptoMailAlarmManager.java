@@ -1,10 +1,9 @@
 package org.atalk.xryptomail.helper;
 
-import android.app.*;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
-import android.os.Build;
 
-import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
 
 import org.atalk.xryptomail.power.DozeChecker;
@@ -33,7 +32,6 @@ public class XryptoMailAlarmManager {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private void setAndAllowWhileIdle(int type, long triggerAtMillis, PendingIntent operation) {
         alarmManager.setAndAllowWhileIdle(type, triggerAtMillis, operation);
     }

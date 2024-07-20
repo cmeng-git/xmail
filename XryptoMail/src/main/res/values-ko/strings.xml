@@ -68,8 +68,8 @@
   <string name="move_action">이동</string>
   <string name="single_message_options_action">메시지 옵션…</string>
   <string name="refile_action">관리…</string>
-  <string name="done_action">완료</string>
-  <string name="discard_action">버리기</string>
+  <string name="done">완료</string>
+  <string name="discard">버리기</string>
   <string name="save_draft_action">임시 보관함에 저장</string>
   <string name="check_mail_action">새로고침</string>
   <string name="send_messages_action">메시지 보내기</string>

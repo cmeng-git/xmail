@@ -1,9 +1,7 @@
 package org.atalk.xryptomail.power;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.PowerManager;
-import androidx.annotation.RequiresApi;
 
 public class DozeChecker
 {
@@ -18,10 +16,9 @@ public class DozeChecker
 
     public boolean isDeviceIdleModeSupported()
     {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+        return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public boolean isAppWhitelisted()
     {
         return powerManager.isIgnoringBatteryOptimizations(packageName);

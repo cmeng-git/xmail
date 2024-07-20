@@ -102,8 +102,8 @@ Fàilte air bugaichean, com-pàirteachas, iarrtasan airson gleusan ùra is ceist
   <string name="move_action">Gluais</string>
   <string name="single_message_options_action">Cuir…</string>
   <string name="refile_action">Ath-fhaidhlich…</string>
-  <string name="done_action">Deiseil</string>
-  <string name="discard_action">Tilg air falbh</string>
+  <string name="done">Deiseil</string>
+  <string name="discard">Tilg air falbh</string>
   <string name="save_draft_action">Sàbhail mar dhreachd</string>
   <string name="check_mail_action">Thoir sùil airson post</string>
   <string name="send_messages_action">Cuir na teachdaireachdan</string>

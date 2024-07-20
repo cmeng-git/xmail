@@ -14,10 +14,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.SparseBooleanArray;
@@ -44,6 +42,20 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.AccountStats;
 import org.atalk.xryptomail.BaseAccount;
@@ -69,6 +81,7 @@ import org.atalk.xryptomail.mail.store.RemoteStore;
 import org.atalk.xryptomail.mailstore.StorageManager;
 import org.atalk.xryptomail.notification.NotificationController;
 import org.atalk.xryptomail.notification.NotificationHelper;
+import org.atalk.xryptomail.permissions.PermissionsActivity;
 import org.atalk.xryptomail.preferences.SettingsExporter;
 import org.atalk.xryptomail.preferences.SettingsImportExportException;
 import org.atalk.xryptomail.preferences.SettingsImporter;
@@ -81,20 +94,6 @@ import org.atalk.xryptomail.search.SearchAccount;
 import org.atalk.xryptomail.search.SearchSpecification.Attribute;
 import org.atalk.xryptomail.search.SearchSpecification.SearchField;
 import org.atalk.xryptomail.view.ColorChip;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import de.cketti.library.changelog.ChangeLog;
 import timber.log.Timber;
@@ -163,7 +162,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
 
             String operation = mListener.getOperation(Accounts.this);
             operation = operation.trim();
-            if (operation.length() < 1) {
+            if (operation.isEmpty()) {
                 mActionBarSubTitle.setVisibility(View.GONE);
             } else {
                 mActionBarSubTitle.setVisibility(View.VISIBLE);
@@ -382,7 +381,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
         // see if we should show the welcome message
         if (ACTION_IMPORT_SETTINGS.equals(intent.getAction())) {
             onImport();
-        } else if (accounts.size() < 1) {
+        } else if (accounts.isEmpty()) {
             WelcomeMessage.showWelcomeMessage(this);
             finish();
             return;
@@ -551,7 +550,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
 
     private EnumSet<ACCOUNT_LOCATION> accountLocation(BaseAccount account) {
         EnumSet<ACCOUNT_LOCATION> accountLocation = EnumSet.of(ACCOUNT_LOCATION.MIDDLE);
-        if (accounts.size() > 0) {
+        if (!accounts.isEmpty()) {
             if (accounts.get(0).equals(account)) {
                 accountLocation.remove(ACCOUNT_LOCATION.MIDDLE);
                 accountLocation.add(ACCOUNT_LOCATION.TOP);
@@ -569,7 +568,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
         accounts.addAll(Preferences.getPreferences(this).getAccounts());
 
         List<BaseAccount> newAccounts;
-        if (!XryptoMail.isHideSpecialAccounts() && accounts.size() > 0) {
+        if (!XryptoMail.isHideSpecialAccounts() && !accounts.isEmpty()) {
             if (mUnifiedInboxAccount == null || mAllMessagesAccount == null) {
                 createSpecialAccounts();
             }
@@ -990,7 +989,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
             activity.refresh();
             removeProgressDialog();
 
-            if (mRemainingAccounts.size() > 0) {
+            if (!mRemainingAccounts.isEmpty()) {
                 activity.promptForServerPasswords(mRemainingAccounts);
             } else {
                 System.exit(0);
@@ -1200,8 +1199,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
             case R.id.export_db:
                 exportDB();
                 break;
-            case R.id.notification_setting:
-                openNotificationSettings();
+            case R.id.app_info_setting:
+                PermissionsActivity.onInfoButtonClicked(this);
                 break;
             case R.id.search:
                 onSearchRequested();
@@ -1247,10 +1246,6 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.accounts_option, menu);
         mRefreshMenuItem = menu.findItem(R.id.check_mail);
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            menu.findItem(R.id.notification_setting).setVisible(false);
-        }
 
         if (!BuildConfig.DEBUG) {
             menu.findItem(R.id.export_db).setVisible(false);
@@ -1307,7 +1302,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
         PackageManager packageManager = getPackageManager();
         List<ResolveInfo> infos = packageManager.queryIntentActivities(intent, 0);
 
-        if (infos.size() > 0) {
+        if (!infos.isEmpty()) {
             startActivityForResult(Intent.createChooser(intent, null), ACTIVITY_REQUEST_PICK_SETTINGS_FILE);
         } else {
             showDialog(DIALOG_NO_FILE_MANAGER);
@@ -1352,7 +1347,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
     private static class SimpleDialog implements NonConfigurationInstance {
         private final int mHeaderRes;
         private final int mMessageRes;
-        private Object[] mArguments;
+        private final Object[] mArguments;
         private Dialog mDialog;
 
         SimpleDialog(int headerRes, int messageRes, Object... args) {
@@ -1463,7 +1458,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                     disabledAccounts.add(account);
                 }
             }
-            if (disabledAccounts.size() > 0) {
+            if (!disabledAccounts.isEmpty()) {
                 activity.promptForServerPasswords(disabledAccounts);
             } else {
                 activity.setNonConfigurationInstance(null);
@@ -2040,18 +2035,6 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
 
         } catch (Exception e) {
             Timber.w("Export database exception: %s", e.getMessage());
-        }
-    }
-
-    public void openNotificationSettings() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
-            intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            intent.setData(Uri.parse("package:" + getPackageName()));
-            startActivity(intent);
         }
     }
 }

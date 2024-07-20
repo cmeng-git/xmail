@@ -103,8 +103,8 @@ Plîs rhowch wybod am unrhyw wallau, syniadau am nodweddion newydd, neu ofyn cwe
   <string name="move_action">Symud</string>
   <string name="single_message_options_action">Anfon…</string>
   <string name="refile_action">Ail ffeilio…</string>
-  <string name="done_action">Wedi gwneud</string>
-  <string name="discard_action">Dileu</string>
+  <string name="done">Wedi gwneud</string>
+  <string name="discard">Dileu</string>
   <string name="save_draft_action">Cadw fel drafft</string>
   <string name="check_mail_action">Gwirio am negeseuon</string>
   <string name="send_messages_action">Anfon negeseuon</string>

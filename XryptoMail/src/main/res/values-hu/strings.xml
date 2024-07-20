@@ -105,8 +105,8 @@ Kérünk küldj hibajelentést, hozzájárulva az új verziókhoz, és tegyél f
   <string name="move_action">Áthelyezés</string>
   <string name="single_message_options_action">Küldés…</string>
   <string name="refile_action">Rendszerezés…</string>
-  <string name="done_action">Kész</string>
-  <string name="discard_action">Mégse</string>
+  <string name="done">Kész</string>
+  <string name="discard">Mégse</string>
   <string name="save_draft_action">Mentés piszkozatként</string>
   <string name="check_mail_action">Levél ellenőrzése</string>
   <string name="send_messages_action">Üzenetek küldése</string>

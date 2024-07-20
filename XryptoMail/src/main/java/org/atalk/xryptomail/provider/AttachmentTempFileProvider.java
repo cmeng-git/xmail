@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import org.atalk.xryptomail.BuildConfig;
@@ -144,7 +145,7 @@ public class AttachmentTempFileProvider extends FileProvider
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs)
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs)
     {
         throw new UnsupportedOperationException();
     }
@@ -197,7 +198,7 @@ public class AttachmentTempFileProvider extends FileProvider
 
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
-            context.registerReceiver(cleanupReceiver, intentFilter);
+            ContextCompat.registerReceiver(context, cleanupReceiver, intentFilter, ContextCompat.RECEIVER_EXPORTED);
         }
     }
 

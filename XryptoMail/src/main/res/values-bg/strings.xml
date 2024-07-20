@@ -104,8 +104,8 @@ XryptoMail е мощен, безплатен имейл клиент за Анд
   <string name="move_action">Премести</string>
   <string name="single_message_options_action">Изпрати…</string>
   <string name="refile_action">Премести…</string>
-  <string name="done_action">Готово</string>
-  <string name="discard_action">Отхвърли</string>
+  <string name="done">Готово</string>
+  <string name="discard">Отхвърли</string>
   <string name="save_draft_action">Запази като чернова</string>
   <string name="check_mail_action">Провери пощата</string>
   <string name="send_messages_action">Изпрати съобщения</string>

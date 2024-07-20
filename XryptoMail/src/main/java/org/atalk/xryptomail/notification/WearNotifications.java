@@ -35,7 +35,6 @@ class WearNotifications extends BaseNotifications {
 
     public void addSummaryActions(Builder builder, NotificationData notificationData) {
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
-
         addMarkAllAsReadAction(wearableExtender, notificationData);
 
         if (isDeleteActionAvailableForWear()) {

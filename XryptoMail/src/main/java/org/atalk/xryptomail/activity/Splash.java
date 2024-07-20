@@ -28,8 +28,8 @@ import androidx.fragment.app.FragmentActivity;
 
 import org.atalk.xryptomail.BuildConfig;
 import org.atalk.xryptomail.R;
-import org.atalk.xryptomail.impl.androidupdate.OnlineUpdateService;
-import org.atalk.xryptomail.impl.androidupdate.UpdateServiceImpl;
+import org.atalk.xryptomail.impl.appupdate.OnlineUpdateService;
+import org.atalk.xryptomail.impl.appupdate.UpdateServiceImpl;
 
 import timber.log.Timber;
 

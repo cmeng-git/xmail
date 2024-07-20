@@ -85,9 +85,7 @@ public class ContactPictureLoader {
         if (m.find()) {
             letter = Objects.requireNonNull(m.group(0)).toUpperCase(Locale.US);
         }
-
-        return (TextUtils.isEmpty(letter)) ?
-                FALLBACK_CONTACT_LETTER : letter;
+        return (TextUtils.isEmpty(letter)) ? FALLBACK_CONTACT_LETTER : letter;
     }
 
     /**
@@ -104,9 +102,7 @@ public class ContactPictureLoader {
 
         float scale = mResources.getDisplayMetrics().density;
         mPictureSizeInPx = (int) (PICTURE_SIZE * scale);
-
         mDefaultBackgroundColor = defaultBackgroundColor;
-
     }
 
     public void loadContactPicture(final Address address, final ImageView imageView) {
@@ -141,15 +137,13 @@ public class ContactPictureLoader {
         if (photoUri != null) {
             RequestListener<Uri, GlideDrawable> noPhotoListener = new RequestListener<Uri, GlideDrawable>() {
                 @Override
-                public boolean onException(Exception e, Uri model, Target<GlideDrawable> target,
-                        boolean isFirstResource) {
+                public boolean onException(Exception e, Uri model, Target<GlideDrawable> target, boolean isFirstResource) {
                     loadFallbackPicture(address, imageView);
                     return true;
                 }
 
                 @Override
-                public boolean onResourceReady(GlideDrawable resource, Uri model,
-                        Target<GlideDrawable> target,
+                public boolean onResourceReady(GlideDrawable resource, Uri model, Target<GlideDrawable> target,
                         boolean isFromMemoryCache, boolean isFirstResource) {
                     return false;
                 }
@@ -176,7 +170,6 @@ public class ContactPictureLoader {
         if (mDefaultBackgroundColor != 0) {
             return mDefaultBackgroundColor;
         }
-
         int val = address.hashCode();
         int colorIndex = (val & Integer.MAX_VALUE) % CONTACT_DUMMY_COLORS_ARGB.length;
         return CONTACT_DUMMY_COLORS_ARGB[colorIndex];
@@ -187,7 +180,6 @@ public class ContactPictureLoader {
 
         int rgb = calcUnknownContactColor(params.address);
         bitmap.eraseColor(rgb);
-
         String letter = calcUnknownContactLetter(params.address);
 
         Paint paint = new Paint();
@@ -254,7 +246,6 @@ public class ContactPictureLoader {
 
                 @Override
                 public void cleanup() {
-
                 }
 
                 @Override
@@ -264,10 +255,8 @@ public class ContactPictureLoader {
 
                 @Override
                 public void cancel() {
-
                 }
             };
         }
     }
-
 }

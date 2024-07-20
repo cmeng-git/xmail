@@ -104,8 +104,8 @@ Si us plau, envieu informes d\'errors, contribuïu-hi amb noves millores i feu p
   <string name="move_action">Mou</string>
   <string name="single_message_options_action">Opcions del missatge…</string>
   <string name="refile_action">Rearxiva…</string>
-  <string name="done_action">Fet</string>
-  <string name="discard_action">Descarta</string>
+  <string name="done">Fet</string>
+  <string name="discard">Descarta</string>
   <string name="save_draft_action">Desa com a esborrany</string>
   <string name="check_mail_action">Comprova el correu</string>
   <string name="send_messages_action">Envia missatges</string>

@@ -105,8 +105,8 @@ Ju lutemi, parashtrim njoftimesh për të meta, kontribute për veçori të reaj
   <string name="move_action">Lëvizeni</string>
   <string name="single_message_options_action">Dërgoni…</string>
   <string name="refile_action">Riskedojeni…</string>
-  <string name="done_action">U bë</string>
-  <string name="discard_action">Hidhe tej</string>
+  <string name="done">U bë</string>
+  <string name="discard">Hidhe tej</string>
   <string name="save_draft_action">Ruaje si skicë</string>
   <string name="check_mail_action">Merr email-et</string>
   <string name="send_messages_action">Dërgo mesazhe</string>

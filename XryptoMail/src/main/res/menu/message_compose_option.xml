@@ -44,7 +44,7 @@
     <item
         android:id="@+id/discard"
         android:alphabeticShortcut="q"
-        android:title="@string/discard_action"
+        android:title="@string/discard"
         android:icon="?attr/iconActionCancel" />
     <item
         android:id="@+id/read_receipt"

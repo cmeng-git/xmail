@@ -10,6 +10,7 @@ import android.os.ParcelFileDescriptor;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import android.text.TextUtils;
 
@@ -197,7 +198,7 @@ public class DecryptedFileProvider extends FileProvider
 
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
-            context.registerReceiver(cleanupReceiver, intentFilter);
+            ContextCompat.registerReceiver(context, cleanupReceiver, intentFilter, ContextCompat.RECEIVER_EXPORTED);
         }
     }
 
@@ -210,7 +211,6 @@ public class DecryptedFileProvider extends FileProvider
             if (!Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
                 throw new IllegalArgumentException("onReceive called with action that isn't screen off!");
             }
-
             Timber.d("Cleaning up temp files");
 
             boolean allFilesDeleted = deleteOldTemporaryFiles(context);

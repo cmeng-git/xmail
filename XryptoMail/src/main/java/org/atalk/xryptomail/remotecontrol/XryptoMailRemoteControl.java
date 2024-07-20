@@ -2,7 +2,9 @@ package org.atalk.xryptomail.remotecontrol;
 
 
 import android.app.Activity;
-import android.content.*;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
 
 import org.atalk.xryptomail.BuildConfig;
 
@@ -10,7 +12,7 @@ import org.atalk.xryptomail.BuildConfig;
  * Utillity definitions for Android applications to control the behavior of K-9 Mail.  All such applications must declare the following permission:
  * <uses-permission android:name="org.atalk.xryptomail.permission.REMOTE_CONTROL"/>
  * in their AndroidManifest.xml  In addition, all applications sending remote control messages to K-9 Mail must
- *
+ * <p>
  * An application that wishes to act on a particular Account in K-9 needs to fetch the list of configured Accounts by broadcasting an
  * {@link Intent} using CryptoMail_REQUEST_ACCOUNTS as the Action.  The broadcast must be made using the {@link ContextWrapper}
  * sendOrderedBroadcast(Intent intent, String receiverPermission, BroadcastReceiver resultReceiver,
@@ -18,7 +20,6 @@ import org.atalk.xryptomail.BuildConfig;
  * method in order to receive the list of Account UUIDs and descriptions that K-9 will provide.
  *
  * @author Daniel I. Applebaum
- *
  */
 public class XryptoMailRemoteControl {
     /**
@@ -91,7 +92,7 @@ public class XryptoMailRemoteControl {
      */
     public final static String CryptoMail_POLL_CLASSES = BuildConfig.APPLICATION_ID + ".XryptoMailRemoteControl.pollClasses";
 
-    public final static String[] CryptoMail_POLL_FREQUENCIES = { "-1", "1", "5", "10", "15", "30", "60", "120", "180", "360", "720", "1440"};
+    public final static String[] CryptoMail_POLL_FREQUENCIES = {"-1", "1", "5", "10", "15", "30", "60", "120", "180", "360", "720", "1440"};
     /**
      * Key for the {@link Intent} Extra to set with the desired poll frequency.  The value is a String representing a number of minutes.
      * Acceptable values are available in CryptoMail_POLL_FREQUENCIES
@@ -121,12 +122,15 @@ public class XryptoMailRemoteControl {
 
     public static void set(Context context, Intent broadcastIntent) {
         broadcastIntent.setAction(XryptoMailRemoteControl.CryptoMail_SET);
+        broadcastIntent.setPackage(context.getPackageName());
         context.sendBroadcast(broadcastIntent, XryptoMailRemoteControl.CryptoMail_REMOTE_CONTROL_PERMISSION);
     }
 
     public static void fetchAccounts(Context context, XryptoMailAccountReceptor receptor) {
         Intent accountFetchIntent = new Intent();
-        accountFetchIntent.setAction(XryptoMailRemoteControl.CryptoMail_REQUEST_ACCOUNTS);
+        accountFetchIntent
+                .setAction(XryptoMailRemoteControl.CryptoMail_REQUEST_ACCOUNTS)
+                .setPackage(context.getPackageName());
         AccountReceiver receiver = new AccountReceiver(receptor);
         context.sendOrderedBroadcast(accountFetchIntent, XryptoMailRemoteControl.CryptoMail_REMOTE_CONTROL_PERMISSION, receiver, null, Activity.RESULT_OK, null, null);
     }

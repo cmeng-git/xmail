@@ -84,6 +84,7 @@ public class CoreReceiver extends BroadcastReceiver
         i.setClass(context, CoreReceiver.class);
         i.setAction(WAKE_LOCK_RELEASE);
         i.putExtra(WAKE_LOCK_ID, wakeLockId);
+        i.setPackage(context.getPackageName());
         context.sendBroadcast(i);
     }
 }

@@ -101,8 +101,8 @@ Por favor informe de fallos, aporte nueva funcionalidad o envíe sus preguntas a
   <string name="move_action">Mover</string>
   <string name="single_message_options_action">Enviar…</string>
   <string name="refile_action">Archivar…</string>
-  <string name="done_action">Terminado</string>
-  <string name="discard_action">Descartar</string>
+  <string name="done">Terminado</string>
+  <string name="discard">Descartar</string>
   <string name="save_draft_action">Guardar como borrador</string>
   <string name="check_mail_action">Comprobar correo</string>
   <string name="send_messages_action">Enviar correo</string>

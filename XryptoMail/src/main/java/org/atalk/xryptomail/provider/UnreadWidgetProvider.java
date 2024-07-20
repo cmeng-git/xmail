@@ -8,7 +8,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -18,8 +17,7 @@ import org.atalk.xryptomail.helper.UnreadWidgetProperties;
 
 import timber.log.Timber;
 
-public class UnreadWidgetProvider extends AppWidgetProvider
-{
+public class UnreadWidgetProvider extends AppWidgetProvider {
     private static final int MAX_COUNT = 9999;
 
     /**
@@ -27,8 +25,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider
      *
      * @param context The {@code Context} object to use for the broadcast intent.
      */
-    public static void updateUnreadCount(Context context)
-    {
+    public static void updateUnreadCount(Context context) {
         Context appContext = context.getApplicationContext();
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(appContext);
 
@@ -38,16 +35,12 @@ public class UnreadWidgetProvider extends AppWidgetProvider
         Intent intent = new Intent(context, UnreadWidgetProvider.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds);
+        intent.setPackage(context.getPackageName());
         context.sendBroadcast(intent);
     }
 
-    public static void updateWidget(Context context, AppWidgetManager appWidgetManager,
-            UnreadWidgetProperties properties)
-    {
-
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
-                R.layout.unread_widget_layout);
-
+    public static void updateWidget(Context context, AppWidgetManager appWidgetManager, UnreadWidgetProperties properties) {
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.unread_widget_layout);
         int appWidgetId = properties.getAppWidgetId();
         Intent clickIntent = null;
         int unreadCount;
@@ -92,8 +85,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider
      * Called when one or more widgets need to be updated.
      */
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
-    {
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int widgetId : appWidgetIds) {
             UnreadWidgetProperties properties = UnreadWidgetConfiguration.getWidgetProperties(context, widgetId);
             updateWidget(context, appWidgetManager, properties);
@@ -104,8 +96,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider
      * Called when a widget instance is deleted.
      */
     @Override
-    public void onDeleted(Context context, int[] appWidgetIds)
-    {
+    public void onDeleted(Context context, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
             UnreadWidgetConfiguration.deleteWidgetConfiguration(context, appWidgetId);
         }

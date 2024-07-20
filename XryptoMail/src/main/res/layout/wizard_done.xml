@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/selectable_item_background"
-            android:text="@string/done_action" />
+            android:text="@string/done" />
     </LinearLayout>
 
 </merge>

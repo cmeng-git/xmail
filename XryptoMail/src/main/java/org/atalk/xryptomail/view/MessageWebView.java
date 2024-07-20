@@ -4,14 +4,17 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
-import android.webkit.*;
-import android.webkit.WebSettings.*;
+import android.webkit.WebSettings;
+import android.webkit.WebSettings.LayoutAlgorithm;
+import android.webkit.WebSettings.RenderPriority;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.atalk.xryptomail.*;
+import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.mailstore.AttachmentResolver;
 
 import timber.log.Timber;
@@ -33,6 +36,7 @@ public class MessageWebView extends WebView {
     /**
      * Configure a web view to load or not load network data. A <b>true</b> setting here means that
      * network data will be blocked.
+     *
      * @param shouldBlockNetworkData True if network data should be blocked, false to allow network data.
      */
     public void blockNetworkData(final boolean shouldBlockNetworkData) {
@@ -75,7 +79,7 @@ public class MessageWebView extends WebView {
         webSettings.setSupportZoom(true);
         webSettings.setBuiltInZoomControls(true);
         webSettings.setUseWideViewPort(true);
-        
+
         if (XryptoMail.autofitWidth()) {
             webSettings.setLoadWithOverviewMode(true);
         }
@@ -105,7 +109,7 @@ public class MessageWebView extends WebView {
         PackageManager pm = getContext().getPackageManager();
         boolean supportsMultiTouch =
                 pm.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH) ||
-                pm.hasSystemFeature(PackageManager.FEATURE_FAKETOUCH_MULTITOUCH_DISTINCT);
+                        pm.hasSystemFeature(PackageManager.FEATURE_FAKETOUCH_MULTITOUCH_DISTINCT);
 
         getSettings().setDisplayZoomControls(!supportsMultiTouch);
     }
@@ -137,9 +141,9 @@ public class MessageWebView extends WebView {
     public void emulateShiftHeld() {
         try {
             KeyEvent shiftPressEvent = new KeyEvent(0, 0, KeyEvent.ACTION_DOWN,
-                                                    KeyEvent.KEYCODE_SHIFT_LEFT, 0, 0);
+                    KeyEvent.KEYCODE_SHIFT_LEFT, 0, 0);
             shiftPressEvent.dispatch(this, null, null);
-            Toast.makeText(getContext() , R.string.select_text_now, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.select_text_now, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Timber.e(e, "Exception in emulateShiftHeld()");
         }

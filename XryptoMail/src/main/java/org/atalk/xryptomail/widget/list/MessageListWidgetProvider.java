@@ -9,7 +9,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.widget.RemoteViews;
 
 import org.atalk.xryptomail.R;
@@ -18,7 +17,6 @@ import org.atalk.xryptomail.activity.MessageList;
 
 public class MessageListWidgetProvider extends AppWidgetProvider {
     private static final String ACTION_UPDATE_MESSAGE_LIST = "UPDATE_MESSAGE_LIST";
-
 
     public static void triggerMessageListWidgetUpdate(Context context) {
         Context appContext = context.getApplicationContext();
@@ -29,6 +27,7 @@ public class MessageListWidgetProvider extends AppWidgetProvider {
         Intent intent = new Intent(context, MessageListWidgetProvider.class);
         intent.setAction(ACTION_UPDATE_MESSAGE_LIST);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds);
+        intent.setPackage(context.getPackageName());
         context.sendBroadcast(intent);
     }
 
@@ -63,7 +62,7 @@ public class MessageListWidgetProvider extends AppWidgetProvider {
         super.onReceive(context, intent);
 
         String action = intent.getAction();
-        if (action.equals(ACTION_UPDATE_MESSAGE_LIST)) {
+        if (ACTION_UPDATE_MESSAGE_LIST.equals(action)) {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] appWidgetIds = intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.listView);

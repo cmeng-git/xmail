@@ -101,8 +101,8 @@ Lūdzu, iesniedziet kļūdu ziņojumus, ierosiniet jaunas iespējas un uzdodiet 
   <string name="move_action">Pārvietot</string>
   <string name="single_message_options_action">Sūtīt…</string>
   <string name="refile_action">Atkārtoti iearhivēt…</string>
-  <string name="done_action">Gatavs</string>
-  <string name="discard_action">Izmest</string>
+  <string name="done">Gatavs</string>
+  <string name="discard">Izmest</string>
   <string name="save_draft_action">Saglabāt kā melnrakstu</string>
   <string name="check_mail_action">Pārbaudīt pastu</string>
   <string name="send_messages_action">Sūtīt vēstules</string>

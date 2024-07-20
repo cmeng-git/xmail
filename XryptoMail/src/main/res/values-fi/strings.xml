@@ -104,8 +104,8 @@ Ilmoita virheistä, ota osaa sovelluskehitykseen ja esitä kysymyksiä osoittees
   <string name="move_action">Siirrä</string>
   <string name="single_message_options_action">Viestin asetukset…</string>
   <string name="refile_action">Arkistoi…</string>
-  <string name="done_action">Valmis</string>
-  <string name="discard_action">Hylkää</string>
+  <string name="done">Valmis</string>
+  <string name="discard">Hylkää</string>
   <string name="save_draft_action">Tallenna luonnoksena</string>
   <string name="check_mail_action">Tarkista posti</string>
   <string name="send_messages_action">Lähetä viestit</string>

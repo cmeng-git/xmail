@@ -105,8 +105,8 @@ Bitte senden Sie Fehlerberichte, Ideen für neue Funktionen und stellen Sie Frag
   <string name="move_action">Verschieben</string>
   <string name="single_message_options_action">Senden…</string>
   <string name="refile_action">Umsortieren…</string>
-  <string name="done_action">Fertig</string>
-  <string name="discard_action">Verwerfen</string>
+  <string name="done">Fertig</string>
+  <string name="discard">Verwerfen</string>
   <string name="save_draft_action">Als Entwurf speichern</string>
   <string name="check_mail_action">E-Mail abrufen</string>
   <string name="send_messages_action">Nachrichten senden</string>

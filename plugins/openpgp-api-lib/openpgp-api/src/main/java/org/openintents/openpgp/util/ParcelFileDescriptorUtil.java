@@ -26,10 +26,11 @@ import android.os.ParcelFileDescriptor;
 import android.os.ParcelFileDescriptor.AutoCloseInputStream;
 import android.system.ErrnoException;
 import android.system.OsConstants;
-import android.util.Log;
 
 import org.openintents.openpgp.util.OpenPgpApi.OpenPgpDataSink;
 import org.openintents.openpgp.util.OpenPgpApi.OpenPgpDataSource;
+
+import timber.log.Timber;
 
 public class ParcelFileDescriptorUtil {
 
@@ -75,7 +76,7 @@ public class ParcelFileDescriptorUtil {
                     mOut.write(buf, 0, len);
                 }
             } catch (IOException e) {
-                Log.e(OpenPgpApi.TAG, "IOException when writing to out", e);
+                Timber.e(e, "IOException when writing to out");
             } finally {
                 try {
                     mIn.close();
@@ -93,8 +94,7 @@ public class ParcelFileDescriptorUtil {
     public static <T> DataSinkTransferThread<T> asyncPipeToDataSink(
             OpenPgpDataSink<T> dataSink, ParcelFileDescriptor output) {
         InputStream inputStream = new BufferedInputStream(new AutoCloseInputStream(output));
-        DataSinkTransferThread<T> dataSinkTransferThread =
-                new DataSinkTransferThread<T>(dataSink, inputStream);
+        DataSinkTransferThread<T> dataSinkTransferThread = new DataSinkTransferThread<>(dataSink, inputStream);
         dataSinkTransferThread.start();
         return dataSinkTransferThread;
     }
@@ -116,11 +116,11 @@ public class ParcelFileDescriptorUtil {
                 dataSource.writeTo(outputStream);
             } catch (IOException e) {
                 if (dataSource.isCancelled()) {
-                    Log.d(OpenPgpApi.TAG, "Stopped writing because operation was cancelled.");
+                    Timber.d("Stopped writing because operation was cancelled.");
                 } else if (isIOExceptionCausedByEPIPE(e)) {
-                    Log.d(OpenPgpApi.TAG, "Stopped writing due to broken pipe (other end closed pipe?)");
+                    Timber.d("Stopped writing due to broken pipe (other end closed pipe?)");
                 } else {
-                    Log.e(OpenPgpApi.TAG, "IOException when writing to out", e);
+                    Timber.e(e, "IOException when writing to out");
                 }
             } finally {
                 try {
@@ -132,10 +132,6 @@ public class ParcelFileDescriptorUtil {
     }
 
     private static boolean isIOExceptionCausedByEPIPE(IOException e) {
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
-            return e.getMessage().contains("EPIPE");
-        }
-
         Throwable cause = e.getCause();
         return cause instanceof ErrnoException && ((ErrnoException) cause).errno == OsConstants.EPIPE;
     }
@@ -158,9 +154,9 @@ public class ParcelFileDescriptorUtil {
                 sinkResult = dataSink.processData(inputStream);
             } catch (IOException e) {
                 if (isIOExceptionCausedByEPIPE(e)) {
-                    Log.e(OpenPgpApi.TAG, "Stopped read due to broken pipe (other end closed pipe?)");
+                    Timber.e("Stopped read due to broken pipe (other end closed pipe?)");
                 } else {
-                    Log.e(OpenPgpApi.TAG, "IOException while reading from in", e);
+                    Timber.e(e, "IOException while reading from in");
                 }
                 sinkResult = null;
             } finally {

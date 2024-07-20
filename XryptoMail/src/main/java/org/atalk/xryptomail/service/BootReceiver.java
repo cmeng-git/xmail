@@ -9,14 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.Build;
 import android.text.TextUtils;
-
-import org.atalk.xryptomail.XryptoMail;
-import org.atalk.xryptomail.helper.XryptoMailAlarmManager;
 
 import java.util.Date;
 import java.util.Objects;
+
+import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.helper.XryptoMailAlarmManager;
 
 import timber.log.Timber;
 
@@ -109,8 +108,7 @@ public class BootReceiver extends CoreReceiver
         i.putExtra(ALARMED_INTENT, alarmedIntent);
         Uri uri = Uri.parse("action://" + alarmedAction);
         i.setData(uri);
-        return PendingIntent.getBroadcast(context, 0, i,
-                getPendingIntentFlag(false, true));
+        return PendingIntent.getBroadcast(context, 0, i, getPendingIntentFlag(false, true));
     }
 
     public static void scheduleIntent(Context context, long atTime, Intent alarmedIntent)
@@ -122,6 +120,7 @@ public class BootReceiver extends CoreReceiver
         i.setAction(SCHEDULE_INTENT);
         i.putExtra(ALARMED_INTENT, alarmedIntent);
         i.putExtra(AT_TIME, atTime);
+        i.setPackage(context.getPackageName());
         context.sendBroadcast(i);
     }
 
@@ -133,6 +132,7 @@ public class BootReceiver extends CoreReceiver
         i.setClass(context, BootReceiver.class);
         i.setAction(CANCEL_INTENT);
         i.putExtra(ALARMED_INTENT, alarmedIntent);
+        i.setPackage(context.getPackageName());
         context.sendBroadcast(i);
     }
 

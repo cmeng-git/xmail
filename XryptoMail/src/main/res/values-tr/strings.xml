@@ -104,8 +104,8 @@ Microsoft Exchange ile konuşurken bazı tuhaflıklar yaşadığını not ediniz
   <string name="move_action">Taşı</string>
   <string name="single_message_options_action">Gönder…</string>
   <string name="refile_action">Yeniden işlem…</string>
-  <string name="done_action">Tamam</string>
-  <string name="discard_action">Çıkart</string>
+  <string name="done">Tamam</string>
+  <string name="discard">Çıkart</string>
   <string name="save_draft_action">Taslak olarak Kaydet</string>
   <string name="check_mail_action">Postayı Kontrol et</string>
   <string name="send_messages_action">İletileri Gönder</string>

@@ -104,8 +104,8 @@ Veuillez rapporter les bogues, recommander de nouvelles fonctions et poser vos q
   <string name="move_action">Déplacer</string>
   <string name="single_message_options_action">Envoyer…</string>
   <string name="refile_action">Reclasser…</string>
-  <string name="done_action">Terminé</string>
-  <string name="discard_action">Supprimer</string>
+  <string name="done">Terminé</string>
+  <string name="discard">Supprimer</string>
   <string name="save_draft_action">Enregistrer comme brouillon</string>
   <string name="check_mail_action">Relève des courriels</string>
   <string name="send_messages_action">Envoyer les courriels</string>

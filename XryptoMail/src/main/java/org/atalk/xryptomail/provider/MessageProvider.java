@@ -1,6 +1,5 @@
 package org.atalk.xryptomail.provider;
 
-import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -16,9 +15,22 @@ import android.database.DataSetObserver;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.Binder;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.AccountStats;
@@ -37,20 +49,6 @@ import org.atalk.xryptomail.mail.MessagingException;
 import org.atalk.xryptomail.mailstore.LocalFolder;
 import org.atalk.xryptomail.mailstore.LocalMessage;
 import org.atalk.xryptomail.search.SearchAccount;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import timber.log.Timber;
 
@@ -1060,7 +1058,6 @@ public class MessageProvider extends ContentProvider
             return mCursor.getWantsAllOnMoveCalls();
         }
 
-        @TargetApi(Build.VERSION_CODES.M)
         @Override
         public void setExtras(Bundle extras)
         {

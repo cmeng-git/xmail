@@ -105,8 +105,8 @@ Por favor envíen informes de fallos, contribúa con novas características e co
   <string name="move_action">Mover</string>
   <string name="single_message_options_action">Enviar…</string>
   <string name="refile_action">Arquivar...</string>
-  <string name="done_action">Feito</string>
-  <string name="discard_action">Descartar</string>
+  <string name="done">Feito</string>
+  <string name="discard">Descartar</string>
   <string name="save_draft_action">Gardar coma borrador</string>
   <string name="check_mail_action">Sincronizar</string>
   <string name="send_messages_action">Enviar Correo</string>

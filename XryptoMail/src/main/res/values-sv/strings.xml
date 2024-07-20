@@ -104,8 +104,8 @@ Skicka gärna in rapporter om buggar, eller bidra med nya funktioner eller stäl
   <string name="move_action">Flytta</string>
   <string name="single_message_options_action">Skicka…</string>
   <string name="refile_action">Omarkivera…</string>
-  <string name="done_action">Färdig</string>
-  <string name="discard_action">Kasta</string>
+  <string name="done">Färdig</string>
+  <string name="discard">Kasta</string>
   <string name="save_draft_action">Spara som utkast</string>
   <string name="check_mail_action">Kontrollera e-post</string>
   <string name="send_messages_action">Skicka brev</string>

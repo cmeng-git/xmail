@@ -32,10 +32,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import org.openintents.openpgp.R;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.openintents.openpgp.R;
 
 /**
  * Does not extend ListPreference, but is very similar to it!
@@ -49,6 +49,7 @@ public class OpenPgpAppPreference extends DialogPreference {
 
     private static final String PACKAGE_NAME_APG = "org.thialfihar.android.apg";
     private static final ArrayList<String> PROVIDER_BLACKLIST = new ArrayList<>();
+    private OnDialogClosedListener onDialogCloseListener;
 
     static {
         // Unfortunately, the current released version of APG includes a broken version of the API
@@ -96,8 +97,8 @@ public class OpenPgpAppPreference extends DialogPreference {
                 android.R.layout.select_dialog_singlechoice, android.R.id.text1, mList) {
             public View getView(int position, View convertView, ViewGroup parent) {
                 // User super class to create the View
-                View v = super.getView(position, convertView, parent);
-                TextView tv = v.findViewById(android.R.id.text1);
+                View view = super.getView(position, convertView, parent);
+                TextView tv = view.findViewById(android.R.id.text1);
 
                 // Put the image on the TextView
                 tv.setCompoundDrawablesWithIntrinsicBounds(mList.get(position).icon, null,
@@ -107,7 +108,7 @@ public class OpenPgpAppPreference extends DialogPreference {
                 int dp10 = (int) (10 * getContext().getResources().getDisplayMetrics().density + 0.5f);
                 tv.setCompoundDrawablePadding(dp10);
 
-                return v;
+                return view;
             }
         };
 
@@ -125,7 +126,7 @@ public class OpenPgpAppPreference extends DialogPreference {
                              * Current approach is to assume the user installed the app.
                              * If he does not, the selected package is not valid.
                              *
-                             * However, applications should always consider this could happen,
+                             * However applications should always consider this could happen,
                              * as the user might remove the currently used OpenPGP app.
                              */
                             getContext().startActivity(entry.intent);
@@ -150,12 +151,20 @@ public class OpenPgpAppPreference extends DialogPreference {
         builder.setPositiveButton(null, null);
     }
 
+    public void setOnDialogCloseListener(OnDialogClosedListener onDialogCloseListener) {
+        this.onDialogCloseListener = onDialogCloseListener;
+    }
+
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
 
         if (positiveResult && (mSelectedPackage != null)) {
             save();
+        }
+
+        if (onDialogCloseListener != null) {
+            onDialogCloseListener.onDialogClosed();
         }
     }
 
@@ -236,7 +245,8 @@ public class OpenPgpAppPreference extends DialogPreference {
             // Restore state
             mSelectedPackage = getPersistedString(mSelectedPackage);
             updateSummary(mSelectedPackage);
-        } else {
+        }
+        else {
             String value = (String) defaultValue;
             setAndPersist(value);
             updateSummary(value);
@@ -264,32 +274,29 @@ public class OpenPgpAppPreference extends DialogPreference {
         // add all additional (legacy) providers
         mList.addAll(mLegacyList);
 
+        boolean hasNonBlacklistedChoices = false;
         // search for OpenPGP providers...
         Intent intent = new Intent(OpenPgpApi.SERVICE_INTENT_2);
         List<ResolveInfo> resInfo = getContext().getPackageManager().queryIntentServices(intent, 0);
-        boolean hasNonBlacklistedChoices = false;
-        if (resInfo != null) {
-            for (ResolveInfo resolveInfo : resInfo) {
-                if (resolveInfo.serviceInfo == null) {
-                    continue;
-                }
+        for (ResolveInfo resolveInfo : resInfo) {
+            if (resolveInfo.serviceInfo == null) {
+                continue;
+            }
 
-                String packageName = resolveInfo.serviceInfo.packageName;
-                String simpleName = String.valueOf(resolveInfo.serviceInfo.loadLabel(getContext()
-                        .getPackageManager()));
-                Drawable icon = resolveInfo.serviceInfo.loadIcon(getContext().getPackageManager());
+            String packageName = resolveInfo.serviceInfo.packageName;
+            String simpleName = String.valueOf(resolveInfo.serviceInfo.loadLabel(getContext()
+                    .getPackageManager()));
+            Drawable icon = resolveInfo.serviceInfo.loadIcon(getContext().getPackageManager());
 
-                if (!PROVIDER_BLACKLIST.contains(packageName)) {
-                    mList.add(new OpenPgpProviderEntry(packageName, simpleName, icon));
-                    hasNonBlacklistedChoices = true;
-                }
+            if (!PROVIDER_BLACKLIST.contains(packageName)) {
+                mList.add(new OpenPgpProviderEntry(packageName, simpleName, icon));
+                hasNonBlacklistedChoices = true;
             }
         }
 
         if (!hasNonBlacklistedChoices) {
             // add install links if provider list is empty
-            resInfo = getContext().getPackageManager().queryIntentActivities
-                    (MARKET_INTENT, 0);
+            resInfo = getContext().getPackageManager().queryIntentActivities(MARKET_INTENT, 0);
             for (ResolveInfo resolveInfo : resInfo) {
                 Intent marketIntent = new Intent(MARKET_INTENT);
                 marketIntent.setPackage(resolveInfo.activityInfo.packageName);
@@ -309,9 +316,9 @@ public class OpenPgpAppPreference extends DialogPreference {
     }
 
     private static class OpenPgpProviderEntry {
-        private String packageName;
-        private String simpleName;
-        private Drawable icon;
+        private final String packageName;
+        private final String simpleName;
+        private final Drawable icon;
         private Intent intent;
 
         OpenPgpProviderEntry(String packageName, String simpleName, Drawable icon) {
@@ -331,10 +338,16 @@ public class OpenPgpAppPreference extends DialogPreference {
         }
     }
 
+    public interface OnDialogClosedListener {
+        void onDialogClosed();
+    }
+
     public static boolean isApgInstalled(Context context) {
-        Intent intent = new Intent("org.openintents.openpgp.IOpenPgpService");
+        Intent intent = new Intent(OpenPgpApi.SERVICE_INTENT_2);
         intent.setPackage(PACKAGE_NAME_APG);
         List<ResolveInfo> resInfo = context.getPackageManager().queryIntentServices(intent, 0);
-        return resInfo != null && !resInfo.isEmpty();
+        return !resInfo.isEmpty();
     }
 }
+
+

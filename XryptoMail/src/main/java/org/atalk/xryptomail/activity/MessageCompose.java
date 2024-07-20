@@ -1170,7 +1170,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
                             dismissDialog(DIALOG_SAVE_OR_DISCARD_DRAFT_MESSAGE);
                             checkToSaveDraftAndSave();
                         })
-                        .setNegativeButton(R.string.discard_action, (dialog, whichButton) -> {
+                        .setNegativeButton(R.string.discard, (dialog, whichButton) -> {
                             dismissDialog(DIALOG_SAVE_OR_DISCARD_DRAFT_MESSAGE);
                             onDiscard();
                         })
@@ -1181,7 +1181,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
                         .setMessage(R.string.confirm_discard_draft_message)
                         .setPositiveButton(R.string.cancel_action, (dialog, whichButton) ->
                                 dismissDialog(DIALOG_CONFIRM_DISCARD_ON_BACK))
-                        .setNegativeButton(R.string.discard_action, (dialog, whichButton) -> {
+                        .setNegativeButton(R.string.discard, (dialog, whichButton) -> {
                             dismissDialog(DIALOG_CONFIRM_DISCARD_ON_BACK);
                             Toast.makeText(MessageCompose.this,
                                     getString(R.string.message_discarded_toast),

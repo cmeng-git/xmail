@@ -102,8 +102,8 @@ Prosím, nahlasujte prípadné chyby, prispievajte novými funkciami a pýtajte 
   <string name="move_action">Presunúť</string>
   <string name="single_message_options_action">Odoslať…</string>
   <string name="refile_action">Presunúť…</string>
-  <string name="done_action">Hotovo</string>
-  <string name="discard_action">Zahodiť</string>
+  <string name="done">Hotovo</string>
+  <string name="discard">Zahodiť</string>
   <string name="save_draft_action">Uložiť ako koncept</string>
   <string name="check_mail_action">Skontrolovať poštu</string>
   <string name="send_messages_action">Odoslať správy</string>

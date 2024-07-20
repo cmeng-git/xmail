@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +45,7 @@ public class AutocryptPreferEncryptDialog extends AlertDialog implements OnClick
         // TODO add autocrypt logo?
         // setIcon(R.drawable.autocrypt);
         setView(contentView);
-        setButton(Dialog.BUTTON_NEUTRAL, context.getString(R.string.done_action), (dialogInterface, i) -> cancel());
+        setButton(Dialog.BUTTON_NEUTRAL, context.getString(R.string.done), (dialogInterface, i) -> cancel());
     }
 
     @Override

@@ -104,8 +104,8 @@ Sendu inn villuskýrslur, leggðu fram nýja eiginleika og spurðu spurninga á
   <string name="move_action">Færa</string>
   <string name="single_message_options_action">Senda…</string>
   <string name="refile_action">Endurraða…</string>
-  <string name="done_action">Búið</string>
-  <string name="discard_action">Henda</string>
+  <string name="done">Búið</string>
+  <string name="discard">Henda</string>
   <string name="save_draft_action">Vista sem drög</string>
   <string name="check_mail_action">Athuga póst</string>
   <string name="send_messages_action">Senda póst</string>

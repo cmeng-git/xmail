@@ -66,8 +66,8 @@
   <string name="move_action">Perkelti</string>
   <string name="single_message_options_action">Siųsti…</string>
   <string name="refile_action">Refile…</string>
-  <string name="done_action">Atlikta</string>
-  <string name="discard_action">Atmesti</string>
+  <string name="done">Atlikta</string>
+  <string name="discard">Atmesti</string>
   <string name="save_draft_action">Išsaugoti kaip juodraštį</string>
   <string name="check_mail_action">Ieškoti naujų laiškų</string>
   <string name="send_messages_action">Siųsti laiškus</string>

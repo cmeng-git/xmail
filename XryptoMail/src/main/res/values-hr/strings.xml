@@ -67,8 +67,8 @@
   <string name="move_action">Premjesti</string>
   <string name="single_message_options_action">Pošalji…</string>
   <string name="refile_action">Ponovno punjenje…</string>
-  <string name="done_action">Gotovo</string>
-  <string name="discard_action">Otpusti</string>
+  <string name="done">Gotovo</string>
+  <string name="discard">Otpusti</string>
   <string name="save_draft_action">Spremi kao skicu</string>
   <string name="check_mail_action">Provjeri E-Poštu</string>
   <string name="send_messages_action">Pošalji poruke</string>

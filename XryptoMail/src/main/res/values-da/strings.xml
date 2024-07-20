@@ -97,8 +97,8 @@ Rapporter venligst fejl, forslag til nye funktioner eller stil spørgsmål på:
   <string name="move_action">Flyt</string>
   <string name="single_message_options_action">Send…</string>
   <string name="refile_action">Genarkivering…</string>
-  <string name="done_action">Afslut</string>
-  <string name="discard_action">Slet</string>
+  <string name="done">Afslut</string>
+  <string name="discard">Slet</string>
   <string name="save_draft_action">Gem som kladde</string>
   <string name="check_mail_action">Synkroniser mails</string>
   <string name="send_messages_action">Send mails</string>

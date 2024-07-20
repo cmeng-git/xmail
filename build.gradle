@@ -11,8 +11,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0"
+        classpath 'com.android.tools.build:gradle:8.2.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -35,19 +35,10 @@ project.ext {
     testCoverage = project.hasProperty('testCoverage')
     optimizeForDevelopment = project.hasProperty('optimizeForDevelopment') && optimizeForDevelopment
 
-    minSdkVersion = 21
-    compileSdkVersion = 33
-    buildToolsVersion = '33.0.2'
+    minSdk = 24
+    compileSdk = 34
+    buildToolsVersion = '34.0.0'
 }
-
-//subprojects {
-//    project.plugins.whenPluginAdded { plugin ->
-//        if ("com.android.build.gradle.AppPlugin".equals(plugin.class.name) ||
-//                "com.android.build.gradle.LibraryPlugin".equals(plugin.class.name)) {
-//            project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
-//        }
-//    }
-//}
 
 task clean(type: Delete) {
     delete rootProject.buildDir

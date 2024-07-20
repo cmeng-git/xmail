@@ -18,9 +18,8 @@ package org.atalk.xryptomail.permissions;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -30,13 +29,20 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -56,77 +62,88 @@ import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.activity.Accounts;
 import org.atalk.xryptomail.activity.Splash;
+import org.atalk.xryptomail.databinding.PermissionsUiBinding;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import timber.log.Timber;
 
 /**
  * Sample activity showing the permission request process with Dexter.
  */
 public class PermissionsActivity extends FragmentActivity {
-    private static final int REQUEST_BATTERY_OP = 100;
+    private final static String permission_DELETE_MESSAGES = "org.atalk.xryptomail.permission.DELETE_MESSAGES";
+    private final static String permission_READ_MESSAGES = "org.atalk.xryptomail.permission.READ_MESSAGES";
+    private final static String permission_REMOTE_CONTROL = "org.atalk.xryptomail.permission.REMOTE_CONTROL";
 
-    @BindView(R.id.contacts_permission_feedback)
-    TextView contactsPermissionFeedbackView;
-    @BindView(R.id.storage_permission_feedback)
-    TextView storagePermissionFeedbackView;
-    @BindView(R.id.delete_mail_permission_feedback)
-    TextView deleteMailPermissionFeedbackView;
-    @BindView(R.id.read_mail_permission_feedback)
-    TextView readMailPermissionFeedbackView;
-    @BindView(R.id.remote_control_permission_feedback)
-    TextView remoteControlPermissionFeedbackView;
-    @BindView(R.id.app_info_permissions_button)
-    Button button_app_info;
-    @BindView(android.R.id.content)
-    View contentView;
-
+    private PermissionsUiBinding mBinding;
     private MultiplePermissionsListener allPermissionsListener;
     private MultiplePermissionsListener dialogMultiplePermissionsListener;
-    private PermissionListener contactsPermissionListener;
+    private MultiplePermissionsListener contactsPermissionListener;
+    private PermissionListener musicPermissionListener;
+    private MultiplePermissionsListener videoPermissionListener;
+    private PermissionListener notificationsPermissionListener;
     private PermissionListener storagePermissionListener;
     private PermissionListener deleteMailPermissionListener;
     private PermissionListener readMailPermissionListener;
     private PermissionListener remoteControlPermissionListener;
     private PermissionRequestErrorListener errorListener;
 
+    private ActivityResultLauncher<Void> mBatteryOptimization;
+
     protected static List<PermissionGrantedResponse> grantedPermissionResponses = new LinkedList<>();
     protected static List<PermissionDeniedResponse> deniedPermissionResponses = new LinkedList<>();
 
-    private final static String permission_DELETE_MESSAGES = "org.atalk.xryptomail.permission.DELETE_MESSAGES";
-    private final static String permission_READ_MESSAGES = "org.atalk.xryptomail.permission.READ_MESSAGES";
-    private final static String permission_REMOTE_CONTROL = "org.atalk.xryptomail.permission.REMOTE_CONTROL";
+    protected static List<String> permissionList = new LinkedList<>();
+
+    static {
+        permissionList.add(Manifest.permission.CAMERA);
+        permissionList.add(Manifest.permission.READ_CONTACTS);
+        permissionList.add(Manifest.permission.WRITE_CONTACTS);
+        permissionList.add(permission_DELETE_MESSAGES);
+        permissionList.add(permission_READ_MESSAGES);
+        permissionList.add(permission_REMOTE_CONTROL);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissionList.add(Manifest.permission.READ_MEDIA_AUDIO);
+            permissionList.add(Manifest.permission.READ_MEDIA_VIDEO);
+            permissionList.add(Manifest.permission.READ_MEDIA_IMAGES);
+            permissionList.add(Manifest.permission.POST_NOTIFICATIONS);
+        }
+        else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
+            permissionList.add(Manifest.permission.ACCESS_MEDIA_LOCATION);
+        }
+        else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+    }
 
     // Flag indicates this the xMail first launch
     private static boolean permissionFirstRequest = true;
 
-    @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Always request permission on first apk launch for android.M
-        if (permissionFirstRequest && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
+        if (permissionFirstRequest) {
             // see if we should show the splash screen and wait for it to complete before continue
             if (Splash.isFirstRun()) {
                 Intent intent = new Intent(this, Splash.class);
                 startActivity(intent);
             }
 
-            setContentView(R.layout.permissions_activity);
-            Timber.i("Launching user permission request for XryptoMail.");
+            mBinding = PermissionsUiBinding.inflate(getLayoutInflater());
+            View view = mBinding.getRoot();
+            setContentView(view);
+            initView();
+
+            Timber.i("Launching dynamic permission request for XryptoMail.");
             permissionFirstRequest = false;
 
             // Request user to add XryptoMail to BatteryOptimization whitelist
             // Otherwise XryptoMail will be put to sleep on system doze-standby
+            mBatteryOptimization = requestBatteryOptimization();
             boolean showBatteryOptimizationDialog = openBatteryOptimizationDialogIfNeeded();
 
-            ButterKnife.bind(this);
             createPermissionListeners();
             boolean permissionRequest = getPackagePermissionsStatus();
             permissionsStatusUpdate();
@@ -134,17 +151,50 @@ public class PermissionsActivity extends FragmentActivity {
             if ((!permissionRequest) && !showBatteryOptimizationDialog) {
                 startLauncher();
             }
-        } else
+        }
+        else {
             startLauncher();
+        }
     }
 
     private void startLauncher() {
         Intent i = new Intent(this, Accounts.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        // i.putExtra(SystemEventReceiver.AUTO_START_ONBOOT, false);
         startActivity(i);
         finish();
     }
 
-    @OnClick(R.id.button_done)
+    private void initView() {
+        mBinding.contactsPermissionButton.setOnClickListener(v -> onContactsPermissionButtonClicked());
+        mBinding.deleteMailPermissionButton.setOnClickListener(v -> onDeleteMailPermissionButtonClicked());
+        mBinding.readMailPermissionButton.setOnClickListener(v -> onReadMailPermissionButtonClicked());
+        mBinding.remoteControlPermissionButton.setOnClickListener(v -> onRemoteControlPermissionButtonClicked());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            mBinding.musicPermissionButton.setOnClickListener(v -> onMusicPermissionButtonClicked());
+            mBinding.videoPermissionButton.setOnClickListener(v -> onVideoPermissionButtonClicked());
+            mBinding.notificationsPermissionButton.setOnClickListener(v -> onNotificationsPermissionButtonClicked());
+
+            mBinding.storageView.setVisibility(View.GONE);
+        }
+        else {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                mBinding.storageView.setVisibility(View.GONE);
+            }
+            else {
+                mBinding.storagePermissionButton.setOnClickListener(v -> onStoragePermissionButtonClicked());
+            }
+            mBinding.musicView.setVisibility(View.GONE);
+            mBinding.videoView.setVisibility(View.GONE);
+            mBinding.notificationsView.setVisibility(View.GONE);
+        }
+
+        mBinding.allPermissionsButton.setOnClickListener(v -> onAllPermissionsButtonClicked());
+        mBinding.appInfoPermissionsButton.setOnClickListener(v -> onInfoButtonClicked(this));
+        mBinding.buttonDone.setOnClickListener(v -> onDoneButtonClicked());
+    }
+
     public void onDoneButtonClicked() {
         startLauncher();
     }
@@ -157,56 +207,59 @@ public class PermissionsActivity extends FragmentActivity {
 
     public void onAllPermissionsCheck() {
         Dexter.withContext(this)
-                .withPermissions(
-                        Manifest.permission.READ_CONTACTS,
-                        Manifest.permission.WRITE_CONTACTS,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        permission_DELETE_MESSAGES,
-                        permission_READ_MESSAGES,
-                        permission_REMOTE_CONTROL
-                )
+                .withPermissions(permissionList)
                 .withListener(allPermissionsListener)
                 .withErrorListener(errorListener)
                 .check();
     }
 
-    @OnClick(R.id.all_permissions_button)
     public void onAllPermissionsButtonClicked() {
-        button_app_info.setVisibility(View.INVISIBLE);
         grantedPermissionResponses.clear();
         deniedPermissionResponses.clear();
 
         Dexter.withContext(this)
-                .withPermissions(
-                        Manifest.permission.READ_CONTACTS,
-                        Manifest.permission.WRITE_CONTACTS,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        permission_DELETE_MESSAGES,
-                        permission_READ_MESSAGES,
-                        permission_REMOTE_CONTROL
-                )
+                .withPermissions(permissionList)
                 .withListener(dialogMultiplePermissionsListener)
                 .withErrorListener(errorListener)
                 .check();
     }
 
-    @OnClick(R.id.contacts_permission_button)
     public void onContactsPermissionButtonClicked() {
-        // Must request for both for API-28
         Dexter.withContext(this)
-                .withPermission(Manifest.permission.READ_CONTACTS)
-                .withListener(contactsPermissionListener)
-                .withErrorListener(errorListener)
-                .check();
-
-        Dexter.withContext(this)
-                .withPermission(Manifest.permission.WRITE_CONTACTS)
+                .withPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS)
                 .withListener(contactsPermissionListener)
                 .withErrorListener(errorListener)
                 .check();
     }
 
-    @OnClick(R.id.storage_permission_button)
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+    public void onMusicPermissionButtonClicked() {
+        Dexter.withContext(this)
+                .withPermission(Manifest.permission.READ_MEDIA_AUDIO)
+                .withListener(musicPermissionListener)
+                .withErrorListener(errorListener)
+                .check();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+    public void onNotificationsPermissionButtonClicked() {
+        Dexter.withContext(this)
+                .withPermission(Manifest.permission.POST_NOTIFICATIONS)
+                .withListener(notificationsPermissionListener)
+                .withErrorListener(errorListener)
+                .check();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+    // READ_MEDIA_VIDEO and READ_MEDIA_IMAGES; need to request only one.
+    public void onVideoPermissionButtonClicked() {
+        Dexter.withContext(this)
+                .withPermissions(Manifest.permission.READ_MEDIA_VIDEO, Manifest.permission.READ_MEDIA_IMAGES)
+                .withListener(videoPermissionListener)
+                .withErrorListener(errorListener)
+                .check();
+    }
+
     public void onStoragePermissionButtonClicked() {
         Dexter.withContext(this)
                 .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -215,7 +268,6 @@ public class PermissionsActivity extends FragmentActivity {
                 .check();
     }
 
-    @OnClick(R.id.delete_mail_permission_button)
     public void onDeleteMailPermissionButtonClicked() {
         Dexter.withContext(this)
                 .withPermission(permission_DELETE_MESSAGES)
@@ -224,7 +276,6 @@ public class PermissionsActivity extends FragmentActivity {
                 .check();
     }
 
-    @OnClick(R.id.read_mail_permission_button)
     public void onReadMailPermissionButtonClicked() {
         Dexter.withContext(this)
                 .withPermission(permission_READ_MESSAGES)
@@ -232,9 +283,7 @@ public class PermissionsActivity extends FragmentActivity {
                 .withErrorListener(errorListener)
                 .check();
     }
-
-    @OnClick(R.id.remote_control_permission_button)
-    public void onLocationPermissionButtonClicked() {
+    public void onRemoteControlPermissionButtonClicked() {
         Dexter.withContext(this)
                 .withPermission(permission_REMOTE_CONTROL)
                 .withListener(remoteControlPermissionListener)
@@ -242,13 +291,12 @@ public class PermissionsActivity extends FragmentActivity {
                 .check();
     }
 
-    @OnClick(R.id.app_info_permissions_button)
-    public void onInfoButtonClicked() {
+    public static void onInfoButtonClicked(Context context) {
         Intent myAppSettings = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                Uri.parse("package:" + this.getPackageName()));
+                Uri.parse("package:" + context.getPackageName()));
         myAppSettings.addCategory(Intent.CATEGORY_DEFAULT);
         myAppSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(myAppSettings);
+        context.startActivity(myAppSettings);
     }
 
     public void showPermissionRationale(final PermissionToken token) {
@@ -277,7 +325,7 @@ public class PermissionsActivity extends FragmentActivity {
             try {
                 PackageInfo packageInfo = pm.getPackageInfo(this.getPackageName(), PackageManager.GET_PERMISSIONS);
 
-                //Get Permissions
+                // Get Permissions
                 String[] requestedPermissions = packageInfo.requestedPermissions;
                 if (requestedPermissions != null) {
                     for (String requestedPermission : requestedPermissions) {
@@ -285,11 +333,12 @@ public class PermissionsActivity extends FragmentActivity {
                             continue;
 
                         PermissionRequest pr = new PermissionRequest(requestedPermission);
-                        //denied
+                        // denied
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, requestedPermission)) {
                             deniedPermissionResponses.add(new PermissionDeniedResponse(pr, false));
-                        } else {
-                            //allowed
+                        }
+                        else {
+                            // allowed
                             if (ActivityCompat.checkSelfPermission(this,
                                     requestedPermission) == PackageManager.PERMISSION_GRANTED) {
                                 grantedPermissionResponses.add(new PermissionGrantedResponse(pr));
@@ -302,7 +351,7 @@ public class PermissionsActivity extends FragmentActivity {
                     }
                 }
             } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
+                Timber.e("NameNotFoundException: %s", e.getMessage());
             }
         }
         // Proceed to request user for permissions if not all are permanently denied
@@ -341,7 +390,7 @@ public class PermissionsActivity extends FragmentActivity {
     public void showPermissionGranted(String permission) {
         TextView feedbackView = getFeedbackViewForPermission(permission);
         if (feedbackView != null) {
-            feedbackView.setText(R.string.permission_granted_feedback);
+            feedbackView.setText(R.string.permission_granted);
             feedbackView.setTextColor(ContextCompat.getColor(this, R.color.permission_granted));
         }
     }
@@ -355,10 +404,7 @@ public class PermissionsActivity extends FragmentActivity {
         TextView feedbackView = getFeedbackViewForPermission(permission);
         if (feedbackView != null) {
             feedbackView.setText(isPermanentlyDenied
-                    ? R.string.permission_permanently_denied_feedback : R.string.permission_denied_feedback);
-            if (isPermanentlyDenied) {
-                button_app_info.setVisibility(View.VISIBLE);
-            }
+                    ? R.string.permission_denied_permanently : R.string.permission_denied);
             feedbackView.setTextColor(ContextCompat.getColor(this, R.color.permission_denied));
         }
     }
@@ -367,76 +413,99 @@ public class PermissionsActivity extends FragmentActivity {
      * Initialize all the permission listener required actions
      */
     private void createPermissionListeners() {
-        PermissionListener dialogOnDeniedPermissionListener;
-        PermissionListener feedbackViewPermissionListener = new AppPermissionListener(this);
-        MultiplePermissionsListener feedbackViewMultiplePermissionListener = new MultiplePermissionListener(this);
+        PermissionListener deniedPermissionListener;
+        PermissionListener fbPermissionListener = new AppPermissionListener(this);
 
-        allPermissionsListener = new CompositeMultiplePermissionsListener(feedbackViewMultiplePermissionListener,
+        DialogOnAnyDeniedMultiplePermissionsListener anyDeniedPermissionListener;
+        MultiplePermissionsListener fbMultiplePermissionListener = new MultiplePermissionListener(this);
+
+        View contentView = findViewById(android.R.id.content);
+        allPermissionsListener = new CompositeMultiplePermissionsListener(fbMultiplePermissionListener,
                 SnackbarOnAnyDeniedMultiplePermissionsListener.Builder
                         .with(contentView, R.string.all_permissions_denied_feedback)
                         .withOpenSettingsButton(R.string.permission_rationale_settings_button_text)
                         .build());
 
-        DialogOnAnyDeniedMultiplePermissionsListener dialogOnAnyDeniedPermissionListener
-                = DialogOnAnyDeniedMultiplePermissionsListener.Builder
+        anyDeniedPermissionListener = DialogOnAnyDeniedMultiplePermissionsListener.Builder
                 .withContext(this)
                 .withTitle(R.string.all_permission_denied_dialog_title)
                 .withMessage(R.string.all_permissions_denied_feedback)
                 .withButtonText(android.R.string.ok)
                 .withIcon(R.drawable.ic_icon)
                 .build();
-        dialogMultiplePermissionsListener = new CompositeMultiplePermissionsListener(
-                feedbackViewMultiplePermissionListener, dialogOnAnyDeniedPermissionListener);
+        dialogMultiplePermissionsListener = new CompositeMultiplePermissionsListener(fbMultiplePermissionListener, anyDeniedPermissionListener);
 
-        dialogOnDeniedPermissionListener = DialogOnDeniedPermissionListener.Builder
+        anyDeniedPermissionListener = DialogOnAnyDeniedMultiplePermissionsListener.Builder
                 .withContext(this)
                 .withTitle(R.string.contacts_permission_denied_dialog_title)
                 .withMessage(R.string.contacts_permission_denied_feedback)
                 .withButtonText(android.R.string.ok)
                 .withIcon(R.drawable.ic_icon)
                 .build();
-        contactsPermissionListener = new CompositePermissionListener(feedbackViewPermissionListener,
-                dialogOnDeniedPermissionListener);
+        contactsPermissionListener = new CompositeMultiplePermissionsListener(fbMultiplePermissionListener, anyDeniedPermissionListener);
 
-        dialogOnDeniedPermissionListener = DialogOnDeniedPermissionListener.Builder
+        deniedPermissionListener = DialogOnDeniedPermissionListener.Builder
                 .withContext(this)
-                .withTitle(R.string.storage_permission_denied_dialog_title)
-                .withMessage(R.string.storage_permission_denied_dialog_feedback)
+                .withTitle(R.string.music_permission_denied_dialog_title)
+                .withMessage(R.string.music_permission_denied_feedback)
                 .withButtonText(android.R.string.ok)
                 .withIcon(R.drawable.ic_icon)
                 .build();
-        storagePermissionListener = new CompositePermissionListener(feedbackViewPermissionListener,
-                dialogOnDeniedPermissionListener);
+        musicPermissionListener = new CompositePermissionListener(fbPermissionListener, deniedPermissionListener);
 
-        dialogOnDeniedPermissionListener = DialogOnDeniedPermissionListener.Builder
+        deniedPermissionListener = DialogOnDeniedPermissionListener.Builder
+                .withContext(this)
+                .withTitle(R.string.notifications_permission_denied_dialog_title)
+                .withMessage(R.string.notifications_permission_denied_feedback)
+                .withButtonText(android.R.string.ok)
+                .withIcon(R.drawable.ic_icon)
+                .build();
+        notificationsPermissionListener = new CompositePermissionListener(fbPermissionListener, deniedPermissionListener);
+
+        anyDeniedPermissionListener = DialogOnAnyDeniedMultiplePermissionsListener.Builder
+                .withContext(this)
+                .withTitle(R.string.video_permission_denied_dialog_title)
+                .withMessage(R.string.video_permission_denied_feedback)
+                .withButtonText(android.R.string.ok)
+                .withIcon(R.drawable.ic_icon)
+                .build();
+        videoPermissionListener = new CompositeMultiplePermissionsListener(fbMultiplePermissionListener, anyDeniedPermissionListener);
+
+        deniedPermissionListener = DialogOnDeniedPermissionListener.Builder
+                .withContext(this)
+                .withTitle(R.string.storage_permission_denied_dialog_title)
+                .withMessage(R.string.storage_permission_denied_feedback)
+                .withButtonText(android.R.string.ok)
+                .withIcon(R.drawable.ic_icon)
+                .build();
+        storagePermissionListener = new CompositePermissionListener(fbPermissionListener, deniedPermissionListener);
+
+        deniedPermissionListener = DialogOnDeniedPermissionListener.Builder
                 .withContext(this)
                 .withTitle(R.string.delete_mail_permission_denied_dialog_title)
                 .withMessage(R.string.delete_mail_permission_denied_dialog_feedback)
                 .withButtonText(android.R.string.ok)
                 .withIcon(R.drawable.ic_icon)
                 .build();
-        deleteMailPermissionListener = new CompositePermissionListener(feedbackViewPermissionListener,
-                dialogOnDeniedPermissionListener);
+        deleteMailPermissionListener = new CompositePermissionListener(fbPermissionListener, deniedPermissionListener);
 
-        dialogOnDeniedPermissionListener = DialogOnDeniedPermissionListener.Builder
+        deniedPermissionListener = DialogOnDeniedPermissionListener.Builder
                 .withContext(this)
                 .withTitle(R.string.read_mail_permission_denied_dialog_title)
                 .withMessage(R.string.read_mail_permission_denied_dialog_feedback)
                 .withButtonText(android.R.string.ok)
                 .withIcon(R.drawable.ic_icon)
                 .build();
-        readMailPermissionListener = new CompositePermissionListener(feedbackViewPermissionListener,
-                dialogOnDeniedPermissionListener);
+        readMailPermissionListener = new CompositePermissionListener(fbPermissionListener, deniedPermissionListener);
 
-        dialogOnDeniedPermissionListener = DialogOnDeniedPermissionListener.Builder
+        deniedPermissionListener = DialogOnDeniedPermissionListener.Builder
                 .withContext(this)
                 .withTitle(R.string.remote_control_permission_denied_dialog_title)
                 .withMessage(R.string.remote_control_permission_denied_dialog_feedback)
                 .withButtonText(android.R.string.ok)
                 .withIcon(R.drawable.ic_icon)
                 .build();
-        remoteControlPermissionListener = new CompositePermissionListener(feedbackViewPermissionListener,
-                dialogOnDeniedPermissionListener);
+        remoteControlPermissionListener = new CompositePermissionListener(fbPermissionListener, deniedPermissionListener);
 
         errorListener = new PermissionsErrorListener();
     }
@@ -445,6 +514,7 @@ public class PermissionsActivity extends FragmentActivity {
      * Get the view of the permission for update, null if view does not exist
      *
      * @param name permission name
+     *
      * @return the textView for the request permission
      */
     private TextView getFeedbackViewForPermission(String name) {
@@ -452,20 +522,38 @@ public class PermissionsActivity extends FragmentActivity {
         switch (name) {
             case Manifest.permission.READ_CONTACTS:
             case Manifest.permission.WRITE_CONTACTS:
-                feedbackView = contactsPermissionFeedbackView;
+                feedbackView = mBinding.contactsPermissionFeedback;
                 break;
+
+            case Manifest.permission.READ_MEDIA_AUDIO:
+                feedbackView = mBinding.musicPermissionFeedback;
+                break;
+
+            case Manifest.permission.POST_NOTIFICATIONS:
+                feedbackView = mBinding.notificationsPermissionFeedback;
+                break;
+
+            case Manifest.permission.READ_MEDIA_IMAGES:
+            case Manifest.permission.READ_MEDIA_VIDEO:
+                feedbackView = mBinding.videoPermissionFeedback;
+                break;
+
             case Manifest.permission.WRITE_EXTERNAL_STORAGE:
-                feedbackView = storagePermissionFeedbackView;
+                feedbackView = mBinding.storagePermissionFeedback;
                 break;
+
             case permission_DELETE_MESSAGES:
-                feedbackView = deleteMailPermissionFeedbackView;
+                feedbackView = mBinding.deleteMailPermissionFeedback;
                 break;
+
             case permission_READ_MESSAGES:
-                feedbackView = readMailPermissionFeedbackView;
+                feedbackView = mBinding.readMailPermissionFeedback;
                 break;
+
             case permission_REMOTE_CONTROL:
-                feedbackView = remoteControlPermissionFeedbackView;
+                feedbackView = mBinding.remoteControlPermissionFeedback;
                 break;
+
             default:
                 feedbackView = null;
         }
@@ -475,7 +563,6 @@ public class PermissionsActivity extends FragmentActivity {
     /* **********************************************
      * Android Battery Usage Optimization Request
      ************************************************/
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private boolean openBatteryOptimizationDialogIfNeeded() {
         // Will always request for battery optimization disable for XryptoMail if not so on XryptoMail new launch
         if (isOptimizingBattery()) {
@@ -485,45 +572,52 @@ public class PermissionsActivity extends FragmentActivity {
 
             builder.setPositiveButton(R.string.next, (dialog, which) -> {
                 dialog.dismiss();
-                Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                Uri uri = Uri.parse("package:" + getPackageName());
-                intent.setData(uri);
-                try {
-                    startActivityForResult(intent, REQUEST_BATTERY_OP);
-                } catch (ActivityNotFoundException e) {
-                    XryptoMail.showToastMessage(R.string.device_does_not_support_battery_op);
-                }
+                mBatteryOptimization.launch(null);
             });
 
             AlertDialog dialog = builder.create();
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     protected boolean isOptimizingBattery() {
         final PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
         return (pm != null) && !pm.isIgnoringBatteryOptimizations(getPackageName());
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // RESULT_OK is returned if disable optimization is alloed
-        if (requestCode == REQUEST_BATTERY_OP) {
-            if (resultCode != RESULT_OK) {
-                XryptoMail.showToastMessage(R.string.battery_optimization_on);
-            }
+    /**
+     * GetBatteryOptimization class ActivityResultContract implementation.
+     */
+    @SuppressLint("BatteryLife")
+    public class GetBatteryOptimization extends ActivityResultContract<Void, Boolean> {
+        @NonNull
+        @Override
+        public Intent createIntent(@NonNull Context context, @Nullable Void input) {
+            Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+            Uri uri = Uri.parse("package:" + getPackageName());
+            intent.setData(uri);
+            return intent;
+        }
+
+        @Override
+        public Boolean parseResult(int resultCode, @Nullable Intent result) {
+            return (resultCode == AppCompatActivity.RESULT_OK);
         }
     }
 
-    private String getBatteryOptimizationPreferenceKey() {
-        @SuppressLint("HardwareIds")
-        String device = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        return "pref_key_show_battery_optimization_" + (device == null ? "" : device);
+    /**
+     * Return success == true if disable battery optimization for aTalk is allowed
+     */
+    private ActivityResultLauncher<Void> requestBatteryOptimization() {
+        return registerForActivityResult(new GetBatteryOptimization(), success -> {
+            if (!success) {
+                XryptoMail.showToastMessage(R.string.battery_optimization_on);
+            }
+        });
     }
 }

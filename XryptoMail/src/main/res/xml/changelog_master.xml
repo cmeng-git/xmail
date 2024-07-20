@@ -8,6 +8,20 @@
      They are automatically updated with "ant bump-version".
 -->
 <changelog>
+    <release version="5.1.0 (07/20/2024)" versioncode="19101">
+        <change>Built target for Android 14.0 (UpsideDownCake) or API-34</change>
+        <change>Set app minSdk to API-24; diminish support in android libraries for &lt; API-24</change>
+        <change>Add new permissions required for API-34 and change UI to support</change>
+        <change>Add 'App Info' option in main menu to view/change app permission settings; different android devices have own implementations</change>
+        <change>Drop com.jakewharton:butterknife-compiler:10.2.3 dependency (jdk-15 max restriction); use android View binding class instead.</change>
+        <change>Upgrade to OpenPGP-API version 12, and fixed OpenPGP Application Provider availability check in Global Settings | Cryptography via queries settings</change>
+        <change>Implement support of cleartextTraffic content loading in message view</change>
+        <change>Make UpdateServiceImpl() shows both version/code for installed and latest available debug apk</change>
+        <change>Fix ContextCompat.registerReceiver flag setting to ensure proper callbacks for android API-34 device:</change>
+        <change>Upgrade to android studio Koala; update all associated changes required with gradle 8.x</change>
+        <change>Add to buildFeatures: dataBinding, viewBinding, and buildConfig to true; and aidl true for oepnpgp</change>
+    </release>
+
     <release version="5.0.5 (08/19/2023)" versioncode="19050">
         <change>Built target for Android 13.0 (Tiramisu) or API-33</change>
         <change>Update all XryptoMail third party libraries used to latest version if allowed</change>

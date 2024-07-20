@@ -100,8 +100,8 @@ Graag foutrapporten sturen, bijdragen voor nieuwe functies en vragen stellen op
   <string name="move_action">Verplaatsen</string>
   <string name="single_message_options_action">Verzend…</string>
   <string name="refile_action">Opnieuw opslaan…</string>
-  <string name="done_action">Klaar</string>
-  <string name="discard_action">Vergeten</string>
+  <string name="done">Klaar</string>
+  <string name="discard">Vergeten</string>
   <string name="save_draft_action">Opslaan als concept</string>
   <string name="check_mail_action">Controleer e-mail</string>
   <string name="send_messages_action">Verstuur berichten</string>

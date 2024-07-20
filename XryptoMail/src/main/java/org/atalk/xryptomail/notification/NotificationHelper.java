@@ -28,12 +28,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.provider.Settings;
-import androidx.annotation.RequiresApi;
 
-import org.atalk.xryptomail.R;
+import androidx.annotation.RequiresApi;
 
 import java.util.Arrays;
 import java.util.List;
+
+import org.atalk.xryptomail.R;
 
 /**
  * Helper class to manage notification channels, and create notifications.
@@ -147,7 +148,6 @@ public class NotificationHelper extends ContextWrapper
 
     /**
      * Get the notification manager.
-     *
      * Utility method as this helper works with it a lot.
      *
      * @return The system service NotificationManager
@@ -196,8 +196,9 @@ public class NotificationHelper extends ContextWrapper
         int flag = isUpdate ? PendingIntent.FLAG_UPDATE_CURRENT : PendingIntent.FLAG_CANCEL_CURRENT;
         if (isMutable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             flag |= PendingIntent.FLAG_MUTABLE;
+            flag |= isUpdate ? PendingIntent.FLAG_NO_CREATE : 0;
         }
-        else if (!isMutable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        else if (!isMutable) {
             flag |= PendingIntent.FLAG_IMMUTABLE;
         }
         return flag;

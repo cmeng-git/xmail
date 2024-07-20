@@ -4,9 +4,6 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
 
-import org.atalk.xryptomail.R;
-import org.atalk.xryptomail.XryptoMail;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,6 +15,9 @@ import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.XryptoMail;
 
 import timber.log.Timber;
 
