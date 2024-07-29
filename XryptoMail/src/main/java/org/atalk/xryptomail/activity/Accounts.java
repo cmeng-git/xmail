@@ -155,7 +155,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
 
             if (mUnreadMessageCount == 0) {
                 mActionBarUnread.setVisibility(View.GONE);
-            } else {
+            }
+            else {
                 mActionBarUnread.setText(String.format(Locale.US, "%d", mUnreadMessageCount));
                 mActionBarUnread.setVisibility(View.VISIBLE);
             }
@@ -164,7 +165,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
             operation = operation.trim();
             if (operation.isEmpty()) {
                 mActionBarSubTitle.setVisibility(View.GONE);
-            } else {
+            }
+            else {
                 mActionBarSubTitle.setVisibility(View.VISIBLE);
                 mActionBarSubTitle.setText(operation);
             }
@@ -232,7 +234,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
             mActionBarProgress.setVisibility(ProgressBar.GONE);
             if (enable) {
                 mRefreshMenuItem.setActionView(R.layout.actionbar_indeterminate_progress_actionview);
-            } else {
+            }
+            else {
                 mRefreshMenuItem.setActionView(null);
             }
         }
@@ -250,7 +253,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                 AccountStats stats = account.getStats(Accounts.this);
                 if (stats == null) {
                     Timber.w("Unable to get account stats");
-                } else {
+                }
+                else {
                     accountStatusChanged(account, stats);
                 }
             } catch (Exception e) {
@@ -291,7 +295,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
             if (pendingWork.isEmpty()) {
                 mHandler.progress(Window.PROGRESS_END);
                 mHandler.refreshTitle();
-            } else {
+            }
+            else {
                 int level = (Window.PROGRESS_END / mAdapter.getCount()) * (mAdapter.getCount() - pendingWork.size());
                 mHandler.progress(level);
             }
@@ -352,7 +357,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
         if (account instanceof SearchAccount) {
             search = ((SearchAccount) account).getRelatedSearch().clone();
             search.setName(searchTitle);
-        } else {
+        }
+        else {
             search = new LocalSearch(searchTitle);
             search.addAccountUuid(account.getUuid());
 
@@ -381,7 +387,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
         // see if we should show the welcome message
         if (ACTION_IMPORT_SETTINGS.equals(intent.getAction())) {
             onImport();
-        } else if (accounts.isEmpty()) {
+        }
+        else if (accounts.isEmpty()) {
             WelcomeMessage.showWelcomeMessage(this);
             finish();
             return;
@@ -576,7 +583,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
             newAccounts = new ArrayList<>(accounts.size() + SPECIAL_ACCOUNTS_COUNT);
             newAccounts.add(mUnifiedInboxAccount);
             newAccounts.add(mAllMessagesAccount);
-        } else {
+        }
+        else {
             newAccounts = new ArrayList<>(accounts.size());
         }
 
@@ -595,7 +603,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
             if (account instanceof Account) {
                 Account realAccount = (Account) account;
                 controller.getAccountStats(this, realAccount, mListener);
-            } else if (XryptoMail.countSearchMessages() && account instanceof SearchAccount) {
+            }
+            else if (XryptoMail.countSearchMessages() && account instanceof SearchAccount) {
                 final SearchAccount searchAccount = (SearchAccount) account;
                 controller.getSearchAccountStats(searchAccount, mListener);
             }
@@ -631,7 +640,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
         Account defaultAccount = Preferences.getPreferences(this).getDefaultAccount();
         if (defaultAccount != null) {
             MessageActions.actionCompose(this, defaultAccount);
-        } else {
+        }
+        else {
             onAddNewAccount();
         }
     }
@@ -641,18 +651,21 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
      * is not available.
      *
      * @param account the account to open ({@link SearchAccount} or {@link Account})
+     *
      * @return false if unsuccessful
      */
     private boolean onOpenAccount(BaseAccount account) {
         if (account instanceof SearchAccount) {
             SearchAccount searchAccount = (SearchAccount) account;
             MessageList.actionDisplaySearch(this, searchAccount.getRelatedSearch(), false, false);
-        } else {
+        }
+        else {
             Account realAccount = (Account) account;
             if (!realAccount.isEnabled()) {
                 onActivateAccount(realAccount);
                 return false;
-            } else if (!realAccount.isAvailable(this)) {
+            }
+            else if (!realAccount.isAvailable(this)) {
                 String toastText = getString(R.string.account_unavailable, account.getDescription());
                 Toast toast = Toast.makeText(getApplication(), toastText, Toast.LENGTH_SHORT);
                 toast.show();
@@ -662,7 +675,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
             }
             if (XryptoMail.FOLDER_NONE.equals(realAccount.getAutoExpandFolder())) {
                 FolderList.actionHandleAccount(this, realAccount);
-            } else {
+            }
+            else {
                 LocalSearch search = new LocalSearch(realAccount.getAutoExpandFolder());
                 search.addAllowedFolder(realAccount.getAutoExpandFolder());
                 search.addAccountUuid(realAccount.getUuid());
@@ -819,7 +833,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
 
                 mIncomingPasswordView = layout.findViewById(R.id.incoming_server_password);
                 mIncomingPasswordView.addTextChangedListener(this);
-            } else {
+            }
+            else {
                 layout.findViewById(R.id.incoming_server_prompt).setVisibility(View.GONE);
             }
 
@@ -837,17 +852,20 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                         if (isChecked) {
                             mOutgoingPasswordView.setText(null);
                             mOutgoingPasswordView.setEnabled(false);
-                        } else {
+                        }
+                        else {
                             mOutgoingPasswordView.setText(mIncomingPasswordView.getText());
                             mOutgoingPasswordView.setEnabled(true);
                         }
                     });
-                } else {
+                }
+                else {
                     mUseIncomingView.setChecked(false);
                     mUseIncomingView.setVisibility(View.GONE);
                     mOutgoingPasswordView.setEnabled(true);
                 }
-            } else {
+            }
+            else {
                 layout.findViewById(R.id.outgoing_server_prompt).setVisibility(View.GONE);
             }
 
@@ -864,7 +882,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                     mOutgoingPasswordView.setText(mOutgoingPassword);
                     mUseIncomingView.setChecked(mUseIncoming);
                 }
-            } else {
+            }
+            else {
                 // Trigger afterTextChanged() being called
                 // Work around this bug: https://code.google.com/p/android/issues/detail?id=6360
                 if (configureIncomingServer) {
@@ -893,7 +912,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                         enable = true;
                     }
                 }
-            } else {
+            }
+            else {
                 enable = mOutgoingPasswordView.getText().length() > 0;
             }
 
@@ -991,7 +1011,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
 
             if (!mRemainingAccounts.isEmpty()) {
                 activity.promptForServerPasswords(mRemainingAccounts);
-            } else {
+            }
+            else {
                 System.exit(0);
             }
         }
@@ -1264,7 +1285,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
 
         if ((account instanceof Account) && !((Account) account).isEnabled()) {
             getMenuInflater().inflate(R.menu.disabled_accounts_context, menu);
-        } else {
+        }
+        else {
             getMenuInflater().inflate(R.menu.accounts_context, menu);
         }
 
@@ -1273,16 +1295,19 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                 android.view.MenuItem item = menu.getItem(i);
                 item.setVisible(false);
             }
-        } else {
+        }
+        else {
             EnumSet<ACCOUNT_LOCATION> accountLocation = accountLocation(account);
             if (accountLocation.contains(ACCOUNT_LOCATION.TOP)) {
                 menu.findItem(R.id.move_up).setEnabled(false);
-            } else {
+            }
+            else {
                 menu.findItem(R.id.move_up).setEnabled(true);
             }
             if (accountLocation.contains(ACCOUNT_LOCATION.BOTTOM)) {
                 menu.findItem(R.id.move_down).setEnabled(false);
-            } else {
+            }
+            else {
                 menu.findItem(R.id.move_down).setEnabled(true);
             }
         }
@@ -1304,7 +1329,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
 
         if (!infos.isEmpty()) {
             startActivityForResult(Intent.createChooser(intent, null), ACTIVITY_REQUEST_PICK_SETTINGS_FILE);
-        } else {
+        }
+        else {
             showDialog(DIALOG_NO_FILE_MANAGER);
         }
     }
@@ -1389,6 +1415,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
          * Returns the message the dialog should display.
          *
          * @param activity The {@code Activity} this dialog belongs to.
+         *
          * @return The message the dialog should display
          */
         protected String generateMessage(Accounts activity) {
@@ -1460,7 +1487,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
             }
             if (!disabledAccounts.isEmpty()) {
                 activity.promptForServerPasswords(disabledAccounts);
-            } else {
+            }
+            else {
                 activity.setNonConfigurationInstance(null);
             }
         }
@@ -1532,7 +1560,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                 for (int i = 0; i < count; i++) {
                     checkedItems[i] = selection.get(i);
                 }
-            } else {
+            }
+            else {
                 for (int i = 0; i < count; i++) {
                     checkedItems[i] = true;
                 }
@@ -1606,7 +1635,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
             View view;
             if (convertView != null) {
                 view = convertView;
-            } else {
+            }
+            else {
                 view = getLayoutInflater().inflate(R.layout.accounts_item, parent, false);
             }
             AccountViewHolder holder = (AccountViewHolder) view.getTag();
@@ -1633,10 +1663,12 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
             if (stats != null && account instanceof Account && stats.size >= 0) {
                 holder.email.setText(SizeFormatter.formatSize(Accounts.this, stats.size));
                 holder.email.setVisibility(View.VISIBLE);
-            } else {
+            }
+            else {
                 if (account.getEmail().equals(account.getDescription())) {
                     holder.email.setVisibility(View.GONE);
-                } else {
+                }
+                else {
                     holder.email.setVisibility(View.VISIBLE);
                     holder.email.setText(account.getEmail());
                 }
@@ -1666,7 +1698,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
 
                 holder.activeIcons.setOnClickListener(v ->
                         Toast.makeText(getApplication(), getString(R.string.tap_hint), Toast.LENGTH_SHORT).show());
-            } else {
+            }
+            else {
                 holder.newMessageCountWrapper.setVisibility(View.GONE);
                 holder.flaggedMessageCountWrapper.setVisibility(View.GONE);
             }
@@ -1678,7 +1711,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                 holder.flaggedMessageCountIcon.setBackground(realAccount.generateColorChip(false, true).drawable());
                 holder.newMessageCountIcon.setBackground(realAccount.generateColorChip(false, false).drawable());
 
-            } else {
+            }
+            else {
                 holder.chip.setBackgroundColor(0xff999999);
                 holder.newMessageCountIcon.setBackground(new ColorChip(0xff999999, false, ColorChip.CIRCULAR).drawable());
                 holder.flaggedMessageCountIcon.setBackground(new ColorChip(0xff999999, false, ColorChip.STAR).drawable());
@@ -1689,7 +1723,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
 
             if (account instanceof SearchAccount) {
                 holder.folders.setVisibility(View.GONE);
-            } else {
+            }
+            else {
                 holder.folders.setVisibility(View.VISIBLE);
                 holder.folders.setOnClickListener(v -> FolderList.actionHandleAccount(Accounts.this, (Account) account));
             }
@@ -1703,7 +1738,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
             if (account instanceof SearchAccount) {
                 search = ((SearchAccount) account).getRelatedSearch().clone();
                 search.setName(searchTitle);
-            } else {
+            }
+            else {
                 search = new LocalSearch(searchTitle);
                 search.addAccountUuid(account.getUuid());
 
@@ -1808,7 +1844,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
             try {
                 if (mUri == null) {
                     mFileName = SettingsExporter.exportToFile(mContext, mIncludeGlobals, mAccountUuids);
-                } else {
+                }
+                else {
                     SettingsExporter.exportToUri(mContext, mIncludeGlobals, mAccountUuids, mUri);
                 }
             } catch (SettingsImportExportException e) {
@@ -1830,11 +1867,13 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                 if (mFileName != null) {
                     activity.showSimpleDialog(R.string.settings_export_success_header,
                             R.string.settings_export_success, mFileName);
-                } else {
+                }
+                else {
                     activity.showSimpleDialog(R.string.settings_export_success_header,
                             R.string.settings_export_success_generic);
                 }
-            } else {
+            }
+            else {
                 //TODO: better error messages
                 activity.showSimpleDialog(R.string.settings_export_failed_header,
                         R.string.settings_export_failure);
@@ -1904,12 +1943,14 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                 if (imported == 0) {
                     activity.showSimpleDialog(R.string.settings_import_success_header,
                             R.string.settings_import_global_settings_success, filename);
-                } else {
+                }
+                else {
                     activity.showAccountsImportedDialog(mImportResults, filename);
                 }
 
                 activity.refresh();
-            } else {
+            }
+            else {
                 // TODO: better error messages
                 activity.showSimpleDialog(R.string.settings_import_failed_header,
                         R.string.settings_import_failure, filename);
@@ -1967,7 +2008,8 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
 
             if (success) {
                 activity.showImportSelectionDialog(mImportContents, mUri);
-            } else {
+            }
+            else {
                 String filename = mUri.getLastPathSegment();
                 // TODO: better error messages
                 activity.showSimpleDialog(R.string.settings_import_failed_header,

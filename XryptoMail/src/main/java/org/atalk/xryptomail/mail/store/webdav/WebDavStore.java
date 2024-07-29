@@ -89,7 +89,7 @@ public class WebDavStore extends RemoteStore
     private String mCachedLoginUrl;
 
     private Folder mSendFolder = null;
-    private Map<String, WebDavFolder> mFolderList = new HashMap<>();
+    private final Map<String, WebDavFolder> mFolderList = new HashMap<>();
 
     public WebDavStore(StoreConfig storeConfig, WebDavHttpClient.WebDavHttpClientFactory clientFactory)
             throws MessagingException
@@ -120,14 +120,14 @@ public class WebDavStore extends RemoteStore
         String mMailboxPath = serverSettings.mailboxPath;
 
 
-        if (mPath == null || mPath.equals("")) {
+        if (mPath == null || mPath.isEmpty()) {
             mPath = "/Exchange";
         }
         else if (!mPath.startsWith("/")) {
             mPath = "/" + mPath;
         }
 
-        if (mMailboxPath == null || mMailboxPath.equals("")) {
+        if (mMailboxPath == null || mMailboxPath.isEmpty()) {
             mMailboxPath = "/" + mAlias;
         }
         else if (!mMailboxPath.startsWith("/")) {
@@ -135,7 +135,7 @@ public class WebDavStore extends RemoteStore
         }
 
         if (mFormBasedAuthPath != null &&
-                !mFormBasedAuthPath.equals("") &&
+                !mFormBasedAuthPath.isEmpty() &&
                 !mFormBasedAuthPath.startsWith("/")) {
             mFormBasedAuthPath = "/" + mFormBasedAuthPath;
         }
@@ -597,7 +597,7 @@ public class WebDavStore extends RemoteStore
                 // authorization URL.
                 info.requiredAuthType = WebDavConstants.AUTH_TYPE_FORM_BASED;
 
-                if (mFormBasedAuthPath != null && !mFormBasedAuthPath.equals("")) {
+                if (mFormBasedAuthPath != null && !mFormBasedAuthPath.isEmpty()) {
                     // The user specified their own authentication path, use that.
                     info.guessedAuthUrl = getRoot() + mFormBasedAuthPath;
                 }
@@ -642,7 +642,7 @@ public class WebDavStore extends RemoteStore
         if (info != null) {
             loginUrl = info.guessedAuthUrl;
         }
-        else if (mCachedLoginUrl != null && !mCachedLoginUrl.equals("")) {
+        else if (mCachedLoginUrl != null && !mCachedLoginUrl.isEmpty()) {
             loginUrl = mCachedLoginUrl;
         }
         else {
@@ -672,7 +672,7 @@ public class WebDavStore extends RemoteStore
             String formAction = findFormAction(WebDavHttpClient.getUngzippedContent(response.getEntity()));
             if (formAction == null) {
                 // If there is no form action, try using our redirect URL from the initial connection.
-                if (info != null && info.redirectUrl != null && !info.redirectUrl.equals("")) {
+                if (info != null && info.redirectUrl != null && !info.redirectUrl.isEmpty()) {
                     loginUrl = info.redirectUrl;
 
                     request = new HttpGeneric(loginUrl);

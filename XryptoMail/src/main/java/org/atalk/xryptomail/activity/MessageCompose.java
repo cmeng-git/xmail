@@ -1,9 +1,16 @@
 package org.atalk.xryptomail.activity;
 
 import android.annotation.SuppressLint;
-import android.app.*;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.*;
+import android.app.Dialog;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentSender;
 import android.content.IntentSender.SendIntentException;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -11,10 +18,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.TypedValue;
@@ -31,6 +34,17 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.Account.MessageFormat;
@@ -92,13 +106,6 @@ import org.atalk.xryptomail.ui.compose.QuotedMessageMvpView;
 import org.atalk.xryptomail.ui.compose.QuotedMessagePresenter;
 import org.openintents.openpgp.util.OpenPgpApi;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import timber.log.Timber;
 
 @SuppressWarnings("deprecation") // TODO get rid of activity dialogs and indeterminate progress bars
@@ -106,8 +113,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         CancelListener, AttachmentDownloadCancelListener, OnFocusChangeListener,
         OnOpenPgpInlineChangeListener, OnOpenPgpSignOnlyChangeListener, MessageBuilder.Callback,
         AttachmentPresenter.AttachmentsChangedListener, RecipientPresenter.RecipientsChangedListener,
-        OnOpenPgpDisableListener
-{
+        OnOpenPgpDisableListener {
 
     private static final int DIALOG_SAVE_OR_DISCARD_DRAFT_MESSAGE = 1;
     private static final int DIALOG_CONFIRM_DISCARD_ON_BACK = 2;
@@ -152,7 +158,6 @@ public class MessageCompose extends XMActivity implements OnClickListener,
 
     /**
      * Regular expression to remove the first localized "Re:" prefix in subjects.
-     *
      * Currently:
      * - "Aw:" (german: abbreviation for "Antwort")
      */
@@ -220,7 +225,6 @@ public class MessageCompose extends XMActivity implements OnClickListener,
 
     /**
      * The currently used message format.
-     *
      * <strong>Note:</strong>
      * Don't modify this field directly. Use {@link #updateMessageFormat()}.
      */
@@ -233,8 +237,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     private MenuItem mButtonStealth;
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (UpgradeDatabases.actionUpgradeDatabases(this, getIntent())) {
             finish();
@@ -246,7 +249,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
             ContextThemeWrapper themeContext = new ContextThemeWrapper(this,
                     XryptoMail.getXMThemeResourceId(XryptoMail.getXMComposerTheme()));
             @SuppressLint("InflateParams") // this is the top level activity element, it has no root
-                    View v = LayoutInflater.from(themeContext).inflate(R.layout.message_compose, null);
+            View v = LayoutInflater.from(themeContext).inflate(R.layout.message_compose, null);
             TypedValue outValue = new TypedValue();
             // background color needs to be forced
             themeContext.getTheme().resolveAttribute(R.attr.messageViewBackgroundColor, outValue, true);
@@ -311,20 +314,16 @@ public class MessageCompose extends XMActivity implements OnClickListener,
 
         attachmentsView = findViewById(R.id.attachments);
 
-        TextWatcher draftNeedsChangingTextWatcher = new SimpleTextWatcher()
-        {
+        TextWatcher draftNeedsChangingTextWatcher = new SimpleTextWatcher() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 changesMadeSinceLastSave = true;
             }
         };
 
-        TextWatcher signTextWatcher = new SimpleTextWatcher()
-        {
+        TextWatcher signTextWatcher = new SimpleTextWatcher() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 changesMadeSinceLastSave = true;
                 mSignatureChanged = true;
             }
@@ -459,8 +458,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         super.onDestroy();
         if (recipientPresenter != null) {
             recipientPresenter.onActivityDestroy();
@@ -481,11 +479,11 @@ public class MessageCompose extends XMActivity implements OnClickListener,
      * </p>
      *
      * @param intent The (external) intent that started the activity.
+     *
      * @return {@code true}, if this activity was started by an external intent. {@code false},
      * otherwise.
      */
-    private boolean initFromIntent(final Intent intent)
-    {
+    private boolean initFromIntent(final Intent intent) {
         boolean startedByExternalIntent = false;
         final String action = intent.getAction();
 
@@ -562,15 +560,13 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         MessagingController.getInstance(this).addListener(messagingListener);
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
 
         MessagingController.getInstance(this).removeListener(messagingListener);
@@ -593,8 +589,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
      * Quoted text,
      */
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState)
-    {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putBoolean(STATE_KEY_SOURCE_MESSAGE_PROCED, relatedMessageProcessed);
@@ -621,8 +616,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState)
-    {
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
         attachmentsView.removeAllViews();
@@ -644,14 +638,12 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         updateMessageFormat();
     }
 
-    private void setTitle()
-    {
+    private void setTitle() {
         setTitle(mAction.getTitleResource());
     }
 
     @Nullable
-    private MessageBuilder createMessageBuilder(boolean isDraft)
-    {
+    private MessageBuilder createMessageBuilder(boolean isDraft) {
         MessageBuilder builder;
         ComposeCryptoStatus cryptoStatus = recipientPresenter.getCurrentCachedCryptoStatus();
         if (cryptoStatus == null) {
@@ -697,8 +689,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         return builder;
     }
 
-    private void checkToSendMessage()
-    {
+    private void checkToSendMessage() {
         if (mSubjectView.getText().length() == 0 && !alreadyNotifiedUserOfEmptySubject) {
             Toast.makeText(this, R.string.empty_subject, Toast.LENGTH_LONG).show();
             alreadyNotifiedUserOfEmptySubject = true;
@@ -715,8 +706,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         performSendAfterChecks();
     }
 
-    private void checkToSaveDraftAndSave()
-    {
+    private void checkToSaveDraftAndSave() {
         if (!mAccount.hasDraftsFolder()) {
             Toast.makeText(this, R.string.compose_error_no_draft_folder, Toast.LENGTH_SHORT).show();
             return;
@@ -730,8 +720,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         performSaveAfterChecks();
     }
 
-    private void checkToSaveDraftImplicitly()
-    {
+    private void checkToSaveDraftImplicitly() {
         if (!mAccount.hasDraftsFolder()) {
             return;
         }
@@ -744,8 +733,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         performSaveAfterChecks();
     }
 
-    private void performSaveAfterChecks()
-    {
+    private void performSaveAfterChecks() {
         currentMessageBuilder = createMessageBuilder(true);
         if (currentMessageBuilder != null) {
             setProgressBarIndeterminateVisibility(true);
@@ -753,8 +741,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
     }
 
-    public void performSendAfterChecks()
-    {
+    public void performSendAfterChecks() {
         currentMessageBuilder = createMessageBuilder(false);
         if (currentMessageBuilder != null) {
             changesMadeSinceLastSave = false;
@@ -763,8 +750,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
     }
 
-    private void onDiscard()
-    {
+    private void onDiscard() {
         if (mDraftId != INVALID_DRAFT_ID) {
             MessagingController.getInstance(getApplication()).deleteDraft(mAccount, mDraftId);
             mDraftId = INVALID_DRAFT_ID;
@@ -779,8 +765,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
     }
 
-    private void onReadReceipt()
-    {
+    private void onReadReceipt() {
         CharSequence txt;
         if (!requestReadReceipt) {
             txt = getString(R.string.read_receipt_enabled);
@@ -795,16 +780,14 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         toast.show();
     }
 
-    public void showContactPicker(int requestCode)
-    {
+    public void showContactPicker(int requestCode) {
         requestCode |= REQUEST_MASK_RECIPIENT_PRESENTER;
         isInSubActivity = true;
         startActivityForResult(mContacts.contactPickerIntent(), requestCode);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         isInSubActivity = false;
 
@@ -837,8 +820,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
     }
 
-    private void onAccountChosen(Account account, Identity identity)
-    {
+    private void onAccountChosen(Account account, Identity identity) {
         if (!mAccount.equals(account)) {
             Timber.v("Switching account from %s to %s", mAccount, account);
 
@@ -883,8 +865,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         switchToIdentity(identity);
     }
 
-    private void switchToIdentity(Identity identity)
-    {
+    private void switchToIdentity(Identity identity) {
         mIdentity = identity;
         mIdentityChanged = true;
         changesMadeSinceLastSave = true;
@@ -894,13 +875,11 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         recipientPresenter.onSwitchIdentity(identity);
     }
 
-    private void updateFrom()
-    {
+    private void updateFrom() {
         mChooseIdentityButton.setText(mIdentity.getEmail());
     }
 
-    private void updateSignature()
-    {
+    private void updateSignature() {
         if (mIdentity.getSignatureUse()) {
             mSignatureView.setCharacters(mIdentity.getSignature());
             mSignatureView.setVisibility(View.VISIBLE);
@@ -911,8 +890,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     }
 
     @Override
-    public void onFocusChange(View v, boolean hasFocus)
-    {
+    public void onFocusChange(View v, boolean hasFocus) {
         switch (v.getId()) {
             case R.id.message_content:
             case R.id.subject:
@@ -924,51 +902,43 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     }
 
     @Override
-    public void onOpenPgpInlineChange(boolean enabled)
-    {
+    public void onOpenPgpInlineChange(boolean enabled) {
         recipientPresenter.onCryptoPgpInlineChanged(enabled);
     }
 
     @Override
-    public void onOpenPgpSignOnlyChange(boolean enabled)
-    {
+    public void onOpenPgpSignOnlyChange(boolean enabled) {
         recipientPresenter.onCryptoPgpSignOnlyDisabled();
     }
 
     @Override
-    public void onOpenPgpClickDisable()
-    {
+    public void onOpenPgpClickDisable() {
         recipientPresenter.onCryptoPgpClickDisable();
     }
 
     @Override
-    public void onAttachmentAdded()
-    {
+    public void onAttachmentAdded() {
         changesMadeSinceLastSave = true;
     }
 
     @Override
-    public void onAttachmentRemoved()
-    {
+    public void onAttachmentRemoved() {
         changesMadeSinceLastSave = true;
     }
 
     @Override
-    public void onRecipientsChanged()
-    {
+    public void onRecipientsChanged() {
         changesMadeSinceLastSave = true;
     }
 
     @Override
-    public void onClick(View view)
-    {
+    public void onClick(View view) {
         if (view.getId() == R.id.identity) {
             showDialog(DIALOG_CHOOSE_IDENTITY);
         }
     }
 
-    private void askBeforeDiscard()
-    {
+    private void askBeforeDiscard() {
         if (XryptoMail.confirmDiscardMessage()) {
             showDialog(DIALOG_CONFIRM_DISCARD);
         }
@@ -982,8 +952,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     //	}
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 prepareToFinish(true);
@@ -1056,8 +1025,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
         if (isFinishing()) {
@@ -1075,8 +1043,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
         // cmeng - recipientPresenter can be null under race condition
@@ -1087,14 +1054,13 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         return false;
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         prepareToFinish(false);
     }
 
-    private void prepareToFinish(boolean shouldNavigateUp)
-    {
+    private void prepareToFinish(boolean shouldNavigateUp) {
         navigateUp = shouldNavigateUp;
 
         if (changesMadeSinceLastSave && draftIsNotEmpty()) {
@@ -1121,8 +1087,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
     }
 
-    private void openAutoExpandFolder()
-    {
+    private void openAutoExpandFolder() {
         String folder = mAccount.getAutoExpandFolder();
         LocalSearch search = new LocalSearch(folder);
         search.addAccountUuid(mAccount.getUuid());
@@ -1131,8 +1096,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         finish();
     }
 
-    private boolean draftIsNotEmpty()
-    {
+    private boolean draftIsNotEmpty() {
         if (mMessageContentView.getText().length() != 0) {
             return true;
         }
@@ -1148,19 +1112,16 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     }
 
     @Override
-    public void onProgressCancel(AttachmentDownloadDialogFragment fragment)
-    {
+    public void onProgressCancel(AttachmentDownloadDialogFragment fragment) {
         attachmentPresenter.attachmentProgressDialogCancelled();
     }
 
-    public void onProgressCancel(ProgressDialogFragment fragment)
-    {
+    public void onProgressCancel(ProgressDialogFragment fragment) {
         attachmentPresenter.attachmentProgressDialogCancelled();
     }
 
     @Override
-    public Dialog onCreateDialog(int id)
-    {
+    public Dialog onCreateDialog(int id) {
         switch (id) {
             case DIALOG_SAVE_OR_DISCARD_DRAFT_MESSAGE:
                 return new AlertDialog.Builder(this)
@@ -1218,13 +1179,11 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         return super.onCreateDialog(id);
     }
 
-    public void saveDraftEventually()
-    {
+    public void saveDraftEventually() {
         changesMadeSinceLastSave = true;
     }
 
-    public void loadQuotedTextForEdit()
-    {
+    public void loadQuotedTextForEdit() {
         if (relatedMessageReference == null) { // shouldn't happen...
             throw new IllegalStateException("tried to edit quoted message with no referenced message");
         }
@@ -1237,8 +1196,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
      *
      * @param messageViewInfo The source message used to populate the various text fields.
      */
-    private void processSourceMessage(MessageViewInfo messageViewInfo)
-    {
+    private void processSourceMessage(MessageViewInfo messageViewInfo) {
         try {
             switch (mAction) {
                 case REPLY:
@@ -1277,8 +1235,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     }
 
     private void processMessageToReplyTo(MessageViewInfo messageViewInfo)
-            throws MessagingException
-    {
+            throws MessagingException {
         Message message = messageViewInfo.message;
 
         if (message.getSubject() != null) {
@@ -1302,7 +1259,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         boolean isReplyAll = mAction == Action.REPLY_ALL;
         recipientPresenter.initFromReplyToMessage(message, isReplyAll);
 
-        if (message.getMessageId() != null && message.getMessageId().length() > 0) {
+        if (message.getMessageId() != null && !message.getMessageId().isEmpty()) {
             repliedToMessageId = message.getMessageId();
 
             String[] refs = message.getReferences();
@@ -1331,8 +1288,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     }
 
     private void processMessageToForward(MessageViewInfo messageViewInfo, boolean asAttachment)
-            throws MessagingException
-    {
+            throws MessagingException {
         Message message = messageViewInfo.message;
 
         String subject = message.getSubject();
@@ -1365,8 +1321,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
     }
 
-    private void processDraftMessage(MessageViewInfo messageViewInfo)
-    {
+    private void processDraftMessage(MessageViewInfo messageViewInfo) {
         Message message = messageViewInfo.message;
         mDraftId = MessagingController.getInstance(getApplication()).getId(message);
         mSubjectView.setText(message.getSubject());
@@ -1447,8 +1402,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         quotedMessagePresenter.processDraftMessage(messageViewInfo, k9identity);
     }
 
-    static class SendMessageTask extends AsyncTask<Void, Void, Void>
-    {
+    static class SendMessageTask extends AsyncTask<Void, Void, Void> {
         final Context context;
         final Account account;
         final Contacts contacts;
@@ -1457,8 +1411,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         final MessageReference messageReference;
 
         SendMessageTask(Context context, Account account, Contacts contacts, Message message,
-                Long draftId, MessageReference messageReference)
-        {
+                Long draftId, MessageReference messageReference) {
             this.context = context;
             this.account = account;
             this.contacts = contacts;
@@ -1468,8 +1421,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
 
         @Override
-        protected Void doInBackground(Void... params)
-        {
+        protected Void doInBackground(Void... params) {
             try {
                 contacts.markAsContacted(message.getRecipients(RecipientType.TO));
                 contacts.markAsContacted(message.getRecipients(RecipientType.CC));
@@ -1490,8 +1442,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         /**
          * Set the flag on the referenced message(indicated we replied / forwarded the message)
          **/
-        private void updateReferencedMessage()
-        {
+        private void updateReferencedMessage() {
             if (messageReference != null && messageReference.getFlag() != null) {
                 Timber.d("Setting referenced message (%s, %s) flag to %s",
                         messageReference.getFolderServerId(),
@@ -1514,8 +1465,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
      *
      * @param mailTo The MailTo object we use to initialize message field
      */
-    private void initializeFromMailto(MailTo mailTo)
-    {
+    private void initializeFromMailto(MailTo mailTo) {
         recipientPresenter.initFromMailto(mailTo);
 
         String subject = mailTo.getSubject();
@@ -1529,14 +1479,12 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
     }
 
-    private void setCurrentMessageFormat(SimpleMessageFormat format)
-    {
+    private void setCurrentMessageFormat(SimpleMessageFormat format) {
         // This method will later be used to enable/disable the rich text editing mode.
         currentMessageFormat = format;
     }
 
-    public void updateMessageFormat()
-    {
+    public void updateMessageFormat() {
         MessageFormat origMessageFormat = mAccount.getMessageFormat();
         SimpleMessageFormat messageFormat;
         if (origMessageFormat == MessageFormat.TEXT) {
@@ -1575,8 +1523,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     }
 
     @Override
-    public void onMessageBuildSuccess(MimeMessage message, boolean isDraft)
-    {
+    public void onMessageBuildSuccess(MimeMessage message, boolean isDraft) {
         currentMessageBuilder = null;
         if (isDraft) {
             changesMadeSinceLastSave = false;
@@ -1608,8 +1555,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
      *
      * @param message the Message to send
      */
-    public void launchSendProgressDialog(final MimeMessage message)
-    {
+    public void launchSendProgressDialog(final MimeMessage message) {
         StringBuilder recipients = new StringBuilder();
 
         Address[] addresses = message.getRecipients(RecipientType.TO);
@@ -1640,8 +1586,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
      * Hide the soft keyboard when user clicks the send button;
      * to allow display of the SendProgressDialog
      */
-    private void hideKeyboard()
-    {
+    private void hideKeyboard() {
         Activity activity = MessageCompose.this;
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         View decorView = activity.getWindow().getDecorView();
@@ -1651,15 +1596,13 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     }
 
     @Override
-    public void onMessageBuildCancel()
-    {
+    public void onMessageBuildCancel() {
         currentMessageBuilder = null;
         setProgressBarIndeterminateVisibility(false);
     }
 
     @Override
-    public void onMessageBuildException(MessagingException me)
-    {
+    public void onMessageBuildException(MessagingException me) {
         Timber.e(me, "Error sending message");
         Toast.makeText(MessageCompose.this,
                 getString(R.string.send_failed_reason, me.getLocalizedMessage()), Toast.LENGTH_LONG).show();
@@ -1668,8 +1611,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     }
 
     @Override
-    public void onMessageBuildReturnPendingIntent(PendingIntent pendingIntent, int requestCode)
-    {
+    public void onMessageBuildReturnPendingIntent(PendingIntent pendingIntent, int requestCode) {
         requestCode |= REQUEST_MASK_MESSAGE_BUILDER;
         try {
             startIntentSenderForResult(pendingIntent.getIntentSender(), requestCode, null, 0, 0, 0);
@@ -1678,8 +1620,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
     }
 
-    public void launchUserInteractionPendingIntent(PendingIntent pendingIntent, int requestCode)
-    {
+    public void launchUserInteractionPendingIntent(PendingIntent pendingIntent, int requestCode) {
         requestCode |= REQUEST_MASK_RECIPIENT_PRESENTER;
         try {
             startIntentSenderForResult(pendingIntent.getIntentSender(), requestCode, null, 0, 0, 0);
@@ -1688,8 +1629,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
     }
 
-    public void loadLocalMessageForDisplay(MessageViewInfo messageViewInfo, Action action)
-    {
+    public void loadLocalMessageForDisplay(MessageViewInfo messageViewInfo, Action action) {
         // We check to see if we've previously processed the source message since this
         // could be called when switching from HTML to text replies. If that happens, we
         // only want to update the UI with quoted text (which picks the appropriate
@@ -1710,48 +1650,41 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
     }
 
-    private MessageLoaderCallbacks messageLoaderCallbacks;
+    private final MessageLoaderCallbacks messageLoaderCallbacks;
 
     {
-        messageLoaderCallbacks = new MessageLoaderCallbacks()
-        {
+        messageLoaderCallbacks = new MessageLoaderCallbacks() {
             @Override
-            public void onMessageDataLoadFinished(LocalMessage message)
-            {
+            public void onMessageDataLoadFinished(LocalMessage message) {
                 // nothing to do here, we don't care about message headers
             }
 
             @Override
-            public void onMessageDataLoadFailed()
-            {
+            public void onMessageDataLoadFailed() {
                 internalMessageHandler.sendEmptyMessage(MSG_PROGRESS_OFF);
                 Toast.makeText(MessageCompose.this, R.string.status_invalid_id_error, Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void onMessageViewInfoLoadFinished(MessageViewInfo messageViewInfo)
-            {
+            public void onMessageViewInfoLoadFinished(MessageViewInfo messageViewInfo) {
                 internalMessageHandler.sendEmptyMessage(MSG_PROGRESS_OFF);
                 loadLocalMessageForDisplay(messageViewInfo, mAction);
             }
 
             @Override
-            public void onMessageViewInfoLoadFailed(MessageViewInfo messageViewInfo)
-            {
+            public void onMessageViewInfoLoadFailed(MessageViewInfo messageViewInfo) {
                 internalMessageHandler.sendEmptyMessage(MSG_PROGRESS_OFF);
                 Toast.makeText(MessageCompose.this, R.string.status_invalid_id_error, Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void setLoadingProgress(int current, int max)
-            {
+            public void setLoadingProgress(int current, int max) {
                 // nvm - we don't have a progress bar
             }
 
             @Override
             public void startIntentSenderForMessageLoaderHelper(IntentSender si, int requestCode, Intent fillIntent,
-                    int flagsMask, int flagValues, int extraFlags)
-            {
+                    int flagsMask, int flagValues, int extraFlags) {
                 try {
                     requestCode |= REQUEST_MASK_LOADER_HELPER;
                     startIntentSenderForResult(si, requestCode, fillIntent, flagsMask, flagValues, extraFlags);
@@ -1761,33 +1694,28 @@ public class MessageCompose extends XMActivity implements OnClickListener,
             }
 
             @Override
-            public void onDownloadErrorMessageNotFound()
-            {
+            public void onDownloadErrorMessageNotFound() {
                 runOnUiThread(() -> Toast.makeText(MessageCompose.this, R.string.status_invalid_id_error, Toast.LENGTH_LONG).show());
             }
 
             @Override
-            public void onDownloadErrorNetworkError()
-            {
+            public void onDownloadErrorNetworkError() {
                 runOnUiThread(() -> Toast.makeText(MessageCompose.this, R.string.status_network_error, Toast.LENGTH_LONG).show());
             }
         };
     }
 
-    private void initializeActionBar()
-    {
+    private void initializeActionBar() {
         ActionBar actionBar = getActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     // TODO We miss callbacks for this listener if they happens while we are paused!
-    public MessagingListener messagingListener = new SimpleMessagingListener()
-    {
+    public MessagingListener messagingListener = new SimpleMessagingListener() {
 
         @Override
-        public void messageUidChanged(Account account, String folder, String oldUid, String newUid)
-        {
+        public void messageUidChanged(Account account, String folder, String oldUid, String newUid) {
             if (relatedMessageReference == null) {
                 return;
             }
@@ -1805,13 +1733,11 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
     };
 
-    AttachmentMvpView attachmentMvpView = new AttachmentMvpView()
-    {
+    AttachmentMvpView attachmentMvpView = new AttachmentMvpView() {
         private final HashMap<Uri, View> attachmentViews = new HashMap<>();
 
         @Override
-        public void showWaitingForAttachmentDialog(WaitingAction waitingAction)
-        {
+        public void showWaitingForAttachmentDialog(WaitingAction waitingAction) {
             String title;
 
             switch (waitingAction) {
@@ -1834,8 +1760,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
 
         @Override
-        public void dismissWaitingForAttachmentDialog()
-        {
+        public void dismissWaitingForAttachmentDialog() {
             ProgressDialogFragment fragment = (ProgressDialogFragment)
                     getSupportFragmentManager().findFragmentByTag(FRAGMENT_WAITING_FOR_ATTACHMENT);
 
@@ -1846,8 +1771,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
 
         @Override
         @SuppressLint("InlinedApi")
-        public void showPickAttachmentDialog(int requestCode)
-        {
+        public void showPickAttachmentDialog(int requestCode) {
             requestCode |= REQUEST_MASK_ATTACHMENT_PRESENTER;
 
             Intent i = new Intent(Intent.ACTION_GET_CONTENT);
@@ -1860,8 +1784,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
 
         @Override
-        public void addAttachmentView(final Attachment attachment)
-        {
+        public void addAttachmentView(final Attachment attachment) {
             View view = getLayoutInflater().inflate(R.layout.message_compose_attachment, attachmentsView, false);
             attachmentViews.put(attachment.uri, view);
 
@@ -1873,8 +1796,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
 
         @Override
-        public void updateAttachmentView(Attachment attachment)
-        {
+        public void updateAttachmentView(Attachment attachment) {
             View view = attachmentViews.get(attachment.uri);
             if (view == null) {
                 throw new IllegalArgumentException();
@@ -1895,45 +1817,38 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
 
         @Override
-        public void removeAttachmentView(Attachment attachment)
-        {
+        public void removeAttachmentView(Attachment attachment) {
             View view = attachmentViews.get(attachment.uri);
             attachmentsView.removeView(view);
             attachmentViews.remove(attachment.uri);
         }
 
         @Override
-        public void performSendAfterChecks()
-        {
+        public void performSendAfterChecks() {
             MessageCompose.this.performSendAfterChecks();
         }
 
         @Override
-        public void performSaveAfterChecks()
-        {
+        public void performSaveAfterChecks() {
             MessageCompose.this.performSaveAfterChecks();
         }
 
         @Override
-        public void showMissingAttachmentsPartialMessageWarning()
-        {
+        public void showMissingAttachmentsPartialMessageWarning() {
             Toast.makeText(MessageCompose.this,
                     getString(R.string.message_compose_attachments_skipped_toast), Toast.LENGTH_LONG).show();
         }
 
         @Override
-        public void showMissingAttachmentsPartialMessageForwardWarning()
-        {
+        public void showMissingAttachmentsPartialMessageForwardWarning() {
             Toast.makeText(MessageCompose.this,
                     getString(R.string.message_compose_attachments_forward_toast), Toast.LENGTH_LONG).show();
         }
     };
 
-    private Handler internalMessageHandler = new Handler()
-    {
+    private final Handler internalMessageHandler = new Handler() {
         @Override
-        public void handleMessage(android.os.Message msg)
-        {
+        public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case MSG_PROGRESS_ON:
                     setProgressBarIndeterminateVisibility(true);
@@ -1955,8 +1870,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
     };
 
-    public enum Action
-    {
+    public enum Action {
         COMPOSE(R.string.compose_title_compose),
         REPLY(R.string.compose_title_reply),
         REPLY_ALL(R.string.compose_title_reply_all),
@@ -1966,14 +1880,12 @@ public class MessageCompose extends XMActivity implements OnClickListener,
 
         private final int titleResource;
 
-        Action(@StringRes int titleResource)
-        {
+        Action(@StringRes int titleResource) {
             this.titleResource = titleResource;
         }
 
         @StringRes
-        public int getTitleResource()
-        {
+        public int getTitleResource() {
             return titleResource;
         }
     }

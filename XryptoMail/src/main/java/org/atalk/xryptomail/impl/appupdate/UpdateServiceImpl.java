@@ -407,9 +407,10 @@ public class UpdateServiceImpl {
         for (String aLink : updateLinks) {
             try {
                 if (isValidateLink(aLink)) {
-                    InputStream in = mHttpConnection.getInputStream();
+                    InputStream inputStream = mHttpConnection.getInputStream();
                     Properties mProperties = new Properties();
-                    mProperties.load(in);
+                    mProperties.load(inputStream);
+                    inputStream.close();
 
                     latestVersion = mProperties.getProperty("last_version");
                     latestVersionCode = Long.parseLong(mProperties.getProperty("last_version_code"));

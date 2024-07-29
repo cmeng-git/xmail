@@ -1,19 +1,15 @@
 package org.atalk.xryptomail.activity.setup;
 
+import static org.atalk.xryptomail.mail.ServerSettings.Type.IMAP;
+import static org.atalk.xryptomail.mail.ServerSettings.Type.POP3;
+import static org.atalk.xryptomail.mail.ServerSettings.Type.WebDAV;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
@@ -35,6 +31,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import java.security.cert.X509Certificate;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.BuildConfig;
 import org.atalk.xryptomail.Preferences;
@@ -51,18 +59,11 @@ import org.atalk.xryptomail.mail.ServerSettings.Type;
 import org.atalk.xryptomail.view.ClientCertificateSpinner;
 import org.atalk.xryptomail.view.ClientCertificateSpinner.OnClientCertificateChangedListener;
 
-import java.security.cert.X509Certificate;
-
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import timber.log.Timber;
 
-import static org.atalk.xryptomail.mail.ServerSettings.Type.IMAP;
-import static org.atalk.xryptomail.mail.ServerSettings.Type.POP3;
-import static org.atalk.xryptomail.mail.ServerSettings.Type.WebDAV;
-
 public class AccountSetupActivity extends AppCompatActivity implements AccountSetupContract.View,
-        ConfirmationDialogFragmentListener, OnClickListener, OnCheckedChangeListener
-{
+        ConfirmationDialogFragmentListener, OnClickListener, OnCheckedChangeListener {
     private static final String EXTRA_ACCOUNT = "account";
     private static final String EXTRA_STAGE = "stage";
     private static final String EXTRA_EDIT_SETTINGS = "edit_settings";
@@ -135,8 +136,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     Stage stage;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState)
-    {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.account_setup);
@@ -199,8 +199,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState)
-    {
+    protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putSerializable(STATE_STAGE, stage);
@@ -215,15 +214,13 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState)
-    {
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
         presenter.onRestoreStart();
         super.onRestoreInstanceState(savedInstanceState);
         presenter.onRestoreEnd();
     }
 
-    private void basicsStart()
-    {
+    private void basicsStart() {
         coordinatorLayout = findViewById(R.id.basics_coordinator_layout);
         emailView = findViewById(R.id.account_email);
         passwordViewLayout = findViewById(R.id.password_input_layout);
@@ -239,75 +236,63 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
         onInputChangedInBasics();
     }
 
-    private void onInputChangedInBasics()
-    {
+    private void onInputChangedInBasics() {
         if (presenter == null)
             return;
 
         presenter.onInputChangedInBasics(emailView.getText().toString(), passwordView.getText().toString());
     }
 
-    private TextWatcher validationTextWatcherInBasics = new TextWatcher()
-    {
+    private TextWatcher validationTextWatcherInBasics = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after)
-        {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
         }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count)
-        {
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
 
         }
 
         @Override
-        public void afterTextChanged(Editable s)
-        {
+        public void afterTextChanged(Editable s) {
             presenter.onInputChangedInBasics(emailView.getText().toString(), passwordView.getText().toString());
         }
     };
 
-    private void initializeViewListenersInBasics()
-    {
+    private void initializeViewListenersInBasics() {
         emailView.addTextChangedListener(validationTextWatcherInBasics);
         passwordView.addTextChangedListener(validationTextWatcherInBasics);
     }
 
     @Override
-    public void setPasswordInBasicsEnabled(boolean enabled)
-    {
+    public void setPasswordInBasicsEnabled(boolean enabled) {
         passwordViewLayout.setEnabled(enabled);
     }
 
     @Override
-    public void setPasswordHintInBasics(String hint)
-    {
+    public void setPasswordHintInBasics(String hint) {
         passwordViewLayout.setHint(hint);
     }
 
     @Override
-    public void setManualSetupButtonInBasicsVisibility(int visibility)
-    {
+    public void setManualSetupButtonInBasicsVisibility(int visibility) {
         manualSetupButton.setVisibility(visibility);
     }
 
-    private void checkingStart()
-    {
+    private void checkingStart() {
         messageView = findViewById(R.id.message);
         progressBar = findViewById(R.id.progress);
         progressBar.setIndeterminate(true);
     }
 
-    private void accountTypeStart()
-    {
+    private void accountTypeStart() {
         accountTypeRadioGroup = findViewById(R.id.account_type_radio_group);
         findViewById(R.id.account_type_next).setOnClickListener(this);
         presenter.onAccountTypeStart();
     }
 
-    private int getPositionFromLayoutId(@LayoutRes int layoutId)
-    {
+    private int getPositionFromLayoutId(@LayoutRes int layoutId) {
         for (int i = 0; i < layoutIds.length; i++) {
             if (layoutIds[i] == layoutId) {
                 return i;
@@ -318,32 +303,28 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
 
     private static long mLastClickTime = 0;
 
-    private static boolean isActionValid()
-    {
+    private static boolean isActionValid() {
         long now = System.currentTimeMillis();
         boolean valid = (now - mLastClickTime > 1000);
         mLastClickTime = now;
         return valid;
     }
 
-    public static void actionNewAccount(Context context)
-    {
+    public static void actionNewAccount(Context context) {
         if (isActionValid()) {
             Intent i = new Intent(context, AccountSetupActivity.class);
             context.startActivity(i);
         }
     }
 
-    public void goToBasics()
-    {
+    public void goToBasics() {
         stage = Stage.BASICS;
         setSelection(getPositionFromLayoutId(R.layout.account_setup_basics));
         basicsStart();
     }
 
 
-    public void goToOutgoing()
-    {
+    public void goToOutgoing() {
         stage = Stage.OUTGOING;
         setSelection(getPositionFromLayoutId(R.layout.account_setup_outgoing));
         outgoingStart();
@@ -351,8 +332,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
 
 
     @Override
-    public void goToIncoming()
-    {
+    public void goToIncoming() {
         stage = Stage.INCOMING;
         setSelection(getPositionFromLayoutId(R.layout.account_setup_incoming));
         incomingStart();
@@ -360,8 +340,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
 
 
     @Override
-    public void goToAutoConfiguration()
-    {
+    public void goToAutoConfiguration() {
         stage = Stage.AUTOCONFIGURATION;
         setSelection(getPositionFromLayoutId(R.layout.account_setup_check_settings));
         checkingStart();
@@ -370,24 +349,21 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
 
 
     @Override
-    public void goToAccountType()
-    {
+    public void goToAccountType() {
         stage = Stage.ACCOUNT_TYPE;
         setSelection(getPositionFromLayoutId(R.layout.account_setup_account_type));
         accountTypeStart();
     }
 
     @Override
-    public void goToAccountNames()
-    {
+    public void goToAccountNames() {
         stage = Stage.ACCOUNT_NAMES;
         setSelection(getPositionFromLayoutId(R.layout.account_setup_names));
         namesStart();
     }
 
     @Override
-    public void goToOutgoingChecking()
-    {
+    public void goToOutgoingChecking() {
         stage = Stage.OUTGOING_CHECKING;
         setSelection(getPositionFromLayoutId(R.layout.account_setup_check_settings));
         checkingStart();
@@ -395,40 +371,33 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void end()
-    {
+    public void end() {
         finish();
     }
 
     @Override
-    public void goToIncomingChecking()
-    {
+    public void goToIncomingChecking() {
         stage = Stage.INCOMING_CHECKING;
         setSelection(getPositionFromLayoutId(R.layout.account_setup_check_settings));
         checkingStart();
         presenter.onCheckingStart(stage);
     }
 
-    public void listAccounts()
-    {
+    public void listAccounts() {
         Accounts.listAccounts(this);
     }
 
-    private void setSelection(int position)
-    {
+    private void setSelection(int position) {
         if (position == -1)
             return;
 
         this.position = position;
         flipper.setDisplayedChild(position);
-
     }
-
 
     @Override
     public void showAcceptKeyDialog(final int msgResId, final String exMessage, final String message,
-            final X509Certificate certificate)
-    {
+            final X509Certificate certificate) {
 
         // TODO: refactor with DialogFragment.
         // This is difficult because we need to pass through chain[0] for onClick()
@@ -446,81 +415,67 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void showErrorDialog(@StringRes final int msgResId, final Object... args)
-    {
+    public void showErrorDialog(@StringRes final int msgResId, final Object... args) {
         // TODO: 8/13/17 add a "detail" button and show exception details here
         Snackbar.make(coordinatorLayout, getString(msgResId, args), Snackbar.LENGTH_LONG).show();
     }
 
     @Override
-    public void showErrorDialog(String errorMessage)
-    {
+    public void showErrorDialog(String errorMessage) {
         Snackbar.make(coordinatorLayout, errorMessage, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
-    public void setMessage(@StringRes int id)
-    {
+    public void setMessage(@StringRes int id) {
         messageView.setText(getString(id));
     }
 
     @Override
-    public Context getContext()
-    {
+    public Context getContext() {
         return this;
     }
 
     @Override
-    public void doPositiveClick(int dialogId)
-    {
+    public void doPositiveClick(int dialogId) {
         presenter.onPositiveClickedInConfirmationDialog();
     }
 
     @Override
-    public void doNegativeClick(int dialogId)
-    {
+    public void doNegativeClick(int dialogId) {
         presenter.onNegativeClickedInConfirmationDialog();
     }
 
     @Override
-    public void dialogCancelled(int dialogId)
-    {
+    public void dialogCancelled(int dialogId) {
 
     }
 
     // ------
 
-    private void initializeViewListenersInIncoming()
-    {
-        securityTypeView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
+    private void initializeViewListenersInIncoming() {
+        securityTypeView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position,
-                    long id)
-            {
+                    long id) {
 
                 onInputChangedInIncoming();
 
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            { /* unused */ }
+            public void onNothingSelected(AdapterView<?> parent) { /* unused */ }
         });
 
-        authTypeView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
+        authTypeView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position,
-                    long id)
-            {
+                    long id) {
 
                 onInputChangedInIncoming();
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            { /* unused */ }
+            public void onNothingSelected(AdapterView<?> parent) { /* unused */ }
         });
 
         clientCertificateSpinner.setOnClientCertificateChangedListener(clientCertificateChangedListenerInIncoming);
@@ -530,8 +485,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
         portView.addTextChangedListener(validationTextWatcherInIncoming);
     }
 
-    private void onInputChangedInIncoming()
-    {
+    private void onInputChangedInIncoming() {
         if (presenter == null)
             return;
 
@@ -548,8 +502,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
 
-    protected void onNextInIncoming()
-    {
+    protected void onNextInIncoming() {
         try {
             ConnectionSecurity connectionSecurity = getSelectedSecurity();
 
@@ -582,8 +535,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
         }
     }
 
-    public void onClick(View v)
-    {
+    public void onClick(View v) {
         try {
             switch (v.getId()) {
                 case R.id.basics_next:
@@ -606,7 +558,6 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
                             serverType = null;
                             break;
                     }
-
                     presenter.onNextButtonInAccountTypeClicked(serverType);
                     break;
 
@@ -629,8 +580,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
         }
     }
 
-    private void failure(Exception use)
-    {
+    private void failure(Exception use) {
         Timber.e(use, "Failure");
         String toastText = getString(R.string.account_setup_bad_uri, use.getMessage());
 
@@ -639,19 +589,15 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
 
-    private TextWatcher validationTextWatcherInIncoming = new TextWatcher()
-    {
-        public void afterTextChanged(Editable s)
-        {
+    private TextWatcher validationTextWatcherInIncoming = new TextWatcher() {
+        public void afterTextChanged(Editable s) {
             onInputChangedInIncoming();
         }
 
-        public void beforeTextChanged(CharSequence s, int start, int count, int after)
-        {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
 
-        public void onTextChanged(CharSequence s, int start, int before, int count)
-        {
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
     };
 
@@ -659,8 +605,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
             = alias -> onInputChangedInIncoming();
 
     @Override
-    public void setAuthTypeInIncoming(AuthType authType)
-    {
+    public void setAuthTypeInIncoming(AuthType authType) {
         OnItemSelectedListener onItemSelectedListener = authTypeView.getOnItemSelectedListener();
         authTypeView.setOnItemSelectedListener(null);
         int authTypePosition =
@@ -670,8 +615,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void setSecurityTypeInIncoming(ConnectionSecurity security)
-    {
+    public void setSecurityTypeInIncoming(ConnectionSecurity security) {
         OnItemSelectedListener onItemSelectedListener = securityTypeView.getOnItemSelectedListener();
         securityTypeView.setOnItemSelectedListener(null);
         int connectionSecurityPosition = ((ConnectionSecurityAdapter)
@@ -681,24 +625,21 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void setUsernameInIncoming(String username)
-    {
+    public void setUsernameInIncoming(String username) {
         usernameView.removeTextChangedListener(validationTextWatcherInIncoming);
         usernameView.setText(username);
         usernameView.addTextChangedListener(validationTextWatcherInIncoming);
     }
 
     @Override
-    public void setPasswordInIncoming(String password)
-    {
+    public void setPasswordInIncoming(String password) {
         passwordView.removeTextChangedListener(validationTextWatcherInIncoming);
         passwordView.setText(password);
         passwordView.addTextChangedListener(validationTextWatcherInIncoming);
     }
 
     @Override
-    public void setCertificateAliasInIncoming(String alias)
-    {
+    public void setCertificateAliasInIncoming(String alias) {
         clientCertificateSpinner.setOnClientCertificateChangedListener(null);
         clientCertificateSpinner.setAlias(alias);
         clientCertificateSpinner.
@@ -706,30 +647,26 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void setServerInIncoming(String server)
-    {
+    public void setServerInIncoming(String server) {
         serverView.removeTextChangedListener(validationTextWatcherInIncoming);
         serverView.setText(server);
         serverView.addTextChangedListener(validationTextWatcherInIncoming);
     }
 
     @Override
-    public void setPortInIncoming(String port)
-    {
+    public void setPortInIncoming(String port) {
         portView.removeTextChangedListener(validationTextWatcherInIncoming);
         portView.setText(port);
         portView.addTextChangedListener(validationTextWatcherInIncoming);
     }
 
     @Override
-    public void setServerLabel(String label)
-    {
+    public void setServerLabel(String label) {
         serverViewLayout.setHint(label);
     }
 
     @Override
-    public void hideViewsWhenPop3()
-    {
+    public void hideViewsWhenPop3() {
         findViewById(R.id.imap_path_prefix_section).setVisibility(View.GONE);
         findViewById(R.id.webdav_advanced_header).setVisibility(View.GONE);
         findViewById(R.id.webdav_mailbox_alias_section).setVisibility(View.GONE);
@@ -741,8 +678,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void hideViewsWhenImap()
-    {
+    public void hideViewsWhenImap() {
         findViewById(R.id.webdav_advanced_header).setVisibility(View.GONE);
         findViewById(R.id.webdav_mailbox_alias_section).setVisibility(View.GONE);
         findViewById(R.id.webdav_owa_path_section).setVisibility(View.GONE);
@@ -750,14 +686,12 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void hideViewsWhenImapAndNotEdit()
-    {
+    public void hideViewsWhenImapAndNotEdit() {
         findViewById(R.id.imap_folder_setup_section).setVisibility(View.GONE);
     }
 
     @Override
-    public void hideViewsWhenWebDav()
-    {
+    public void hideViewsWhenWebDav() {
         findViewById(R.id.imap_path_prefix_section).setVisibility(View.GONE);
         findViewById(R.id.incoming_account_auth_type_label).setVisibility(View.GONE);
         findViewById(R.id.incoming_account_auth_type).setVisibility(View.GONE);
@@ -767,37 +701,31 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void setImapAutoDetectNamespace(boolean autoDetectNamespace)
-    {
+    public void setImapAutoDetectNamespace(boolean autoDetectNamespace) {
         imapAutoDetectNamespaceView.setChecked(autoDetectNamespace);
     }
 
     @Override
-    public void setImapPathPrefix(String imapPathPrefix)
-    {
+    public void setImapPathPrefix(String imapPathPrefix) {
         imapPathPrefixView.setText(imapPathPrefix);
     }
 
     @Override
-    public void setWebDavPathPrefix(String webDavPathPrefix)
-    {
+    public void setWebDavPathPrefix(String webDavPathPrefix) {
         webdavPathPrefixView.setText(webDavPathPrefix);
     }
 
     @Override
-    public void setWebDavAuthPath(String authPath)
-    {
+    public void setWebDavAuthPath(String authPath) {
         webdavAuthPathView.setText(authPath);
     }
 
     @Override
-    public void setWebDavMailboxPath(String mailboxPath)
-    {
+    public void setWebDavMailboxPath(String mailboxPath) {
         webdavMailboxPathView.setText(mailboxPath);
     }
 
-    private void incomingStart()
-    {
+    private void incomingStart() {
         View incomingView = findViewById(R.id.account_setup_incoming);
         coordinatorLayout = findViewById(R.id.incoming_coordinator_layout);
         usernameView = incomingView.findViewById(R.id.incoming_account_username);
@@ -848,54 +776,46 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void setImapPathPrefixSectionVisibility(int visibility)
-    {
+    public void setImapPathPrefixSectionVisibility(int visibility) {
         findViewById(R.id.imap_path_prefix_section).setVisibility(visibility);
     }
 
     @Override
-    public void setCompressionSectionVisibility(int visibility)
-    {
+    public void setCompressionSectionVisibility(int visibility) {
         findViewById(R.id.compression_label).setVisibility(visibility);
         findViewById(R.id.compression_section).setVisibility(visibility);
     }
 
     @Override
-    public void setNextButtonInIncomingEnabled(boolean enabled)
-    {
+    public void setNextButtonInIncomingEnabled(boolean enabled) {
         nextButton.setEnabled(enabled);
     }
 
     @Override
-    public void goToIncomingSettings()
-    {
+    public void goToIncomingSettings() {
         goToIncoming();
     }
 
     @Override
-    public void setNextButtonInBasicsEnabled(boolean enabled)
-    {
+    public void setNextButtonInBasicsEnabled(boolean enabled) {
         nextButton.setEnabled(enabled);
         Utility.setCompoundDrawablesAlpha(nextButton, nextButton.isEnabled() ? 255 : 128);
     }
 
     @Override
-    public void setSecurityChoices(ConnectionSecurity[] choices)
-    {
+    public void setSecurityChoices(ConnectionSecurity[] choices) {
         // Note that connectionSecurityChoices is configured above based on server type
         ConnectionSecurityAdapter securityTypesAdapter = ConnectionSecurityAdapter.get(this, choices);
         securityTypeView.setAdapter(securityTypesAdapter);
     }
 
     @Override
-    public void setAuthTypeInsecureText(boolean insecure)
-    {
+    public void setAuthTypeInsecureText(boolean insecure) {
         authTypeAdapter.useInsecureText(insecure);
     }
 
     @Override
-    public void setViewNotExternalInIncoming()
-    {
+    public void setViewNotExternalInIncoming() {
         passwordViewLayout.setVisibility(View.VISIBLE);
         clientCertificateLabelView.setVisibility(View.GONE);
         clientCertificateSpinner.setVisibility(View.GONE);
@@ -907,8 +827,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void setViewExternalInIncoming()
-    {
+    public void setViewExternalInIncoming() {
         passwordViewLayout.setVisibility(View.GONE);
         clientCertificateLabelView.setVisibility(View.VISIBLE);
         clientCertificateSpinner.setVisibility(View.VISIBLE);
@@ -920,8 +839,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void setViewOAuth2InIncoming()
-    {
+    public void setViewOAuth2InIncoming() {
         imapAutoDetectNamespaceView.setEnabled(false);
         passwordViewLayout.setEnabled(false);
         securityTypeView.setEnabled(false);
@@ -929,38 +847,32 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void showFailureToast(Exception use)
-    {
+    public void showFailureToast(Exception use) {
         failure(use);
     }
 
     @Override
-    public void setCompressionMobile(boolean compressionMobileBoolean)
-    {
+    public void setCompressionMobile(boolean compressionMobileBoolean) {
         compressionMobile.setChecked(compressionMobileBoolean);
     }
 
     @Override
-    public void setCompressionWifi(boolean compressionWifiBoolean)
-    {
+    public void setCompressionWifi(boolean compressionWifiBoolean) {
         compressionWifi.setChecked(compressionWifiBoolean);
     }
 
     @Override
-    public void setCompressionOther(boolean compressionOtherBoolean)
-    {
+    public void setCompressionOther(boolean compressionOtherBoolean) {
         compressionOther.setChecked(compressionOtherBoolean);
     }
 
     @Override
-    public void setSubscribedFoldersOnly(boolean subscribedFoldersOnlyBoolean)
-    {
+    public void setSubscribedFoldersOnly(boolean subscribedFoldersOnlyBoolean) {
         subscribedFoldersOnly.setChecked(subscribedFoldersOnlyBoolean);
     }
 
     @Override
-    public void showInvalidSettingsToast()
-    {
+    public void showInvalidSettingsToast() {
         String toastText = getString(R.string.account_setup_outgoing_invalid_setting_combo_notice,
                 getString(R.string.account_setup_incoming_auth_type_label),
                 AuthType.EXTERNAL.toString(),
@@ -970,42 +882,35 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void showInvalidOAuthError()
-    {
+    public void showInvalidOAuthError() {
         usernameViewLayout.setErrorEnabled(true);
         usernameViewLayout.setError(getString(R.string.OAuth2_not_supported));
     }
 
     @Override
-    public void clearInvalidOAuthError()
-    {
+    public void clearInvalidOAuthError() {
         usernameViewLayout.setError("");
     }
 
     // names
 
-    public void namesStart()
-    {
+    public void namesStart() {
         doneButton = findViewById(R.id.done);
         doneButton.setOnClickListener(this);
 
         description = findViewById(R.id.account_description);
         name = findViewById(R.id.account_name);
-        name.addTextChangedListener(new TextWatcher()
-        {
+        name.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
+            public void afterTextChanged(Editable s) {
                 onInputChangeInNames();
             }
         });
@@ -1013,22 +918,18 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void setDoneButtonInNamesEnabled(boolean enabled)
-    {
+    public void setDoneButtonInNamesEnabled(boolean enabled) {
         doneButton.setEnabled(enabled);
     }
 
-    private void onInputChangeInNames()
-    {
+    private void onInputChangeInNames() {
         presenter.onInputChangedInNames(name.getText().toString(), description.getText().toString());
     }
 
     @Override
-    public void goToListAccounts()
-    {
+    public void goToListAccounts() {
         listAccounts();
     }
-
     // outgoing
 
     /**
@@ -1038,40 +939,33 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
      * This avoids needless calls to {@code onInputChangedInOutgoing()} which is called
      * immediately after this is called.
      */
-    private void initializeViewListenersInOutgoing()
-    {
+    private void initializeViewListenersInOutgoing() {
 
         /*
          * Updates the port when the user changes the security type. This allows
          * us to show a reasonable default which the user can change.
          */
-        securityTypeView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
+        securityTypeView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 onInputChangedInOutgoing();
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            { /* unused */ }
+            public void onNothingSelected(AdapterView<?> parent) { /* unused */ }
         });
 
-        authTypeView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
+        authTypeView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 onInputChangedInOutgoing();
 
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            { /* unused */ }
+            public void onNothingSelected(AdapterView<?> parent) { /* unused */ }
         });
 
         requireLoginView.setOnCheckedChangeListener(this);
@@ -1087,8 +981,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
      * widgets are changed programmatically.  (The logic is simpler when you know
      * that this is the last thing called after an input change.)
      */
-    private void onInputChangedInOutgoing()
-    {
+    private void onInputChangedInOutgoing() {
         if (presenter == null)
             return;
 
@@ -1100,8 +993,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
 
     }
 
-    protected void onNextInOutgoing()
-    {
+    protected void onNextInOutgoing() {
         ConnectionSecurity securityType = getSelectedSecurity();
         String username = usernameView.getText().toString();
         String password = passwordView.getText().toString();
@@ -1117,8 +1009,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-    {
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         requireLoginSettingsView.setVisibility(isChecked ? View.VISIBLE : View.GONE);
         onInputChangedInOutgoing();
     }
@@ -1128,43 +1019,36 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
      * Calls onInputChangedInOutgoing() which enables or disables the Next button
      * based on the fields' validity.
      */
-    private TextWatcher validationTextWatcherInOutgoing = new TextWatcher()
-    {
-        public void afterTextChanged(Editable s)
-        {
+    private TextWatcher validationTextWatcherInOutgoing = new TextWatcher() {
+        public void afterTextChanged(Editable s) {
             onInputChangedInOutgoing();
         }
 
-        public void beforeTextChanged(CharSequence s, int start, int count, int after)
-        {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
 
-        public void onTextChanged(CharSequence s, int start, int before, int count)
-        {
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
     };
 
     private OnClientCertificateChangedListener clientCertificateChangedListenerInOutgoing
             = alias -> onInputChangedInOutgoing();
 
-    private AuthType getSelectedAuthType()
-    {
+    private AuthType getSelectedAuthType() {
         AuthTypeHolder holder = (AuthTypeHolder) authTypeView.getSelectedItem();
         if (holder == null)
             return null;
         return holder.getAuthType();
     }
 
-    private ConnectionSecurity getSelectedSecurity()
-    {
+    private ConnectionSecurity getSelectedSecurity() {
         ConnectionSecurityHolder holder = (ConnectionSecurityHolder) securityTypeView.getSelectedItem();
         if (holder == null)
             return null;
         return holder.getConnectionSecurity();
     }
 
-    private void outgoingStart()
-    {
+    private void outgoingStart() {
         final View outgoingView = findViewById(R.id.account_setup_outgoing);
         coordinatorLayout = outgoingView.findViewById(R.id.outgoing_coordinator_layout);
         usernameView = outgoingView.findViewById(R.id.outgoing_account_username);
@@ -1199,15 +1083,13 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void setNextButtonInOutgoingEnabled(boolean enabled)
-    {
+    public void setNextButtonInOutgoingEnabled(boolean enabled) {
         nextButton.setEnabled(enabled);
         Utility.setCompoundDrawablesAlpha(nextButton, nextButton.isEnabled() ? 255 : 128);
     }
 
     @Override
-    public void setAuthTypeInOutgoing(AuthType authType)
-    {
+    public void setAuthTypeInOutgoing(AuthType authType) {
         OnItemSelectedListener onItemSelectedListener = authTypeView.getOnItemSelectedListener();
         authTypeView.setOnItemSelectedListener(null);
         authTypeView.setSelection(authTypeAdapter.getAuthPosition(authType), false);
@@ -1215,8 +1097,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void setSecurityTypeInOutgoing(ConnectionSecurity security)
-    {
+    public void setSecurityTypeInOutgoing(ConnectionSecurity security) {
         OnItemSelectedListener onItemSelectedListener = securityTypeView.getOnItemSelectedListener();
         securityTypeView.setOnItemSelectedListener(null);
         securityTypeView.setSelection(security.ordinal(), false);
@@ -1224,8 +1105,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void setUsernameInOutgoing(String username)
-    {
+    public void setUsernameInOutgoing(String username) {
         usernameView.removeTextChangedListener(validationTextWatcherInOutgoing);
         usernameView.setText(username);
         requireLoginView.setChecked(true);
@@ -1234,16 +1114,14 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void setPasswordInOutgoing(String password)
-    {
+    public void setPasswordInOutgoing(String password) {
         passwordView.removeTextChangedListener(validationTextWatcherInOutgoing);
         passwordView.setText(password);
         passwordView.addTextChangedListener(validationTextWatcherInOutgoing);
     }
 
     @Override
-    public void setCertificateAliasInOutgoing(String alias)
-    {
+    public void setCertificateAliasInOutgoing(String alias) {
         clientCertificateSpinner.setOnClientCertificateChangedListener(null);
         clientCertificateSpinner.setAlias(alias);
         clientCertificateSpinner.
@@ -1251,24 +1129,21 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void setServerInOutgoing(String server)
-    {
+    public void setServerInOutgoing(String server) {
         serverView.removeTextChangedListener(validationTextWatcherInOutgoing);
         serverView.setText(server);
         serverView.addTextChangedListener(validationTextWatcherInOutgoing);
     }
 
     @Override
-    public void setPortInOutgoing(String port)
-    {
+    public void setPortInOutgoing(String port) {
         portView.removeTextChangedListener(validationTextWatcherInOutgoing);
         portView.setText(port);
         portView.addTextChangedListener(validationTextWatcherInOutgoing);
     }
 
     @Override
-    public void showInvalidSettingsToastInOutgoing()
-    {
+    public void showInvalidSettingsToastInOutgoing() {
         String toastText = getString(R.string.account_setup_outgoing_invalid_setting_combo_notice,
                 getString(R.string.account_setup_incoming_auth_type_label),
                 AuthType.EXTERNAL.toString(),
@@ -1278,14 +1153,12 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void updateAuthPlainTextInOutgoing(boolean insecure)
-    {
+    public void updateAuthPlainTextInOutgoing(boolean insecure) {
         authTypeAdapter.useInsecureText(insecure);
     }
 
     @Override
-    public void setViewNotExternalInOutgoing()
-    {
+    public void setViewNotExternalInOutgoing() {
         // show password fields, hide client certificate fields
         passwordViewLayout.setVisibility(View.VISIBLE);
         clientCertificateLabelView.setVisibility(View.GONE);
@@ -1298,8 +1171,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void setViewExternalInOutgoing()
-    {
+    public void setViewExternalInOutgoing() {
         // hide password fields, show client certificate fields
         passwordViewLayout.setVisibility(View.GONE);
         clientCertificateLabelView.setVisibility(View.VISIBLE);
@@ -1313,20 +1185,17 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void setViewOAuth2InOutgoing()
-    {
+    public void setViewOAuth2InOutgoing() {
         passwordViewLayout.setEnabled(false);
         securityTypeView.setEnabled(false);
         portView.setEnabled(false);
     }
 
-    public static void actionEditIncomingSettings(Activity context, Account account)
-    {
+    public static void actionEditIncomingSettings(Activity context, Account account) {
         context.startActivity(intentActionEditIncomingSettings(context, account));
     }
 
-    public static Intent intentActionEditIncomingSettings(Context context, Account account)
-    {
+    public static Intent intentActionEditIncomingSettings(Context context, Account account) {
         Intent i = new Intent(context, AccountSetupActivity.class);
         i.setAction(Intent.ACTION_EDIT);
         i.putExtra(EXTRA_ACCOUNT, account.getUuid());
@@ -1334,13 +1203,11 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
         return i;
     }
 
-    public static void actionEditOutgoingSettings(Context context, Account account)
-    {
+    public static void actionEditOutgoingSettings(Context context, Account account) {
         context.startActivity(intentActionEditOutgoingSettings(context, account));
     }
 
-    public static Intent intentActionEditOutgoingSettings(Context context, Account account)
-    {
+    public static Intent intentActionEditOutgoingSettings(Context context, Account account) {
         Intent i = new Intent(context, AccountSetupActivity.class);
         i.setAction(Intent.ACTION_EDIT);
         i.putExtra(EXTRA_ACCOUNT, account.getUuid());
@@ -1349,26 +1216,22 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         presenter.onBackPressed();
     }
 
     @Override
-    public void goBack()
-    {
+    public void goBack() {
         onBackPressed();
     }
 
     @Override
-    public void startIntentForResult(Intent intent, int requestCode)
-    {
+    public void startIntentForResult(Intent intent, int requestCode) {
         startActivityForResult(intent, requestCode);
     }
 
     @Override
-    public void openGmailUrl(String url)
-    {
+    public void openGmailUrl(String url) {
         CookieManager cookieManager = CookieManager.getInstance();
         //noinspection deprecation
         cookieManager.removeAllCookie();
@@ -1389,8 +1252,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void openOutlookUrl(String url)
-    {
+    public void openOutlookUrl(String url) {
         CookieManager cookieManager = CookieManager.getInstance();
         //noinspection deprecation
         cookieManager.removeAllCookie();
@@ -1412,8 +1274,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    public void closeAuthDialog()
-    {
+    public void closeAuthDialog() {
         if (authDialog != null) {
             authDialog.dismiss();
         }
@@ -1426,29 +1287,25 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         presenter.onResume();
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
         presenter.onPause();
     }
 
     @Override
-    protected void onStop()
-    {
+    protected void onStop() {
         super.onStop();
         presenter.onStop();
     }
 
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
     }

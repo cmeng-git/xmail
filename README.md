@@ -35,7 +35,6 @@ XryptoMail is an email client designed for android with the following features:
 Libraries used in this project
 ------------------------------
 * [Android Support Library](https://developer.android.com/topic/libraries/support-library/index.html)
-* [butterknife](https://github.com/JakeWharton/butterknife)
 * [ckChangeLog](https://github.com/cketti/ckChangeLog)
 * [Commons IO](http://commons.apache.org/io/)
 * [Dexter](https://github.com/Karumi/Dexter)

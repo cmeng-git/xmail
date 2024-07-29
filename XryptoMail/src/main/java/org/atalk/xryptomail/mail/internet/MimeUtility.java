@@ -2,6 +2,13 @@ package org.atalk.xryptomail.mail.internet;
 
 import androidx.annotation.NonNull;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.regex.Pattern;
+
 import org.apache.james.mime4j.codec.Base64InputStream;
 import org.apache.james.mime4j.codec.QuotedPrintableInputStream;
 import org.apache.james.mime4j.util.MimeUtil;
@@ -12,17 +19,9 @@ import org.atalk.xryptomail.mail.MessagingException;
 import org.atalk.xryptomail.mail.Multipart;
 import org.atalk.xryptomail.mail.Part;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import timber.log.Timber;
 
-public class MimeUtility
-{
+public class MimeUtility {
     public static final String DEFAULT_ATTACHMENT_MIME_TYPE = "application/octet-stream";
     public static final String XRYPTOMAIL_SETTINGS_MIME_TYPE = "application/x-XryptoMailsettings";
     /*
@@ -884,16 +883,14 @@ public class MimeUtility
             {"zmm", "application/vnd.handheld-entertainment+xml"}
     };
 
-    public static String unfold(String s)
-    {
+    public static String unfold(String s) {
         if (s == null) {
             return null;
         }
         return s.replaceAll("[\r\n]", "");
     }
 
-    private static String decode(String s, Message message)
-    {
+    private static String decode(String s, Message message) {
         if (s == null) {
             return null;
         }
@@ -902,19 +899,16 @@ public class MimeUtility
         }
     }
 
-    public static String unfoldAndDecode(String s)
-    {
+    public static String unfoldAndDecode(String s) {
         return unfoldAndDecode(s, null);
     }
 
-    public static String unfoldAndDecode(String s, Message message)
-    {
+    public static String unfoldAndDecode(String s, Message message) {
         return decode(unfold(s), message);
     }
 
     // TODO implement proper foldAndEncode
-    public static String foldAndEncode(String s)
-    {
+    public static String foldAndEncode(String s) {
         return s;
     }
 
@@ -928,10 +922,10 @@ public class MimeUtility
      *
      * @param headerBody The header body.
      * @param name The parameter name. Might be {@code null}.
+     *
      * @return the (parameter) value. if the parameter cannot be found the method returns null.
      */
-    public static String getHeaderParameter(String headerBody, String name)
-    {
+    public static String getHeaderParameter(String headerBody, String name) {
         if (headerBody == null) {
             return null;
         }
@@ -950,8 +944,7 @@ public class MimeUtility
         }
     }
 
-    public static Map<String, String> getAllHeaderParameters(String headerBody)
-    {
+    public static Map<String, String> getAllHeaderParameters(String headerBody) {
         Map<String, String> result = new HashMap<>();
 
         headerBody = headerBody.replaceAll("[\r\n]", "");
@@ -968,8 +961,7 @@ public class MimeUtility
     }
 
 
-    public static Part findFirstPartByMimeType(Part part, String mimeType)
-    {
+    public static Part findFirstPartByMimeType(Part part, String mimeType) {
         if (part.getBody() instanceof Multipart) {
             Multipart multipart = (Multipart) part.getBody();
             for (BodyPart bodyPart : multipart.getBodyParts()) {
@@ -990,16 +982,15 @@ public class MimeUtility
      *
      * @param mimeType A MIME type to check.
      * @param matchAgainst A MIME type to check against. May include wildcards such as image/* or * /*.
+     *
      * @return
      */
-    public static boolean mimeTypeMatches(String mimeType, String matchAgainst)
-    {
+    public static boolean mimeTypeMatches(String mimeType, String matchAgainst) {
         Pattern p = Pattern.compile(matchAgainst.replaceAll("\\*", "\\.\\*"), Pattern.CASE_INSENSITIVE);
         return p.matcher(mimeType).matches();
     }
 
-    public static boolean isDefaultMimeType(String mimeType)
-    {
+    public static boolean isDefaultMimeType(String mimeType) {
         return isSameMimeType(mimeType, DEFAULT_ATTACHMENT_MIME_TYPE);
     }
 
@@ -1014,8 +1005,7 @@ public class MimeUtility
      * {@code RawDataBody} can be merged into {@link Body}.
      */
     public static InputStream decodeBody(Body body)
-            throws MessagingException
-    {
+            throws MessagingException {
         InputStream inputStream;
         if (body instanceof RawDataBody) {
             RawDataBody rawDataBody = (RawDataBody) body;
@@ -1027,26 +1017,26 @@ public class MimeUtility
                 inputStream = rawInputStream;
             }
             else if (MimeUtil.ENC_BASE64.equalsIgnoreCase(encoding)) {
-                inputStream = new Base64InputStream(rawInputStream, false)
-                {
+                inputStream = new Base64InputStream(rawInputStream, false) {
                     @Override
                     public void close()
-                            throws IOException
-                    {
+                            throws IOException {
                         super.close();
                         closeInputStreamWithoutDeletingTemporaryFiles(rawInputStream);
                     }
                 };
             }
             else if (MimeUtil.ENC_QUOTED_PRINTABLE.equalsIgnoreCase(encoding)) {
-                inputStream = new QuotedPrintableInputStream(rawInputStream)
-                {
+                inputStream = new QuotedPrintableInputStream(rawInputStream) {
                     @Override
-                    public void close()
-                            throws IOException
+                    public void close() // throws IOException
                     {
                         super.close();
-                        closeInputStreamWithoutDeletingTemporaryFiles(rawInputStream);
+                        try {
+                            closeInputStreamWithoutDeletingTemporaryFiles(rawInputStream);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 };
             }
@@ -1062,8 +1052,7 @@ public class MimeUtility
     }
 
     public static void closeInputStreamWithoutDeletingTemporaryFiles(InputStream rawInputStream)
-            throws IOException
-    {
+            throws IOException {
         if (rawInputStream instanceof BinaryTempFileBody.BinaryTempFileBodyInputStream) {
             ((BinaryTempFileBody.BinaryTempFileBodyInputStream) rawInputStream).closeWithoutDeleting();
         }
@@ -1072,8 +1061,7 @@ public class MimeUtility
         }
     }
 
-    public static String getMimeTypeByExtension(String filename)
-    {
+    public static String getMimeTypeByExtension(String filename) {
         String returnedType = null;
         String extension = null;
 
@@ -1096,8 +1084,7 @@ public class MimeUtility
         return DEFAULT_ATTACHMENT_MIME_TYPE;
     }
 
-    public static String getExtensionByMimeType(@NonNull String mimeType)
-    {
+    public static String getExtensionByMimeType(@NonNull String mimeType) {
         String lowerCaseMimeType = mimeType.toLowerCase(Locale.US);
         for (String[] contentTypeMapEntry : MIME_TYPE_BY_EXTENSION_MAP) {
             if (contentTypeMapEntry[1].equals(lowerCaseMimeType)) {
@@ -1121,10 +1108,10 @@ public class MimeUtility
      * </ul>
      *
      * @param type A String representing a MIME content-type
+     *
      * @return A String representing a MIME content-transfer-encoding
      */
-    public static String getEncodingforType(String type)
-    {
+    public static String getEncodingforType(String type) {
         if (type == null) {
             return (MimeUtil.ENC_BASE64);
         }
@@ -1142,23 +1129,19 @@ public class MimeUtility
         }
     }
 
-    public static boolean isMultipart(String mimeType)
-    {
+    public static boolean isMultipart(String mimeType) {
         return ((mimeType != null) && mimeType.toLowerCase(Locale.US).startsWith("multipart/"));
     }
 
-    public static boolean isMessage(String mimeType)
-    {
+    public static boolean isMessage(String mimeType) {
         return isSameMimeType(mimeType, "message/rfc822");
     }
 
-    public static boolean isMessageType(String mimeType)
-    {
+    public static boolean isMessageType(String mimeType) {
         return mimeType != null && mimeType.toLowerCase(Locale.ROOT).startsWith("message/");
     }
 
-    public static boolean isSameMimeType(String mimeType, String otherMimeType)
-    {
+    public static boolean isSameMimeType(String mimeType, String otherMimeType) {
         return ((mimeType != null) && mimeType.equalsIgnoreCase(otherMimeType));
     }
 }

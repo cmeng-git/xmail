@@ -8,6 +8,18 @@
      They are automatically updated with "ant bump-version".
 -->
 <changelog>
+    <release version="5.1.1 (07/29/2024)" versioncode="19110">
+        <change>Change NotificationActionService to extend Service to work in foreground; to resolve unhandled markAsRead with JobIntentService</change>
+        <change>Remove unused permissions: ACCESS_MEDIA_LOCATION, GET_ACCOUNTS, and WRITE_CONTACTS</change>
+        <change>Need to add READ_EXTERNAL_STORAGE permission (Files and Media) request for android API-32.</change>
+        <change>Implement newly added READ_MEDIA_VISUAL_USER_SELECTED permission for android API-34</change>
+        <change>Do not launch BatteryOptimization permission request within a dialog, else parseResult is based on dialog click</change>
+        <change>ActivityResultContract#parseResult on BatteryOptimization request must return isOptimizingBattery() state</change>
+        <change>Must set both shrinkResources and minifyEnabled to false for release build under API-34; else xMail crashes in Moshi with cannot serialize abstract class MessagingControllerCommands$PendingDelete</change>
+        <change>UpdateServiceImpl#isLatestVersion need to close inputStream after access end</change>
+        <change>Update all app used libraries to the latest releases</change>
+    </release>
+
     <release version="5.1.0 (07/20/2024)" versioncode="19101">
         <change>Built target for Android 14.0 (UpsideDownCake) or API-34</change>
         <change>Set app minSdk to API-24; diminish support in android libraries for &lt; API-24</change>

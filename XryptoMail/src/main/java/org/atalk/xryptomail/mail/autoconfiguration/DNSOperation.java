@@ -21,7 +21,6 @@ import org.xbill.DNS.Type;
 /**
  * Util class for DNS operations
  */
-
 class DNSOperation {
     MXRecord mxLookup(String domain) throws TextParseException, UnknownHostException {
         Lookup lookup = new Lookup(domain, Type.MX, DClass.IN);
@@ -32,7 +31,6 @@ class DNSOperation {
         if (records == null) return null;
 
         MXRecord[] mxRecords = Arrays.copyOf(records, records.length, MXRecord[].class);
-
         MXRecord res = null;
         if (lookup.getResult() == Lookup.SUCCESSFUL) {
             for (MXRecord record : mxRecords) {
@@ -41,7 +39,6 @@ class DNSOperation {
                 }
             }
         }
-
         return res;
     }
 

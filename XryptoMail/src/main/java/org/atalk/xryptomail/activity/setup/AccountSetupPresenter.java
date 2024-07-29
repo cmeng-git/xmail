@@ -1,5 +1,10 @@
 package org.atalk.xryptomail.activity.setup;
 
+import static org.atalk.xryptomail.mail.ServerSettings.Type.IMAP;
+import static org.atalk.xryptomail.mail.ServerSettings.Type.POP3;
+import static org.atalk.xryptomail.mail.ServerSettings.Type.SMTP;
+import static org.atalk.xryptomail.mail.ServerSettings.Type.WebDAV;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -7,9 +12,25 @@ import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import android.text.TextUtils;
+
+import java.io.Serializable;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.UnknownHostException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.Account.FolderMode;
@@ -53,30 +74,9 @@ import org.atalk.xryptomail.mail.store.webdav.WebDavStoreSettings;
 import org.atalk.xryptomail.service.MailService;
 import org.atalk.xryptomail.setup.ServerNameSuggester;
 
-import java.io.Serializable;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.UnknownHostException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import timber.log.Timber;
 
-import static org.atalk.xryptomail.mail.ServerSettings.Type.IMAP;
-import static org.atalk.xryptomail.mail.ServerSettings.Type.POP3;
-import static org.atalk.xryptomail.mail.ServerSettings.Type.SMTP;
-import static org.atalk.xryptomail.mail.ServerSettings.Type.WebDAV;
-
-public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oauth2PromptRequestHandler
-{
+public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oauth2PromptRequestHandler {
     private final Context context;
     private final Preferences preferences;
 
@@ -93,8 +93,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
 
     private boolean oAuth2CodeGotten = false;
 
-    enum Stage
-    {
+    enum Stage {
         BASICS,
         AUTOCONFIGURATION,
         AUTOCONFIGURATION_INCOMING_CHECKING,
@@ -129,8 +128,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     private boolean canceled;
     private boolean destroyed;
 
-    public AccountSetupPresenter(Context context, Preferences preferences, View view)
-    {
+    public AccountSetupPresenter(Context context, Preferences preferences, View view) {
         this.context = context;
         this.preferences = preferences;
         this.view = view;
@@ -141,14 +139,12 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     // region basics
 
     @Override
-    public void onBasicsStart()
-    {
+    public void onBasicsStart() {
         stage = Stage.BASICS;
     }
 
     @Override
-    public void onInputChangedInBasics(String email, String password)
-    {
+    public void onInputChangedInBasics(String email, String password) {
         EmailAddressValidator emailValidator = new EmailAddressValidator();
         boolean valid = !TextUtils.isEmpty(email)
                 && (canOAuth2(email) || !TextUtils.isEmpty(password))
@@ -169,21 +165,18 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         view.setNextButtonInBasicsEnabled(valid);
     }
 
-    private boolean canOAuth2(String email)
-    {
+    private boolean canOAuth2(String email) {
         String domain = EmailHelper.getDomainFromEmailAddress(email);
         return domain != null && (domain.equals("gmail.com") || domain.equals("outlook.com"));
     }
 
     @Override
-    public void onManualSetupButtonClicked(String email, String password)
-    {
+    public void onManualSetupButtonClicked(String email, String password) {
         manualSetup(email, password);
     }
 
     @Override
-    public void onNextButtonInBasicViewClicked(String email, String password)
-    {
+    public void onNextButtonInBasicViewClicked(String email, String password) {
         if (accountConfig == null) {
             accountConfig = new AccountConfigImpl(preferences);
         }
@@ -195,8 +188,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     // endregion basics
     // region checking
     @Override
-    public void onNegativeClickedInConfirmationDialog()
-    {
+    public void onNegativeClickedInConfirmationDialog() {
         if (direction == CheckDirection.BOTH && currentDirection == CheckDirection.INCOMING) {
             checkOutgoing();
         }
@@ -220,18 +212,14 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         }
     }
 
-    private void autoConfiguration()
-    {
+    private void autoConfiguration() {
         findProvider(accountConfig.getEmail());
     }
 
-    private void findProvider(final String email)
-    {
-        findProviderTask = new AsyncTask<Void, Integer, ProviderInfo>()
-        {
+    private void findProvider(final String email) {
+        findProviderTask = new AsyncTask<Void, Integer, ProviderInfo>() {
             @Override
-            protected ProviderInfo doInBackground(Void... params)
-            {
+            protected ProviderInfo doInBackground(Void... params) {
                 publishProgress(R.string.account_setup_check_settings_retr_info_msg);
 
                 incomingReady = false;
@@ -263,8 +251,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
             }
 
             @Nullable
-            private ProviderInfo autoconfigureDomain(String domain)
-            {
+            private ProviderInfo autoconfigureDomain(String domain) {
                 ProviderInfo providerInfo;
                 AutoconfigureMozilla autoconfigureMozilla = new AutoconfigureMozilla();
                 AutoconfigureSrv autoconfigureSrv = new AutoconfigureSrv();
@@ -292,8 +279,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
                 return null;
             }
 
-            private void testDomain(String domain)
-            {
+            private void testDomain(String domain) {
                 String guessedDomainForMailPrefix;
                 //noinspection ConstantConditions
                 if (domain.startsWith("mail.")) {
@@ -324,8 +310,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
                 testOutgoing(domainWithSmtpPrefix, ConnectionSecurity.SSL_TLS_REQUIRED, false);
             }
 
-            private void testIncoming(String domain, boolean useLocalPart)
-            {
+            private void testIncoming(String domain, boolean useLocalPart) {
                 if (!incomingReady) {
                     try {
                         accountConfig.setStoreUri(getDefaultStoreURI(
@@ -348,8 +333,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
                 }
             }
 
-            private void testOutgoing(String domain, ConnectionSecurity connectionSecurity, boolean useLocalPart)
-            {
+            private void testOutgoing(String domain, ConnectionSecurity connectionSecurity, boolean useLocalPart) {
                 if (!outgoingReady) {
                     try {
                         accountConfig.setTransportUri(getDefaultTransportURI(
@@ -380,15 +364,13 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
             }
 
             @Override
-            protected void onProgressUpdate(Integer... values)
-            {
+            protected void onProgressUpdate(Integer... values) {
                 super.onProgressUpdate(values);
                 view.setMessage(values[0]);
             }
 
             @Override
-            protected void onPostExecute(ProviderInfo providerInfo)
-            {
+            protected void onPostExecute(ProviderInfo providerInfo) {
                 super.onPostExecute(providerInfo);
 
                 if (canceled) {
@@ -433,15 +415,13 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         }.execute();
     }
 
-    private void checkIncomingAndOutgoing()
-    {
+    private void checkIncomingAndOutgoing() {
         direction = CheckDirection.BOTH;
         currentDirection = CheckDirection.INCOMING;
         new CheckIncomingTask(accountConfig, this::checkOutgoing).execute();
     }
 
-    private void checkIncoming()
-    {
+    private void checkIncoming() {
         direction = CheckDirection.INCOMING;
         currentDirection = CheckDirection.INCOMING;
         new CheckIncomingTask(accountConfig, () -> {
@@ -473,10 +453,10 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
                     String transportUri = TransportUris.createTransportUri(transportServer);
                     accountConfig.setTransportUri(transportUri);
                 } catch (URISyntaxException use) {
-                /*
-                 * If we can't set up the URL we just continue. It's only for
-                 * convenience.
-                 */
+                    /*
+                     * If we can't set up the URL we just continue. It's only for
+                     * convenience.
+                     */
                 }
 
                 view.goToOutgoing();
@@ -484,8 +464,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         }).execute();
     }
 
-    private void checkOutgoing()
-    {
+    private void checkOutgoing() {
         direction = CheckDirection.OUTGOING;
         currentDirection = CheckDirection.OUTGOING;
 
@@ -504,8 +483,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     @Override
-    public void onCheckingStart(Stage stage)
-    {
+    public void onCheckingStart(Stage stage) {
         this.stage = stage;
 
         switch (stage) {
@@ -522,22 +500,18 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
 
-    private class CheckOutgoingTask extends CheckAccountTask
-    {
-        private CheckOutgoingTask(AccountConfig accountConfig)
-        {
+    private class CheckOutgoingTask extends CheckAccountTask {
+        private CheckOutgoingTask(AccountConfig accountConfig) {
             super(accountConfig);
         }
 
-        private CheckOutgoingTask(AccountConfig accountConfig, CheckSettingsSuccessCallback callback)
-        {
+        private CheckOutgoingTask(AccountConfig accountConfig, CheckSettingsSuccessCallback callback) {
             super(accountConfig, callback);
         }
 
         @Override
         void checkSettings()
-                throws Exception
-        {
+                throws Exception {
             Transport transport;
 
             if (editSettings) {
@@ -558,28 +532,23 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         }
     }
 
-    private class CheckIncomingTask extends CheckAccountTask
-    {
-        private CheckIncomingTask(AccountConfig accountConfig)
-        {
+    private class CheckIncomingTask extends CheckAccountTask {
+        private CheckIncomingTask(AccountConfig accountConfig) {
             super(accountConfig);
         }
 
-        private CheckIncomingTask(AccountConfig accountConfig, CheckSettingsSuccessCallback callback)
-        {
+        private CheckIncomingTask(AccountConfig accountConfig, CheckSettingsSuccessCallback callback) {
             super(accountConfig, callback);
         }
 
         @Override
         void checkSettings()
-                throws Exception
-        {
+                throws Exception {
             checkIncomingSettings();
         }
 
         private void checkIncomingSettings()
-                throws MessagingException
-        {
+                throws MessagingException {
             if (editSettings) {
                 clearCertificateErrorNotifications(CheckDirection.INCOMING);
             }
@@ -609,18 +578,15 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
      * FIXME: Don't use an AsyncTask to perform network operations.
      * See also discussion in https://github.com/k9mail/k-9/pull/560
      */
-    private abstract class CheckAccountTask extends AsyncTask<CheckDirection, Integer, Boolean>
-    {
+    private abstract class CheckAccountTask extends AsyncTask<CheckDirection, Integer, Boolean> {
         private final AccountConfig accountConfig;
         private final CheckSettingsSuccessCallback callback;
 
-        private CheckAccountTask(AccountConfig accountConfig)
-        {
+        private CheckAccountTask(AccountConfig accountConfig) {
             this(accountConfig, null);
         }
 
-        private CheckAccountTask(AccountConfig accountConfig, CheckSettingsSuccessCallback callback)
-        {
+        private CheckAccountTask(AccountConfig accountConfig, CheckSettingsSuccessCallback callback) {
             this.accountConfig = accountConfig;
             this.callback = callback;
         }
@@ -629,8 +595,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
                 throws Exception;
 
         @Override
-        protected Boolean doInBackground(CheckDirection... params)
-        {
+        protected Boolean doInBackground(CheckDirection... params) {
             try {
                 checkSettings();
                 return true;
@@ -661,8 +626,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         }
 
         @Override
-        protected void onPostExecute(Boolean bool)
-        {
+        protected void onPostExecute(Boolean bool) {
             super.onPostExecute(bool);
 
             /*
@@ -679,22 +643,19 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
             }
         }
 
-        void clearCertificateErrorNotifications(CheckDirection direction)
-        {
+        void clearCertificateErrorNotifications(CheckDirection direction) {
             final MessagingController ctrl = MessagingController.getInstance(context);
             ctrl.clearCertificateErrorNotifications((Account) accountConfig, direction);
         }
 
         @Override
-        protected void onProgressUpdate(Integer... values)
-        {
+        protected void onProgressUpdate(Integer... values) {
             view.setMessage(values[0]);
         }
     }
 
 
-    private String getXmlAttribute(XmlResourceParser xml, String name)
-    {
+    private String getXmlAttribute(XmlResourceParser xml, String name) {
         int resId = xml.getAttributeResourceValue(null, name, 0);
         if (resId == 0) {
             return xml.getAttributeValue(null, name);
@@ -704,8 +665,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         }
     }
 
-    private Provider findProviderForDomain(String domain)
-    {
+    private Provider findProviderForDomain(String domain) {
         try {
             XmlResourceParser xml = context.getResources().getXml(R.xml.providers);
             int xmlEventType;
@@ -745,8 +705,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     private URI getDefaultStoreURI(String username, String password, String server)
-            throws URISyntaxException
-    {
+            throws URISyntaxException {
         String passwordEnc = UrlEncodingHelper.encodeUtf8(password);
         String userInfo = username + ":" + passwordEnc;
 
@@ -754,8 +713,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     private URI getDefaultTransportURI(String username, String password, String server, ConnectionSecurity connectionSecurity)
-            throws URISyntaxException
-    {
+            throws URISyntaxException {
         String passwordEnc = UrlEncodingHelper.encodeUtf8(password);
         String userInfo = username + ":" + passwordEnc;
 
@@ -768,8 +726,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     private void modifyAccount(String email, String password, @NonNull Provider provider, boolean usingOAuth2)
-            throws URISyntaxException
-    {
+            throws URISyntaxException {
         accountConfig.init(email, password);
 
         String[] emailParts = EmailHelper.splitEmail(email);
@@ -823,8 +780,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         accountConfig.setDeletePolicy(AccountCreator.getDefaultDeletePolicy(incomingSettings.type));
     }
 
-    private void setupFolderNames(String domain)
-    {
+    private void setupFolderNames(String domain) {
         accountConfig.setDraftsFolder(XryptoMail.getResString(R.string.special_mailbox_name_drafts));
         accountConfig.setTrashFolder(XryptoMail.getResString(R.string.special_mailbox_name_trash));
         accountConfig.setSentFolder(XryptoMail.getResString(R.string.special_mailbox_name_sent));
@@ -840,8 +796,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     @Override
-    public void onCertificateAccepted(X509Certificate certificate)
-    {
+    public void onCertificateAccepted(X509Certificate certificate) {
         try {
             accountConfig.addCertificate(currentDirection, certificate);
         } catch (CertificateException e) {
@@ -853,8 +808,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     @Override
-    public void onCertificateRefused()
-    {
+    public void onCertificateRefused() {
         if (stage == Stage.INCOMING_CHECKING) {
             view.goToIncoming();
         }
@@ -864,8 +818,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     @Override
-    public void onPositiveClickedInConfirmationDialog()
-    {
+    public void onPositiveClickedInConfirmationDialog() {
         if (stage == Stage.INCOMING_CHECKING) {
             view.goToIncoming();
         }
@@ -877,8 +830,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         }
     }
 
-    private void replayChecking()
-    {
+    private void replayChecking() {
         if (direction == CheckDirection.BOTH && currentDirection == CheckDirection.INCOMING) {
             checkIncomingAndOutgoing();
         }
@@ -890,8 +842,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         }
     }
 
-    private String errorMessageForCertificateException(CertificateValidationException e)
-    {
+    private String errorMessageForCertificateException(CertificateValidationException e) {
         switch (e.getReason()) {
             case Expired:
                 return XryptoMail.getResString(R.string.client_certificate_expired, e.getAlias(), e.getMessage());
@@ -907,8 +858,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         }
     }
 
-    private void acceptKeyDialog(final int msgResId, final CertificateValidationException ex)
-    {
+    private void acceptKeyDialog(final int msgResId, final CertificateValidationException ex) {
         String exMessage = "Unknown Error";
         if (ex != null) {
             if (ex.getCause() != null) {
@@ -1023,8 +973,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         handler.post(() -> view.showAcceptKeyDialog(msgResId, finalExMessage, chainInfo.toString(), chain[0]));
     }
 
-    private void handleCertificateValidationException(CertificateValidationException cve)
-    {
+    private void handleCertificateValidationException(CertificateValidationException cve) {
         Timber.e(cve, "Error while testing settings");
         X509Certificate[] chain = cve.getCertChain();
         // Avoid NullPointerException in acceptKeyDialog()
@@ -1036,8 +985,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         }
     }
 
-    private static class Provider implements Serializable
-    {
+    private static class Provider implements Serializable {
         private static final long serialVersionUID = 8511656164616538989L;
 
         public String id;
@@ -1057,8 +1005,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         public String note;
 
         public static Provider newInstanceFromProviderInfo(@Nullable AutoConfigure.ProviderInfo providerInfo)
-                throws URISyntaxException
-        {
+                throws URISyntaxException {
             if (providerInfo == null)
                 return null;
 
@@ -1076,8 +1023,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         }
     }
 
-    private interface CheckSettingsSuccessCallback
-    {
+    private interface CheckSettingsSuccessCallback {
         void onCheckSuccess();
     }
 
@@ -1086,8 +1032,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     // region incoming
 
     @Override
-    public void onIncomingStart(boolean editSettings)
-    {
+    public void onIncomingStart(boolean editSettings) {
         this.editSettings = editSettings;
         stage = Stage.INCOMING;
         ConnectionSecurity[] connectionSecurityChoices = ConnectionSecurity.values();
@@ -1188,13 +1133,11 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     @Override
-    public void onIncomingStart()
-    {
+    public void onIncomingStart() {
         onIncomingStart(editSettings);
     }
 
-    private void updatePortFromSecurityTypeInIncoming(ConnectionSecurity securityType)
-    {
+    private void updatePortFromSecurityTypeInIncoming(ConnectionSecurity securityType) {
         if (restoring)
             return;
 
@@ -1203,16 +1146,14 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         currentIncomingPort = port;
     }
 
-    private void updateAuthPlainTextFromSecurityType(ConnectionSecurity securityType)
-    {
+    private void updateAuthPlainTextFromSecurityType(ConnectionSecurity securityType) {
         view.setAuthTypeInsecureText(securityType == ConnectionSecurity.NONE);
     }
 
     @Override
     public void onInputChangedInIncoming(String certificateAlias, String server, String port,
             String username, String password, AuthType authType,
-            ConnectionSecurity connectionSecurity)
-    {
+            ConnectionSecurity connectionSecurity) {
         revokeInvalidSettingsAndUpdateViewInIncoming(authType, connectionSecurity, port);
         validateFieldInIncoming(certificateAlias, server, currentIncomingPort, username, password,
                 currentIncomingAuthType, currentIncomingSecurityType);
@@ -1223,8 +1164,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
             boolean autoDetectNamespace, String imapPathPrefix, String webdavPathPrefix, String webdavAuthPath,
             String webdavMailboxPath, String host, int port, ConnectionSecurity connectionSecurity,
             AuthType authType, boolean compressMobile, boolean compressWifi, boolean compressOther,
-            boolean subscribedFoldersOnly)
-    {
+            boolean subscribedFoldersOnly) {
 
         if (authType == AuthType.EXTERNAL) {
             password = null;
@@ -1262,8 +1202,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
 
     private void revokeInvalidSettingsAndUpdateViewInIncoming(AuthType authType,
             ConnectionSecurity connectionSecurity,
-            String port)
-    {
+            String port) {
         boolean isAuthTypeExternal = (AuthType.EXTERNAL == authType);
         boolean hasConnectionSecurity = (connectionSecurity != ConnectionSecurity.NONE);
 
@@ -1284,28 +1223,24 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         }
     }
 
-    private void onAuthTypeSelectedInIncoming(AuthType authType)
-    {
+    private void onAuthTypeSelectedInIncoming(AuthType authType) {
         if (authType != currentIncomingAuthType) {
             setAuthTypeInIncoming(authType);
         }
     }
 
-    private void onSecuritySelectedInIncoming(ConnectionSecurity securityType)
-    {
+    private void onSecuritySelectedInIncoming(ConnectionSecurity securityType) {
         if (securityType != currentIncomingSecurityType) {
             setSecurityTypeInIncoming(securityType);
         }
     }
 
-    private void setAuthTypeInIncoming(AuthType authType)
-    {
+    private void setAuthTypeInIncoming(AuthType authType) {
         view.setAuthTypeInIncoming(authType);
         updateViewFromAuthTypeInIncoming(authType);
     }
 
-    private void setSecurityTypeInIncoming(ConnectionSecurity securityType)
-    {
+    private void setSecurityTypeInIncoming(ConnectionSecurity securityType) {
         view.setSecurityTypeInIncoming(securityType);
         updatePortFromSecurityTypeInIncoming(securityType);
         updateAuthPlainTextFromSecurityType(securityType);
@@ -1313,8 +1248,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
 
 
     private void validateFieldInIncoming(String certificateAlias, String server, String port,
-            String username, String password, AuthType authType, ConnectionSecurity connectionSecurity)
-    {
+            String username, String password, AuthType authType, ConnectionSecurity connectionSecurity) {
         boolean isAuthTypeOAuth = (AuthType.XOAUTH2 == authType);
         boolean isOAuthValid = canOAuth2(username);
         boolean isAuthTypeExternal = (AuthType.EXTERNAL == authType);
@@ -1345,8 +1279,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         view.setNextButtonInIncomingEnabled(enabled);
     }
 
-    private void checkInvalidOAuthError(boolean isAuthTypeOAuth, boolean isOAuthValid)
-    {
+    private void checkInvalidOAuthError(boolean isAuthTypeOAuth, boolean isOAuthValid) {
         if (isAuthTypeOAuth && !isOAuthValid) {
             view.showInvalidOAuthError();
         }
@@ -1355,8 +1288,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         }
     }
 
-    private void updateAccount()
-    {
+    private void updateAccount() {
         Account account = (Account) accountConfig;
 
         boolean isPushCapable = false;
@@ -1372,8 +1304,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         account.save(preferences);
     }
 
-    private void updateViewFromAuthTypeInIncoming(AuthType authType)
-    {
+    private void updateViewFromAuthTypeInIncoming(AuthType authType) {
         if (authType == AuthType.EXTERNAL) {
             view.setViewExternalInIncoming();
         }
@@ -1385,8 +1316,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         }
     }
 
-    private String getString(int id)
-    {
+    private String getString(int id) {
         return context.getString(id);
     }
 
@@ -1395,26 +1325,21 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     // region names
 
     @Override
-    public void onNamesStart()
-    {
+    public void onNamesStart() {
         stage = Stage.ACCOUNT_NAMES;
     }
 
     @Override
-    public void onInputChangedInNames(String name, String description)
-    {
+    public void onInputChangedInNames(String name, String description) {
         view.setDoneButtonInNamesEnabled(Utility.requiredFieldValid(name));
     }
 
     @Override
-    public void onNextButtonInNamesClicked(String name, String description)
-    {
+    public void onNextButtonInNamesClicked(String name, String description) {
         if (Utility.requiredFieldValid(description)) {
             accountConfig.setDescription(description);
         }
-
         accountConfig.setName(name);
-
         Account account = preferences.newAccount();
         account.loadConfig(accountConfig);
 
@@ -1425,7 +1350,6 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         if (account.equals(preferences.getDefaultAccount()) || makeDefault) {
             preferences.setDefaultAccount(account);
         }
-
         XryptoMail.setServicesEnabled(context);
         view.goToListAccounts();
     }
@@ -1434,21 +1358,18 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
 
     // region outgoing
     @Override
-    public void onOutgoingStart()
-    {
+    public void onOutgoingStart() {
         onOutgoingStart(editSettings);
     }
 
     @Override
-    public void onOutgoingStart(boolean editSettings)
-    {
+    public void onOutgoingStart(boolean editSettings) {
         this.editSettings = editSettings;
         stage = Stage.OUTGOING;
         analysisAccount();
     }
 
-    private void analysisAccount()
-    {
+    private void analysisAccount() {
         try {
             if (new URI(accountConfig.getStoreUri()).getScheme().startsWith("webdav")) {
                 accountConfig.setTransportUri(accountConfig.getStoreUri());
@@ -1494,27 +1415,23 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
 
-    private void setAuthTypeInOutgoing(AuthType authType)
-    {
+    private void setAuthTypeInOutgoing(AuthType authType) {
         view.setAuthTypeInOutgoing(authType);
         updateViewFromAuthTypeInOutgoing(authType);
     }
 
-    private void setSecurityTypeInOutgoing(ConnectionSecurity securityType)
-    {
+    private void setSecurityTypeInOutgoing(ConnectionSecurity securityType) {
         view.setSecurityTypeInOutgoing(securityType);
         updateViewFromSecurityTypeInOutgoing(securityType);
     }
 
-    private void onSecuritySelectedInOutgoing(ConnectionSecurity securityType)
-    {
+    private void onSecuritySelectedInOutgoing(ConnectionSecurity securityType) {
         if (securityType != currentOutgoingSecurityType) {
             updateViewFromSecurityTypeInOutgoing(securityType);
         }
     }
 
-    private void onAuthTypeSelectedInOutgoing(AuthType authType)
-    {
+    private void onAuthTypeSelectedInOutgoing(AuthType authType) {
         if (authType != currentOutgoingAuthType) {
             setAuthTypeInOutgoing(authType);
         }
@@ -1523,8 +1440,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     @Override
     public void onNextInOutgoingClicked(String username, String password, String clientCertificateAlias,
             String host, int port, ConnectionSecurity connectionSecurity,
-            AuthType authType, boolean requireLogin)
-    {
+            AuthType authType, boolean requireLogin) {
 
         if (!requireLogin) {
             username = null;
@@ -1545,8 +1461,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     @Override
     public void onInputChangedInOutgoing(String certificateAlias, String server, String port, String username,
             String password, AuthType authType,
-            ConnectionSecurity connectionSecurity, boolean requireLogin)
-    {
+            ConnectionSecurity connectionSecurity, boolean requireLogin) {
 
         if (currentOutgoingSecurityType != connectionSecurity) {
             boolean isAuthTypeExternal = (AuthType.EXTERNAL == authType);
@@ -1568,8 +1483,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     private void validateFieldInOutgoing(String certificateAlias, String server, String port,
             String username, String password, AuthType authType,
             ConnectionSecurity connectionSecurity,
-            boolean requireLogin)
-    {
+            boolean requireLogin) {
 
         boolean isAuthTypeOAuth = (AuthType.XOAUTH2 == authType);
         boolean isAuthTypeExternal = (AuthType.EXTERNAL == authType);
@@ -1605,8 +1519,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
 
     private void revokeInvalidSettingsAndUpdateViewInOutgoing(AuthType authType,
             ConnectionSecurity connectionSecurity,
-            String port)
-    {
+            String port) {
         boolean isAuthTypeExternal = (AuthType.EXTERNAL == authType);
 
         boolean hasConnectionSecurity = (connectionSecurity != ConnectionSecurity.NONE);
@@ -1627,8 +1540,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         }
     }
 
-    private void updateViewFromSecurityTypeInOutgoing(ConnectionSecurity securityType)
-    {
+    private void updateViewFromSecurityTypeInOutgoing(ConnectionSecurity securityType) {
         view.updateAuthPlainTextInOutgoing(securityType == ConnectionSecurity.NONE);
         if (restoring)
             return;
@@ -1637,8 +1549,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         currentOutgoingPort = port;
     }
 
-    private void updateViewFromAuthTypeInOutgoing(AuthType authType)
-    {
+    private void updateViewFromAuthTypeInOutgoing(AuthType authType) {
         if (authType == AuthType.EXTERNAL) {
             view.setViewExternalInOutgoing();
         }
@@ -1654,15 +1565,13 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
 
     // region account type
     @Override
-    public void onAccountTypeStart()
-    {
+    public void onAccountTypeStart() {
         stage = Stage.ACCOUNT_TYPE;
     }
 
     @Override
     public void onNextButtonInAccountTypeClicked(Type serverType)
-            throws URISyntaxException
-    {
+            throws URISyntaxException {
         switch (serverType) {
             case IMAP:
                 onImapOrPop3Selected(IMAP, "imap+ssl+");
@@ -1677,8 +1586,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     private void onImapOrPop3Selected(Type serverType, String schemePrefix)
-            throws URISyntaxException
-    {
+            throws URISyntaxException {
         ServerNameSuggester serverNameSuggester = new ServerNameSuggester();
         String domainPart = EmailHelper.getDomainFromEmailAddress(accountConfig.getEmail());
         String suggestedStoreServerName = serverNameSuggester.suggestServerName(serverType, domainPart);
@@ -1696,8 +1604,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     private void onWebdavSelected()
-            throws URISyntaxException
-    {
+            throws URISyntaxException {
         ServerNameSuggester serverNameSuggester = new ServerNameSuggester();
 
         URI uriForDecode = new URI(accountConfig.getStoreUri());
@@ -1728,8 +1635,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     // endregion account type
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         if (findProviderTask != null && !findProviderTask.isCancelled()) {
             findProviderTask.cancel(true);
         }
@@ -1781,49 +1687,41 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     @Override
-    public void setAccount(Account account)
-    {
+    public void setAccount(Account account) {
         this.accountConfig = account;
     }
 
     @Override
-    public Account getAccount()
-    {
+    public Account getAccount() {
         return (Account) accountConfig;
     }
 
-    public boolean isEditSettings()
-    {
+    public boolean isEditSettings() {
         return editSettings;
     }
 
     @Override
-    public void onGetAccountUuid(@Nullable String accountUuid)
-    {
+    public void onGetAccountUuid(@Nullable String accountUuid) {
         accountConfig = preferences.getAccount(accountUuid);
     }
 
     @Override
-    public void onGetAccountConfig(@Nullable AccountConfigImpl accountConfig)
-    {
+    public void onGetAccountConfig(@Nullable AccountConfigImpl accountConfig) {
         this.accountConfig = accountConfig;
     }
 
     @Override
-    public void onRestoreStart()
-    {
+    public void onRestoreStart() {
         restoring = true;
     }
 
     @Override
-    public void onRestoreEnd()
-    {
+    public void onRestoreEnd() {
         restoring = false;
     }
 
     @Override
-    public AccountSetupStatus getStatus()
-    {
+    public AccountSetupStatus getStatus() {
         return new AccountSetupStatus(currentIncomingSecurityType, currentIncomingAuthType,
                 currentIncomingPort, currentOutgoingSecurityType, currentOutgoingAuthType,
                 currentOutgoingPort, accountConfig.isNotifyNewMail(), accountConfig.isShowOngoing(),
@@ -1832,19 +1730,16 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     @Override
-    public AccountConfig getAccountConfig()
-    {
+    public AccountConfig getAccountConfig() {
         return accountConfig;
     }
 
     @Override
-    public void onGetMakeDefault(boolean makeDefault)
-    {
+    public void onGetMakeDefault(boolean makeDefault) {
         this.makeDefault = makeDefault;
     }
 
-    private void manualSetup(String email, String password)
-    {
+    private void manualSetup(String email, String password) {
         autoconfiguration = false;
 
         if (accountConfig == null) {
@@ -1857,26 +1752,22 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     @Override
-    public void handleGmailXOAuth2Intent(Intent intent)
-    {
+    public void handleGmailXOAuth2Intent(Intent intent) {
         view.startIntentForResult(intent, REQUEST_CODE_GMAIL);
     }
 
     @Override
-    public void handleGmailRedirectUrl(final String url)
-    {
+    public void handleGmailRedirectUrl(final String url) {
         handler.post(() -> view.openGmailUrl(url));
     }
 
     @Override
-    public void handleOutlookRedirectUrl(final String url)
-    {
+    public void handleOutlookRedirectUrl(final String url) {
         handler.post(() -> view.openOutlookUrl(url));
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_GMAIL) {
             if (resultCode == Activity.RESULT_OK) {
                 checkIncomingAndOutgoing();
@@ -1888,15 +1779,12 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     @Override
-    public void onOAuthCodeGot(final String code)
-    {
+    public void onOAuthCodeGot(final String code) {
         oAuth2CodeGotten = true;
         view.closeAuthDialog();
-        new AsyncTask<Void, Void, Boolean>()
-        {
+        new AsyncTask<Void, Void, Boolean>() {
             @Override
-            protected Boolean doInBackground(Void... params)
-            {
+            protected Boolean doInBackground(Void... params) {
                 try {
                     Globals.getOAuth2TokenProvider().getAuthorizationCodeFlowTokenProvider().exchangeCode(accountConfig.getEmail(), code);
                 } catch (AuthenticationFailedException e) {
@@ -1906,8 +1794,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
             }
 
             @Override
-            protected void onPostExecute(Boolean result)
-            {
+            protected void onPostExecute(Boolean result) {
                 if (result) {
                     checkIncomingAndOutgoing();
                 }
@@ -1921,8 +1808,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     @Override
-    public void onErrorWhenGettingOAuthCode(String errorMessage)
-    {
+    public void onErrorWhenGettingOAuthCode(String errorMessage) {
         oAuth2CodeGotten = false;
         view.closeAuthDialog();
         view.goToBasics();
@@ -1930,8 +1816,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     @Override
-    public void onWebViewDismiss()
-    {
+    public void onWebViewDismiss() {
         if (!oAuth2CodeGotten) {
             view.goToBasics();
             view.showErrorDialog("Please connect us with Gmail"); // TODO: 8/18/17 A better error message?
@@ -1939,33 +1824,28 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         canceled = true;
     }
 
     @Override
-    public void onStop()
-    {
+    public void onStop() {
         canceled = true;
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         canceled = true;
         destroyed = true;
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         canceled = false;
         destroyed = false;
     }
 
-    static class AccountSetupStatus
-    {
+    static class AccountSetupStatus {
         private final ConnectionSecurity incomingSecurityType;
         private final AuthType incomingAuthType;
         private final String incomingPort;
@@ -1987,8 +1867,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
                 String incomingPort, ConnectionSecurity outgoingSecurityType, AuthType outgoingAuthType,
                 String outgoingPort, boolean notifyNewMail, boolean showOngoing, int automaticCheckIntervalMinutes,
                 int displayCount, Account.FolderMode folderPushMode,
-                String name, String description)
-        {
+                String name, String description) {
             this.incomingSecurityType = incomingSecurityType;
             this.incomingAuthType = incomingAuthType;
             this.incomingPort = incomingPort;
@@ -2004,68 +1883,55 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
             this.description = description;
         }
 
-        public ConnectionSecurity getIncomingSecurityType()
-        {
+        public ConnectionSecurity getIncomingSecurityType() {
             return incomingSecurityType;
         }
 
-        public AuthType getIncomingAuthType()
-        {
+        public AuthType getIncomingAuthType() {
             return incomingAuthType;
         }
 
-        public String getIncomingPort()
-        {
+        public String getIncomingPort() {
             return incomingPort;
         }
 
-        public ConnectionSecurity getOutgoingSecurityType()
-        {
+        public ConnectionSecurity getOutgoingSecurityType() {
             return outgoingSecurityType;
         }
 
-        public AuthType getOutgoingAuthType()
-        {
+        public AuthType getOutgoingAuthType() {
             return outgoingAuthType;
         }
 
-        public String getOutgoingPort()
-        {
+        public String getOutgoingPort() {
             return outgoingPort;
         }
 
-        public boolean isNotifyNewMail()
-        {
+        public boolean isNotifyNewMail() {
             return notifyNewMail;
         }
 
-        public boolean isShowOngoing()
-        {
+        public boolean isShowOngoing() {
             return showOngoing;
         }
 
-        public int getAutomaticCheckIntervalMinutes()
-        {
+        public int getAutomaticCheckIntervalMinutes() {
             return automaticCheckIntervalMinutes;
         }
 
-        public int getDisplayCount()
-        {
+        public int getDisplayCount() {
             return displayCount;
         }
 
-        public FolderMode getFolderPushMode()
-        {
+        public FolderMode getFolderPushMode() {
             return folderPushMode;
         }
 
-        public String getName()
-        {
+        public String getName() {
             return name;
         }
 
-        public String getDescription()
-        {
+        public String getDescription() {
             return description;
         }
     }

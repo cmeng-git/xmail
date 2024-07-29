@@ -80,9 +80,7 @@ public class XryptoMail extends Application {
     public static Application mInstance = null;
 
     /**
-     * Name of the {@link SharedPreferences} file used to store the last known version of the
-     * accounts' databases.
-     *
+     * Name of the {@link SharedPreferences} file used to store the last known version of the accounts' databases.
      * See {@link UpgradeDatabases} for a detailed explanation of the database upgrade process.
      */
     private static final String DATABASE_VERSION_CACHE = "database_version_cache";
@@ -679,7 +677,6 @@ public class XryptoMail extends Application {
 
     /**
      * Load preferences into our statics.
-     *
      * If you're adding a preference here, odds are you'll need to add it to
      * {@link .preferences.GlobalSettings}, too.
      *
@@ -1484,8 +1481,9 @@ public class XryptoMail extends Application {
      */
     public static void showToastMessage(final String message) {
         new Handler(Looper.getMainLooper()).post(() -> {
-            if (toast != null)
+            if (toast != null && toast.getView() != null) {
                 toast.cancel();
+            }
             toast = Toast.makeText(mInstance, message, Toast.LENGTH_LONG);
             toast.show();
         });

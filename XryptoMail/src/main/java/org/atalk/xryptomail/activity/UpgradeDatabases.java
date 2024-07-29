@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import androidx.core.content.IntentCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.atalk.xryptomail.Account;
@@ -16,6 +17,7 @@ import org.atalk.xryptomail.Preferences;
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.controller.MessagingController;
+import org.atalk.xryptomail.mail.Store;
 import org.atalk.xryptomail.service.DatabaseUpgradeService;
 
 /**
@@ -65,6 +67,7 @@ public class UpgradeDatabases extends XMActivity {
      * @param context The {@link Context} used to start the activity.
      * @param startIntent After the database upgrade is complete an activity is started using this intent.
      * Usually this is the intent that was used to start the calling activity. Never {@code null}.
+     *
      * @return {@code true}, if the {@code UpgradeDatabases} activity was started. In this case the
      * calling activity is expected to finish itself.<br>
      * {@code false}, if the account databases don't need upgrading.
@@ -77,7 +80,7 @@ public class UpgradeDatabases extends XMActivity {
         Intent intent = new Intent(context, UpgradeDatabases.class);
         intent.setAction(ACTION_UPGRADE_DATABASES);
         intent.putExtra(EXTRA_START_INTENT, startIntent);
-
+        intent.setPackage(context.getPackageName());
         // Make sure this activity is only running once
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
@@ -96,7 +99,6 @@ public class UpgradeDatabases extends XMActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         decodeExtras();
 
         // If the databases have already been upgraded there's no point in displaying this activity.
@@ -106,9 +108,7 @@ public class UpgradeDatabases extends XMActivity {
         }
 
         mPreferences = Preferences.getPreferences(getApplicationContext());
-
         initializeLayout();
-
         setupBroadcastReceiver();
     }
 
@@ -126,7 +126,7 @@ public class UpgradeDatabases extends XMActivity {
      */
     private void decodeExtras() {
         Intent intent = getIntent();
-        mStartIntent = intent.getParcelableExtra(EXTRA_START_INTENT);
+        mStartIntent = IntentCompat.getParcelableExtra(intent, EXTRA_START_INTENT, Intent.class);
     }
 
     /**
@@ -182,7 +182,6 @@ public class UpgradeDatabases extends XMActivity {
      * Receiver for broadcasts send by {@link DatabaseUpgradeService}.
      */
     class UpgradeDatabaseBroadcastReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, final Intent intent) {
             String action = intent.getAction();
@@ -191,23 +190,19 @@ public class UpgradeDatabases extends XMActivity {
                 /*
                  * Information on the current upgrade progress
                  */
-
-                String accountUuid = intent.getStringExtra(
-                        DatabaseUpgradeService.EXTRA_ACCOUNT_UUID);
+                String accountUuid = intent.getStringExtra(DatabaseUpgradeService.EXTRA_ACCOUNT_UUID);
 
                 Account account = mPreferences.getAccount(accountUuid);
-
                 if (account != null) {
                     String formatString = getString(R.string.upgrade_database_format);
                     String upgradeStatus = String.format(formatString, account.getDescription());
                     mUpgradeText.setText(upgradeStatus);
                 }
-
-            } else if (DatabaseUpgradeService.ACTION_UPGRADE_COMPLETE.equals(action)) {
+            }
+            else if (DatabaseUpgradeService.ACTION_UPGRADE_COMPLETE.equals(action)) {
                 /*
                  * Upgrade complete
                  */
-
                 launchOriginalActivity();
             }
         }

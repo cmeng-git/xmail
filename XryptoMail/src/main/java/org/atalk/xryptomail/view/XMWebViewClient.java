@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.TrafficStats;
 import android.net.Uri;
 import android.provider.Browser;
 import android.text.TextUtils;
@@ -22,6 +23,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.mailstore.AttachmentResolver;
 import org.atalk.xryptomail.view.MessageWebView.OnPageFinishedListener;
 
@@ -93,6 +95,7 @@ public class XMWebViewClient extends WebViewClient {
                 url = url.replace("http://", "https://");
                 URL httpsUrl = new URL(url);
                 URLConnection connection = httpsUrl.openConnection();
+                TrafficStats.setThreadStatsTag(XryptoMail.THREAD_ID);
                 return new WebResourceResponse(connection.getContentType(), connection.getContentEncoding(), connection.getInputStream());
             } catch (Exception e) {
                 Timber.e("http to https exception: %s", e.getMessage());

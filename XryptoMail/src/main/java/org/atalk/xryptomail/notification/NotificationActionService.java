@@ -3,11 +3,12 @@ package org.atalk.xryptomail.notification;
 import static org.atalk.xryptomail.activity.MessageReferenceHelper.toMessageReferenceList;
 import static org.atalk.xryptomail.activity.MessageReferenceHelper.toMessageReferenceStringList;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.IBinder;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.JobIntentService;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ import org.atalk.xryptomail.service.PollService;
 
 import timber.log.Timber;
 
-public class NotificationActionService extends JobIntentService {
+public class NotificationActionService extends Service {
     private static final String ACTION_MARK_AS_READ = "ACTION_MARK_AS_READ";
     private static final String ACTION_DELETE = "ACTION_DELETE";
     private static final String ACTION_ARCHIVE = "ACTION_ARCHIVE";
@@ -112,17 +113,23 @@ public class NotificationActionService extends JobIntentService {
         return messageReferenceStrings;
     }
 
-    /**
-     * Unique job ID for this service.
-     */
-    static final int JOB_ID = 1500;
+//    /**
+//     * Unique job ID for this service.
+//     */
+//    static final int JOB_ID = 1500;
+//
+//    public static void enqueueWork(Context context, Intent work) {
+//        enqueueWork(context, PollService.class, JOB_ID, work);
+//    }
 
-    public static void enqueueWork(Context context, Intent work) {
-        enqueueWork(context, PollService.class, JOB_ID, work);
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     @Override
-    protected void onHandleWork(@NonNull Intent intent) {
+    public int onStartCommand(Intent intent, int flags, int startId) {
         Timber.i("NotificationActionService started");
         Account account = null;
         if (intent.hasExtra(EXTRA_ACCOUNT_UUID)) {
@@ -132,7 +139,7 @@ public class NotificationActionService extends JobIntentService {
         }
         if (account == null) {
             Timber.w("Could not find account for notification action.");
-            return;
+            return START_NOT_STICKY;
         }
 
         MessagingController controller = MessagingController.getInstance(getApplication());
@@ -153,6 +160,7 @@ public class NotificationActionService extends JobIntentService {
             Timber.i("Notification dismissed");
         }
         cancelNotifications(intent, account, controller);
+        return START_NOT_STICKY;
     }
 
     private void markMessagesAsRead(Intent intent, Account account, MessagingController controller) {

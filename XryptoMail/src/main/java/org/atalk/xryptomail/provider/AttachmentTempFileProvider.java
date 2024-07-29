@@ -198,7 +198,7 @@ public class AttachmentTempFileProvider extends FileProvider
 
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
-            ContextCompat.registerReceiver(context, cleanupReceiver, intentFilter, ContextCompat.RECEIVER_EXPORTED);
+            ContextCompat.registerReceiver(context, cleanupReceiver, intentFilter, ContextCompat.RECEIVER_NOT_EXPORTED);
         }
     }
 

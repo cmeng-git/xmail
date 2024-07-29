@@ -83,7 +83,7 @@ public class FolderList extends XMListActivity
                 }
 
                 String operation = mAdapter.mListener.getOperation(FolderList.this);
-                if (operation.length() < 1) {
+                if (operation.isEmpty()) {
                     mActionBarSubTitle.setText(mAccount.getEmail());
                 }
                 else {

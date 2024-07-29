@@ -1,5 +1,19 @@
 XryptoMail Release Notes:
 =============================
+Version:		5.1.1
+Upload Date:	07/29/2024
+- Change NotificationActionService to extend Service to work in foreground; to resolve unhandled markAsRead with JobIntentService.
+- Remove unused permissions: ACCESS_MEDIA_LOCATION, GET_ACCOUNTS, and WRITE_CONTACTS.
+- Need to add READ_EXTERNAL_STORAGE permission (Files and Media) request for android API-32.
+- Implement newly added READ_MEDIA_VISUAL_USER_SELECTED permission for android API-34.
+- Do not launch BatteryOptimization permission request within a dialog, else parseResult is based on dialog click.
+- ActivityResultContract#parseResult on BatteryOptimization request must return isOptimizingBattery() state.
+- Must set both shrinkResources and minifyEnabled to false for release build under API-34;
+  else xmail crashes in Moshi with cannot serialize abstract class MessagingControllerCommands$PendingDelete
+- UpdateServiceImpl#isLatestVersion need to close inputStream after access end.
+- Update all app used libraries to the latest releases.
+
+=============================
 Version:		5.1.0
 Upload Date:	07/20/2024
 - Built target for Android 14.0 (UpsideDownCake) or API-34

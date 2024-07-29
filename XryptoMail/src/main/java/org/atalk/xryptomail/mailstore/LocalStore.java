@@ -6,8 +6,27 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import androidx.annotation.Nullable;
 import android.text.TextUtils;
+
+import androidx.annotation.Nullable;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Stack;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.apache.james.mime4j.codec.Base64InputStream;
 import org.apache.james.mime4j.codec.QuotedPrintableInputStream;
@@ -47,24 +66,6 @@ import org.atalk.xryptomail.search.SearchSpecification.SearchField;
 import org.atalk.xryptomail.search.SqlQueryBuilder;
 import org.openintents.openpgp.util.OpenPgpApi.OpenPgpDataSource;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Stack;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 import timber.log.Timber;
 
 /**
@@ -72,8 +73,7 @@ import timber.log.Timber;
  * Implements a SQLite database backed local store for Messages.
  * </pre>
  */
-public class LocalStore extends Store
-{
+public class LocalStore extends Store {
     /**
      * Immutable empty {@link String} array
      */
@@ -196,11 +196,11 @@ public class LocalStore extends Store
      *
      * @param account
      * @param context
+     *
      * @throws UnavailableStorageException if not {@link StorageProvider#isReady(Context)}
      */
     private LocalStore(final Account account, final Context context)
-            throws MessagingException
-    {
+            throws MessagingException {
         mContext = context;
         mContentResolver = context.getContentResolver();
         mAccount = account;
@@ -223,8 +223,7 @@ public class LocalStore extends Store
      * @throws UnavailableStorageException if not {@link StorageProvider#isReady(Context)}
      */
     public static LocalStore getInstance(Account account, Context context)
-            throws MessagingException
-    {
+            throws MessagingException {
         String accountUuid = account.getUuid();
         // Create new per-account lock object if necessary
         sAccountLocks.putIfAbsent(accountUuid, new Object());
@@ -242,8 +241,7 @@ public class LocalStore extends Store
         }
     }
 
-    public static void removeAccount(Account account)
-    {
+    public static void removeAccount(Account account) {
         try {
             removeInstance(account);
         } catch (Exception e) {
@@ -251,35 +249,29 @@ public class LocalStore extends Store
         }
     }
 
-    private static void removeInstance(Account account)
-    {
+    private static void removeInstance(Account account) {
         sLocalStores.remove(account.getUuid());
     }
 
     public void switchLocalStorage(final String newStorageProviderId)
-            throws MessagingException
-    {
+            throws MessagingException {
         database.switchProvider(newStorageProviderId);
     }
 
-    Context getContext()
-    {
+    Context getContext() {
         return mContext;
     }
 
-    Account getAccount()
-    {
+    Account getAccount() {
         return mAccount;
     }
 
-    protected Storage getStorage()
-    {
+    protected Storage getStorage() {
         return Preferences.getPreferences(mContext).getStorage();
     }
 
     public long getSize()
-            throws MessagingException
-    {
+            throws MessagingException {
         final StorageManager storageManager = StorageManager.getInstance(mContext);
         final File attachmentDirectory = storageManager.getAttachmentDirectory(mAccountUuid,
                 database.getStorageProviderId());
@@ -299,8 +291,7 @@ public class LocalStore extends Store
     }
 
     public void compact()
-            throws MessagingException
-    {
+            throws MessagingException {
         if (XryptoMail.isDebug()) {
             Timber.i("Before compaction size = %d", getSize());
         }
@@ -316,8 +307,7 @@ public class LocalStore extends Store
     }
 
     public void clear()
-            throws MessagingException
-    {
+            throws MessagingException {
         if (XryptoMail.isDebug()) {
             Timber.i("Before prune size = %d", getSize());
         }
@@ -352,8 +342,7 @@ public class LocalStore extends Store
     }
 
     private int getMessageCount()
-            throws MessagingException
-    {
+            throws MessagingException {
         return database.execute(false, db -> {
             Cursor cursor = null;
             try {
@@ -367,8 +356,7 @@ public class LocalStore extends Store
     }
 
     private int getFolderCount()
-            throws MessagingException
-    {
+            throws MessagingException {
         return database.execute(false, db -> {
             Cursor cursor = null;
             try {
@@ -381,15 +369,13 @@ public class LocalStore extends Store
         });
     }
 
-    public LocalFolder getFolder(String name)
-    {
+    public LocalFolder getFolder(String name) {
         return new LocalFolder(this, name);
     }
 
     // TODO this takes about 260-300ms, seems slow.
     public List<LocalFolder> getPersonalNamespaces(boolean forceListAll)
-            throws MessagingException
-    {
+            throws MessagingException {
         final List<LocalFolder> folders = new LinkedList<>();
         try {
             database.execute(false, (DbCallback<List<? extends Folder>>) db -> {
@@ -421,32 +407,27 @@ public class LocalStore extends Store
 
     @Override
     public void checkSettings()
-            throws MessagingException
-    {
+            throws MessagingException {
     }
 
     public void delete()
-            throws UnavailableStorageException
-    {
+            throws UnavailableStorageException {
         database.delete();
     }
 
     public void recreate()
-            throws UnavailableStorageException
-    {
+            throws UnavailableStorageException {
         database.recreate();
     }
 
     private void deleteAllMessageDataFromDisk()
-            throws MessagingException
-    {
+            throws MessagingException {
         markAllMessagePartsDataAsMissing();
         deleteAllMessagePartsDataFromDisk();
     }
 
     private void markAllMessagePartsDataAsMissing()
-            throws MessagingException
-    {
+            throws MessagingException {
         database.execute(false, (DbCallback<Void>) db -> {
             ContentValues cv = new ContentValues();
             cv.put("data_location", DataLocation.MISSING);
@@ -455,8 +436,7 @@ public class LocalStore extends Store
         });
     }
 
-    private void deleteAllMessagePartsDataFromDisk()
-    {
+    private void deleteAllMessagePartsDataFromDisk() {
         final StorageManager storageManager = StorageManager.getInstance(mContext);
         File attachmentDirectory = storageManager.getAttachmentDirectory(mAccountUuid, database.getStorageProviderId());
         File[] files = attachmentDirectory.listFiles();
@@ -472,8 +452,7 @@ public class LocalStore extends Store
     }
 
     public void resetVisibleLimits(int visibleLimit)
-            throws MessagingException
-    {
+            throws MessagingException {
         final ContentValues cv = new ContentValues();
         cv.put("visible_limit", Integer.toString(visibleLimit));
         cv.put("more_messages", MoreMessages.UNKNOWN.getDatabaseName());
@@ -484,8 +463,7 @@ public class LocalStore extends Store
     }
 
     public List<PendingCommand> getPendingCommands()
-            throws MessagingException
-    {
+            throws MessagingException {
         return database.execute(false, db -> {
             Cursor cursor = null;
             try {
@@ -509,8 +487,7 @@ public class LocalStore extends Store
     }
 
     public void addPendingCommand(PendingCommand command)
-            throws MessagingException
-    {
+            throws MessagingException {
         final ContentValues cv = new ContentValues();
         cv.put("command", command.getCommandName());
         cv.put("data", pendingCommandSerializer.serialize(command));
@@ -521,8 +498,7 @@ public class LocalStore extends Store
     }
 
     public void removePendingCommand(final PendingCommand command)
-            throws MessagingException
-    {
+            throws MessagingException {
         database.execute(false, (DbCallback<Void>) db -> {
             db.delete("pending_commands", "id = ?", new String[]{Long.toString(command.databaseId)});
             return null;
@@ -530,8 +506,7 @@ public class LocalStore extends Store
     }
 
     public void removePendingCommands()
-            throws MessagingException
-    {
+            throws MessagingException {
         database.execute(false, (DbCallback<Void>) db -> {
             db.delete("pending_commands", null, null);
             return null;
@@ -539,20 +514,17 @@ public class LocalStore extends Store
     }
 
     @Override
-    public boolean isMoveCapable()
-    {
+    public boolean isMoveCapable() {
         return true;
     }
 
     @Override
-    public boolean isCopyCapable()
-    {
+    public boolean isCopyCapable() {
         return true;
     }
 
     public List<LocalMessage> searchForMessages(MessageRetrievalListener<LocalMessage> retrievalListener, LocalSearch search)
-            throws MessagingException
-    {
+            throws MessagingException {
         StringBuilder query = new StringBuilder();
         List<String> queryArgs = new ArrayList<>();
         SqlQueryBuilder.buildWhereClause(mAccount, search.getConditions(), query, queryArgs);
@@ -582,8 +554,7 @@ public class LocalStore extends Store
             final MessageRetrievalListener<LocalMessage> listener, final LocalFolder folder,
             final String queryString, final String[] placeHolders
     )
-            throws MessagingException
-    {
+            throws MessagingException {
         final List<LocalMessage> messages = new ArrayList<>();
         final int j = database.execute(false, db -> {
             Cursor cursor = null;
@@ -628,8 +599,7 @@ public class LocalStore extends Store
     }
 
     public List<LocalMessage> getMessagesInThread(final long rootId)
-            throws MessagingException
-    {
+            throws MessagingException {
         String rootIdString = Long.toString(rootId);
 
         LocalSearch search = new LocalSearch();
@@ -639,8 +609,7 @@ public class LocalStore extends Store
     }
 
     public AttachmentInfo getAttachmentInfo(final String attachmentId)
-            throws MessagingException
-    {
+            throws MessagingException {
         return database.execute(false, db -> {
             try (Cursor cursor = db.query("message_parts",
                     new String[]{"display_name", "decoded_body_size", "mime_type"},
@@ -664,22 +633,18 @@ public class LocalStore extends Store
 
     @Nullable
     public OpenPgpDataSource getAttachmentDataSource(final String partId)
-            throws MessagingException
-    {
-        return new OpenPgpDataSource()
-        {
+            throws MessagingException {
+        return new OpenPgpDataSource() {
             @Override
             public void writeTo(OutputStream os)
-                    throws IOException
-            {
+                    throws IOException {
                 writeAttachmentDataToOutputStream(partId, os);
             }
         };
     }
 
     private void writeAttachmentDataToOutputStream(final String partId, final OutputStream outputStream)
-            throws IOException
-    {
+            throws IOException {
         try {
             database.execute(false, (DbCallback<Void>) db -> {
                 Cursor cursor = db.query("message_parts",
@@ -704,8 +669,7 @@ public class LocalStore extends Store
     }
 
     private void writeCursorPartsToOutputStream(SQLiteDatabase db, Cursor cursor, OutputStream outputStream)
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         while (cursor.moveToNext()) {
             String partId = cursor.getString(ATTACH_PART_ID_INDEX);
             int location = cursor.getInt(ATTACH_LOCATION_INDEX);
@@ -720,8 +684,7 @@ public class LocalStore extends Store
     }
 
     private void writeRawBodyToStream(Cursor cursor, SQLiteDatabase db, OutputStream outputStream)
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         long partId = cursor.getLong(ATTACH_PART_ID_INDEX);
         String rootPart = cursor.getString(ATTACH_ROOT_INDEX);
         LocalMessage message = loadLocalMessageByRootPartId(db, rootPart);
@@ -743,8 +706,7 @@ public class LocalStore extends Store
         body.writeTo(outputStream);
     }
 
-    static Part findPartById(Part searchRoot, long partId)
-    {
+    static Part findPartById(Part searchRoot, long partId) {
         if (searchRoot instanceof LocalMessage) {
             LocalMessage localMessage = (LocalMessage) searchRoot;
             if (localMessage.getMessagePartId() == partId) {
@@ -778,8 +740,7 @@ public class LocalStore extends Store
     }
 
     private LocalMessage loadLocalMessageByRootPartId(SQLiteDatabase db, String rootPart)
-            throws MessagingException
-    {
+            throws MessagingException {
         Cursor cursor = db.query("messages",
                 new String[]{"id"},
                 "message_part_id = ?", new String[]{rootPart},
@@ -799,8 +760,7 @@ public class LocalStore extends Store
 
     @Nullable
     private LocalMessage loadLocalMessageByMessageId(long messageId)
-            throws MessagingException
-    {
+            throws MessagingException {
         Map<String, List<String>> foldersAndUids =
                 getFoldersAndUids(Collections.singletonList(messageId), false);
         if (foldersAndUids.isEmpty()) {
@@ -822,8 +782,7 @@ public class LocalStore extends Store
     }
 
     private void writeSimplePartToOutputStream(String partId, Cursor cursor, OutputStream outputStream)
-            throws IOException
-    {
+            throws IOException {
         int location = cursor.getInt(ATTACH_LOCATION_INDEX);
         InputStream inputStream = getRawAttachmentInputStream(partId, location, cursor);
         try {
@@ -836,8 +795,7 @@ public class LocalStore extends Store
     }
 
     private InputStream getRawAttachmentInputStream(String partId, int location, Cursor cursor)
-            throws FileNotFoundException
-    {
+            throws FileNotFoundException {
         switch (location) {
             case DataLocation.IN_DATABASE: {
                 byte[] data = cursor.getBlob(ATTACH_DATA_INDEX);
@@ -852,29 +810,28 @@ public class LocalStore extends Store
         }
     }
 
-    InputStream getDecodingInputStream(final InputStream rawInputStream, @Nullable String encoding)
-    {
+    InputStream getDecodingInputStream(final InputStream rawInputStream, @Nullable String encoding) {
         if (MimeUtil.ENC_BASE64.equals(encoding)) {
-            return new Base64InputStream(rawInputStream)
-            {
+            return new Base64InputStream(rawInputStream) {
                 @Override
                 public void close()
-                        throws IOException
-                {
+                        throws IOException {
                     super.close();
                     rawInputStream.close();
                 }
             };
         }
         if (MimeUtil.ENC_QUOTED_PRINTABLE.equals(encoding)) {
-            return new QuotedPrintableInputStream(rawInputStream)
-            {
+            return new QuotedPrintableInputStream(rawInputStream) {
                 @Override
-                public void close()
-                        throws IOException
+                public void close() // throws IOException
                 {
                     super.close();
-                    rawInputStream.close();
+                    try {
+                        rawInputStream.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             };
         }
@@ -882,23 +839,20 @@ public class LocalStore extends Store
         return rawInputStream;
     }
 
-    File getAttachmentFile(String attachmentId)
-    {
+    File getAttachmentFile(String attachmentId) {
         final StorageManager storageManager = StorageManager.getInstance(mContext);
         final File attachmentDirectory = storageManager.getAttachmentDirectory(mAccountUuid, database.getStorageProviderId());
         return new File(attachmentDirectory, attachmentId);
     }
 
-    public static class AttachmentInfo
-    {
+    public static class AttachmentInfo {
         public String name;
         public long size;
         public String type;
     }
 
     public void createFolders(final List<LocalFolder> foldersToCreate, final int visibleLimit)
-            throws MessagingException
-    {
+            throws MessagingException {
         database.execute(true, (DbCallback<Void>) db -> {
             for (LocalFolder folder : foldersToCreate) {
                 String name = folder.getServerId();
@@ -945,8 +899,7 @@ public class LocalStore extends Store
         });
     }
 
-    static String serializeFlags(Iterable<Flag> flags)
-    {
+    static String serializeFlags(Iterable<Flag> flags) {
         List<Flag> extraFlags = new ArrayList<>();
 
         for (Flag flag : flags) {
@@ -967,33 +920,27 @@ public class LocalStore extends Store
     }
 
     // TODO: database should not be exposed!
-    public LockableDatabase getDatabase()
-    {
+    public LockableDatabase getDatabase() {
         return database;
     }
 
-    MessagePreviewCreator getMessagePreviewCreator()
-    {
+    MessagePreviewCreator getMessagePreviewCreator() {
         return messagePreviewCreator;
     }
 
-    public MessageFulltextCreator getMessageFulltextCreator()
-    {
+    public MessageFulltextCreator getMessageFulltextCreator() {
         return messageFulltextCreator;
     }
 
-    AttachmentCounter getAttachmentCounter()
-    {
+    AttachmentCounter getAttachmentCounter() {
         return attachmentCounter;
     }
 
-    AttachmentInfoExtractor getAttachmentInfoExtractor()
-    {
+    AttachmentInfoExtractor getAttachmentInfoExtractor() {
         return attachmentInfoExtractor;
     }
 
-    void notifyChange()
-    {
+    void notifyChange() {
         Uri uri = Uri.withAppendedPath(EmailProvider.CONTENT_URI, "account/" + mAccountUuid + "/messages");
         mContentResolver.notifyChange(uri, null);
     }
@@ -1007,11 +954,11 @@ public class LocalStore extends Store
      *
      * @param selectionCallback Supplies the argument set and the code to query/update the database.
      * @param batchSize The maximum size of the selection set in each SQL statement.
+     *
      * @throws MessagingException
      */
     private void doBatchSetSelection(final BatchSetSelection selectionCallback, final int batchSize)
-            throws MessagingException
-    {
+            throws MessagingException {
         final List<String> selectionArgs = new ArrayList<>();
         int start = 0;
 
@@ -1048,8 +995,7 @@ public class LocalStore extends Store
     /**
      * Defines the behavior of {@link LocalStore#doBatchSetSelection(BatchSetSelection, int)}.
      */
-    interface BatchSetSelection
-    {
+    interface BatchSetSelection {
         /**
          * @return The size of the argument list.
          */
@@ -1059,6 +1005,7 @@ public class LocalStore extends Store
          * Get a specific item of the argument list.
          *
          * @param index The index of the item.
+         *
          * @return Item at position {@code i} of the argument list.
          */
         String getListItem(int index);
@@ -1070,6 +1017,7 @@ public class LocalStore extends Store
          * @param selectionSet A partial selection string containing place holders for the argument list, e.g.
          * {@code " IN (?,?,?)"} (starts with a space).
          * @param selectionArgs The current subset of the argument list.
+         *
          * @throws UnavailableStorageException
          */
         void doDbWork(SQLiteDatabase db, String selectionSet, String[] selectionArgs)
@@ -1092,38 +1040,33 @@ public class LocalStore extends Store
      * @param messageIds A list of primary keys in the "messages" table.
      * @param flag The flag to change. This must be a flag with a separate column in the database.
      * @param newState {@code true}, if the flag should be set. {@code false}, otherwise.
+     *
      * @throws MessagingException
      */
     public void setFlag(final List<Long> messageIds, final Flag flag, final boolean newState)
-            throws MessagingException
-    {
+            throws MessagingException {
         final ContentValues cv = new ContentValues();
         cv.put(getColumnNameForFlag(flag), newState);
 
-        doBatchSetSelection(new BatchSetSelection()
-        {
+        doBatchSetSelection(new BatchSetSelection() {
             @Override
-            public int getListSize()
-            {
+            public int getListSize() {
                 return messageIds.size();
             }
 
             @Override
-            public String getListItem(int index)
-            {
+            public String getListItem(int index) {
                 return Long.toString(messageIds.get(index));
             }
 
             @Override
             public void doDbWork(SQLiteDatabase db, String selectionSet, String[] selectionArgs)
-                    throws UnavailableStorageException
-            {
+                    throws UnavailableStorageException {
                 db.update("messages", cv, "empty = 0 AND id" + selectionSet, selectionArgs);
             }
 
             @Override
-            public void postDbWork()
-            {
+            public void postDbWork() {
                 notifyChange();
             }
         }, FLAG_UPDATE_BATCH_SIZE);
@@ -1138,30 +1081,26 @@ public class LocalStore extends Store
      * @param threadRootIds A list of root thread IDs.
      * @param flag The flag to change. This must be a flag with a separate column in the database.
      * @param newState {@code true}, if the flag should be set. {@code false}, otherwise.
+     *
      * @throws MessagingException
      */
     public void setFlagForThreads(final List<Long> threadRootIds, Flag flag, final boolean newState)
-            throws MessagingException
-    {
+            throws MessagingException {
         final String flagColumn = getColumnNameForFlag(flag);
-        doBatchSetSelection(new BatchSetSelection()
-        {
+        doBatchSetSelection(new BatchSetSelection() {
             @Override
-            public int getListSize()
-            {
+            public int getListSize() {
                 return threadRootIds.size();
             }
 
             @Override
-            public String getListItem(int index)
-            {
+            public String getListItem(int index) {
                 return Long.toString(threadRootIds.get(index));
             }
 
             @Override
             public void doDbWork(SQLiteDatabase db, String selectionSet, String[] selectionArgs)
-                    throws UnavailableStorageException
-            {
+                    throws UnavailableStorageException {
                 db.execSQL("UPDATE messages SET " + flagColumn + " = " + ((newState) ? "1" : "0") +
                                 " WHERE id IN (" +
                                 "SELECT m.id FROM threads t " +
@@ -1172,8 +1111,7 @@ public class LocalStore extends Store
             }
 
             @Override
-            public void postDbWork()
-            {
+            public void postDbWork() {
                 notifyChange();
             }
         }, THREAD_FLAG_UPDATE_BATCH_SIZE);
@@ -1187,32 +1125,29 @@ public class LocalStore extends Store
      * at the root of a thread. In that case return UIDs for all messages in these threads.
      * If this is {@code false} only the UIDs for messages in {@code messageIds} are
      * returned.
+     *
      * @return The list of UIDs for the messages grouped by folder name.
+     *
      * @throws MessagingException
      */
     public Map<String, List<String>> getFoldersAndUids(final List<Long> messageIds, final boolean threadedList)
-            throws MessagingException
-    {
+            throws MessagingException {
         final Map<String, List<String>> folderMap = new HashMap<>();
 
-        doBatchSetSelection(new BatchSetSelection()
-        {
+        doBatchSetSelection(new BatchSetSelection() {
             @Override
-            public int getListSize()
-            {
+            public int getListSize() {
                 return messageIds.size();
             }
 
             @Override
-            public String getListItem(int index)
-            {
+            public String getListItem(int index) {
                 return Long.toString(messageIds.get(index));
             }
 
             @Override
             public void doDbWork(SQLiteDatabase db, String selectionSet, String[] selectionArgs)
-                    throws UnavailableStorageException
-            {
+                    throws UnavailableStorageException {
                 if (threadedList) {
                     String sql = "SELECT m.uid, f.name FROM threads t " +
                             "LEFT JOIN messages m ON (t.message_id = m.id) " +
@@ -1230,8 +1165,7 @@ public class LocalStore extends Store
                 }
             }
 
-            private void getDataFromCursor(Cursor cursor)
-            {
+            private void getDataFromCursor(Cursor cursor) {
                 try {
                     while (cursor.moveToNext()) {
                         String uid = cursor.getString(0);
@@ -1250,16 +1184,14 @@ public class LocalStore extends Store
             }
 
             @Override
-            public void postDbWork()
-            {
+            public void postDbWork() {
                 notifyChange();
             }
         }, UID_CHECK_BATCH_SIZE);
         return folderMap;
     }
 
-    public static String getColumnNameForFlag(Flag flag)
-    {
+    public static String getColumnNameForFlag(Flag flag) {
         switch (flag) {
             case SEEN: {
                 return MessageColumns.READ;

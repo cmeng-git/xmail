@@ -45,23 +45,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/music_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/music_permission_button"
-                    style="@style/PermissionButton"
-                    android:text="@string/permission_music" />
-
-                <TextView
-                    android:id="@+id/music_permission_feedback"
-                    style="@style/PermissionFeedback"
-                    android:text="@string/permission_unknown" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/notifications_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,6 +57,23 @@
 
                 <TextView
                     android:id="@+id/notifications_permission_feedback"
+                    style="@style/PermissionFeedback"
+                    android:text="@string/permission_unknown" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/music_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/music_permission_button"
+                    style="@style/PermissionButton"
+                    android:text="@string/permission_music" />
+
+                <TextView
+                    android:id="@+id/music_permission_feedback"
                     style="@style/PermissionFeedback"
                     android:text="@string/permission_unknown" />
             </LinearLayout>
