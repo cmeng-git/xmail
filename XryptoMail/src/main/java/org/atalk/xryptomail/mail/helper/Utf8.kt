@@ -35,18 +35,21 @@ inline fun String.encodeUtf8(beginIndex: Int = 0, endIndex: Int = length, crossi
             // Emit a 7-bit character with 1 byte.
             writeByte(c.toByte()) // 0xxxxxxx
             i++
-        } else if (c < 0x800) {
+        }
+        else if (c < 0x800) {
             // Emit a 11-bit character with 2 bytes.
-            writeByte((c shr 6           or 0xc0).toByte()) // 110xxxxx
-            writeByte((c        and 0x3f or 0x80).toByte()) // 10xxxxxx
+            writeByte((c shr 6 or 0xc0).toByte()) // 110xxxxx
+            writeByte((c and 0x3f or 0x80).toByte()) // 10xxxxxx
             i++
-        } else if (c < 0xd800 || c > 0xdfff) {
+        }
+        else if (c < 0xd800 || c > 0xdfff) {
             // Emit a 16-bit character with 3 bytes.
-            writeByte((c shr 12          or 0xe0).toByte()) // 1110xxxx
-            writeByte((c shr  6 and 0x3f or 0x80).toByte()) // 10xxxxxx
-            writeByte((c        and 0x3f or 0x80).toByte()) // 10xxxxxx
+            writeByte((c shr 12 or 0xe0).toByte()) // 1110xxxx
+            writeByte((c shr 6 and 0x3f or 0x80).toByte()) // 10xxxxxx
+            writeByte((c and 0x3f or 0x80).toByte()) // 10xxxxxx
             i++
-        } else {
+        }
+        else {
             // c is a surrogate. Make sure it is a high surrogate and that its successor is a low surrogate.
             // If not, the UTF-16 is invalid, in which case we emit a replacement character.
             val low = if (i + 1 < endIndex) this[i + 1].code else 0
@@ -62,10 +65,10 @@ inline fun String.encodeUtf8(beginIndex: Int = 0, endIndex: Int = length, crossi
             val codePoint = 0x010000 + (c and 0xd800.inv() shl 10 or (low and 0xdc00.inv()))
 
             // Emit a 21-bit character with 4 bytes.
-            writeByte((codePoint shr 18          or 0xf0).toByte()) // 11110xxx
+            writeByte((codePoint shr 18 or 0xf0).toByte()) // 11110xxx
             writeByte((codePoint shr 12 and 0x3f or 0x80).toByte()) // 10xxxxxx
-            writeByte((codePoint shr  6 and 0x3f or 0x80).toByte()) // 10xxyyyy
-            writeByte((codePoint        and 0x3f or 0x80).toByte()) // 10yyyyyy
+            writeByte((codePoint shr 6 and 0x3f or 0x80).toByte()) // 10xxyyyy
+            writeByte((codePoint and 0x3f or 0x80).toByte()) // 10yyyyyy
             i += 2
         }
     }
@@ -88,28 +91,32 @@ fun Int.utf8Size(): Int {
 /**
  * Encodes this code point using UTF-8.
  */
-inline fun Int.encodeUtf8(crossinline  writeByte: (Byte) -> Unit) {
+inline fun Int.encodeUtf8(crossinline writeByte: (Byte) -> Unit) {
     val codePoint = this
     if (codePoint < 0x80) {
         // Emit a 7-bit character with 1 byte.
         writeByte(codePoint.toByte()) // 0xxxxxxx
-    } else if (codePoint < 0x800) {
+    }
+    else if (codePoint < 0x800) {
         // Emit a 11-bit character with 2 bytes.
-        writeByte((codePoint shr 6           or 0xc0).toByte()) // 110xxxxx
-        writeByte((codePoint        and 0x3f or 0x80).toByte()) // 10xxxxxx
-    } else if (codePoint < 0xd800 || codePoint in 0xe000..0x10000) {
+        writeByte((codePoint shr 6 or 0xc0).toByte()) // 110xxxxx
+        writeByte((codePoint and 0x3f or 0x80).toByte()) // 10xxxxxx
+    }
+    else if (codePoint < 0xd800 || codePoint in 0xe000..0x10000) {
         // Emit a 16-bit character with 3 bytes.
-        writeByte((codePoint shr 12          or 0xe0).toByte()) // 1110xxxx
-        writeByte((codePoint shr  6 and 0x3f or 0x80).toByte()) // 10xxxxxx
-        writeByte((codePoint        and 0x3f or 0x80).toByte()) // 10xxxxxx
-    } else if (codePoint in 0xd800..0xdfff) {
+        writeByte((codePoint shr 12 or 0xe0).toByte()) // 1110xxxx
+        writeByte((codePoint shr 6 and 0x3f or 0x80).toByte()) // 10xxxxxx
+        writeByte((codePoint and 0x3f or 0x80).toByte()) // 10xxxxxx
+    }
+    else if (codePoint in 0xd800..0xdfff) {
         // codePoint is a surrogate. Emit a replacement character
         writeByte('?'.code.toByte())
-    } else {
+    }
+    else {
         // Emit a 21-bit character with 4 bytes.
-        writeByte((codePoint shr 18          or 0xf0).toByte()) // 11110xxx
+        writeByte((codePoint shr 18 or 0xf0).toByte()) // 11110xxx
         writeByte((codePoint shr 12 and 0x3f or 0x80).toByte()) // 10xxxxxx
-        writeByte((codePoint shr  6 and 0x3f or 0x80).toByte()) // 10xxyyyy
-        writeByte((codePoint        and 0x3f or 0x80).toByte()) // 10yyyyyy
+        writeByte((codePoint shr 6 and 0x3f or 0x80).toByte()) // 10xxyyyy
+        writeByte((codePoint and 0x3f or 0x80).toByte()) // 10yyyyyy
     }
 }

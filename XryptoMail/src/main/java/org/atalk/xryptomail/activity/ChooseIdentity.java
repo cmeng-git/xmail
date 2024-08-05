@@ -10,15 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.Identity;
 import org.atalk.xryptomail.Preferences;
 import org.atalk.xryptomail.R;
 
-import java.util.List;
-
-public class ChooseIdentity extends XMListActivity
-{
+public class ChooseIdentity extends XMListActivity {
     Account mAccount;
     ArrayAdapter<String> adapter;
 
@@ -81,9 +80,10 @@ public class ChooseIdentity extends XMListActivity
                     intent.putExtra(EXTRA_IDENTITY, mAccount.getIdentity(position));
                     setResult(RESULT_OK, intent);
                     finish();
-                } else {
+                }
+                else {
                     Toast.makeText(ChooseIdentity.this, getString(R.string.identity_has_no_email),
-                                   Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });

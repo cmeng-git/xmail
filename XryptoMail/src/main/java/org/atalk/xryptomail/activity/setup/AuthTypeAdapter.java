@@ -5,15 +5,12 @@ import android.widget.ArrayAdapter;
 
 import org.atalk.xryptomail.mail.AuthType;
 
-public class AuthTypeAdapter extends ArrayAdapter<AuthTypeHolder>
-{
-    public AuthTypeAdapter(Context context, int resource, AuthTypeHolder[] holders)
-    {
+public class AuthTypeAdapter extends ArrayAdapter<AuthTypeHolder> {
+    public AuthTypeAdapter(Context context, int resource, AuthTypeHolder[] holders) {
         super(context, resource, holders);
     }
 
-    public static AuthTypeAdapter get(Context context)
-    {
+    public static AuthTypeAdapter get(Context context) {
         AuthType[] authTypes = new AuthType[]{AuthType.PLAIN, AuthType.CRAM_MD5, AuthType.XOAUTH2, AuthType.EXTERNAL};
         AuthTypeHolder[] holders = new AuthTypeHolder[authTypes.length];
         for (int i = 0; i < authTypes.length; i++) {
@@ -32,16 +29,14 @@ public class AuthTypeAdapter extends ArrayAdapter<AuthTypeHolder>
      *
      * A value of {@code false} will use "Password, transmitted insecurely"
      */
-    public void useInsecureText(boolean insecure)
-    {
+    public void useInsecureText(boolean insecure) {
         for (int i = 0; i < getCount(); i++) {
             getItem(i).setInsecure(insecure);
         }
         notifyDataSetChanged();
     }
 
-    public int getAuthPosition(AuthType authenticationType)
-    {
+    public int getAuthPosition(AuthType authenticationType) {
         for (int i = 0; i < getCount(); i++) {
             if (getItem(i).authType == authenticationType) {
                 return i;

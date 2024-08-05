@@ -5,8 +5,7 @@ import android.widget.ArrayAdapter;
 
 import org.atalk.xryptomail.mail.ConnectionSecurity;
 
-class ConnectionSecurityAdapter extends ArrayAdapter<ConnectionSecurityHolder>
-{
+class ConnectionSecurityAdapter extends ArrayAdapter<ConnectionSecurityHolder> {
     public ConnectionSecurityAdapter(Context context, int resource, ConnectionSecurityHolder[] securityTypes) {
         super(context, resource, securityTypes);
     }
@@ -15,7 +14,7 @@ class ConnectionSecurityAdapter extends ArrayAdapter<ConnectionSecurityHolder>
         return get(context, ConnectionSecurity.values());
     }
 
-	public static ConnectionSecurityAdapter get(Context context, ConnectionSecurity[] items) {
+    public static ConnectionSecurityAdapter get(Context context, ConnectionSecurity[] items) {
         ConnectionSecurityHolder[] holders = new ConnectionSecurityHolder[items.length];
         for (int i = 0; i < items.length; i++) {
             holders[i] = new ConnectionSecurityHolder(items[i], context.getResources());
@@ -27,7 +26,7 @@ class ConnectionSecurityAdapter extends ArrayAdapter<ConnectionSecurityHolder>
     }
 
     public int getConnectionSecurityPosition(ConnectionSecurity connectionSecurity) {
-        for (int i=0; i<getCount(); i++) {
+        for (int i = 0; i < getCount(); i++) {
             if (getItem(i).connectionSecurity == connectionSecurity) {
                 return i;
             }

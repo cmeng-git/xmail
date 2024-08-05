@@ -2,6 +2,8 @@ package org.atalk.xryptomail.mailstore;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
 import org.atalk.xryptomail.Account;
@@ -411,6 +413,7 @@ public class LocalMessage extends MimeMessage
         getFolder().destroyMessage(this);
     }
 
+    @NonNull
     @Override
     public LocalMessage clone()
     {

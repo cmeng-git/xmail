@@ -13,7 +13,7 @@ public abstract class OAuth2TokenProvider {
      */
     public int OAUTH2_TIMEOUT = 30000;
 
-    
+
     /**
      * @return Accounts suitable for OAuth 2.0 token provision.
      */
@@ -22,12 +22,9 @@ public abstract class OAuth2TokenProvider {
     /**
      * Request API authorization. This is a foreground action that may produce a dialog to interact with.
      *
-     * @param username
-     *         Username
-     * @param activity
-     *         The responsible activity
-     * @param callback
-     *         A callback to process the asynchronous response
+     * @param username Username
+     * @param activity The responsible activity
+     * @param callback A callback to process the asynchronous response
      */
     // void authorizeApi(String username, Activity activity, OAuth2TokenProviderAuthCallback callback);
 
@@ -46,7 +43,8 @@ public abstract class OAuth2TokenProvider {
      * Invalidating a token and then failure with a new token should be treated as a permanent failure.
      */
     public abstract void invalidateToken(String email);
-	public abstract void disconnectEmailWithXMail(String email);
+
+    public abstract void disconnectEmailWithXMail(String email);
 
     /**
      * Provides an asynchronous response to an

@@ -4,6 +4,7 @@ import static org.atalk.xryptomail.mail.ServerSettings.Type.IMAP;
 import static org.atalk.xryptomail.mail.ServerSettings.Type.POP3;
 import static org.atalk.xryptomail.mail.ServerSettings.Type.WebDAV;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -1215,6 +1216,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
         return i;
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
         presenter.onBackPressed();

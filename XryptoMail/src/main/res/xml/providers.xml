@@ -173,10 +173,10 @@
         label="Outlook.com"
         domain="outlook.com">
         <incoming
-            uri="imap+ssl+://imap-mail.outlook.com"
+            uri="imap+ssl+://outlook.office365.com"
             username="$email" />
         <outgoing
-            uri="smtp+tls+://smtp-mail.outlook.com"
+            uri="smtp+tls+://smtp.office365.com"
             username="$email" />
     </provider>
     <provider

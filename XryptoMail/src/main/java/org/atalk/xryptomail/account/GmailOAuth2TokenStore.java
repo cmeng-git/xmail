@@ -7,8 +7,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
-public class GmailOAuth2TokenStore extends AndroidSpecificOAuth2TokenProvider
-{
+public class GmailOAuth2TokenStore extends AndroidSpecificOAuth2TokenProvider {
     private static final String GOOGLE_API_BASE_URL = "https://www.googleapis.com/";
     private static final String CLIENT_ID = "177708265273-u8vure4t1kis8sji9aanvvqcicrk2p2g.apps.googleusercontent.com";
     private static final String REDIRECT_URI = "org.atalk.xryptomail:/oauth2redirect";
@@ -20,8 +19,7 @@ public class GmailOAuth2TokenStore extends AndroidSpecificOAuth2TokenProvider
 
     private final GoogleAPIService service;
 
-    public GmailOAuth2TokenStore()
-    {
+    public GmailOAuth2TokenStore() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GOOGLE_API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -30,25 +28,21 @@ public class GmailOAuth2TokenStore extends AndroidSpecificOAuth2TokenProvider
     }
 
     @Override
-    public void showAuthDialog()
-    {
+    public void showAuthDialog() {
         promptRequestHandler.handleGmailRedirectUrl(AUTHORIZATION_URL);
     }
 
     @Override
-    protected Call<RefreshResponse> getRefreshTokenCall(String refreshToken)
-    {
+    protected Call<RefreshResponse> getRefreshTokenCall(String refreshToken) {
         return service.refreshToken(CLIENT_ID, refreshToken, "refresh_token");
     }
 
     @Override
-    protected Call<ExchangeResponse> getExchangeCodeCall(String code)
-    {
+    protected Call<ExchangeResponse> getExchangeCodeCall(String code) {
         return service.exchangeCode(code, CLIENT_ID, "authorization_code", REDIRECT_URI);
     }
 
-    private interface GoogleAPIService
-    {
+    private interface GoogleAPIService {
         @FormUrlEncoded
         @POST("oauth2/v4/token")
         Call<RefreshResponse> refreshToken(@Field("client_id") String clientId,

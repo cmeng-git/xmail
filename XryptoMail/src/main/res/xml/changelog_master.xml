@@ -8,7 +8,13 @@
      They are automatically updated with "ant bump-version".
 -->
 <changelog>
-    <release version="5.1.1 (07/29/2024)" versioncode="19110">
+    <release version="5.1.2 (08/05/2024)" versioncode="19120">
+        <change>Force oauth_webview height to 600dp; webView render has problem with OAUTH window display</change>
+        <change>Update outlook.com mail provider incoming/outgoing mail server endpoints settings</change>
+        <change>Always show "MANUAL SETUP" option even when a mail provider configuration is found, allowing user edit if incorrect</change>
+    </release>
+
+    <release version="5.1.1 (07/29/2024)" versioncode="19111">
         <change>Change NotificationActionService to extend Service to work in foreground; to resolve unhandled markAsRead with JobIntentService</change>
         <change>Remove unused permissions: ACCESS_MEDIA_LOCATION, GET_ACCOUNTS, and WRITE_CONTACTS</change>
         <change>Need to add READ_EXTERNAL_STORAGE permission (Files and Media) request for android API-32.</change>

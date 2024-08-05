@@ -48,10 +48,10 @@ object MimeParameterDecoder {
         val (parameters, ignoredParameters) = reconstructParameters(basicParameters)
 
         return MimeValue(
-                value = value,
-                parameters = parameters,
-                ignoredParameters = duplicateParameters + ignoredParameters,
-                parserErrorIndex = parserErrorIndex
+            value = value,
+            parameters = parameters,
+            ignoredParameters = duplicateParameters + ignoredParameters,
+            parserErrorIndex = parserErrorIndex
         )
     }
 
@@ -77,7 +77,8 @@ object MimeParameterDecoder {
 
                 val parameterValue = if (parser.peek() == DQUOTE) {
                     ParameterValue(parser.readQuotedString(), wasToken = false)
-                } else {
+                }
+                else {
                     ParameterValue(parser.readToken(), wasToken = true)
                 }
 
@@ -88,12 +89,14 @@ object MimeParameterDecoder {
                         ignoredParameters.add(parameterName to existingParameterValue.value)
                         ignoredParameters.add(parameterName to parameterValue.value)
                     }
+
                     parameterName !in duplicateParameterNames -> parameters[parameterName] = parameterValue
                     else -> ignoredParameters.add(parameterName to parameterValue.value)
                 }
 
                 parser.skipCFWS()
-            } while (!parser.endReached())
+            }
+            while (!parser.endReached())
 
             null
         } catch (e: MimeHeaderParserException) {
@@ -112,9 +115,10 @@ object MimeParameterDecoder {
 
             if (parameterSection == null) {
                 singleParameters[parameterName] = parameterValue.value
-            } else {
+            }
+            else {
                 parameterSectionMap.getOrPut(parameterSection.name) { mutableListOf() }
-                        .add(parameterSection)
+                    .add(parameterSection)
             }
         }
 
@@ -124,7 +128,8 @@ object MimeParameterDecoder {
 
             if (areParameterSectionsValid(parameterSections)) {
                 parameters[parameterName] = combineParameterSections(parameterSections)
-            } else {
+            }
+            else {
                 for (parameterSection in parameterSections) {
                     val originalParameterName = parameterSection.originalName
                     parameters[originalParameterName] = basicParameters[originalParameterName]!!.value
@@ -136,7 +141,8 @@ object MimeParameterDecoder {
         for ((parameterName, parameterValue) in singleParameters) {
             if (parameterName !in parameters) {
                 parameters[parameterName] = DecoderUtil.decodeEncodedWords(parameterValue, null)
-            } else {
+            }
+            else {
                 ignoredParameters.add(parameterName to parameterValue)
             }
         }
@@ -170,23 +176,25 @@ object MimeParameterDecoder {
             val parser = MimeHeaderParser(parameterText)
             if (section == null || section == 0) {
                 readExtendedParameterValue(parser, parameterName, newParameterName, section, parameterText)
-            } else {
+            }
+            else {
                 val data = Buffer()
                 parser.readExtendedParameterValueInto(data)
 
                 ExtendedValueParameterSection(newParameterName, parameterName, section, data)
             }
-        } else {
+        }
+        else {
             RegularValueParameterSection(newParameterName, parameterName, section, parameterText)
         }
     }
 
     private fun readExtendedParameterValue(
-            parser: MimeHeaderParser,
-            parameterName: String,
-            newParameterName: String,
-            section: Int?,
-            parameterText: String
+        parser: MimeHeaderParser,
+        parameterName: String,
+        newParameterName: String,
+        section: Int?,
+        parameterText: String,
     ): ParameterSection? {
         return try {
             val charsetName = parser.readUntil(SINGLE_QUOTE)
@@ -199,8 +207,10 @@ object MimeParameterDecoder {
                 parser.readExtendedParameterValueInto(data)
 
                 InitialExtendedValueParameterSection(
-                        newParameterName, parameterName, section, charsetName, language, data)
-            } else {
+                    newParameterName, parameterName, section, charsetName, language, data
+                )
+            }
+            else {
                 val encodedParameterText = parameterText.substring(parser.position())
                 RegularValueParameterSection(newParameterName, parameterName, section, encodedParameterText)
             }
@@ -219,7 +229,8 @@ object MimeParameterDecoder {
 
         parameterSections.forEachIndexed { index, parameterSection ->
             if (parameterSection.section != index ||
-                    !isExtendedValue && parameterSection is ExtendedValueParameterSection) {
+                !isExtendedValue && parameterSection is ExtendedValueParameterSection
+            ) {
                 return false
             }
         }
@@ -232,7 +243,8 @@ object MimeParameterDecoder {
         return if (initialParameterSection is InitialExtendedValueParameterSection) {
             val charset = Charset.forName(initialParameterSection.charsetName)
             combineExtendedParameterSections(parameterSections, charset)
-        } else {
+        }
+        else {
             combineRegularParameterSections(parameterSections)
         }
     }
@@ -278,7 +290,7 @@ object MimeParameterDecoder {
 private data class ParameterValue(val value: String, val wasToken: Boolean)
 
 private data class BasicParameterResults(
-        val parameters: BasicParameters,
-        val ignoredParameters: IgnoredParameters,
-        val parserErrorIndex: Int?
+    val parameters: BasicParameters,
+    val ignoredParameters: IgnoredParameters,
+    val parserErrorIndex: Int?,
 )

@@ -1,5 +1,12 @@
 XryptoMail Release Notes:
 =============================
+Version:		5.1.2
+Upload Date:	08/05/2024
+- Force oauth_webview height to 600dp; webView render has problem with OAUTH window display.
+- Update outlook.com mail provider incoming/outgoing mail server endpoints settings
+- Always show "MANUAL SETUP" option even when a mail provider configuration is found, allowing user edit if incorrect.
+
+=============================
 Version:		5.1.1
 Upload Date:	07/29/2024
 - Change NotificationActionService to extend Service to work in foreground; to resolve unhandled markAsRead with JobIntentService.
@@ -570,7 +577,6 @@ Improvements:
     4) fix: allow 2 seconds fast next/previous scroll past stealth message without deleting
     5) fix: out of bound exception error for next and previous message.
     6) fix: Change Account array to K9 format
-
 
 =============================
 Version:	3.2.2

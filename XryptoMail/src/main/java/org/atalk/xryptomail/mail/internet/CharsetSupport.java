@@ -1,9 +1,6 @@
 package org.atalk.xryptomail.mail.internet;
 
-import org.apache.commons.io.IOUtils;
-import org.atalk.xryptomail.mail.Message;
-import org.atalk.xryptomail.mail.MessagingException;
-import org.atalk.xryptomail.mail.Part;
+import static org.atalk.xryptomail.mail.internet.JisSupport.SHIFT_JIS;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,15 +8,16 @@ import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.util.Locale;
 
+import org.apache.commons.io.IOUtils;
+import org.atalk.xryptomail.mail.Message;
+import org.atalk.xryptomail.mail.MessagingException;
+import org.atalk.xryptomail.mail.Part;
+
 import timber.log.Timber;
 
-import static org.atalk.xryptomail.mail.internet.JisSupport.SHIFT_JIS;
-
-public class CharsetSupport
-{
+public class CharsetSupport {
     /**
      * Table for character set fall-back.
-     *
      * Table format: unsupported charset (regular expression), fall-back charset
      */
     private static final String[][] CHARSET_FALLBACK_MAP = new String[][]{
@@ -30,14 +28,12 @@ public class CharsetSupport
             {".*", "US-ASCII"}
     };
 
-    public static void setCharset(String charset, Part part)
-    {
+    public static void setCharset(String charset, Part part) {
         part.setHeader(MimeHeader.HEADER_CONTENT_TYPE,
                 part.getMimeType() + ";\r\n charset=" + getExternalCharset(charset));
     }
 
-    public static String getCharsetFromAddress(String address)
-    {
+    public static String getCharsetFromAddress(String address) {
         String variant = JisSupport.getJisVariantFromAddress(address);
         if (variant != null) {
             String charset = "x-" + variant + "-shift_jis-2007";
@@ -47,8 +43,7 @@ public class CharsetSupport
         return "UTF-8";
     }
 
-    static String getExternalCharset(String charset)
-    {
+    static String getExternalCharset(String charset) {
         if (JisSupport.isShiftJis(charset)) {
             return SHIFT_JIS;
         }
@@ -58,8 +53,7 @@ public class CharsetSupport
     }
 
     static String fixupCharset(String charset, Message message)
-            throws MessagingException
-    {
+            throws MessagingException {
         if (charset == null || "0".equals(charset))
             charset = "US-ASCII";  // No encoding, so use us-ascii, which is the standard.
 
@@ -76,8 +70,7 @@ public class CharsetSupport
     }
 
     static String readToString(InputStream in, String charset)
-            throws IOException
-    {
+            throws IOException {
         boolean isIphoneString = false;
 
         // iso-2022-jp variants are supported by no versions as of Dec 2010.
@@ -134,8 +127,7 @@ public class CharsetSupport
         return str;
     }
 
-    private static String importStringFromIphone(String str)
-    {
+    private static String importStringFromIphone(String str) {
         StringBuilder buff = new StringBuilder(str.length());
         for (int i = 0; i < str.length(); i = str.offsetByCodePoints(i, 1)) {
             int codePoint = str.codePointAt(i);
@@ -144,8 +136,7 @@ public class CharsetSupport
         return buff.toString();
     }
 
-    private static int importCodePointFromIphone(int codePoint)
-    {
+    private static int importCodePointFromIphone(int codePoint) {
         switch (codePoint) {
             case 0xE001:
                 return 0xFE19B;

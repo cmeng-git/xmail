@@ -156,11 +156,11 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
             view.setPasswordHintInBasics(context.getString(R.string.account_setup_basics_password_hint));
         }
         else {
-            view.setPasswordInBasicsEnabled(false);
+            // view.setPasswordInBasicsEnabled(false);
             view.setPasswordHintInBasics(context.getString(
                     R.string.account_setup_basics_password_no_password_needed_hint
             ));
-            view.setManualSetupButtonInBasicsVisibility(android.view.View.INVISIBLE);
+            // view.setManualSetupButtonInBasicsVisibility(android.view.View.INVISIBLE);
         }
         view.setNextButtonInBasicsEnabled(valid);
     }

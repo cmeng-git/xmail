@@ -36,8 +36,8 @@ android {
         applicationId "org.atalk.xryptomail"
         testApplicationId "org.atalk.xryptomail.tests"
 
-        versionCode 19110
-        versionName '5.1.1'
+        versionCode 19120
+        versionName '5.1.2'
 
         minSdkVersion rootProject.minSdk
         targetSdkVersion rootProject.compileSdk
@@ -162,7 +162,6 @@ dependencies {
     // ContactPictureLoader source is not compatible with v4.x.x
     implementation 'com.github.bumptech.glide:glide:3.8.0'
 
-    implementation 'com.google.firebase:firebase-crashlytics-buildtools:3.0.2'
     implementation('com.jakewharton.timber:timber:5.0.1') {
         transitive = false
     }

@@ -1,7 +1,22 @@
 package org.atalk.xryptomail.mail.internet;
 
+import static org.atalk.xryptomail.mail.internet.CharsetSupport.fixupCharset;
+import static org.atalk.xryptomail.mail.internet.FlowedMessageUtils.isFormatFlowed;
+import static org.atalk.xryptomail.mail.internet.MimeUtility.getHeaderParameter;
+import static org.atalk.xryptomail.mail.internet.MimeUtility.isSameMimeType;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.input.BoundedInputStream;
 import org.atalk.xryptomail.mail.Body;
@@ -17,38 +32,19 @@ import org.atalk.xryptomail.mail.internet.Viewable.MessageHeader;
 import org.atalk.xryptomail.mail.internet.Viewable.Text;
 import org.atalk.xryptomail.mail.internet.Viewable.Textual;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import timber.log.Timber;
 
-import static org.atalk.xryptomail.mail.internet.CharsetSupport.fixupCharset;
-import static org.atalk.xryptomail.mail.internet.FlowedMessageUtils.isFormatFlowed;
-import static org.atalk.xryptomail.mail.internet.MimeUtility.getHeaderParameter;
-import static org.atalk.xryptomail.mail.internet.MimeUtility.isSameMimeType;
-
-public class MessageExtractor
-{
+public class MessageExtractor {
     public static final long NO_TEXT_SIZE_LIMIT = -1L;
 
-    private MessageExtractor()
-    {
+    private MessageExtractor() {
     }
 
-    public static String getTextFromPart(Part part)
-    {
+    public static String getTextFromPart(Part part) {
         return getTextFromPart(part, NO_TEXT_SIZE_LIMIT);
     }
 
-    public static String getTextFromPart(Part part, long textSizeLimit)
-    {
+    public static String getTextFromPart(Part part, long textSizeLimit) {
         try {
             if ((part != null) && (part.getBody() != null)) {
                 final Body body = part.getBody();
@@ -76,8 +72,7 @@ public class MessageExtractor
     }
 
     private static String getTextFromTextPart(Part part, Body body, String mimeType, long textSizeLimit)
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         /*
          * We've got a text part, so let's see if it needs to be processed further.
          */
@@ -123,8 +118,7 @@ public class MessageExtractor
         }
     }
 
-    public static boolean hasMissingParts(Part part)
-    {
+    public static boolean hasMissingParts(Part part) {
         Body body = part.getBody();
         if (body == null) {
             return true;
@@ -146,8 +140,7 @@ public class MessageExtractor
      */
     public static void findViewablesAndAttachments(Part part,
             @Nullable List<Viewable> outputViewableParts, @Nullable List<Part> outputNonViewableParts)
-            throws MessagingException
-    {
+            throws MessagingException {
         boolean skipSavingNonViewableParts = outputNonViewableParts == null;
         boolean skipSavingViewableParts = outputViewableParts == null;
         if (skipSavingNonViewableParts && skipSavingViewableParts) {
@@ -228,6 +221,9 @@ public class MessageExtractor
         else if (isSameMimeType(part.getMimeType(), "application/pgp-signature")) {
             // ignore this type explicitly
         }
+        else if (isSameMimeType(part.getMimeType(), "text/rfc822-headers")) {
+            // ignore this type explicitly
+        }
         else {
             if (skipSavingNonViewableParts) {
                 return;
@@ -237,8 +233,7 @@ public class MessageExtractor
         }
     }
 
-    public static Set<Part> getTextParts(Part part) throws MessagingException
-    {
+    public static Set<Part> getTextParts(Part part) throws MessagingException {
         List<Viewable> viewableParts = new ArrayList<>();
         List<Part> nonViewableParts = new ArrayList<>();
         findViewablesAndAttachments(part, viewableParts, nonViewableParts);
@@ -249,10 +244,10 @@ public class MessageExtractor
      * Collect attachment parts of a message.
      *
      * @return A list of parts regarded as attachments.
+     *
      * @throws MessagingException In case of an error.
      */
-    public static List<Part> collectAttachments(Message message) throws MessagingException
-    {
+    public static List<Part> collectAttachments(Message message) throws MessagingException {
         try {
             List<Part> attachments = new ArrayList<>();
             findViewablesAndAttachments(message, new ArrayList<>(), attachments);
@@ -266,10 +261,10 @@ public class MessageExtractor
      * Collect the viewable textual parts of a message.
      *
      * @return A set of viewable parts of the message.
+     *
      * @throws MessagingException In case of an error.
      */
-    public static Set<Part> collectTextParts(Message message) throws MessagingException
-    {
+    public static Set<Part> collectTextParts(Message message) throws MessagingException {
         try {
             return getTextParts(message);
         } catch (Exception e) {
@@ -277,8 +272,7 @@ public class MessageExtractor
         }
     }
 
-    private static Message getMessageFromPart(Part part)
-    {
+    private static Message getMessageFromPart(Part part) {
         while (part != null) {
             if (part instanceof Message)
                 return (Message) part;
@@ -301,12 +295,13 @@ public class MessageExtractor
      * @param multipart The {@code Multipart} to search through.
      * @param directChild If {@code true}, this method will return after the first {@code text/plain} was
      * found.
+     *
      * @return A list of {@link Text} viewables.
+     *
      * @throws MessagingException In case of an error.
      */
     private static List<Viewable> findTextPart(Multipart multipart, boolean directChild)
-            throws MessagingException
-    {
+            throws MessagingException {
         List<Viewable> viewables = new ArrayList<>();
 
         for (Part part : multipart.getBodyParts()) {
@@ -354,12 +349,13 @@ public class MessageExtractor
      * @param outputNonViewableParts A list that will receive the parts that are considered attachments.
      * @param directChild If {@code true}, this method will add all {@code text/html} parts except the first
      * found to 'attachments'.
+     *
      * @return A list of {@link Text} viewables.
+     *
      * @throws MessagingException In case of an error.
      */
     private static List<Viewable> findHtmlPart(Multipart multipart, Set<Part> knownTextParts,
-            @Nullable List<Part> outputNonViewableParts, boolean directChild) throws MessagingException
-    {
+            @Nullable List<Part> outputNonViewableParts, boolean directChild) throws MessagingException {
         boolean saveNonViewableParts = outputNonViewableParts != null;
         List<Viewable> viewables = new ArrayList<>();
 
@@ -421,8 +417,7 @@ public class MessageExtractor
      * @param attachments A list that will receive the parts that are considered attachments.
      */
     private static void findAttachments(Multipart multipart, Set<Part> knownTextParts,
-            @NonNull List<Part> attachments)
-    {
+            @NonNull List<Part> attachments) {
         for (Part part : multipart.getBodyParts()) {
             Body body = part.getBody();
             if (body instanceof Multipart) {
@@ -438,14 +433,14 @@ public class MessageExtractor
     /**
      * Build a set of message parts for fast lookups.
      *
-     * @param viewables A list of {@link Viewable}s containing references to the message parts to include in
-     * the set.
+     * @param viewables A list of {@link Viewable}s containing references to the message parts to include in the set.
+     *
      * @return The set of viewable {@code Part}s.
+     *
      * @see MessageExtractor#findHtmlPart(Multipart, Set, List, boolean)
      * @see MessageExtractor#findAttachments(Multipart, Set, List)
      */
-    private static Set<Part> getParts(List<Viewable> viewables)
-    {
+    private static Set<Part> getParts(List<Viewable> viewables) {
         Set<Part> parts = new HashSet<>();
 
         for (Viewable viewable : viewables) {
@@ -461,8 +456,7 @@ public class MessageExtractor
         return parts;
     }
 
-    private static Boolean isPartTextualBody(Part part) throws MessagingException
-    {
+    private static Boolean isPartTextualBody(Part part) throws MessagingException {
         String disposition = part.getDisposition();
         String dispositionType = null;
         String dispositionFilename = null;
@@ -477,8 +471,7 @@ public class MessageExtractor
 
     }
 
-    private static String getContentDisposition(Part part)
-    {
+    private static String getContentDisposition(Part part) {
         String disposition = part.getDisposition();
         if (disposition != null) {
             return MimeUtility.getHeaderParameter(disposition, null);

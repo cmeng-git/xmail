@@ -1,12 +1,13 @@
 package org.atalk.xryptomail.account;
 
-import org.atalk.xryptomail.mail.AuthenticationFailedException;
-import org.atalk.xryptomail.mail.oauth.OAuth2AuthorizationCodeFlowTokenProvider;
-import org.atalk.xryptomail.mail.oauth.SpecificOAuth2TokenProvider;
+import java.io.IOException;
+
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.IOException;
+import org.atalk.xryptomail.mail.AuthenticationFailedException;
+import org.atalk.xryptomail.mail.oauth.OAuth2AuthorizationCodeFlowTokenProvider;
+import org.atalk.xryptomail.mail.oauth.SpecificOAuth2TokenProvider;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -20,6 +21,7 @@ abstract class AndroidSpecificOAuth2TokenProvider extends SpecificOAuth2TokenPro
     protected Oauth2PromptRequestHandler promptRequestHandler;
 
     protected abstract Call<ExchangeResponse> getExchangeCodeCall(String code);
+
     protected abstract Call<RefreshResponse> getRefreshTokenCall(String code);
 
     void setPromptRequestHandler(Oauth2PromptRequestHandler promptRequestHandler) {
@@ -63,7 +65,8 @@ abstract class AndroidSpecificOAuth2TokenProvider extends SpecificOAuth2TokenPro
                 } catch (IOException e) {
                     throw new AuthenticationFailedException(AuthenticationFailedException.OAUTH2_ERROR_UNKNOWN);
                 }
-            } else {
+            }
+            else {
                 throw new AuthenticationFailedException(AuthenticationFailedException.OAUTH2_ERROR_UNKNOWN);
             }
         }

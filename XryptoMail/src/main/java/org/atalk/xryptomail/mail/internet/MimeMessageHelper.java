@@ -7,14 +7,11 @@ import org.atalk.xryptomail.mail.MessagingException;
 import org.atalk.xryptomail.mail.Multipart;
 import org.atalk.xryptomail.mail.Part;
 
-public class MimeMessageHelper
-{
-    private MimeMessageHelper()
-    {
+public class MimeMessageHelper {
+    private MimeMessageHelper() {
     }
 
-    public static void setBody(Part part, Body body) throws MessagingException
-    {
+    public static void setBody(Part part, Body body) throws MessagingException {
         part.setBody(body);
 
         if (part instanceof Message) {
@@ -50,8 +47,7 @@ public class MimeMessageHelper
         }
     }
 
-    public static void setEncoding(Part part, String encoding) throws MessagingException
-    {
+    public static void setEncoding(Part part, String encoding) throws MessagingException {
         Body body = part.getBody();
         if (body != null) {
             body.setEncoding(encoding);

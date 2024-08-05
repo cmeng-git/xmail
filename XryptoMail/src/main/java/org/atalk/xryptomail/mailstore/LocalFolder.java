@@ -3,6 +3,7 @@ package org.atalk.xryptomail.mailstore;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -219,9 +220,15 @@ public class LocalFolder extends Folder<LocalMessage> implements Serializable {
     @Override
     public boolean exists()
             throws MessagingException {
+        String serverId = LocalFolder.this.getServerId();
+        if (TextUtils.isEmpty(serverId)) {
+            Timber.w("LocalFolder ServerId is null!");
+            return false;
+        }
+
         return mLocalStore.getDatabase().execute(false, db -> {
             try (Cursor cursor = db.rawQuery("SELECT id FROM folders where folders.name = ?",
-                    new String[]{LocalFolder.this.getServerId()})) {
+                    new String[]{serverId})) {
                 if (cursor.moveToFirst()) {
                     int folderId = cursor.getInt(0);
                     return (folderId > 0);

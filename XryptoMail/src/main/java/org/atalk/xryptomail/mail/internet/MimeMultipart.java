@@ -1,18 +1,16 @@
 
 package org.atalk.xryptomail.mail.internet;
 
-import org.atalk.xryptomail.mail.BodyPart;
-import org.atalk.xryptomail.mail.BoundaryGenerator;
-import org.atalk.xryptomail.mail.MessagingException;
-import org.atalk.xryptomail.mail.Multipart;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.Locale;
-import java.util.Random;
+
+import org.atalk.xryptomail.mail.BodyPart;
+import org.atalk.xryptomail.mail.BoundaryGenerator;
+import org.atalk.xryptomail.mail.MessagingException;
+import org.atalk.xryptomail.mail.Multipart;
 
 public class MimeMultipart extends Multipart {
     private String mMimeType;
@@ -39,19 +37,19 @@ public class MimeMultipart extends Multipart {
 
         mMimeType = mimeType;
         mBoundary = boundary;
-    }	
+    }
 
     @Override
     public String getBoundary() {
         return mBoundary;
     }
-    
+
     public byte[] getPreamble() {
         return mPreamble;
     }
 
     public void setPreamble(byte[] preamble) {
-    	mPreamble = preamble;
+        mPreamble = preamble;
     }
 
     public byte[] getEpilogue() {
@@ -84,15 +82,16 @@ public class MimeMultipart extends Multipart {
             writer.write("--");
             writer.write(mBoundary);
             writer.write("\r\n");
-        } else {
-	        for (BodyPart bodyPart : getBodyParts()) {
-	            writer.write("--");
-	            writer.write(mBoundary);
-	            writer.write("\r\n");
-	            writer.flush();
-	            bodyPart.writeTo(out);
-	            writer.write("\r\n");
-	        }
+        }
+        else {
+            for (BodyPart bodyPart : getBodyParts()) {
+                writer.write("--");
+                writer.write(mBoundary);
+                writer.write("\r\n");
+                writer.flush();
+                bodyPart.writeTo(out);
+                writer.write("\r\n");
+            }
         }
 
         writer.write("--");

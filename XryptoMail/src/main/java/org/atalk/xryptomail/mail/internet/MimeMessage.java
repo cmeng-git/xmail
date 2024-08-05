@@ -2,6 +2,19 @@ package org.atalk.xryptomail.mail.internet;
 
 import androidx.annotation.NonNull;
 
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.Locale;
+import java.util.Set;
+import java.util.TimeZone;
+
 import org.apache.james.mime4j.MimeException;
 import org.apache.james.mime4j.dom.field.DateTimeField;
 import org.apache.james.mime4j.field.DefaultFieldParser;
@@ -21,19 +34,6 @@ import org.atalk.xryptomail.mail.Message;
 import org.atalk.xryptomail.mail.MessagingException;
 import org.atalk.xryptomail.mail.Multipart;
 import org.atalk.xryptomail.mail.Part;
-
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.Locale;
-import java.util.Set;
-import java.util.TimeZone;
 
 import timber.log.Timber;
 
@@ -72,6 +72,7 @@ public class MimeMessage extends Message {
      *
      * @param in Input-stream to parse
      * @param recurse A boolean indicating to recurse through all nested MimeMessage subparts.
+     *
      * @throws IOException
      * @throws MessagingException
      */
@@ -131,9 +132,14 @@ public class MimeMessage extends Message {
     @Override
     public Date getSentDate() {
         if (mSentDate == null) {
+            String dateHeaderBody = getFirstHeader("Date");
+            if (dateHeaderBody == null) {
+                return null;
+            }
+
             try {
                 DateTimeField field = (DateTimeField) DefaultFieldParser.parse("Date: "
-                        + MimeUtility.unfoldAndDecode(getFirstHeader("Date")));
+                        + MimeUtility.unfoldAndDecode(dateHeaderBody));
                 mSentDate = field.getDate();
             } catch (Exception e) {
                 Timber.d(e, "Couldn't parse Date header field");
@@ -147,6 +153,7 @@ public class MimeMessage extends Message {
      * instead of setting it (for performance reasons).
      *
      * @param sentDate
+     *
      * @throws MessagingException
      * @see #mSentDate
      */
@@ -263,7 +270,8 @@ public class MimeMessage extends Message {
                 if (addresses == null || addresses.length == 0) {
                     removeHeader("To");
                     mTo = null;
-                } else {
+                }
+                else {
                     setHeader("To", Address.toEncodedString(addresses));
                     mTo = addresses;
                 }
@@ -272,7 +280,8 @@ public class MimeMessage extends Message {
                 if (addresses == null || addresses.length == 0) {
                     removeHeader("CC");
                     mCc = null;
-                } else {
+                }
+                else {
                     setHeader("CC", Address.toEncodedString(addresses));
                     mCc = addresses;
                 }
@@ -281,7 +290,8 @@ public class MimeMessage extends Message {
                 if (addresses == null || addresses.length == 0) {
                     removeHeader("BCC");
                     mBcc = null;
-                } else {
+                }
+                else {
                     setHeader("BCC", Address.toEncodedString(addresses));
                     mBcc = addresses;
                 }
@@ -290,7 +300,8 @@ public class MimeMessage extends Message {
                 if (addresses == null || addresses.length == 0) {
                     removeHeader("X-Original-To");
                     xOriginalTo = null;
-                } else {
+                }
+                else {
                     setHeader("X-Original-To", Address.toEncodedString(addresses));
                     xOriginalTo = addresses;
                 }
@@ -299,7 +310,8 @@ public class MimeMessage extends Message {
                 if (addresses == null || addresses.length == 0) {
                     removeHeader("Delivered-To");
                     deliveredTo = null;
-                } else {
+                }
+                else {
                     setHeader("Delivered-To", Address.toEncodedString(addresses));
                     deliveredTo = addresses;
                 }
@@ -308,7 +320,8 @@ public class MimeMessage extends Message {
                 if (addresses == null || addresses.length == 0) {
                     removeHeader("X-Envelope-To");
                     xEnvelopeTo = null;
-                } else {
+                }
+                else {
                     setHeader("X-Envelope-To", Address.toEncodedString(addresses));
                     xEnvelopeTo = addresses;
                 }
@@ -350,7 +363,8 @@ public class MimeMessage extends Message {
             this.mFrom = new Address[]{
                     from
             };
-        } else {
+        }
+        else {
             this.mFrom = null;
         }
     }
@@ -367,7 +381,8 @@ public class MimeMessage extends Message {
             this.mSender = new Address[]{
                     sender
             };
-        } else {
+        }
+        else {
             this.mSender = null;
         }
     }
@@ -385,7 +400,8 @@ public class MimeMessage extends Message {
         if (replyTo == null || replyTo.length == 0) {
             removeHeader("Reply-to");
             mReplyTo = null;
-        } else {
+        }
+        else {
             setHeader("Reply-to", Address.toEncodedString(replyTo));
             mReplyTo = replyTo;
         }
@@ -532,7 +548,8 @@ public class MimeMessage extends Message {
         mHeader.setCharset(charset);
         if (mBody instanceof Multipart) {
             ((Multipart) mBody).setCharset(charset);
-        } else if (mBody instanceof TextBody) {
+        }
+        else if (mBody instanceof TextBody) {
             CharsetSupport.setCharset(charset, this);
             ((TextBody) mBody).setCharset(charset);
         }
@@ -557,7 +574,8 @@ public class MimeMessage extends Message {
         public void startMessage() {
             if (stack.isEmpty()) {
                 stack.addFirst(MimeMessage.this);
-            } else {
+            }
+            else {
                 expect(Part.class);
                 Part part = (Part) stack.peek();
 
@@ -730,6 +748,7 @@ public class MimeMessage extends Message {
      * Both Message and MimeBodyPart might share structures.
      *
      * @return the body part
+     *
      * @throws MessagingException
      */
     public MimeBodyPart toBodyPart() throws MessagingException {

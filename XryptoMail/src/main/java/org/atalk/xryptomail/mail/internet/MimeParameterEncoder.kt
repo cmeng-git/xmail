@@ -1,7 +1,6 @@
 package org.atalk.xryptomail.mail.internet
 
 import org.atalk.xryptomail.mail.filter.Hex.appendHex
-import org.atalk.xryptomail.helper.UrlEncodingHelper.encodeUtf8
 import org.atalk.xryptomail.mail.helper.encodeUtf8
 import org.atalk.xryptomail.mail.helper.utf8Size
 
@@ -14,7 +13,6 @@ object MimeParameterEncoder {
 
     private const val ENCODED_VALUE_PREFIX = "UTF-8''"
 
-
     /**
      * Create header field value with parameters encoded if necessary.
      */
@@ -22,7 +20,8 @@ object MimeParameterEncoder {
     fun encode(value: String, parameters: Map<String, String>): String {
         return if (parameters.isEmpty()) {
             value
-        } else {
+        }
+        else {
             buildString {
                 append(value)
                 encodeAndAppendParameters(parameters)
@@ -43,10 +42,13 @@ object MimeParameterEncoder {
 
         if (unencodedValueFitsOnSingleLine && value.isToken()) {
             appendParameter(name, value)
-        } else if (quotedValueMightFitOnSingleLine && value.isQuotable() &&
-                fixedCostLength + value.quotedLength() <= MAX_LINE_LENGTH) {
+        }
+        else if (quotedValueMightFitOnSingleLine && value.isQuotable() &&
+            fixedCostLength + value.quotedLength() <= MAX_LINE_LENGTH
+        ) {
             appendParameter(name, value.quoted())
-        } else {
+        }
+        else {
             rfc2231EncodeAndAppendParameter(name, value)
         }
     }
@@ -62,7 +64,8 @@ object MimeParameterEncoder {
 
         if (encodedValueLength <= MAX_LINE_LENGTH) {
             appendRfc2231SingleLineParameter(name, value.rfc2231Encoded())
-        } else {
+        }
+        else {
             encodeAndAppendRfc2231MultiLineParameter(name, value)
         }
     }
@@ -106,14 +109,16 @@ object MimeParameterEncoder {
                 append(codePoint.toChar())
                 index++
                 remainingSpaceInLine--
-            } else if (remainingSpaceInLine >= utf8Size * 3) {
+            }
+            else if (remainingSpaceInLine >= utf8Size * 3) {
                 codePoint.encodeUtf8 {
                     append('%')
                     appendHex(it, false)
                     remainingSpaceInLine -= 3
                 }
                 index += Character.charCount(codePoint)
-            } else {
+            }
+            else {
                 startOfLine = true
             }
         }
@@ -124,7 +129,8 @@ object MimeParameterEncoder {
             val c = byte.toInt().toChar()
             if (c.isAttributeChar()) {
                 append(c)
-            } else {
+            }
+            else {
                 append('%')
                 appendHex(byte, false)
             }
@@ -156,9 +162,11 @@ object MimeParameterEncoder {
             for (c in this@quoted) {
                 if (c.isQText() || c.isWsp()) {
                     append(c)
-                } else if (c.isVChar()) {
+                }
+                else if (c.isVChar()) {
                     append('\\').append(c)
-                } else {
+                }
+                else {
                     throw IllegalArgumentException("Unsupported character: $c")
                 }
             }
@@ -171,9 +179,11 @@ object MimeParameterEncoder {
         for (c in this) {
             if (c.isQText() || c.isWsp()) {
                 length++
-            } else if (c.isVChar()) {
+            }
+            else if (c.isVChar()) {
                 length += 2
-            } else {
+            }
+            else {
                 throw IllegalArgumentException("Unsupported character: $c")
             }
         }

@@ -1,12 +1,12 @@
 package org.atalk.xryptomail.account;
 
+import java.io.IOException;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.atalk.xryptomail.mail.AuthenticationFailedException;
 import org.atalk.xryptomail.mail.oauth.OAuth2AuthorizationCodeFlowTokenProvider;
 import org.atalk.xryptomail.mail.oauth.SpecificOAuth2TokenProvider;
-
-import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -16,21 +16,23 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
-class OutlookOAuth2TokenStore extends SpecificOAuth2TokenProvider
-{
+/**
+ * Registered XryptoMail REDIRECT_URI not valid? So fallback to use K-9 Mail
+ * CLIENT_ID and REDIRECT_URI are using K-9 Mail info.
+ */
+class OutlookOAuth2TokenStore extends SpecificOAuth2TokenProvider {
     private Oauth2PromptRequestHandler promptRequestHandler;
     private static final String OUTLOOK_BASE_URL = "https://login.live.com/";
     private static final String REDIRECT_URI = "msala41aa976-c5ad-405f-a8e3-ed18c07bb13a://auth";
     private static final String CLIENT_ID = "a41aa976-c5ad-405f-a8e3-ed18c07bb13a";
     private static final String AUTHORIZATION_URL = "https://login.live.com/oauth20_authorize.srf?" +
-            "client_id=" + CLIENT_ID + "&" +
-            "scope=wl.imap wl.offline_access&" +
-            "response_type=code&" +
-            "redirect_uri=" + REDIRECT_URI;
-    private final OutlookService service;
+            "client_id=" + CLIENT_ID +
+            "&scope=wl.imap wl.offline_access" +
+            "&response_type=code" +
+            "&redirect_uri=" + REDIRECT_URI;
 
-    OutlookOAuth2TokenStore()
-    {
+    private final OutlookService service;
+    OutlookOAuth2TokenStore() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(OUTLOOK_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -40,8 +42,7 @@ class OutlookOAuth2TokenStore extends SpecificOAuth2TokenProvider
 
     @Override
     public OAuth2AuthorizationCodeFlowTokenProvider.Tokens exchangeCode(String username, String code)
-            throws AuthenticationFailedException
-    {
+            throws AuthenticationFailedException {
         Call<ExchangeResponse> call = service.exchangeCode(code, CLIENT_ID, "authorization_code", REDIRECT_URI);
         ExchangeResponse exchangeResponse;
         Response<ExchangeResponse> response;
@@ -59,8 +60,7 @@ class OutlookOAuth2TokenStore extends SpecificOAuth2TokenProvider
 
     @Override
     public String refreshToken(String username, String refreshToken)
-            throws AuthenticationFailedException
-    {
+            throws AuthenticationFailedException {
         Call<RefreshResponse> call = service.refreshToken(CLIENT_ID, refreshToken, "refresh_token", "https://login.live.com/oauth20_desktop.srf");
         RefreshResponse response;
         try {
@@ -75,18 +75,15 @@ class OutlookOAuth2TokenStore extends SpecificOAuth2TokenProvider
     }
 
     @Override
-    public void showAuthDialog()
-    {
+    public void showAuthDialog() {
         promptRequestHandler.handleOutlookRedirectUrl(AUTHORIZATION_URL);
     }
 
-    void setPromptRequestHandler(Oauth2PromptRequestHandler promptRequestHandler)
-    {
+    void setPromptRequestHandler(Oauth2PromptRequestHandler promptRequestHandler) {
         this.promptRequestHandler = promptRequestHandler;
     }
 
-    private interface OutlookService
-    {
+    private interface OutlookService {
         @FormUrlEncoded
         @POST("oauth20_token.srf")
         Call<RefreshResponse> refreshToken(@Field("client_id") String clientId,
@@ -102,8 +99,7 @@ class OutlookOAuth2TokenStore extends SpecificOAuth2TokenProvider
                 @Field("redirect_uri") String redirectUri);
     }
 
-    private static class ExchangeResponse
-    {
+    private static class ExchangeResponse {
         @SerializedName("access_token")
         String accessToken;
         @SerializedName("id_token")
@@ -116,8 +112,7 @@ class OutlookOAuth2TokenStore extends SpecificOAuth2TokenProvider
         String tokenType;
     }
 
-    private static class RefreshResponse
-    {
+    private static class RefreshResponse {
         @SerializedName("access_token")
         String accessToken;
         @SerializedName("expires_in")

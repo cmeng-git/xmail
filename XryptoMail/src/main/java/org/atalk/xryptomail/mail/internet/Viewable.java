@@ -1,9 +1,9 @@
 package org.atalk.xryptomail.mail.internet;
 
+import java.util.List;
+
 import org.atalk.xryptomail.mail.Message;
 import org.atalk.xryptomail.mail.Part;
-
-import java.util.List;
 
 /**
  * Empty marker class interface the class hierarchy used by

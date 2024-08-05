@@ -1,15 +1,15 @@
 package org.atalk.xryptomail.mail.internet;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 import org.apache.james.mime4j.codec.QuotedPrintableInputStream;
 import org.apache.james.mime4j.util.CharsetUtil;
 import org.atalk.xryptomail.mail.Message;
 import org.atalk.xryptomail.mail.MessagingException;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
 
 import okio.Buffer;
 import okio.ByteString;
@@ -18,27 +18,24 @@ import timber.log.Timber;
 
 /**
  * Static methods for decoding strings, byte arrays and encoded words.
- *
  * This class is copied from the org.apache.james.mime4j.decoder.DecoderUtil class.  It's modified here in order to
  * decode emoji characters in the Subject headers.  The method to decode emoji depends on the MimeMessage class because
  * it has to be determined with the sender address, the mailer and so on.
  */
-class DecoderUtil
-{
+class DecoderUtil {
     /**
      * Decodes a string containing encoded words as defined by RFC 2047.
      * Encoded words in have the form
      * =?charset?enc?Encoded word?= where enc is either 'Q' or 'q' for
      * quoted-printable and 'B' or 'b' for Base64.
-     *
      * ANDROID:  COPIED FROM A NEWER VERSION OF MIME4J
      *
      * @param body the string to decode.
      * @param message the message which has the string.
+     *
      * @return the decoded string.
      */
-    public static String decodeEncodedWords(String body, Message message)
-    {
+    public static String decodeEncodedWords(String body, Message message) {
         // ANDROID:  Most strings will not include "=?" so a quick test can prevent unneeded
         // object creation.  This could also be handled via lazy creation of the StringBuilder.
         if (!body.contains("=?")) {
@@ -113,16 +110,14 @@ class DecoderUtil
         }
     }
 
-    private static void decodePreviousAndAppendSuffix(StringBuilder sb, EncodedWord previousWord, String body, int previousEnd)
-    {
+    private static void decodePreviousAndAppendSuffix(StringBuilder sb, EncodedWord previousWord, String body, int previousEnd) {
         if (previousWord != null) {
             sb.append(charsetDecode(previousWord));
         }
         sb.append(body.substring(previousEnd));
     }
 
-    private static String charsetDecode(EncodedWord word)
-    {
+    private static String charsetDecode(EncodedWord word) {
         try {
             InputStream inputStream = new Buffer().write(word.data).inputStream();
             return CharsetSupport.readToString(inputStream, word.charset);
@@ -131,8 +126,7 @@ class DecoderUtil
         }
     }
 
-    private static EncodedWord extractEncodedWord(String body, int begin, int end, Message message)
-    {
+    private static EncodedWord extractEncodedWord(String body, int begin, int end, Message message) {
         int qm1 = body.indexOf('?', begin + 2);
         if (qm1 == end - 2)
             return null;
@@ -184,11 +178,10 @@ class DecoderUtil
      * RFC 2047) found in a header field body.
      *
      * @param encodedWord the encoded word to decode.
+     *
      * @return the decoded ByteString.
      */
-    private static ByteString decodeQ(String encodedWord)
-    {
-
+    private static ByteString decodeQ(String encodedWord) {
         /*
          * Replace _ with =20
          */
@@ -203,7 +196,7 @@ class DecoderUtil
             }
         }
 
-        byte[] bytes = sb.toString().getBytes(Charset.forName("US-ASCII"));
+        byte[] bytes = sb.toString().getBytes(StandardCharsets.US_ASCII);
 
         QuotedPrintableInputStream is = new QuotedPrintableInputStream(new ByteArrayInputStream(bytes));
         try {
@@ -218,21 +211,19 @@ class DecoderUtil
      * RFC 2047) found in a header field body.
      *
      * @param encodedText the encoded word to decode.
+     *
      * @return the decoded string.
      */
-    private static ByteString decodeB(String encodedText)
-    {
+    private static ByteString decodeB(String encodedText) {
         ByteString decoded = ByteString.decodeBase64(encodedText);
         return decoded == null ? ByteString.EMPTY : decoded;
     }
 
-    private static ByteString concat(ByteString first, ByteString second)
-    {
+    private static ByteString concat(ByteString first, ByteString second) {
         return new Buffer().write(first).write(second).readByteString();
     }
 
-    private static class EncodedWord
-    {
+    private static class EncodedWord {
         private String charset;
         private String encoding;
         private ByteString data;
