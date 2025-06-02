@@ -8,6 +8,11 @@
      They are automatically updated with "ant bump-version".
 -->
 <changelog>
+    <release version="5.1.3 (06/02/2025)" versioncode="19130">
+        <change>Remove permissions access for READ_MEDIA_IMAGES and READ_MEDIA_VIDEO. Use App_Info if necessary.</change>
+        <change>XryptoMail#hasWriteStoragePermission callBack cannot cast to Activity. So just return the current state.</change>
+    </release>
+
     <release version="5.1.2 (08/05/2024)" versioncode="19120">
         <change>Force oauth_webview height to 600dp; webView render has problem with OAUTH window display</change>
         <change>Update outlook.com mail provider incoming/outgoing mail server endpoints settings</change>

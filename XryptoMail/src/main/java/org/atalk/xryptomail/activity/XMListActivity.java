@@ -2,6 +2,7 @@ package org.atalk.xryptomail.activity;
 
 //import android.app.ListActivity;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -38,6 +39,10 @@ public abstract class XMListActivity extends ListActivity implements XMActivityM
     public void onResume()
     {
         super.onResume();
+    }
+
+    public Activity getActivity() {
+        return mBase.mActivity;
     }
 
     @Override

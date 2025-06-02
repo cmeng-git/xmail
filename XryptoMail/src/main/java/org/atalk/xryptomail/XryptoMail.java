@@ -1517,8 +1517,11 @@ public class XryptoMail extends Application {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             return true;
         }
-        return hasPermission((Activity) callBack, requestPermission, PRC_WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        return ActivityCompat.checkSelfPermission(callBack, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED;
+        // inconvertible context to activity
+        // return hasPermission((Activity) callBack, requestPermission, PRC_WRITE_EXTERNAL_STORAGE,
+        //        Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     public static boolean hasPermission(Activity callBack, boolean requestPermission, int requestCode, String permission) {

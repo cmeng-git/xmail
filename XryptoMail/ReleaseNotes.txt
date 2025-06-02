@@ -1,5 +1,15 @@
 XryptoMail Release Notes:
 =============================
+Version:		5.1.3
+Upload Date:	06/02/2025
+- Remove permissions access for READ_MEDIA_IMAGES and READ_MEDIA_VIDEO.
+- Xmail crashes when open Shopee push mail on Note-10, but not happen on Pixel API-34.
+  Add android:hardwareAccelerated="false" to application tag in manifest solve the problem.
+  Scrolling not smooth when disabled, so not implemented. (Latest shoppe release does not have the problem)
+  * JNI DETECTED ERROR IN APPLICATION: JNI NewStringUTF called with pending exception IllegalStateException: Unable to create layer for FrameLayout
+- XryptoMail#hasWriteStoragePermission(Context callBack, boolean requestPermission) callBack cannot cast to Activity - system crash
+
+=============================
 Version:		5.1.2
 Upload Date:	08/05/2024
 - Force oauth_webview height to 600dp; webView render has problem with OAUTH window display.

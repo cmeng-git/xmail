@@ -138,7 +138,7 @@ public class UpdateServiceImpl {
                         new DialogActivity.DialogListener() {
                             @Override
                             public boolean onConfirmClicked(DialogActivity dialog) {
-                                if (XryptoMail.hasWriteStoragePermission(XryptoMail.mInstance, true)) {
+                                if (XryptoMail.hasWriteStoragePermission(XryptoMail.getGlobalContext(), true)) {
                                     downloadApk();
                                 }
                                 return true;

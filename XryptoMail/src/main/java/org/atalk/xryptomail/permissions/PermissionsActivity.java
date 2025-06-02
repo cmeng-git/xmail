@@ -18,7 +18,6 @@ package org.atalk.xryptomail.permissions;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -32,7 +31,6 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
@@ -108,8 +106,6 @@ public class PermissionsActivity extends FragmentActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permissionList.add(Manifest.permission.POST_NOTIFICATIONS);
             permissionList.add(Manifest.permission.READ_MEDIA_AUDIO);
-            permissionList.add(Manifest.permission.READ_MEDIA_IMAGES);
-            permissionList.add(Manifest.permission.READ_MEDIA_VIDEO);
         }
         else {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
@@ -183,9 +179,6 @@ public class PermissionsActivity extends FragmentActivity {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 mBinding.videoPermissionButton.setOnClickListener(v -> onMediaUserSelectedPermissionButtonClicked());
-            }
-            else {
-                mBinding.videoPermissionButton.setOnClickListener(v -> onVideoPermissionButtonClicked());
             }
         }
         else {
@@ -262,17 +255,7 @@ public class PermissionsActivity extends FragmentActivity {
     @RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     public void onMediaUserSelectedPermissionButtonClicked() {
         Dexter.withContext(this)
-                .withPermissions(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED,
-                        Manifest.permission.READ_MEDIA_VIDEO, Manifest.permission.READ_MEDIA_IMAGES)
-                .withListener(videoPermissionListener)
-                .withErrorListener(errorListener)
-                .check();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
-    public void onVideoPermissionButtonClicked() {
-        Dexter.withContext(this)
-                .withPermissions(Manifest.permission.READ_MEDIA_VIDEO, Manifest.permission.READ_MEDIA_IMAGES)
+                .withPermissions(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED)
                 .withListener(videoPermissionListener)
                 .withErrorListener(errorListener)
                 .check();
@@ -559,8 +542,6 @@ public class PermissionsActivity extends FragmentActivity {
                 feedbackView = mBinding.musicPermissionFeedback;
                 break;
 
-            case Manifest.permission.READ_MEDIA_IMAGES:
-            case Manifest.permission.READ_MEDIA_VIDEO:
             case Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED:
                 feedbackView = mBinding.videoPermissionFeedback;
                 break;

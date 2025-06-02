@@ -27,8 +27,6 @@
 
     <!-- Devices running Android 13 (API level 33) or higher -->
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <!-- To handle the reselection within the app on devices running Android 14
          or higher if your app targets Android 14 (API level 34) or higher.  -->
@@ -113,6 +111,7 @@
         </intent>
     </queries>
 
+    <!--        android:hardwareAccelerated="false"-->
     <application
         android:name="org.atalk.xryptomail.XryptoMail"
         android:allowBackup="false"
@@ -130,6 +129,11 @@
         <meta-data
             android:name="android.app.default_searchable"
             android:value="${applicationId}.activity.Search" />
+
+        <!--
+        android:enableOnBackInvokedCallback="true"  required source change
+        https://stackoverflow.com/questions/73782320/onbackinvokedcallback-is-not-enabled-for-the-application-in-set-androidenableo
+        -->
 
         <activity
             android:name="org.atalk.xryptomail.activity.Accounts"
