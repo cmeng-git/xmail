@@ -40,7 +40,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
 
     <permission-group
-        android:name="android.permission-group.MESSAGES"
+        android:name="android.permission-group.XMAIL"
         android:description="@string/message_access_desc"
         android:icon="@drawable/mailbox"
         android:label="@string/message_access_permissions"
@@ -51,7 +51,7 @@
         android:name="${applicationId}.permission.REMOTE_CONTROL"
         android:description="@string/remote_control_desc"
         android:label="@string/remote_control_label"
-        android:permissionGroup="android.permission-group.MESSAGES"
+        android:permissionGroup="android.permission-group.XMAIL"
         android:protectionLevel="dangerous" />
     <uses-permission android:name="${applicationId}.permission.REMOTE_CONTROL" />
 
@@ -59,7 +59,7 @@
         android:name="${applicationId}.permission.READ_MESSAGES"
         android:description="@string/read_messages_desc"
         android:label="@string/read_messages_label"
-        android:permissionGroup="android.permission-group.MESSAGES"
+        android:permissionGroup="android.permission-group.XMAIL"
         android:protectionLevel="dangerous" />
     <uses-permission android:name="${applicationId}.permission.READ_MESSAGES" />
 
@@ -67,7 +67,7 @@
         android:name="${applicationId}.permission.DELETE_MESSAGES"
         android:description="@string/delete_messages_desc"
         android:label="@string/delete_messages_label"
-        android:permissionGroup="android.permission-group.MESSAGES"
+        android:permissionGroup="android.permission-group.XMAIL"
         android:protectionLevel="dangerous" />
     <uses-permission android:name="${applicationId}.permission.DELETE_MESSAGES" />
 
