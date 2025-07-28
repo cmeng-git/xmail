@@ -6,6 +6,8 @@ import android.content.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
+import androidx.core.app.PendingIntentCompat;
+import androidx.core.content.IntentCompat;
 
 import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.autocrypt.AutocryptOperations;
@@ -489,7 +491,7 @@ public class MessageCryptoHelper {
     }
 
     private void handleUserInteractionRequest() {
-        PendingIntent pendingIntent = currentCryptoResult.getParcelableExtra(OpenPgpApi.RESULT_INTENT);
+        PendingIntent pendingIntent = IntentCompat.getParcelableExtra(currentCryptoResult, OpenPgpApi.RESULT_INTENT, PendingIntent.class);
         if (pendingIntent == null) {
             throw new AssertionError("Expecting PendingIntent on USER_INTERACTION_REQUIRED!");
         }
@@ -497,22 +499,24 @@ public class MessageCryptoHelper {
     }
 
     private void handleCryptoOperationError() {
-        OpenPgpError error = currentCryptoResult.getParcelableExtra(OpenPgpApi.RESULT_ERROR);
-        Timber.w("OpenPGP API error: %s", error.getMessage());
+        OpenPgpError error = IntentCompat.getParcelableExtra(currentCryptoResult, OpenPgpApi.RESULT_ERROR, OpenPgpError.class);
+        Timber.w("OpenPGP API error: %s", (error != null) ? error.getMessage() : "");
 
         onCryptoOperationFailed(error);
     }
 
     private void handleCryptoOperationSuccess(MimeBodyPart outputPart) {
         OpenPgpDecryptionResult decryptionResult =
-                currentCryptoResult.getParcelableExtra(OpenPgpApi.RESULT_DECRYPTION);
+                IntentCompat.getParcelableExtra(currentCryptoResult, OpenPgpApi.RESULT_DECRYPTION, OpenPgpDecryptionResult.class);
         OpenPgpSignatureResult signatureResult =
-                currentCryptoResult.getParcelableExtra(OpenPgpApi.RESULT_SIGNATURE);
-        if (decryptionResult.getResult() == OpenPgpDecryptionResult.RESULT_ENCRYPTED) {
+                IntentCompat.getParcelableExtra(currentCryptoResult, OpenPgpApi.RESULT_SIGNATURE, OpenPgpSignatureResult.class);
+        if (decryptionResult != null && decryptionResult.getResult() == OpenPgpDecryptionResult.RESULT_ENCRYPTED) {
             parseAutocryptGossipHeadersFromDecryptedPart(outputPart);
         }
-        PendingIntent pendingIntent = currentCryptoResult.getParcelableExtra(OpenPgpApi.RESULT_INTENT);
-        PendingIntent insecureWarningPendingIntent = currentCryptoResult.getParcelableExtra(OpenPgpApi.RESULT_INSECURE_DETAIL_INTENT);
+
+        PendingIntent pendingIntent = IntentCompat.getParcelableExtra(currentCryptoResult, OpenPgpApi.RESULT_INTENT, PendingIntent.class);
+        PendingIntent insecureWarningPendingIntent = IntentCompat.getParcelableExtra(
+                currentCryptoResult, OpenPgpApi.RESULT_INSECURE_DETAIL_INTENT, PendingIntent.class);
         boolean overrideCryptoWarning = currentCryptoResult.getBooleanExtra(
                 OpenPgpApi.RESULT_OVERRIDE_CRYPTO_WARNING, false);
 

@@ -50,7 +50,7 @@
         android:id="@+id/contact_crypto_status_icon_simple_error"
         android:src="@drawable/ic_status_corner"
         android:visibility="gone"
-        android:tint="?openpgp_red"
+        app:tint="?openpgp_red"
         tools:visibility="visible" />
 
     <ImageView

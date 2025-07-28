@@ -277,7 +277,7 @@ class DeviceNotifications extends BaseNotifications
 
         boolean privacyModeAlwaysEnabled = XryptoMail.getNotificationHideSubject() == NotificationHideSubject.ALWAYS;
         boolean privacyModeEnabledWhenLocked = XryptoMail.getNotificationHideSubject() == NotificationHideSubject.WHEN_LOCKED;
-        boolean screenLocked = keyguardService.inKeyguardRestrictedInputMode();
+        boolean screenLocked = keyguardService.isKeyguardLocked();
 
         return privacyModeAlwaysEnabled || (privacyModeEnabledWhenLocked && screenLocked);
     }

@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.XmlResourceParser;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -31,6 +30,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.Account.FolderMode;
@@ -93,7 +94,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
 
     private boolean oAuth2CodeGotten = false;
 
-    enum Stage {
+    public enum Stage {
         BASICS,
         AUTOCONFIGURATION,
         AUTOCONFIGURATION_INCOMING_CHECKING,
@@ -107,7 +108,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     private final View view;
-    private AsyncTask<?, ?, ?> findProviderTask;
+    private ExecutorService findProviderTask;
     private CheckDirection currentDirection;
     private CheckDirection direction;
 
@@ -213,206 +214,207 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     private void autoConfiguration() {
-        findProvider(accountConfig.getEmail());
+        findProviderTask = new FindProviderExecutor(accountConfig.getEmail()).execute();
     }
 
-    private void findProvider(final String email) {
-        findProviderTask = new AsyncTask<Void, Integer, ProviderInfo>() {
-            @Override
-            protected ProviderInfo doInBackground(Void... params) {
-                publishProgress(R.string.account_setup_check_settings_retr_info_msg);
+    private class FindProviderExecutor {
+        final private String email;
 
-                incomingReady = false;
-                outgoingReady = false;
+        public FindProviderExecutor(final String email) {
+            this.email = email;
+        }
 
-                final String domain = EmailHelper.getDomainFromEmailAddress(email);
-                ProviderInfo providerInfo = autoconfigureDomain(domain);
+        public ExecutorService execute() {
+            ExecutorService mService;
+            try (ExecutorService eService = Executors.newSingleThreadExecutor()) {
+                mService = eService;
+                eService.execute(() -> {
+                    // publishProgress(R.string.account_setup_check_settings_retr_info_msg);
+                    incomingReady = false;
+                    outgoingReady = false;
 
-                if (providerInfo != null || (incomingReady && outgoingReady)) {
-                    return providerInfo;
-                }
+                    final String domain = EmailHelper.getDomainFromEmailAddress(email);
+                    ProviderInfo providerInfo = autoconfigureDomain(domain);
 
-                incomingReady = false;
-                outgoingReady = false;
-                try {
-                    String mxDomain = DnsHelper.getMxDomain(domain);
-
-                    if (mxDomain == null)
-                        return null;
-
-                    publishProgress(R.string.account_setup_check_settings_retr_info_msg);
-                    providerInfo = autoconfigureDomain(mxDomain);
-
-                } catch (UnknownHostException e) {
-                    Timber.e(e, "Error while trying to run MX lookup");
-                }
-
-                return providerInfo;
-            }
-
-            @Nullable
-            private ProviderInfo autoconfigureDomain(String domain) {
-                ProviderInfo providerInfo;
-                AutoconfigureMozilla autoconfigureMozilla = new AutoconfigureMozilla();
-                AutoconfigureSrv autoconfigureSrv = new AutoconfigureSrv();
-                AutoConfigureAutodiscover autodiscover = new AutoConfigureAutodiscover();
-
-                provider = findProviderForDomain(domain);
-
-                if (provider != null)
-                    return null;
-
-                providerInfo = autoconfigureMozilla.findProviderInfo(email);
-                if (providerInfo != null)
-                    return providerInfo;
-
-                providerInfo = autoconfigureSrv.findProviderInfo(email);
-                if (providerInfo != null)
-                    return providerInfo;
-
-                providerInfo = autodiscover.findProviderInfo(email);
-                if (providerInfo != null)
-                    return providerInfo;
-
-                testDomain(domain);
-
-                return null;
-            }
-
-            private void testDomain(String domain) {
-                String guessedDomainForMailPrefix;
-                //noinspection ConstantConditions
-                if (domain.startsWith("mail.")) {
-                    guessedDomainForMailPrefix = domain;
-                }
-                else {
-                    guessedDomainForMailPrefix = "mail." + domain;
-                }
-
-                Timber.d("Test %s for imap", guessedDomainForMailPrefix);
-                testIncoming(guessedDomainForMailPrefix, false);
-
-                Timber.d("Test %s for smtp and starttls", guessedDomainForMailPrefix);
-                testOutgoing(guessedDomainForMailPrefix, ConnectionSecurity.STARTTLS_REQUIRED, false);
-
-                Timber.d("Test %s for smtp and ssl/tls", guessedDomainForMailPrefix);
-                testOutgoing(guessedDomainForMailPrefix, ConnectionSecurity.SSL_TLS_REQUIRED, false);
-
-                String domainWithImapPrefix = "imap." + domain;
-                Timber.d("Test %s for imap", domainWithImapPrefix);
-                testIncoming(domainWithImapPrefix, false);
-
-                String domainWithSmtpPrefix = "smtp." + domain;
-                Timber.d("Test %s for smtp and starttls", domainWithSmtpPrefix);
-                testOutgoing(domainWithSmtpPrefix, ConnectionSecurity.STARTTLS_REQUIRED, false);
-
-                Timber.d("Test %s for smtp and ssl/tls", domainWithSmtpPrefix);
-                testOutgoing(domainWithSmtpPrefix, ConnectionSecurity.SSL_TLS_REQUIRED, false);
-            }
-
-            private void testIncoming(String domain, boolean useLocalPart) {
-                if (!incomingReady) {
-                    try {
-                        accountConfig.setStoreUri(getDefaultStoreURI(
-                                useLocalPart ? EmailHelper.getLocalPartFromEmailAddress(email) : email,
-                                password, domain).toString());
-                        accountConfig.getRemoteStore().checkSettings();
-                        incomingReady = true;
-                        Timber.d("Server %s is right for imap", domain);
-                    } catch (AuthenticationFailedException afe) {
-                        if (!useLocalPart) {
-                            Timber.d("Server %s is connected, but authentication failed. Use local part as username this time", domain);
-                            testIncoming(domain, true);
-                        }
-                        else {
-                            Timber.d("Server %s is connected, but authentication failed for both email address and local-part", domain);
-                        }
-                    } catch (URISyntaxException | MessagingException ignored) {
-                        Timber.d("Unknown error occurred when using OAuth 2.0");
-                    }
-                }
-            }
-
-            private void testOutgoing(String domain, ConnectionSecurity connectionSecurity, boolean useLocalPart) {
-                if (!outgoingReady) {
-                    try {
-                        accountConfig.setTransportUri(getDefaultTransportURI(
-                                useLocalPart ? EmailHelper.getLocalPartFromEmailAddress(email) : email,
-                                password, domain, connectionSecurity).toString());
-                        Transport transport = TransportProvider.getInstance().getTransport(context, accountConfig,
-                                Globals.getOAuth2TokenProvider());
-                        transport.close();
+                    if (providerInfo == null && !(incomingReady && outgoingReady)) {
+                        incomingReady = false;
+                        outgoingReady = false;
                         try {
-                            transport.open();
-                        } finally {
-                            transport.close();
+                            String mxDomain = DnsHelper.getMxDomain(domain);
+                            if (mxDomain != null) {
+                                // publishProgress(R.string.account_setup_check_settings_retr_info_msg);
+                                providerInfo = autoconfigureDomain(mxDomain);
+                            }
+                        } catch (UnknownHostException e) {
+                            Timber.e(e, "Error while trying to run MX lookup");
                         }
-                        outgoingReady = true;
-                        Timber.d("Server %s is right for smtp and %s", domain, connectionSecurity.toString());
-                    } catch (AuthenticationFailedException afe) {
-                        if (!useLocalPart) {
-                            Timber.d("Server %s is connected, but authentication failed. Use local part as username this time", domain);
-                            testOutgoing(domain, connectionSecurity, true);
-                        }
-                        else {
-                            Timber.d("Server %s is connected, but authentication failed for both email address and local-part", domain);
-                        }
-                    } catch (URISyntaxException | MessagingException ignored) {
-                        Timber.d("Unknown error occurred when using OAuth 2.0");
                     }
-                }
+
+                    final ProviderInfo mProviderInfo = providerInfo;
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        onPostExecute(mProviderInfo);
+                    });
+
+                });
+            }
+            return mService;
+        }
+
+        protected void onPostExecute(ProviderInfo providerInfo) {
+            if (canceled) {
+                return;
             }
 
-            @Override
-            protected void onProgressUpdate(Integer... values) {
-                super.onProgressUpdate(values);
-                view.setMessage(values[0]);
+            if (incomingReady && outgoingReady) {
+                accountConfig.setDescription(accountConfig.getEmail());
+                view.goToAccountNames();
+                return;
+            }
+            else if (incomingReady) {
+                view.goToOutgoing();
+                return;
+            }
+            try {
+                if (providerInfo != null) {
+                    provider = Provider.newInstanceFromProviderInfo(providerInfo);
+                }
+
+                if (provider != null) {
+                    autoconfiguration = true;
+
+                    boolean usingOAuth2 = canOAuth2(email);
+                    modifyAccount(accountConfig.getEmail(), password, provider, usingOAuth2);
+
+                    checkIncomingAndOutgoing();
+                }
+            } catch (URISyntaxException e) {
+                Timber.e(e, "Error while converting providerInfo to provider");
+                provider = null;
             }
 
-            @Override
-            protected void onPostExecute(ProviderInfo providerInfo) {
-                super.onPostExecute(providerInfo);
+            if (provider == null) {
+                autoconfiguration = false;
+                manualSetup(accountConfig.getEmail(), password);
+            }
+        }
 
-                if (canceled) {
-                    return;
-                }
+        @Nullable
+        private ProviderInfo autoconfigureDomain(String domain) {
+            ProviderInfo providerInfo;
+            AutoconfigureMozilla autoconfigureMozilla = new AutoconfigureMozilla();
+            AutoconfigureSrv autoconfigureSrv = new AutoconfigureSrv();
+            AutoConfigureAutodiscover autodiscover = new AutoConfigureAutodiscover();
 
-                if (incomingReady && outgoingReady) {
-                    accountConfig.setDescription(accountConfig.getEmail());
-                    view.goToAccountNames();
-                    return;
-                }
-                else if (incomingReady) {
-                    view.goToOutgoing();
-                    return;
-                }
+            provider = findProviderForDomain(domain);
+
+            if (provider != null)
+                return null;
+
+            providerInfo = autoconfigureMozilla.findProviderInfo(email);
+            if (providerInfo != null)
+                return providerInfo;
+
+            providerInfo = autoconfigureSrv.findProviderInfo(email);
+            if (providerInfo != null)
+                return providerInfo;
+
+            providerInfo = autodiscover.findProviderInfo(email);
+            if (providerInfo != null)
+                return providerInfo;
+
+            testDomain(domain);
+
+            return null;
+        }
+
+        private void testDomain(String domain) {
+            String guessedDomainForMailPrefix;
+            //noinspection ConstantConditions
+            if (domain.startsWith("mail.")) {
+                guessedDomainForMailPrefix = domain;
+            }
+            else {
+                guessedDomainForMailPrefix = "mail." + domain;
+            }
+
+            Timber.d("Test %s for imap", guessedDomainForMailPrefix);
+            testIncoming(guessedDomainForMailPrefix, false);
+
+            Timber.d("Test %s for smtp and starttls", guessedDomainForMailPrefix);
+            testOutgoing(guessedDomainForMailPrefix, ConnectionSecurity.STARTTLS_REQUIRED, false);
+
+            Timber.d("Test %s for smtp and ssl/tls", guessedDomainForMailPrefix);
+            testOutgoing(guessedDomainForMailPrefix, ConnectionSecurity.SSL_TLS_REQUIRED, false);
+
+            String domainWithImapPrefix = "imap." + domain;
+            Timber.d("Test %s for imap", domainWithImapPrefix);
+            testIncoming(domainWithImapPrefix, false);
+
+            String domainWithSmtpPrefix = "smtp." + domain;
+            Timber.d("Test %s for smtp and starttls", domainWithSmtpPrefix);
+            testOutgoing(domainWithSmtpPrefix, ConnectionSecurity.STARTTLS_REQUIRED, false);
+
+            Timber.d("Test %s for smtp and ssl/tls", domainWithSmtpPrefix);
+            testOutgoing(domainWithSmtpPrefix, ConnectionSecurity.SSL_TLS_REQUIRED, false);
+        }
+
+        private void testIncoming(String domain, boolean useLocalPart) {
+            if (!incomingReady) {
                 try {
-                    if (providerInfo != null) {
-                        provider = Provider.newInstanceFromProviderInfo(providerInfo);
+                    accountConfig.setStoreUri(getDefaultStoreURI(
+                            useLocalPart ? EmailHelper.getLocalPartFromEmailAddress(email) : email,
+                            password, domain).toString());
+                    accountConfig.getRemoteStore().checkSettings();
+                    incomingReady = true;
+                    Timber.d("Server %s is right for imap", domain);
+                } catch (AuthenticationFailedException afe) {
+                    if (!useLocalPart) {
+                        Timber.d("Server %s is connected, but authentication failed. Use local part as username this time", domain);
+                        testIncoming(domain, true);
                     }
-
-                    if (provider != null) {
-                        autoconfiguration = true;
-
-                        boolean usingOAuth2 = false;
-                        if (canOAuth2(email)) {
-                            usingOAuth2 = true;
-                        }
-                        modifyAccount(accountConfig.getEmail(), password, provider, usingOAuth2);
-
-                        checkIncomingAndOutgoing();
+                    else {
+                        Timber.d("Server %s is connected, but authentication failed for both email address and local-part", domain);
                     }
-                } catch (URISyntaxException e) {
-                    Timber.e(e, "Error while converting providerInfo to provider");
-                    provider = null;
-                }
-
-                if (provider == null) {
-                    autoconfiguration = false;
-                    manualSetup(accountConfig.getEmail(), password);
+                } catch (URISyntaxException | MessagingException ignored) {
+                    Timber.d("Unknown error occurred when using OAuth 2.0");
                 }
             }
-        }.execute();
+        }
+
+        private void testOutgoing(String domain, ConnectionSecurity connectionSecurity, boolean useLocalPart) {
+            if (!outgoingReady) {
+                try {
+                    accountConfig.setTransportUri(getDefaultTransportURI(
+                            useLocalPart ? EmailHelper.getLocalPartFromEmailAddress(email) : email,
+                            password, domain, connectionSecurity).toString());
+                    Transport transport = TransportProvider.getInstance().getTransport(context, accountConfig,
+                            Globals.getOAuth2TokenProvider());
+                    transport.close();
+                    try {
+                        transport.open();
+                    } finally {
+                        transport.close();
+                    }
+                    outgoingReady = true;
+                    Timber.d("Server %s is right for smtp and %s", domain, connectionSecurity.toString());
+                } catch (AuthenticationFailedException afe) {
+                    if (!useLocalPart) {
+                        Timber.d("Server %s is connected, but authentication failed. Use local part as username this time", domain);
+                        testOutgoing(domain, connectionSecurity, true);
+                    }
+                    else {
+                        Timber.d("Server %s is connected, but authentication failed for both email address and local-part", domain);
+                    }
+                } catch (URISyntaxException | MessagingException ignored) {
+                    Timber.d("Unknown error occurred when using OAuth 2.0");
+                }
+            }
+        }
+
+        protected void onProgressUpdate(Integer... values) {
+            // super.onProgressUpdate(values);
+            view.setMessage(values[0]);
+        }
     }
 
     private void checkIncomingAndOutgoing() {
@@ -575,10 +577,10 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     }
 
     /**
-     * FIXME: Don't use an AsyncTask to perform network operations.
-     * See also discussion in https://github.com/k9mail/k-9/pull/560
+     * FIXME: Don't use an ExecutorService to perform network operations.
+     * See also discussion in <a href="https://github.com/k9mail/k-9/pull/560">...</a>
      */
-    private abstract class CheckAccountTask extends AsyncTask<CheckDirection, Integer, Boolean> {
+    private abstract class CheckAccountTask {
         private final AccountConfig accountConfig;
         private final CheckSettingsSuccessCallback callback;
 
@@ -594,7 +596,18 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         abstract void checkSettings()
                 throws Exception;
 
-        @Override
+        public void execute() {
+            try (ExecutorService eService = Executors.newSingleThreadExecutor()) {
+                eService.execute(() -> {
+                    final Boolean success = doInBackground();
+
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        onPostExecute(success);
+                    });
+                });
+            }
+        }
+
         protected Boolean doInBackground(CheckDirection... params) {
             try {
                 checkSettings();
@@ -625,10 +638,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
             return false;
         }
 
-        @Override
         protected void onPostExecute(Boolean bool) {
-            super.onPostExecute(bool);
-
             /*
              * This task could be interrupted at any point, but network operations can block,
              * so relying on InterruptedException is not enough. Instead, check after
@@ -648,7 +658,9 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
             ctrl.clearCertificateErrorNotifications((Account) accountConfig, direction);
         }
 
-        @Override
+        protected void publishProgress(int msgId) {
+        }
+
         protected void onProgressUpdate(Integer... values) {
             view.setMessage(values[0]);
         }
@@ -712,7 +724,8 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         return new URI("imap+ssl+", userInfo, server, 993, null, null, null);
     }
 
-    private URI getDefaultTransportURI(String username, String password, String server, ConnectionSecurity connectionSecurity)
+    private URI getDefaultTransportURI(String username, String password, String server, ConnectionSecurity
+            connectionSecurity)
             throws URISyntaxException {
         String passwordEnc = UrlEncodingHelper.encodeUtf8(password);
         String userInfo = username + ":" + passwordEnc;
@@ -1027,9 +1040,9 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         void onCheckSuccess();
     }
 
-    // endregion checking
+// endregion checking
 
-    // region incoming
+// region incoming
 
     @Override
     public void onIncomingStart(boolean editSettings) {
@@ -1320,9 +1333,9 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         return context.getString(id);
     }
 
-    // endregion incoming
+// endregion incoming
 
-    // region names
+// region names
 
     @Override
     public void onNamesStart() {
@@ -1354,7 +1367,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         view.goToListAccounts();
     }
 
-    // endregion names
+// endregion names
 
     // region outgoing
     @Override
@@ -1406,7 +1419,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
             }
 
             if (outgoingSettings.port != -1) {
-                currentOutgoingPort = String.valueOf(outgoingSettings.port);
+                currentOutgoingPort = java.lang.String.valueOf(outgoingSettings.port);
                 view.setPortInOutgoing(currentOutgoingPort);
             }
         } catch (Exception e) {
@@ -1631,14 +1644,14 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         accountConfig.setStoreUri(uri.toString());
         view.goToIncomingSettings();
     }
-
     // endregion account type
 
     @Override
     public void onBackPressed() {
-        if (findProviderTask != null && !findProviderTask.isCancelled()) {
-            findProviderTask.cancel(true);
+        if (findProviderTask != null && !findProviderTask.isTerminated()) {
+            findProviderTask.close();
         }
+
         switch (stage) {
             case AUTOCONFIGURATION:
             case AUTOCONFIGURATION_INCOMING_CHECKING:
@@ -1647,6 +1660,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
                 stage = Stage.BASICS;
                 view.goToBasics();
                 break;
+
             case INCOMING:
                 if (!editSettings) {
                     stage = Stage.ACCOUNT_TYPE;
@@ -1656,10 +1670,12 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
                     view.end();
                 }
                 break;
+
             case INCOMING_CHECKING:
                 stage = Stage.INCOMING;
                 view.goToIncoming();
                 break;
+
             case OUTGOING:
                 if (!editSettings) {
                     stage = Stage.INCOMING;
@@ -1669,6 +1685,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
                     view.end();
                 }
                 break;
+
             case OUTGOING_CHECKING:
             case ACCOUNT_NAMES:
                 if (autoconfiguration) {
@@ -1680,6 +1697,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
                     view.goToOutgoing();
                 }
                 break;
+
             default:
                 view.end();
                 break;
@@ -1782,29 +1800,30 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
     public void onOAuthCodeGot(final String code) {
         oAuth2CodeGotten = true;
         view.closeAuthDialog();
-        new AsyncTask<Void, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(Void... params) {
+
+        try (ExecutorService eService = Executors.newSingleThreadExecutor()) {
+            eService.execute(() -> {
+                boolean success;
                 try {
                     Globals.getOAuth2TokenProvider().getAuthorizationCodeFlowTokenProvider().exchangeCode(accountConfig.getEmail(), code);
+                    success = true;
                 } catch (AuthenticationFailedException e) {
-                    return false;
+                    success = false;
                 }
-                return true;
-            }
 
-            @Override
-            protected void onPostExecute(Boolean result) {
-                if (result) {
-                    checkIncomingAndOutgoing();
-                }
-                else {
-                    oAuth2CodeGotten = false;
-                    view.goToBasics();
-                    view.showErrorDialog("Error when exchanging code");
-                }
-            }
-        }.execute();
+                boolean finalSuccess = success;
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    if (finalSuccess) {
+                        checkIncomingAndOutgoing();
+                    }
+                    else {
+                        oAuth2CodeGotten = false;
+                        view.goToBasics();
+                        view.showErrorDialog("Error when exchanging code");
+                    }
+                });
+            });
+        }
     }
 
     @Override
@@ -1845,7 +1864,7 @@ public class AccountSetupPresenter implements AccountSetupContract.Presenter, Oa
         destroyed = false;
     }
 
-    static class AccountSetupStatus {
+    public static class AccountSetupStatus {
         private final ConnectionSecurity incomingSecurityType;
         private final AuthType incomingAuthType;
         private final String incomingPort;

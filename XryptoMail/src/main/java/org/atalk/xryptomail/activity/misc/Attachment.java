@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.core.os.ParcelCompat;
+
 /**
  * Container class for information about an attachment.
  *
@@ -96,8 +98,8 @@ public class Attachment implements Parcelable {
         this.filename = filename;
     }
     private Attachment(Parcel in) {
-        uri = in.readParcelable(Uri.class.getClassLoader());
-        state = (LoadingState) in.readSerializable();
+        uri = ParcelCompat.readParcelable(in, Uri.class.getClassLoader(), Uri.class);
+        state = ParcelCompat.readSerializable(in, null, LoadingState.class);
         loaderId = in.readInt();
         contentType = in.readString();
         allowMessageType = in.readInt() != 0;

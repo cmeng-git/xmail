@@ -1,6 +1,5 @@
 package org.atalk.xryptomail.activity;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +9,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.BaseAccount;
-import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.FontSizes;
 import org.atalk.xryptomail.Preferences;
 import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.search.SearchAccount;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Activity displaying the list of accounts.
@@ -30,7 +31,7 @@ import java.util.List;
  * </p>
  */
 public abstract class AccountList extends XMListActivity implements OnItemClickListener {
-	private final FontSizes mFontSizes = XryptoMail.getFontSizes();
+    private final FontSizes mFontSizes = XryptoMail.getFontSizes();
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -61,12 +62,12 @@ public abstract class AccountList extends XMListActivity implements OnItemClickL
     /**
      * Create a new {@link AccountsAdapter} instance and assign it to the {@link ListView}.
      *
-     * @param realAccounts  An array of accounts to display.
+     * @param realAccounts An array of accounts to display.
      */
     public void populateListView(List<Account> realAccounts) {
-		List<BaseAccount> accounts = new ArrayList<>();
+        List<BaseAccount> accounts = new ArrayList<>();
 
-		if (displaySpecialAccounts() && !XryptoMail.isHideSpecialAccounts()) {
+        if (displaySpecialAccounts() && !XryptoMail.isHideSpecialAccounts()) {
             BaseAccount unifiedInboxAccount = SearchAccount.createUnifiedInboxAccount(this);
             BaseAccount allMessagesAccount = SearchAccount.createAllMessagesAccount(this);
 
@@ -91,8 +92,7 @@ public abstract class AccountList extends XMListActivity implements OnItemClickL
     /**
      * This method will be called when an account was selected.
      *
-     * @param account
-     *         The account the user selected.
+     * @param account The account the user selected.
      */
     protected abstract void onAccountSelected(BaseAccount account);
 
@@ -108,7 +108,8 @@ public abstract class AccountList extends XMListActivity implements OnItemClickL
             final View view;
             if (convertView != null) {
                 view = convertView;
-            } else {
+            }
+            else {
                 view = getLayoutInflater().inflate(R.layout.accounts_item, parent, false);
                 view.findViewById(R.id.active_icons).setVisibility(View.GONE);
                 view.findViewById(R.id.folders).setVisibility(View.GONE);
@@ -126,7 +127,8 @@ public abstract class AccountList extends XMListActivity implements OnItemClickL
             String description = account.getDescription();
             if (account.getEmail().equals(description)) {
                 holder.email.setVisibility(View.GONE);
-            } else {
+            }
+            else {
                 holder.email.setVisibility(View.VISIBLE);
                 holder.email.setText(account.getEmail());
             }
@@ -140,7 +142,8 @@ public abstract class AccountList extends XMListActivity implements OnItemClickL
             if (account instanceof Account) {
                 Account realAccount = (Account) account;
                 holder.chip.setBackgroundColor(realAccount.getChipColor());
-            } else {
+            }
+            else {
                 holder.chip.setBackgroundColor(0xff999999);
             }
 
@@ -161,15 +164,15 @@ public abstract class AccountList extends XMListActivity implements OnItemClickL
     /**
      * Load accounts in a background thread
      */
-    class LoadAccounts extends AsyncTask<Void, Void, List<Account>> {
-        @Override
-        protected List<Account> doInBackground(Void... params) {
-            return Preferences.getPreferences(getApplicationContext()).getAccounts();
-        }
+    class LoadAccounts {
+        public void execute() {
+            try (ExecutorService eService = Executors.newSingleThreadExecutor()) {
+                eService.execute(() -> {
+                    final List<Account> accounts = Preferences.getPreferences(getApplicationContext()).getAccounts();
 
-        @Override
-        protected void onPostExecute(List<Account> accounts) {
-            populateListView(accounts);
+                    runOnUiThread(() -> populateListView(accounts));
+                });
+            }
         }
     }
 }

@@ -7,7 +7,6 @@ import static org.atalk.xryptomail.mail.ServerSettings.Type.WebDAV;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +16,10 @@ import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.CookieManager;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -32,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -121,7 +124,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     @SuppressWarnings("FieldCanBeLocal")
     private Button doneButton;
     private ViewFlipper flipper;
-    Dialog authDialog;
+    AlertDialog authDialog;
 
     @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private int position;
@@ -139,7 +142,6 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.account_setup);
 
         flipper = findViewById(R.id.view_flipper);
@@ -197,6 +199,7 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
                 goToAccountNames();
                 break;
         }
+        getOnBackPressedDispatcher().addCallback(backPressedCallback);
     }
 
     @Override
@@ -247,12 +250,10 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
     private TextWatcher validationTextWatcherInBasics = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
         }
 
         @Override
@@ -1216,15 +1217,16 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
         return i;
     }
 
-    @SuppressLint("MissingSuperCall")
-    @Override
-    public void onBackPressed() {
-        presenter.onBackPressed();
-    }
+    OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            presenter.onBackPressed();
+        }
+    };
 
     @Override
     public void goBack() {
-        onBackPressed();
+        presenter.onBackPressed();
     }
 
     @Override
@@ -1232,47 +1234,66 @@ public class AccountSetupActivity extends AppCompatActivity implements AccountSe
         startActivityForResult(intent, requestCode);
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void openGmailUrl(String url) {
-        CookieManager cookieManager = CookieManager.getInstance();
-        //noinspection deprecation
-        cookieManager.removeAllCookie();
-
-        authDialog = new Dialog(this);
-        authDialog.setContentView(R.layout.oauth_webview);
-        WebView web = authDialog.findViewById(R.id.web_view);
-        web.getSettings().setSaveFormData(false);
-        web.getSettings().setJavaScriptEnabled(true);
-        web.getSettings().setUserAgentString("XryptoMail " + BuildConfig.VERSION_NAME);
-        web.setWebViewClient(new GmailWebViewClient(presenter));
-
-        authDialog.setTitle(R.string.linked_webview_title_gmail);
-        authDialog.setCancelable(true);
-        authDialog.setOnDismissListener(dialog -> presenter.onWebViewDismiss());
-        authDialog.show();
-        web.loadUrl(url);
+        WebView webView = setUpAuthDialog();
+        webView.setWebViewClient(new GmailWebViewClient(presenter));
+        // authDialog.setTitle(R.string.linked_webview_title_gmail);
+        webView.loadUrl(url);
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void openOutlookUrl(String url) {
+        WebView webView = setUpAuthDialog();
+        webView.setWebViewClient(new OutlookWebViewClient(presenter));
+        // no use; not showing in dialog
+        // authDialog.setTitle(R.string.linked_webview_title_outlook);
+        webView.loadUrl(url);
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private WebView setUpAuthDialog() {
         CookieManager cookieManager = CookieManager.getInstance();
-        //noinspection deprecation
-        cookieManager.removeAllCookie();
+        cookieManager.removeAllCookies(null);
 
-        authDialog = new Dialog(this);
-        authDialog.setContentView(R.layout.oauth_webview);
-        WebView web = authDialog.findViewById(R.id.web_view);
-        web.getSettings().setSaveFormData(false);
-        web.getSettings().setJavaScriptEnabled(true);
-        web.getSettings().setUserAgentString("XryptoMail " + BuildConfig.VERSION_NAME);
-        web.setWebViewClient(new OutlookWebViewClient(presenter));
+        authDialog = new AlertDialog.Builder(this)
+                .setView(R.layout.oauth_webview)
+                .setCancelable(true)
+                .setOnDismissListener(dialog -> presenter.onWebViewDismiss())
+                .show();
 
-        authDialog.setTitle(R.string.linked_webview_title_outlook);
-        authDialog.setCancelable(true);
-        authDialog.setOnDismissListener(dialog -> presenter.onWebViewDismiss());
-        authDialog.show();
+        // Must include this to show soft keyboard on webPage
+        Window window = authDialog.getWindow();
+        if (window != null) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
 
-        web.loadUrl(url);
+//        authDialog = new Dialog(this);
+//        authDialog.setContentView(R.layout.oauth_webview);
+//        authDialog.setCancelable(true);
+//        authDialog.setOnDismissListener(dialog -> presenter.onWebViewDismiss());
+
+        // set dialog layout to avoid content clipping; not working in API-36, use AlertDialog instead.
+//        Window window = authDialog.getWindow();
+//        if (window != null) {
+//            // window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//            window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        }
+
+        final WebView webView = authDialog.findViewById(R.id.web_view);
+        final WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setSaveFormData(false);
+
+        // ** Id-Version has problem with outlook.com auth site, content not showing for API-27-
+        // But XMail Id-Version is required by gmail.com
+        // getUserAgentString: outlook.com not working Mozilla/5.0 (Linux; Android 8.0.0; Android SDK built for x86 Build/OSR1.170901.043; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/58.0.3029.125 Mobile Safari/537.36
+        String agent = "Mozilla/5.0 (Linux; Android 7.0; Nexus 4 Build/KRT16H) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/58.0.3029.125 Mobile Safari/537.36";
+        webSettings.setUserAgentString(String.format("%s/%s %s", BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME, agent));
+        return webView;
     }
 
     @Override

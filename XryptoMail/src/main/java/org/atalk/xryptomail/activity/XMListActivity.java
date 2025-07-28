@@ -15,29 +15,25 @@ import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.activity.XMActivityCommon.XMActivityMagic;
 import org.atalk.xryptomail.activity.misc.SwipeGestureDetector.OnSwipeGestureListener;
 
-public abstract class XMListActivity extends ListActivity implements XMActivityMagic
-{
+public abstract class XMListActivity extends ListActivity implements XMActivityMagic {
     private XMActivityCommon mBase;
     protected ListAdapter adapter;
     protected ListView list;
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         mBase = XMActivityCommon.newInstance(this);
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent event)
-    {
+    public boolean dispatchTouchEvent(MotionEvent event) {
         mBase.preDispatchTouchEvent(event);
         return super.dispatchTouchEvent(event);
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
     }
 
@@ -46,14 +42,12 @@ public abstract class XMListActivity extends ListActivity implements XMActivityM
     }
 
     @Override
-    public void setupGestureDetector(OnSwipeGestureListener listener)
-    {
+    public void setupGestureDetector(OnSwipeGestureListener listener) {
         mBase.setupGestureDetector(listener);
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         // Shortcuts that work no matter what is selected
         if (XryptoMail.useVolumeKeysForListNavigationEnabled()
                 && (keyCode == KeyEvent.KEYCODE_VOLUME_UP
@@ -78,8 +72,7 @@ public abstract class XMListActivity extends ListActivity implements XMActivityM
     }
 
     @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event)
-    {
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
         // Swallow these events too to avoid the audible notification of a volume change
         if (XryptoMail.useVolumeKeysForListNavigationEnabled()
                 && ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)

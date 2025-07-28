@@ -19,6 +19,7 @@ package org.atalk.xryptomail.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -61,7 +62,7 @@ public class Splash extends FragmentActivity {
 
     public void startOnlineUpdate() {
         // run a thread with delay SPLASH_SCREEN_SHOW_TIME before returning to defined home screen
-        new Handler().postDelayed(() -> {
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
             // Start update service for debug version only
             if (BuildConfig.DEBUG) {
                 Timber.d("Online Update service started!");

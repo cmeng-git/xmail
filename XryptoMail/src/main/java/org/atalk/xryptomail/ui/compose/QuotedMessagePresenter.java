@@ -2,6 +2,9 @@ package org.atalk.xryptomail.ui.compose;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+
+import androidx.core.os.BundleCompat;
+
 import timber.log.Timber;
 
 import org.atalk.xryptomail.*;
@@ -148,17 +151,15 @@ public class QuotedMessagePresenter {
     }
 
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        mQuotedHtmlContent = (InsertableHtmlContent) savedInstanceState.getSerializable(STATE_KEY_HTML_QUOTE);
+        mQuotedHtmlContent = BundleCompat.getSerializable(savedInstanceState, STATE_KEY_HTML_QUOTE, InsertableHtmlContent.class);
         if (mQuotedHtmlContent != null && mQuotedHtmlContent.getQuotedContent() != null) {
             // we don't have the part here, but inline-displayed images are cached by the webview
             view.setQuotedHtml(mQuotedHtmlContent.getQuotedContent(), null);
         }
-        mQuotedTextFormat = (SimpleMessageFormat) savedInstanceState.getSerializable(
-                STATE_KEY_QUOTED_TEXT_FORMAT);
+        mQuotedTextFormat = BundleCompat.getSerializable(savedInstanceState, STATE_KEY_QUOTED_TEXT_FORMAT, SimpleMessageFormat.class);
         mForcePlainText = savedInstanceState.getBoolean(STATE_KEY_FORCE_PLAIN_TEXT);
 
-        showOrHideQuotedText(
-                (QuotedTextMode) savedInstanceState.getSerializable(STATE_KEY_QUOTED_TEXT_MODE));
+        showOrHideQuotedText(BundleCompat.getSerializable(savedInstanceState, STATE_KEY_QUOTED_TEXT_MODE, QuotedTextMode.class));
     }
 
     public void processMessageToForward(MessageViewInfo messageViewInfo) throws MessagingException {

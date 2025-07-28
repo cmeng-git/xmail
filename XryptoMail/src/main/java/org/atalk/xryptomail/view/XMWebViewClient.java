@@ -50,11 +50,6 @@ public class XMWebViewClient extends WebViewClient {
     }
 
     @Override
-    public boolean shouldOverrideUrlLoading(WebView webView, String url) {
-        return shouldOverrideUrlLoading(webView, Uri.parse(url));
-    }
-
-    @Override
     public boolean shouldOverrideUrlLoading(WebView webView, WebResourceRequest request) {
         return shouldOverrideUrlLoading(webView, request.getUrl());
     }

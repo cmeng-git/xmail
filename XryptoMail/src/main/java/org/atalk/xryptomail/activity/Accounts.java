@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,6 +15,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.SparseBooleanArray;
@@ -65,7 +65,7 @@ import org.atalk.xryptomail.Preferences;
 import org.atalk.xryptomail.R;
 import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.activity.compose.MessageActions;
-import org.atalk.xryptomail.activity.misc.ExtendedAsyncTask;
+import org.atalk.xryptomail.activity.misc.ExtendedExecutorService;
 import org.atalk.xryptomail.activity.misc.NonConfigurationInstance;
 import org.atalk.xryptomail.activity.setup.AccountSettings;
 import org.atalk.xryptomail.activity.setup.AccountSetupActivity;
@@ -73,6 +73,7 @@ import org.atalk.xryptomail.activity.setup.Prefs;
 import org.atalk.xryptomail.activity.setup.WelcomeMessage;
 import org.atalk.xryptomail.controller.MessagingController;
 import org.atalk.xryptomail.helper.FileBackend;
+import org.atalk.xryptomail.helper.ProgressDialog;
 import org.atalk.xryptomail.helper.SizeFormatter;
 import org.atalk.xryptomail.mail.AuthType;
 import org.atalk.xryptomail.mail.ServerSettings;
@@ -441,7 +442,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
         }
 
         runOnUiThread(() -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 ChangeLog cl = new ChangeLog(Accounts.this);
                 if (cl.isFirstRun() && !isFinishing()) {
                     cl.getLogDialog().show();
@@ -538,7 +539,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
     }
 
     /**
-     * Save the reference to a currently displayed dialog or a running AsyncTask (if available).
+     * Save the reference to a currently displayed dialog or a running Executor Service (if available).
      */
     @Override
     public Object onRetainNonConfigurationInstance() {
@@ -803,10 +804,10 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                 dialog.dismiss();
 
                 // Set the server passwords in the background
-                SetPasswordsAsyncTask asyncTask = new SetPasswordsAsyncTask(activity, mAccount,
+                SetPasswordTask execTask = new SetPasswordTask(activity, mAccount,
                         incomingPassword, outgoingPassword, mRemainingAccounts);
-                activity.setNonConfigurationInstance(asyncTask);
-                asyncTask.execute();
+                activity.setNonConfigurationInstance(execTask);
+                execTask.execute(null);
             });
             builder.setNegativeButton(activity.getString(R.string.cancel_action), (dialog, which) -> {
                 dialog.dismiss();
@@ -935,14 +936,14 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
     /**
      * Set the incoming/outgoing server password in the background.
      */
-    private static class SetPasswordsAsyncTask extends ExtendedAsyncTask<Void, Void, Void> {
+    private static class SetPasswordTask extends ExtendedExecutorService<Void, Void, Void> {
         private final Account mAccount;
         private final String mIncomingPassword;
         private final String mOutgoingPassword;
         private final List<Account> mRemainingAccounts;
         private final Application mApplication;
 
-        protected SetPasswordsAsyncTask(Activity activity, Account account,
+        protected SetPasswordTask(Activity activity, Account account,
                 String incomingPassword, String outgoingPassword, List<Account> remainingAccounts) {
             super(activity);
             mAccount = account;
@@ -958,7 +959,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
             int passwordCount = (mOutgoingPassword == null) ? 1 : 2;
             String message = mActivity.getResources().getQuantityString(
                     R.plurals.settings_import_setting_passwords, passwordCount);
-            mProgressDialog = ProgressDialog.show(mActivity, title, message, true);
+            mPDialogId = ProgressDialog.show(mActivity, title, message, true);
         }
 
         @Override
@@ -1062,6 +1063,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                             }
                         });
             }
+
             case DIALOG_CLEAR_ACCOUNT: {
                 if (mSelectedContextAccount == null) {
                     return null;
@@ -1079,6 +1081,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                             }
                         });
             }
+
             case DIALOG_RECREATE_ACCOUNT: {
                 if (mSelectedContextAccount == null) {
                     return null;
@@ -1097,6 +1100,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                             }
                         });
             }
+
             case DIALOG_NO_FILE_MANAGER: {
                 return ConfirmationDialog.create(this, id,
                         R.string.import_dialog_error_title,
@@ -1189,9 +1193,9 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
     }
 
     private void onMove(final Account account, final boolean up) {
-        MoveAccountAsyncTask asyncTask = new MoveAccountAsyncTask(this, account, up);
-        setNonConfigurationInstance(asyncTask);
-        asyncTask.execute();
+        MoveAccountTask execTask = new MoveAccountTask(this, account, up);
+        setNonConfigurationInstance(execTask);
+        execTask.execute(null);
     }
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -1221,7 +1225,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                 exportDB();
                 break;
             case R.id.app_info_setting:
-                PermissionsActivity.onInfoButtonClicked(this);
+                PermissionsActivity.onAppInfoButtonClicked(this);
                 break;
             case R.id.search:
                 onSearchRequested();
@@ -1356,9 +1360,9 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
     }
 
     private void onImport(Uri uri) {
-        ListImportContentsAsyncTask asyncTask = new ListImportContentsAsyncTask(this, uri);
-        setNonConfigurationInstance(asyncTask);
-        asyncTask.execute();
+        ListImportContentsTask execTask = new ListImportContentsTask(this, uri);
+        setNonConfigurationInstance(execTask);
+        execTask.execute(null);
     }
 
     private void showSimpleDialog(int headerRes, int messageRes, Object... args) {
@@ -1600,10 +1604,10 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
                 dialog.dismiss();
                 activity.setNonConfigurationInstance(null);
 
-                ImportAsyncTask importAsyncTask
-                        = new ImportAsyncTask(activity, includeGlobals, accountUuids, overwrite, mUri);
-                activity.setNonConfigurationInstance(importAsyncTask);
-                importAsyncTask.execute();
+                ImportTask importTask
+                        = new ImportTask(activity, includeGlobals, accountUuids, overwrite, mUri);
+                activity.setNonConfigurationInstance(importTask);
+                importTask.execute(null);
             });
             builder.setNegativeButton(R.string.cancel_action, (dialog, which) -> {
                 dialog.dismiss();
@@ -1809,21 +1813,21 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
     }
 
     private void startExport(boolean exportGlobalSettings, ArrayList<String> exportAccountUuids, Uri documentsUri) {
-        ExportAsyncTask asyncTask = new ExportAsyncTask(this, exportGlobalSettings, exportAccountUuids, documentsUri);
-        setNonConfigurationInstance(asyncTask);
-        asyncTask.execute();
+        ExportTask execTask = new ExportTask(this, exportGlobalSettings, exportAccountUuids, documentsUri);
+        setNonConfigurationInstance(execTask);
+        execTask.execute(null);
     }
 
     /**
      * Handles exporting of global settings and/or accounts in a background thread.
      */
-    private static class ExportAsyncTask extends ExtendedAsyncTask<Void, Void, Boolean> {
+    private static class ExportTask extends ExtendedExecutorService<Void, Void, Boolean> {
         private final boolean mIncludeGlobals;
         private Set<String> mAccountUuids;
         private String mFileName;
         private final Uri mUri;
 
-        private ExportAsyncTask(Accounts activity, boolean includeGlobals, List<String> accountUuids, Uri uri) {
+        private ExportTask(Accounts activity, boolean includeGlobals, List<String> accountUuids, Uri uri) {
             super(activity);
             mIncludeGlobals = includeGlobals;
             mUri = uri;
@@ -1836,7 +1840,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
         protected void showProgressDialog() {
             String title = mContext.getString(R.string.settings_export_dialog_title);
             String message = mContext.getString(R.string.settings_exporting);
-            mProgressDialog = ProgressDialog.show(mActivity, title, message, true);
+            mPDialogId = ProgressDialog.show(mActivity, title, message, true);
         }
 
         @Override
@@ -1884,14 +1888,14 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
     /**
      * Handles importing of global settings and/or accounts in a background thread.
      */
-    private static class ImportAsyncTask extends ExtendedAsyncTask<Void, Void, Boolean> {
+    private static class ImportTask extends ExtendedExecutorService<Void, Void, Boolean> {
         private final boolean mIncludeGlobals;
         private final List<String> mAccountUuids;
         private final boolean mOverwrite;
         private final Uri mUri;
         private ImportResults mImportResults;
 
-        private ImportAsyncTask(Accounts activity, boolean includeGlobals,
+        private ImportTask(Accounts activity, boolean includeGlobals,
                 List<String> accountUuids, boolean overwrite, Uri uri) {
             super(activity);
             mIncludeGlobals = includeGlobals;
@@ -1904,7 +1908,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
         protected void showProgressDialog() {
             String title = mContext.getString(R.string.settings_import_dialog_title);
             String message = mContext.getString(R.string.settings_importing);
-            mProgressDialog = ProgressDialog.show(mActivity, title, message, true);
+            mPDialogId = ProgressDialog.show(mActivity, title, message, true);
         }
 
         @Override
@@ -1958,11 +1962,11 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
         }
     }
 
-    private static class ListImportContentsAsyncTask extends ExtendedAsyncTask<Void, Void, Boolean> {
+    private static class ListImportContentsTask extends ExtendedExecutorService<Void, Void, Boolean> {
         private final Uri mUri;
         private ImportContents mImportContents;
 
-        private ListImportContentsAsyncTask(Accounts activity, Uri uri) {
+        private ListImportContentsTask(Accounts activity, Uri uri) {
             super(activity);
             mUri = uri;
         }
@@ -1971,7 +1975,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
         protected void showProgressDialog() {
             String title = mContext.getString(R.string.settings_import_dialog_title);
             String message = mContext.getString(R.string.settings_import_scanning_file);
-            mProgressDialog = ProgressDialog.show(mActivity, title, message, true);
+            mPDialogId = ProgressDialog.show(mActivity, title, message, true);
         }
 
         @Override
@@ -2018,11 +2022,11 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
         }
     }
 
-    private static class MoveAccountAsyncTask extends ExtendedAsyncTask<Void, Void, Void> {
+    private static class MoveAccountTask extends ExtendedExecutorService<Void, Void, Void> {
         private final Account mAccount;
         private final boolean mUp;
 
-        protected MoveAccountAsyncTask(Activity activity, Account account, boolean up) {
+        protected MoveAccountTask(Activity activity, Account account, boolean up) {
             super(activity);
             mAccount = account;
             mUp = up;
@@ -2031,7 +2035,7 @@ public class Accounts extends XMListActivity implements OnItemClickListener {
         @Override
         protected void showProgressDialog() {
             String message = mActivity.getString(R.string.manage_accounts_moving_message);
-            mProgressDialog = ProgressDialog.show(mActivity, null, message, true);
+            mPDialogId = ProgressDialog.show(mActivity, null, message, true);
         }
 
         @Override

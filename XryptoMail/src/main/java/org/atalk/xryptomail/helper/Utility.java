@@ -483,20 +483,7 @@ public class Utility {
     }
 
     /**
-     * @return a {@link Handler} tied to the main thread.
-     */
-    public static Handler getMainThreadHandler() {
-        if (sMainThreadHandler == null) {
-            // No need to synchronize -- it's okay to create an extra Handler, which will be used
-            // only once and then thrown away.
-            sMainThreadHandler = new Handler(Looper.getMainLooper());
-        }
-        return sMainThreadHandler;
-    }
-
-    /**
      * Assign the contact to the badge.
-     *
      * On 4.3, we pass the address name as extra info so that if the contact doesn't exist
      * the name is auto-populated.
      *

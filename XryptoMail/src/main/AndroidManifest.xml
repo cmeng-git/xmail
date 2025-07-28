@@ -39,38 +39,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
 
-    <permission-group
-        android:name="android.permission-group.XMAIL"
-        android:description="@string/message_access_desc"
-        android:icon="@drawable/mailbox"
-        android:label="@string/message_access_permissions"
-        android:permissionGroupFlags="personalInfo"
-        android:priority="360" />
-
-    <permission
-        android:name="${applicationId}.permission.REMOTE_CONTROL"
-        android:description="@string/remote_control_desc"
-        android:label="@string/remote_control_label"
-        android:permissionGroup="android.permission-group.XMAIL"
-        android:protectionLevel="dangerous" />
-    <uses-permission android:name="${applicationId}.permission.REMOTE_CONTROL" />
-
-    <permission
-        android:name="${applicationId}.permission.READ_MESSAGES"
-        android:description="@string/read_messages_desc"
-        android:label="@string/read_messages_label"
-        android:permissionGroup="android.permission-group.XMAIL"
-        android:protectionLevel="dangerous" />
-    <uses-permission android:name="${applicationId}.permission.READ_MESSAGES" />
-
-    <permission
-        android:name="${applicationId}.permission.DELETE_MESSAGES"
-        android:description="@string/delete_messages_desc"
-        android:label="@string/delete_messages_label"
-        android:permissionGroup="android.permission-group.XMAIL"
-        android:protectionLevel="dangerous" />
-    <uses-permission android:name="${applicationId}.permission.DELETE_MESSAGES" />
-
     <queries>
         <package android:name="android.content.pm" />
 
@@ -140,11 +108,7 @@
             android:configChanges="locale"
             android:exported="true"
             android:launchMode="singleTop"
-            android:uiOptions="splitActionBarWhenNarrow">
-            <!-- Split Action Bar to support lower than API-14 -->
-            <meta-data
-                android:name="android.support.UI_OPTIONS"
-                android:value="splitActionBarWhenNarrow" />
+            android:uiOptions="splitActionBarWhenNarrow" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -254,16 +218,6 @@
             android:exported="true"
             android:parentActivityName="org.atalk.xryptomail.activity.Accounts"
             android:uiOptions="splitActionBarWhenNarrow">
-
-            <!-- Parent activity meta-data to support lower than API-16 -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.atalk.xryptomail.activity.Accounts" />
-            <!-- Split Action Bar to support lower than API-14 -->
-            <meta-data
-                android:name="android.support.UI_OPTIONS"
-                android:value="splitActionBarWhenNarrow" />
-
             <intent-filter>
                 <!-- This action is only to allow an entry point for launcher shortcuts -->
                 <action android:name="android.intent.action.MAIN" />
@@ -277,16 +231,6 @@
             android:launchMode="singleTop"
             android:parentActivityName="org.atalk.xryptomail.activity.Accounts"
             android:uiOptions="splitActionBarWhenNarrow">
-
-            <!-- Parent activity meta-data to support lower than API-16-->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.atalk.xryptomail.activity.Accounts" />
-            <!-- Split Action Bar to support lower than API-14 -->
-            <meta-data
-                android:name="android.support.UI_OPTIONS"
-                android:value="splitActionBarWhenNarrow" />
-
             <intent-filter>
                 <!-- This action is only to allow an entry point for launcher shortcuts -->
                 <action android:name="android.intent.action.MAIN" />
@@ -344,14 +288,9 @@
                 <action android:name="android.intent.action.SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
-            <!-- Split Action Bar to support lower than API-14 -->
-            <meta-data
-                android:name="android.support.UI_OPTIONS"
-                android:value="splitActionBarWhenNarrow" />
         </activity>
         <activity
             android:name="org.atalk.xryptomail.activity.LauncherShortcuts"
@@ -386,7 +325,7 @@
             android:theme="@android:style/Theme.Holo.Dialog.MinWidth" />
 
         <receiver
-            android:name="org.atalk.xryptomail.service.BootReceiver"
+            android:name="org.atalk.xryptomail.service.SystemEventReceiver"
             android:directBootAware="true"
             android:enabled="true"
             android:exported="true"
@@ -409,18 +348,6 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="com.android.sync.SYNC_CONN_STATUS_CHANGED" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="org.atalk.xryptomail.service.RemoteControlReceiver"
-            android:enabled="true"
-            android:exported="false"
-            android:permission="${applicationId}.permission.REMOTE_CONTROL">
-            <intent-filter>
-                <action android:name="${applicationId}.K9RemoteControl.set" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="${applicationId}.K9RemoteControl.requestAccounts" />
             </intent-filter>
         </receiver>
 
@@ -537,9 +464,7 @@
             android:authorities="${applicationId}.messageprovider"
             android:exported="false"
             android:grantUriPermissions="true"
-            android:multiprocess="true"
-            android:readPermission="${applicationId}.permission.READ_MESSAGES"
-            android:writePermission="${applicationId}.permission.DELETE_MESSAGES" />
+            android:multiprocess="true" />
 
         <provider
             android:name="org.atalk.xryptomail.provider.EmailProvider"

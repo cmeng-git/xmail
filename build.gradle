@@ -1,21 +1,21 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
+        maven { url = 'https://jitpack.io' }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20"
+        classpath 'com.android.tools.build:gradle:8.11.1'
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21'
+
+        // gradle-1.0.1 not compatible with gradle 7.x; use master release instead
+        classpath 'com.github.shevek.jarjar:jarjar-gradle:9a7eca7'
+
+        // NOTE: Do not place your application dependencies here;
+        // they belong in the individual module build.gradle files
     }
 }
 
@@ -35,12 +35,12 @@ project.ext {
     testCoverage = project.hasProperty('testCoverage')
     optimizeForDevelopment = project.hasProperty('optimizeForDevelopment') && optimizeForDevelopment
 
-    minSdk = 24
-    compileSdk = 34
-    buildToolsVersion = '34.0.0'
+    // Move up to 26, else too many third parties with nonclassfound
+    minSdk = 26
+    compileSdk = 36
+    buildTools = '36.0.0'
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-

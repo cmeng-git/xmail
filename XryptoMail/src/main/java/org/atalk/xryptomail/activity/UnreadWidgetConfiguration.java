@@ -24,8 +24,7 @@ import timber.log.Timber;
 /**
  * Activity to select an account for the unread widget.
  */
-public class UnreadWidgetConfiguration extends XMPreferenceActivity
-{
+public class UnreadWidgetConfiguration extends XMPreferenceActivity {
     /**
      * Name of the preference file to store the widget configuration.
      */
@@ -128,7 +127,8 @@ public class UnreadWidgetConfiguration extends XMPreferenceActivity
         if (SearchAccount.UNIFIED_INBOX.equals(selectedAccountUuid) ||
                 SearchAccount.ALL_MESSAGES.equals(selectedAccountUuid)) {
             handleSearchAccount();
-        } else {
+        }
+        else {
             handleRegularAccount();
         }
     }
@@ -136,7 +136,8 @@ public class UnreadWidgetConfiguration extends XMPreferenceActivity
     private void handleSearchAccount() {
         if (SearchAccount.UNIFIED_INBOX.equals(selectedAccountUuid)) {
             unreadAccount.setSummary(R.string.unread_widget_unified_inbox_account_summary);
-        } else if (SearchAccount.ALL_MESSAGES.equals(selectedAccountUuid)) {
+        }
+        else if (SearchAccount.ALL_MESSAGES.equals(selectedAccountUuid)) {
             unreadAccount.setSummary(R.string.unread_widget_all_messages_account_summary);
         }
         unreadFolderEnabled.setEnabled(false);
@@ -185,7 +186,8 @@ public class UnreadWidgetConfiguration extends XMPreferenceActivity
         if (selectedAccountUuid == null) {
             Toast.makeText(this, R.string.unread_widget_account_not_selected, Toast.LENGTH_LONG).show();
             return false;
-        } else if (unreadFolderEnabled.isChecked() && selectedFolderName == null) {
+        }
+        else if (unreadFolderEnabled.isChecked() && selectedFolderName == null) {
             Toast.makeText(this, R.string.unread_widget_folder_not_selected, Toast.LENGTH_LONG).show();
             return false;
         }
@@ -193,7 +195,7 @@ public class UnreadWidgetConfiguration extends XMPreferenceActivity
     }
 
     private void updateWidgetAndExit() {
-        UnreadWidgetProperties properties = new UnreadWidgetProperties(mAppWidgetId, selectedAccountUuid,selectedFolderName);
+        UnreadWidgetProperties properties = new UnreadWidgetProperties(mAppWidgetId, selectedAccountUuid, selectedFolderName);
         saveWidgetProperties(this, properties);
 
         // Update widget

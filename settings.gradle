@@ -1,2 +1,8 @@
-include ':XryptoMail'
-include ':plugins:openpgp-api-lib:openpgp-api'
+pluginManagement {
+    include ':XryptoMail'
+    include ':plugins:openpgp-api-lib:openpgp-api'
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}

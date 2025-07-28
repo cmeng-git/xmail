@@ -6,6 +6,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 
 import org.atalk.xryptomail.Account;
@@ -45,7 +46,6 @@ public class EditIdentity extends XMActivity
         if (mIdentityIndex == -1) {
             mIdentity = new Identity();
         }
-
         setContentView(R.layout.edit_identity);
 
         /*
@@ -89,10 +89,10 @@ public class EditIdentity extends XMActivity
         } else {
             mSignatureLayout.setVisibility(View.GONE);
         }
+        getOnBackPressedDispatcher().addCallback(backPressedCallback);
     }
 
     private void saveIdentity() {
-
         mIdentity.setDescription(mDescriptionView.getText().toString());
         mIdentity.setEmail(mEmailView.getText().toString());
         //      mIdentity.setAlwaysBcc(mAccountAlwaysBcc.getText().toString());
@@ -115,15 +115,15 @@ public class EditIdentity extends XMActivity
         }
 
         mAccount.save(Preferences.getPreferences(getApplication().getApplicationContext()));
-
         finish();
     }
 
-    @Override
-    public void onBackPressed() {
-        saveIdentity();
-        super.onBackPressed();
-    }
+    OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            saveIdentity();
+        }
+    };
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {

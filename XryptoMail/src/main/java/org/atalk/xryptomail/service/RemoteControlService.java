@@ -150,13 +150,13 @@ public class RemoteControlService extends JobIntentService
                     Intent i = new Intent(RemoteControlService.this, RemoteControlService.class);
                     i.setAction(RESCHEDULE_ACTION);
                     long nextTime = System.currentTimeMillis() + 10000;
-                    BootReceiver.scheduleIntent(RemoteControlService.this, nextTime, i);
+                    SystemEventReceiver.scheduleIntent(RemoteControlService.this, nextTime, i);
                 }
                 if (needsPushRestart) {
                     Intent i = new Intent(RemoteControlService.this, RemoteControlService.class);
                     i.setAction(PUSH_RESTART_ACTION);
                     long nextTime = System.currentTimeMillis() + 10000;
-                    BootReceiver.scheduleIntent(RemoteControlService.this, nextTime, i);
+                    SystemEventReceiver.scheduleIntent(RemoteControlService.this, nextTime, i);
                 }
             } catch (Exception e) {
                 Timber.e(e, "Could not handle K9_SET");

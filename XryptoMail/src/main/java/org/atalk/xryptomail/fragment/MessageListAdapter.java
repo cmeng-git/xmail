@@ -1,5 +1,21 @@
 package org.atalk.xryptomail.fragment;
 
+import static org.atalk.xryptomail.fragment.MLFProjectionInfo.ANSWERED_COLUMN;
+import static org.atalk.xryptomail.fragment.MLFProjectionInfo.ATTACHMENT_COUNT_COLUMN;
+import static org.atalk.xryptomail.fragment.MLFProjectionInfo.CC_LIST_COLUMN;
+import static org.atalk.xryptomail.fragment.MLFProjectionInfo.DATE_COLUMN;
+import static org.atalk.xryptomail.fragment.MLFProjectionInfo.FLAGGED_COLUMN;
+import static org.atalk.xryptomail.fragment.MLFProjectionInfo.FOLDER_NAME_COLUMN;
+import static org.atalk.xryptomail.fragment.MLFProjectionInfo.FORWARDED_COLUMN;
+import static org.atalk.xryptomail.fragment.MLFProjectionInfo.PREVIEW_COLUMN;
+import static org.atalk.xryptomail.fragment.MLFProjectionInfo.PREVIEW_TYPE_COLUMN;
+import static org.atalk.xryptomail.fragment.MLFProjectionInfo.READ_COLUMN;
+import static org.atalk.xryptomail.fragment.MLFProjectionInfo.SENDER_LIST_COLUMN;
+import static org.atalk.xryptomail.fragment.MLFProjectionInfo.SUBJECT_COLUMN;
+import static org.atalk.xryptomail.fragment.MLFProjectionInfo.THREAD_COUNT_COLUMN;
+import static org.atalk.xryptomail.fragment.MLFProjectionInfo.TO_LIST_COLUMN;
+import static org.atalk.xryptomail.fragment.MLFProjectionInfo.UID_COLUMN;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -17,6 +33,10 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
+
+import java.util.Locale;
+
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.FontSizes;
 import org.atalk.xryptomail.R;
@@ -27,39 +47,19 @@ import org.atalk.xryptomail.mailstore.DatabasePreviewType;
 import org.atalk.xryptomail.message.extractors.PreviewResult.PreviewType;
 import org.atalk.xryptomail.ui.ContactBadge;
 
-import static org.atalk.xryptomail.fragment.MLFProjectionInfo.ANSWERED_COLUMN;
-import static org.atalk.xryptomail.fragment.MLFProjectionInfo.ATTACHMENT_COUNT_COLUMN;
-import static org.atalk.xryptomail.fragment.MLFProjectionInfo.CC_LIST_COLUMN;
-import static org.atalk.xryptomail.fragment.MLFProjectionInfo.DATE_COLUMN;
-import static org.atalk.xryptomail.fragment.MLFProjectionInfo.FLAGGED_COLUMN;
-import static org.atalk.xryptomail.fragment.MLFProjectionInfo.FOLDER_NAME_COLUMN;
-import static org.atalk.xryptomail.fragment.MLFProjectionInfo.FORWARDED_COLUMN;
-import static org.atalk.xryptomail.fragment.MLFProjectionInfo.PREVIEW_COLUMN;
-import static org.atalk.xryptomail.fragment.MLFProjectionInfo.PREVIEW_TYPE_COLUMN;
-import static org.atalk.xryptomail.fragment.MLFProjectionInfo.READ_COLUMN;
-import static org.atalk.xryptomail.fragment.MLFProjectionInfo.SENDER_LIST_COLUMN;
-import static org.atalk.xryptomail.fragment.MLFProjectionInfo.SUBJECT_COLUMN;
-import static org.atalk.xryptomail.fragment.MLFProjectionInfo.THREAD_COUNT_COLUMN;
-import static org.atalk.xryptomail.fragment.MLFProjectionInfo.TO_LIST_COLUMN;
-import static org.atalk.xryptomail.fragment.MLFProjectionInfo.UID_COLUMN;
-
-import androidx.core.content.res.ResourcesCompat;
-
-import java.util.Locale;
-
-public class MessageListAdapter extends CursorAdapter
-{
-    private final MessageListFragment fragment;
+public class MessageListAdapter extends CursorAdapter {
+    private final MessageListFragment mFragment;
+    private final Context mContext;
     private final Drawable mAttachmentIcon;
     private final Drawable mForwardedIcon;
     private final Drawable mAnsweredIcon;
     private final Drawable mForwardedAnsweredIcon;
     private final FontSizes fontSizes = XryptoMail.getFontSizes();
 
-    MessageListAdapter(MessageListFragment fragment)
-    {
-        super(fragment.getActivity(), null, 0);
-        this.fragment = fragment;
+    MessageListAdapter(MessageListFragment fragment) {
+        super(fragment.getContext(), null, 0);
+        mFragment = fragment;
+        mContext = fragment.getContext();
         Resources res = fragment.getResources();
         mAttachmentIcon = ResourcesCompat.getDrawable(res, R.drawable.ic_email_attachment_small, null);
         mAnsweredIcon = ResourcesCompat.getDrawable(res, R.drawable.ic_email_answered_small, null);
@@ -67,13 +67,12 @@ public class MessageListAdapter extends CursorAdapter
         mForwardedAnsweredIcon = ResourcesCompat.getDrawable(res, R.drawable.ic_email_forwarded_answered_small, null);
     }
 
-    private String recipientSigil(boolean toMe, boolean ccMe)
-    {
+    private String recipientSigil(boolean toMe, boolean ccMe) {
         if (toMe) {
-            return fragment.getString(R.string.messagelist_sent_to_me_sigil);
+            return mFragment.getString(R.string.messagelist_sent_to_me_sigil);
         }
         else if (ccMe) {
-            return fragment.getString(R.string.messagelist_sent_cc_me_sigil);
+            return mFragment.getString(R.string.messagelist_sent_cc_me_sigil);
         }
         else {
             return "";
@@ -81,14 +80,13 @@ public class MessageListAdapter extends CursorAdapter
     }
 
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent)
-    {
-        View view = fragment.getXMLayoutInflater().inflate(R.layout.message_list_item, parent, false);
-        MessageViewHolder holder = new MessageViewHolder(fragment);
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        View view = mFragment.getXMLayoutInflater().inflate(R.layout.message_list_item, parent, false);
+        MessageViewHolder holder = new MessageViewHolder(mFragment);
         holder.date = view.findViewById(R.id.date);
         holder.chip = view.findViewById(R.id.chip);
 
-        if (fragment.mPreviewLines == 0 && fragment.contactsPictureLoader == null) {
+        if (mFragment.mPreviewLines == 0 && mFragment.contactsPictureLoader == null) {
             view.findViewById(R.id.preview).setVisibility(View.GONE);
             holder.preview = view.findViewById(R.id.sender_compact);
             holder.flagged = view.findViewById(R.id.flagged_center_right);
@@ -102,14 +100,14 @@ public class MessageListAdapter extends CursorAdapter
         }
 
         ContactBadge contactBadge = view.findViewById(R.id.contact_badge);
-        if (fragment.contactsPictureLoader != null) {
+        if (mFragment.contactsPictureLoader != null) {
             holder.contactBadge = contactBadge;
         }
         else {
             contactBadge.setVisibility(View.GONE);
         }
 
-        if (fragment.mSenderAboveSubject) {
+        if (mFragment.mSenderAboveSubject) {
             holder.from = view.findViewById(R.id.subject);
             fontSizes.setViewTextSize(holder.from, fontSizes.getMessageListSender());
         }
@@ -120,13 +118,13 @@ public class MessageListAdapter extends CursorAdapter
         fontSizes.setViewTextSize(holder.date, fontSizes.getMessageListDate());
 
         // 1 preview line is needed even if it is set to 0, because subject is part of the same text view
-        holder.preview.setLines(Math.max(fragment.mPreviewLines, 1));
+        holder.preview.setLines(Math.max(mFragment.mPreviewLines, 1));
         fontSizes.setViewTextSize(holder.preview, fontSizes.getMessageListPreview());
         holder.threadCount = view.findViewById(R.id.thread_count);
         fontSizes.setViewTextSize(holder.threadCount, fontSizes.getMessageListSubject()); // thread count is next to subject
-        view.findViewById(R.id.selected_checkbox_wrapper).setVisibility((fragment.mCheckboxes) ? View.VISIBLE : View.GONE);
+        view.findViewById(R.id.selected_checkbox_wrapper).setVisibility((mFragment.mCheckboxes) ? View.VISIBLE : View.GONE);
 
-        holder.flagged.setVisibility(fragment.mStars ? View.VISIBLE : View.GONE);
+        holder.flagged.setVisibility(mFragment.mStars ? View.VISIBLE : View.GONE);
         holder.flagged.setOnClickListener(holder);
 
         holder.selected = view.findViewById(R.id.selected_checkbox);
@@ -137,9 +135,8 @@ public class MessageListAdapter extends CursorAdapter
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor)
-    {
-        Account account = fragment.getAccountFromCursor(cursor);
+    public void bindView(View view, Context context, Cursor cursor) {
+        Account account = mFragment.getAccountFromCursor(cursor);
         String fromList = cursor.getString(SENDER_LIST_COLUMN);
         String toList = cursor.getString(TO_LIST_COLUMN);
         String ccList = cursor.getString(CC_LIST_COLUMN);
@@ -147,17 +144,17 @@ public class MessageListAdapter extends CursorAdapter
         Address[] toAddrs = Address.unpack(toList);
         Address[] ccAddrs = Address.unpack(ccList);
 
-        boolean fromMe = fragment.messageHelper.toMe(account, fromAddrs);
-        boolean toMe = fragment.messageHelper.toMe(account, toAddrs);
-        boolean ccMe = fragment.messageHelper.toMe(account, ccAddrs);
+        boolean fromMe = mFragment.messageHelper.toMe(account, fromAddrs);
+        boolean toMe = mFragment.messageHelper.toMe(account, toAddrs);
+        boolean ccMe = mFragment.messageHelper.toMe(account, ccAddrs);
 
-        CharSequence displayName = fragment.messageHelper.getDisplayName(account, fromAddrs, toAddrs);
+        CharSequence displayName = mFragment.messageHelper.getDisplayName(account, fromAddrs, toAddrs);
         CharSequence displayDate = DateUtils.getRelativeTimeSpanString(context, cursor.getLong(DATE_COLUMN));
 
         Address counterpartyAddress = fetchCounterPartyAddress(fromMe, toAddrs, ccAddrs, fromAddrs);
-        int threadCount = (fragment.showingThreadedList) ? cursor.getInt(THREAD_COUNT_COLUMN) : 0;
+        int threadCount = (mFragment.showingThreadedList) ? cursor.getInt(THREAD_COUNT_COLUMN) : 0;
         String subject = MlfUtils.buildSubject(cursor.getString(SUBJECT_COLUMN),
-                fragment.getString(R.string.general_no_subject), threadCount);
+                mFragment.getString(R.string.general_no_subject), threadCount);
 
         boolean read = (cursor.getInt(READ_COLUMN) == 1);
         boolean flagged = (cursor.getInt(FLAGGED_COLUMN) == 1);
@@ -167,14 +164,14 @@ public class MessageListAdapter extends CursorAdapter
 
         MessageViewHolder holder = (MessageViewHolder) view.getTag();
         int maybeBoldTypeface = (read) ? Typeface.NORMAL : Typeface.BOLD;
-        long uniqueId = cursor.getLong(fragment.mUniqueIdColumn);
-        boolean selected = fragment.mSelected.contains(uniqueId);
+        long uniqueId = cursor.getLong(mFragment.mUniqueIdColumn);
+        boolean selected = mFragment.mSelected.contains(uniqueId);
 
         holder.chip.setBackgroundColor(account.getChipColor());
-        if (fragment.mCheckboxes) {
+        if (mFragment.mCheckboxes) {
             holder.selected.setChecked(selected);
         }
-        if (fragment.mStars) {
+        if (mFragment.mStars) {
             holder.flagged.setChecked(flagged);
         }
         holder.position = cursor.getPosition();
@@ -182,14 +179,14 @@ public class MessageListAdapter extends CursorAdapter
             updateContactBadge(holder, counterpartyAddress);
         }
         setBackgroundColor(cursor, view, selected, read);
-        if (fragment.mActiveMessage != null) {
+        if (mFragment.mActiveMessage != null) {
             changeBackgroundColorIfActiveMessage(cursor, account, view);
         }
         updateWithThreadCount(holder, threadCount);
-        CharSequence beforePreviewText = (fragment.mSenderAboveSubject) ? subject : displayName;
+        CharSequence beforePreviewText = (mFragment.mSenderAboveSubject) ? subject : displayName;
         String sigil = recipientSigil(toMe, ccMe);
         SpannableStringBuilder messageStringBuilder = new SpannableStringBuilder(sigil).append(beforePreviewText);
-        if (fragment.mPreviewLines > 0) {
+        if (mFragment.mPreviewLines > 0) {
             String preview = getPreview(cursor);
             messageStringBuilder.append(" ").append(preview);
         }
@@ -200,7 +197,7 @@ public class MessageListAdapter extends CursorAdapter
 
         if (holder.from != null) {
             holder.from.setTypeface(Typeface.create(holder.from.getTypeface(), maybeBoldTypeface));
-            if (fragment.mSenderAboveSubject) {
+            if (mFragment.mSenderAboveSubject) {
                 holder.from.setCompoundDrawablesWithIntrinsicBounds(
                         statusHolder, null, hasAttachments ? mAttachmentIcon : null, null);
                 holder.from.setText(displayName);
@@ -210,7 +207,7 @@ public class MessageListAdapter extends CursorAdapter
             }
         }
         if (holder.subject != null) {
-            if (!fragment.mSenderAboveSubject) {
+            if (!mFragment.mSenderAboveSubject) {
                 holder.subject.setCompoundDrawablesWithIntrinsicBounds(
                         statusHolder, null, hasAttachments ? mAttachmentIcon : null, null);
             }
@@ -220,8 +217,7 @@ public class MessageListAdapter extends CursorAdapter
         holder.date.setText(displayDate);
     }
 
-    private void formatPreviewText(TextView preview, CharSequence beforePreviewText, String sigil)
-    {
+    private void formatPreviewText(TextView preview, CharSequence beforePreviewText, String sigil) {
         Spannable previewText = (Spannable) preview.getText();
         previewText.setSpan(buildSenderSpan(), 0, beforePreviewText.length() + sigil.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -235,14 +231,12 @@ public class MessageListAdapter extends CursorAdapter
     /**
      * Create a span section for the sender, and assign the correct font size and weight
      */
-    private AbsoluteSizeSpan buildSenderSpan()
-    {
-        int fontSize = (fragment.mSenderAboveSubject) ? fontSizes.getMessageListSubject() : fontSizes.getMessageListSender();
+    private AbsoluteSizeSpan buildSenderSpan() {
+        int fontSize = (mFragment.mSenderAboveSubject) ? fontSizes.getMessageListSubject() : fontSizes.getMessageListSender();
         return new AbsoluteSizeSpan(fontSize, true);
     }
 
-    private Address fetchCounterPartyAddress(boolean fromMe, Address[] toAddrs, Address[] ccAddrs, Address[] fromAddrs)
-    {
+    private Address fetchCounterPartyAddress(boolean fromMe, Address[] toAddrs, Address[] ccAddrs, Address[] fromAddrs) {
         if (fromMe) {
             if (toAddrs.length > 0) {
                 return toAddrs[0];
@@ -257,8 +251,7 @@ public class MessageListAdapter extends CursorAdapter
         return null;
     }
 
-    private void updateContactBadge(MessageViewHolder holder, Address counterpartyAddress)
-    {
+    private void updateContactBadge(MessageViewHolder holder, Address counterpartyAddress) {
         if (counterpartyAddress != null) {
             Utility.setContactForBadge(holder.contactBadge, counterpartyAddress);
             /*
@@ -267,7 +260,7 @@ public class MessageListAdapter extends CursorAdapter
              * doesn't reset the padding, so we do it ourselves.
              */
             holder.contactBadge.setPadding(0, 0, 0, 0);
-            fragment.contactsPictureLoader.loadContactPicture(counterpartyAddress, holder.contactBadge);
+            mFragment.contactsPictureLoader.loadContactPicture(counterpartyAddress, holder.contactBadge);
         }
         else {
             holder.contactBadge.assignContactUri(null);
@@ -275,32 +268,29 @@ public class MessageListAdapter extends CursorAdapter
         }
     }
 
-    private void changeBackgroundColorIfActiveMessage(Cursor cursor, Account account, View view)
-    {
+    private void changeBackgroundColorIfActiveMessage(Cursor cursor, Account account, View view) {
         String uid = cursor.getString(UID_COLUMN);
         String folderName = cursor.getString(FOLDER_NAME_COLUMN);
 
-        if (account.getUuid().equals(fragment.mActiveMessage.getAccountUuid())
-                && folderName.equals(fragment.mActiveMessage.getFolderServerId())
-                && uid.equals(fragment.mActiveMessage.getUid())) {
+        if (account.getUuid().equals(mFragment.mActiveMessage.getAccountUuid())
+                && folderName.equals(mFragment.mActiveMessage.getFolderServerId())
+                && uid.equals(mFragment.mActiveMessage.getUid())) {
             int res = R.attr.messageListActiveItemBackgroundColor;
 
             TypedValue outValue = new TypedValue();
-            fragment.getActivity().getTheme().resolveAttribute(res, outValue, true);
+            mContext.getTheme().resolveAttribute(res, outValue, true);
             view.setBackgroundColor(outValue.data);
         }
     }
 
-    private int buildPreviewSpanColor()
-    {
+    private int buildPreviewSpanColor() {
         //TODO: make this part of the theme
         return (XryptoMail.getXMTheme() == XryptoMail.Theme.LIGHT) ?
                 Color.rgb(105, 105, 105) :
                 Color.rgb(160, 160, 160);
     }
 
-    private Drawable buildStatusHolder(boolean forwarded, boolean answered)
-    {
+    private Drawable buildStatusHolder(boolean forwarded, boolean answered) {
         if (forwarded && answered) {
             return mForwardedAnsweredIcon;
         }
@@ -315,13 +305,13 @@ public class MessageListAdapter extends CursorAdapter
 
     /**
      * Hightlight messageList background based on read state and message encryption type
+     *
      * @param cursor the message cursor
      * @param view view
      * @param selected user selected
      * @param read read state
      */
-    private void setBackgroundColor(Cursor cursor, View view, boolean selected, boolean read)
-    {
+    private void setBackgroundColor(Cursor cursor, View view, boolean selected, boolean read) {
         // cmeng - Background color for Crypto and Stealth message added
         PreviewType previewType = getPreviewType(cursor);
         if (selected || XryptoMail.useBackgroundAsUnreadIndicator()) {
@@ -362,15 +352,15 @@ public class MessageListAdapter extends CursorAdapter
                 }
             }
             TypedValue outValue = new TypedValue();
-            fragment.getActivity().getTheme().resolveAttribute(res, outValue, true);
+            mContext.getTheme().resolveAttribute(res, outValue, true);
             view.setBackgroundColor(outValue.data);
         }
         else {
             view.setBackgroundColor(Color.TRANSPARENT);
         }
     }
-    private void updateWithThreadCount(MessageViewHolder holder, int threadCount)
-    {
+
+    private void updateWithThreadCount(MessageViewHolder holder, int threadCount) {
         if (threadCount > 1) {
             holder.threadCount.setText(String.format(Locale.US, "%d", threadCount));
             holder.threadCount.setVisibility(View.VISIBLE);
@@ -382,11 +372,12 @@ public class MessageListAdapter extends CursorAdapter
 
     /**
      * Return the preview type of the message in the specified position
+     *
      * @param cursor the message location
+     *
      * @return the message preview type
      */
-    private String getPreview(Cursor cursor)
-    {
+    private String getPreview(Cursor cursor) {
         String previewTypeString = cursor.getString(PREVIEW_TYPE_COLUMN);
         DatabasePreviewType previewType = DatabasePreviewType.fromDatabaseValue(previewTypeString);
         switch (previewType) {
@@ -395,10 +386,10 @@ public class MessageListAdapter extends CursorAdapter
                 return "";
             }
             case ENCRYPTED: {
-                return fragment.getString(R.string.preview_encrypted);
+                return mFragment.getString(R.string.preview_encrypted);
             }
             case STEALTH: {
-                return fragment.getString(R.string.preview_stealth);
+                return mFragment.getString(R.string.preview_stealth);
             }
             case TEXT: {
                 return cursor.getString(PREVIEW_COLUMN);
@@ -409,8 +400,7 @@ public class MessageListAdapter extends CursorAdapter
         throw new AssertionError("Unknown preview type: " + previewType);
     }
 
-    private PreviewType getPreviewType(Cursor cursor)
-    {
+    private PreviewType getPreviewType(Cursor cursor) {
         String previewTypeString = cursor.getString(PREVIEW_TYPE_COLUMN);
         return DatabasePreviewType.fromDatabaseValue(previewTypeString).getPreviewType();
     }

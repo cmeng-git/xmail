@@ -63,7 +63,7 @@ public class ViewUtil
     public static void setTextViewColor(View container, int id, int color)
     {
         TextView tv = container.findViewById(id);
-        tv.setTextColor(XryptoMail.getAppResources().getColor(color));
+        tv.setTextColor(XryptoMail.getAppResources().getColor(color, null));
     }
 
     public static String getTextViewValue(View container, int id)

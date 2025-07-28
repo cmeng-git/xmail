@@ -1,7 +1,21 @@
 package org.atalk.xryptomail.mail.store.imap;
 
 import android.net.ConnectivityManager;
+
 import androidx.annotation.Nullable;
+
+import java.io.IOException;
+import java.nio.charset.CharacterCodingException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Deque;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.atalk.xryptomail.mail.AuthType;
 import org.atalk.xryptomail.mail.ConnectionSecurity;
@@ -17,19 +31,6 @@ import org.atalk.xryptomail.mail.ssl.TrustedSocketFactory;
 import org.atalk.xryptomail.mail.store.RemoteStore;
 import org.atalk.xryptomail.mail.store.StoreConfig;
 
-import java.io.IOException;
-import java.nio.charset.CharacterCodingException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Deque;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import timber.log.Timber;
 
 /**
@@ -38,8 +39,7 @@ import timber.log.Timber;
  * TODO Need a default response handler for things like folder updates
  * </pre>
  */
-public class ImapStore extends RemoteStore
-{
+public class ImapStore extends RemoteStore {
     private final Set<Flag> permanentFlagsIndex = EnumSet.noneOf(Flag.class);
     private final ConnectivityManager mConnectivityManager;
     private final OAuth2TokenProvider oauthTokenProvider;
@@ -66,20 +66,17 @@ public class ImapStore extends RemoteStore
      */
     private final Map<String, ImapFolder> mFolderCache = new HashMap<>();
 
-    public static ImapStoreSettings decodeUri(String uri)
-    {
+    public static ImapStoreSettings decodeUri(String uri) {
         return ImapStoreUriDecoder.decode(uri);
     }
 
-    public static String createUri(ServerSettings server)
-    {
+    public static String createUri(ServerSettings server) {
         return ImapStoreUriCreator.create(server);
     }
 
     public ImapStore(StoreConfig storeConfig, TrustedSocketFactory trustedSocketFactory,
             ConnectivityManager connectivityManager, OAuth2TokenProvider oauthTokenProvider)
-            throws MessagingException
-    {
+            throws MessagingException {
         super(storeConfig, trustedSocketFactory);
 
         ImapStoreSettings serverSettings;
@@ -106,8 +103,7 @@ public class ImapStore extends RemoteStore
     }
 
     @Override
-    public ImapFolder getFolder(String name)
-    {
+    public ImapFolder getFolder(String name) {
         ImapFolder folder;
         synchronized (mFolderCache) {
             folder = mFolderCache.get(name);
@@ -119,8 +115,7 @@ public class ImapStore extends RemoteStore
         return folder;
     }
 
-    String getCombinedPrefix()
-    {
+    String getCombinedPrefix() {
         if (mCombinedPrefix == null) {
             if (mPathPrefix != null) {
                 String tmpPrefix = mPathPrefix.trim();
@@ -144,8 +139,7 @@ public class ImapStore extends RemoteStore
 
     @Override
     public List<ImapFolder> getPersonalNamespaces(boolean forceListAll)
-            throws MessagingException
-    {
+            throws MessagingException {
         ImapConnection connection = getConnection();
         try {
             Set<String> folderNames = listFolders(connection, false);
@@ -168,8 +162,7 @@ public class ImapStore extends RemoteStore
     }
 
     private Set<String> listFolders(ImapConnection connection, boolean subscribedOnly)
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         String commandResponse = subscribedOnly ? "LSUB" : "LIST";
 
         List<ImapResponse> responses
@@ -234,12 +227,12 @@ public class ImapStore extends RemoteStore
      * ; we should try to consolidate this at some point. :(
      *
      * @param connection IMAP Connection
+     *
      * @throws IOException uh oh!
      * @throws MessagingException uh oh!
      */
     void autoconfigureFolders(final ImapConnection connection)
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
         if (!connection.hasCapability(Capabilities.SPECIAL_USE)) {
             if (XryptoMailLib.isDebug()) {
                 Timber.d("No detected folder auto-configuration methods.");
@@ -310,8 +303,7 @@ public class ImapStore extends RemoteStore
     }
 
     @Nullable
-    private String removePrefixFromFolderName(String folderName)
-    {
+    private String removePrefixFromFolderName(String folderName) {
         String prefix = getCombinedPrefix();
         int prefixLength = prefix.length();
         if (prefixLength == 0) {
@@ -329,8 +321,7 @@ public class ImapStore extends RemoteStore
 
     @Override
     public void checkSettings()
-            throws MessagingException
-    {
+            throws MessagingException {
         try {
             ImapConnection connection = createImapConnection();
             connection.open();
@@ -347,8 +338,7 @@ public class ImapStore extends RemoteStore
      * @return ImapConnection
      */
     ImapConnection getConnection()
-            throws MessagingException
-    {
+            throws MessagingException {
         ImapConnection connection;
         while ((connection = pollConnection()) != null) {
             try {
@@ -364,15 +354,13 @@ public class ImapStore extends RemoteStore
         return connection;
     }
 
-    private ImapConnection pollConnection()
-    {
+    private ImapConnection pollConnection() {
         synchronized (mConnections) {
             return mConnections.poll();
         }
     }
 
-    void releaseConnection(ImapConnection connection)
-    {
+    void releaseConnection(ImapConnection connection) {
         if (connection != null && connection.isConnected()) {
             synchronized (mConnections) {
                 mConnections.offer(connection);
@@ -380,8 +368,7 @@ public class ImapStore extends RemoteStore
         }
     }
 
-    ImapConnection createImapConnection()
-    {
+    ImapConnection createImapConnection() {
         return new ImapConnection(
                 new StoreImapSettings(),
                 mTrustedSocketFactory,
@@ -389,13 +376,11 @@ public class ImapStore extends RemoteStore
                 oauthTokenProvider);
     }
 
-    FolderNameCodec getFolderNameCodec()
-    {
+    FolderNameCodec getFolderNameCodec() {
         return folderNameCodec;
     }
 
-    private List<ImapFolder> getFolders(Collection<String> folderNames)
-    {
+    private List<ImapFolder> getFolders(Collection<String> folderNames) {
         List<ImapFolder> folders = new ArrayList<>(folderNames.size());
 
         for (String folderName : folderNames) {
@@ -406,128 +391,106 @@ public class ImapStore extends RemoteStore
     }
 
     @Override
-    public boolean isMoveCapable()
-    {
+    public boolean isMoveCapable() {
         return true;
     }
 
     @Override
-    public boolean isCopyCapable()
-    {
+    public boolean isCopyCapable() {
         return true;
     }
 
     @Override
-    public boolean isPushCapable()
-    {
+    public boolean isPushCapable() {
         return true;
     }
 
     @Override
-    public boolean isExpungeCapable()
-    {
+    public boolean isExpungeCapable() {
         return true;
     }
 
-    StoreConfig getStoreConfig()
-    {
+    StoreConfig getStoreConfig() {
         return mStoreConfig;
     }
 
-    Set<Flag> getPermanentFlagsIndex()
-    {
+    Set<Flag> getPermanentFlagsIndex() {
         return permanentFlagsIndex;
     }
 
     @Override
-    public Pusher getPusher(PushReceiver receiver)
-    {
+    public Pusher getPusher(PushReceiver receiver) {
         return new ImapPusher(this, receiver);
     }
 
-    private class StoreImapSettings implements ImapSettings
-    {
+    private class StoreImapSettings implements ImapSettings {
         @Override
-        public String getHost()
-        {
+        public String getHost() {
             return mHost;
         }
 
         @Override
-        public int getPort()
-        {
+        public int getPort() {
             return mPort;
         }
 
         @Override
-        public ConnectionSecurity getConnectionSecurity()
-        {
+        public ConnectionSecurity getConnectionSecurity() {
             return mConnectionSecurity;
         }
 
         @Override
-        public AuthType getAuthType()
-        {
+        public AuthType getAuthType() {
             return mAuthType;
         }
 
         @Override
-        public String getUsername()
-        {
+        public String getUsername() {
             return mUsername;
         }
 
         @Override
-        public String getPassword()
-        {
+        public String getPassword() {
             return mPassword;
         }
 
         @Override
-        public String getClientCertificateAlias()
-        {
+        public String getClientCertificateAlias() {
             return clientCertificateAlias;
         }
 
         @Override
-        public boolean useCompression(final NetworkType type)
-        {
+        public boolean useCompression(final NetworkType type) {
             return mStoreConfig.useCompression(type);
         }
 
         @Override
-        public String getPathPrefix()
-        {
+        public String getPathPrefix() {
             return mPathPrefix;
         }
 
         @Override
-        public void setPathPrefix(String prefix)
-        {
+        public void setPathPrefix(String prefix) {
             mPathPrefix = prefix;
         }
 
         @Override
-        public String getPathDelimiter()
-        {
+        public String getPathDelimiter() {
             return mPathDelimiter;
         }
 
         @Override
-        public void setPathDelimiter(String delimiter)
-        {
+        public void setPathDelimiter(String delimiter) {
             mPathDelimiter = delimiter;
         }
 
         @Override
-        public String getCombinedPrefix()
-        {
+        public String getCombinedPrefix() {
             return mCombinedPrefix;
         }
 
         @Override
-        public void setCombinedPrefix(String prefix)
-        {
+        public void setCombinedPrefix(String prefix) {
             mCombinedPrefix = prefix;
         }
     }

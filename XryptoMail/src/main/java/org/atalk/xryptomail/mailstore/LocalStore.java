@@ -194,8 +194,8 @@ public class LocalStore extends Store {
      * local://localhost/path/to/database/uuid.db
      * This constructor is only used by {@link LocalStore#getInstance(Account, Context)}
      *
-     * @param account
-     * @param context
+     * @param account Account
+     * @param context Context
      *
      * @throws UnavailableStorageException if not {@link StorageProvider#isReady(Context)}
      */
@@ -378,7 +378,7 @@ public class LocalStore extends Store {
             throws MessagingException {
         final List<LocalFolder> folders = new LinkedList<>();
         try {
-            database.execute(false, (DbCallback<List<? extends Folder>>) db -> {
+            database.execute(false, (DbCallback<List<? extends Folder<?>>>) db -> {
                 Cursor cursor = null;
                 try {
                     cursor = db.rawQuery("SELECT " + GET_FOLDER_COLS + " FROM folders " +

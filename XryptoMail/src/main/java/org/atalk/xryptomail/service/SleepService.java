@@ -68,7 +68,7 @@ public class SleepService extends JobIntentService
         i.setAction(ALARM_FIRED + "." + id);
         long startTime = SystemClock.elapsedRealtime();
         long nextTime = startTime + sleepTime;
-        BootReceiver.scheduleIntent(context, nextTime, i);
+        SystemEventReceiver.scheduleIntent(context, nextTime, i);
         if (wakeLock != null) {
             sleepDatum.wakeLock = wakeLock;
             sleepDatum.timeout = wakeLockTimeout;

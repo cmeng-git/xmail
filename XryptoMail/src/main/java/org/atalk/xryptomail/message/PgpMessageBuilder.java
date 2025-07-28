@@ -6,6 +6,7 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.core.content.IntentCompat;
 
 import org.apache.james.mime4j.util.MimeUtil;
 import org.atalk.xryptomail.Globals;
@@ -240,7 +241,7 @@ public class PgpMessageBuilder extends MessageBuilder
             }
         }
         else {
-            pgpApiIntent = new Intent(isPgpInlineMode ? OpenPgpApi.ACTION_SIGN : OpenPgpApi.ACTION_DETACHED_SIGN);
+            pgpApiIntent = new Intent(isPgpInlineMode ? OpenPgpApi.ACTION_CLEARTEXT_SIGN : OpenPgpApi.ACTION_DETACHED_SIGN);
         }
 
         if (shouldSign) {
@@ -286,14 +287,14 @@ public class PgpMessageBuilder extends MessageBuilder
                 return null;
 
             case OpenPgpApi.RESULT_CODE_USER_INTERACTION_REQUIRED:
-                PendingIntent returnedPendingIntent = result.getParcelableExtra(OpenPgpApi.RESULT_INTENT);
+                PendingIntent returnedPendingIntent = IntentCompat.getParcelableExtra(result, OpenPgpApi.RESULT_INTENT, PendingIntent.class);
                 if (returnedPendingIntent == null) {
                     throw new MessagingException("openpgp api needs user interaction, but returned no pending-intent!");
                 }
                 return returnedPendingIntent;
 
             case OpenPgpApi.RESULT_CODE_ERROR:
-                OpenPgpError error = result.getParcelableExtra(OpenPgpApi.RESULT_ERROR);
+                OpenPgpError error = IntentCompat.getParcelableExtra(result, OpenPgpApi.RESULT_ERROR, OpenPgpError.class);
                 if (error == null) {
                     throw new MessagingException("internal openpgp api error");
                 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.XMail.Startup" parent="@android:style/Theme.Holo.NoActionBar">
         <item name="android:windowBackground">@android:color/black</item>
@@ -7,9 +8,11 @@
 
     <!-- Empty base themes that can be easily replaced by RRO (Runtime Resource Overlay) themes -->
     <style name="Theme.XMail.Light.Base" parent="@android:style/Theme.Holo.Light" />
+
     <style name="Theme.XMail.Dark.Base" parent="@android:style/Theme.Holo" />
 
     <style name="Theme.XMail.Light.Common" parent="Theme.XMail.Light.Base">
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
         <item name="iconFolder">@drawable/folder_light</item>
         <item name="iconListItemMenu">@drawable/dropdown_ic_arrow_normal_holo_light</item>
         <item name="iconMenuInfoDetails">@android:drawable/ic_menu_info_details</item>
@@ -30,7 +33,7 @@
         <item name="iconActionSearchFolder">@drawable/action_search_folder_light</item>
         <item name="iconActionSend">@drawable/ic_action_send_light</item>
         <item name="iconActionSettings">@drawable/ic_action_settings_light</item>
-		<item name="iconActionSingleMessageOptions">@drawable/ic_action_reply_all_light</item>
+        <item name="iconActionSingleMessageOptions">@drawable/ic_action_reply_all_light</item>
         <item name="iconActionSort">@drawable/ic_action_sort_light</item>
         <item name="iconActionSpam">@drawable/ic_action_spam_light</item>
         <item name="iconActionFlag">@drawable/ic_action_flag_light</item>
@@ -81,9 +84,9 @@
         <item name="contactTokenBackgroundColor">#ccc</item>
         <item name="composerBackgroundColor">@android:color/background_light</item>
         <item name="tintColorBulletPointPositive">#77aa22</item>
-		<item name="tintColorBulletPointNegative">#dd2222</item>
+        <item name="tintColorBulletPointNegative">#dd2222</item>
         <item name="tintColorBulletPointNeutral">#888</item>
-		
+
         <item name="openpgp_black">#000</item>
         <item name="openpgp_orange">#FF8800</item>
         <item name="openpgp_red">#CC0000</item>
@@ -91,8 +94,8 @@
         <item name="openpgp_blue">#336699</item>
         <item name="openpgp_grey">#bbb</item>
         <item name="openpgp_dark_grey">#888</item>
-		
-		<item name="iconActionReply">@drawable/ic_action_reply_light</item>
+
+        <item name="iconActionReply">@drawable/ic_action_reply_light</item>
         <item name="iconActionReplyAll">@drawable/ic_action_reply_all_light</item>
         <item name="iconActionForward">@drawable/ic_action_forward_light</item>
         <item name="iconActionForwardAsAttachment">@drawable/ic_action_forward_as_attachment_light</item>
@@ -100,6 +103,7 @@
     </style>
 
     <style name="Theme.XMail.Dark.Common" parent="Theme.XMail.Dark.Base">
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
         <item name="iconFolder">@drawable/folder_dark</item>
         <item name="iconListItemMenu">@drawable/dropdown_ic_arrow_normal_holo_dark</item>
         <item name="iconMenuInfoDetails">@android:drawable/ic_menu_info_details</item>
@@ -172,7 +176,7 @@
         <item name="tintColorBulletPointPositive">#77aa22</item>
         <item name="tintColorBulletPointNegative">#dd2222</item>
         <item name="tintColorBulletPointNeutral">#bbb</item>
-		
+
         <item name="openpgp_black">#fff</item>
         <item name="openpgp_orange">#ee7700</item>
         <item name="openpgp_red">#CC0000</item>
@@ -180,7 +184,7 @@
         <item name="openpgp_blue">#6699cc</item>
         <item name="openpgp_grey">#888</item>
         <item name="openpgp_dark_grey">#bbb</item>
-				
+
         <item name="compatDividerVertical">?attr/messageListDividerColor</item>
         <item name="compatSelectableItemBackground">@android:color/transparent</item>
         <item name="iconActionReply">@drawable/ic_action_reply_dark</item>
@@ -191,9 +195,11 @@
     </style>
 
     <style name="Theme.XMail.Light" parent="Theme.XMail.Light.Common" />
+
     <style name="Theme.XMail.Dark" parent="Theme.XMail.Dark.Common" />
 
     <style name="Theme.XMail.Material.Light.Base" parent="@style/Theme.AppCompat.Light.NoActionBar" />
+
     <style name="Theme.XMail.Material.Dark.Base" parent="@style/Theme.AppCompat.NoActionBar" />
 
     <style name="Theme.XMail.Material.Light.Common" parent="Theme.XMail.Material.Light.Base">
@@ -330,6 +336,7 @@
     </style>
 
     <style name="Theme.XMail.Material.Light" parent="Theme.XMail.Material.Light.Common" />
+
     <style name="Theme.XMail.Material.Dark" parent="Theme.XMail.Material.Dark.Common" />
 
     <style name="Theme.XMail.Dialog.Light" parent="Theme.XMail.Light">

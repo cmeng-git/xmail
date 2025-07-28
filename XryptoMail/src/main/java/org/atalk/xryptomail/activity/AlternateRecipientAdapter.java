@@ -3,10 +3,13 @@ package org.atalk.xryptomail.activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import androidx.annotation.AttrRes;
 import androidx.annotation.DrawableRes;
+import androidx.core.content.res.ResourcesCompat;
+
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -201,13 +204,13 @@ public class AlternateRecipientAdapter extends BaseAdapter
             @AttrRes int cryptoStatusColorAttr)
     {
         Resources resources = context.getResources();
-
-        Drawable drawable = resources.getDrawable(cryptoStatusRes);
+        Drawable drawable = ResourcesCompat.getDrawable(resources, cryptoStatusRes, null);
         // noinspection ConstantConditions, we know the resource exists!
         drawable.mutate();
 
         int cryptoStatusColor = ThemeUtils.getStyledColor(context, cryptoStatusColorAttr);
-        drawable.setColorFilter(cryptoStatusColor, Mode.SRC_ATOP);
+        drawable.setColorFilter(new PorterDuffColorFilter(cryptoStatusColor, Mode.SRC_ATOP));
+
 
         holder.itemCryptoStatusIcon.setImageDrawable(drawable);
         holder.itemCryptoStatus.setVisibility(View.VISIBLE);

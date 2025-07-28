@@ -1,11 +1,5 @@
 package org.atalk.xryptomail.mail.store.webdav;
 
-import org.apache.http.conn.ConnectTimeoutException;
-import org.apache.http.conn.scheme.LayeredSocketFactory;
-import org.apache.http.params.HttpParams;
-import org.atalk.xryptomail.mail.ssl.DefaultTrustedSocketFactory;
-import org.atalk.xryptomail.mail.ssl.TrustManagerFactory;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -17,18 +11,21 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
+import org.apache.http.conn.scheme.LayeredSocketFactory;
+import org.apache.http.params.HttpParams;
+import org.atalk.xryptomail.mail.ssl.DefaultTrustedSocketFactory;
+import org.atalk.xryptomail.mail.ssl.TrustManagerFactory;
+
 /*
  * TODO: find out what's going on here and document it.
  * Using two socket factories looks suspicious.
  */
-public class WebDavSocketFactory implements LayeredSocketFactory
-{
+public class WebDavSocketFactory implements LayeredSocketFactory {
     private final SSLSocketFactory mSocketFactory;
     private final org.apache.http.conn.ssl.SSLSocketFactory mSchemeSocketFactory;
 
     public WebDavSocketFactory(String host, int port)
-            throws NoSuchAlgorithmException, KeyManagementException
-    {
+            throws NoSuchAlgorithmException, KeyManagementException {
         SSLContext sslContext = SSLContext.getInstance("TLS");
         sslContext.init(null, new TrustManager[]{
                 TrustManagerFactory.get(host, port)
@@ -41,28 +38,24 @@ public class WebDavSocketFactory implements LayeredSocketFactory
 
     public Socket connectSocket(Socket sock, String host, int port,
             InetAddress localAddress, int localPort, HttpParams params)
-            throws IOException
-    {
+            throws IOException {
         return mSchemeSocketFactory.connectSocket(sock, host, port, localAddress, localPort, params);
     }
 
     @Override
     public Socket createSocket()
-            throws IOException
-    {
+            throws IOException {
         return mSocketFactory.createSocket();
     }
 
     public boolean isSecure(Socket sock)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         return mSchemeSocketFactory.isSecure(sock);
     }
 
     public Socket createSocket(final Socket socket, final String host, final int port, final boolean autoClose
     )
-            throws IOException
-    {
+            throws IOException {
         SSLSocket sslSocket = (SSLSocket) mSocketFactory.createSocket(socket, host, port, autoClose);
         DefaultTrustedSocketFactory.setSniHost(mSocketFactory, sslSocket, host);
         //hostnameVerifier.verify(host, sslSocket);

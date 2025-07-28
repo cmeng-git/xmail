@@ -18,8 +18,8 @@ package org.openintents.openpgp.util;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.ParcelFileDescriptor;
@@ -27,6 +27,8 @@ import android.os.ParcelFileDescriptor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.openintents.openpgp.IOpenPgpService2;
@@ -349,14 +351,14 @@ public class OpenPgpApi {
         void cancelOperation();
     }
 
-    private class OpenPgpSourceSinkAsyncTask<T> extends AsyncTask<Void, Integer, OpenPgpDataResult<T>>
-            implements CancelableBackgroundOperation {
+    private class OpenPgpSourceSinkExecutor<T> implements CancelableBackgroundOperation {
         Intent data;
         OpenPgpDataSource dataSource;
         OpenPgpDataSink<T> dataSink;
         IOpenPgpSinkResultCallback<T> callback;
+        ExecutorService mService;
 
-        private OpenPgpSourceSinkAsyncTask(Intent data, OpenPgpDataSource dataSource,
+        public OpenPgpSourceSinkExecutor(Intent data, OpenPgpDataSource dataSource,
                 OpenPgpDataSink<T> dataSink, IOpenPgpSinkResultCallback<T> callback) {
             this.data = data;
             this.dataSource = dataSource;
@@ -364,44 +366,52 @@ public class OpenPgpApi {
             this.callback = callback;
         }
 
-        @Override
-        protected OpenPgpDataResult<T> doInBackground(Void... unused) {
-            return executeApi(data, dataSource, dataSink);
-        }
+        public void execute() {
+            try (ExecutorService eService = Executors.newWorkStealingPool()) {
+                mService = eService;
+                eService.execute(() -> {
+                    final OpenPgpDataResult<T> result = executeApi(data, dataSource, dataSink);
 
-        protected void onPostExecute(OpenPgpDataResult<T> result) {
-            callback.onReturn(result.apiResult, result.sinkResult);
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        callback.onReturn(result.apiResult, result.sinkResult);
+                    });
+                });
+            }
         }
 
         @Override
         public void cancelOperation() {
-            cancel(true);
+            if (mService != null)
+                mService.close();
             if (dataSource != null) {
                 dataSource.cancel();
             }
         }
     }
 
-    class OpenPgpAsyncTask extends AsyncTask<Void, Integer, Intent> {
+    class OpenPgpTask {
         Intent data;
         InputStream is;
         OutputStream os;
         IOpenPgpCallback callback;
 
-        private OpenPgpAsyncTask(Intent data, InputStream is, OutputStream os, IOpenPgpCallback callback) {
+        public OpenPgpTask(Intent data, InputStream is, OutputStream os, IOpenPgpCallback callback) {
             this.data = data;
             this.is = is;
             this.os = os;
             this.callback = callback;
         }
 
-        @Override
-        protected Intent doInBackground(Void... unused) {
-            return executeApi(data, is, os);
-        }
+        public void execute() {
+            try (ExecutorService eService = Executors.newWorkStealingPool()) {
+                eService.execute(() -> {
+                    final Intent intent = executeApi(data, is, os);
 
-        protected void onPostExecute(Intent result) {
-            callback.onReturn(result);
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        callback.onReturn(intent);
+                    });
+                });
+            }
         }
     }
 
@@ -416,31 +426,23 @@ public class OpenPgpApi {
         }));
         data.putExtra(EXTRA_PROGRESS_MESSENGER, messenger);
 
-        OpenPgpSourceSinkAsyncTask<T> task = new OpenPgpSourceSinkAsyncTask<>(data, dataSource, dataSink, callback);
-
-        // don't serialize async tasks!
-        // http://commonsware.com/blog/2012/04/20/asynctask-threading-regression-confirmed.html
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[]) null);
-
+        // don't serialize async tasks! http://commonsware.com/blog/2012/04/20/asynctask-threading-regression-confirmed.html
+        OpenPgpSourceSinkExecutor<T> task = new OpenPgpSourceSinkExecutor<>(data, dataSource, dataSink, callback);
+        task.execute();
         return task;
     }
 
-    public AsyncTask executeApiAsync(Intent data, OpenPgpDataSource dataSource, IOpenPgpSinkResultCallback<Void> callback) {
-        OpenPgpSourceSinkAsyncTask<Void> task = new OpenPgpSourceSinkAsyncTask<>(data, dataSource, null, callback);
-
-        // don't serialize async tasks!
-        // http://commonsware.com/blog/2012/04/20/asynctask-threading-regression-confirmed.html
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[]) null);
-
+    public OpenPgpSourceSinkExecutor<Void> executeApiAsync(Intent data, OpenPgpDataSource dataSource, IOpenPgpSinkResultCallback<Void> callback) {
+        // don't serialize async tasks! http://commonsware.com/blog/2012/04/20/asynctask-threading-regression-confirmed.html
+        OpenPgpSourceSinkExecutor<Void> task = new OpenPgpSourceSinkExecutor<>(data, dataSource, null, callback);
+        task.execute();
         return task;
     }
 
     public void executeApiAsync(Intent data, InputStream is, OutputStream os, IOpenPgpCallback callback) {
-        OpenPgpAsyncTask task = new OpenPgpAsyncTask(data, is, os, callback);
-
-        // don't serialize async tasks!
-        // http://commonsware.com/blog/2012/04/20/asynctask-threading-regression-confirmed.html
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[]) null);
+        // don't serialize async tasks! http://commonsware.com/blog/2012/04/20/asynctask-threading-regression-confirmed.html
+        OpenPgpTask task = new OpenPgpTask(data, is, os, callback);
+        task.execute();
     }
 
     public static class OpenPgpDataResult<T> {

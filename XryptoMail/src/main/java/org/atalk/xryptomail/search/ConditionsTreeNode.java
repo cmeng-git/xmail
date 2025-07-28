@@ -4,9 +4,7 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.atalk.xryptomail.search.SearchSpecification.Attribute;
-import org.atalk.xryptomail.search.SearchSpecification.SearchCondition;
-import org.atalk.xryptomail.search.SearchSpecification.SearchField;
+import androidx.core.os.ParcelCompat;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,10 +12,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
+import org.atalk.xryptomail.search.SearchSpecification.Attribute;
+import org.atalk.xryptomail.search.SearchSpecification.SearchCondition;
+import org.atalk.xryptomail.search.SearchSpecification.SearchField;
+
 /**
  * This class stores search conditions. It's basically a boolean expression binary tree.
  * The output will be SQL queries ( obtained by traversing inorder ).
- *
  * TODO removing conditions from the tree
  * TODO implement NOT as a node again
  */
@@ -45,7 +46,6 @@ public class ConditionsTreeNode implements Parcelable {
     public int mLeftMPTTMarker;
     public int mRightMPTTMarker;
 
-
     ///////////////////////////////////////////////////////////////
     // Static Helpers to restore a tree from a database cursor
     ///////////////////////////////////////////////////////////////
@@ -54,7 +54,8 @@ public class ConditionsTreeNode implements Parcelable {
      * should point to rows representing the nodes of the tree.
      *
      * @param cursor Cursor pointing to the first of a bunch or rows. Each rows
-     * 	should contains 1 tree node.
+     * should contains 1 tree node.
+     *
      * @return A condition tree.
      */
     public static ConditionsTreeNode buildTreeFromDB(Cursor cursor) {
@@ -73,7 +74,8 @@ public class ConditionsTreeNode implements Parcelable {
             if (tmp.mRightMPTTMarker < stack.peek().mRightMPTTMarker) {
                 stack.peek().mLeft = tmp;
                 stack.push(tmp);
-            } else {
+            }
+            else {
                 while (stack.peek().mRightMPTTMarker < tmp.mRightMPTTMarker) {
                     stack.pop();
                 }
@@ -87,6 +89,7 @@ public class ConditionsTreeNode implements Parcelable {
      * Converts a single database row to a single condition node.
      *
      * @param cursor Cursor pointing to the row we want to convert.
+     *
      * @return A single ConditionsTreeNode
      */
     private static ConditionsTreeNode buildNodeFromRow(Cursor cursor) {
@@ -110,7 +113,8 @@ public class ConditionsTreeNode implements Parcelable {
 
     ///////////////////////////////////////////////////////////////
     // Constructors
-    ///////////////////////////////////////////////////////////////
+
+    /// ////////////////////////////////////////////////////////////
     public ConditionsTreeNode(SearchCondition condition) {
         mParent = null;
         mCondition = condition;
@@ -123,14 +127,12 @@ public class ConditionsTreeNode implements Parcelable {
         mCondition = null;
     }
 
-
     /* package */ ConditionsTreeNode cloneTree() {
         if (mParent != null) {
             throw new IllegalStateException("Can't call cloneTree() for a non-root node");
         }
 
         ConditionsTreeNode copy = new ConditionsTreeNode(mCondition.clone());
-
         copy.mLeftMPTTMarker = mLeftMPTTMarker;
         copy.mRightMPTTMarker = mRightMPTTMarker;
 
@@ -161,7 +163,9 @@ public class ConditionsTreeNode implements Parcelable {
      * clause to this node.
      *
      * @param expr Expression to 'AND' with.
+     *
      * @return New top AND node.
+     *
      * @throws Exception
      */
     public ConditionsTreeNode and(ConditionsTreeNode expr) throws Exception {
@@ -174,6 +178,7 @@ public class ConditionsTreeNode implements Parcelable {
      * clause to this node.
      *
      * @param condition Condition to 'AND' with.
+     *
      * @return New top AND node, new root.
      */
     public ConditionsTreeNode and(SearchCondition condition) {
@@ -191,7 +196,9 @@ public class ConditionsTreeNode implements Parcelable {
      * clause to this node.
      *
      * @param expr Expression to 'OR' with.
+     *
      * @return New top OR node.
+     *
      * @throws Exception
      */
     public ConditionsTreeNode or(ConditionsTreeNode expr) throws Exception {
@@ -204,6 +211,7 @@ public class ConditionsTreeNode implements Parcelable {
      * clause to this node.
      *
      * @param condition Condition to 'OR' with.
+     *
      * @return New top OR node, new root.
      */
     public ConditionsTreeNode or(SearchCondition condition) {
@@ -217,11 +225,10 @@ public class ConditionsTreeNode implements Parcelable {
     }
 
     /**
-     * This applies the MPTT labeling to the subtree of which this node
-     * is the root node.
-     *
+     * This applies the MPTT labeling to the subtree of which this node is the root node.
+     * <p>
      * For a description on MPTT see:
-     * http://www.sitepoint.com/hierarchical-data-database-2/
+     * <a href="http://www.sitepoint.com/hierarchical-data-database-2/">...</a>
      */
     public void applyMPTTLabel() {
         applyMPTTLabel(1);
@@ -233,6 +240,7 @@ public class ConditionsTreeNode implements Parcelable {
     ///////////////////////////////////////////////////////////////
     /**
      * Returns the condition stored in this node.
+     *
      * @return Condition stored in the node.
      */
     public SearchCondition getCondition() {
@@ -241,6 +249,7 @@ public class ConditionsTreeNode implements Parcelable {
 
     /**
      * Get a set of all the leaves in the tree.
+     *
      * @return Set of all the leaves.
      */
     public Set<ConditionsTreeNode> getLeafSet() {
@@ -285,12 +294,13 @@ public class ConditionsTreeNode implements Parcelable {
      * parent node will be one containing the operator provided in the arguments.
      * The method will update all the required references so the tree ends up in
      * a valid state.
-     *
      * This method only supports node arguments with a null parent node.
      *
      * @param node to add.
      * @param op that will connect the new node with this one.
+     *
      * @return New parent node, containing the operator.
+     *
      * @throws Exception Throws when the provided new node does not have a null parent.
      */
     private ConditionsTreeNode add(ConditionsTreeNode node, Operator op) throws Exception {
@@ -324,7 +334,8 @@ public class ConditionsTreeNode implements Parcelable {
         // we can compare objects id's because this is the desired behaviour in this case
         if (mLeft == oldChild) {
             mLeft = newChild;
-        } else if (mRight == oldChild) {
+        }
+        else if (mRight == oldChild) {
             mRight = newChild;
         }
     }
@@ -334,6 +345,7 @@ public class ConditionsTreeNode implements Parcelable {
      * this node is the root.
      *
      * @param leafSet Leafset that's being built.
+     *
      * @return Set of leaves being completed.
      */
     private Set<ConditionsTreeNode> getLeafSet(Set<ConditionsTreeNode> leafSet) {
@@ -355,11 +367,10 @@ public class ConditionsTreeNode implements Parcelable {
     }
 
     /**
-     * This applies the MPTT labeling to the subtree of which this node
-     * is the root node.
-     *
+     * This applies the MPTT labeling to the subtree of which this node is the root node.
+     * <p>
      * For a description on MPTT see:
-     * http://www.sitepoint.com/hierarchical-data-database-2/
+     * <a href="http://www.sitepoint.com/hierarchical-data-database-2/">...</a>
      */
     private int applyMPTTLabel(int label) {
         mLeftMPTTMarker = label;
@@ -382,7 +393,8 @@ public class ConditionsTreeNode implements Parcelable {
     //
     // This whole class has to be parcelable because it's passed
     // on through intents.
-    ///////////////////////////////////////////////////////////////
+
+    /// ////////////////////////////////////////////////////////////
     @Override
     public int describeContents() {
         return 0;
@@ -399,22 +411,24 @@ public class ConditionsTreeNode implements Parcelable {
     public static final Parcelable.Creator<ConditionsTreeNode> CREATOR =
             new Parcelable.Creator<ConditionsTreeNode>() {
 
-        @Override
-        public ConditionsTreeNode createFromParcel(Parcel in) {
-            return new ConditionsTreeNode(in);
-        }
+                @Override
+                public ConditionsTreeNode createFromParcel(Parcel in) {
+                    return new ConditionsTreeNode(in);
+                }
 
-        @Override
-        public ConditionsTreeNode[] newArray(int size) {
-            return new ConditionsTreeNode[size];
-        }
-    };
+                @Override
+                public ConditionsTreeNode[] newArray(int size) {
+                    return new ConditionsTreeNode[size];
+                }
+            };
 
     private ConditionsTreeNode(Parcel in) {
         mValue = Operator.values()[in.readInt()];
-        mCondition = in.readParcelable(ConditionsTreeNode.class.getClassLoader());
-        mLeft = in.readParcelable(ConditionsTreeNode.class.getClassLoader());
-        mRight = in.readParcelable(ConditionsTreeNode.class.getClassLoader());
+
+        ClassLoader loader = ConditionsTreeNode.class.getClassLoader();
+        mCondition = ParcelCompat.readParcelable(in, loader, SearchCondition.class);
+        mLeft = ParcelCompat.readParcelable(in, loader, ConditionsTreeNode.class);
+        mRight = ParcelCompat.readParcelable(in, loader, ConditionsTreeNode.class);
         mParent = null;
 
         if (mLeft != null) {

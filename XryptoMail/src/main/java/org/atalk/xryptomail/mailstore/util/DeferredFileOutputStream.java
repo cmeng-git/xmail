@@ -27,10 +27,10 @@ public class DeferredFileOutputStream extends ThresholdingOutputStream {
         currentOutputStream = new ByteArrayOutputStream(size);
     }
 
-    @Override
-    protected OutputStream getStream() throws IOException {
-        return currentOutputStream;
-    }
+//    @Override
+//    protected OutputStream getStream() throws IOException {
+//        return currentOutputStream;
+//    }
 
     private boolean isMemoryBacked() {
         return currentOutputStream instanceof ByteArrayOutputStream;

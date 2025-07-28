@@ -44,7 +44,7 @@ public class CoreReceiver extends BroadcastReceiver
                 wl.release();
             }
             else {
-                Timber.w("BootReceiver WakeLock %d doesn't exist", wakeLockId);
+                Timber.w("SystemEventReceiver WakeLock %d doesn't exist", wakeLockId);
             }
         }
     }

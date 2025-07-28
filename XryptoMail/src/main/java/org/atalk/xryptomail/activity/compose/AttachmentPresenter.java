@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
+import androidx.core.os.BundleCompat;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
@@ -70,7 +72,7 @@ public class AttachmentPresenter {
                 savedInstanceState.getString(STATE_KEY_WAITING_FOR_ATTACHMENTS));
         nextLoaderId = savedInstanceState.getInt(STATE_KEY_NEXT_LOADER_ID);
 
-        ArrayList<Attachment> attachmentList = savedInstanceState.getParcelableArrayList(STATE_KEY_ATTACHMENTS);
+        ArrayList<Attachment> attachmentList = BundleCompat.getParcelableArrayList(savedInstanceState, STATE_KEY_ATTACHMENTS, Attachment.class);
         // noinspection  we know this is set in onSaveInstanceState
         for (Attachment attachment : attachmentList) {
             attachments.put(attachment.uri, attachment);
@@ -244,7 +246,7 @@ public class AttachmentPresenter {
         @NonNull
         @Override
         public Loader<Attachment> onCreateLoader(int id, Bundle args) {
-            Uri uri = args.getParcelable(LOADER_ARG_ATTACHMENT);
+            Uri uri = BundleCompat.getParcelable(args, LOADER_ARG_ATTACHMENT, Uri.class);
             return new AttachmentInfoLoader(context, Objects.requireNonNull(attachments.get(uri)));
         }
 
@@ -273,7 +275,7 @@ public class AttachmentPresenter {
         @NonNull
         @Override
         public Loader<Attachment> onCreateLoader(int id, Bundle args) {
-            Uri uri = args.getParcelable(LOADER_ARG_ATTACHMENT);
+            Uri uri = BundleCompat.getParcelable(args, LOADER_ARG_ATTACHMENT, Uri.class);
             return new AttachmentContentLoader(context, Objects.requireNonNull(attachments.get(uri)));
         }
 
@@ -304,7 +306,7 @@ public class AttachmentPresenter {
     };
 
     private void postPerformStalledAction() {
-        new Handler().post(this::performStalledAction);
+        new Handler(Looper.getMainLooper()).post(this::performStalledAction);
     }
 
     private void performStalledAction() {

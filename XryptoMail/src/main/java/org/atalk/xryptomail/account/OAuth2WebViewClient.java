@@ -29,8 +29,10 @@ abstract class OAuth2WebViewClient extends WebViewClient {
         if (arrivedAtRedirectUri(uri)) {
             final String error = uri.getQueryParameter("error");
             if (error != null) {
-                Timber.e("got oauth error: %s", error);
-                errorHandler.onError(error);
+                Timber.e("oauth error: %s", error);
+                if (errorHandler != null) {
+                    errorHandler.onError(error);
+                }
                 requestHandler.onErrorWhenGettingOAuthCode(error);
                 return true;
             }

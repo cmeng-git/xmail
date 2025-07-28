@@ -11,167 +11,162 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceScreen
-        android:title="@string/font_size_account_list"
-        android:key="account_list_fonts">
+        android:key="account_list_fonts"
+        android:title="@string/font_size_account_list">
 
         <ListPreference
-            android:persistent="false"
+            android:dialogTitle="@string/font_size_account_name"
+            android:entries="@array/font_entries"
+            android:entryValues="@array/font_values"
             android:key="account_name_font"
-            android:title="@string/font_size_account_name"
-            android:entries="@array/font_entries"
-            android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_account_name" />
+            android:persistent="false"
+            android:title="@string/font_size_account_name" />
 
         <ListPreference
-            android:persistent="false"
+            android:dialogTitle="@string/font_size_account_description"
+            android:entries="@array/font_entries"
+            android:entryValues="@array/font_values"
             android:key="account_description_font"
-            android:title="@string/font_size_account_description"
-            android:entries="@array/font_entries"
-            android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_account_description" />
-
+            android:persistent="false"
+            android:title="@string/font_size_account_description" />
     </PreferenceScreen>
 
     <PreferenceScreen
-        android:title="@string/font_size_folder_list"
-        android:key="folder_list_fonts">
+        android:key="folder_list_fonts"
+        android:title="@string/font_size_folder_list">
 
         <ListPreference
-            android:persistent="false"
+            android:dialogTitle="@string/font_size_folder_name"
+            android:entries="@array/font_entries"
+            android:entryValues="@array/font_values"
             android:key="folder_name_font"
-            android:title="@string/font_size_folder_name"
-            android:entries="@array/font_entries"
-            android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_folder_name" />
+            android:persistent="false"
+            android:title="@string/font_size_folder_name" />
 
         <ListPreference
-            android:persistent="false"
+            android:dialogTitle="@string/font_size_folder_status"
+            android:entries="@array/font_entries"
+            android:entryValues="@array/font_values"
             android:key="folder_status_font"
-            android:title="@string/font_size_folder_status"
-            android:entries="@array/font_entries"
-            android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_folder_status" />
-
+            android:persistent="false"
+            android:title="@string/font_size_folder_status" />
     </PreferenceScreen>
 
     <PreferenceScreen
-        android:title="@string/font_size_message_list"
-        android:key="message_list_fonts">
+        android:key="message_list_fonts"
+        android:title="@string/font_size_message_list">
 
         <ListPreference
-            android:persistent="false"
+            android:dialogTitle="@string/font_size_message_list_subject"
+            android:entries="@array/font_entries"
+            android:entryValues="@array/font_values"
             android:key="message_list_subject_font"
-            android:title="@string/font_size_message_list_subject"
-            android:entries="@array/font_entries"
-            android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_message_list_subject" />
+            android:persistent="false"
+            android:title="@string/font_size_message_list_subject" />
 
         <ListPreference
-            android:persistent="false"
+            android:dialogTitle="@string/font_size_message_list_sender"
+            android:entries="@array/font_entries"
+            android:entryValues="@array/font_values"
             android:key="message_list_sender_font"
-            android:title="@string/font_size_message_list_sender"
-            android:entries="@array/font_entries"
-            android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_message_list_sender" />
+            android:persistent="false"
+            android:title="@string/font_size_message_list_sender" />
 
         <ListPreference
-            android:persistent="false"
+            android:dialogTitle="@string/font_size_message_list_date"
+            android:entries="@array/font_entries"
+            android:entryValues="@array/font_values"
             android:key="message_list_date_font"
-            android:title="@string/font_size_message_list_date"
-            android:entries="@array/font_entries"
-            android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_message_list_date" />
+            android:persistent="false"
+            android:title="@string/font_size_message_list_date" />
 
         <ListPreference
-            android:persistent="false"
-            android:key="message_list_preview_font"
-            android:title="@string/font_size_message_list_preview"
+            android:dialogTitle="@string/font_size_message_list_preview"
             android:entries="@array/font_entries"
             android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_message_list_preview" />
-
+            android:key="message_list_preview_font"
+            android:persistent="false"
+            android:title="@string/font_size_message_list_preview" />
     </PreferenceScreen>
 
     <PreferenceScreen
-        android:title="@string/font_size_message_view"
-        android:key="message_view_fonts">
+        android:key="message_view_fonts"
+        android:title="@string/font_size_message_view">
 
         <ListPreference
-            android:persistent="false"
+            android:dialogTitle="@string/font_size_message_view_sender"
+            android:entries="@array/font_entries"
+            android:entryValues="@array/font_values"
             android:key="message_view_sender_font"
-            android:title="@string/font_size_message_view_sender"
-            android:entries="@array/font_entries"
-            android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_message_view_sender" />
+            android:persistent="false"
+            android:title="@string/font_size_message_view_sender" />
 
         <ListPreference
-            android:persistent="false"
+            android:dialogTitle="@string/font_size_message_view_to"
+            android:entries="@array/font_entries"
+            android:entryValues="@array/font_values"
             android:key="message_view_to_font"
-            android:title="@string/font_size_message_view_to"
-            android:entries="@array/font_entries"
-            android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_message_view_to" />
+            android:persistent="false"
+            android:title="@string/font_size_message_view_to" />
 
         <ListPreference
-            android:persistent="false"
+            android:dialogTitle="@string/font_size_message_view_cc"
+            android:entries="@array/font_entries"
+            android:entryValues="@array/font_values"
             android:key="message_view_cc_font"
-            android:title="@string/font_size_message_view_cc"
-            android:entries="@array/font_entries"
-            android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_message_view_cc" />
+            android:persistent="false"
+            android:title="@string/font_size_message_view_cc" />
 
         <ListPreference
-            android:persistent="false"
+            android:dialogTitle="@string/font_size_message_view_bcc"
+            android:entries="@array/font_entries"
+            android:entryValues="@array/font_values"
             android:key="message_view_bcc_font"
-            android:title="@string/font_size_message_view_bcc"
-            android:entries="@array/font_entries"
-            android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_message_view_bcc" />
+            android:persistent="false"
+            android:title="@string/font_size_message_view_bcc" />
 
         <ListPreference
-            android:persistent="false"
+            android:dialogTitle="@string/font_size_message_view_subject"
+            android:entries="@array/font_entries"
+            android:entryValues="@array/font_values"
             android:key="message_view_subject_font"
-            android:title="@string/font_size_message_view_subject"
-            android:entries="@array/font_entries"
-            android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_message_view_subject" />
+            android:persistent="false"
+            android:title="@string/font_size_message_view_subject" />
 
         <ListPreference
-            android:persistent="false"
+            android:dialogTitle="@string/font_size_message_view_date"
+            android:entries="@array/font_entries"
+            android:entryValues="@array/font_values"
             android:key="message_view_date_font"
-            android:title="@string/font_size_message_view_date"
-            android:entries="@array/font_entries"
-            android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_message_view_date" />
+            android:persistent="false"
+            android:title="@string/font_size_message_view_date" />
 
         <ListPreference
-            android:persistent="false"
-            android:key="message_view_additional_headers_font"
-            android:title="@string/font_size_message_view_additional_headers"
+            android:dialogTitle="@string/font_size_message_view_additional_headers"
             android:entries="@array/font_entries"
             android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_message_view_additional_headers" />
+            android:key="message_view_additional_headers_font"
+            android:persistent="false"
+            android:title="@string/font_size_message_view_additional_headers" />
 
         <org.atalk.xryptomail.activity.setup.SliderPreference
-            android:persistent="false"
+            android:dialogTitle="@string/font_size_message_view_content"
             android:key="message_view_content_font_slider"
-            android:title="@string/font_size_message_view_content"
-            android:dialogTitle="@string/font_size_message_view_content" />
-
+            android:persistent="false"
+            android:title="@string/font_size_message_view_content" />
     </PreferenceScreen>
 
     <PreferenceScreen
-        android:title="@string/font_size_message_compose"
-        android:key="message_compose_fonts">
+        android:key="message_compose_fonts"
+        android:title="@string/font_size_message_compose">
 
         <ListPreference
-            android:persistent="false"
-            android:key="message_compose_input_font"
-            android:title="@string/font_size_message_compose_input"
+            android:dialogTitle="@string/font_size_message_compose_input"
             android:entries="@array/font_entries"
             android:entryValues="@array/font_values"
-            android:dialogTitle="@string/font_size_message_compose_input" />
-
+            android:key="message_compose_input_font"
+            android:persistent="false"
+            android:title="@string/font_size_message_compose_input" />
     </PreferenceScreen>
 
 </PreferenceScreen>

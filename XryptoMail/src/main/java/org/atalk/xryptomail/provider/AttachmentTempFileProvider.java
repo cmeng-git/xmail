@@ -5,22 +5,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
-import android.os.AsyncTask;
+
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import org.atalk.xryptomail.BuildConfig;
-import org.atalk.xryptomail.XryptoMail;
-import org.atalk.xryptomail.helper.FileBackend;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.atalk.xryptomail.BuildConfig;
+import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.helper.FileBackend;
 
 import okio.ByteString;
 import timber.log.Timber;
@@ -161,15 +163,11 @@ public class AttachmentTempFileProvider extends FileProvider
             return;
         }
 
-        new AsyncTask<Void, Void, Void>()
-        {
-            @Override
-            protected Void doInBackground(Void... voids)
-            {
+        try (ExecutorService eService = Executors.newSingleThreadExecutor()) {
+            eService.execute(() -> {
                 deleteOldTemporaryFiles(context);
-                return null;
-            }
-        }.execute();
+            });
+        }
 
         unregisterFileCleanupReceiver(context);
     }

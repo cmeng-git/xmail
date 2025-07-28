@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.core.os.ParcelCompat;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -391,7 +392,7 @@ public class LocalSearch implements SearchSpecification {
         mPredefined = (in.readByte() == 1);
         mManualSearch = (in.readByte() == 1);
         mAccountUuids.addAll(in.createStringArrayList());
-        mConditions = in.readParcelable(LocalSearch.class.getClassLoader());
+        mConditions = ParcelCompat.readParcelable(in, LocalSearch.class.getClassLoader(), ConditionsTreeNode.class);
         mLeafSet = (mConditions == null) ? null : mConditions.getLeafSet();
     }
 }

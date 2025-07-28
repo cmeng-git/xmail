@@ -2,14 +2,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-
-// if (rootProject.testCoverage) {
-//     apply plugin: 'jacoco'
-// }
+apply plugin: 'org.anarres.jarjar'
 
 repositories {
-    google()
     mavenCentral()
 }
 
@@ -20,11 +15,11 @@ configurations.implementation {
     }
 
     // Resolve compileDebugJavaWithJavac and kaptGenerateStubsDebugKotlin with incompatible Java version.
-    tasks.withType(KotlinCompile.class){
-        kotlinOptions {
-            jvmTarget = "1.8"
-        }
-    }
+//    tasks.withType(KotlinCompile.class){
+//        kotlinOptions {
+//            jvmTarget = "1.8"
+//        }
+//    }
 }
 
 android {
@@ -32,12 +27,12 @@ android {
     // buildToolsVersion rootProject.buildTools
 
     defaultConfig {
-        namespace 'org.atalk.xryptomail'
-        applicationId "org.atalk.xryptomail"
-        testApplicationId "org.atalk.xryptomail.tests"
+        namespace = 'org.atalk.xryptomail'
+        applicationId = "org.atalk.xryptomail"
+        testApplicationId = "org.atalk.xryptomail.tests"
 
-        versionCode 19131
-        versionName '5.1.3'
+        versionCode 19200
+        versionName '5.2.0'
 
         minSdkVersion rootProject.minSdk
         targetSdkVersion rootProject.compileSdk
@@ -54,27 +49,27 @@ android {
     }
 
     buildFeatures {
-        dataBinding true
+        // dataBinding = true
 
         // for view binding to replace butterKnife in PermissionsActivity:
-        viewBinding true
+        viewBinding = true
 
         // Required for gradle version >= 8.0.0 and above
-        buildConfig true
+        buildConfig = true
     }
 
     buildTypes {
         release {
             // Must set  below two to flase in API-34 release, else crashes in Moshi with
             // Cannot serialize abstract class MessagingControllerCommands$PendingDelete
-            shrinkResources false
-            minifyEnabled false
+            shrinkResources = false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "boolean", "DEVELOPER_MODE", "false"
         }
 
         debug {
-            debuggable true
+            debuggable = true
             buildConfigField "boolean", "DEVELOPER_MODE", "true"
         }
     }
@@ -98,7 +93,7 @@ android {
                 }
             }
         }
-        buildTypes.release.signingConfig signingConfigs.release
+        buildTypes.release.signingConfig = signingConfigs.release
     }
 
     // for using Apache HTTP Client
@@ -147,17 +142,21 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
 
-    implementation "androidx.legacy:legacy-support-v4:1.0.0"
+
+    // implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.annotation:annotation:1.9.1"
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
+
+    // implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation "com.google.android.material:material:1.12.0"
 
     implementation project(':plugins:openpgp-api-lib:openpgp-api')
     // implementation 'org.sufficientlysecure:openpgp-api:11.0'
 
-    implementation 'commons-io:commons-io:2.17.0'
+    implementation 'commons-io:commons-io:2.20.0'
     implementation 'com.beetstra.jutf7:jutf7:1.0.0'
-    implementation 'com.github.amlcurran.showcaseview:library:5.4.1'
+    implementation 'com.github.amlcurran.showcaseview:library:5.4.3'
 
     // ContactPictureLoader source is not compatible with v4.x.x
     implementation 'com.github.bumptech.glide:glide:3.8.0'
@@ -171,41 +170,49 @@ dependencies {
     // ImapConnection.open().enableCompressionIfRequested() does not work with jzlib version 1.1.3
     implementation 'com.jcraft:jzlib:1.0.7'
 
-    implementation 'com.squareup.moshi:moshi:1.15.1'
-    implementation 'com.squareup.okio:okio:3.9.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.splitwise:tokenautocomplete:2.0.8'
+    implementation 'com.squareup.moshi:moshi:1.15.2'
+    implementation 'com.squareup.okio:okio:3.15.0'
+    implementation 'com.squareup.retrofit2:retrofit:3.0.0'
+    implementation 'com.squareup.retrofit2:converter-gson:3.0.0'
+    implementation 'com.splitwise:tokenautocomplete:3.0.2'
+    implementation 'com.getkeepsafe.relinker:relinker:1.4.5'
 
     implementation 'de.cketti.library.changelog:ckchangelog:1.2.2'
-    implementation 'de.cketti.safecontentresolver:safe-content-resolver-v14:1.0.0'
-    implementation 'com.getkeepsafe.relinker:relinker:1.4.4'
-    implementation 'dnsjava:dnsjava:3.0.2'
+    implementation 'de.cketti.safecontentresolver:safe-content-resolver-v21:1.0.0'
 
-    implementation 'me.zhanghai.android.materialprogressbar:library:1.4.1'
-    implementation "me.leolin:ShortcutBadger:1.1.22"
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
+    implementation 'me.leolin:ShortcutBadger:1.1.22'
     implementation 'net.jcip:jcip-annotations:1.0'
 
-
-    implementation 'org.apache.james:apache-mime4j-core:0.8.9'
-    implementation 'org.apache.james:apache-mime4j-dom:0.8.9'
-    compileOnly "org.apache.httpcomponents:httpclient:4.5.14"
-    implementation 'org.apache.httpcomponents.client5:httpclient5:5.3.1'
-    implementation 'org.apache.httpcomponents:httpcore:4.4.16'
+    // NoClassDefFoundError: Failed resolution of: Ljava/time/format/DateTimeFormatterBuilder
+    implementation 'org.apache.james:apache-mime4j-core:0.8.13'
+    implementation 'org.apache.james:apache-mime4j-dom:0.8.13'
+    // implementation 'org.apache.httpcomponents:httpcore:4.4.16'
 
     // implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21"
-    implementation 'org.jsoup:jsoup:1.17.2'
+    implementation 'org.jsoup:jsoup:1.21.1'
+    // implementation 'org.slf4j:slf4j-log4j12:2.0.17'
 
-//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-//    testImplementation "com.google.truth:truth:${truthVersion}"
-//    testImplementation "junit:junit:${junitVersion}"
-//    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
-//    testImplementation "org.jdom:jdom2:2.0.6"
-//    testImplementation "org.robolectric:robolectric:3.7.1"
+
+    implementation 'dnsjava:dnsjava:3.6.3'
+    // Required for API-24
+//    implementation 'org.threeten:threetenbp:1.7.1'
+//    implementation jarjar.repackage('dnsjava-3.6.3.jar') {
+//        from('dnsjava:dnsjava:3.6.3') {
+//            transitive = false
+//        }
+//
+//        // Duration was added in API level-26; see https://github.com/JakeWharton/ThreeTenABP
+//        classRename 'java.time.Duration', 'org.threeten.bp.Duration'
+//    }
 }
 
+/*
+ * Generate the version.properties file with the actual build versionName and versionCode.
+ * The version.properties is retrieved during app update check to asses if there is a new update
+ */
 task updateVersionFile(type: Copy) {
-    description '<!-- Generate version.properties file -->'
+    description = '<!-- Generate version.properties file -->'
 
     def versionName = android.defaultConfig.versionName
     def versionCode = android.defaultConfig.versionCode
@@ -235,6 +242,8 @@ build.dependsOn 'updateVersionFile'
 
 // Uncomment below lines if you want to show all deprecated warnings
 tasks.withType(JavaCompile) {
-    options.compilerArgs << '-Xlint:unchecked'
+    // options.compilerArgs << '-Xlint:unchecked'
     options.deprecation = true
 }
+
+build.dependsOn 'updateVersionFile'

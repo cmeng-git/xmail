@@ -78,8 +78,7 @@ public class MessageListHandler extends Handler {
     }
 
     public void openMessage(MessageReference messageReference) {
-        android.os.Message msg = android.os.Message.obtain(this, ACTION_OPEN_MESSAGE,
-                messageReference);
+        android.os.Message msg = android.os.Message.obtain(this, ACTION_OPEN_MESSAGE, messageReference);
         sendMessage(msg);
     }
 

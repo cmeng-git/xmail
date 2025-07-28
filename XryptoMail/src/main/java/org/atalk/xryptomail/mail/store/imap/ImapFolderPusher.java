@@ -3,17 +3,6 @@ package org.atalk.xryptomail.mail.store.imap;
 import android.content.Context;
 import android.os.PowerManager;
 
-import org.atalk.xryptomail.XryptoMail;
-import org.atalk.xryptomail.mail.AuthenticationFailedException;
-import org.atalk.xryptomail.mail.Flag;
-import org.atalk.xryptomail.mail.Message;
-import org.atalk.xryptomail.mail.MessagingException;
-import org.atalk.xryptomail.mail.PushReceiver;
-import org.atalk.xryptomail.mail.XryptoMailLib;
-import org.atalk.xryptomail.power.TracingPowerManager;
-import org.atalk.xryptomail.power.TracingPowerManager.TracingWakeLock;
-import org.atalk.xryptomail.mail.store.RemoteStore;
-
 import java.io.IOException;
 import java.net.SocketException;
 import java.util.ArrayList;
@@ -24,10 +13,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.mail.AuthenticationFailedException;
+import org.atalk.xryptomail.mail.Flag;
+import org.atalk.xryptomail.mail.Message;
+import org.atalk.xryptomail.mail.MessagingException;
+import org.atalk.xryptomail.mail.PushReceiver;
+import org.atalk.xryptomail.mail.XryptoMailLib;
+import org.atalk.xryptomail.mail.store.RemoteStore;
+import org.atalk.xryptomail.power.TracingPowerManager;
+import org.atalk.xryptomail.power.TracingPowerManager.TracingWakeLock;
+
 import timber.log.Timber;
 
-class ImapFolderPusher extends ImapFolder
-{
+class ImapFolderPusher extends ImapFolder {
     private static final int IDLE_READ_TIMEOUT_INCREMENT = 5 * 60 * 1000;
     private static final int IDLE_FAILURE_COUNT_LIMIT = 10;
 
@@ -43,8 +42,7 @@ class ImapFolderPusher extends ImapFolder
     private volatile boolean stop = false;
     private volatile boolean idling = false;
 
-    public ImapFolderPusher(ImapStore store, String name, PushReceiver pushReceiver)
-    {
+    public ImapFolderPusher(ImapStore store, String name, PushReceiver pushReceiver) {
         super(store, name);
         mPushReceiver = pushReceiver;
         Context context = pushReceiver.getContext();
@@ -54,8 +52,7 @@ class ImapFolderPusher extends ImapFolder
         wakeLock.setReferenceCounted(false);
     }
 
-    public void start()
-    {
+    public void start() {
         synchronized (threadLock) {
             if (listeningThread != null) {
                 throw new IllegalStateException("start() called twice");
@@ -65,16 +62,14 @@ class ImapFolderPusher extends ImapFolder
         }
     }
 
-    public void refresh()
-    {
+    public void refresh() {
         if (idling) {
             wakeLock.acquire(XryptoMail.PUSH_WAKE_LOCK_TIMEOUT);
             idleStopper.stopIdle();
         }
     }
 
-    public void stop()
-    {
+    public void stop() {
         synchronized (threadLock) {
             if (listeningThread == null) {
                 throw new IllegalStateException("stop() called twice");
@@ -95,8 +90,7 @@ class ImapFolderPusher extends ImapFolder
     }
 
     @Override
-    protected void handleUntaggedResponse(ImapResponse response)
-    {
+    protected void handleUntaggedResponse(ImapResponse response) {
         if (!response.isTagged() && response.size() > 1) {
             Object responseType = response.get(1);
             if (ImapResponseParser.equalsIgnoreCase(responseType, "FETCH")
@@ -114,20 +108,17 @@ class ImapFolderPusher extends ImapFolder
         }
     }
 
-    private void superHandleUntaggedResponse(ImapResponse response)
-    {
+    private void superHandleUntaggedResponse(ImapResponse response) {
         super.handleUntaggedResponse(response);
     }
 
-    private class PushRunnable implements Runnable, UntaggedHandler
-    {
+    private class PushRunnable implements Runnable, UntaggedHandler {
         private int delayTime = NORMAL_DELAY_TIME;
         private int idleFailureCount = 0;
         private boolean needsPoll = false;
 
         @Override
-        public void run()
-        {
+        public void run() {
             wakeLock.acquire(XryptoMail.PUSH_WAKE_LOCK_TIMEOUT);
             if (XryptoMailLib.isDebug()) {
                 Timber.i("Pusher starting for %s", getLogId());
@@ -224,8 +215,7 @@ class ImapFolderPusher extends ImapFolder
             }
         }
 
-        private void reacquireWakeLockAndCleanUp()
-        {
+        private void reacquireWakeLockAndCleanUp() {
             wakeLock.acquire(XryptoMail.PUSH_WAKE_LOCK_TIMEOUT);
             clearStoredUntaggedResponses();
             idling = false;
@@ -241,8 +231,7 @@ class ImapFolderPusher extends ImapFolder
         }
 
         private long getNewUidNext()
-                throws MessagingException
-        {
+                throws MessagingException {
             long newUidNext = uidNext;
             if (newUidNext != -1L) {
                 return newUidNext;
@@ -266,8 +255,7 @@ class ImapFolderPusher extends ImapFolder
             return newUidNext;
         }
 
-        private long getStartUid(long oldUidNext, long newUidNext)
-        {
+        private long getStartUid(long oldUidNext, long newUidNext) {
             long startUid = oldUidNext;
             int displayCount = mStore.getStoreConfig().getDisplayCount();
 
@@ -281,15 +269,13 @@ class ImapFolderPusher extends ImapFolder
             return startUid;
         }
 
-        private void prepareForIdle()
-        {
+        private void prepareForIdle() {
             mPushReceiver.setPushActive(getServerId(), true);
             idling = true;
         }
 
         private void sendIdle(ImapConnection conn)
-                throws MessagingException, IOException
-        {
+                throws MessagingException, IOException {
             String tag = conn.sendCommand(Commands.IDLE, false);
             List<ImapResponse> responses = new ArrayList<>();
             try {
@@ -303,16 +289,14 @@ class ImapFolderPusher extends ImapFolder
             handleUntaggedResponses(responses);
         }
 
-        private void returnFromIdle()
-        {
+        private void returnFromIdle() {
             idling = false;
             delayTime = NORMAL_DELAY_TIME;
             idleFailureCount = 0;
         }
 
         private boolean openConnectionIfNecessary()
-                throws MessagingException
-        {
+                throws MessagingException {
             ImapConnection oldConnection = mConnection;
             internalOpen(OPEN_MODE_RO);
             ImapConnection conn = mConnection;
@@ -323,8 +307,7 @@ class ImapFolderPusher extends ImapFolder
         }
 
         private void checkConnectionNotNull(ImapConnection conn)
-                throws MessagingException
-        {
+                throws MessagingException {
             if (conn == null) {
                 String message = "Could not establish connection for IDLE";
                 mPushReceiver.pushError(message, null);
@@ -333,8 +316,7 @@ class ImapFolderPusher extends ImapFolder
         }
 
         private void checkConnectionIdleCapable(ImapConnection conn)
-                throws MessagingException
-        {
+                throws MessagingException {
             if (!conn.isIdleCapable()) {
                 stop = true;
 
@@ -345,15 +327,13 @@ class ImapFolderPusher extends ImapFolder
         }
 
         private void setReadTimeoutForIdle(ImapConnection conn)
-                throws SocketException
-        {
+                throws SocketException {
             int idleRefreshTimeout = mStore.getStoreConfig().getIdleRefreshMinutes() * 60 * 1000;
             conn.setReadTimeout(idleRefreshTimeout + IDLE_READ_TIMEOUT_INCREMENT);
         }
 
         @Override
-        public void handleAsyncUntaggedResponse(ImapResponse response)
-        {
+        public void handleAsyncUntaggedResponse(ImapResponse response) {
             if (XryptoMailLib.isDebug()) {
                 Timber.v("Got async response: %s", response);
             }
@@ -391,16 +371,14 @@ class ImapFolderPusher extends ImapFolder
             }
         }
 
-        private void clearStoredUntaggedResponses()
-        {
+        private void clearStoredUntaggedResponses() {
             synchronized (storedUntaggedResponses) {
                 storedUntaggedResponses.clear();
             }
         }
 
         private void processStoredUntaggedResponses()
-                throws MessagingException
-        {
+                throws MessagingException {
             while (true) {
                 List<ImapResponse> untaggedResponses = getAndClearStoredUntaggedResponses();
                 if (untaggedResponses.isEmpty()) {
@@ -415,8 +393,7 @@ class ImapFolderPusher extends ImapFolder
             }
         }
 
-        private List<ImapResponse> getAndClearStoredUntaggedResponses()
-        {
+        private List<ImapResponse> getAndClearStoredUntaggedResponses() {
             synchronized (storedUntaggedResponses) {
                 if (storedUntaggedResponses.isEmpty()) {
                     return Collections.emptyList();
@@ -428,8 +405,7 @@ class ImapFolderPusher extends ImapFolder
         }
 
         private void processUntaggedResponses(List<ImapResponse> responses)
-                throws MessagingException
-        {
+                throws MessagingException {
             boolean skipSync = false;
 
             int oldMessageCount = mMessageCount;
@@ -465,8 +441,7 @@ class ImapFolderPusher extends ImapFolder
         }
 
         private int processUntaggedResponse(long oldMessageCount, ImapResponse response, List<Long> flagSyncMsgSeqs,
-                List<String> removeMsgUids)
-        {
+                List<String> removeMsgUids) {
             superHandleUntaggedResponse(response);
 
             int messageCountDelta = 0;
@@ -546,8 +521,7 @@ class ImapFolderPusher extends ImapFolder
         }
 
         private void syncMessages(int end)
-                throws MessagingException
-        {
+                throws MessagingException {
             long oldUidNext = getOldUidNext();
 
             List<ImapMessage> messageList = getMessages(end, end, null, true, null);
@@ -586,8 +560,7 @@ class ImapFolderPusher extends ImapFolder
             }
         }
 
-        private void syncMessages(List<Long> flagSyncMsgSeqs)
-        {
+        private void syncMessages(List<Long> flagSyncMsgSeqs) {
             try {
                 Set<Long> messageSeqSet = new HashSet<>(flagSyncMsgSeqs);
                 List<? extends Message> messageList = getMessages(messageSeqSet, true, null);
@@ -599,8 +572,7 @@ class ImapFolderPusher extends ImapFolder
             }
         }
 
-        private void removeMessages(List<String> removeUids)
-        {
+        private void removeMessages(List<String> removeUids) {
             List<Message> messages = new ArrayList<>(removeUids.size());
 
             try {
@@ -633,8 +605,7 @@ class ImapFolderPusher extends ImapFolder
         }
 
         private void syncFolderOnConnect()
-                throws MessagingException
-        {
+                throws MessagingException {
             processStoredUntaggedResponses();
 
             if (mMessageCount == -1) {
@@ -644,8 +615,7 @@ class ImapFolderPusher extends ImapFolder
             mPushReceiver.syncFolder(ImapFolderPusher.this);
         }
 
-        private void notifyMessagesArrived(long startUid, long uidNext)
-        {
+        private void notifyMessagesArrived(long startUid, long uidNext) {
             if (XryptoMailLib.isDebug()) {
                 Timber.i("Needs sync from uid %d to %d for %s", startUid, uidNext, getLogId());
             }
@@ -661,8 +631,7 @@ class ImapFolderPusher extends ImapFolder
             mPushReceiver.messagesArrived(ImapFolderPusher.this, messages);
         }
 
-        private long getOldUidNext()
-        {
+        private long getOldUidNext() {
             long oldUidNext = -1L;
             try {
                 String serializedPushState = mPushReceiver.getPushState(getServerId());
@@ -682,13 +651,11 @@ class ImapFolderPusher extends ImapFolder
     /**
      * Ensure the DONE continuation is only sent when the IDLE command was sent and hasn't completed yet.
      */
-    private static class IdleStopper
-    {
+    private static class IdleStopper {
         private boolean acceptDoneContinuation = false;
         private ImapConnection imapConnection;
 
-        public synchronized void startAcceptingDoneContinuation(ImapConnection connection)
-        {
+        public synchronized void startAcceptingDoneContinuation(ImapConnection connection) {
             if (connection == null) {
                 throw new NullPointerException("connection must not be null");
             }
@@ -696,22 +663,19 @@ class ImapFolderPusher extends ImapFolder
             imapConnection = connection;
         }
 
-        public synchronized void stopAcceptingDoneContinuation()
-        {
+        public synchronized void stopAcceptingDoneContinuation() {
             acceptDoneContinuation = false;
             imapConnection = null;
         }
 
-        public synchronized void stopIdle()
-        {
+        public synchronized void stopIdle() {
             if (acceptDoneContinuation) {
                 acceptDoneContinuation = false;
                 sendDone();
             }
         }
 
-        private void sendDone()
-        {
+        private void sendDone() {
             try {
                 imapConnection.setReadTimeout(RemoteStore.SOCKET_READ_TIMEOUT);
                 imapConnection.sendContinuation("DONE");

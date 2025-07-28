@@ -25,7 +25,7 @@ public class ShutdownReceiver extends BroadcastReceiver {
             Timber.i("System is shutting down, releasing resources");
 
             // prevent any scheduled intent from waking up K-9
-            BootReceiver.purgeSchedule(context);
+            SystemEventReceiver.purgeSchedule(context);
 
             /*
              * TODO invoke proper shutdown methods (stop any running thread)

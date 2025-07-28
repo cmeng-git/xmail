@@ -1,5 +1,40 @@
 XryptoMail Release Notes:
 =============================
+Version:		5.2.0 (19200)
+Upload Date:	07/29/2025
+- Upgrade Xmail to support Android-16 Baklava (API-36) with the following changes:
+  * Android Studio Narwhal | 2025.1.1
+  * https://services.gradle.org/distributions/gradle-8.14.2-bin.zip
+  * classpath 'com.android.tools.build:gradle:8.11.1'
+  * classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21'
+- Raise minSdk support to API-26; many third parties libraries drop support for < API-26
+- Third party libraries upgraded to latest compatible version for API-36:
+- Use safe-content-resolver-v21; to fix native library arm64-v8a/libos-compat.so (v14) is not 16 KB aligned
+- Disable splitActionBarWhenNarrow for API-36+; else ActionBar is overlaid by Navigation Bar if enabled
+- Move AccountSetupActivity#authDialog to use AlertDialog to avoid content clipping, and better compatibility with API-36.
+- Fix SoftKeyboard not shown in AlertDialog (Dialog class is OK); see AccountSetupActivity
+- AccountSetupActivity: webSettings.setUserAgentString; using AppId-version causes outlook.com web page shows blank;
+  but it is required for gmail.com. So use mixed of both for it to work.
+- OAuth2WebViewClient: do not execute errorHandler.onError(error) if errorHandler == null.
+- Migrate deprecated intent.getSerializableExtra() to IntentCompat.getSerializableExtra(), and
+  bundle.getSerializable() to BundleCompat.getSerializable().
+- Fixed tokenautocomplete:3.0.2 entry field not selectable by click, use setTextIsSelectable(true).
+- Reimplement deprecated classes/methods i.e. onBackPressed and AsyncTask with new functions.
+- Remove permissions request for permission-group.XMAIL, REMOTE_CONTROL, READ_MESSAGES, and DELETE_MESSAGES.
+- Remove meta-data UI_OPTIONS and PARENT_ACTIVITY support for <= API-16.
+
+Fixes for API < 26 (not implemented)
+- Duration was added in API level-26; see https://github.com/JakeWharton/ThreeTenABP
+- Add new lib 'org.slf4j:slf4j-log4j12:2.0.17'
+- Note10+ crashes when open mail from 'The Scoot Team'; AVD API-36 has not problem. Earlier version build has no problem.
+* JNI DETECTED ERROR IN APPLICATION: JNI NewStringUTF called with pending exception java.lang.IllegalStateException:
+* Unable to create layer for FrameLayout, size 1472x16384 max size 16383 color type 4 has context 1
+  size 1472x16384 max size 16383: This is the critical part. The requested height (16384) for the FrameLayout exceeds
+  the maximum allowable texture or layer size (16383) on the specific device or GPU. This often occurs when a UI element,
+  such as a FrameLayout containing a RecyclerView or ScrollView, attempts to render content that is excessively long or tall,
+  exceeding the hardware's capabilities for a single layer.
+
+=============================
 Version:		5.1.3 (19131)
 Upload Date:	06/07/2025
 - Remove permissions access for READ_MEDIA_IMAGES and READ_MEDIA_VIDEO.
@@ -27,7 +62,7 @@ Upload Date:	07/29/2024
 - Do not launch BatteryOptimization permission request within a dialog, else parseResult is based on dialog click.
 - ActivityResultContract#parseResult on BatteryOptimization request must return isOptimizingBattery() state.
 - Must set both shrinkResources and minifyEnabled to false for release build under API-34;
-  else xmail crashes in Moshi with cannot serialize abstract class MessagingControllerCommands$PendingDelete
+  else Xmail crashes in Moshi with cannot serialize abstract class MessagingControllerCommands$PendingDelete
 - UpdateServiceImpl#isLatestVersion need to close inputStream after access end.
 - Update all app used libraries to the latest releases.
 
@@ -101,9 +136,9 @@ Upload Date:	11/17/2020
   API-26 for LED control in NotificationChannel
   i.e. nEmail.setLightColor(Color.BLUE);
        nEmail.enableLights(true);
-- Note-10 Edge-lighting when enabled for xMail, it affects the heads-up notifications stripping all the action buttons
+- Note-10 Edge-lighting when enabled for Xmail, it affects the heads-up notifications stripping all the action buttons
   i.e. Reply, and Mark As Read etc. Edge-light only supported in a locked-screen state, and required fullScreen Intent
-  to trigger it, LED light on duration is only momentarily. Decided not to implement for xMail.
+  to trigger it, LED light on duration is only momentarily. Decided not to implement for Xmail.
 - Upgrade to support up to android 11.0(R), API-30
 - Update online update service classes
 

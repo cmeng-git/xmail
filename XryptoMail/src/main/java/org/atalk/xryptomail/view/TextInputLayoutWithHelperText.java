@@ -1,5 +1,6 @@
 package org.atalk.xryptomail.view;
 
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -78,61 +79,60 @@ public class TextInputLayoutWithHelperText extends TextInputLayout {
         if (_enabled && mErrorEnabled) {
             setErrorEnabled(false);
         }
-        if (this.mHelperTextEnabled != _enabled) {
+        if (mHelperTextEnabled != _enabled) {
             if (_enabled) {
-                this.mHelperView = new TextView(this.getContext());
-                this.mHelperView.setTextAppearance(this.getContext(), this.mHelperTextAppearance);
+                mHelperView = new TextView(getContext());
+                mHelperView.setTextAppearance(mHelperTextAppearance);
                 if (mHelperTextColor != null){
-                    this.mHelperView.setTextColor(mHelperTextColor);
+                    mHelperView.setTextColor(mHelperTextColor);
                 }
-                this.mHelperView.setVisibility(INVISIBLE);
-                this.addView(this.mHelperView);
+                mHelperView.setVisibility(INVISIBLE);
+                addView(mHelperView);
                 // getEditText() can be null and crash
-                if ((this.mHelperView != null) && (getEditText() != null)) {
-                    ViewCompat.setPaddingRelative(
-                            this.mHelperView,
-                            ViewCompat.getPaddingStart(getEditText()),
-                            0, ViewCompat.getPaddingEnd(getEditText()),
+                if ((mHelperView != null) && (getEditText() != null)) {
+                    mHelperView.setPaddingRelative(
+                            getEditText().getPaddingStart(),
+                            0, getEditText().getPaddingEnd(),
                             getEditText().getPaddingBottom());
                 }
             } else {
-                this.removeView(this.mHelperView);
-                this.mHelperView = null;
+                removeView(mHelperView);
+                mHelperView = null;
             }
 
-            this.mHelperTextEnabled = _enabled;
+            mHelperTextEnabled = _enabled;
         }
     }
 
     public void setHelperText(CharSequence _helperText) {
         mHelperText = _helperText;
-        if (!this.mHelperTextEnabled) {
+        if (!mHelperTextEnabled) {
             if (TextUtils.isEmpty(mHelperText)) {
                 return;
             }
-            this.setHelperTextEnabled(true);
+            setHelperTextEnabled(true);
         }
 
         if (!TextUtils.isEmpty(mHelperText)) {
-            this.mHelperView.setText(mHelperText);
-            this.mHelperView.setVisibility(VISIBLE);
-            ViewCompat.setAlpha(this.mHelperView, 0.0F);
-            ViewCompat.animate(this.mHelperView)
-                    .alpha(1.0F).setDuration(200L)
+            mHelperView.setText(mHelperText);
+            mHelperView.setVisibility(VISIBLE);
+            mHelperView.setAlpha(0.0f);
+            mHelperView.animate()
+                    .alpha(1.0f).setDuration(200L)
                     .setInterpolator(FAST_OUT_SLOW_IN_INTERPOLATOR)
                     .setListener(null).start();
-        } else if (this.mHelperView.getVisibility() == VISIBLE) {
-            ViewCompat.animate(this.mHelperView)
-                    .alpha(0.0F).setDuration(200L)
+        } else if (mHelperView.getVisibility() == VISIBLE) {
+            mHelperView.animate()
+                    .alpha(0.0f).setDuration(200L)
                     .setInterpolator(FAST_OUT_SLOW_IN_INTERPOLATOR)
-                    .setListener(new ViewPropertyAnimatorListenerAdapter() {
+                    .setListener(new AnimatorListenerAdapter() {
                         public void onAnimationEnd(View view) {
                             mHelperView.setText(null);
                             mHelperView.setVisibility(INVISIBLE);
                         }
                     }).start();
         }
-        this.sendAccessibilityEvent(2048);
+        sendAccessibilityEvent(2048);
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.app.Activity;
 public interface NonConfigurationInstance {
     /**
      * Decide whether to retain this {@code NonConfigurationInstance} and clean up resources if necessary.
-     *
      * This needs to be called when the current activity is being destroyed during an activity
      * restart due to a configuration change.<br>
      * Implementations should make sure that references to the {@code Activity} instance that is
@@ -14,6 +13,7 @@ public interface NonConfigurationInstance {
      * {@link #restore(Activity)}.
      *
      * @return {@code true} if this instance should be retained; {@code false} otherwise.
+     *
      * @see Activity#onRetainNonConfigurationInstance()
      */
     boolean retain();
@@ -21,7 +21,6 @@ public interface NonConfigurationInstance {
     /**
      * Connect this retained {@code NonConfigurationInstance} to the new {@link Activity} instance
      * after the activity was restarted due to a configuration change.
-     *
      * This also creates a new progress dialog that is bound to the new activity.
      *
      * @param activity The new {@code Activity} instance. Never {@code null}.

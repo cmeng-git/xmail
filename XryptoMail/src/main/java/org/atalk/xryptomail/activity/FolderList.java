@@ -4,32 +4,63 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.os.*;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.PowerManager;
 import android.text.TextUtils.TruncateAt;
 import android.text.format.DateUtils;
-import android.view.*;
+import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import org.atalk.xryptomail.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+
+import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.Account.FolderMode;
+import org.atalk.xryptomail.AccountStats;
+import org.atalk.xryptomail.BaseAccount;
+import org.atalk.xryptomail.FontSizes;
+import org.atalk.xryptomail.Preferences;
+import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.activity.compose.MessageActions;
-import org.atalk.xryptomail.activity.setup.*;
-import org.atalk.xryptomail.controller.*;
+import org.atalk.xryptomail.activity.setup.AccountSettings;
+import org.atalk.xryptomail.activity.setup.FolderSettings;
+import org.atalk.xryptomail.activity.setup.Prefs;
+import org.atalk.xryptomail.controller.MessagingController;
+import org.atalk.xryptomail.controller.MessagingListener;
+import org.atalk.xryptomail.controller.SimpleMessagingListener;
 import org.atalk.xryptomail.helper.SizeFormatter;
 import org.atalk.xryptomail.mail.Folder;
 import org.atalk.xryptomail.mail.Message;
+import org.atalk.xryptomail.mailstore.LocalFolder;
 import org.atalk.xryptomail.power.TracingPowerManager;
 import org.atalk.xryptomail.power.TracingPowerManager.TracingWakeLock;
-import org.atalk.xryptomail.mailstore.LocalFolder;
 import org.atalk.xryptomail.search.LocalSearch;
 import org.atalk.xryptomail.search.SearchSpecification.Attribute;
 import org.atalk.xryptomail.search.SearchSpecification.SearchField;
 import org.atalk.xryptomail.service.MailService;
-
-import java.util.*;
 
 import de.cketti.library.changelog.ChangeLog;
 import timber.log.Timber;
@@ -39,8 +70,7 @@ import timber.log.Timber;
  * list of the Account's folders
  */
 
-public class FolderList extends XMListActivity
-{
+public class FolderList extends XMListActivity {
     /*
      * Constants for showDialog() etc.
      */
@@ -67,10 +97,8 @@ public class FolderList extends XMListActivity
     private TextView mActionBarSubTitle;
     private TextView mActionBarUnread;
 
-    class FolderListHandler extends Handler
-    {
-        public void refreshTitle()
-        {
+    class FolderListHandler extends Handler {
+        public void refreshTitle() {
             runOnUiThread(() -> {
                 mActionBarTitle.setText(getString(R.string.folders_title));
 
@@ -92,8 +120,7 @@ public class FolderList extends XMListActivity
             });
         }
 
-        public void newFolders(final List<FolderInfoHolder> newFolders)
-        {
+        public void newFolders(final List<FolderInfoHolder> newFolders) {
             runOnUiThread(() -> {
                 mAdapter.mFolders.clear();
                 mAdapter.mFolders.addAll(newFolders);
@@ -102,8 +129,7 @@ public class FolderList extends XMListActivity
             });
         }
 
-        public void workingAccount(final int res)
-        {
+        public void workingAccount(final int res) {
             runOnUiThread(() -> {
                 String toastText = getString(res, mAccount.getDescription());
                 Toast toast = Toast.makeText(getApplication(), toastText, Toast.LENGTH_SHORT);
@@ -111,8 +137,7 @@ public class FolderList extends XMListActivity
             });
         }
 
-        public void accountSizeChanged(final long oldSize, final long newSize)
-        {
+        public void accountSizeChanged(final long oldSize, final long newSize) {
             runOnUiThread(() -> {
                 String toastText = getString(R.string.account_size_changed, mAccount.getDescription(),
                         SizeFormatter.formatSize(getApplication(), oldSize),
@@ -123,8 +148,7 @@ public class FolderList extends XMListActivity
             });
         }
 
-        public void folderLoading(final String folder, final boolean loading)
-        {
+        public void folderLoading(final String folder, final boolean loading) {
             runOnUiThread(() -> {
                 FolderInfoHolder folderHolder = mAdapter.getFolder(folder);
                 if (folderHolder != null) {
@@ -133,8 +157,7 @@ public class FolderList extends XMListActivity
             });
         }
 
-        public void progress(final boolean progress)
-        {
+        public void progress(final boolean progress) {
             // Make sure we don't try this before the menu is initialized
             // this could happen while the activity is initialized.
             if (mRefreshMenuItem == null) {
@@ -150,8 +173,7 @@ public class FolderList extends XMListActivity
             });
         }
 
-        public void dataChanged()
-        {
+        public void dataChanged() {
             runOnUiThread(() -> mAdapter.notifyDataSetChanged());
         }
     }
@@ -162,17 +184,14 @@ public class FolderList extends XMListActivity
      * queueing up a remote update of the folder.
      */
 
-    private void checkMail(FolderInfoHolder folder)
-    {
+    private void checkMail(FolderInfoHolder folder) {
         TracingPowerManager pm = TracingPowerManager.getPowerManager(this);
         final TracingWakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FolderList checkMail");
         wakeLock.setReferenceCounted(false);
         wakeLock.acquire(XryptoMail.WAKE_LOCK_TIMEOUT);
-        MessagingListener listener = new SimpleMessagingListener()
-        {
+        MessagingListener listener = new SimpleMessagingListener() {
             @Override
-            public void synchronizeMailboxFinished(Account account, String folder, int totalMessagesInMailbox, int numNewMessages)
-            {
+            public void synchronizeMailboxFinished(Account account, String folder, int totalMessagesInMailbox, int numNewMessages) {
                 if (!account.equals(mAccount)) {
                     return;
                 }
@@ -180,8 +199,7 @@ public class FolderList extends XMListActivity
             }
 
             @Override
-            public void synchronizeMailboxFailed(Account account, String folder, String message)
-            {
+            public void synchronizeMailboxFailed(Account account, String folder, String message) {
                 if (!account.equals(mAccount)) {
                     return;
                 }
@@ -192,8 +210,7 @@ public class FolderList extends XMListActivity
         sendMail(mAccount);
     }
 
-    public static Intent actionHandleAccountIntent(Context context, Account account, boolean fromShortcut)
-    {
+    public static Intent actionHandleAccountIntent(Context context, Account account, boolean fromShortcut) {
         Intent intent = new Intent(context, FolderList.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(EXTRA_ACCOUNT, account.getUuid());
@@ -204,15 +221,13 @@ public class FolderList extends XMListActivity
         return intent;
     }
 
-    public static void actionHandleAccount(Context context, Account account)
-    {
+    public static void actionHandleAccount(Context context, Account account) {
         Intent intent = actionHandleAccountIntent(context, account, false);
         context.startActivity(intent);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (UpgradeDatabases.actionUpgradeDatabases(this, getIntent())) {
             finish();
@@ -253,13 +268,11 @@ public class FolderList extends XMListActivity
     }
 
     @SuppressLint("InflateParams")
-    private View getActionBarProgressView()
-    {
+    private View getActionBarProgressView() {
         return getLayoutInflater().inflate(R.layout.actionbar_indeterminate_progress_actionview, null);
     }
 
-    private void initializeActionBar()
-    {
+    private void initializeActionBar() {
         mActionBar.setDisplayShowCustomEnabled(true);
         mActionBar.setCustomView(R.layout.actionbar_custom);
 
@@ -272,8 +285,7 @@ public class FolderList extends XMListActivity
     }
 
     @Override
-    public void onNewIntent(Intent intent)
-    {
+    public void onNewIntent(Intent intent) {
         setIntent(intent); // onNewIntent doesn't autoset our "internal" intent
         mUnreadMessageCount = 0;
         String accountUuid = intent.getStringExtra(EXTRA_ACCOUNT);
@@ -299,8 +311,7 @@ public class FolderList extends XMListActivity
         }
     }
 
-    private void initializeActivityView()
-    {
+    private void initializeActivityView() {
         mAdapter = new FolderListAdapter();
         restorePreviousData();
 
@@ -310,8 +321,7 @@ public class FolderList extends XMListActivity
     }
 
     @SuppressWarnings("unchecked")
-    private void restorePreviousData()
-    {
+    private void restorePreviousData() {
         final Object previousData = getLastNonConfigurationInstance();
         if (previousData != null) {
             mAdapter.mFolders = (ArrayList<FolderInfoHolder>) previousData;
@@ -320,14 +330,12 @@ public class FolderList extends XMListActivity
     }
 
     @Override
-    public Object onRetainNonConfigurationInstance()
-    {
+    public Object onRetainNonConfigurationInstance() {
         return (mAdapter == null) ? null : mAdapter.mFolders;
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
         MessagingController.getInstance(getApplication()).removeListener(mAdapter.mListener);
         mAdapter.mListener.onPause(this);
@@ -339,8 +347,7 @@ public class FolderList extends XMListActivity
      * things like unread message count and read status are updated.
      */
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
 
         if (!mAccount.isAvailable(this)) {
@@ -364,8 +371,7 @@ public class FolderList extends XMListActivity
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         // Shortcuts that work no matter what is selected
         switch (keyCode) {
             case KeyEvent.KEYCODE_Q: {
@@ -405,8 +411,7 @@ public class FolderList extends XMListActivity
         return super.onKeyDown(keyCode, event);
     }// onKeyDown
 
-    private void setDisplayMode(FolderMode newMode)
-    {
+    private void setDisplayMode(FolderMode newMode) {
         mAccount.setFolderDisplayMode(newMode);
         mAccount.save(Preferences.getPreferences(this));
         if (mAccount.getFolderPushMode() != FolderMode.NONE) {
@@ -416,46 +421,38 @@ public class FolderList extends XMListActivity
         onRefresh(false);
     }
 
-    private void onRefresh(final boolean forceRemote)
-    {
+    private void onRefresh(final boolean forceRemote) {
         MessagingController.getInstance(getApplication()).listFolders(mAccount, forceRemote, mAdapter.mListener);
     }
 
-    private void onEditPrefs()
-    {
+    private void onEditPrefs() {
         Prefs.actionPrefs(this);
     }
 
-    private void onEditAccount()
-    {
+    private void onEditAccount() {
         AccountSettings.actionSettings(this, mAccount);
     }
 
-    private void onAccounts()
-    {
+    private void onAccounts() {
         Accounts.listAccounts(this);
         finish();
     }
 
-    private void onEmptyTrash(final Account account)
-    {
+    private void onEmptyTrash(final Account account) {
         mHandler.dataChanged();
         MessagingController.getInstance(getApplication()).emptyTrash(account, null);
     }
 
-    private void onClearFolder(Account account, String folderName)
-    {
+    private void onClearFolder(Account account, String folderName) {
         MessagingController.getInstance(getApplication()).clearFolder(account, folderName, mAdapter.mListener);
     }
 
-    private void sendMail(Account account)
-    {
+    private void sendMail(Account account) {
         MessagingController.getInstance(getApplication()).sendPendingMessages(account, mAdapter.mListener);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onAccounts();
@@ -520,8 +517,7 @@ public class FolderList extends XMListActivity
     }
 
     @Override
-    public boolean onSearchRequested()
-    {
+    public boolean onSearchRequested() {
         Bundle appData = new Bundle();
         appData.putString(MessageList.EXTRA_SEARCH_ACCOUNT, mAccount.getUuid());
         startSearch(null, false, appData, false);
@@ -529,23 +525,20 @@ public class FolderList extends XMListActivity
     }
 
 
-    private void onOpenFolder(String folder)
-    {
+    private void onOpenFolder(String folder) {
         LocalSearch search = new LocalSearch(folder);
         search.addAccountUuid(mAccount.getUuid());
         search.addAllowedFolder(folder);
         MessageList.actionDisplaySearch(this, search, false, false);
     }
 
-    private void onCompact(Account account)
-    {
+    private void onCompact(Account account) {
         mHandler.workingAccount(R.string.compacting_account);
         MessagingController.getInstance(getApplication()).compact(account, null);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.folder_list_option, menu);
         mRefreshMenuItem = menu.findItem(R.id.check_mail);
@@ -553,24 +546,20 @@ public class FolderList extends XMListActivity
         return true;
     }
 
-    private void configureFolderSearchView(Menu menu)
-    {
+    private void configureFolderSearchView(Menu menu) {
         final MenuItem folderMenuItem = menu.findItem(R.id.filter_folders);
         final SearchView folderSearchView = (SearchView) folderMenuItem.getActionView();
         folderSearchView.setQueryHint(getString(R.string.folder_list_filter_hint));
-        folderSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
-        {
+        folderSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query)
-            {
+            public boolean onQueryTextSubmit(String query) {
                 folderMenuItem.collapseActionView();
                 mActionBarTitle.setText(getString(R.string.filter_folders_action));
                 return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText)
-            {
+            public boolean onQueryTextChange(String newText) {
                 mAdapter.getFilter().filter(newText);
                 return true;
             }
@@ -583,8 +572,7 @@ public class FolderList extends XMListActivity
     }
 
     @Override
-    public boolean onContextItemSelected(android.view.MenuItem item)
-    {
+    public boolean onContextItemSelected(android.view.MenuItem item) {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         FolderInfoHolder folder = (FolderInfoHolder) mAdapter.getItem(info.position);
 
@@ -605,8 +593,7 @@ public class FolderList extends XMListActivity
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
-    {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
         getMenuInflater().inflate(R.menu.folder_context, menu);
@@ -615,56 +602,46 @@ public class FolderList extends XMListActivity
         menu.setHeaderTitle(folder.displayName);
     }
 
-    class FolderListAdapter extends BaseAdapter implements Filterable
-    {
+    class FolderListAdapter extends BaseAdapter implements Filterable {
         private List<FolderInfoHolder> mFolders = new ArrayList<>();
         private List<FolderInfoHolder> mFilteredFolders = Collections.unmodifiableList(mFolders);
         private Filter mFilter = new FolderListFilter();
 
-        public Object getItem(long position)
-        {
+        public Object getItem(long position) {
             return getItem((int) position);
         }
 
-        public Object getItem(int position)
-        {
+        public Object getItem(int position) {
             return mFilteredFolders.get(position);
         }
 
-        public long getItemId(int position)
-        {
+        public long getItemId(int position) {
             return mFilteredFolders.get(position).folder.getServerId().hashCode();
         }
 
-        public int getCount()
-        {
+        public int getCount() {
             return mFilteredFolders.size();
         }
 
         @Override
-        public boolean isEnabled(int item)
-        {
+        public boolean isEnabled(int item) {
             return true;
         }
 
         @Override
-        public boolean areAllItemsEnabled()
-        {
+        public boolean areAllItemsEnabled() {
             return true;
         }
 
-        private final ActivityListener mListener = new ActivityListener()
-        {
+        private final ActivityListener mListener = new ActivityListener() {
             @Override
-            public void informUserOfStatus()
-            {
+            public void informUserOfStatus() {
                 mHandler.refreshTitle();
                 mHandler.dataChanged();
             }
 
             @Override
-            public void accountStatusChanged(BaseAccount account, AccountStats stats)
-            {
+            public void accountStatusChanged(BaseAccount account, AccountStats stats) {
                 if (!account.equals(mAccount)) {
                     return;
                 }
@@ -676,8 +653,7 @@ public class FolderList extends XMListActivity
             }
 
             @Override
-            public void listFoldersStarted(Account account)
-            {
+            public void listFoldersStarted(Account account) {
                 if (account.equals(mAccount)) {
                     mHandler.progress(true);
                 }
@@ -685,8 +661,7 @@ public class FolderList extends XMListActivity
             }
 
             @Override
-            public void listFoldersFailed(Account account, String message)
-            {
+            public void listFoldersFailed(Account account, String message) {
                 if (account.equals(mAccount)) {
                     mHandler.progress(false);
                     Toast.makeText(context, R.string.fetching_folders_failed, Toast.LENGTH_SHORT).show();
@@ -695,8 +670,7 @@ public class FolderList extends XMListActivity
             }
 
             @Override
-            public void listFoldersFinished(Account account)
-            {
+            public void listFoldersFinished(Account account) {
                 if (account.equals(mAccount)) {
 
                     mHandler.progress(false);
@@ -707,8 +681,7 @@ public class FolderList extends XMListActivity
             }
 
             @Override
-            public void listFolders(Account account, List<LocalFolder> folders)
-            {
+            public void listFolders(Account account, List<LocalFolder> folders) {
                 if (account.equals(mAccount)) {
 
                     List<FolderInfoHolder> newFolders = new LinkedList<>();
@@ -756,8 +729,7 @@ public class FolderList extends XMListActivity
             }
 
             @Override
-            public void synchronizeMailboxStarted(Account account, String folder)
-            {
+            public void synchronizeMailboxStarted(Account account, String folder) {
                 super.synchronizeMailboxStarted(account, folder);
                 if (account.equals(mAccount)) {
                     mHandler.progress(true);
@@ -768,8 +740,7 @@ public class FolderList extends XMListActivity
 
             @Override
             public void synchronizeMailboxFinished(Account account,
-                    String folder, int totalMessagesInMailbox, int numNewMessages)
-            {
+                    String folder, int totalMessagesInMailbox, int numNewMessages) {
                 super.synchronizeMailboxFinished(account, folder, totalMessagesInMailbox, numNewMessages);
                 if (account.equals(mAccount)) {
                     mHandler.progress(false);
@@ -778,8 +749,7 @@ public class FolderList extends XMListActivity
                 }
             }
 
-            private void refreshFolder(Account account, String folderName)
-            {
+            private void refreshFolder(Account account, String folderName) {
                 // There has to be a cheaper way to get at the localFolder object than this
                 LocalFolder localFolder = null;
                 try {
@@ -806,8 +776,7 @@ public class FolderList extends XMListActivity
             }
 
             @Override
-            public void synchronizeMailboxFailed(Account account, String folder, String message)
-            {
+            public void synchronizeMailboxFailed(Account account, String folder, String message) {
                 super.synchronizeMailboxFailed(account, folder, message);
                 if (!account.equals(mAccount)) {
                     return;
@@ -826,8 +795,7 @@ public class FolderList extends XMListActivity
             }
 
             @Override
-            public void setPushActive(Account account, String folderName, boolean enabled)
-            {
+            public void setPushActive(Account account, String folderName, boolean enabled) {
                 if (!account.equals(mAccount)) {
                     return;
                 }
@@ -840,22 +808,19 @@ public class FolderList extends XMListActivity
             }
 
             @Override
-            public void messageDeleted(Account account, String folder, Message message)
-            {
+            public void messageDeleted(Account account, String folder, Message message) {
                 synchronizeMailboxRemovedMessage(account, folder, message);
             }
 
             @Override
-            public void emptyTrashCompleted(Account account)
-            {
+            public void emptyTrashCompleted(Account account) {
                 if (account.equals(mAccount)) {
                     refreshFolder(account, mAccount.getTrashFolder());
                 }
             }
 
             @Override
-            public void folderStatusChanged(Account account, String folderName, int unreadMessageCount)
-            {
+            public void folderStatusChanged(Account account, String folderName, int unreadMessageCount) {
                 if (account.equals(mAccount)) {
                     refreshFolder(account, folderName);
                     informUserOfStatus();
@@ -863,8 +828,7 @@ public class FolderList extends XMListActivity
             }
 
             @Override
-            public void sendPendingMessagesCompleted(Account account)
-            {
+            public void sendPendingMessagesCompleted(Account account) {
                 super.sendPendingMessagesCompleted(account);
                 if (account.equals(mAccount)) {
                     refreshFolder(account, mAccount.getOutboxFolderName());
@@ -872,8 +836,7 @@ public class FolderList extends XMListActivity
             }
 
             @Override
-            public void sendPendingMessagesStarted(Account account)
-            {
+            public void sendPendingMessagesStarted(Account account) {
                 super.sendPendingMessagesStarted(account);
 
                 if (account.equals(mAccount)) {
@@ -882,8 +845,7 @@ public class FolderList extends XMListActivity
             }
 
             @Override
-            public void sendPendingMessagesFailed(Account account)
-            {
+            public void sendPendingMessagesFailed(Account account) {
                 super.sendPendingMessagesFailed(account);
                 if (account.equals(mAccount)) {
                     refreshFolder(account, mAccount.getOutboxFolderName());
@@ -891,23 +853,20 @@ public class FolderList extends XMListActivity
             }
 
             @Override
-            public void accountSizeChanged(Account account, long oldSize, long newSize)
-            {
+            public void accountSizeChanged(Account account, long oldSize, long newSize) {
                 if (account.equals(mAccount)) {
                     mHandler.accountSizeChanged(oldSize, newSize);
                 }
             }
         };
 
-        public int getFolderIndex(String folder)
-        {
+        public int getFolderIndex(String folder) {
             FolderInfoHolder searchHolder = new FolderInfoHolder();
             searchHolder.name = folder;
             return mFilteredFolders.indexOf(searchHolder);
         }
 
-        public FolderInfoHolder getFolder(String folder)
-        {
+        public FolderInfoHolder getFolder(String folder) {
             int index = getFolderIndex(folder);
             if (index >= 0) {
                 return (FolderInfoHolder) getItem(index);
@@ -915,8 +874,7 @@ public class FolderList extends XMListActivity
             return null;
         }
 
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
+        public View getView(int position, View convertView, ViewGroup parent) {
             if (position <= getCount()) {
                 return getItemView(position, convertView, parent);
             }
@@ -927,8 +885,7 @@ public class FolderList extends XMListActivity
             }
         }
 
-        public View getItemView(int itemPosition, View convertView, ViewGroup parent)
-        {
+        public View getItemView(int itemPosition, View convertView, ViewGroup parent) {
             FolderInfoHolder folder = (FolderInfoHolder) getItem(itemPosition);
             View view;
             if (convertView != null) {
@@ -1053,8 +1010,7 @@ public class FolderList extends XMListActivity
             return view;
         }
 
-        private OnClickListener createFlaggedSearch(Account account, FolderInfoHolder folder)
-        {
+        private OnClickListener createFlaggedSearch(Account account, FolderInfoHolder folder) {
             String searchTitle = getString(R.string.search_title, getString(R.string.message_list_title,
                     account.getDescription(), folder.displayName), getString(R.string.flagged_modifier));
             LocalSearch search = new LocalSearch(searchTitle);
@@ -1064,8 +1020,7 @@ public class FolderList extends XMListActivity
             return new FolderClickListener(search);
         }
 
-        private OnClickListener createUnreadSearch(Account account, FolderInfoHolder folder)
-        {
+        private OnClickListener createUnreadSearch(Account account, FolderInfoHolder folder) {
             String searchTitle = getString(R.string.search_title, getString(R.string.message_list_title,
                     account.getDescription(), folder.displayName), getString(R.string.unread_modifier));
             LocalSearch search = new LocalSearch(searchTitle);
@@ -1076,23 +1031,19 @@ public class FolderList extends XMListActivity
         }
 
         @Override
-        public boolean hasStableIds()
-        {
+        public boolean hasStableIds() {
             return true;
         }
 
-        public boolean isItemSelectable(int position)
-        {
+        public boolean isItemSelectable(int position) {
             return true;
         }
 
-        public void setFilter(final Filter filter)
-        {
+        public void setFilter(final Filter filter) {
             this.mFilter = filter;
         }
 
-        public Filter getFilter()
-        {
+        public Filter getFilter() {
             return mFilter;
         }
 
@@ -1102,12 +1053,10 @@ public class FolderList extends XMListActivity
          *
          * @author Marcus@Wolschon.biz
          */
-        public class FolderListFilter extends Filter
-        {
+        public class FolderListFilter extends Filter {
             private CharSequence mSearchTerm;
 
-            public CharSequence getSearchTerm()
-            {
+            public CharSequence getSearchTerm() {
                 return mSearchTerm;
             }
 
@@ -1117,8 +1066,7 @@ public class FolderList extends XMListActivity
              * @see #publishResults(CharSequence, FilterResults)
              */
             @Override
-            protected FilterResults performFiltering(CharSequence searchTerm)
-            {
+            protected FilterResults performFiltering(CharSequence searchTerm) {
                 mSearchTerm = searchTerm;
                 FilterResults results = new FilterResults();
 
@@ -1158,8 +1106,7 @@ public class FolderList extends XMListActivity
              */
             @SuppressWarnings("unchecked")
             @Override
-            protected void publishResults(CharSequence constraint, FilterResults results)
-            {
+            protected void publishResults(CharSequence constraint, FilterResults results) {
                 // noinspection unchecked
                 mFilteredFolders = Collections.unmodifiableList((ArrayList<FolderInfoHolder>) results.values);
                 // Send notification that the data set changed now
@@ -1168,8 +1115,7 @@ public class FolderList extends XMListActivity
         }
     }
 
-    static class FolderViewHolder
-    {
+    static class FolderViewHolder {
         public TextView folderName;
         public TextView folderStatus;
         public TextView newMessageCount;
@@ -1185,18 +1131,15 @@ public class FolderList extends XMListActivity
         public LinearLayout folderListItemLayout;
     }
 
-    private class FolderClickListener implements OnClickListener
-    {
+    private class FolderClickListener implements OnClickListener {
         final LocalSearch mSearch;
 
-        FolderClickListener(LocalSearch search)
-        {
+        FolderClickListener(LocalSearch search) {
             mSearch = search;
         }
 
         @Override
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
             MessageList.actionDisplaySearch(FolderList.this, mSearch, true, false);
         }
     }

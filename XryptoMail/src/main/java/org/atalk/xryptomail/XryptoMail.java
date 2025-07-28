@@ -10,25 +10,33 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.StrictMode;
+import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.SynchronousQueue;
 
 import org.atalk.xryptomail.Account.SortType;
@@ -48,10 +56,10 @@ import org.atalk.xryptomail.power.DeviceIdleManager;
 import org.atalk.xryptomail.preferences.Storage;
 import org.atalk.xryptomail.preferences.StorageEditor;
 import org.atalk.xryptomail.provider.UnreadWidgetProvider;
-import org.atalk.xryptomail.service.BootReceiver;
 import org.atalk.xryptomail.service.MailService;
 import org.atalk.xryptomail.service.ShutdownReceiver;
 import org.atalk.xryptomail.service.StorageGoneReceiver;
+import org.atalk.xryptomail.service.SystemEventReceiver;
 import org.atalk.xryptomail.widget.list.MessageListWidgetProvider;
 
 import timber.log.Timber;
@@ -372,7 +380,7 @@ public class XryptoMail extends Application {
              */
             MailService.actionReset(context);
         }
-        Class<?>[] classes = {MessageCompose.class, BootReceiver.class, MailService.class};
+        Class<?>[] classes = {MessageCompose.class, SystemEventReceiver.class, MailService.class};
 
         for (Class<?> clazz : classes) {
             boolean alreadyEnabled = pm.getComponentEnabledSetting(new ComponentName(context, clazz)) ==
@@ -415,7 +423,7 @@ public class XryptoMail extends Application {
         new Thread(() -> {
             Looper.prepare();
             try {
-                queue.put(new Handler());
+                queue.put(new Handler(Looper.getMainLooper()));
             } catch (InterruptedException e) {
                 Timber.e(e);
             }
@@ -544,6 +552,7 @@ public class XryptoMail extends Application {
         Globals.setContext(this);
         Globals.setOAuth2TokenProvider(new XMailOAuth2TokenProvider(this));
         TimberLogImpl.init();
+        EdgeToEdgeDisable();
 
         XryptoMailLib.setDebugStatus(new XryptoMailLib.DebugStatus() {
             @Override
@@ -650,6 +659,57 @@ public class XryptoMail extends Application {
             }
         });
         notifyObservers();
+    }
+
+    // Must setPadding in onActivityPostCreated after toolbar is created, Or do this in BaseActivity#onCreate;
+    // otherwise customToolBar still overlay the content
+    protected void EdgeToEdgeDisable() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+                @Override
+                public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
+                    // Disable splitActionBarWhenNarrow for API-36+; else overlaid by Navigation Bar if enabled
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                        activity.getWindow().setUiOptions(0, ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
+                    }
+                }
+
+                public void onActivityPostCreated(@NonNull Activity activity, Bundle savedInstanceState) {
+                    // must not use getRootView(), else toolbar overlays content;
+                    View view = activity.getWindow().getDecorView().findViewById(android.R.id.content);
+                    ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets) -> {
+                                Insets bars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+                                v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
+                                return WindowInsetsCompat.CONSUMED;
+                            }
+                    );
+                }
+
+                @Override
+                public void onActivityResumed(@NonNull Activity activity) {
+                }
+
+                @Override
+                public void onActivityDestroyed(@NonNull Activity activity) {
+                }
+
+                @Override
+                public void onActivityPaused(@NonNull Activity activity) {
+                }
+
+                @Override
+                public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
+                }
+
+                @Override
+                public void onActivityStarted(@NonNull Activity activity) {
+                }
+
+                @Override
+                public void onActivityStopped(@NonNull Activity activity) {
+                }
+            });
+        }
     }
 
     /**
@@ -1271,9 +1331,7 @@ public class XryptoMail extends Application {
     }
 
     public static synchronized boolean isSortAscending(SortType sortType) {
-        if (mSortAscending.get(sortType) == null) {
-            mSortAscending.put(sortType, sortType.isDefaultAscending());
-        }
+        mSortAscending.computeIfAbsent(sortType, SortType::isDefaultAscending);
         return Boolean.TRUE.equals(mSortAscending.get(sortType));
     }
 
@@ -1418,17 +1476,15 @@ public class XryptoMail extends Application {
     }
 
     public static void saveSettingsAsync() {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                Preferences prefs = Preferences.getPreferences(mInstance);
-                StorageEditor editor = prefs.getStorage().edit();
-                save(editor);
-                editor.commit();
-
-                return null;
-            }
-        }.execute();
+        try (ExecutorService eService = Executors.newSingleThreadExecutor()) {
+            eService.execute(() -> {
+                        Preferences prefs = Preferences.getPreferences(mInstance);
+                        StorageEditor editor = prefs.getStorage().edit();
+                        save(editor);
+                        editor.commit();
+                    }
+            );
+        }
     }
 
     /**
@@ -1524,7 +1580,8 @@ public class XryptoMail extends Application {
         //        Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
-    public static boolean hasPermission(Activity callBack, boolean requestPermission, int requestCode, String permission) {
+    public static boolean hasPermission(Activity callBack, boolean requestPermission, int requestCode, String
+            permission) {
         // Timber.d(new Exception(),"Callback: %s => %s (%s)", callBack, permission, requestPermission);
         // Do not use getInstance() as mInstances may be empty
         if (ActivityCompat.checkSelfPermission(XryptoMail.getGlobalContext(), permission) != PackageManager.PERMISSION_GRANTED) {

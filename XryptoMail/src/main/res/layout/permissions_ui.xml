@@ -29,22 +29,6 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/contacts_permission_button"
-                    style="@style/PermissionButton"
-                    android:text="@string/permission_contacts" />
-
-                <TextView
-                    android:id="@+id/contacts_permission_feedback"
-                    style="@style/PermissionFeedback"
-                    android:text="@string/permission_unknown" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/notifications_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,6 +41,22 @@
 
                 <TextView
                     android:id="@+id/notifications_permission_feedback"
+                    style="@style/PermissionFeedback"
+                    android:text="@string/permission_unknown" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/contacts_permission_button"
+                    style="@style/PermissionButton"
+                    android:text="@string/permission_contacts" />
+
+                <TextView
+                    android:id="@+id/contacts_permission_feedback"
                     style="@style/PermissionFeedback"
                     android:text="@string/permission_unknown" />
             </LinearLayout>
@@ -79,23 +79,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/video_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/video_permission_button"
-                    style="@style/PermissionButton"
-                    android:text="@string/permission_video" />
-
-                <TextView
-                    android:id="@+id/video_permission_feedback"
-                    style="@style/PermissionFeedback"
-                    android:text="@string/permission_unknown" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/storage_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -108,58 +91,6 @@
 
                 <TextView
                     android:id="@+id/storage_permission_feedback"
-                    style="@style/PermissionFeedback"
-                    android:text="@string/permission_unknown" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/delete_mail_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/delete_mail_permission_button"
-                    style="@style/PermissionButton"
-                    android:text="@string/permission_delete_mail" />
-
-                <TextView
-                    android:id="@+id/delete_mail_permission_feedback"
-                    style="@style/PermissionFeedback"
-                    android:text="@string/permission_unknown" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/read_mail_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/read_mail_permission_button"
-                    style="@style/PermissionButton"
-                    android:text="@string/permission_read_mail" />
-
-                <TextView
-                    android:id="@+id/read_mail_permission_feedback"
-                    style="@style/PermissionFeedback"
-                    android:text="@string/permission_unknown" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/remote_control_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/remote_control_permission_button"
-                    style="@style/PermissionButton"
-                    android:text="@string/permission_remote_control" />
-
-                <TextView
-                    android:id="@+id/remote_control_permission_feedback"
                     style="@style/PermissionFeedback"
                     android:text="@string/permission_unknown" />
             </LinearLayout>

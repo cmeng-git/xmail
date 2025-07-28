@@ -13,8 +13,7 @@ import org.atalk.xryptomail.controller.MessagingController;
 import org.atalk.xryptomail.controller.MessagingListener;
 import org.atalk.xryptomail.controller.SimpleMessagingListener;
 
-public class AttachmentDownloadDialogFragment extends DialogFragment
-{
+public class AttachmentDownloadDialogFragment extends DialogFragment {
     private static final String ARG_SIZE = "size";
     private static final String ARG_MESSAGE = "message";
 
@@ -23,8 +22,7 @@ public class AttachmentDownloadDialogFragment extends DialogFragment
     private MessagingListener messagingListener;
     private MessagingController messagingController;
 
-    public static AttachmentDownloadDialogFragment newInstance(long size, String message)
-    {
+    public static AttachmentDownloadDialogFragment newInstance(long size, String message) {
         AttachmentDownloadDialogFragment fragment = new AttachmentDownloadDialogFragment();
 
         Bundle args = new Bundle();
@@ -36,19 +34,16 @@ public class AttachmentDownloadDialogFragment extends DialogFragment
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState)
-    {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle args = getArguments();
         long size = args.getLong(ARG_SIZE);
         String message = args.getString(ARG_MESSAGE);
 
         final SizeUnit sizeUnit = SizeUnit.getAppropriateFor(size);
 
-        messagingListener = new SimpleMessagingListener()
-        {
+        messagingListener = new SimpleMessagingListener() {
             @Override
-            public void updateProgress(int progress)
-            {
+            public void updateProgress(int progress) {
                 dialog.setProgress(sizeUnit.valueInSizeUnit(progress));
             }
         };
@@ -66,15 +61,13 @@ public class AttachmentDownloadDialogFragment extends DialogFragment
     }
 
     @Override
-    public void onDestroyView()
-    {
+    public void onDestroyView() {
         messagingController.removeListener(messagingListener);
         super.onDestroyView();
     }
 
     @Override
-    public void onCancel(DialogInterface dialog)
-    {
+    public void onCancel(@NonNull DialogInterface dialog) {
         Activity activity = getActivity();
         if (activity instanceof AttachmentDownloadCancelListener) {
             AttachmentDownloadCancelListener listener = (AttachmentDownloadCancelListener) activity;
@@ -83,8 +76,7 @@ public class AttachmentDownloadDialogFragment extends DialogFragment
         super.onCancel(dialog);
     }
 
-    private enum SizeUnit
-    {
+    private enum SizeUnit {
         BYTE("B", 1L),
         KIBIBYTE("KiB", 1024L),
         MEBIBYTE("MiB", 1024L * 1024L),
@@ -95,8 +87,7 @@ public class AttachmentDownloadDialogFragment extends DialogFragment
         public final String shortName;
         public final long size;
 
-        static SizeUnit getAppropriateFor(long value)
-        {
+        static SizeUnit getAppropriateFor(long value) {
             for (SizeUnit sizeUnit : values()) {
                 if (value < 1024L * 10L * sizeUnit.size) {
                     return sizeUnit;
@@ -105,20 +96,17 @@ public class AttachmentDownloadDialogFragment extends DialogFragment
             return SizeUnit.BYTE;
         }
 
-        SizeUnit(String shortName, long size)
-        {
+        SizeUnit(String shortName, long size) {
             this.shortName = shortName;
             this.size = size;
         }
 
-        int valueInSizeUnit(long value)
-        {
+        int valueInSizeUnit(long value) {
             return (int) (value / size);
         }
     }
 
-    public interface AttachmentDownloadCancelListener
-    {
+    public interface AttachmentDownloadCancelListener {
         void onProgressCancel(AttachmentDownloadDialogFragment fragment);
     }
 }

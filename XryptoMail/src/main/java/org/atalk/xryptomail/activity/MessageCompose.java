@@ -7,16 +7,15 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.IntentSender.SendIntentException;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -35,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -44,6 +44,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 import org.atalk.xryptomail.Account;
@@ -79,6 +81,7 @@ import org.atalk.xryptomail.fragment.ProgressDialogFragment.CancelListener;
 import org.atalk.xryptomail.helper.Contacts;
 import org.atalk.xryptomail.helper.IdentityHelper;
 import org.atalk.xryptomail.helper.MailTo;
+import org.atalk.xryptomail.helper.ProgressDialog;
 import org.atalk.xryptomail.helper.ReplyToParser;
 import org.atalk.xryptomail.helper.SimpleTextWatcher;
 import org.atalk.xryptomail.helper.Utility;
@@ -197,7 +200,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
     private MessageBuilder currentMessageBuilder;
     private boolean mFinishAfterDraftSaved;
     private boolean alreadyNotifiedUserOfEmptySubject = false;
-    ProgressDialog progressDialog;
+    long pDialogId;
     private boolean changesMadeSinceLastSave = false;
 
     /**
@@ -233,6 +236,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
 
     private boolean navigateUp;
 
+    private Context mContext;
     private MenuItem mButtonPgp;
     private MenuItem mButtonStealth;
 
@@ -243,6 +247,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
             finish();
             return;
         }
+
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         if (XryptoMail.getXMComposerThemeSetting() != XryptoMail.Theme.USE_GLOBAL) {
             // theme the whole content according to the theme (except the action bar)
@@ -287,6 +292,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
             return;
         }
 
+        mContext = getApplicationContext();
         mContacts = Contacts.getInstance(MessageCompose.this);
         mChooseIdentityButton = findViewById(R.id.identity);
         mChooseIdentityButton.setOnClickListener(this);
@@ -294,7 +300,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         RecipientMvpView recipientMvpView = new RecipientMvpView(this);
         ComposePgpInlineDecider composePgpInlineDecider = new ComposePgpInlineDecider();
         ComposePgpEnableByDefaultDecider composePgpEnableByDefaultDecider = new ComposePgpEnableByDefaultDecider();
-        recipientPresenter = new RecipientPresenter(getApplicationContext(), getSupportLoaderManager(),
+        recipientPresenter = new RecipientPresenter(mContext, getSupportLoaderManager(),
                 recipientMvpView, mAccount, composePgpInlineDecider, composePgpEnableByDefaultDecider,
                 AutocryptStatusInteractor.getInstance(), new ReplyToParser(), this);
         recipientPresenter.asyncUpdateCryptoStatus();
@@ -307,7 +313,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
 
         QuotedMessageMvpView quotedMessageMvpView = new QuotedMessageMvpView(this);
         quotedMessagePresenter = new QuotedMessagePresenter(this, quotedMessageMvpView, mAccount);
-        attachmentPresenter = new AttachmentPresenter(getApplicationContext(), attachmentMvpView, getSupportLoaderManager(), this);
+        attachmentPresenter = new AttachmentPresenter(mContext, attachmentMvpView, getSupportLoaderManager(), this);
 
         mMessageContentView = findViewById(R.id.message_content);
         mMessageContentView.getInputExtras(true).putBoolean("allowEmoji", true);
@@ -455,6 +461,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
             setProgressBarIndeterminateVisibility(true);
             currentMessageBuilder.reattachCallback(this);
         }
+        getOnBackPressedDispatcher().addCallback(backPressedCallback);
     }
 
     @Override
@@ -775,8 +782,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
             txt = getString(R.string.read_receipt_disabled);
             requestReadReceipt = false;
         }
-        Context context = getApplicationContext();
-        Toast toast = Toast.makeText(context, txt, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(mContext, txt, Toast.LENGTH_SHORT);
         toast.show();
     }
 
@@ -957,6 +963,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
             case android.R.id.home:
                 prepareToFinish(true);
                 break;
+
             case R.id.send:
                 // hide soft keyboard if present when user click send button
                 hideKeyboard();
@@ -973,6 +980,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
                     checkToSendMessage();
                 }
                 break;
+
             case R.id.Send_OpenPGP_Email:
                 // recipientPresenter.setXryptoMode(XryptoMode.OPEN_PGP);
                 checkToSendMessage();
@@ -1054,11 +1062,12 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         return false;
     }
 
-    @SuppressLint("MissingSuperCall")
-    @Override
-    public void onBackPressed() {
-        prepareToFinish(false);
-    }
+    OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            prepareToFinish(false);
+        }
+    };
 
     private void prepareToFinish(boolean shouldNavigateUp) {
         navigateUp = shouldNavigateUp;
@@ -1081,7 +1090,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
                     openAutoExpandFolder();
                 }
                 else {
-                    super.onBackPressed();
+                    finish();
                 }
             }
         }
@@ -1389,7 +1398,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
 
             if (messageReference != null) {
                 // Check if this is a valid account in our database
-                Preferences prefs = Preferences.getPreferences(getApplicationContext());
+                Preferences prefs = Preferences.getPreferences(mContext);
                 Account account = prefs.getAccount(messageReference.getAccountUuid());
                 if (account != null) {
                     relatedMessageReference = messageReference;
@@ -1402,7 +1411,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         quotedMessagePresenter.processDraftMessage(messageViewInfo, k9identity);
     }
 
-    static class SendMessageTask extends AsyncTask<Void, Void, Void> {
+    static class SendMessageTask {
         final Context context;
         final Account account;
         final Contacts contacts;
@@ -1420,23 +1429,25 @@ public class MessageCompose extends XMActivity implements OnClickListener,
             this.messageReference = messageReference;
         }
 
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                contacts.markAsContacted(message.getRecipients(RecipientType.TO));
-                contacts.markAsContacted(message.getRecipients(RecipientType.CC));
-                contacts.markAsContacted(message.getRecipients(RecipientType.BCC));
-                updateReferencedMessage();
-            } catch (Exception e) {
-                Timber.e(e, "Failed to mark contact as contacted.");
-            }
+        public void execute() {
+            try (ExecutorService eService = Executors.newSingleThreadExecutor()) {
+                eService.execute(() -> {
+                    try {
+                        contacts.markAsContacted(message.getRecipients(RecipientType.TO));
+                        contacts.markAsContacted(message.getRecipients(RecipientType.CC));
+                        contacts.markAsContacted(message.getRecipients(RecipientType.BCC));
+                        updateReferencedMessage();
+                    } catch (Exception e) {
+                        Timber.e(e, "Failed to mark contact as contacted.");
+                    }
 
-            MessagingController.getInstance(context).sendMessage(account, message, null);
-            if (draftId != null) {
-                // TODO set draft id to invalid in MessageCompose!
-                MessagingController.getInstance(context).deleteDraft(account, draftId);
+                    MessagingController.getInstance(context).sendMessage(account, message, null);
+                    if (draftId != null) {
+                        // TODO set draft id to invalid in MessageCompose!
+                        MessagingController.getInstance(context).deleteDraft(account, draftId);
+                    }
+                });
             }
-            return null;
         }
 
         /**
@@ -1449,8 +1460,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
                         messageReference.getUid(),
                         messageReference.getFlag());
 
-                final Account account = Preferences.getPreferences(context)
-                        .getAccount(messageReference.getAccountUuid());
+                final Account account = Preferences.getPreferences(context).getAccount(messageReference.getAccountUuid());
                 final String folderName = messageReference.getFolderServerId();
                 final String sourceMessageUid = messageReference.getUid();
                 MessagingController.getInstance(context).setFlag(account, folderName,
@@ -1534,8 +1544,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
 
             // TODO more appropriate logic here? not sure
             boolean saveRemotely = recipientPresenter.shouldSaveRemotely();
-            new SaveMessageTask(getApplicationContext(), mAccount, mContacts, internalMessageHandler,
-                    message, mDraftId, saveRemotely).execute();
+            new SaveMessageTask(mContext, mAccount, mContacts, internalMessageHandler, message, mDraftId, saveRemotely).execute();
             if (mFinishAfterDraftSaved) {
                 finish();
             }
@@ -1564,20 +1573,19 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
 
         Context context = MessageCompose.this;
-        progressDialog = ProgressDialog.show(context,
+        pDialogId = ProgressDialog.show(context,
                 context.getString(R.string.notification_bg_send_title),
                 context.getString(R.string.notification_bg_send_ticker, recipients.toString()),
                 true);
 
-        progressDialog.setCancelable(true);
         new Thread(() -> {
             try {
-                new SendMessageTask(getApplicationContext(), mAccount, mContacts, message,
+                new SendMessageTask(mContext, mAccount, mContacts, message,
                         (mDraftId != INVALID_DRAFT_ID) ? mDraftId : null, relatedMessageReference).execute();
                 Thread.sleep(3000);
             } catch (Exception ignored) {
             }
-            progressDialog.dismiss();
+            ProgressDialog.dismiss(pDialogId);
             finish();
         }).start();
     }
@@ -1590,7 +1598,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         Activity activity = MessageCompose.this;
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         View decorView = activity.getWindow().getDecorView();
-        if (decorView != null && imm != null) {
+        if (imm != null) {
             imm.hideSoftInputFromWindow(decorView.getApplicationWindowToken(), 0);
         }
     }
@@ -1625,7 +1633,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         try {
             startIntentSenderForResult(pendingIntent.getIntentSender(), requestCode, null, 0, 0, 0);
         } catch (SendIntentException e) {
-            e.printStackTrace();
+            Timber.w("User Interaction: %s", e.getMessage());
         }
     }
 
@@ -1846,7 +1854,7 @@ public class MessageCompose extends XMActivity implements OnClickListener,
         }
     };
 
-    private final Handler internalMessageHandler = new Handler() {
+    private final Handler internalMessageHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {

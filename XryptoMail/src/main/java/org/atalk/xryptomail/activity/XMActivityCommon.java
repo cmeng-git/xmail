@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
+import androidx.core.content.res.ResourcesCompat;
+
 import java.util.Locale;
 
 import org.atalk.xryptomail.XryptoMail;
@@ -37,7 +39,7 @@ public class XMActivityCommon {
     public static void setLanguage(Context context, String language) {
         Locale locale;
         if (TextUtils.isEmpty(language)) {
-            locale = Resources.getSystem().getConfiguration().locale;
+            locale = Resources.getSystem().getConfiguration().getLocales().get(0);
         }
         else if (language.length() == 5 && language.charAt(2) == '_') {
             // language is in the form: en_US

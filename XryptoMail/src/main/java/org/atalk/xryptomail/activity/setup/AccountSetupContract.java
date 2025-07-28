@@ -142,7 +142,6 @@ interface AccountSetupContract {
         void onPositiveClickedInConfirmationDialog();
 
         /* incoming */
-
         void onIncomingStart(boolean editSettings);
         void onIncomingStart();
         void onInputChangedInIncoming(String certificateAlias, String server, String port,
@@ -172,7 +171,6 @@ interface AccountSetupContract {
                 ConnectionSecurity connectionSecurity, boolean requireLogin);
 
         void onCertificateRefused();
-
         // ---
 
         void onBackPressed();

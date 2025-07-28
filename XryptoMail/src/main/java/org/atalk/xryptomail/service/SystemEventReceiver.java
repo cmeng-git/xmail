@@ -11,6 +11,8 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import androidx.core.content.IntentCompat;
+
 import java.util.Date;
 import java.util.Objects;
 
@@ -19,7 +21,7 @@ import org.atalk.xryptomail.helper.XryptoMailAlarmManager;
 
 import timber.log.Timber;
 
-public class BootReceiver extends CoreReceiver
+public class SystemEventReceiver extends CoreReceiver
 {
     public static final String FIRE_INTENT = "org.atalk.xryptomail.service.BroadcastReceiver.fireIntent";
     public static final String SCHEDULE_INTENT = "org.atalk.xryptomail.service.BroadcastReceiver.scheduleIntent";
@@ -33,9 +35,9 @@ public class BootReceiver extends CoreReceiver
     @Override
     public Integer receive(Context context, Intent intent, Integer tmpWakeLockId)
     {
-        Timber.i("BootReceiver.onReceive %s", intent);
+        Timber.i("SystemEventReceiver.onReceive %s", intent);
         XryptoMailAlarmManager alarmMgr = XryptoMailAlarmManager.getAlarmManager(context);
-        Intent alarmedIntent = intent.getParcelableExtra(ALARMED_INTENT);
+        Intent alarmedIntent = IntentCompat.getParcelableExtra(intent, ALARMED_INTENT, Intent.class);
         PendingIntent pi;
 
         final String action = intent.getAction();
@@ -65,7 +67,7 @@ public class BootReceiver extends CoreReceiver
                 break;
             case FIRE_INTENT:
                 String alarmedAction = alarmedIntent.getAction();
-                Timber.i("BootReceiver Got alarm to fire alarmedIntent %s", alarmedAction);
+                Timber.i("SystemEventReceiver Got alarm to fire alarmedIntent %s", alarmedAction);
                 alarmedIntent.putExtra(WAKE_LOCK_ID, tmpWakeLockId);
                 tmpWakeLockId = null;
 
@@ -83,12 +85,12 @@ public class BootReceiver extends CoreReceiver
                 break;
             case SCHEDULE_INTENT:
                 long atTime = intent.getLongExtra(AT_TIME, -1);
-                Timber.i("BootReceiver Scheduling intent %s for %tc", alarmedIntent, new Date(atTime));
+                Timber.i("SystemEventReceiver Scheduling intent %s for %tc", alarmedIntent, new Date(atTime));
                 pi = buildPendingIntent(context, intent);
                 alarmMgr.set(AlarmManager.RTC_WAKEUP, atTime, pi);
                 break;
             case CANCEL_INTENT:
-                Timber.i("BootReceiver Canceling alarmedIntent %s", alarmedIntent);
+                Timber.i("SystemEventReceiver Canceling alarmedIntent %s", alarmedIntent);
                 pi = buildPendingIntent(context, intent);
                 alarmMgr.cancel(pi);
                 break;
@@ -100,10 +102,10 @@ public class BootReceiver extends CoreReceiver
 
     private PendingIntent buildPendingIntent(Context context, Intent intent)
     {
-        Intent alarmedIntent = intent.getParcelableExtra(ALARMED_INTENT);
+        Intent alarmedIntent = IntentCompat.getParcelableExtra(intent, ALARMED_INTENT, Intent.class);
         String alarmedAction = alarmedIntent.getAction();
 
-        Intent i = new Intent(context, BootReceiver.class);
+        Intent i = new Intent(context, SystemEventReceiver.class);
         i.setAction(FIRE_INTENT);
         i.putExtra(ALARMED_INTENT, alarmedIntent);
         Uri uri = Uri.parse("action://" + alarmedAction);
@@ -113,10 +115,10 @@ public class BootReceiver extends CoreReceiver
 
     public static void scheduleIntent(Context context, long atTime, Intent alarmedIntent)
     {
-        Timber.i("BootReceiver Got request to schedule alarmedIntent %s", alarmedIntent.getAction());
+        Timber.i("SystemEventReceiver Got request to schedule alarmedIntent %s", alarmedIntent.getAction());
 
         Intent i = new Intent();
-        i.setClass(context, BootReceiver.class);
+        i.setClass(context, SystemEventReceiver.class);
         i.setAction(SCHEDULE_INTENT);
         i.putExtra(ALARMED_INTENT, alarmedIntent);
         i.putExtra(AT_TIME, atTime);
@@ -126,10 +128,10 @@ public class BootReceiver extends CoreReceiver
 
     public static void cancelIntent(Context context, Intent alarmedIntent)
     {
-        Timber.i("BootReceiver Got request to cancel alarmedIntent %s", alarmedIntent.getAction());
+        Timber.i("SystemEventReceiver Got request to cancel alarmedIntent %s", alarmedIntent.getAction());
 
         Intent i = new Intent();
-        i.setClass(context, BootReceiver.class);
+        i.setClass(context, SystemEventReceiver.class);
         i.setAction(CANCEL_INTENT);
         i.putExtra(ALARMED_INTENT, alarmedIntent);
         i.setPackage(context.getPackageName());

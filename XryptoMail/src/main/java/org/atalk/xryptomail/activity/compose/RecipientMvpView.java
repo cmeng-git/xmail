@@ -102,6 +102,11 @@ public class RecipientMvpView implements OnFocusChangeListener, OnClickListener 
             }
 
             @Override
+            public void onTokenIgnored(Recipient token) {
+                presenter.onTokenIgnored();
+            }
+
+            @Override
             public void onTokenChanged(Recipient recipient) {
                 presenter.onToTokenChanged();
             }
@@ -119,6 +124,11 @@ public class RecipientMvpView implements OnFocusChangeListener, OnClickListener 
             }
 
             @Override
+            public void onTokenIgnored(Recipient token) {
+                presenter.onCcTokenIgnored();
+            }
+
+            @Override
             public void onTokenChanged(Recipient recipient) {
                 presenter.onCcTokenChanged();
             }
@@ -133,6 +143,11 @@ public class RecipientMvpView implements OnFocusChangeListener, OnClickListener 
             @Override
             public void onTokenRemoved(Recipient recipient) {
                 presenter.onBccTokenRemoved();
+            }
+
+            @Override
+            public void onTokenIgnored(Recipient token) {
+                presenter.onBccTokenIgnored();
             }
 
             @Override

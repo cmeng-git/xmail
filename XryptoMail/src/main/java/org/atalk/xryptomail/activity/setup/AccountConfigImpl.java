@@ -30,7 +30,7 @@ import org.atalk.xryptomail.mail.ssl.LocalKeyStore;
 import org.atalk.xryptomail.mail.store.RemoteStore;
 import timber.log.Timber;
 
-class AccountConfigImpl implements AccountConfig, Parcelable {
+public class AccountConfigImpl implements AccountConfig, Parcelable {
     private String name;
     private String description;
     private String email;

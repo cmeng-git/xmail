@@ -14,12 +14,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import de.cketti.safecontentresolver.SafeContentResolver;
-import de.cketti.safecontentresolver.SafeContentResolverCompat;
 import timber.log.Timber;
 
 /**
  * Loader to fetch the content of an attachment.
- *
  * This will copy the data to a temporary file in our app's cache directory.
  */
 public class AttachmentContentLoader extends AsyncTaskLoader<Attachment> {
@@ -56,7 +54,7 @@ public class AttachmentContentLoader extends AsyncTaskLoader<Attachment> {
 
             Timber.v("Saving attachment to %s", file.getAbsolutePath());
 
-            SafeContentResolver safeContentResolver = SafeContentResolverCompat.newInstance(context);
+            SafeContentResolver safeContentResolver = SafeContentResolver.newInstance(context);
             InputStream in = safeContentResolver.openInputStream(sourceAttachment.uri);
             try (FileOutputStream out = new FileOutputStream(file)) {
                 if (in != null)

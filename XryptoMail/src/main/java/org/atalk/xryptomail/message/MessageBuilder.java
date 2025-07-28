@@ -4,7 +4,14 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.james.mime4j.codec.EncoderUtil;
 import org.apache.james.mime4j.util.MimeUtil;
@@ -31,14 +38,9 @@ import org.atalk.xryptomail.mail.internet.TextBody;
 import org.atalk.xryptomail.mailstore.TempFileBody;
 import org.atalk.xryptomail.message.quote.InsertableHtmlContent;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import timber.log.Timber;
 
-public abstract class MessageBuilder
-{
+public abstract class MessageBuilder {
     private final Context context;
     private final MessageIdGenerator messageIdGenerator;
     private final BoundaryGenerator boundaryGenerator;
@@ -70,8 +72,7 @@ public abstract class MessageBuilder
     private boolean isPgpInlineEnabled;
     private boolean mStealthMode = false;
 
-    protected MessageBuilder(Context context, MessageIdGenerator messageIdGenerator, BoundaryGenerator boundaryGenerator)
-    {
+    protected MessageBuilder(Context context, MessageIdGenerator messageIdGenerator, BoundaryGenerator boundaryGenerator) {
         this.context = context;
         this.messageIdGenerator = messageIdGenerator;
         this.boundaryGenerator = boundaryGenerator;
@@ -82,8 +83,7 @@ public abstract class MessageBuilder
      * into the message here.
      */
     protected MimeMessage build(boolean stealthMode)
-            throws MessagingException
-    {
+            throws MessagingException {
         //FIXME: check arguments
         mStealthMode = stealthMode;
         MimeMessage message = new MimeMessage();
@@ -93,8 +93,7 @@ public abstract class MessageBuilder
     }
 
     private void buildHeader(MimeMessage message)
-            throws MessagingException
-    {
+            throws MessagingException {
         message.addSentDate(sentDate, hideTimeZone);
         Address from = new Address(identity.getEmail(), identity.getName());
         message.setFrom(from);
@@ -136,15 +135,13 @@ public abstract class MessageBuilder
         }
     }
 
-    protected MimeMultipart createMimeMultipart()
-    {
+    protected MimeMultipart createMimeMultipart() {
         String boundary = boundaryGenerator.generateBoundary();
         return new MimeMultipart(boundary);
     }
 
     private void buildBody(MimeMessage message)
-            throws MessagingException
-    {
+            throws MessagingException {
         // Build the body.
         // TODO FIXME - body can be either an HTML or Text part, depending on whether we're in
         // HTML mode or not.  Should probably fix this so we don't mix up html and text parts.
@@ -201,8 +198,7 @@ public abstract class MessageBuilder
         }
     }
 
-    private String buildIdentityHeader(TextBody body, TextBody bodyPlain)
-    {
+    private String buildIdentityHeader(TextBody body, TextBody bodyPlain) {
         return new IdentityHeaderBuilder()
                 .setCursorPosition(cursorPosition)
                 .setIdentity(identity)
@@ -223,11 +219,11 @@ public abstract class MessageBuilder
      * Add attachments as parts into a MimeMultipart container.
      *
      * @param mp MimeMultipart container in which to insert parts.
+     *
      * @throws MessagingException
      */
     private void addAttachmentsToMessage(final MimeMultipart mp)
-            throws MessagingException
-    {
+            throws MessagingException {
         for (Attachment attachment : attachments) {
             if (attachment.state != Attachment.LoadingState.COMPLETE) {
                 continue;
@@ -275,8 +271,7 @@ public abstract class MessageBuilder
      *
      * @param isDraft If we should build a message that will be saved as a draft (as opposed to sent).
      */
-    private TextBody buildText(boolean isDraft)
-    {
+    private TextBody buildText(boolean isDraft) {
         return buildText(isDraft, messageFormat);
     }
 
@@ -290,10 +285,10 @@ public abstract class MessageBuilder
      *
      * @param isDraft If {@code true} we build a message that will be saved as a draft (as opposed to sent).
      * @param simpleMessageFormat Specifies what type of message to build ({@code text/plain} vs. {@code text/html}).
+     *
      * @return {@link TextBody} instance that contains the entered text and possibly the quoted original message.
      */
-    private TextBody buildText(boolean isDraft, SimpleMessageFormat simpleMessageFormat)
-    {
+    private TextBody buildText(boolean isDraft, SimpleMessageFormat simpleMessageFormat) {
         String messageText = text;
         TextBodyBuilder textBodyBuilder = new TextBodyBuilder(messageText, mStealthMode);
 
@@ -344,169 +339,141 @@ public abstract class MessageBuilder
         return body;
     }
 
-    public MessageBuilder setSubject(String subject)
-    {
+    public MessageBuilder setSubject(String subject) {
         this.subject = subject;
         return this;
     }
 
-    public String getSubject()
-    {
+    public String getSubject() {
         return subject;
     }
 
-    public MessageBuilder setSentDate(Date sentDate)
-    {
+    public MessageBuilder setSentDate(Date sentDate) {
         this.sentDate = sentDate;
         return this;
     }
 
-    public MessageBuilder setHideTimeZone(boolean hideTimeZone)
-    {
+    public MessageBuilder setHideTimeZone(boolean hideTimeZone) {
         this.hideTimeZone = hideTimeZone;
         return this;
     }
 
-    public MessageBuilder setTo(List<Address> to)
-    {
+    public MessageBuilder setTo(List<Address> to) {
         this.to = to.toArray(new Address[to.size()]);
         return this;
     }
 
-    public MessageBuilder setCc(List<Address> cc)
-    {
+    public MessageBuilder setCc(List<Address> cc) {
         this.cc = cc.toArray(new Address[cc.size()]);
         return this;
     }
 
-    public MessageBuilder setBcc(List<Address> bcc)
-    {
+    public MessageBuilder setBcc(List<Address> bcc) {
         this.bcc = bcc.toArray(new Address[bcc.size()]);
         return this;
     }
 
-    public MessageBuilder setInReplyTo(String inReplyTo)
-    {
+    public MessageBuilder setInReplyTo(String inReplyTo) {
         this.inReplyTo = inReplyTo;
         return this;
     }
 
-    public MessageBuilder setReferences(String references)
-    {
+    public MessageBuilder setReferences(String references) {
         this.references = references;
         return this;
     }
 
-    public MessageBuilder setRequestReadReceipt(boolean requestReadReceipt)
-    {
+    public MessageBuilder setRequestReadReceipt(boolean requestReadReceipt) {
         this.requestReadReceipt = requestReadReceipt;
         return this;
     }
 
-    public MessageBuilder setIdentity(Identity identity)
-    {
+    public MessageBuilder setIdentity(Identity identity) {
         this.identity = identity;
         return this;
     }
 
-    public MessageBuilder setMessageFormat(SimpleMessageFormat messageFormat)
-    {
+    public MessageBuilder setMessageFormat(SimpleMessageFormat messageFormat) {
         this.messageFormat = messageFormat;
         return this;
     }
 
-    public MessageBuilder setText(String text)
-    {
+    public MessageBuilder setText(String text) {
         this.text = text;
         return this;
     }
 
-    public MessageBuilder setAttachments(List<Attachment> attachments)
-    {
+    public MessageBuilder setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
         return this;
     }
 
-    public MessageBuilder setSignature(String signature)
-    {
+    public MessageBuilder setSignature(String signature) {
         this.signature = signature;
         return this;
     }
 
-    public MessageBuilder setQuoteStyle(QuoteStyle quoteStyle)
-    {
+    public MessageBuilder setQuoteStyle(QuoteStyle quoteStyle) {
         this.quoteStyle = quoteStyle;
         return this;
     }
 
-    public MessageBuilder setQuotedTextMode(QuotedTextMode quotedTextMode)
-    {
+    public MessageBuilder setQuotedTextMode(QuotedTextMode quotedTextMode) {
         this.quotedTextMode = quotedTextMode;
         return this;
     }
 
-    public MessageBuilder setQuotedText(String quotedText)
-    {
+    public MessageBuilder setQuotedText(String quotedText) {
         this.quotedText = quotedText;
         return this;
     }
 
-    public MessageBuilder setQuotedHtmlContent(InsertableHtmlContent quotedHtmlContent)
-    {
+    public MessageBuilder setQuotedHtmlContent(InsertableHtmlContent quotedHtmlContent) {
         this.quotedHtmlContent = quotedHtmlContent;
         return this;
     }
 
-    public MessageBuilder setReplyAfterQuote(boolean isReplyAfterQuote)
-    {
+    public MessageBuilder setReplyAfterQuote(boolean isReplyAfterQuote) {
         this.isReplyAfterQuote = isReplyAfterQuote;
         return this;
     }
 
-    public MessageBuilder setSignatureBeforeQuotedText(boolean isSignatureBeforeQuotedText)
-    {
+    public MessageBuilder setSignatureBeforeQuotedText(boolean isSignatureBeforeQuotedText) {
         this.isSignatureBeforeQuotedText = isSignatureBeforeQuotedText;
         return this;
     }
 
-    public MessageBuilder setIdentityChanged(boolean identityChanged)
-    {
+    public MessageBuilder setIdentityChanged(boolean identityChanged) {
         this.identityChanged = identityChanged;
         return this;
     }
 
-    public MessageBuilder setSignatureChanged(boolean signatureChanged)
-    {
+    public MessageBuilder setSignatureChanged(boolean signatureChanged) {
         this.signatureChanged = signatureChanged;
         return this;
     }
 
-    public MessageBuilder setCursorPosition(int cursorPosition)
-    {
+    public MessageBuilder setCursorPosition(int cursorPosition) {
         this.cursorPosition = cursorPosition;
         return this;
     }
 
-    public MessageBuilder setMessageReference(MessageReference messageReference)
-    {
+    public MessageBuilder setMessageReference(MessageReference messageReference) {
         this.messageReference = messageReference;
         return this;
     }
 
-    public MessageBuilder setDraft(boolean isDraft)
-    {
+    public MessageBuilder setDraft(boolean isDraft) {
         this.isDraft = isDraft;
         return this;
     }
 
-    public MessageBuilder setIsPgpInlineEnabled(boolean isPgpInlineEnabled)
-    {
+    public MessageBuilder setIsPgpInlineEnabled(boolean isPgpInlineEnabled) {
         this.isPgpInlineEnabled = isPgpInlineEnabled;
         return this;
     }
 
-    public boolean isDraft()
-    {
+    public boolean isDraft() {
         return isDraft;
     }
 
@@ -524,33 +491,24 @@ public abstract class MessageBuilder
      * on the callback on the UI thread after it finishes. The callback may thread-safely
      * be detached and reattached intermittently.
      */
-    final public void buildAsync(Callback callback)
-    {
+    final public void buildAsync(Callback callback) {
         synchronized (callbackLock) {
             asyncCallback = callback;
             queuedMimeMessage = null;
             queuedException = null;
             queuedPendingIntent = null;
         }
-        new AsyncTask<Void, Void, Void>()
-        {
-            @Override
-            protected Void doInBackground(Void... params)
-            {
-                buildMessageInternal();
-                return null;
-            }
 
-            @Override
-            protected void onPostExecute(Void aVoid)
-            {
-                deliverResult();
-            }
-        }.execute();
+        try (ExecutorService eService = Executors.newSingleThreadExecutor()) {
+            eService.execute(() -> {
+                buildMessageInternal();
+
+                new Handler(Looper.getMainLooper()).post(this::deliverResult);
+            });
+        }
     }
 
-    final public void onActivityResult(final int requestCode, int resultCode, final Intent data, Callback callback)
-    {
+    final public void onActivityResult(final int requestCode, int resultCode, final Intent data, Callback callback) {
         synchronized (callbackLock) {
             asyncCallback = callback;
             queuedMimeMessage = null;
@@ -561,21 +519,14 @@ public abstract class MessageBuilder
             asyncCallback.onMessageBuildCancel();
             return;
         }
-        new AsyncTask<Void, Void, Void>()
-        {
-            @Override
-            protected Void doInBackground(Void... params)
-            {
-                buildMessageOnActivityResult(requestCode, data);
-                return null;
-            }
 
-            @Override
-            protected void onPostExecute(Void aVoid)
-            {
-                deliverResult();
-            }
-        }.execute();
+        try (ExecutorService eService = Executors.newSingleThreadExecutor()) {
+            eService.execute(() -> {
+                buildMessageOnActivityResult(requestCode, data);
+
+                new Handler(Looper.getMainLooper()).post(this::deliverResult);
+            });
+        }
     }
 
     /**
@@ -591,8 +542,7 @@ public abstract class MessageBuilder
      * This method may be used to temporarily detach the callback. If a result is delivered
      * while the callback is detached, it will be delivered upon reattachment.
      */
-    final public void detachCallback()
-    {
+    final public void detachCallback() {
         synchronized (callbackLock) {
             asyncCallback = null;
         }
@@ -603,8 +553,7 @@ public abstract class MessageBuilder
      * detached. If the computation finished while the callback was detached, it will be
      * delivered immediately upon reattachment.
      */
-    final public void reattachCallback(Callback callback)
-    {
+    final public void reattachCallback(Callback callback) {
         synchronized (callbackLock) {
             if (asyncCallback != null) {
                 throw new IllegalStateException("need to detach callback before new one can be attached!");
@@ -614,30 +563,26 @@ public abstract class MessageBuilder
         }
     }
 
-    final protected void queueMessageBuildSuccess(MimeMessage message)
-    {
+    final protected void queueMessageBuildSuccess(MimeMessage message) {
         synchronized (callbackLock) {
             queuedMimeMessage = message;
         }
     }
 
-    final protected void queueMessageBuildException(MessagingException exception)
-    {
+    final protected void queueMessageBuildException(MessagingException exception) {
         synchronized (callbackLock) {
             queuedException = exception;
         }
     }
 
-    final protected void queueMessageBuildPendingIntent(PendingIntent pendingIntent, int requestCode)
-    {
+    final protected void queueMessageBuildPendingIntent(PendingIntent pendingIntent, int requestCode) {
         synchronized (callbackLock) {
             queuedPendingIntent = pendingIntent;
             queuedRequestCode = requestCode;
         }
     }
 
-    final protected void deliverResult()
-    {
+    final protected void deliverResult() {
         synchronized (callbackLock) {
             if (asyncCallback == null) {
                 Timber.d("Keeping message builder result in queue for later delivery");
@@ -659,8 +604,7 @@ public abstract class MessageBuilder
         }
     }
 
-    public interface Callback
-    {
+    public interface Callback {
         void onMessageBuildSuccess(MimeMessage message, boolean isDraft);
 
         void onMessageBuildCancel();

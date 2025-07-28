@@ -7,13 +7,8 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.ContactsContract.Contacts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
-
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -27,6 +22,18 @@ import android.widget.ListPopupWindow;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.List;
+
 import com.tokenautocomplete.TokenCompleteTextView;
 
 import org.apache.james.mime4j.util.CharsetUtil;
@@ -39,12 +46,6 @@ import org.atalk.xryptomail.activity.compose.RecipientLoader;
 import org.atalk.xryptomail.mail.Address;
 import org.atalk.xryptomail.view.RecipientSelectView.Recipient;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.List;
-
 import timber.log.Timber;
 
 public class RecipientSelectView extends TokenCompleteTextView<Recipient>
@@ -54,7 +55,6 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient>
     private static final String ARG_QUERY = "query";
     private static final int LOADER_ID_FILTERING = 0;
     private static final int LOADER_ID_ALTERNATES = 1;
-
 
     private RecipientAdapter adapter;
     @Nullable
@@ -85,13 +85,13 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient>
     }
 
     private void initView(Context context) {
-        // TODO: validator?
         alternatesPopup = new ListPopupWindow(context);
         alternatesAdapter = new AlternateRecipientAdapter(context, this);
         alternatesPopup.setAdapter(alternatesAdapter);
 
         // don't allow duplicates, based on equality of recipient objects, which is e-mail addresses
-        allowDuplicates(false);
+        // see shouldIgnoreToken
+        // allowDuplicates(false);
 
         // if a token is completed, pick an entry based on best guess.
         // Note that we override performCompletion, so this doesn't actually do anything
@@ -99,6 +99,8 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient>
 
         adapter = new RecipientAdapter(context);
         setAdapter(adapter);
+        // must do this for v3x to allow user entry selection
+        setTextIsSelectable(true);
         setLongClickable(true);
 
         // cmeng - must init loaderManager in initView to take care of screen rotation
@@ -106,6 +108,12 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient>
             FragmentActivity activity = (FragmentActivity) getContext();
             loaderManager = LoaderManager.getInstance(activity);
         }
+    }
+
+    // allowDuplicates(false);
+    @Override
+    public boolean shouldIgnoreToken(Recipient token) {
+        return getObjects().contains(token);
     }
 
     @Override
@@ -208,7 +216,7 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient>
      * TokenCompleteTextView removes composing strings, and etc, but leaves internal composition
      * predictions partially constructed. Changing either/or the Selection or Candidate start/end
      * positions, forces the IMM to reset cleaner.
-     */ 
+     */
     @Override
     protected void replaceText(CharSequence text) {
         super.replaceText(text);
@@ -248,12 +256,12 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient>
     }
 
     @Override
-    protected void performFiltering(@NonNull CharSequence text, int start, int end, int keyCode) {
+    protected void performFiltering(@NonNull CharSequence text, int keyCode) {
         if (loaderManager == null) {
             return;
         }
 
-        String query = text.subSequence(start, end).toString();
+        String query = text.toString();
         if (TextUtils.isEmpty(query) || query.length() < MINIMUM_LENGTH_FOR_FILTERING) {
             loaderManager.destroyLoader(LOADER_ID_FILTERING);
             return;
@@ -290,7 +298,7 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient>
 
     public void addRecipients(Recipient... recipients) {
         for (Recipient recipient : recipients) {
-            addObject(recipient);
+            addObjectAsync(recipient);
         }
     }
 
@@ -317,7 +325,7 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient>
 
     public void postShowAlternatesPopup(final List<Recipient> data) {
         // We delay this call so the soft keyboard is gone by the time the popup is layouted
-        new Handler().post(() -> showAlternatesPopup(data));
+        new Handler(Looper.getMainLooper()).post(() -> showAlternatesPopup(data));
     }
 
     public void showAlternatesPopup(List<Recipient> data) {
@@ -346,6 +354,7 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient>
         return super.onKeyDown(keyCode, event);
     }
 
+    @NonNull
     @Override
     public Loader<List<Recipient>> onCreateLoader(int id, Bundle args) {
         switch (id) {
@@ -367,7 +376,7 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient>
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Recipient>> loader, List<Recipient> data) {
+    public void onLoadFinished(@NonNull Loader<List<Recipient>> loader, List<Recipient> data) {
         if (loaderManager == null) {
             return;
         }
@@ -421,7 +430,7 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient>
     @Override
     public void onRecipientRemove(Recipient currentRecipient) {
         alternatesPopup.dismiss();
-        removeObject(currentRecipient);
+        removeObjectAsync(currentRecipient);
     }
 
     @Override
@@ -466,7 +475,7 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient>
         }
 
         View tokenView = getViewForObject(obj);
-        return new RecipientTokenSpan(tokenView, obj, (int) maxTextWidth());
+        return new RecipientTokenSpan(tokenView, obj);
     }
 
     /**
@@ -511,9 +520,8 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient>
     private class RecipientTokenSpan extends TokenImageSpan {
         private final View view;
 
-
-        public RecipientTokenSpan(View view, Recipient recipient, int token) {
-            super(view, recipient, token);
+        public RecipientTokenSpan(View view, Recipient recipient) {
+            super(view, recipient);
             this.view = view;
         }
     }
@@ -615,7 +623,7 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient>
 
         public String getDisplayNameOrAddress() {
             final String displayName = XryptoMail.showCorrespondentNames() ? getDisplayName() : null;
-    
+
             if (displayName != null) {
                 return displayName;
             }

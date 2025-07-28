@@ -40,6 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
@@ -105,7 +106,7 @@ import java.util.concurrent.Future;
 
 import timber.log.Timber;
 
-public class MessageListFragment extends Fragment implements OnItemClickListener, AdapterView.OnItemLongClickListener,
+public class MessageListFragment extends BaseFragment implements OnItemClickListener, AdapterView.OnItemLongClickListener,
         ConfirmationDialogFragmentListener, androidx.loader.app.LoaderManager.LoaderCallbacks<Cursor> {
 
     public static MessageListFragment newInstance(LocalSearch search, boolean isThreadDisplay, boolean threadedList) {
@@ -209,7 +210,6 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
     protected MessageListFragmentListener mFragmentListener;
     protected boolean showingThreadedList;
     private boolean isThreadDisplay;
-    private Context mContext;
     private final ActivityListener activityListener = new MessageListActivityListener();
     private Preferences mPreferences;
     private boolean loaderJustInitialized;
@@ -226,12 +226,10 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
     private IntentFilter cacheIntentFilter;
     /**
      * Stores the unique ID of the message the context menu was opened for.
-     *
      * We have to save this because the message list might change between the time the menu was
      * opened and when the user clicks on a menu item. When this happens the 'mAdapter position' that
      * is accessible via the {@code ContextMenu} object might correspond to another list item and we
      * would end up using/modifying the wrong message.
-     *
      * The value of this field is {@code 0} when no context menu is currently open.
      */
     private long contextMenuUniqueId = 0;
@@ -239,10 +237,8 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        mContext = context;
-
         try {
-            mFragmentListener = (MessageListFragmentListener) context;
+            mFragmentListener = (MessageListFragmentListener) mContext;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.getClass() + " must implement MessageListFragmentListener");
         }
@@ -281,14 +277,8 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
     }
 
     @Override
-    public void onDestroyView() {
-        mSavedListState = mListView.onSaveInstanceState();
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         messageHelper = MessageHelper.getInstance(mContext);
         initializeMessageList();
 
@@ -304,6 +294,12 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
             loaderManager.initLoader(i, null, this);
             mCursorValid[i] = false;
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        mSavedListState = mListView.onSaveInstanceState();
+        super.onDestroyView();
     }
 
     @Override
@@ -408,7 +404,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
 
             mFragmentListener.setMessageListTitle(displayName);
             String operation = activityListener.getOperation(mContext);
-            if (operation.length() < 1) {
+            if (operation.isEmpty()) {
                 mFragmentListener.setMessageListSubTitle(mAccount.getEmail());
             } else {
                 mFragmentListener.setMessageListSubTitle(operation);
@@ -452,7 +448,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
             if (mCurrentFolder != null && !mSearch.isManualSearch() && mCurrentFolder.moreMessages) {
                 messagingController.loadMoreMessages(mAccount, mFolderName, null);
             } else if (mCurrentFolder != null && isRemoteSearch()
-                    && mExtraSearchResults != null && mExtraSearchResults.size() > 0) {
+                    && mExtraSearchResults != null && !mExtraSearchResults.isEmpty()) {
 
                 int numResults = mExtraSearchResults.size();
                 int limit = mAccount.getRemoteSearchNumResults();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="Theme.XryptoMailDialog" parent="@android:style/Theme.Holo.Light">
         <item name="android:windowFrame">@null</item>
@@ -17,11 +17,11 @@
     <style name="Widget.XryptoMail.AutoCompleteTextView" parent="@android:style/Widget.AutoCompleteTextView">
         <item name="android:textColor">@android:color/primary_text_light</item>
     </style>
-    
+
     <style name="AboutDialogTextColor" parent="@android:style/TextAppearance">
         <item name="android:textColor">#808080</item>
     </style>
-    
+
     <style name="TextAppearance.StatusBar.EventContent.Emphasized" parent="@android:style/TextAppearance.StatusBar.EventContent">
         <item name="android:textColor">#cccccc</item>
     </style>
@@ -47,12 +47,25 @@
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">#aaa</item>
     </style>
+
     <style name="ComposeEditText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textColorHint">#aaa</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingRight">@dimen/input_label_horizontal_spacing</item>
+
     </style>
+
     <style name="ComposeEditTextLarge" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColorHint">#aaa</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">10dp</item>
     </style>
 
     <style name="ShowcaseTheme" parent="ShowcaseView.Light">

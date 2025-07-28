@@ -1,6 +1,7 @@
 package org.atalk.xryptomail.mail;
 
 import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
 
 /**
  * Enum for some of
@@ -13,9 +14,9 @@ public enum NetworkType {
 
     public static NetworkType fromConnectivityManagerType(int type){
         switch (type) {
-            case ConnectivityManager.TYPE_MOBILE:
+            case NetworkCapabilities.TRANSPORT_CELLULAR:
                 return MOBILE;
-            case ConnectivityManager.TYPE_WIFI:
+            case NetworkCapabilities.TRANSPORT_WIFI:
                 return WIFI;
             default:
                 return OTHER;

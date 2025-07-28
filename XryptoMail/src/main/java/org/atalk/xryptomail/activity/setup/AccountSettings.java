@@ -1,14 +1,42 @@
 package org.atalk.xryptomail.activity.setup;
 
 import android.app.Dialog;
-import android.content.*;
-import android.os.*;
-import android.preference.*;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Vibrator;
+import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceScreen;
+import android.preference.RingtonePreference;
 import android.widget.Toast;
 
-import org.atalk.xryptomail.*;
-import org.atalk.xryptomail.Account.*;
-import org.atalk.xryptomail.activity.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.atalk.xryptomail.Account;
+import org.atalk.xryptomail.Account.DeletePolicy;
+import org.atalk.xryptomail.Account.Expunge;
+import org.atalk.xryptomail.Account.FolderMode;
+import org.atalk.xryptomail.Account.MessageFormat;
+import org.atalk.xryptomail.Account.QuoteStyle;
+import org.atalk.xryptomail.Account.Searchable;
+import org.atalk.xryptomail.Account.ShowPictures;
+import org.atalk.xryptomail.NotificationSetting;
+import org.atalk.xryptomail.Preferences;
+import org.atalk.xryptomail.R;
+import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.activity.ChooseFolder;
+import org.atalk.xryptomail.activity.ChooseIdentity;
+import org.atalk.xryptomail.activity.ColorPickerDialog;
+import org.atalk.xryptomail.activity.ManageIdentities;
+import org.atalk.xryptomail.activity.XMPreferenceActivity;
 import org.atalk.xryptomail.crypto.OpenPgpApiHelper;
 import org.atalk.xryptomail.mail.Folder;
 import org.atalk.xryptomail.mail.Store;
@@ -17,12 +45,9 @@ import org.atalk.xryptomail.service.MailService;
 import org.atalk.xryptomail.ui.dialog.AutocryptPreferEncryptDialog;
 import org.openintents.openpgp.util.OpenPgpKeyPreference;
 
-import java.util.*;
-
 import timber.log.Timber;
 
-public class AccountSettings extends XMPreferenceActivity
-{
+public class AccountSettings extends XMPreferenceActivity {
     private static final String EXTRA_ACCOUNT = "account";
 
     private static final int DIALOG_COLOR_PICKER_ACCOUNT = 1;
@@ -168,16 +193,14 @@ public class AccountSettings extends XMPreferenceActivity
     private ListPreference mTrashFolder;
     private CheckBoxPreference mAlwaysShowCcBcc;
 
-    public static void actionSettings(Context context, Account account)
-    {
+    public static void actionSettings(Context context, Account account) {
         Intent i = new Intent(context, AccountSettings.class);
         i.putExtra(EXTRA_ACCOUNT, account.getUuid());
         context.startActivity(i);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         getActionBar().setTitle(R.string.account_settings_title_fmt);
@@ -635,8 +658,7 @@ public class AccountSettings extends XMPreferenceActivity
         updateStealthMode();
     }
 
-    private void updateStealthMode()
-    {
+    private void updateStealthMode() {
         boolean mPgpMode = (mHasPgpCrypto && (mPgpCryptoKey.getValue() != Account.NO_OPENPGP_KEY));
         boolean stealthEn = mPgpMode && mAccount.isStealthModeEnable();
         mAccount.enableStealthMode(stealthEn);
@@ -646,8 +668,7 @@ public class AccountSettings extends XMPreferenceActivity
         mStealthMode.setEnabled(mPgpMode);
     }
 
-    private void removeListEntry(ListPreference listPreference, String remove)
-    {
+    private void removeListEntry(ListPreference listPreference, String remove) {
         CharSequence[] entryValues = listPreference.getEntryValues();
         CharSequence[] entries = listPreference.getEntries();
 
@@ -666,8 +687,7 @@ public class AccountSettings extends XMPreferenceActivity
         listPreference.setEntries(newEntries);
     }
 
-    private void saveSettings()
-    {
+    private void saveSettings() {
         if (mAccountDefault.isChecked()) {
             Preferences.getPreferences(this).setDefaultAccount(mAccount);
         }
@@ -780,8 +800,7 @@ public class AccountSettings extends XMPreferenceActivity
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (mPgpCryptoKey != null && mPgpCryptoKey.handleOnActivityResult(requestCode, resultCode, data)) {
             return;
         }
@@ -796,47 +815,39 @@ public class AccountSettings extends XMPreferenceActivity
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         saveSettings();
         super.onPause();
     }
 
-    private void onCompositionSettings()
-    {
+    private void onCompositionSettings() {
         AccountSetupComposition.actionEditCompositionSettings(this, mAccount);
     }
 
-    private void onManageIdentities()
-    {
+    private void onManageIdentities() {
         Intent intent = new Intent(this, ManageIdentities.class);
         intent.putExtra(ChooseIdentity.EXTRA_ACCOUNT, mAccount.getUuid());
         startActivityForResult(intent, ACTIVITY_MANAGE_IDENTITIES);
     }
 
-    private void onIncomingSettings()
-    {
+    private void onIncomingSettings() {
         AccountSetupActivity.actionEditIncomingSettings(this, mAccount);
     }
 
-    private void onOutgoingSettings()
-    {
+    private void onOutgoingSettings() {
         AccountSetupActivity.actionEditOutgoingSettings(this, mAccount);
     }
 
-    public void onChooseChipColor()
-    {
+    public void onChooseChipColor() {
         showDialog(DIALOG_COLOR_PICKER_ACCOUNT);
     }
 
-    public void onChooseLedColor()
-    {
+    public void onChooseLedColor() {
         showDialog(DIALOG_COLOR_PICKER_LED);
     }
 
     @Override
-    public Dialog onCreateDialog(int id)
-    {
+    public Dialog onCreateDialog(int id) {
         Dialog dialog = null;
 
         switch (id) {
@@ -861,8 +872,7 @@ public class AccountSettings extends XMPreferenceActivity
     }
 
     @Override
-    public void onPrepareDialog(int id, Dialog dialog)
-    {
+    public void onPrepareDialog(int id, Dialog dialog) {
         switch (id) {
             case DIALOG_COLOR_PICKER_ACCOUNT: {
                 ColorPickerDialog colorPicker = (ColorPickerDialog) dialog;
@@ -877,8 +887,7 @@ public class AccountSettings extends XMPreferenceActivity
         }
     }
 
-    public void onChooseAutoExpandFolder()
-    {
+    public void onChooseAutoExpandFolder() {
         Intent selectIntent = new Intent(this, ChooseFolder.class);
         selectIntent.putExtra(ChooseFolder.EXTRA_ACCOUNT, mAccount.getUuid());
 
@@ -889,8 +898,7 @@ public class AccountSettings extends XMPreferenceActivity
         startActivityForResult(selectIntent, SELECT_AUTO_EXPAND_FOLDER);
     }
 
-    private String translateFolder(String in)
-    {
+    private String translateFolder(String in) {
         if (mAccount.getInboxFolder().equalsIgnoreCase(in)) {
             return getString(R.string.special_mailbox_name_inbox);
         }
@@ -899,8 +907,7 @@ public class AccountSettings extends XMPreferenceActivity
         }
     }
 
-    private String reverseTranslateFolder(String in)
-    {
+    private String reverseTranslateFolder(String in) {
         if (getString(R.string.special_mailbox_name_inbox).equals(in)) {
             return mAccount.getInboxFolder();
         }
@@ -909,8 +916,7 @@ public class AccountSettings extends XMPreferenceActivity
         }
     }
 
-    private void doVibrateTest(Preference preference)
-    {
+    private void doVibrateTest(Preference preference) {
         // Do the vibration to show the user what it's like.
         Vibrator vibrate = (Vibrator) preference.getContext().getSystemService(Context.VIBRATOR_SERVICE);
         vibrate.vibrate(NotificationSetting.getVibration(
@@ -923,8 +929,7 @@ public class AccountSettings extends XMPreferenceActivity
      *
      * @param maxResults Search limit to update the summary with.
      */
-    private void updateRemoteSearchLimit(String maxResults)
-    {
+    private void updateRemoteSearchLimit(String maxResults) {
         if (maxResults != null) {
             if (maxResults.equals("0")) {
                 maxResults = getString(R.string.account_settings_remote_search_num_results_entries_all);
@@ -934,49 +939,12 @@ public class AccountSettings extends XMPreferenceActivity
         }
     }
 
-    private class PopulateFolderPrefsTask extends AsyncTask<Void, Void, Void>
-    {
-        List<? extends Folder> folders = new LinkedList<>();
+    private class PopulateFolderPrefsTask {
+        List<? extends Folder<?>> folders = new LinkedList<>();
         String[] allFolderValues;
         String[] allFolderLabels;
 
-        @Override
-        protected Void doInBackground(Void... params)
-        {
-            try {
-                folders = mAccount.getLocalStore().getPersonalNamespaces(false);
-            } catch (Exception e) {
-                /// this can't be checked in
-            }
-
-            // TODO: In the future the call above should be changed to only return remote folders.
-            // For now we just remove the Outbox folder if present.
-            Iterator<? extends Folder> iter = folders.iterator();
-            while (iter.hasNext()) {
-                Folder folder = iter.next();
-                if (mAccount.getOutboxFolderName().equals(folder.getServerId())) {
-                    iter.remove();
-                }
-            }
-
-            allFolderValues = new String[folders.size() + 1];
-            allFolderLabels = new String[folders.size() + 1];
-
-            allFolderValues[0] = XryptoMail.FOLDER_NONE;
-            allFolderLabels[0] = XryptoMail.FOLDER_NONE;
-
-            int i = 1;
-            for (Folder folder : folders) {
-                allFolderLabels[i] = folder.getServerId();
-                allFolderValues[i] = folder.getServerId();
-                i++;
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute()
-        {
+        public PopulateFolderPrefsTask() {
             mAutoExpandFolder = (ListPreference) findPreference(PREFERENCE_AUTO_EXPAND_FOLDER);
             mAutoExpandFolder.setEnabled(false);
             mArchiveFolder = (ListPreference) findPreference(PREFERENCE_ARCHIVE_FOLDER);
@@ -991,8 +959,7 @@ public class AccountSettings extends XMPreferenceActivity
             mTrashFolder.setEnabled(false);
 
             if (!mIsMoveCapable) {
-                PreferenceScreen foldersCategory =
-                        (PreferenceScreen) findPreference(PREFERENCE_CATEGORY_FOLDERS);
+                PreferenceScreen foldersCategory = (PreferenceScreen) findPreference(PREFERENCE_CATEGORY_FOLDERS);
                 foldersCategory.removePreference(mArchiveFolder);
                 foldersCategory.removePreference(mSpamFolder);
                 foldersCategory.removePreference(mDraftsFolder);
@@ -1001,9 +968,42 @@ public class AccountSettings extends XMPreferenceActivity
             }
         }
 
-        @Override
-        protected void onPostExecute(Void res)
-        {
+        public void execute() {
+            try (ExecutorService eService = Executors.newSingleThreadExecutor()) {
+                eService.execute(() -> {
+                    doInBackground();
+
+                    runOnUiThread(this::onPostExecute);
+                });
+            }
+        }
+
+        protected void doInBackground() {
+            try {
+                folders = mAccount.getLocalStore().getPersonalNamespaces(false);
+            } catch (Exception e) {
+                /// this can't be checked in
+            }
+
+            // TODO: In the future the call above should be changed to only return remote folders.
+            // For now we just remove the Outbox folder if present.
+            folders.removeIf(folder -> mAccount.getOutboxFolderName().equals(folder.getServerId()));
+
+            allFolderValues = new String[folders.size() + 1];
+            allFolderLabels = new String[folders.size() + 1];
+
+            allFolderValues[0] = XryptoMail.FOLDER_NONE;
+            allFolderLabels[0] = XryptoMail.FOLDER_NONE;
+
+            int i = 1;
+            for (Folder<?> folder : folders) {
+                allFolderLabels[i] = folder.getServerId();
+                allFolderValues[i] = folder.getServerId();
+                i++;
+            }
+        }
+
+        protected void onPostExecute() {
             initListPreference(mAutoExpandFolder, mAccount.getAutoExpandFolder(), allFolderLabels, allFolderValues);
             mAutoExpandFolder.setEnabled(true);
             if (mIsMoveCapable) {

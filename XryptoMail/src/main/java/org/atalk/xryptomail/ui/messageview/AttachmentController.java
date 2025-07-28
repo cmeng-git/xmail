@@ -7,10 +7,18 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import androidx.annotation.WorkerThread;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.Preferences;
@@ -25,11 +33,6 @@ import org.atalk.xryptomail.mailstore.AttachmentViewInfo;
 import org.atalk.xryptomail.mailstore.LocalMessage;
 import org.atalk.xryptomail.mailstore.LocalPart;
 import org.atalk.xryptomail.provider.AttachmentTempFileProvider;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
 
 import timber.log.Timber;
 
@@ -49,7 +52,8 @@ public class AttachmentController {
     public void viewAttachment() {
         if (!attachment.isContentAvailable()) {
             downloadAndViewAttachment((LocalPart) attachment.part);
-        } else {
+        }
+        else {
             viewLocalAttachment();
         }
     }
@@ -57,7 +61,8 @@ public class AttachmentController {
     public void saveAttachmentTo(Uri documentUri) {
         if (!attachment.isContentAvailable()) {
             downloadAndSaveAttachmentTo((LocalPart) attachment.part, documentUri);
-        } else {
+        }
+        else {
             saveLocalAttachmentTo(documentUri);
         }
     }
@@ -84,7 +89,7 @@ public class AttachmentController {
             public void loadAttachmentFinished(Account account, Message message, Part part) {
                 attachment.setContentAvailable();
                 messageViewFragment.hideAttachmentLoadingDialogOnMainThread();
-                messageViewFragment.runOnMainThread(attachmentDownloadedCallback);
+                messageViewFragment.runOnUiThread(attachmentDownloadedCallback);
             }
 
             @Override
@@ -96,11 +101,11 @@ public class AttachmentController {
     }
 
     private void viewLocalAttachment() {
-        new ViewAttachmentAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new ViewAttachmentExecutor().execute();
     }
 
     private void saveLocalAttachmentTo(Uri documentUri) {
-        new SaveAttachmentAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, documentUri);
+        new SaveAttachmentExecutor().execute(documentUri);
     }
 
     private void writeAttachment(Uri documentUri)
@@ -132,7 +137,8 @@ public class AttachmentController {
         String mimeType = attachment.mimeType;
         if (MimeUtility.isDefaultMimeType(mimeType)) {
             resolvedIntentInfo = getViewIntentForMimeType(intentDataUri, inferredMimeType);
-        } else {
+        }
+        else {
             resolvedIntentInfo = getViewIntentForMimeType(intentDataUri, mimeType);
             if (!resolvedIntentInfo.hasResolvedActivities() && !inferredMimeType.equals(mimeType)) {
                 resolvedIntentInfo = getViewIntentForMimeType(intentDataUri, inferredMimeType);
@@ -201,21 +207,22 @@ public class AttachmentController {
         }
     }
 
-    private class ViewAttachmentAsyncTask extends AsyncTask<Void, Void, Intent> {
-        @Override
-        protected void onPreExecute() {
+    private class ViewAttachmentExecutor {
+        public ViewAttachmentExecutor() {
             messageViewFragment.disableAttachmentButtons(attachment);
         }
 
-        @Override
-        protected Intent doInBackground(Void... params) {
-            return getBestViewIntent();
-        }
+        public void execute() {
+            try (ExecutorService eService = Executors.newWorkStealingPool()) {
+                eService.execute(() -> {
+                    final Intent intent = getBestViewIntent();
 
-        @Override
-        protected void onPostExecute(Intent intent) {
-            viewAttachment(intent);
-            messageViewFragment.enableAttachmentButtons(attachment);
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        viewAttachment(intent);
+                        messageViewFragment.enableAttachmentButtons(attachment);
+                    });
+                });
+            }
         }
 
         private void viewAttachment(Intent intent) {
@@ -223,36 +230,36 @@ public class AttachmentController {
                 context.startActivity(intent);
             } catch (ActivityNotFoundException e) {
                 Timber.e(e, "Could not display attachment of type %s", attachment.mimeType);
-
                 String message = context.getString(R.string.message_view_no_viewer, attachment.mimeType);
                 displayMessageToUser(message);
             }
         }
     }
 
-    private class SaveAttachmentAsyncTask extends AsyncTask<Uri, Void, Boolean> {
-        @Override
-        protected void onPreExecute() {
+    private class SaveAttachmentExecutor {
+        public SaveAttachmentExecutor() {
             messageViewFragment.disableAttachmentButtons(attachment);
         }
 
-        @Override
-        protected Boolean doInBackground(Uri... params) {
-            try {
-                Uri documentUri = params[0];
-                writeAttachment(documentUri);
-                return true;
-            } catch (IOException e) {
-                Timber.e(e, "%s", "Error saving attachment");
-                return false;
-            }
-        }
+        public void execute(Uri documentUri) {
+            try (ExecutorService eService = Executors.newWorkStealingPool()) {
+                eService.execute(() -> {
+                    boolean result = false;
+                    try {
+                        writeAttachment(documentUri);
+                        result = true;
+                    } catch (IOException e) {
+                        Timber.e(e, "%s", "Error saving attachment");
+                    }
 
-        @Override
-        protected void onPostExecute(Boolean success) {
-            messageViewFragment.enableAttachmentButtons(attachment);
-            if (!success) {
-                displayAttachmentNotSavedMessage();
+                    final boolean success = result;
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        messageViewFragment.enableAttachmentButtons(attachment);
+                        if (!success) {
+                            displayAttachmentNotSavedMessage();
+                        }
+                    });
+                });
             }
         }
     }

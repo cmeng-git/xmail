@@ -58,7 +58,7 @@ public class RecipientLoader extends AsyncTaskLoader<List<Recipient>>
             ContactsContract.Contacts.SORT_KEY_PRIMARY
     };
 
-    private static final String SORT_ORDER = "" +
+    private static final String SORT_ORDER =
             ContactsContract.CommonDataKinds.Email.TIMES_CONTACTED + " DESC, " +
             ContactsContract.Contacts.SORT_KEY_PRIMARY;
 

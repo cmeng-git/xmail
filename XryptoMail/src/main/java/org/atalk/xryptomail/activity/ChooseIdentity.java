@@ -74,7 +74,7 @@ public class ChooseIdentity extends XMListActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Identity identity = mAccount.getIdentity(position);
                 String email = identity.getEmail();
-                if (email != null && !email.trim().equals("")) {
+                if (email != null && !email.trim().isEmpty()) {
                     Intent intent = new Intent();
 
                     intent.putExtra(EXTRA_IDENTITY, mAccount.getIdentity(position));

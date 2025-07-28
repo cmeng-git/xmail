@@ -56,18 +56,17 @@ public class MessageWebView extends WebView {
      * replied to.
      */
     public void configure() {
-        this.setVerticalScrollBarEnabled(true);
-        this.setVerticalScrollbarOverlay(true);
-        this.setScrollBarStyle(SCROLLBARS_INSIDE_OVERLAY);
-        this.setLongClickable(true);
+        setVerticalScrollBarEnabled(true);
+        setScrollBarStyle(SCROLLBARS_INSIDE_OVERLAY);
+        setLongClickable(true);
 
         if (XryptoMail.getXMMessageViewTheme() == XryptoMail.Theme.DARK) {
             // Black theme should get a black webview background
             // we'll set the background of the messages on load
-            this.setBackgroundColor(0xff000000);
+            setBackgroundColor(0xff000000);
         }
 
-        final WebSettings webSettings = this.getSettings();
+        final WebSettings webSettings = getSettings();
         // webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
         /* TODO this might improve rendering smoothness when webview is animated into view
@@ -90,16 +89,16 @@ public class MessageWebView extends WebView {
         webSettings.setJavaScriptEnabled(false);
 
         webSettings.setLoadsImagesAutomatically(true);
-        webSettings.setRenderPriority(RenderPriority.HIGH);
 
         // TODO:  Review alternatives.  NARROW_COLUMNS is deprecated on KITKAT
-        webSettings.setLayoutAlgorithm(LayoutAlgorithm.NARROW_COLUMNS);
+        webSettings.setLayoutAlgorithm(LayoutAlgorithm.TEXT_AUTOSIZING);
 
         setOverScrollMode(OVER_SCROLL_NEVER);
         webSettings.setTextZoom(XryptoMail.getFontSizes().getMessageViewContentAsPercent());
 
         // Disable network images by default.  This is overridden by preferences.
         blockNetworkData(true);
+        setRendererPriorityPolicy(RENDERER_PRIORITY_IMPORTANT, false);
     }
 
     /**

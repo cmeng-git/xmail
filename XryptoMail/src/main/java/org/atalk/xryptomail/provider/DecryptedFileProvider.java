@@ -5,14 +5,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.ParcelFileDescriptor;
+import android.text.TextUtils;
+
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import android.text.TextUtils;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.james.mime4j.codec.Base64InputStream;
 import org.apache.james.mime4j.codec.QuotedPrintableInputStream;
@@ -22,17 +30,10 @@ import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.mailstore.util.FileFactory;
 import org.openintents.openpgp.util.ParcelFileDescriptorUtil;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
-
 import timber.log.Timber;
 
 
-public class DecryptedFileProvider extends FileProvider
-{
+public class DecryptedFileProvider extends FileProvider {
     private static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".decryptedfileprovider";
     private static final String DECRYPTED_CACHE_DIRECTORY = "decrypted";
     private static final long FILE_DELETE_THRESHOLD_MILLISECONDS = 3 * 60 * 1000;
@@ -40,8 +41,7 @@ public class DecryptedFileProvider extends FileProvider
 
     private static DecryptedFileProviderCleanupReceiver cleanupReceiver = null;
 
-    public static FileFactory getFileFactory(Context context)
-    {
+    public static FileFactory getFileFactory(Context context) {
         final Context applicationContext = context.getApplicationContext();
         return () -> {
             registerFileCleanupReceiver(applicationContext);
@@ -53,8 +53,7 @@ public class DecryptedFileProvider extends FileProvider
     @Nullable
     public static Uri getUriForProvidedFile(@NonNull Context context, File file,
             @Nullable String encoding, @Nullable String mimeType)
-            throws IOException
-    {
+            throws IOException {
         try {
             Uri.Builder uriBuilder = FileProvider.getUriForFile(context, AUTHORITY, file).buildUpon();
             if (mimeType != null) {
@@ -69,8 +68,7 @@ public class DecryptedFileProvider extends FileProvider
         }
     }
 
-    public static boolean deleteOldTemporaryFiles(Context context)
-    {
+    public static boolean deleteOldTemporaryFiles(Context context) {
         File tempDirectory = getDecryptedTempDirectory(context);
         boolean allFilesDeleted = true;
         long deletionThreshold = System.currentTimeMillis() - FILE_DELETE_THRESHOLD_MILLISECONDS;
@@ -96,8 +94,7 @@ public class DecryptedFileProvider extends FileProvider
         return allFilesDeleted;
     }
 
-    private static File getDecryptedTempDirectory(Context context)
-    {
+    private static File getDecryptedTempDirectory(Context context) {
         File directory = new File(context.getCacheDir(), DECRYPTED_CACHE_DIRECTORY);
         if (!directory.exists()) {
             if (!directory.mkdir()) {
@@ -108,21 +105,18 @@ public class DecryptedFileProvider extends FileProvider
     }
 
     @Override
-    public String getType(Uri uri)
-    {
+    public String getType(Uri uri) {
         return uri.getQueryParameter("mime_type");
     }
 
     @Override
-    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs)
-    {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public ParcelFileDescriptor openFile(@NonNull Uri uri, @NonNull String mode)
-            throws FileNotFoundException
-    {
+            throws FileNotFoundException {
         ParcelFileDescriptor pfd = super.openFile(uri, "r");
 
         InputStream decodedInputStream;
@@ -151,8 +145,7 @@ public class DecryptedFileProvider extends FileProvider
     }
 
     @Override
-    public void onTrimMemory(int level)
-    {
+    public void onTrimMemory(int level) {
         if (level < TRIM_MEMORY_COMPLETE) {
             return;
         }
@@ -161,20 +154,16 @@ public class DecryptedFileProvider extends FileProvider
             return;
         }
 
-        new AsyncTask<Void, Void, Void>()
-        {
-            @Override
-            protected Void doInBackground(Void... voids)
-            {
+        try (ExecutorService eService = Executors.newSingleThreadExecutor()) {
+            eService.execute(() -> {
                 deleteOldTemporaryFiles(context);
-                return null;
-            }
-        }.execute();
+            });
+        }
+
         unregisterFileCleanupReceiver(context);
     }
 
-    private static void unregisterFileCleanupReceiver(Context context)
-    {
+    private static void unregisterFileCleanupReceiver(Context context) {
         synchronized (cleanupReceiverMonitor) {
             if (cleanupReceiver == null) {
                 return;
@@ -186,8 +175,7 @@ public class DecryptedFileProvider extends FileProvider
         }
     }
 
-    private static void registerFileCleanupReceiver(Context context)
-    {
+    private static void registerFileCleanupReceiver(Context context) {
         synchronized (cleanupReceiverMonitor) {
             if (cleanupReceiver != null) {
                 return;
@@ -202,12 +190,10 @@ public class DecryptedFileProvider extends FileProvider
         }
     }
 
-    private static class DecryptedFileProviderCleanupReceiver extends BroadcastReceiver
-    {
+    private static class DecryptedFileProviderCleanupReceiver extends BroadcastReceiver {
         @Override
         @MainThread
-        public void onReceive(Context context, Intent intent)
-        {
+        public void onReceive(Context context, Intent intent) {
             if (!Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
                 throw new IllegalArgumentException("onReceive called with action that isn't screen off!");
             }

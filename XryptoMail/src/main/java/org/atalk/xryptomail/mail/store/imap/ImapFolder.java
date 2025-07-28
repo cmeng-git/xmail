@@ -2,6 +2,22 @@ package org.atalk.xryptomail.mail.store.imap;
 
 import android.text.TextUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.atalk.xryptomail.XryptoMail;
 import org.atalk.xryptomail.helper.timberlog.TimberLog;
 import org.atalk.xryptomail.mail.Body;
@@ -21,31 +37,12 @@ import org.atalk.xryptomail.mail.internet.MimeMessageHelper;
 import org.atalk.xryptomail.mail.internet.MimeMultipart;
 import org.atalk.xryptomail.mail.internet.MimeUtility;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
 import timber.log.Timber;
 
-class ImapFolder extends Folder<ImapMessage>
-{
-    private static final ThreadLocal<SimpleDateFormat> RFC3501_DATE = new ThreadLocal<SimpleDateFormat>()
-    {
+class ImapFolder extends Folder<ImapMessage> {
+    private static final ThreadLocal<SimpleDateFormat> RFC3501_DATE = new ThreadLocal<SimpleDateFormat>() {
         @Override
-        protected SimpleDateFormat initialValue()
-        {
+        protected SimpleDateFormat initialValue() {
             return new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
         }
     };
@@ -64,13 +61,11 @@ class ImapFolder extends Folder<ImapMessage>
     private boolean mInSearch = false;
     private boolean canCreateKeywords = false;
 
-    public ImapFolder(ImapStore store, String name)
-    {
+    public ImapFolder(ImapStore store, String name) {
         this(store, name, store.getFolderNameCodec());
     }
 
-    ImapFolder(ImapStore store, String name, FolderNameCodec folderNameCodec)
-    {
+    ImapFolder(ImapStore store, String name, FolderNameCodec folderNameCodec) {
         super();
         mStore = store;
         mName = name;
@@ -78,8 +73,7 @@ class ImapFolder extends Folder<ImapMessage>
     }
 
     private String getPrefixedName()
-            throws MessagingException
-    {
+            throws MessagingException {
         String prefixedName = "";
 
         if (!mStore.getStoreConfig().getInboxFolder().equalsIgnoreCase(mName)) {
@@ -108,15 +102,13 @@ class ImapFolder extends Folder<ImapMessage>
     }
 
     private List<ImapResponse> executeSimpleCommand(String command)
-            throws MessagingException, IOException
-    {
+            throws MessagingException, IOException {
         return handleUntaggedResponses(mConnection.executeSimpleCommand(command));
     }
 
     @Override
     public void open(int mode)
-            throws MessagingException
-    {
+            throws MessagingException {
         internalOpen(mode);
 
         if (mMessageCount == -1) {
@@ -125,8 +117,7 @@ class ImapFolder extends Folder<ImapMessage>
     }
 
     protected List<ImapResponse> internalOpen(int mode)
-            throws MessagingException
-    {
+            throws MessagingException {
         if (isOpen() && (mMode == mode)) {
             // Make sure the connection is valid. If it's not we'll close it down and continue
             // on to get a new one.
@@ -155,10 +146,10 @@ class ImapFolder extends Folder<ImapMessage>
             String command = String.format("%s %s", openCommand, escapedFolderName);
             List<ImapResponse> responses = executeSimpleCommand(command);
 
-			/*
+            /*
              * If the command succeeds we expect the folder has been opened
-			 * read-write unless we are notified otherwise in the responses.
-			 */
+             * read-write unless we are notified otherwise in the responses.
+             */
             mMode = mode;
             for (ImapResponse response : responses) {
                 handlePermanentFlags(response);
@@ -175,8 +166,7 @@ class ImapFolder extends Folder<ImapMessage>
         }
     }
 
-    private void handlePermanentFlags(ImapResponse response)
-    {
+    private void handlePermanentFlags(ImapResponse response) {
         PermanentFlagsResponse permanentFlagsResponse = PermanentFlagsResponse.parse(response);
         if (permanentFlagsResponse == null) {
             return;
@@ -187,8 +177,7 @@ class ImapFolder extends Folder<ImapMessage>
         canCreateKeywords = permanentFlagsResponse.canCreateKeywords();
     }
 
-    private void handleSelectOrExamineOkResponse(ImapResponse response)
-    {
+    private void handleSelectOrExamineOkResponse(ImapResponse response) {
         SelectOrExamineResponse selectOrExamineResponse = SelectOrExamineResponse.parse(response);
         if (selectOrExamineResponse == null) {
             // This shouldn't happen
@@ -201,20 +190,17 @@ class ImapFolder extends Folder<ImapMessage>
     }
 
     @Override
-    public boolean isOpen()
-    {
+    public boolean isOpen() {
         return mConnection != null;
     }
 
     @Override
-    public int getMode()
-    {
+    public int getMode() {
         return mMode;
     }
 
     @Override
-    public void close()
-    {
+    public void close() {
         mMessageCount = -1;
         if (!isOpen()) {
             return;
@@ -234,8 +220,7 @@ class ImapFolder extends Folder<ImapMessage>
     }
 
     @Override
-    public String getServerId()
-    {
+    public String getServerId() {
         return mName;
     }
 
@@ -243,11 +228,11 @@ class ImapFolder extends Folder<ImapMessage>
      * Check if a given folder exists on the server.
      *
      * @param escapedFolderName The name of the folder encoded as quoted string.
+     *
      * @return {@code True}, if the folder exists. {@code False}, otherwise.
      */
     private boolean exists(String escapedFolderName)
-            throws MessagingException
-    {
+            throws MessagingException {
         try {
             // Since we don't care about RECENT, we'll use that for the check, because we're checking
             // a folder other than ourself, and don't want any untagged responses to cause a change
@@ -263,8 +248,7 @@ class ImapFolder extends Folder<ImapMessage>
 
     @Override
     public boolean exists()
-            throws MessagingException
-    {
+            throws MessagingException {
         if (mExists) {
             return true;
         }
@@ -302,8 +286,7 @@ class ImapFolder extends Folder<ImapMessage>
 
     @Override
     public boolean create(FolderType type)
-            throws MessagingException
-    {
+            throws MessagingException {
         /*
          * This method needs to operate in the unselected mode as well as the selected mode
          * so we must get the connection ourselves if it's not there. We are specifically
@@ -346,12 +329,12 @@ class ImapFolder extends Folder<ImapMessage>
      *
      * @param messages The messages to copy to the specified folder.
      * @param folder The name of the target folder.
+     *
      * @return The mapping of original message UIDs to the new server UIDs.
      */
     @Override
     public Map<String, String> copyMessages(List<? extends Message> messages, Folder folder)
-            throws MessagingException
-    {
+            throws MessagingException {
         if (!(folder instanceof ImapFolder)) {
             throw new MessagingException("ImapFolder.copyMessages passed non-ImapFolder");
         }
@@ -397,8 +380,7 @@ class ImapFolder extends Folder<ImapMessage>
 
     @Override
     public Map<String, String> moveMessages(List<? extends Message> messages, Folder folder)
-            throws MessagingException
-    {
+            throws MessagingException {
         if (messages.isEmpty()) {
             return null;
         }
@@ -410,8 +392,7 @@ class ImapFolder extends Folder<ImapMessage>
 
     @Override
     public void delete(List<? extends Message> messages, String trashFolderName)
-            throws MessagingException
-    {
+            throws MessagingException {
         if (messages.isEmpty()) {
             return;
         }
@@ -426,8 +407,8 @@ class ImapFolder extends Folder<ImapMessage>
 
             if (!exists(escapedTrashFolderName)) {
                 /*
-				 * If the remote trash folder doesn't exist we try to create it.
-				 */
+                 * If the remote trash folder doesn't exist we try to create it.
+                 */
                 if (XryptoMailLib.isDebug())
                     Timber.i("IMAPMessage.delete: attempting to create remote '%s' folder for %s",
                             trashFolderName, getLogId());
@@ -449,14 +430,12 @@ class ImapFolder extends Folder<ImapMessage>
     }
 
     @Override
-    public int getMessageCount()
-    {
+    public int getMessageCount() {
         return mMessageCount;
     }
 
     private int getRemoteMessageCount(String criteria)
-            throws MessagingException
-    {
+            throws MessagingException {
         checkOpen();
         try {
             int count = 0;
@@ -477,21 +456,18 @@ class ImapFolder extends Folder<ImapMessage>
 
     @Override
     public int getUnreadMessageCount()
-            throws MessagingException
-    {
+            throws MessagingException {
         return getRemoteMessageCount("UNSEEN NOT DELETED");
     }
 
     @Override
     public int getFlaggedMessageCount()
-            throws MessagingException
-    {
+            throws MessagingException {
         return getRemoteMessageCount("FLAGGED NOT DELETED");
     }
 
     protected long getHighestUid()
-            throws MessagingException
-    {
+            throws MessagingException {
         try {
             List<ImapResponse> responses = executeSimpleCommand("UID SEARCH *:*");
 
@@ -505,8 +481,7 @@ class ImapFolder extends Folder<ImapMessage>
         }
     }
 
-    private long extractHighestUid(SearchResponse searchResponse)
-    {
+    private long extractHighestUid(SearchResponse searchResponse) {
         List<Long> uids = searchResponse.getNumbers();
         if (uids.isEmpty()) {
             return -1L;
@@ -522,30 +497,26 @@ class ImapFolder extends Folder<ImapMessage>
 
     @Override
     public void delete(boolean recurse)
-            throws MessagingException
-    {
+            throws MessagingException {
         throw new Error("ImapFolder.delete() not yet implemented");
     }
 
     @Override
     public ImapMessage getMessage(String uid)
-            throws MessagingException
-    {
+            throws MessagingException {
         return new ImapMessage(uid, this);
     }
 
     @Override
     public List<ImapMessage> getMessages(int start, int end, Date earliestDate,
             MessageRetrievalListener<ImapMessage> listener)
-            throws MessagingException
-    {
+            throws MessagingException {
         return getMessages(start, end, earliestDate, false, listener);
     }
 
     protected List<ImapMessage> getMessages(final int start, final int end, Date earliestDate,
             final boolean includeDeleted, final MessageRetrievalListener<ImapMessage> listener)
-            throws MessagingException
-    {
+            throws MessagingException {
 
         if (start < 1 || end < 1 || end < start) {
             throw new MessagingException(String.format(Locale.US, "Invalid message set %d %d", start, end));
@@ -565,8 +536,7 @@ class ImapFolder extends Folder<ImapMessage>
         }
     }
 
-    private String getDateSearchString(Date earliestDate)
-    {
+    private String getDateSearchString(Date earliestDate) {
         if (earliestDate == null) {
             return "";
         }
@@ -575,8 +545,7 @@ class ImapFolder extends Folder<ImapMessage>
 
     @Override
     public boolean areMoreMessagesAvailable(int indexOfOldestMessage, Date earliestDate)
-            throws IOException, MessagingException
-    {
+            throws IOException, MessagingException {
 
         checkOpen();
 
@@ -600,8 +569,7 @@ class ImapFolder extends Folder<ImapMessage>
     }
 
     private boolean existsNonDeletedMessageInRange(int startIndex, int endIndex, String dateSearchString)
-            throws MessagingException, IOException
-    {
+            throws MessagingException, IOException {
 
         String command = String.format(Locale.US, "SEARCH %d:%d%s NOT DELETED",
                 startIndex, endIndex, dateSearchString);
@@ -613,8 +581,7 @@ class ImapFolder extends Folder<ImapMessage>
 
     protected List<ImapMessage> getMessages(final Set<Long> mesgSeqs, final boolean includeDeleted,
             final MessageRetrievalListener<ImapMessage> listener)
-            throws MessagingException
-    {
+            throws MessagingException {
 
         checkOpen();
 
@@ -631,8 +598,7 @@ class ImapFolder extends Folder<ImapMessage>
     }
 
     protected List<ImapMessage> getMessagesFromUids(final List<String> mesgUids)
-            throws MessagingException
-    {
+            throws MessagingException {
 
         checkOpen();
         Set<Long> uidSet = new HashSet<>();
@@ -651,8 +617,7 @@ class ImapFolder extends Folder<ImapMessage>
     }
 
     private List<ImapMessage> getMessages(SearchResponse searchResponse, MessageRetrievalListener<ImapMessage> listener)
-            throws MessagingException
-    {
+            throws MessagingException {
 
         List<ImapMessage> messages = new ArrayList<>();
         List<Long> uids = searchResponse.getNumbers();
@@ -679,8 +644,7 @@ class ImapFolder extends Folder<ImapMessage>
 
     @Override
     public void fetch(List<ImapMessage> messages, FetchProfile fetchProfile, MessageRetrievalListener<ImapMessage> listener)
-            throws MessagingException
-    {
+            throws MessagingException {
         if (messages == null || messages.isEmpty()) {
             return;
         }
@@ -695,12 +659,12 @@ class ImapFolder extends Folder<ImapMessage>
             messageMap.put(uid, message);
         }
 
-		/*
-		 * Figure out what command we are going to run: Flags - UID FETCH
-		 * (FLAGS) Envelope - UID FETCH ([FLAGS] INTERNALDATE UID
-		 * RFC822.SIZE FLAGS BODY.PEEK[HEADER.FIELDS (date subject from
-		 * content-type to cc)])
-		 */
+        /*
+         * Figure out what command we are going to run: Flags - UID FETCH
+         * (FLAGS) Envelope - UID FETCH ([FLAGS] INTERNALDATE UID
+         * RFC822.SIZE FLAGS BODY.PEEK[HEADER.FIELDS (date subject from
+         * content-type to cc)])
+         */
         Set<String> fetchFields = new LinkedHashSet<>();
         fetchFields.add("UID");
         if (fetchProfile.contains(FetchProfile.Item.FLAGS)) {
@@ -813,8 +777,7 @@ class ImapFolder extends Folder<ImapMessage>
 
     @Override
     public void fetchPart(Message message, Part part, MessageRetrievalListener<Message> listener, BodyFactory bodyFactory)
-            throws MessagingException
-    {
+            throws MessagingException {
         checkOpen();  //only need READ access
 
         String partId = part.getServerExtra();
@@ -894,8 +857,7 @@ class ImapFolder extends Folder<ImapMessage>
 
     // Returns value of body field
     private Object handleFetchResponse(ImapMessage message, ImapList fetchList)
-            throws MessagingException
-    {
+            throws MessagingException {
         Object result = null;
         if (fetchList.containsKey("FLAGS")) {
             ImapList flags = fetchList.getKeyedList("FLAGS");
@@ -969,16 +931,14 @@ class ImapFolder extends Folder<ImapMessage>
      *
      * @param responses
      */
-    protected List<ImapResponse> handleUntaggedResponses(List<ImapResponse> responses)
-    {
+    protected List<ImapResponse> handleUntaggedResponses(List<ImapResponse> responses) {
         for (ImapResponse response : responses) {
             handleUntaggedResponse(response);
         }
         return responses;
     }
 
-    protected void handlePossibleUidNext(ImapResponse response)
-    {
+    protected void handlePossibleUidNext(ImapResponse response) {
         if (ImapResponseParser.equalsIgnoreCase(response.get(0), "OK") && response.size() > 1) {
             Object bracketedObj = response.get(1);
             if (bracketedObj instanceof ImapList) {
@@ -1005,8 +965,7 @@ class ImapFolder extends Folder<ImapMessage>
      *
      * @param response
      */
-    protected void handleUntaggedResponse(ImapResponse response)
-    {
+    protected void handleUntaggedResponse(ImapResponse response) {
         if (!response.isTagged() && response.size() > 1) {
             if (ImapResponseParser.equalsIgnoreCase(response.get(1), "EXISTS")) {
                 mMessageCount = response.getNumber(0);
@@ -1026,19 +985,18 @@ class ImapFolder extends Folder<ImapMessage>
     }
 
     private void parseBodyStructure(ImapList bs, Part part, String id)
-            throws MessagingException
-    {
+            throws MessagingException {
         if (bs.get(0) instanceof ImapList) {
-			/*
-			 * This is a multipart/*
-			 */
+            /*
+             * This is a multipart/*
+             */
             MimeMultipart mp = MimeMultipart.newInstance();
             for (int i = 0, count = bs.size(); i < count; i++) {
                 if (bs.get(i) instanceof ImapList) {
-					/*
-					 * For each part in the message we're going to add a new
-					 * BodyPart and parse into it.
-					 */
+                    /*
+                     * For each part in the message we're going to add a new
+                     * BodyPart and parse into it.
+                     */
                     MimeBodyPart bp = new MimeBodyPart();
                     if (id.equalsIgnoreCase("TEXT")) {
                         parseBodyStructure(bs.getList(i), bp, Integer.toString(i + 1));
@@ -1049,10 +1007,10 @@ class ImapFolder extends Folder<ImapMessage>
                     mp.addBodyPart(bp);
                 }
                 else {
-					/*
-					 * We've got to the end of the children of the part, so
-					 * now we can find out what type it is and bail out.
-					 */
+                    /*
+                     * We've got to the end of the children of the part, so
+                     * now we can find out what type it is and bail out.
+                     */
                     String subType = bs.getString(i);
                     mp.setSubType(subType.toLowerCase(Locale.US));
                     break;
@@ -1061,10 +1019,10 @@ class ImapFolder extends Folder<ImapMessage>
             MimeMessageHelper.setBody(part, mp);
         }
         else {
-			/*
-			 * This is a body. We need to add as much information as we can
-			 * find out about it to the Part.
-			 */
+            /*
+             * This is a body. We need to add as much information as we can
+             * find out about it to the Part.
+             */
 
             /*
              *  0| 0  body type
@@ -1106,17 +1064,17 @@ class ImapFolder extends Folder<ImapMessage>
                 throw new MessagingException("BODYSTRUCTURE message/rfc822 not yet supported.");
             }
 
-			/*
-			 * Set the content type with as much information as we know right now.
-			 */
+            /*
+             * Set the content type with as much information as we know right now.
+             */
             StringBuilder contentType = new StringBuilder();
             contentType.append(mimeType);
 
             if (bodyParams != null) {
-				/*
-				 * If there are body params we might be able to get some
-				 * more information out of them.
-				 */
+                /*
+                 * If there are body params we might be able to get some
+                 * more information out of them.
+                 */
                 for (int i = 0, count = bodyParams.size(); i < count; i += 2) {
                     String paramName = bodyParams.getString(i);
                     String paramValue = bodyParams.getString(i + 1);
@@ -1144,10 +1102,10 @@ class ImapFolder extends Folder<ImapMessage>
 
                 if ((bodyDisposition.size() > 1) && (bodyDisposition.get(1) instanceof ImapList)) {
                     ImapList bodyDispositionParams = bodyDisposition.getList(1);
-					/*
-					 * If there is body disposition information we can pull
-					 * some more information about the attachment out.
-					 */
+                    /*
+                     * If there is body disposition information we can pull
+                     * some more information about the attachment out.
+                     */
                     for (int i = 0, count = bodyDispositionParams.size(); i < count; i += 2) {
                         String paramName = bodyDispositionParams.getString(i).toLowerCase(Locale.US);
                         String paramValue = bodyDispositionParams.getString(i + 1);
@@ -1160,16 +1118,16 @@ class ImapFolder extends Folder<ImapMessage>
                 contentDisposition.append(String.format(Locale.US, ";\r\n size=%d", size));
             }
 
-			/*
-			 * Set the content disposition containing at least the size.
-			 * Attachment handling code will use this down the road.
-			 */
+            /*
+             * Set the content disposition containing at least the size.
+             * Attachment handling code will use this down the road.
+             */
             part.setHeader(MimeHeader.HEADER_CONTENT_DISPOSITION, contentDisposition.toString());
 
-			/*
-			 * Set the Content-Transfer-Encoding header. Attachment code
-			 * will use this to parse the body.
-			 */
+            /*
+             * Set the Content-Transfer-Encoding header. Attachment code
+             * will use this to parse the body.
+             */
             part.setHeader(MimeHeader.HEADER_CONTENT_TRANSFER_ENCODING, encoding);
 
             if (part instanceof ImapMessage) {
@@ -1188,12 +1146,12 @@ class ImapFolder extends Folder<ImapMessage>
      * </p>
      *
      * @param messages The messages to append to the folder.
+     *
      * @return The mapping of original message UIDs to the new server UIDs.
      */
     @Override
     public Map<String, String> appendMessages(List<? extends Message> messages)
-            throws MessagingException
-    {
+            throws MessagingException {
         open(OPEN_MODE_RW);
         checkOpen();
 
@@ -1224,14 +1182,14 @@ class ImapFolder extends Folder<ImapMessage>
                 } while (!response.isTagged());
 
                 if (response.size() > 1) {
-					/*
-					 * If the server supports UIDPLUS, then along with the APPEND response it 
-					 * will return an APPENDUID response code, e.g.
-					 * 
-					 * 11 OK [APPENDUID 2 238268] APPEND completed
-					 * 
-					 * We can use the UID included in this response to update our records.
-					 */
+                    /*
+                     * If the server supports UIDPLUS, then along with the APPEND response it
+                     * will return an APPENDUID response code, e.g.
+                     *
+                     * 11 OK [APPENDUID 2 238268] APPEND completed
+                     *
+                     * We can use the UID included in this response to update our records.
+                     */
                     Object responseList = response.get(1);
                     if (responseList instanceof ImapList) {
                         ImapList appendList = (ImapList) responseList;
@@ -1248,10 +1206,10 @@ class ImapFolder extends Folder<ImapMessage>
                     }
                 }
 
-				/*
-				 * This part is executed in case the server does not support
-				 * UIDPLUS or does not implement the APPENDUID response code.
-				 */
+                /*
+                 * This part is executed in case the server does not support
+                 * UIDPLUS or does not implement the APPENDUID response code.
+                 */
                 String newUid = getUidFromMessageId(message);
                 if (XryptoMailLib.isDebug()) {
                     Timber.d("Got UID %s for message for %s", newUid, getLogId());
@@ -1263,11 +1221,11 @@ class ImapFolder extends Folder<ImapMessage>
                 }
             }
 
-			/*
-			 * We need uidMap to be null if new UIDs are not available to
-			 * maintain consistency with the behavior of other similar
-			 * methods (copyMessages, moveMessages) which return null.
-			 */
+            /*
+             * We need uidMap to be null if new UIDs are not available to
+             * maintain consistency with the behavior of other similar
+             * methods (copyMessages, moveMessages) which return null.
+             */
             return (uidMap.isEmpty()) ? null : uidMap;
         } catch (IOException ioe) {
             throw ioExceptionHandler(mConnection, ioe);
@@ -1276,12 +1234,11 @@ class ImapFolder extends Folder<ImapMessage>
 
     @Override
     public String getUidFromMessageId(Message message)
-            throws MessagingException
-    {
-		/*
-		 * Try to find the UID of the message we just appended using the
-		 * Message-ID header.
-		 */
+            throws MessagingException {
+        /*
+         * Try to find the UID of the message we just appended using the
+         * Message-ID header.
+         */
         String[] messageIdHeader = message.getHeader("Message-ID");
         if ((messageIdHeader == null) || (messageIdHeader.length == 0)) {
             if (XryptoMailLib.isDebug())
@@ -1311,8 +1268,7 @@ class ImapFolder extends Folder<ImapMessage>
 
     @Override
     public void expunge()
-            throws MessagingException
-    {
+            throws MessagingException {
         open(OPEN_MODE_RW);
         checkOpen();
         try {
@@ -1324,8 +1280,7 @@ class ImapFolder extends Folder<ImapMessage>
 
     @Override
     public void expungeUids(List<String> uids)
-            throws MessagingException
-    {
+            throws MessagingException {
         if (uids == null || uids.isEmpty()) {
             throw new IllegalArgumentException("expungeUids() must be called with a non-empty set of UIDs");
         }
@@ -1351,8 +1306,7 @@ class ImapFolder extends Folder<ImapMessage>
 
     @Override
     public void setFlags(Set<Flag> flags, boolean value)
-            throws MessagingException
-    {
+            throws MessagingException {
         open(OPEN_MODE_RW);
         checkOpen();
 
@@ -1370,8 +1324,7 @@ class ImapFolder extends Folder<ImapMessage>
     }
 
     @Override
-    public String getNewPushState(String oldSerializedPushState, Message message)
-    {
+    public String getNewPushState(String oldSerializedPushState, Message message) {
         try {
             String uid = message.getUid();
             long messageUid = Long.parseLong(uid);
@@ -1393,8 +1346,7 @@ class ImapFolder extends Folder<ImapMessage>
 
     @Override
     public void setFlags(List<? extends Message> messages, final Set<Flag> flags, boolean value)
-            throws MessagingException
-    {
+            throws MessagingException {
         open(OPEN_MODE_RW);
         checkOpen();
 
@@ -1417,15 +1369,13 @@ class ImapFolder extends Folder<ImapMessage>
     }
 
     private void checkOpen()
-            throws MessagingException
-    {
+            throws MessagingException {
         if (!isOpen()) {
             throw new MessagingException("Folder " + getPrefixedName() + " is not open.");
         }
     }
 
-    private MessagingException ioExceptionHandler(ImapConnection connection, IOException ioe)
-    {
+    private MessagingException ioExceptionHandler(ImapConnection connection, IOException ioe) {
         Timber.e(ioe, "IOException for %s", getLogId());
         if (connection != null) {
             connection.close();
@@ -1435,8 +1385,7 @@ class ImapFolder extends Folder<ImapMessage>
     }
 
     @Override
-    public boolean equals(Object other)
-    {
+    public boolean equals(Object other) {
         if (other instanceof ImapFolder) {
             ImapFolder otherFolder = (ImapFolder) other;
             return otherFolder.getServerId().equalsIgnoreCase(getServerId());
@@ -1445,18 +1394,15 @@ class ImapFolder extends Folder<ImapMessage>
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return getServerId().hashCode();
     }
 
-    private ImapStore getStore()
-    {
+    private ImapStore getStore() {
         return mStore;
     }
 
-    protected String getLogId()
-    {
+    protected String getLogId() {
         String id = mStore.getStoreConfig().toString() + ":" + getServerId() + "/" + Thread.currentThread().getName();
         if (mConnection != null) {
             id += "/" + mConnection.getLogId();
@@ -1470,13 +1416,14 @@ class ImapFolder extends Folder<ImapMessage>
      * @param queryString String to query for.
      * @param requiredFlags Mandatory flags
      * @param forbiddenFlags Flags to exclude
+     *
      * @return List of messages found
+     *
      * @throws MessagingException On any error.
      */
     @Override
     public List<ImapMessage> search(final String queryString, final Set<Flag> requiredFlags, final Set<Flag> forbiddenFlags)
-            throws MessagingException
-    {
+            throws MessagingException {
         if (!mStore.getStoreConfig().isAllowRemoteSearch()) {
             throw new MessagingException("Your settings do not allow remote searching of this account");
         }

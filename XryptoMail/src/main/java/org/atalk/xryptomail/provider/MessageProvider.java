@@ -18,9 +18,10 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 
+import androidx.annotation.NonNull;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -52,8 +53,7 @@ import org.atalk.xryptomail.search.SearchAccount;
 
 import timber.log.Timber;
 
-public class MessageProvider extends ContentProvider
-{
+public class MessageProvider extends ContentProvider {
     public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".messageprovider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
@@ -90,6 +90,7 @@ public class MessageProvider extends ContentProvider
     private final List<QueryHandler> mQueryHandlers = new ArrayList<>();
 
     private MessageHelper mMessageHelper;
+    private Context mContext;
 
     /**
      * How many simultaneous cursors we can afford to expose at once
@@ -100,29 +101,24 @@ public class MessageProvider extends ContentProvider
     /* package */
     ScheduledExecutorService mScheduledPool = Executors.newScheduledThreadPool(1);
 
-
     @Override
-    public boolean onCreate()
-    {
-        mMessageHelper = MessageHelper.getInstance(getContext());
+    public boolean onCreate() {
+        mContext = getContext();
+        mMessageHelper = MessageHelper.getInstance(mContext);
 
         registerQueryHandler(new ThrottlingQueryHandler(new AccountsQueryHandler()));
         registerQueryHandler(new ThrottlingQueryHandler(new MessagesQueryHandler()));
         registerQueryHandler(new ThrottlingQueryHandler(new UnreadQueryHandler()));
 
-        XryptoMail.registerApplicationAware(new XryptoMail.ApplicationAware()
-        {
+        XryptoMail.registerApplicationAware(new XryptoMail.ApplicationAware() {
             @Override
-            public void initializeComponent(final Application application)
-            {
+            public void initializeComponent(final Application application) {
                 Timber.v("Registering content resolver notifier");
 
                 MessagingController.getInstance(application).addListener(
-                        new SimpleMessagingListener()
-                        {
+                        new SimpleMessagingListener() {
                             @Override
-                            public void folderStatusChanged(Account account, String folderName, int unreadMessageCount)
-                            {
+                            public void folderStatusChanged(Account account, String folderName, int unreadMessageCount) {
                                 application.getContentResolver().notifyChange(CONTENT_URI, null);
                             }
                         });
@@ -133,24 +129,20 @@ public class MessageProvider extends ContentProvider
 
 
     @Override
-    public String getType(Uri uri)
-    {
+    public String getType(@NonNull Uri uri) {
         if (XryptoMail.mInstance == null) {
             return null;
         }
 
         Timber.v("MessageProvider/getType: %s", uri);
-
         return null;
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
-    {
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         if (XryptoMail.mInstance == null) {
             return null;
         }
-
         Timber.v("MessageProvider/query: %s", uri);
 
         int code = mUriMatcher.match(uri);
@@ -172,8 +164,7 @@ public class MessageProvider extends ContentProvider
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs)
-    {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         if (XryptoMail.mInstance == null) {
             return 0;
         }
@@ -188,10 +179,10 @@ public class MessageProvider extends ContentProvider
 
         // get account
         Account myAccount = null;
-        for (Account account : Preferences.getPreferences(getContext()).getAccounts()) {
+        for (Account account : Preferences.getPreferences(mContext).getAccounts()) {
             if (account.getAccountNumber() == accountId) {
                 myAccount = account;
-                if (!account.isAvailable(getContext())) {
+                if (!account.isAvailable(mContext)) {
                     Timber.w("not deleting messages because account is unavailable at the moment");
                     return 0;
                 }
@@ -204,29 +195,24 @@ public class MessageProvider extends ContentProvider
         // launch command to delete the message
         if (myAccount != null) {
             MessageReference messageReference = new MessageReference(myAccount.getUuid(), folderName, msgUid, null);
-            MessagingController controller = MessagingController.getInstance(getContext());
+            MessagingController controller = MessagingController.getInstance(mContext);
             controller.deleteMessage(messageReference, null);
         }
-
         // FIXME return the actual number of deleted messages
         return 0;
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues values)
-    {
+    public Uri insert(@NonNull Uri uri, ContentValues values) {
         if (XryptoMail.mInstance == null) {
             return null;
         }
-
         Timber.v("MessageProvider/insert: %s", uri);
-
         return null;
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs)
-    {
+    public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         if (XryptoMail.mInstance == null) {
             return 0;
         }
@@ -242,8 +228,7 @@ public class MessageProvider extends ContentProvider
      *
      * @param handler Never <code>null</code>.
      */
-    protected void registerQueryHandler(QueryHandler handler)
-    {
+    protected void registerQueryHandler(QueryHandler handler) {
         if (mQueryHandlers.contains(handler)) {
             return;
         }
@@ -255,11 +240,9 @@ public class MessageProvider extends ContentProvider
     }
 
 
-    public static class ReverseDateComparator implements Comparator<MessageInfoHolder>
-    {
+    public static class ReverseDateComparator implements Comparator<MessageInfoHolder> {
         @Override
-        public int compare(MessageInfoHolder object2, MessageInfoHolder object1)
-        {
+        public int compare(MessageInfoHolder object2, MessageInfoHolder object1) {
             if (object1.compareDate == null) {
                 return (object2.compareDate == null ? 0 : 1);
             }
@@ -272,8 +255,7 @@ public class MessageProvider extends ContentProvider
         }
     }
 
-    public interface MessageColumns extends BaseColumns
-    {
+    public interface MessageColumns extends BaseColumns {
         /**
          * The number of milliseconds since Jan. 1, 1970, midnight GMT.
          * <p>
@@ -342,8 +324,7 @@ public class MessageProvider extends ContentProvider
         String INCREMENT = "id";
     }
 
-    public interface AccountColumns
-    {
+    public interface AccountColumns {
         /**
          * <P>Type: INTEGER</P>
          */
@@ -358,8 +339,7 @@ public class MessageProvider extends ContentProvider
         String ACCOUNT_COLOR = "accountColor";
     }
 
-    public interface UnreadColumns
-    {
+    public interface UnreadColumns {
         /**
          * <P>Type: String</P>
          */
@@ -370,8 +350,7 @@ public class MessageProvider extends ContentProvider
         String UNREAD = "unread";
     }
 
-    protected interface QueryHandler
-    {
+    protected interface QueryHandler {
         /**
          * The path this instance is able to respond to.
          *
@@ -385,9 +364,10 @@ public class MessageProvider extends ContentProvider
          * @param selection
          * @param selectionArgs
          * @param sortOrder
+         *
          * @return
-         * @throws Exception
-         * {@link ContentProvider#query(Uri, String[], String, String[], String)}
+         *
+         * @throws Exception {@link ContentProvider#query(Uri, String[], String, String[], String)}
          */
         Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
                 throws Exception;
@@ -399,8 +379,7 @@ public class MessageProvider extends ContentProvider
      * @param <T>
      * @param <K>
      */
-    public interface FieldExtractor<T, K>
-    {
+    public interface FieldExtractor<T, K> {
         K getField(T source);
     }
 
@@ -409,72 +388,57 @@ public class MessageProvider extends ContentProvider
      * {@link MessageInfoHolder}. The underlying {@link Message} is expected to
      * be a {@link LocalMessage}.
      */
-    public static class IdExtractor implements FieldExtractor<MessageInfoHolder, Long>
-    {
+    public static class IdExtractor implements FieldExtractor<MessageInfoHolder, Long> {
         @Override
-        public Long getField(MessageInfoHolder source)
-        {
+        public Long getField(MessageInfoHolder source) {
             return source.message.getDatabaseId();
         }
     }
 
-    public static class CountExtractor<T> implements FieldExtractor<T, Integer>
-    {
-        private Integer mCount;
+    public static class CountExtractor<T> implements FieldExtractor<T, Integer> {
+        private final Integer mCount;
 
-        public CountExtractor(int count)
-        {
+        public CountExtractor(int count) {
             mCount = count;
         }
 
         @Override
-        public Integer getField(T source)
-        {
+        public Integer getField(T source) {
             return mCount;
         }
     }
 
-    public static class SubjectExtractor implements FieldExtractor<MessageInfoHolder, String>
-    {
+    public static class SubjectExtractor implements FieldExtractor<MessageInfoHolder, String> {
         @Override
-        public String getField(MessageInfoHolder source)
-        {
+        public String getField(MessageInfoHolder source) {
             return source.message.getSubject();
         }
     }
 
-    public static class SendDateExtractor implements FieldExtractor<MessageInfoHolder, Long>
-    {
+    public static class SendDateExtractor implements FieldExtractor<MessageInfoHolder, Long> {
         @Override
-        public Long getField(MessageInfoHolder source)
-        {
+        public Long getField(MessageInfoHolder source) {
             return source.message.getSentDate().getTime();
         }
     }
 
-    public static class PreviewExtractor implements FieldExtractor<MessageInfoHolder, String>
-    {
+    public static class PreviewExtractor implements FieldExtractor<MessageInfoHolder, String> {
         @Override
-        public String getField(MessageInfoHolder source)
-        {
+        public String getField(MessageInfoHolder source) {
             return source.message.getPreview();
         }
     }
 
-    public static class UriExtractor implements FieldExtractor<MessageInfoHolder, String>
-    {
+    public static class UriExtractor implements FieldExtractor<MessageInfoHolder, String> {
         @Override
-        public String getField(MessageInfoHolder source)
-        {
+        public String getField(MessageInfoHolder source) {
             return source.uri;
         }
     }
 
-    public static class DeleteUriExtractor implements FieldExtractor<MessageInfoHolder, String>
-    {
+    public static class DeleteUriExtractor implements FieldExtractor<MessageInfoHolder, String> {
         @Override
-        public String getField(MessageInfoHolder source)
-        {
+        public String getField(MessageInfoHolder source) {
             LocalMessage message = source.message;
             int accountNumber = message.getAccount().getAccountNumber();
             return CONTENT_URI.buildUpon()
@@ -487,74 +451,58 @@ public class MessageProvider extends ContentProvider
         }
     }
 
-    public static class SenderExtractor implements FieldExtractor<MessageInfoHolder, CharSequence>
-    {
+    public static class SenderExtractor implements FieldExtractor<MessageInfoHolder, CharSequence> {
         @Override
-        public CharSequence getField(MessageInfoHolder source)
-        {
+        public CharSequence getField(MessageInfoHolder source) {
             return source.sender;
         }
     }
 
-    public static class SenderAddressExtractor implements FieldExtractor<MessageInfoHolder, String>
-    {
+    public static class SenderAddressExtractor implements FieldExtractor<MessageInfoHolder, String> {
         @Override
-        public String getField(MessageInfoHolder source)
-        {
+        public String getField(MessageInfoHolder source) {
             return source.senderAddress;
         }
     }
 
-    public static class AccountExtractor implements FieldExtractor<MessageInfoHolder, String>
-    {
+    public static class AccountExtractor implements FieldExtractor<MessageInfoHolder, String> {
         @Override
-        public String getField(MessageInfoHolder source)
-        {
+        public String getField(MessageInfoHolder source) {
             return source.message.getAccount().getDescription();
         }
     }
 
-    public static class AccountColorExtractor implements FieldExtractor<MessageInfoHolder, Integer>
-    {
+    public static class AccountColorExtractor implements FieldExtractor<MessageInfoHolder, Integer> {
         @Override
-        public Integer getField(MessageInfoHolder source)
-        {
+        public Integer getField(MessageInfoHolder source) {
             return source.message.getAccount().getChipColor();
         }
     }
 
-    public static class AccountNumberExtractor implements FieldExtractor<MessageInfoHolder, Integer>
-    {
+    public static class AccountNumberExtractor implements FieldExtractor<MessageInfoHolder, Integer> {
         @Override
-        public Integer getField(MessageInfoHolder source)
-        {
+        public Integer getField(MessageInfoHolder source) {
             return source.message.getAccount().getAccountNumber();
         }
     }
 
-    public static class HasAttachmentsExtractor implements FieldExtractor<MessageInfoHolder, Boolean>
-    {
+    public static class HasAttachmentsExtractor implements FieldExtractor<MessageInfoHolder, Boolean> {
         @Override
-        public Boolean getField(MessageInfoHolder source)
-        {
+        public Boolean getField(MessageInfoHolder source) {
             return source.message.hasAttachments();
         }
     }
 
-    public static class HasStarExtractor implements FieldExtractor<MessageInfoHolder, Boolean>
-    {
+    public static class HasStarExtractor implements FieldExtractor<MessageInfoHolder, Boolean> {
         @Override
-        public Boolean getField(MessageInfoHolder source)
-        {
+        public Boolean getField(MessageInfoHolder source) {
             return source.message.isSet(Flag.FLAGGED);
         }
     }
 
-    public static class UnreadExtractor implements FieldExtractor<MessageInfoHolder, Boolean>
-    {
+    public static class UnreadExtractor implements FieldExtractor<MessageInfoHolder, Boolean> {
         @Override
-        public Boolean getField(MessageInfoHolder source)
-        {
+        public Boolean getField(MessageInfoHolder source) {
             return !source.read;
         }
     }
@@ -564,13 +512,11 @@ public class MessageProvider extends ContentProvider
      * implemented for compatibility only
      */
     @Deprecated
-    public static class IncrementExtractor implements FieldExtractor<MessageInfoHolder, Integer>
-    {
+    public static class IncrementExtractor implements FieldExtractor<MessageInfoHolder, Integer> {
         private int count = 0;
 
         @Override
-        public Integer getField(MessageInfoHolder source)
-        {
+        public Integer getField(MessageInfoHolder source) {
             return count++;
         }
     }
@@ -578,44 +524,40 @@ public class MessageProvider extends ContentProvider
     /**
      * Retrieve messages from the integrated inbox.
      */
-    protected class MessagesQueryHandler implements QueryHandler
-    {
+    protected class MessagesQueryHandler implements QueryHandler {
 
         @Override
-        public String getPath()
-        {
+        public String getPath() {
             return "inbox_messages/";
         }
 
         @Override
         public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
-                throws Exception
-        {
+                throws Exception {
             return getMessages(projection);
         }
 
         /**
          * @param projection Projection to use. If <code>null</code>, use the default
          * projection.
+         *
          * @return Never <code>null</code>.
+         *
          * @throws InterruptedException
          */
         protected MatrixCursor getMessages(String[] projection)
-                throws InterruptedException
-        {
+                throws InterruptedException {
             BlockingQueue<List<MessageInfoHolder>> queue = new SynchronousQueue<>();
 
             // new code for integrated inbox, only execute this once as it will be processed
             // afterwards via the listener
-            SearchAccount integratedInboxAccount = SearchAccount.createUnifiedInboxAccount(getContext());
-            MessagingController msgController = MessagingController.getInstance(getContext());
+            SearchAccount integratedInboxAccount = SearchAccount.createUnifiedInboxAccount(mContext);
+            MessagingController msgController = MessagingController.getInstance(mContext);
             msgController.searchLocalMessages(integratedInboxAccount.getRelatedSearch(),
                     new MessageInfoHolderRetrieverListener(queue));
 
             List<MessageInfoHolder> holders = queue.take();
-
-            // TODO add sort order parameter
-            Collections.sort(holders, new ReverseDateComparator());
+            holders.sort(new ReverseDateComparator());
 
             String[] projectionToUse;
             if (projection == null) {
@@ -647,8 +589,7 @@ public class MessageProvider extends ContentProvider
 
         // returns LinkedHashMap (rather than Map) to emphasize the inner element ordering
         protected LinkedHashMap<String, FieldExtractor<MessageInfoHolder, ?>>
-        resolveMessageExtractors(final String[] projection, int count)
-        {
+        resolveMessageExtractors(final String[] projection, int count) {
             LinkedHashMap<String, FieldExtractor<MessageInfoHolder, ?>> extractors
                     = new LinkedHashMap<>();
 
@@ -712,24 +653,20 @@ public class MessageProvider extends ContentProvider
     /**
      * Retrieve the account list.
      */
-    protected class AccountsQueryHandler implements QueryHandler
-    {
+    protected class AccountsQueryHandler implements QueryHandler {
 
         @Override
-        public String getPath()
-        {
+        public String getPath() {
             return "accounts";
         }
 
         @Override
         public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
-                throws Exception
-        {
+                throws Exception {
             return getAllAccounts(projection);
         }
 
-        public Cursor getAllAccounts(String[] projection)
-        {
+        public Cursor getAllAccounts(String[] projection) {
             // Default projection
             if (projection == null) {
                 projection = DEFAULT_ACCOUNT_PROJECTION;
@@ -737,7 +674,7 @@ public class MessageProvider extends ContentProvider
 
             MatrixCursor cursor = new MatrixCursor(projection);
 
-            for (Account account : Preferences.getPreferences(getContext()).getAccounts()) {
+            for (Account account : Preferences.getPreferences(mContext).getAccounts()) {
                 Object[] values = new Object[projection.length];
 
                 // Build account row
@@ -771,19 +708,16 @@ public class MessageProvider extends ContentProvider
      * Retrieve the unread message count for a given account specified by its
      * {@link Account#getAccountNumber() number}.
      */
-    protected class UnreadQueryHandler implements QueryHandler
-    {
+    protected class UnreadQueryHandler implements QueryHandler {
 
         @Override
-        public String getPath()
-        {
+        public String getPath() {
             return "account_unread/#";
         }
 
         @Override
         public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
-                throws Exception
-        {
+                throws Exception {
             List<String> segments = uri.getPathSegments();
             int accountId = Integer.parseInt(segments.get(1));
 
@@ -801,8 +735,7 @@ public class MessageProvider extends ContentProvider
             }
         }
 
-        private Cursor getAccountUnread(int accountNumber)
-        {
+        private Cursor getAccountUnread(int accountNumber) {
 
             MatrixCursor cursor = new MatrixCursor(UNREAD_PROJECTION);
 
@@ -811,11 +744,11 @@ public class MessageProvider extends ContentProvider
 
             Object[] values = new Object[2];
 
-            for (Account account : Preferences.getPreferences(getContext()).getAvailableAccounts()) {
+            for (Account account : Preferences.getPreferences(mContext).getAvailableAccounts()) {
                 if (account.getAccountNumber() == accountNumber) {
                     myAccount = account;
                     try {
-                        myAccountStats = account.getStats(getContext());
+                        myAccountStats = account.getStats(mContext);
                         values[0] = myAccount.getDescription();
                         if (myAccountStats == null) {
                             values[1] = 0;
@@ -839,8 +772,7 @@ public class MessageProvider extends ContentProvider
      * Cursor wrapper that release a semaphore on close. Close is also triggered
      * on {@link #finalize()}.
      */
-    protected static class MonitoredCursor implements CrossProcessCursor
-    {
+    protected static class MonitoredCursor implements CrossProcessCursor {
         /**
          * The underlying cursor implementation that handles regular
          * requests
@@ -859,8 +791,7 @@ public class MessageProvider extends ContentProvider
          * @param semaphore The semaphore to release on close. Never
          * <code>null</code>.
          */
-        protected MonitoredCursor(CrossProcessCursor cursor, Semaphore semaphore)
-        {
+        protected MonitoredCursor(CrossProcessCursor cursor, Semaphore semaphore) {
             this.mCursor = cursor;
             this.mSemaphore = semaphore;
         }
@@ -872,8 +803,7 @@ public class MessageProvider extends ContentProvider
          * @see android.database.Cursor#close()
          */
         @Override
-        public void close()
-        {
+        public void close() {
             if (mClosed.compareAndSet(false, true)) {
                 mCursor.close();
                 Timber.d("Cursor closed, null'ing & releasing semaphore");
@@ -883,8 +813,7 @@ public class MessageProvider extends ContentProvider
         }
 
         @Override
-        public boolean isClosed()
-        {
+        public boolean isClosed() {
             return mClosed.get() || mCursor.isClosed();
         }
 
@@ -896,334 +825,286 @@ public class MessageProvider extends ContentProvider
          */
         @Override
         protected void finalize()
-                throws Throwable
-        {
+                throws Throwable {
             close();
             super.finalize();
         }
 
         protected void checkClosed()
-                throws IllegalStateException
-        {
+                throws IllegalStateException {
             if (mClosed.get()) {
                 throw new IllegalStateException("Cursor was closed");
             }
         }
 
         @Override
-        public void fillWindow(int pos, CursorWindow winow)
-        {
+        public void fillWindow(int pos, CursorWindow winow) {
             checkClosed();
             mCursor.fillWindow(pos, winow);
         }
 
         @Override
-        public CursorWindow getWindow()
-        {
+        public CursorWindow getWindow() {
             checkClosed();
             return mCursor.getWindow();
         }
 
         @Override
-        public boolean onMove(int oldPosition, int newPosition)
-        {
+        public boolean onMove(int oldPosition, int newPosition) {
             checkClosed();
             return mCursor.onMove(oldPosition, newPosition);
         }
 
         @Override
-        public void copyStringToBuffer(int columnIndex, CharArrayBuffer buffer)
-        {
+        public void copyStringToBuffer(int columnIndex, CharArrayBuffer buffer) {
             checkClosed();
             mCursor.copyStringToBuffer(columnIndex, buffer);
         }
 
         @Override
-        public void deactivate()
-        {
+        public void deactivate() {
             checkClosed();
             mCursor.deactivate();
         }
 
         @Override
-        public byte[] getBlob(int columnIndex)
-        {
+        public byte[] getBlob(int columnIndex) {
             checkClosed();
             return mCursor.getBlob(columnIndex);
         }
 
         @Override
-        public int getColumnCount()
-        {
+        public int getColumnCount() {
             checkClosed();
             return mCursor.getColumnCount();
         }
 
         @Override
-        public int getColumnIndex(String columnName)
-        {
+        public int getColumnIndex(String columnName) {
             checkClosed();
             return mCursor.getColumnIndex(columnName);
         }
 
         @Override
         public int getColumnIndexOrThrow(String columnName)
-                throws IllegalArgumentException
-        {
+                throws IllegalArgumentException {
             checkClosed();
             return mCursor.getColumnIndexOrThrow(columnName);
         }
 
         @Override
-        public String getColumnName(int columnIndex)
-        {
+        public String getColumnName(int columnIndex) {
             checkClosed();
             return mCursor.getColumnName(columnIndex);
         }
 
         @Override
-        public String[] getColumnNames()
-        {
+        public String[] getColumnNames() {
             checkClosed();
             return mCursor.getColumnNames();
         }
 
         @Override
-        public int getCount()
-        {
+        public int getCount() {
             checkClosed();
             return mCursor.getCount();
         }
 
         @Override
-        public double getDouble(int columnIndex)
-        {
+        public double getDouble(int columnIndex) {
             checkClosed();
             return mCursor.getDouble(columnIndex);
         }
 
         @Override
-        public Bundle getExtras()
-        {
+        public Bundle getExtras() {
             checkClosed();
             return mCursor.getExtras();
         }
 
         @Override
-        public float getFloat(int columnIndex)
-        {
+        public float getFloat(int columnIndex) {
             checkClosed();
             return mCursor.getFloat(columnIndex);
         }
 
         @Override
-        public int getInt(int columnIndex)
-        {
+        public int getInt(int columnIndex) {
             checkClosed();
             return mCursor.getInt(columnIndex);
         }
 
         @Override
-        public long getLong(int columnIndex)
-        {
+        public long getLong(int columnIndex) {
             checkClosed();
             return mCursor.getLong(columnIndex);
         }
 
         @Override
-        public int getPosition()
-        {
+        public int getPosition() {
             checkClosed();
             return mCursor.getPosition();
         }
 
         @Override
-        public short getShort(int columnIndex)
-        {
+        public short getShort(int columnIndex) {
             checkClosed();
             return mCursor.getShort(columnIndex);
         }
 
         @Override
-        public String getString(int columnIndex)
-        {
+        public String getString(int columnIndex) {
             checkClosed();
             return mCursor.getString(columnIndex);
         }
 
         @Override
-        public boolean getWantsAllOnMoveCalls()
-        {
+        public boolean getWantsAllOnMoveCalls() {
             checkClosed();
             return mCursor.getWantsAllOnMoveCalls();
         }
 
         @Override
-        public void setExtras(Bundle extras)
-        {
+        public void setExtras(Bundle extras) {
             mCursor.setExtras(extras);
         }
 
         @Override
-        public boolean isAfterLast()
-        {
+        public boolean isAfterLast() {
             checkClosed();
             return mCursor.isAfterLast();
         }
 
         @Override
-        public boolean isBeforeFirst()
-        {
+        public boolean isBeforeFirst() {
             checkClosed();
             return mCursor.isBeforeFirst();
         }
 
         @Override
-        public boolean isFirst()
-        {
+        public boolean isFirst() {
             checkClosed();
             return mCursor.isFirst();
         }
 
         @Override
-        public boolean isLast()
-        {
+        public boolean isLast() {
             checkClosed();
             return mCursor.isLast();
         }
 
         @Override
-        public boolean isNull(int columnIndex)
-        {
+        public boolean isNull(int columnIndex) {
             checkClosed();
             return mCursor.isNull(columnIndex);
         }
 
         @Override
-        public boolean move(int offset)
-        {
+        public boolean move(int offset) {
             checkClosed();
             return mCursor.move(offset);
         }
 
         @Override
-        public boolean moveToFirst()
-        {
+        public boolean moveToFirst() {
             checkClosed();
             return mCursor.moveToFirst();
         }
 
         @Override
-        public boolean moveToLast()
-        {
+        public boolean moveToLast() {
             checkClosed();
             return mCursor.moveToLast();
         }
 
         @Override
-        public boolean moveToNext()
-        {
+        public boolean moveToNext() {
             checkClosed();
             return mCursor.moveToNext();
         }
 
         @Override
-        public boolean moveToPosition(int position)
-        {
+        public boolean moveToPosition(int position) {
             checkClosed();
             return mCursor.moveToPosition(position);
         }
 
         @Override
-        public boolean moveToPrevious()
-        {
+        public boolean moveToPrevious() {
             checkClosed();
             return mCursor.moveToPrevious();
         }
 
         @Override
-        public void registerContentObserver(ContentObserver observer)
-        {
+        public void registerContentObserver(ContentObserver observer) {
             checkClosed();
             mCursor.registerContentObserver(observer);
         }
 
         @Override
-        public void registerDataSetObserver(DataSetObserver observer)
-        {
+        public void registerDataSetObserver(DataSetObserver observer) {
             checkClosed();
             mCursor.registerDataSetObserver(observer);
         }
 
         @SuppressWarnings("deprecation")
         @Override
-        public boolean requery()
-        {
+        public boolean requery() {
             checkClosed();
             return mCursor.requery();
         }
 
         @Override
-        public Bundle respond(Bundle extras)
-        {
+        public Bundle respond(Bundle extras) {
             checkClosed();
             return mCursor.respond(extras);
         }
 
         @Override
-        public void setNotificationUri(ContentResolver cr, Uri uri)
-        {
+        public void setNotificationUri(ContentResolver cr, Uri uri) {
             checkClosed();
             mCursor.setNotificationUri(cr, uri);
         }
 
         @Override
-        public void unregisterContentObserver(ContentObserver observer)
-        {
+        public void unregisterContentObserver(ContentObserver observer) {
             checkClosed();
             mCursor.unregisterContentObserver(observer);
         }
 
         @Override
-        public void unregisterDataSetObserver(DataSetObserver observer)
-        {
+        public void unregisterDataSetObserver(DataSetObserver observer) {
             checkClosed();
             mCursor.unregisterDataSetObserver(observer);
         }
 
         @Override
-        public int getType(int columnIndex)
-        {
+        public int getType(int columnIndex) {
             checkClosed();
             return mCursor.getType(columnIndex);
         }
 
         @Override
-        public Uri getNotificationUri()
-        {
+        public Uri getNotificationUri() {
             return null;
         }
     }
 
-    protected class ThrottlingQueryHandler implements QueryHandler
-    {
+    protected class ThrottlingQueryHandler implements QueryHandler {
         private final QueryHandler mDelegate;
 
-        public ThrottlingQueryHandler(QueryHandler delegate)
-        {
+        public ThrottlingQueryHandler(QueryHandler delegate) {
             mDelegate = delegate;
         }
 
         @Override
-        public String getPath()
-        {
+        public String getPath() {
             return mDelegate.getPath();
         }
 
         @Override
         public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
-                throws Exception
-        {
+                throws Exception {
             mSemaphore.acquire();
 
             Cursor cursor = null;
@@ -1264,11 +1145,9 @@ public class MessageProvider extends ContentProvider
     }
 
     /**
-     * Synchronized listener used to retrieve {@link MessageInfoHolder}s using a
-     * given {@link BlockingQueue}.
+     * Synchronized listener used to retrieve {@link MessageInfoHolder}s using a given {@link BlockingQueue}.
      */
-    protected class MessageInfoHolderRetrieverListener extends SimpleMessagingListener
-    {
+    protected class MessageInfoHolderRetrieverListener extends SimpleMessagingListener {
         private final BlockingQueue<List<MessageInfoHolder>> queue;
         private final List<MessageInfoHolder> mHolders = new ArrayList<>();
 
@@ -1276,22 +1155,18 @@ public class MessageProvider extends ContentProvider
          * @param queue Never <code>null</code>. The synchronized channel to use
          * to retrieve {@link MessageInfoHolder}s.
          */
-        public MessageInfoHolderRetrieverListener(BlockingQueue<List<MessageInfoHolder>> queue)
-        {
+        public MessageInfoHolderRetrieverListener(BlockingQueue<List<MessageInfoHolder>> queue) {
             this.queue = queue;
         }
 
         @Override
-        public void listLocalMessagesAddMessages(Account account, String folderName, List<LocalMessage> messages)
-        {
-            Context context = getContext();
-
+        public void listLocalMessagesAddMessages(Account account, String folderName, List<LocalMessage> messages) {
             for (LocalMessage message : messages) {
                 MessageInfoHolder messageInfoHolder = new MessageInfoHolder();
                 LocalFolder messageFolder = message.getFolder();
                 Account messageAccount = message.getAccount();
 
-                FolderInfoHolder folderInfoHolder = new FolderInfoHolder(context, messageFolder, messageAccount);
+                FolderInfoHolder folderInfoHolder = new FolderInfoHolder(mContext, messageFolder, messageAccount);
                 mMessageHelper.populate(messageInfoHolder, message, folderInfoHolder, messageAccount);
 
                 mHolders.add(messageInfoHolder);
@@ -1299,8 +1174,7 @@ public class MessageProvider extends ContentProvider
         }
 
         @Override
-        public void searchStats(AccountStats stats)
-        {
+        public void searchStats(AccountStats stats) {
             try {
                 queue.put(mHolders);
             } catch (InterruptedException e) {

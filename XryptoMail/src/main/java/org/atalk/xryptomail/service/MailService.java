@@ -176,7 +176,7 @@ public class MailService extends JobIntentService
     {
         Intent i = new Intent(this, MailService.class);
         i.setAction(ACTION_CHECK_MAIL);
-        BootReceiver.cancelIntent(this, i);
+        SystemEventReceiver.cancelIntent(this, i);
     }
 
     private final static String PREVIOUS_INTERVAL = "MailService.previousInterval";
@@ -282,7 +282,7 @@ public class MailService extends JobIntentService
             }
             Intent i = new Intent(this, MailService.class);
             i.setAction(ACTION_CHECK_MAIL);
-            BootReceiver.scheduleIntent(MailService.this, nextTime, i);
+            SystemEventReceiver.scheduleIntent(MailService.this, nextTime, i);
         }
     }
 
@@ -398,7 +398,7 @@ public class MailService extends JobIntentService
 
             Intent i = new Intent(this, MailService.class);
             i.setAction(ACTION_REFRESH_PUSHERS);
-            BootReceiver.scheduleIntent(MailService.this, nextTime, i);
+            SystemEventReceiver.scheduleIntent(MailService.this, nextTime, i);
         }
     }
 

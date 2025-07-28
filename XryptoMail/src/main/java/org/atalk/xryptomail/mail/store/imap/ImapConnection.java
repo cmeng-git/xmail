@@ -3,29 +3,9 @@ package org.atalk.xryptomail.mail.store.imap;
 import static org.atalk.xryptomail.mail.XryptoMailLib.DEBUG_PROTOCOL_IMAP;
 
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.TrafficStats;
-
-import com.jcraft.jzlib.JZlib;
-import com.jcraft.jzlib.ZOutputStream;
-
-import org.apache.commons.io.IOUtils;
-import org.atalk.xryptomail.XryptoMail;
-import org.atalk.xryptomail.helper.timberlog.TimberLog;
-import org.atalk.xryptomail.mail.Authentication;
-import org.atalk.xryptomail.mail.AuthenticationFailedException;
-import org.atalk.xryptomail.mail.CertificateValidationException;
-import org.atalk.xryptomail.mail.ConnectionSecurity;
-import org.atalk.xryptomail.mail.MessagingException;
-import org.atalk.xryptomail.mail.NetworkType;
-import org.atalk.xryptomail.mail.XryptoMailLib;
-import org.atalk.xryptomail.mail.filter.Base64;
-import org.atalk.xryptomail.mail.filter.PeekableInputStream;
-import org.atalk.xryptomail.mail.oauth.OAuth2AuthorizationCodeFlowTokenProvider;
-import org.atalk.xryptomail.mail.oauth.OAuth2TokenProvider;
-import org.atalk.xryptomail.mail.oauth.XOAuth2ChallengeParser;
-import org.atalk.xryptomail.mail.ssl.TrustedSocketFactory;
-import org.atalk.xryptomail.mail.store.RemoteStore;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -54,6 +34,27 @@ import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 
 import javax.net.ssl.SSLException;
+
+import com.jcraft.jzlib.JZlib;
+import com.jcraft.jzlib.ZOutputStream;
+
+import org.apache.commons.io.IOUtils;
+import org.atalk.xryptomail.XryptoMail;
+import org.atalk.xryptomail.helper.timberlog.TimberLog;
+import org.atalk.xryptomail.mail.Authentication;
+import org.atalk.xryptomail.mail.AuthenticationFailedException;
+import org.atalk.xryptomail.mail.CertificateValidationException;
+import org.atalk.xryptomail.mail.ConnectionSecurity;
+import org.atalk.xryptomail.mail.MessagingException;
+import org.atalk.xryptomail.mail.NetworkType;
+import org.atalk.xryptomail.mail.XryptoMailLib;
+import org.atalk.xryptomail.mail.filter.Base64;
+import org.atalk.xryptomail.mail.filter.PeekableInputStream;
+import org.atalk.xryptomail.mail.oauth.OAuth2AuthorizationCodeFlowTokenProvider;
+import org.atalk.xryptomail.mail.oauth.OAuth2TokenProvider;
+import org.atalk.xryptomail.mail.oauth.XOAuth2ChallengeParser;
+import org.atalk.xryptomail.mail.ssl.TrustedSocketFactory;
+import org.atalk.xryptomail.mail.store.RemoteStore;
 
 import timber.log.Timber;
 
@@ -119,7 +120,8 @@ class ImapConnection {
             throws IOException, MessagingException {
         if (mOpen) {
             return;
-        } else if (stacktraceForClose != null) {
+        }
+        else if (stacktraceForClose != null) {
             throw new IllegalStateException("open() called after close(). " +
                     "Check wrapped exception to see where close() was called.", stacktraceForClose);
         }
@@ -161,7 +163,8 @@ class ImapConnection {
             throws CertificateValidationException, SSLException {
         if (e.getCause() instanceof CertificateException) {
             throw new CertificateValidationException(e.getMessage(), e);
-        } else {
+        }
+        else {
             throw e;
         }
     }
@@ -174,7 +177,8 @@ class ImapConnection {
         if (tokens.length > 1 && tokens[1] != null) {
             Timber.e(e, "Stripping host/port from ConnectionException for %s", getLogId());
             throw new ConnectException(tokens[1].trim());
-        } else {
+        }
+        else {
             throw e;
         }
     }
@@ -229,7 +233,8 @@ class ImapConnection {
         Socket socket;
         if (mSettings.getConnectionSecurity() == ConnectionSecurity.SSL_TLS_REQUIRED) {
             socket = mSocketFactory.createSocket(null, host, port, clientCertificateAlias);
-        } else {
+        }
+        else {
             socket = new Socket();
         }
         TrafficStats.setThreadStatsTag(XryptoMail.THREAD_ID);
@@ -282,7 +287,8 @@ class ImapConnection {
             Set<String> receivedCapabilities = capabilityResponse.getCapabilities();
             Timber.d("Saving %s capabilities for %s", receivedCapabilities, getLogId());
             capabilities = receivedCapabilities;
-        } else {
+        }
+        else {
             Timber.i("Did not get capabilities in post-auth banner, requesting CAPABILITY for %s", getLogId());
             requestCapabilities();
         }
@@ -354,24 +360,29 @@ class ImapConnection {
             case XOAUTH2:
                 if (oauthTokenProvider == null) {
                     throw new MessagingException("No OAuthToken Provider available.");
-                } else if (hasCapability(Capabilities.AUTH_XOAUTH2) && hasCapability(Capabilities.SASL_IR)) {
+                }
+                else if (hasCapability(Capabilities.AUTH_XOAUTH2) && hasCapability(Capabilities.SASL_IR)) {
                     return authXoauth2withSASLIR();
-                } else {
+                }
+                else {
                     throw new MessagingException("Server doesn't support SASL XOAUTH2.");
                 }
             case CRAM_MD5: {
                 if (hasCapability(Capabilities.AUTH_CRAM_MD5)) {
                     return authCramMD5();
-                } else {
+                }
+                else {
                     throw new MessagingException("Server doesn't support encrypted passwords using CRAM-MD5.");
                 }
             }
             case PLAIN: {
                 if (hasCapability(Capabilities.AUTH_PLAIN)) {
                     return saslAuthPlainWithLoginFallback();
-                } else if (!hasCapability(Capabilities.LOGINDISABLED)) {
+                }
+                else if (!hasCapability(Capabilities.LOGINDISABLED)) {
                     return login();
-                } else {
+                }
+                else {
                     throw new MessagingException("Server doesn't support unencrypted passwords using AUTH=PLAIN " +
                             "and LOGIN is disabled.");
                 }
@@ -379,7 +390,8 @@ class ImapConnection {
             case EXTERNAL: {
                 if (hasCapability(Capabilities.AUTH_EXTERNAL)) {
                     return saslAuthExternal();
-                } else {
+                }
+                else {
                     // Provide notification to user of a problem authenticating using client certificates
                     throw new CertificateValidationException(CertificateValidationException.Reason.MissingCapability);
                 }
@@ -401,7 +413,8 @@ class ImapConnection {
 
             if (!retryXoauth2WithNewToken) {
                 throw handlePermanentXoauth2Failure(e);
-            } else {
+            }
+            else {
                 return handleTemporaryXoauth2Failure(e);
             }
         }
@@ -557,7 +570,8 @@ class ImapConnection {
                 close();
             }
             return new AuthenticationFailedException(e.getMessage());
-        } else {
+        }
+        else {
             close();
             return e;
         }
@@ -572,18 +586,27 @@ class ImapConnection {
 
     private boolean shouldEnableCompression() {
         boolean useCompression = true;
-        NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null) {
-            int type = networkInfo.getType();
-            if (XryptoMailLib.isDebug()) {
-                Timber.d("On network type %s", type);
+
+        Network activeNetwork = mConnectivityManager.getActiveNetwork();
+        if (activeNetwork == null) {
+            return useCompression;
+        }
+
+        NetworkCapabilities capNwk = mConnectivityManager.getNetworkCapabilities(activeNetwork);
+        int type = 3; // default to OTHER
+        if (capNwk != null) {
+            if (capNwk.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                type = NetworkCapabilities.TRANSPORT_CELLULAR;
+            }
+            else if (capNwk.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                type = NetworkCapabilities.TRANSPORT_WIFI;
             }
             NetworkType networkType = NetworkType.fromConnectivityManagerType(type);
             useCompression = mSettings.useCompression(networkType);
         }
 
         if (XryptoMailLib.isDebug()) {
-            Timber.d("useCompression: %b", useCompression);
+            Timber.d("Network Type: %s; UseCompression: %b", type, useCompression);
         }
         return useCompression;
     }
@@ -623,7 +646,8 @@ class ImapConnection {
                 Timber.i("pathPrefix is unset and server has NAMESPACE capability");
             }
             handleNamespace();
-        } else {
+        }
+        else {
             if (XryptoMailLib.isDebug()) {
                 Timber.i("pathPrefix is unset but server does not have NAMESPACE capability");
             }
@@ -748,7 +772,6 @@ class ImapConnection {
         }
 
         String tag = sendCommand(command, sensitive);
-
         try {
             return mResponseParser.readStatusResponse(tag, commandToLog, getLogId(), null);
         } catch (IOException e) {
@@ -787,7 +810,8 @@ class ImapConnection {
             if (XryptoMailLib.isDebug() && DEBUG_PROTOCOL_IMAP) {
                 if (sensitive && !XryptoMailLib.isDebugSensitive()) {
                     Timber.v("%s>>> [Command Hidden, Enable Sensitive Debug Logging To Show]", getLogId());
-                } else {
+                }
+                else {
                     Timber.v("%s>>> %s %s %s", getLogId(), tag, command, initialClientResponse);
                 }
             }
@@ -810,7 +834,8 @@ class ImapConnection {
             if (XryptoMailLib.isDebug() && DEBUG_PROTOCOL_IMAP) {
                 if (sensitive && !XryptoMailLib.isDebugSensitive()) {
                     Timber.v("%s>>> [Command Hidden, Enable Sensitive Debug Logging To Show]", getLogId());
-                } else {
+                }
+                else {
                     Timber.v("%s>>> %s %s", getLogId(), tag, command);
                 }
             }
@@ -870,7 +895,8 @@ class ImapConnection {
             if (responseTag != null) {
                 if (responseTag.equalsIgnoreCase(tag)) {
                     throw new MessagingException("Command continuation aborted: " + response);
-                } else {
+                }
+                else {
                     Timber.w("After sending tag %s, got tag response from previous command %s for %s",
                             tag, response, getLogId());
                 }

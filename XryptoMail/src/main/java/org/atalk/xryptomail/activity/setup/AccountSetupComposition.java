@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
+import androidx.activity.OnBackPressedCallback;
+
 import org.atalk.xryptomail.Account;
 import org.atalk.xryptomail.Preferences;
 import org.atalk.xryptomail.R;
@@ -92,6 +94,7 @@ public class AccountSetupComposition extends XMActivity {
         } else {
             mAccountSignatureLayout.setVisibility(View.GONE);
         }
+        getOnBackPressedDispatcher().addCallback(backPressedCallback);
     }
 
     private void saveSettings() {
@@ -107,11 +110,12 @@ public class AccountSetupComposition extends XMActivity {
         mAccount.save(Preferences.getPreferences(this));
     }
 
-    @Override
-    public void onBackPressed() {
-        saveSettings();
-        super.onBackPressed();
-    }
+    OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            saveSettings();
+        }
+    };
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

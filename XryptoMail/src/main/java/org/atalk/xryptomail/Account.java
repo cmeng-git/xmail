@@ -1,10 +1,27 @@
 package org.atalk.xryptomail;
 
+import static org.atalk.xryptomail.Preferences.getEnumStringPref;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+
+import androidx.annotation.NonNull;
+
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.atalk.xryptomail.activity.AccountConfig;
 import org.atalk.xryptomail.activity.setup.CheckDirection;
@@ -38,31 +55,13 @@ import org.atalk.xryptomail.search.SqlQueryBuilder;
 import org.atalk.xryptomail.view.ColorChip;
 import org.atalk.xryptomail.view.ColorPicker;
 
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
 import timber.log.Timber;
-
-import static org.atalk.xryptomail.Preferences.getEnumStringPref;
-
-import androidx.annotation.NonNull;
 
 /**
  * Account stores all of the settings for a single account defined by the user. It is able to save
  * and delete itself given a Preferences to work with. Each account is defined by a UUID.
  */
-public class Account implements BaseAccount, AccountConfig
-{
+public class Account implements BaseAccount, AccountConfig {
     /**
      * Default value for the inbox folder (never changes for POP3 and IMAP)
      */
@@ -73,8 +72,7 @@ public class Account implements BaseAccount, AccountConfig
      */
     public static final String OUTBOX = "XryptoMail_INTERNAL_OUTBOX";
 
-    public enum Expunge
-    {
+    public enum Expunge {
         EXPUNGE_IMMEDIATELY,
         EXPUNGE_MANUALLY,
         EXPUNGE_ON_POLL
@@ -88,8 +86,7 @@ public class Account implements BaseAccount, AccountConfig
      * 3 - Mark as read (DELETE_POLICY_MARK_AS_READ)
      * </pre>
      */
-    public enum DeletePolicy
-    {
+    public enum DeletePolicy {
         NEVER(0),
         SEVEN_DAYS(1),
         ON_DELETE(2),
@@ -97,18 +94,15 @@ public class Account implements BaseAccount, AccountConfig
 
         public final int setting;
 
-        DeletePolicy(int setting)
-        {
+        DeletePolicy(int setting) {
             this.setting = setting;
         }
 
-        public String preferenceString()
-        {
+        public String preferenceString() {
             return Integer.toString(setting);
         }
 
-        public static DeletePolicy fromInt(int initialSetting)
-        {
+        public static DeletePolicy fromInt(int initialSetting) {
             for (DeletePolicy policy : values()) {
                 if (policy.setting == initialSetting) {
                     return policy;
@@ -152,8 +146,7 @@ public class Account implements BaseAccount, AccountConfig
             Color.parseColor("#9933CC")     // purple
     };
 
-    public enum SortType
-    {
+    public enum SortType {
         SORT_DATE(R.string.sort_earliest_first, R.string.sort_latest_first, false),
         SORT_ARRIVAL(R.string.sort_earliest_first, R.string.sort_latest_first, false),
         SORT_SUBJECT(R.string.sort_subject_alpha, R.string.sort_subject_re_alpha, true),
@@ -166,20 +159,17 @@ public class Account implements BaseAccount, AccountConfig
         private final int descendingToast;
         private final boolean defaultAscending;
 
-        SortType(int ascending, int descending, boolean ndefaultAscending)
-        {
+        SortType(int ascending, int descending, boolean ndefaultAscending) {
             ascendingToast = ascending;
             descendingToast = descending;
             defaultAscending = ndefaultAscending;
         }
 
-        public int getToast(boolean ascending)
-        {
+        public int getToast(boolean ascending) {
             return (ascending) ? ascendingToast : descendingToast;
         }
 
-        public boolean isDefaultAscending()
-        {
+        public boolean isDefaultAscending() {
             return defaultAscending;
         }
     }
@@ -282,33 +272,27 @@ public class Account implements BaseAccount, AccountConfig
     private List<Identity> identities;
     private NotificationSetting mNotificationSetting = new NotificationSetting();
 
-    public enum FolderMode
-    {
+    public enum FolderMode {
         NONE, ALL, FIRST_CLASS, FIRST_AND_SECOND_CLASS, NOT_SECOND_CLASS
     }
 
-    public enum ShowPictures
-    {
+    public enum ShowPictures {
         NEVER, ALWAYS, ONLY_FROM_CONTACTS
     }
 
-    public enum Searchable
-    {
+    public enum Searchable {
         ALL, DISPLAYABLE, NONE
     }
 
-    public enum QuoteStyle
-    {
+    public enum QuoteStyle {
         PREFIX, HEADER
     }
 
-    public enum MessageFormat
-    {
+    public enum MessageFormat {
         TEXT, HTML, AUTO
     }
 
-    protected Account(Context context)
-    {
+    protected Account(Context context) {
         mAccountUuid = UUID.randomUUID().toString();
         mLocalStorageProviderId = StorageManager.getInstance(context).getDefaultProviderId();
         mAutomaticCheckIntervalMinutes = -1;
@@ -375,8 +359,7 @@ public class Account implements BaseAccount, AccountConfig
         cacheChips();
     }
 
-    public void loadConfig(AccountConfig accountConfig)
-    {
+    public void loadConfig(AccountConfig accountConfig) {
         setName(accountConfig.getName());
         setEmail(accountConfig.getEmail());
         setStoreUri(accountConfig.getStoreUri());
@@ -399,8 +382,7 @@ public class Account implements BaseAccount, AccountConfig
     /*
      * Pick a nice Android guidelines color if we haven't used them all yet.
      */
-    private int pickColor(Context context)
-    {
+    private int pickColor(Context context) {
         List<Account> accounts = Preferences.getPreferences(context).getAccounts();
 
         List<Integer> availableColors = new ArrayList<>(PREDEFINED_COLORS.length);
@@ -418,8 +400,7 @@ public class Account implements BaseAccount, AccountConfig
         return (availableColors.isEmpty()) ? ColorPicker.getRandomColor() : availableColors.get(0);
     }
 
-    protected Account(Preferences preferences, String uuid)
-    {
+    protected Account(Preferences preferences, String uuid) {
         this.mAccountUuid = uuid;
         loadAccount(preferences);
     }
@@ -427,8 +408,7 @@ public class Account implements BaseAccount, AccountConfig
     /**
      * Load stored settings for this account.
      */
-    private synchronized void loadAccount(Preferences preferences)
-    {
+    private synchronized void loadAccount(Preferences preferences) {
         Storage storage = preferences.getStorage();
 
         mStoreUri = Base64.decode(storage.getString(mAccountUuid + ".storeUri", null));
@@ -520,8 +500,7 @@ public class Account implements BaseAccount, AccountConfig
         }
     }
 
-    protected synchronized void delete(Preferences preferences)
-    {
+    protected synchronized void delete(Preferences preferences) {
         deleteCertificates();
 
         // Get the list of account UUIDs
@@ -623,8 +602,7 @@ public class Account implements BaseAccount, AccountConfig
         Globals.getOAuth2TokenProvider().disconnectEmailWithXMail(getEmail());
     }
 
-    private static int findNewAccountNumber(List<Integer> accountNumbers)
-    {
+    private static int findNewAccountNumber(List<Integer> accountNumbers) {
         int newAccountNumber = -1;
         Collections.sort(accountNumbers);
         for (int accountNumber : accountNumbers) {
@@ -637,8 +615,7 @@ public class Account implements BaseAccount, AccountConfig
         return newAccountNumber;
     }
 
-    private static List<Integer> getExistingAccountNumbers(Preferences preferences)
-    {
+    private static List<Integer> getExistingAccountNumbers(Preferences preferences) {
         List<Account> accounts = preferences.getAccounts();
         List<Integer> accountNumbers = new ArrayList<>(accounts.size());
         for (Account a : accounts) {
@@ -647,14 +624,12 @@ public class Account implements BaseAccount, AccountConfig
         return accountNumbers;
     }
 
-    public static int generateAccountNumber(Preferences preferences)
-    {
+    public static int generateAccountNumber(Preferences preferences) {
         List<Integer> accountNumbers = getExistingAccountNumbers(preferences);
         return findNewAccountNumber(accountNumbers);
     }
 
-    public void move(Preferences preferences, boolean moveUp)
-    {
+    public void move(Preferences preferences, boolean moveUp) {
         String[] uuids = preferences.getStorage().getString("accountUuids", "").split(",");
         StorageEditor editor = preferences.getStorage().edit();
         String[] newUuids = new String[uuids.length];
@@ -686,8 +661,7 @@ public class Account implements BaseAccount, AccountConfig
         preferences.loadAccounts();
     }
 
-    public synchronized void save(Preferences preferences)
-    {
+    public synchronized void save(Preferences preferences) {
         StorageEditor editor = preferences.getStorage().edit();
 
         if (!preferences.getStorage().getString("accountUuids", "").contains(mAccountUuid)) {
@@ -806,8 +780,7 @@ public class Account implements BaseAccount, AccountConfig
         editor.commit();
     }
 
-    private void resetVisibleLimits()
-    {
+    private void resetVisibleLimits() {
         try {
             getLocalStore().resetVisibleLimits(getDisplayCount());
         } catch (MessagingException e) {
@@ -817,12 +790,12 @@ public class Account implements BaseAccount, AccountConfig
 
     /**
      * @return <code>null</code> if not available
+     *
      * @throws MessagingException
      * @see {@link #isAvailable(Context)}
      */
     public AccountStats getStats(Context context)
-            throws MessagingException
-    {
+            throws MessagingException {
         if (!isAvailable(context)) {
             return null;
         }
@@ -870,8 +843,7 @@ public class Account implements BaseAccount, AccountConfig
     }
 
     public int getFolderUnreadCount(Context context, String folderName)
-            throws MessagingException
-    {
+            throws MessagingException {
         if (!isAvailable(context)) {
             return 0;
         }
@@ -890,8 +862,7 @@ public class Account implements BaseAccount, AccountConfig
         return unreadMessageCount;
     }
 
-    private Cursor loadUnreadCountForFolder(Context context, String folderName)
-    {
+    private Cursor loadUnreadCountForFolder(Context context, String folderName) {
         ContentResolver cr = context.getContentResolver();
 
         Uri uri = Uri.withAppendedPath(EmailProvider.CONTENT_URI,
@@ -916,27 +887,23 @@ public class Account implements BaseAccount, AccountConfig
         return cr.query(uri, projection, selection, selectionArgs, null);
     }
 
-    public synchronized void setChipColor(int color)
-    {
+    public synchronized void setChipColor(int color) {
         mChipColor = color;
         cacheChips();
     }
 
-    private synchronized void cacheChips()
-    {
+    private synchronized void cacheChips() {
         mReadColorChip = new ColorChip(mChipColor, true, ColorChip.CIRCULAR);
         mUnreadColorChip = new ColorChip(mChipColor, false, ColorChip.CIRCULAR);
         mFlaggedReadColorChip = new ColorChip(mChipColor, true, ColorChip.STAR);
         mFlaggedUnreadColorChip = new ColorChip(mChipColor, false, ColorChip.STAR);
     }
 
-    public synchronized int getChipColor()
-    {
+    public synchronized int getChipColor() {
         return mChipColor;
     }
 
-    public ColorChip generateColorChip(boolean messageRead, boolean messageFlagged)
-    {
+    public ColorChip generateColorChip(boolean messageRead, boolean messageFlagged) {
         ColorChip chip;
 
         if (messageRead) {
@@ -959,113 +926,92 @@ public class Account implements BaseAccount, AccountConfig
     }
 
     @Override
-    public String getUuid()
-    {
+    public String getUuid() {
         return mAccountUuid;
     }
 
-    public synchronized String getStoreUri()
-    {
+    public synchronized String getStoreUri() {
         return mStoreUri;
     }
 
-    public synchronized void setStoreUri(String storeUri)
-    {
+    public synchronized void setStoreUri(String storeUri) {
         this.mStoreUri = storeUri;
     }
 
-    public synchronized String getTransportUri()
-    {
+    public synchronized String getTransportUri() {
         return mTransportUri;
     }
 
-    public synchronized void setTransportUri(String transportUri)
-    {
+    public synchronized void setTransportUri(String transportUri) {
         this.mTransportUri = transportUri;
     }
 
     @Override
-    public synchronized String getDescription()
-    {
+    public synchronized String getDescription() {
         return mDescription;
     }
 
     @Override
-    public synchronized void setDescription(String description)
-    {
+    public synchronized void setDescription(String description) {
         this.mDescription = description;
     }
 
-    public synchronized String getName()
-    {
+    public synchronized String getName() {
         return identities.get(0).getName();
     }
 
-    public synchronized void setName(String name)
-    {
+    public synchronized void setName(String name) {
         identities.get(0).setName(name);
     }
 
-    public synchronized boolean getSignatureUse()
-    {
+    public synchronized boolean getSignatureUse() {
         return identities.get(0).getSignatureUse();
     }
 
-    public synchronized void setSignatureUse(boolean signatureUse)
-    {
+    public synchronized void setSignatureUse(boolean signatureUse) {
         identities.get(0).setSignatureUse(signatureUse);
     }
 
-    public synchronized String getSignature()
-    {
+    public synchronized String getSignature() {
         return identities.get(0).getSignature();
     }
 
-    public synchronized void setSignature(String signature)
-    {
+    public synchronized void setSignature(String signature) {
         identities.get(0).setSignature(signature);
     }
 
     @Override
-    public synchronized String getEmail()
-    {
+    public synchronized String getEmail() {
         return identities.get(0).getEmail();
     }
 
     @Override
-    public synchronized void setEmail(String email)
-    {
+    public synchronized void setEmail(String email) {
         identities.get(0).setEmail(email);
     }
 
-    public synchronized String getAlwaysBcc()
-    {
+    public synchronized String getAlwaysBcc() {
         return mAlwaysBcc;
     }
 
-    public synchronized void setAlwaysBcc(String alwaysBcc)
-    {
+    public synchronized void setAlwaysBcc(String alwaysBcc) {
         this.mAlwaysBcc = alwaysBcc;
     }
 
     /* Have we sent a new mail notification on this account */
-    public boolean isRingNotified()
-    {
+    public boolean isRingNotified() {
         return mRingNotified;
     }
 
-    public void setRingNotified(boolean ringNotified)
-    {
+    public void setRingNotified(boolean ringNotified) {
         mRingNotified = ringNotified;
     }
 
-    public String getLocalStorageProviderId()
-    {
+    public String getLocalStorageProviderId() {
         return mLocalStorageProviderId;
     }
 
-    public void setLocalStorageProviderId(String id)
-    {
+    public void setLocalStorageProviderId(String id) {
 
         if (!mLocalStorageProviderId.equals(id)) {
 
@@ -1088,16 +1034,14 @@ public class Account implements BaseAccount, AccountConfig
     /**
      * Returns -1 for never.
      */
-    public synchronized int getAutomaticCheckIntervalMinutes()
-    {
+    public synchronized int getAutomaticCheckIntervalMinutes() {
         return mAutomaticCheckIntervalMinutes;
     }
 
     /**
      * @param automaticCheckIntervalMinutes or -1 for never.
      */
-    public synchronized boolean setAutomaticCheckIntervalMinutes(int automaticCheckIntervalMinutes)
-    {
+    public synchronized boolean setAutomaticCheckIntervalMinutes(int automaticCheckIntervalMinutes) {
         int oldInterval = this.mAutomaticCheckIntervalMinutes;
         this.mAutomaticCheckIntervalMinutes = automaticCheckIntervalMinutes;
 
@@ -1105,13 +1049,11 @@ public class Account implements BaseAccount, AccountConfig
     }
 
     @Override
-    public synchronized int getDisplayCount()
-    {
+    public synchronized int getDisplayCount() {
         return mDisplayCount;
     }
 
-    public synchronized void setDisplayCount(int displayCount)
-    {
+    public synchronized void setDisplayCount(int displayCount) {
         if (displayCount != -1) {
             this.mDisplayCount = displayCount;
         }
@@ -1121,85 +1063,70 @@ public class Account implements BaseAccount, AccountConfig
         resetVisibleLimits();
     }
 
-    public synchronized long getLatestOldMessageSeenTime()
-    {
+    public synchronized long getLatestOldMessageSeenTime() {
         return mLatestOldMessageSeenTime;
     }
 
-    public synchronized void setLatestOldMessageSeenTime(long latestOldMessageSeenTime)
-    {
+    public synchronized void setLatestOldMessageSeenTime(long latestOldMessageSeenTime) {
         this.mLatestOldMessageSeenTime = latestOldMessageSeenTime;
     }
 
     @Override
-    public ConnectionSecurity getIncomingSecurityType()
-    {
+    public ConnectionSecurity getIncomingSecurityType() {
         return RemoteStore.decodeStoreUri(getStoreUri()).connectionSecurity;
     }
 
     @Override
-    public AuthType getIncomingAuthType()
-    {
+    public AuthType getIncomingAuthType() {
         return RemoteStore.decodeStoreUri(getStoreUri()).authenticationType;
     }
 
     @Override
-    public String getIncomingPort()
-    {
+    public String getIncomingPort() {
         return String.valueOf(RemoteStore.decodeStoreUri(getStoreUri()).port);
     }
 
     @Override
-    public ConnectionSecurity getOutgoingSecurityType()
-    {
+    public ConnectionSecurity getOutgoingSecurityType() {
         return TransportUris.decodeTransportUri(getTransportUri()).connectionSecurity;
     }
 
     @Override
-    public AuthType getOutgoingAuthType()
-    {
+    public AuthType getOutgoingAuthType() {
         return TransportUris.decodeTransportUri(getTransportUri()).authenticationType;
     }
 
     @Override
-    public String getOutgoingPort()
-    {
+    public String getOutgoingPort() {
         return String.valueOf(TransportUris.decodeTransportUri(getTransportUri()).port);
     }
 
     @Override
-    public synchronized boolean isNotifyNewMail()
-    {
+    public synchronized boolean isNotifyNewMail() {
         return mNotifyNewMail;
     }
 
-    public synchronized void setNotifyNewMail(boolean notifyNewMail)
-    {
+    public synchronized void setNotifyNewMail(boolean notifyNewMail) {
         this.mNotifyNewMail = notifyNewMail;
     }
 
-    public synchronized FolderMode getFolderNotifyNewMailMode()
-    {
+    public synchronized FolderMode getFolderNotifyNewMailMode() {
         return mFolderNotifyNewMailMode;
     }
 
-    public synchronized void setFolderNotifyNewMailMode(FolderMode folderNotifyNewMailMode)
-    {
+    public synchronized void setFolderNotifyNewMailMode(FolderMode folderNotifyNewMailMode) {
         this.mFolderNotifyNewMailMode = folderNotifyNewMailMode;
     }
 
-    public synchronized DeletePolicy getDeletePolicy()
-    {
+    public synchronized DeletePolicy getDeletePolicy() {
         return mDeletePolicy;
     }
 
-    public synchronized void setDeletePolicy(DeletePolicy deletePolicy)
-    {
+    public synchronized void setDeletePolicy(DeletePolicy deletePolicy) {
         this.mDeletePolicy = deletePolicy;
     }
 
-    public boolean isSpecialFolder(String folderName)
-    {
+    public boolean isSpecialFolder(String folderName) {
         return (folderName != null && (folderName.equalsIgnoreCase(getInboxFolder())
                 || folderName.equals(getTrashFolder())
                 || folderName.equals(getDraftsFolderName())
@@ -1209,13 +1136,11 @@ public class Account implements BaseAccount, AccountConfig
                 || folderName.equals(getSentFolder())));
     }
 
-    public synchronized String getDraftsFolderName()
-    {
+    public synchronized String getDraftsFolderName() {
         return mDraftsFolder;
     }
 
-    public synchronized void setDraftsFolder(String name)
-    {
+    public synchronized void setDraftsFolder(String name) {
         mDraftsFolder = name;
     }
 
@@ -1224,18 +1149,15 @@ public class Account implements BaseAccount, AccountConfig
      *
      * @return true if account has a drafts folder set.
      */
-    public synchronized boolean hasDraftsFolder()
-    {
+    public synchronized boolean hasDraftsFolder() {
         return !XryptoMail.FOLDER_NONE.equalsIgnoreCase(mDraftsFolder);
     }
 
-    public synchronized String getSentFolder()
-    {
+    public synchronized String getSentFolder() {
         return mSentFolder;
     }
 
-    public synchronized void setSentFolder(String name)
-    {
+    public synchronized void setSentFolder(String name) {
         mSentFolder = name;
     }
 
@@ -1244,18 +1166,15 @@ public class Account implements BaseAccount, AccountConfig
      *
      * @return true if account has a sent folder set.
      */
-    public synchronized boolean hasSentFolder()
-    {
+    public synchronized boolean hasSentFolder() {
         return !XryptoMail.FOLDER_NONE.equalsIgnoreCase(mSentFolder);
     }
 
-    public synchronized String getTrashFolder()
-    {
+    public synchronized String getTrashFolder() {
         return mTrashFolder;
     }
 
-    public synchronized void setTrashFolder(String name)
-    {
+    public synchronized void setTrashFolder(String name) {
         mTrashFolder = name;
     }
 
@@ -1264,18 +1183,15 @@ public class Account implements BaseAccount, AccountConfig
      *
      * @return true if account has a trash folder set.
      */
-    public synchronized boolean hasTrashFolder()
-    {
+    public synchronized boolean hasTrashFolder() {
         return !XryptoMail.FOLDER_NONE.equalsIgnoreCase(mTrashFolder);
     }
 
-    public synchronized String getArchiveFolder()
-    {
+    public synchronized String getArchiveFolder() {
         return mArchiveFolder;
     }
 
-    public synchronized void setArchiveFolderName(String archiveFolderName)
-    {
+    public synchronized void setArchiveFolderName(String archiveFolderName) {
         mArchiveFolder = archiveFolderName;
     }
 
@@ -1284,18 +1200,15 @@ public class Account implements BaseAccount, AccountConfig
      *
      * @return true if account has an archive folder set.
      */
-    public synchronized boolean hasArchiveFolder()
-    {
+    public synchronized boolean hasArchiveFolder() {
         return !XryptoMail.FOLDER_NONE.equalsIgnoreCase(mArchiveFolder);
     }
 
-    public synchronized String getSpamFolder()
-    {
+    public synchronized String getSpamFolder() {
         return mSpamFolder;
     }
 
-    public synchronized void setSpamFolderName(String name)
-    {
+    public synchronized void setSpamFolderName(String name) {
         mSpamFolder = name;
     }
 
@@ -1304,50 +1217,41 @@ public class Account implements BaseAccount, AccountConfig
      *
      * @return true if account has a spam folder set.
      */
-    public synchronized boolean hasSpamFolder()
-    {
+    public synchronized boolean hasSpamFolder() {
         return !XryptoMail.FOLDER_NONE.equalsIgnoreCase(mSpamFolder);
     }
 
-    public synchronized String getOutboxFolderName()
-    {
+    public synchronized String getOutboxFolderName() {
         return OUTBOX;
     }
 
-    public synchronized String getAutoExpandFolder()
-    {
+    public synchronized String getAutoExpandFolder() {
         return mAutoExpandFolder;
     }
 
-    public synchronized void setAutoExpandFolder(String name)
-    {
+    public synchronized void setAutoExpandFolder(String name) {
         mAutoExpandFolder = name;
     }
 
-    public synchronized int getAccountNumber()
-    {
+    public synchronized int getAccountNumber() {
         return mAccountNumber;
     }
 
-    public synchronized FolderMode getFolderDisplayMode()
-    {
+    public synchronized FolderMode getFolderDisplayMode() {
         return mFolderDisplayMode;
     }
 
-    public synchronized boolean setFolderDisplayMode(FolderMode displayMode)
-    {
+    public synchronized boolean setFolderDisplayMode(FolderMode displayMode) {
         FolderMode oldDisplayMode = mFolderDisplayMode;
         mFolderDisplayMode = displayMode;
         return oldDisplayMode != displayMode;
     }
 
-    public synchronized FolderMode getFolderSyncMode()
-    {
+    public synchronized FolderMode getFolderSyncMode() {
         return mFolderSyncMode;
     }
 
-    public synchronized boolean setFolderSyncMode(FolderMode syncMode)
-    {
+    public synchronized boolean setFolderSyncMode(FolderMode syncMode) {
         FolderMode oldSyncMode = mFolderSyncMode;
         mFolderSyncMode = syncMode;
 
@@ -1357,157 +1261,129 @@ public class Account implements BaseAccount, AccountConfig
         return syncMode != FolderMode.NONE && oldSyncMode == FolderMode.NONE;
     }
 
-    public synchronized FolderMode getFolderPushMode()
-    {
+    public synchronized FolderMode getFolderPushMode() {
         return mFolderPushMode;
     }
 
-    public synchronized boolean setFolderPushMode(FolderMode pushMode)
-    {
+    public synchronized boolean setFolderPushMode(FolderMode pushMode) {
         FolderMode oldPushMode = mFolderPushMode;
 
         mFolderPushMode = pushMode;
         return pushMode != oldPushMode;
     }
 
-    public synchronized boolean isShowOngoing()
-    {
+    public synchronized boolean isShowOngoing() {
         return mNotifySync;
     }
 
-    public synchronized void setShowOngoing(boolean showOngoing)
-    {
+    public synchronized void setShowOngoing(boolean showOngoing) {
         this.mNotifySync = showOngoing;
     }
 
-    public synchronized SortType getSortType()
-    {
+    public synchronized SortType getSortType() {
         return mSortType;
     }
 
-    public synchronized void setSortType(SortType sortType)
-    {
+    public synchronized void setSortType(SortType sortType) {
         mSortType = sortType;
     }
 
-    public synchronized boolean isSortAscending(SortType sortType)
-    {
+    public synchronized boolean isSortAscending(SortType sortType) {
         if (mSortAscending.get(sortType) == null) {
             mSortAscending.put(sortType, sortType.isDefaultAscending());
         }
         return mSortAscending.get(sortType);
     }
 
-    public synchronized void setSortAscending(SortType sortType, boolean sortAscending)
-    {
+    public synchronized void setSortAscending(SortType sortType, boolean sortAscending) {
         mSortAscending.put(sortType, sortAscending);
     }
 
-    public synchronized ShowPictures getShowPictures()
-    {
+    public synchronized ShowPictures getShowPictures() {
         return mShowPictures;
     }
 
-    public synchronized void setShowPictures(ShowPictures showPictures)
-    {
+    public synchronized void setShowPictures(ShowPictures showPictures) {
         mShowPictures = showPictures;
     }
 
-    public synchronized FolderMode getFolderTargetMode()
-    {
+    public synchronized FolderMode getFolderTargetMode() {
         return mFolderTargetMode;
     }
 
-    public synchronized void setFolderTargetMode(FolderMode folderTargetMode)
-    {
+    public synchronized void setFolderTargetMode(FolderMode folderTargetMode) {
         mFolderTargetMode = folderTargetMode;
     }
 
-    public synchronized boolean isSignatureBeforeQuotedText()
-    {
+    public synchronized boolean isSignatureBeforeQuotedText() {
         return mIsSignatureBeforeQuotedText;
     }
 
-    public synchronized void setSignatureBeforeQuotedText(boolean mIsSignatureBeforeQuotedText)
-    {
+    public synchronized void setSignatureBeforeQuotedText(boolean mIsSignatureBeforeQuotedText) {
         this.mIsSignatureBeforeQuotedText = mIsSignatureBeforeQuotedText;
     }
 
-    public synchronized boolean isNotifySelfNewMail()
-    {
+    public synchronized boolean isNotifySelfNewMail() {
         return mNotifySelfNewMail;
     }
 
-    public synchronized void setNotifySelfNewMail(boolean notifySelfNewMail)
-    {
+    public synchronized void setNotifySelfNewMail(boolean notifySelfNewMail) {
         mNotifySelfNewMail = notifySelfNewMail;
     }
 
-    public synchronized boolean isNotifyContactsMailOnly()
-    {
+    public synchronized boolean isNotifyContactsMailOnly() {
         return mNotifyContactsMailOnly;
     }
 
-    public synchronized void setNotifyContactsMailOnly(boolean notifyContactsMailOnly)
-    {
+    public synchronized void setNotifyContactsMailOnly(boolean notifyContactsMailOnly) {
         mNotifyContactsMailOnly = notifyContactsMailOnly;
     }
 
-    public synchronized Expunge getExpungePolicy()
-    {
+    public synchronized Expunge getExpungePolicy() {
         return mExpungePolicy;
     }
 
-    public synchronized void setExpungePolicy(Expunge expungePolicy)
-    {
+    public synchronized void setExpungePolicy(Expunge expungePolicy) {
         mExpungePolicy = expungePolicy;
     }
 
-    public synchronized int getMaxPushFolders()
-    {
+    public synchronized int getMaxPushFolders() {
         return mMaxPushFolders;
     }
 
-    public synchronized boolean setMaxPushFolders(int maxPushFolders)
-    {
+    public synchronized boolean setMaxPushFolders(int maxPushFolders) {
         int oldMaxPushFolders = mMaxPushFolders;
         mMaxPushFolders = maxPushFolders;
         return oldMaxPushFolders != maxPushFolders;
     }
 
     public LocalStore getLocalStore()
-            throws MessagingException
-    {
+            throws MessagingException {
         return LocalStore.getInstance(this, XryptoMail.mInstance);
     }
 
     public Store getRemoteStore()
-            throws MessagingException
-    {
+            throws MessagingException {
         return RemoteStore.getInstance(XryptoMail.mInstance, this, Globals.getOAuth2TokenProvider());
     }
 
     // It'd be great if this actually went into the store implementation to get
     // this, but that's expensive and not easily accessible during initialization
-    public boolean isSearchByDateCapable()
-    {
+    public boolean isSearchByDateCapable() {
         return (getStoreUri().startsWith("imap"));
     }
 
     @NonNull
     @Override
-    public synchronized String toString()
-    {
+    public synchronized String toString() {
         return mDescription;
     }
 
-    public synchronized void setCompression(NetworkType networkType, boolean useCompression)
-    {
+    public synchronized void setCompression(NetworkType networkType, boolean useCompression) {
         compressionMap.put(networkType, useCompression);
     }
 
-    public synchronized boolean useCompression(NetworkType networkType)
-    {
+    public synchronized boolean useCompression(NetworkType networkType) {
         Boolean useCompression = compressionMap.get(networkType);
         if (useCompression == null) {
             return true;
@@ -1516,8 +1392,7 @@ public class Account implements BaseAccount, AccountConfig
     }
 
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (o instanceof Account) {
             return ((Account) o).mAccountUuid.equals(mAccountUuid);
         }
@@ -1525,13 +1400,11 @@ public class Account implements BaseAccount, AccountConfig
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return mAccountUuid.hashCode();
     }
 
-    private synchronized List<Identity> loadIdentities(Storage storage)
-    {
+    private synchronized List<Identity> loadIdentities(Storage storage) {
         List<Identity> newIdentities = new ArrayList<>();
         int ident = 0;
         boolean gotOne;
@@ -1573,8 +1446,7 @@ public class Account implements BaseAccount, AccountConfig
         return newIdentities;
     }
 
-    private synchronized void deleteIdentities(Storage storage, StorageEditor editor)
-    {
+    private synchronized void deleteIdentities(Storage storage, StorageEditor editor) {
         int ident = 0;
         boolean gotOne;
         do {
@@ -1593,8 +1465,7 @@ public class Account implements BaseAccount, AccountConfig
         } while (gotOne);
     }
 
-    private synchronized void saveIdentities(Storage storage, StorageEditor editor)
-    {
+    private synchronized void saveIdentities(Storage storage, StorageEditor editor) {
         deleteIdentities(storage, editor);
         int ident = 0;
 
@@ -1609,26 +1480,22 @@ public class Account implements BaseAccount, AccountConfig
         }
     }
 
-    public synchronized List<Identity> getIdentities()
-    {
+    public synchronized List<Identity> getIdentities() {
         return identities;
     }
 
-    public synchronized void setIdentities(List<Identity> newIdentities)
-    {
+    public synchronized void setIdentities(List<Identity> newIdentities) {
         identities = new ArrayList<>(newIdentities);
     }
 
-    public synchronized Identity getIdentity(int i)
-    {
+    public synchronized Identity getIdentity(int i) {
         if (i < identities.size()) {
             return identities.get(i);
         }
         throw new IllegalArgumentException("Identity with index " + i + " not found");
     }
 
-    public boolean isAnIdentity(Address[] addrs)
-    {
+    public boolean isAnIdentity(Address[] addrs) {
         if (addrs == null) {
             return false;
         }
@@ -1640,13 +1507,11 @@ public class Account implements BaseAccount, AccountConfig
         return false;
     }
 
-    public boolean isAnIdentity(Address addr)
-    {
+    public boolean isAnIdentity(Address addr) {
         return findIdentity(addr) != null;
     }
 
-    public synchronized Identity findIdentity(Address addr)
-    {
+    public synchronized Identity findIdentity(Address addr) {
         for (Identity identity : identities) {
             String email = identity.getEmail();
             if (email != null && email.equalsIgnoreCase(addr.getAddress())) {
@@ -1656,39 +1521,32 @@ public class Account implements BaseAccount, AccountConfig
         return null;
     }
 
-    public synchronized Searchable getSearchableFolders()
-    {
+    public synchronized Searchable getSearchableFolders() {
         return searchableFolders;
     }
 
-    public synchronized void setSearchableFolders(Searchable searchableFolders)
-    {
+    public synchronized void setSearchableFolders(Searchable searchableFolders) {
         this.searchableFolders = searchableFolders;
     }
 
-    public synchronized int getIdleRefreshMinutes()
-    {
+    public synchronized int getIdleRefreshMinutes() {
         return mIdleRefreshMinutes;
     }
 
     @Override
-    public boolean shouldHideHostname()
-    {
+    public boolean shouldHideHostname() {
         return XryptoMail.hideHostnameWhenConnecting();
     }
 
-    public synchronized void setIdleRefreshMinutes(int idleRefreshMinutes)
-    {
+    public synchronized void setIdleRefreshMinutes(int idleRefreshMinutes) {
         mIdleRefreshMinutes = idleRefreshMinutes;
     }
 
-    public synchronized boolean isPushPollOnConnect()
-    {
+    public synchronized boolean isPushPollOnConnect() {
         return mPushPollOnConnect;
     }
 
-    public synchronized void setPushPollOnConnect(boolean pushPollOnConnect)
-    {
+    public synchronized void setPushPollOnConnect(boolean pushPollOnConnect) {
         mPushPollOnConnect = pushPollOnConnect;
     }
 
@@ -1699,58 +1557,49 @@ public class Account implements BaseAccount, AccountConfig
      * Side-effect: changes {@link #mLocalStorageProviderId}.
      *
      * @param newStorageProviderId Never <code>null</code>.
+     *
      * @throws MessagingException
      */
     private void switchLocalStorage(final String newStorageProviderId)
-            throws MessagingException
-    {
+            throws MessagingException {
         if (!mLocalStorageProviderId.equals(newStorageProviderId)) {
             getLocalStore().switchLocalStorage(newStorageProviderId);
         }
     }
 
-    public synchronized boolean goToUnreadMessageSearch()
-    {
+    public synchronized boolean goToUnreadMessageSearch() {
         return goToUnreadMessageSearch;
     }
 
-    public synchronized void setGoToUnreadMessageSearch(boolean goToUnreadMessageSearch)
-    {
+    public synchronized void setGoToUnreadMessageSearch(boolean goToUnreadMessageSearch) {
         this.goToUnreadMessageSearch = goToUnreadMessageSearch;
     }
 
-    public synchronized boolean isSubscribedFoldersOnly()
-    {
+    public synchronized boolean isSubscribedFoldersOnly() {
         return subscribedFoldersOnly;
     }
 
-    public synchronized void setSubscribedFoldersOnly(boolean subscribedFoldersOnly)
-    {
+    public synchronized void setSubscribedFoldersOnly(boolean subscribedFoldersOnly) {
         this.subscribedFoldersOnly = subscribedFoldersOnly;
     }
 
-    public synchronized int getMaximumPolledMessageAge()
-    {
+    public synchronized int getMaximumPolledMessageAge() {
         return maximumPolledMessageAge;
     }
 
-    public synchronized void setMaximumPolledMessageAge(int maximumPolledMessageAge)
-    {
+    public synchronized void setMaximumPolledMessageAge(int maximumPolledMessageAge) {
         this.maximumPolledMessageAge = maximumPolledMessageAge;
     }
 
-    public synchronized int getMaximumAutoDownloadMessageSize()
-    {
+    public synchronized int getMaximumAutoDownloadMessageSize() {
         return maximumAutoDownloadMessageSize;
     }
 
-    public synchronized void setMaximumAutoDownloadMessageSize(int maximumAutoDownloadMessageSize)
-    {
+    public synchronized void setMaximumAutoDownloadMessageSize(int maximumAutoDownloadMessageSize) {
         this.maximumAutoDownloadMessageSize = maximumAutoDownloadMessageSize;
     }
 
-    public Date getEarliestPollDate()
-    {
+    public Date getEarliestPollDate() {
         int age = getMaximumPolledMessageAge();
         if (age >= 0) {
             Calendar now = Calendar.getInstance();
@@ -1784,209 +1633,169 @@ public class Account implements BaseAccount, AccountConfig
         return null;
     }
 
-    public MessageFormat getMessageFormat()
-    {
+    public MessageFormat getMessageFormat() {
         return mMessageFormat;
     }
 
-    public void setMessageFormat(MessageFormat messageFormat)
-    {
+    public void setMessageFormat(MessageFormat messageFormat) {
         this.mMessageFormat = messageFormat;
     }
 
-    public synchronized boolean isMessageReadReceiptAlways()
-    {
+    public synchronized boolean isMessageReadReceiptAlways() {
         return mMessageReadReceipt;
     }
 
-    public synchronized void setMessageReadReceipt(boolean messageReadReceipt)
-    {
+    public synchronized void setMessageReadReceipt(boolean messageReadReceipt) {
         mMessageReadReceipt = messageReadReceipt;
     }
 
-    public QuoteStyle getQuoteStyle()
-    {
+    public QuoteStyle getQuoteStyle() {
         return mQuoteStyle;
     }
 
-    public void setQuoteStyle(QuoteStyle quoteStyle)
-    {
+    public void setQuoteStyle(QuoteStyle quoteStyle) {
         this.mQuoteStyle = quoteStyle;
     }
 
-    public synchronized String getQuotePrefix()
-    {
+    public synchronized String getQuotePrefix() {
         return mQuotePrefix;
     }
 
-    public synchronized void setQuotePrefix(String quotePrefix)
-    {
+    public synchronized void setQuotePrefix(String quotePrefix) {
         mQuotePrefix = quotePrefix;
     }
 
-    public synchronized boolean isDefaultQuotedTextShown()
-    {
+    public synchronized boolean isDefaultQuotedTextShown() {
         return mDefaultQuotedTextShown;
     }
 
-    public synchronized void setDefaultQuotedTextShown(boolean shown)
-    {
+    public synchronized void setDefaultQuotedTextShown(boolean shown) {
         mDefaultQuotedTextShown = shown;
     }
 
-    public synchronized boolean isReplyAfterQuote()
-    {
+    public synchronized boolean isReplyAfterQuote() {
         return mReplyAfterQuote;
     }
 
-    public synchronized void setReplyAfterQuote(boolean replyAfterQuote)
-    {
+    public synchronized void setReplyAfterQuote(boolean replyAfterQuote) {
         mReplyAfterQuote = replyAfterQuote;
     }
 
-    public synchronized boolean isStripSignature()
-    {
+    public synchronized boolean isStripSignature() {
         return mStripSignature;
     }
 
-    public synchronized void setStripSignature(boolean stripSignature)
-    {
+    public synchronized void setStripSignature(boolean stripSignature) {
         mStripSignature = stripSignature;
     }
 
-    public boolean isStealthModeEnable()
-    {
+    public boolean isStealthModeEnable() {
         return mStealthMode;
     }
 
-    public void enableStealthMode(boolean modeEn)
-    {
+    public void enableStealthMode(boolean modeEn) {
         mStealthMode = modeEn;
     }
 
-    public long getCryptoKey()
-    {
+    public long getCryptoKey() {
         return mPgpCryptoKey;
     }
 
-    public void setCryptoKey(long keyId)
-    {
+    public void setCryptoKey(long keyId) {
         mPgpCryptoKey = keyId;
     }
 
-    public boolean getAutocryptPreferEncryptMutual()
-    {
+    public boolean getAutocryptPreferEncryptMutual() {
         return autocryptPreferEncryptMutual;
     }
 
-    public void setAutocryptPreferEncryptMutual(boolean autocryptPreferEncryptMutual)
-    {
+    public void setAutocryptPreferEncryptMutual(boolean autocryptPreferEncryptMutual) {
         this.autocryptPreferEncryptMutual = autocryptPreferEncryptMutual;
     }
 
-    public boolean isAllowRemoteSearch()
-    {
+    public boolean isAllowRemoteSearch() {
         return mAllowRemoteSearch;
     }
 
-    public void setAllowRemoteSearch(boolean val)
-    {
+    public void setAllowRemoteSearch(boolean val) {
         mAllowRemoteSearch = val;
     }
 
-    public int getRemoteSearchNumResults()
-    {
+    public int getRemoteSearchNumResults() {
         return mRemoteSearchNumResults;
     }
 
-    public void setRemoteSearchNumResults(int val)
-    {
+    public void setRemoteSearchNumResults(int val) {
         mRemoteSearchNumResults = Math.max(val, 0);
     }
 
-    public String getInboxFolder()
-    {
+    public String getInboxFolder() {
         return mInboxFolder;
     }
 
-    public void setInboxFolder(String name)
-    {
+    public void setInboxFolder(String name) {
         this.mInboxFolder = name;
     }
 
-    public synchronized boolean syncRemoteDeletions()
-    {
+    public synchronized boolean syncRemoteDeletions() {
         return mSyncRemoteDeletions;
     }
 
-    public synchronized void setSyncRemoteDeletions(boolean syncRemoteDeletions)
-    {
+    public synchronized void setSyncRemoteDeletions(boolean syncRemoteDeletions) {
         mSyncRemoteDeletions = syncRemoteDeletions;
     }
 
-    public synchronized String getLastSelectedFolder()
-    {
+    public synchronized String getLastSelectedFolder() {
         return lastSelectedFolderName;
     }
 
-    public synchronized void setLastSelectedFolder(String folderName)
-    {
+    public synchronized void setLastSelectedFolder(String folderName) {
         lastSelectedFolderName = folderName;
     }
 
-    public synchronized NotificationSetting getNotificationSetting()
-    {
+    public synchronized NotificationSetting getNotificationSetting() {
         return mNotificationSetting;
     }
 
     /**
      * @return <code>true</code> if our {@link StorageProvider} is ready. (e.g. card inserted)
      */
-    public boolean isAvailable(Context context)
-    {
+    public boolean isAvailable(Context context) {
         String localStorageProviderId = getLocalStorageProviderId();
         boolean storageProviderIsInternalMemory = localStorageProviderId == null;
         return storageProviderIsInternalMemory || StorageManager.getInstance(context).isReady(localStorageProviderId);
     }
 
-    public synchronized boolean isEnabled()
-    {
+    public synchronized boolean isEnabled() {
         return mEnabled;
     }
 
-    public synchronized void setEnabled(boolean enabled)
-    {
+    public synchronized void setEnabled(boolean enabled) {
         mEnabled = enabled;
     }
 
-    public synchronized boolean isMarkMessageAsReadOnView()
-    {
+    public synchronized boolean isMarkMessageAsReadOnView() {
         return mMarkMessageAsReadOnView;
     }
 
-    public synchronized void setMarkMessageAsReadOnView(boolean value)
-    {
+    public synchronized void setMarkMessageAsReadOnView(boolean value) {
         mMarkMessageAsReadOnView = value;
     }
 
-    public synchronized boolean isAlwaysShowCcBcc()
-    {
+    public synchronized boolean isAlwaysShowCcBcc() {
         return mAlwaysShowCcBcc;
     }
 
-    public synchronized void setAlwaysShowCcBcc(boolean show)
-    {
+    public synchronized void setAlwaysShowCcBcc(boolean show) {
         mAlwaysShowCcBcc = show;
     }
 
-    public boolean isRemoteSearchFullText()
-    {
+    public boolean isRemoteSearchFullText() {
         return false;   // Temporarily disabled
         //return mRemoteSearchFullText;
     }
 
-    public void setRemoteSearchFullText(boolean val)
-    {
+    public void setRemoteSearchFullText(boolean val) {
         mRemoteSearchFullText = val;
     }
 
@@ -1998,10 +1807,10 @@ public class Account implements BaseAccount, AccountConfig
      * </p>
      *
      * @param search The {@code LocalSearch} instance to modify.
+     *
      * @see #getFolderDisplayMode()
      */
-    public void limitToDisplayableFolders(LocalSearch search)
-    {
+    public void limitToDisplayableFolders(LocalSearch search) {
         final Account.FolderMode displayMode = getFolderDisplayMode();
 
         switch (displayMode) {
@@ -2060,8 +1869,7 @@ public class Account implements BaseAccount, AccountConfig
      *
      * @param search The {@code LocalSearch} instance to modify.
      */
-    public void excludeSpecialFolders(LocalSearch search)
-    {
+    public void excludeSpecialFolders(LocalSearch search) {
         excludeSpecialFolder(search, getTrashFolder());
         excludeSpecialFolder(search, getDraftsFolderName());
         excludeSpecialFolder(search, getSpamFolder());
@@ -2086,16 +1894,14 @@ public class Account implements BaseAccount, AccountConfig
      *
      * @param search The {@code LocalSearch} instance to modify.
      */
-    public void excludeUnwantedFolders(LocalSearch search)
-    {
+    public void excludeUnwantedFolders(LocalSearch search) {
         excludeSpecialFolder(search, getTrashFolder());
         excludeSpecialFolder(search, getSpamFolder());
         excludeSpecialFolder(search, getOutboxFolderName());
         search.or(new SearchCondition(SearchField.FOLDER, Attribute.EQUALS, getInboxFolder()));
     }
 
-    private void excludeSpecialFolder(LocalSearch search, String folderName)
-    {
+    private void excludeSpecialFolder(LocalSearch search, String folderName) {
         if ((folderName != null) && !XryptoMail.FOLDER_NONE.equals(folderName)) {
             search.and(SearchField.FOLDER, folderName, Attribute.NOT_EQUALS);
         }
@@ -2105,8 +1911,7 @@ public class Account implements BaseAccount, AccountConfig
      * Add a new certificate for the incoming or outgoing server to the local key store.
      */
     public void addCertificate(CheckDirection direction, X509Certificate certificate)
-            throws CertificateException
-    {
+            throws CertificateException {
         Uri uri;
         if (direction == CheckDirection.INCOMING) {
             uri = Uri.parse(getStoreUri());
@@ -2123,8 +1928,7 @@ public class Account implements BaseAccount, AccountConfig
      * new host/port, then try and delete any (possibly non-existent) certificate stored for the
      * old host/port.
      */
-    public void deleteCertificate(String newHost, int newPort, CheckDirection direction)
-    {
+    public void deleteCertificate(String newHost, int newPort, CheckDirection direction) {
         Uri uri;
         if (direction == CheckDirection.INCOMING) {
             uri = Uri.parse(getStoreUri());
@@ -2148,8 +1952,7 @@ public class Account implements BaseAccount, AccountConfig
      * Examine the settings for the account and attempt to delete (possibly non-existent)
      * certificates for the incoming and outgoing servers.
      */
-    private void deleteCertificates()
-    {
+    private void deleteCertificates() {
         LocalKeyStore localKeyStore = LocalKeyStore.getInstance();
 
         String storeUri = getStoreUri();
@@ -2164,8 +1967,7 @@ public class Account implements BaseAccount, AccountConfig
         }
     }
 
-    public void init(String email, String password)
-    {
+    public void init(String email, String password) {
         setName(getOwnerName());
         setEmail(email);
 
@@ -2187,8 +1989,7 @@ public class Account implements BaseAccount, AccountConfig
         setupFolderNames(domain);
     }
 
-    private void setupFolderNames(String domain)
-    {
+    private void setupFolderNames(String domain) {
         setDraftsFolder(XryptoMail.getResString(R.string.special_mailbox_name_drafts));
         setTrashFolder(XryptoMail.getResString(R.string.special_mailbox_name_trash));
         setSentFolder(XryptoMail.getResString(R.string.special_mailbox_name_sent));
@@ -2204,8 +2005,7 @@ public class Account implements BaseAccount, AccountConfig
     }
 
 
-    private String getOwnerName()
-    {
+    private String getOwnerName() {
         String name = null;
         try {
             name = getDefaultAccountName();
@@ -2219,8 +2019,7 @@ public class Account implements BaseAccount, AccountConfig
         return name;
     }
 
-    private String getDefaultAccountName()
-    {
+    private String getDefaultAccountName() {
         String name = null;
         Account account = Preferences.getPreferences(XryptoMail.mInstance).getDefaultAccount();
         if (account != null) {
