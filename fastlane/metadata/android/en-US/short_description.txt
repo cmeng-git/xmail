@@ -1,0 +1,1 @@
+An email client for android with openPGP encryption and stealth message support
